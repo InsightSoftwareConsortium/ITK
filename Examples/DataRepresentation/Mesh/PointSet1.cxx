@@ -46,7 +46,8 @@
 #include "itkPointSet.h"
 // Software Guide : EndCodeSnippet
 
-int main(int, char *[])
+int
+main(int, char *[])
 {
   //  Software Guide : BeginLatex
   //
@@ -62,7 +63,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using PointSetType = itk::PointSet< unsigned short, 3 >;
+  using PointSetType = itk::PointSet<unsigned short, 3>;
   // Software Guide : EndCodeSnippet
 
 
@@ -84,7 +85,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  PointSetType::Pointer  pointsSet = PointSetType::New();
+  PointSetType::Pointer pointsSet = PointSetType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -125,23 +126,23 @@ int main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   PointType p0;
-  p0[0] = -1.0;     //  x coordinate
-  p0[1] = -1.0;     //  y coordinate
-  p0[2] =  0.0;     //  z coordinate
+  p0[0] = -1.0; //  x coordinate
+  p0[1] = -1.0; //  y coordinate
+  p0[2] = 0.0;  //  z coordinate
   // Software Guide : EndCodeSnippet
 
 
   PointType p1;
 
-  p1[0] =  1.0; // Point 1 = { 1,-1,0 }
+  p1[0] = 1.0; // Point 1 = { 1,-1,0 }
   p1[1] = -1.0;
-  p1[2] =  0.0;
+  p1[2] = 0.0;
 
 
   PointType p2; // Point 2 = { 1,1,0 }
-  p2[0] =  1.0;
-  p2[1] =  1.0;
-  p2[2] =  0.0;
+  p2[0] = 1.0;
+  p2[1] = 1.0;
+  p2[2] = 0.0;
 
   //  Software Guide : BeginLatex
   //
@@ -156,9 +157,9 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  pointsSet->SetPoint( 0, p0 );
-  pointsSet->SetPoint( 1, p1 );
-  pointsSet->SetPoint( 2, p2 );
+  pointsSet->SetPoint(0, p0);
+  pointsSet->SetPoint(1, p1);
+  pointsSet->SetPoint(2, p2);
   // Software Guide : EndCodeSnippet
 
 
@@ -193,12 +194,12 @@ int main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   PointType pp;
-  bool pointExists =  pointsSet->GetPoint( 1, & pp );
+  bool      pointExists = pointsSet->GetPoint(1, &pp);
 
-  if( pointExists )
-    {
+  if (pointExists)
+  {
     std::cout << "Point is = " << pp << std::endl;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
 

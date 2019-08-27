@@ -66,10 +66,11 @@
 #include "itkMinimumDecisionRule.h"
 // Software Guide : EndCodeSnippet
 
-int main( int argc, char * argv [] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 7 )
-    {
+  if (argc < 7)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0];
     std::cerr << " inputScalarImage inputLabeledImage";
@@ -77,28 +78,26 @@ int main( int argc, char * argv [] )
     std::cerr << " smoothingFactor numberOfClasses";
     std::cerr << " mean1 mean2 ... meanN " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  const char * inputImageFileName      = argv[1];
+  const char * inputImageFileName = argv[1];
   const char * inputLabelImageFileName = argv[2];
-  const char * outputImageFileName     = argv[3];
+  const char * outputImageFileName = argv[3];
 
-  const unsigned int numberOfIterations = std::stoi( argv[4] );
-  const double       smoothingFactor    = std::stod( argv[5] );
-  const unsigned int numberOfClasses    = std::stoi( argv[6] );
+  const unsigned int numberOfIterations = std::stoi(argv[4]);
+  const double       smoothingFactor = std::stod(argv[5]);
+  const unsigned int numberOfClasses = std::stoi(argv[6]);
 
   constexpr unsigned int numberOfArgumentsBeforeMeans = 7;
 
-  if( static_cast<unsigned int>(argc) <
-      numberOfClasses + numberOfArgumentsBeforeMeans )
-    {
+  if (static_cast<unsigned int>(argc) < numberOfClasses + numberOfArgumentsBeforeMeans)
+  {
     std::cerr << "Error: " << std::endl;
     std::cerr << numberOfClasses << " classes have been specified ";
     std::cerr << "but not enough means have been provided in the command ";
     std::cerr << "line arguments " << std::endl;
     return EXIT_FAILURE;
-
-    }
+  }
 
 
   // Software Guide : BeginLatex
@@ -116,11 +115,11 @@ int main( int argc, char * argv [] )
   using PixelType = signed short;
   constexpr unsigned int Dimension = 2;
 
-  using ImageType = itk::Image<PixelType, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( inputImageFileName );
+  reader->SetFileName(inputImageFileName);
   // Software Guide : EndCodeSnippet
 
 
@@ -136,11 +135,11 @@ int main( int argc, char * argv [] )
   // Software Guide : BeginCodeSnippet
   using LabelPixelType = unsigned char;
 
-  using LabelImageType = itk::Image<LabelPixelType, Dimension >;
+  using LabelImageType = itk::Image<LabelPixelType, Dimension>;
 
-  using LabelReaderType = itk::ImageFileReader< LabelImageType >;
+  using LabelReaderType = itk::ImageFileReader<LabelImageType>;
   LabelReaderType::Pointer labelReader = LabelReaderType::New();
-  labelReader->SetFileName( inputLabelImageFileName );
+  labelReader->SetFileName(inputLabelImageFileName);
   // Software Guide : EndCodeSnippet
 
 
@@ -157,16 +156,14 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using ArrayPixelType = itk::FixedArray<LabelPixelType,1>;
+  using ArrayPixelType = itk::FixedArray<LabelPixelType, 1>;
 
-  using ArrayImageType = itk::Image< ArrayPixelType, Dimension >;
+  using ArrayImageType = itk::Image<ArrayPixelType, Dimension>;
 
-  using ScalarToArrayFilterType = itk::ComposeImageFilter<
-                     ImageType, ArrayImageType >;
+  using ScalarToArrayFilterType = itk::ComposeImageFilter<ImageType, ArrayImageType>;
 
-  ScalarToArrayFilterType::Pointer
-    scalarToArrayFilter = ScalarToArrayFilterType::New();
-  scalarToArrayFilter->SetInput( reader->GetOutput() );
+  ScalarToArrayFilterType::Pointer scalarToArrayFilter = ScalarToArrayFilterType::New();
+  scalarToArrayFilter->SetInput(reader->GetOutput());
   // Software Guide : EndCodeSnippet
 
 
@@ -180,11 +177,11 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using MRFFilterType = itk::MRFImageFilter< ArrayImageType, LabelImageType >;
+  using MRFFilterType = itk::MRFImageFilter<ArrayImageType, LabelImageType>;
 
   MRFFilterType::Pointer mrfFilter = MRFFilterType::New();
 
-  mrfFilter->SetInput( scalarToArrayFilter->GetOutput() );
+  mrfFilter->SetInput(scalarToArrayFilter->GetOutput());
   // Software Guide : EndCodeSnippet
 
 
@@ -198,9 +195,9 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  mrfFilter->SetNumberOfClasses( numberOfClasses );
-  mrfFilter->SetMaximumNumberOfIterations( numberOfIterations );
-  mrfFilter->SetErrorTolerance( 1e-7 );
+  mrfFilter->SetNumberOfClasses(numberOfClasses);
+  mrfFilter->SetMaximumNumberOfIterations(numberOfIterations);
+  mrfFilter->SetErrorTolerance(1e-7);
   // Software Guide : EndCodeSnippet
 
 
@@ -216,7 +213,7 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  mrfFilter->SetSmoothingFactor( smoothingFactor );
+  mrfFilter->SetSmoothingFactor(smoothingFactor);
   // Software Guide : EndCodeSnippet
 
 
@@ -231,12 +228,10 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using SupervisedClassifierType = itk::ImageClassifierBase<
-                              ArrayImageType,
-                              LabelImageType >;
+  using SupervisedClassifierType =
+    itk::ImageClassifierBase<ArrayImageType, LabelImageType>;
 
-  SupervisedClassifierType::Pointer classifier =
-                                         SupervisedClassifierType::New();
+  SupervisedClassifierType::Pointer classifier = SupervisedClassifierType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -253,9 +248,9 @@ int main( int argc, char * argv [] )
   // Software Guide : BeginCodeSnippet
   using DecisionRuleType = itk::Statistics::MinimumDecisionRule;
 
-  DecisionRuleType::Pointer  classifierDecisionRule = DecisionRuleType::New();
+  DecisionRuleType::Pointer classifierDecisionRule = DecisionRuleType::New();
 
-  classifier->SetDecisionRule( classifierDecisionRule );
+  classifier->SetDecisionRule(classifierDecisionRule);
   // Software Guide : EndCodeSnippet
 
 
@@ -275,29 +270,28 @@ int main( int argc, char * argv [] )
   using MembershipFunctionPointer = MembershipFunctionType::Pointer;
 
 
-  double meanDistance = 0;
+  double                               meanDistance = 0;
   MembershipFunctionType::CentroidType centroid(1);
-  for( unsigned int i=0; i < numberOfClasses; i++ )
-    {
-    MembershipFunctionPointer membershipFunction =
-                                         MembershipFunctionType::New();
+  for (unsigned int i = 0; i < numberOfClasses; i++)
+  {
+    MembershipFunctionPointer membershipFunction = MembershipFunctionType::New();
 
-    centroid[0] = std::stod( argv[i+numberOfArgumentsBeforeMeans] );
+    centroid[0] = std::stod(argv[i + numberOfArgumentsBeforeMeans]);
 
-    membershipFunction->SetCentroid( centroid );
+    membershipFunction->SetCentroid(centroid);
 
-    classifier->AddMembershipFunction( membershipFunction );
-    meanDistance += static_cast< double > (centroid[0]);
-    }
+    classifier->AddMembershipFunction(membershipFunction);
+    meanDistance += static_cast<double>(centroid[0]);
+  }
   if (numberOfClasses > 0)
-    {
+  {
     meanDistance /= numberOfClasses;
-    }
+  }
   else
-    {
+  {
     std::cerr << "ERROR: numberOfClasses is 0" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -310,7 +304,7 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  mrfFilter->SetSmoothingFactor( smoothingFactor );
+  mrfFilter->SetSmoothingFactor(smoothingFactor);
   // Software Guide : EndCodeSnippet
 
 
@@ -328,7 +322,7 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  mrfFilter->SetNeighborhoodRadius( 1 );
+  mrfFilter->SetNeighborhoodRadius(1);
   // Software Guide : EndCodeSnippet
 
 
@@ -346,7 +340,7 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  std::vector< double > weights;
+  std::vector<double> weights;
   weights.push_back(1.5);
   weights.push_back(2.0);
   weights.push_back(1.5);
@@ -373,18 +367,18 @@ int main( int argc, char * argv [] )
 
   // Software Guide : BeginCodeSnippet
   double totalWeight = 0;
-  for(std::vector< double >::const_iterator wcIt = weights.begin();
-      wcIt != weights.end(); ++wcIt )
-    {
+  for (std::vector<double>::const_iterator wcIt = weights.begin();
+       wcIt != weights.end();
+       ++wcIt)
+  {
     totalWeight += *wcIt;
-    }
-  for(double & weight : weights)
-    {
-    weight =
-      static_cast< double > ( weight * meanDistance / (2 * totalWeight));
-    }
+  }
+  for (double & weight : weights)
+  {
+    weight = static_cast<double>(weight * meanDistance / (2 * totalWeight));
+  }
 
-  mrfFilter->SetMRFNeighborhoodWeight( weights );
+  mrfFilter->SetMRFNeighborhoodWeight(weights);
   // Software Guide : EndCodeSnippet
 
 
@@ -395,7 +389,7 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-    mrfFilter->SetClassifier( classifier );
+  mrfFilter->SetClassifier(classifier);
   // Software Guide : EndCodeSnippet
 
 
@@ -415,23 +409,23 @@ int main( int argc, char * argv [] )
   // Software Guide : EndCodeSnippet
 
   // Rescale outputs to the dynamic range of the display
-  using RescaledOutputImageType = itk::Image< unsigned char, Dimension >;
-  using RescalerType = itk::RescaleIntensityImageFilter<
-             OutputImageType, RescaledOutputImageType >;
+  using RescaledOutputImageType = itk::Image<unsigned char, Dimension>;
+  using RescalerType =
+    itk::RescaleIntensityImageFilter<OutputImageType, RescaledOutputImageType>;
 
   RescalerType::Pointer intensityRescaler = RescalerType::New();
-  intensityRescaler->SetOutputMinimum(   0 );
-  intensityRescaler->SetOutputMaximum( 255 );
-  intensityRescaler->SetInput( mrfFilter->GetOutput() );
+  intensityRescaler->SetOutputMinimum(0);
+  intensityRescaler->SetOutputMaximum(255);
+  intensityRescaler->SetInput(mrfFilter->GetOutput());
 
   // Software Guide : BeginCodeSnippet
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   WriterType::Pointer writer = WriterType::New();
 
-  writer->SetInput( intensityRescaler->GetOutput() );
+  writer->SetInput(intensityRescaler->GetOutput());
 
-  writer->SetFileName( outputImageFileName );
+  writer->SetFileName(outputImageFileName);
   // Software Guide : EndCodeSnippet
 
 
@@ -446,23 +440,23 @@ int main( int argc, char * argv [] )
 
   // Software Guide : BeginCodeSnippet
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Problem encountered while writing ";
     std::cerr << " image file : " << argv[2] << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
   std::cout << "Number of Iterations : ";
   std::cout << mrfFilter->GetNumberOfIterations() << std::endl;
   std::cout << "Stop condition: " << std::endl;
   std::cout << "  (1) Maximum number of iterations " << std::endl;
-  std::cout << "  (2) Error tolerance:  "  << std::endl;
+  std::cout << "  (2) Error tolerance:  " << std::endl;
   std::cout << mrfFilter->GetStopCondition() << std::endl;
 
   //  Software Guide : BeginLatex

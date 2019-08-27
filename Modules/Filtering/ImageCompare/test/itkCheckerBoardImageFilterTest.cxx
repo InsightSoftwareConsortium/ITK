@@ -22,14 +22,14 @@
 #include "itkTestingMacros.h"
 
 
-int itkCheckerBoardImageFilterTest( int argc, char* argv[] )
+int
+itkCheckerBoardImageFilterTest(int argc, char * argv[])
 {
-  if ( argc < 2 )
-    {
-    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv)
-      << " outputImage " << std::endl;
+  if (argc < 2)
+  {
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " outputImage " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Define the dimension of the images
   constexpr unsigned int Dimension = 3;
@@ -38,16 +38,16 @@ int itkCheckerBoardImageFilterTest( int argc, char* argv[] )
   using PixelType = unsigned char;
 
   // Declare the types of the images
-  using ImageType = itk::Image< PixelType, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
   // Declare the type of the index to access images
-  using IndexType = itk::Index< Dimension >;
+  using IndexType = itk::Index<Dimension>;
 
   // Declare the type of the size
-  using SizeType = itk::Size< Dimension >;
+  using SizeType = itk::Size<Dimension>;
 
   // Declare the type of the Region
-  using RegionType = itk::ImageRegion< Dimension >;
+  using RegionType = itk::ImageRegion<Dimension>;
 
 
   // Declare the type for the filter
@@ -73,65 +73,63 @@ int itkCheckerBoardImageFilterTest( int argc, char* argv[] )
   start[2] = 0;
 
   RegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
+  region.SetIndex(start);
+  region.SetSize(size);
 
   // Initialize Image A
-  inputImageA->SetLargestPossibleRegion( region );
-  inputImageA->SetBufferedRegion( region );
-  inputImageA->SetRequestedRegion( region );
+  inputImageA->SetLargestPossibleRegion(region);
+  inputImageA->SetBufferedRegion(region);
+  inputImageA->SetRequestedRegion(region);
   inputImageA->Allocate();
 
   // Initialize Image B
-  inputImageB->SetLargestPossibleRegion( region );
-  inputImageB->SetBufferedRegion( region );
-  inputImageB->SetRequestedRegion( region );
+  inputImageB->SetLargestPossibleRegion(region);
+  inputImageB->SetBufferedRegion(region);
+  inputImageB->SetRequestedRegion(region);
   inputImageB->Allocate();
 
 
   // Declare appropriate Iterator types for each image
-  using IteratorType = itk::ImageRegionIteratorWithIndex< ImageType >;
+  using IteratorType = itk::ImageRegionIteratorWithIndex<ImageType>;
 
   // Create one iterator for Image A (this is a light object)
-  IteratorType it1( inputImageA, inputImageA->GetBufferedRegion() );
+  IteratorType it1(inputImageA, inputImageA->GetBufferedRegion());
 
   // Initialize the content of Image A
-  constexpr ImageType::PixelType input1Value  = 2;
-  while( !it1.IsAtEnd() )
-    {
-    it1.Set( input1Value );
+  constexpr ImageType::PixelType input1Value = 2;
+  while (!it1.IsAtEnd())
+  {
+    it1.Set(input1Value);
     ++it1;
-    }
+  }
 
   // Create one iterator for Image B (this is a light object)
-  IteratorType it2( inputImageB, inputImageB->GetBufferedRegion() );
+  IteratorType it2(inputImageB, inputImageB->GetBufferedRegion());
 
   // Initialize the content of Image B
-  constexpr ImageType::PixelType input2Value  = 3;
-  while( !it2.IsAtEnd() )
-    {
-    it2.Set( input2Value );
+  constexpr ImageType::PixelType input2Value = 3;
+  while (!it2.IsAtEnd())
+  {
+    it2.Set(input2Value);
     ++it2;
-    }
+  }
 
   // Create the filter
-  CheckerBoardImageFilterType::Pointer checkerBoard =
-    CheckerBoardImageFilterType::New();
+  CheckerBoardImageFilterType::Pointer checkerBoard = CheckerBoardImageFilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(checkerBoard, CheckerBoardImageFilter,
-    ImageToImageFilter);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(checkerBoard, CheckerBoardImageFilter, ImageToImageFilter);
 
   // Set the input images
-  checkerBoard->SetInput1( inputImageA );
-  checkerBoard->SetInput2( inputImageB );
+  checkerBoard->SetInput1(inputImageA);
+  checkerBoard->SetInput2(inputImageB);
 
   CheckerBoardPatternArrayType pattern;
-  pattern[0] =  4; // number of checkers along X
-  pattern[1] =  8; // number of checkers along Y
+  pattern[0] = 4;  // number of checkers along X
+  pattern[1] = 8;  // number of checkers along Y
   pattern[2] = 10; // number of checkers along Z
 
-  checkerBoard->SetCheckerPattern( pattern );
-  ITK_TEST_SET_GET_VALUE( pattern, checkerBoard->GetCheckerPattern() );
+  checkerBoard->SetCheckerPattern(pattern);
+  ITK_TEST_SET_GET_VALUE(pattern, checkerBoard->GetCheckerPattern());
 
   // Execute the filter
   checkerBoard->Update();
@@ -140,15 +138,15 @@ int itkCheckerBoardImageFilterTest( int argc, char* argv[] )
   ImageType::Pointer outputImage = checkerBoard->GetOutput();
 
   // Write the result image
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using WriterType = itk::ImageFileWriter<ImageType>;
 
   WriterType::Pointer writer = WriterType::New();
 
-  writer->SetFileName( argv[1] );
+  writer->SetFileName(argv[1]);
 
-  writer->SetInput( outputImage );
+  writer->SetInput(outputImage);
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;

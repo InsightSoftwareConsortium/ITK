@@ -34,9 +34,8 @@ namespace itk
  * \ingroup ITKTransform
  */
 
-template<typename TParametersValueType=double>
-class ITK_TEMPLATE_EXPORT Rigid3DPerspectiveTransform :
-  public Transform<TParametersValueType, 3, 2>
+template <typename TParametersValueType = double>
+class ITK_TEMPLATE_EXPORT Rigid3DPerspectiveTransform : public Transform<TParametersValueType, 3, 2>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(Rigid3DPerspectiveTransform);
@@ -51,9 +50,7 @@ public:
 
   /** Standard class type aliases. */
   using Self = Rigid3DPerspectiveTransform;
-  using Superclass = Transform<TParametersValueType,
-                    Self::InputSpaceDimension,
-                    Self::OutputSpaceDimension>;
+  using Superclass = Transform<TParametersValueType, Self::InputSpaceDimension, Self::OutputSpaceDimension>;
 
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
@@ -79,8 +76,7 @@ public:
   using InverseJacobianPositionType = typename Superclass::InverseJacobianPositionType;
 
   /** Standard matrix type for this class. */
-  using MatrixType = Matrix<TParametersValueType, Self::InputSpaceDimension,
-                 Self::InputSpaceDimension>;
+  using MatrixType = Matrix<TParametersValueType, Self::InputSpaceDimension, Self::InputSpaceDimension>;
 
   /** Standard vector type for this class. */
   using OffsetType = Vector<TParametersValueType, Self::InputSpaceDimension>;
@@ -114,7 +110,8 @@ public:
   /** Get offset of an Rigid3DPerspectiveTransform
    * This method returns the value of the offset of the
    * Rigid3DPerspectiveTransform. */
-  const OffsetType & GetOffset() const
+  const OffsetType &
+  GetOffset() const
   {
     return m_Offset;
   }
@@ -122,7 +119,8 @@ public:
   /** Get rotation from an Rigid3DPerspectiveTransform.
    * This method returns the value of the rotation of the
    * Rigid3DPerspectiveTransform. */
-  const VersorType & GetRotation() const
+  const VersorType &
+  GetRotation() const
   {
     return m_Versor;
   }
@@ -131,44 +129,52 @@ public:
    * This is typically used by optimizers.
    * There are 6 parameters. The first three represent the
    * versor and the last three represents the offset. */
-  void SetParameters(const ParametersType & parameters) override;
+  void
+  SetParameters(const ParametersType & parameters) override;
 
-  const ParametersType & GetParameters() const override;
+  const ParametersType &
+  GetParameters() const override;
 
   /** Set the fixed parameters and update internal
    * transformation. This transform has no fixed paramaters
    */
-  void SetFixedParameters(const FixedParametersType &) override
-  {
-  }
+  void
+  SetFixedParameters(const FixedParametersType &) override
+  {}
 
   /** This method sets the offset of an Rigid3DPerspectiveTransform to a
    * value specified by the user. */
-  void SetOffset(const OffsetType & offset)
+  void
+  SetOffset(const OffsetType & offset)
   {
-    m_Offset = offset; return;
+    m_Offset = offset;
+    return;
   }
 
   /** This method sets the rotation of an Rigid3DPerspectiveTransform to a
    * value specified by the user.  */
-  void SetRotation(const VersorType & rotation);
+  void
+  SetRotation(const VersorType & rotation);
 
   /** Set Rotation of the Rigid transform.
    * This method sets the rotation of an Rigid3DTransform to a
    * value specified by the user using the axis of rotation an
    * the angle. */
-  void SetRotation(const Vector<TParametersValueType, 3> & axis, double angle);
+  void
+  SetRotation(const Vector<TParametersValueType, 3> & axis, double angle);
 
   /** Set the Focal Distance of the projection
    * This method sets the focal distance for the perspective
    * projection to a value specified by the user. */
-  void SetFocalDistance(TParametersValueType focalDistance)
+  void
+  SetFocalDistance(TParametersValueType focalDistance)
   {
     m_FocalDistance = focalDistance;
   }
 
   /** Return the Focal Distance */
-  double GetFocalDistance() const
+  double
+  GetFocalDistance() const
   {
     return m_FocalDistance;
   }
@@ -176,18 +182,20 @@ public:
   /** Transform by a Rigid3DPerspectiveTransform. This method
    *  applies the transform given by self to a
    *  given point, returning the transformed point. */
-  OutputPointType  TransformPoint(const InputPointType  & point) const override;
+  OutputPointType
+  TransformPoint(const InputPointType & point) const override;
 
   /** These vector transforms are not implemented for this transform */
   using Superclass::TransformVector;
 
-  OutputVectorType TransformVector(const InputVectorType &) const override
+  OutputVectorType
+  TransformVector(const InputVectorType &) const override
   {
-    itkExceptionMacro(
-      << "TransformVector(const InputVectorType &) is not implemented for Rigid3DPerspectiveTransform");
+    itkExceptionMacro(<< "TransformVector(const InputVectorType &) is not implemented for Rigid3DPerspectiveTransform");
   }
 
-  OutputVnlVectorType TransformVector(const InputVnlVectorType &) const override
+  OutputVnlVectorType
+  TransformVector(const InputVnlVectorType &) const override
   {
     itkExceptionMacro(
       << "TransformVector(const InputVnlVectorType &) is not implemented for Rigid3DPerspectiveTransform");
@@ -195,31 +203,35 @@ public:
 
   using Superclass::TransformCovariantVector;
 
-  OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType &) const override
+  OutputCovariantVectorType
+  TransformCovariantVector(const InputCovariantVectorType &) const override
   {
-    itkExceptionMacro(
-      <<
-      "TransformCovariantVector(const InputCovariantVectorType &) is not implemented for Rigid3DPerspectiveTransform");
+    itkExceptionMacro(<< "TransformCovariantVector(const InputCovariantVectorType &) is not implemented for "
+                         "Rigid3DPerspectiveTransform");
   }
 
   /** Return the rotation matrix */
-  const MatrixType & GetRotationMatrix() const
+  const MatrixType &
+  GetRotationMatrix() const
   {
     return m_RotationMatrix;
   }
 
   /** Compute the matrix. */
-  void ComputeMatrix();
+  void
+  ComputeMatrix();
 
   /** Compute the Jacobian Matrix of the transformation at one point,
    *  allowing for thread-safety. */
-  void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const override;
+  void
+  ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const override;
 
-  void ComputeJacobianWithRespectToPosition(const InputPointType &,
-                                                    JacobianPositionType &) const override
+  void
+  ComputeJacobianWithRespectToPosition(const InputPointType &, JacobianPositionType &) const override
   {
-    itkExceptionMacro( "ComputeJacobianWithRespectToPosition not yet implemented "
-                       "for " << this->GetNameOfClass() );
+    itkExceptionMacro("ComputeJacobianWithRespectToPosition not yet implemented "
+                      "for "
+                      << this->GetNameOfClass());
   }
   using Superclass::ComputeJacobianWithRespectToPosition;
 
@@ -234,7 +246,8 @@ public:
 protected:
   Rigid3DPerspectiveTransform();
   ~Rigid3DPerspectiveTransform() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /** Offset of the transformation. */
@@ -255,10 +268,10 @@ private:
   /** Center of rotation */
   InputPointType m_CenterOfRotation;
 }; // class Rigid3DPerspectiveTransform:
-}  // namespace itk
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRigid3DPerspectiveTransform.hxx"
+#  include "itkRigid3DPerspectiveTransform.hxx"
 #endif
 
 #endif /* itkRigid3DPerspectiveTransform_h */

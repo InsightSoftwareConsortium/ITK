@@ -23,25 +23,24 @@
 #include "itkMedianImageFilter.h"
 #include "itkMetaImageIO.h"
 
-int itkMetaImageStreamingIOTest(int ac, char* av[])
+int
+itkMetaImageStreamingIOTest(int ac, char * av[])
 {
   //  Image types are defined below.
   using InputPixelType = unsigned char;
   using OutputPixelType = unsigned char;
   constexpr unsigned int Dimension = 3;
 
-  using InputImageType = itk::Image< InputPixelType,  Dimension >;
-  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  using ReaderType = itk::ImageFileReader< InputImageType  >;
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
   using IOType = itk::MetaImageIO;
 
-  using FilterType = itk::MedianImageFilter< OutputImageType,
-                                            OutputImageType >;
+  using FilterType = itk::MedianImageFilter<OutputImageType, OutputImageType>;
 
-  using StreamingFilterType = itk::StreamingImageFilter< OutputImageType,
-                                            OutputImageType >;
+  using StreamingFilterType = itk::StreamingImageFilter<OutputImageType, OutputImageType>;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -55,13 +54,13 @@ int itkMetaImageStreamingIOTest(int ac, char* av[])
   reader->SetImageIO(metaIn);
   writer->SetImageIO(metaOut);
 
-  const std::string inputFilename  = av[1];
+  const std::string inputFilename = av[1];
   const std::string outputFilename = av[2];
 
-  reader->SetFileName( inputFilename  );
+  reader->SetFileName(inputFilename);
   reader->SetUseStreaming(true);
 
-  writer->SetFileName( outputFilename );
+  writer->SetFileName(outputFilename);
 
   InputImageType::SizeType indexRadius;
 
@@ -69,43 +68,43 @@ int itkMetaImageStreamingIOTest(int ac, char* av[])
   indexRadius[1] = 1; // radius along y
   indexRadius[2] = 1; // radius along Z
 
-  filter->SetRadius( indexRadius );
+  filter->SetRadius(indexRadius);
 
-  //filter->SetInput( reader->GetOutput() );
-  streamer->SetInput( reader->GetOutput() );
-  writer->SetInput( streamer->GetOutput() );
+  // filter->SetInput( reader->GetOutput() );
+  streamer->SetInput(reader->GetOutput());
+  writer->SetInput(streamer->GetOutput());
 
   // test streaming check methods
   if (!metaIn->CanStreamRead())
-    {
+  {
     std::cerr << "Failed stream read check" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   if (!metaOut->CanStreamWrite())
-    {
+  {
     std::cerr << "Failed stream write check" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // By default we decide to use 4 pieces, but this value can
   // be changed from the command line.
   unsigned int numberOfDataPieces = 4;
-  if( ac > 3 )
-    {
-    numberOfDataPieces = std::stoi( av[3] );
-    }
+  if (ac > 3)
+  {
+    numberOfDataPieces = std::stoi(av[3]);
+  }
 
-  streamer->SetNumberOfStreamDivisions( numberOfDataPieces );
+  streamer->SetNumberOfStreamDivisions(numberOfDataPieces);
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   return EXIT_SUCCESS;
 }

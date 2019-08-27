@@ -21,17 +21,18 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageRandomConstIteratorWithOnlyIndex.h"
 
-int itkImageRandomConstIteratorWithOnlyIndexTest(int, char* [] )
+int
+itkImageRandomConstIteratorWithOnlyIndexTest(int, char *[])
 {
   std::cout << "Creating an image of indices" << std::endl;
 
   constexpr unsigned int ImageDimension = 3;
 
-  using PixelType = itk::Index< ImageDimension >;
+  using PixelType = itk::Index<ImageDimension>;
 
-  using ImageType = itk::Image< PixelType, ImageDimension >;
+  using ImageType = itk::Image<PixelType, ImageDimension>;
 
-  ImageType::Pointer myImage = ImageType::New();
+  ImageType::Pointer      myImage = ImageType::New();
   ImageType::ConstPointer myConstImage = myImage;
 
   ImageType::SizeType size0;
@@ -46,114 +47,114 @@ int itkImageRandomConstIteratorWithOnlyIndexTest(int, char* [] )
   start0.Fill(0);
 
   ImageType::RegionType region0;
-  region0.SetIndex( start0 );
-  region0.SetSize( size0 );
+  region0.SetIndex(start0);
+  region0.SetSize(size0);
 
-  myImage->SetLargestPossibleRegion( region0 );
-  myImage->SetBufferedRegion( region0 );
-  myImage->SetRequestedRegion( region0 );
+  myImage->SetLargestPossibleRegion(region0);
+  myImage->SetBufferedRegion(region0);
+  myImage->SetRequestedRegion(region0);
   myImage->Allocate();
 
-  using IteratorType = itk::ImageRegionIteratorWithIndex< ImageType >;
-  using RandomConstIteratorType = itk::ImageRandomConstIteratorWithOnlyIndex< ImageType >;
+  using IteratorType = itk::ImageRegionIteratorWithIndex<ImageType>;
+  using RandomConstIteratorType = itk::ImageRandomConstIteratorWithOnlyIndex<ImageType>;
 
-  IteratorType it( myImage, region0 );
+  IteratorType it(myImage, region0);
 
   it.GoToBegin();
   ImageType::IndexType index0;
 
   // Fill an image with indices
-  while( !it.IsAtEnd() )
-    {
+  while (!it.IsAtEnd())
+  {
     index0 = it.GetIndex();
-    it.Set( index0 );
+    it.Set(index0);
     ++it;
-    }
+  }
 
   // Sample the image
-  RandomConstIteratorType cot( myConstImage, region0 );
-  cot.SetNumberOfSamples( numberOfSamples );
+  RandomConstIteratorType cot(myConstImage, region0);
+  cot.SetNumberOfSamples(numberOfSamples);
   cot.GoToBegin();
 
   std::cout << "Verifying const iterator... ";
   std::cout << "Random walk of the Iterator over the image " << std::endl;
 
-  while( !cot.IsAtEnd() )
-    {
+  while (!cot.IsAtEnd())
+  {
     index0 = cot.GetIndex();
-    it.SetIndex( index0 );
-    if( it.Get() != index0 )
-      {
+    it.SetIndex(index0);
+    if (it.Get() != index0)
+    {
       std::cerr << "Values don't correspond to what was stored " << std::endl;
       std::cerr << "Test failed at index ";
-      std::cerr << index0 << " value is " << it.Get() <<  std::endl;
+      std::cerr << index0 << " value is " << it.Get() << std::endl;
       return EXIT_FAILURE;
-      }
+    }
     std::cout << index0 << std::endl;
     ++cot;
-    }
+  }
   std::cout << "   Done ! " << std::endl;
 
   // Verification of reverse iteration
   std::cout << "Verifying const iterator in reverse direction... ";
 
-  RandomConstIteratorType cor( myImage, region0 );
-  cor.SetNumberOfSamples( numberOfSamples ); // 0=x, 1=y, 2=z
+  RandomConstIteratorType cor(myImage, region0);
+  cor.SetNumberOfSamples(numberOfSamples); // 0=x, 1=y, 2=z
   cor.GoToEnd();
 
   --cor; // start at the end position
 
-  while( !cor.IsAtBegin() )
-    {
+  while (!cor.IsAtBegin())
+  {
     index0 = cor.GetIndex();
-    it.SetIndex( index0 );
-    if( it.Get() != index0 )
-      {
+    it.SetIndex(index0);
+    if (it.Get() != index0)
+    {
       std::cerr << "Values don't correspond to what was stored " << std::endl;
       std::cerr << "Test failed at index ";
-      std::cerr << index0 << " value is " << it.Get() <<  std::endl;
+      std::cerr << index0 << " value is " << it.Get() << std::endl;
       return EXIT_FAILURE;
-      }
+    }
     std::cout << index0 << std::endl;
     --cor;
-    }
+  }
   std::cout << index0 << std::endl; // print the value at the beginning index
   std::cout << "   Done ! " << std::endl;
 
   // Verification with ImageBase type and both directions of iteration
   std::cout << "Verifying const iterator with ImageBase type and in both directions... ";
 
-  using ImageBaseType = itk::ImageBase< ImageDimension >;
-  using ImageBaseRandomConstIteratorType = itk::ImageRandomConstIteratorWithOnlyIndex< ImageBaseType >;
+  using ImageBaseType = itk::ImageBase<ImageDimension>;
+  using ImageBaseRandomConstIteratorType = itk::ImageRandomConstIteratorWithOnlyIndex<ImageBaseType>;
 
   ImageBaseType::Pointer myImageBase = ImageBaseType::New();
-  myImageBase->CopyInformation( myImage );
-  ImageBaseRandomConstIteratorType dor( myImageBase, region0 );
-  dor.SetNumberOfSamples( numberOfSamples ); // 0=x, 1=y, 2=z
+  myImageBase->CopyInformation(myImage);
+  ImageBaseRandomConstIteratorType dor(myImageBase, region0);
+  dor.SetNumberOfSamples(numberOfSamples); // 0=x, 1=y, 2=z
   dor.GoToEnd();
 
   --dor; // start at the last valid pixel position
 
-  for (unsigned int counter = 0; ! dor.IsAtEnd(); ++counter)
+  for (unsigned int counter = 0; !dor.IsAtEnd(); ++counter)
+  {
+    index0 = dor.GetIndex();
+    it.SetIndex(index0);
+    if (it.Get() != index0)
     {
-      index0 = dor.GetIndex();
-      it.SetIndex( index0 );
-      if( it.Get() != index0 )
-        {
-          std::cerr << "Values don't correspond to what was stored " << std::endl;
-          std::cerr << "Test failed at index " << index0 << " value is " << it.Get() <<  std::endl;
-          return EXIT_FAILURE;
-        }
-      std::cout << index0 << std::endl;
-      if (counter < 6)
-        {
-        --dor;
-        }
-      else
-        {
-        ++dor;
-        }
+      std::cerr << "Values don't correspond to what was stored " << std::endl;
+      std::cerr << "Test failed at index " << index0 << " value is " << it.Get() << std::endl;
+      return EXIT_FAILURE;
     }
+    std::cout << index0 << std::endl;
+    if (counter < 6)
+    {
+      --dor;
+    }
+    else
+    {
+      ++dor;
+    }
+  }
   std::cout << index0 << std::endl; // print the value at the beginning index
   std::cout << "   Done ! " << std::endl;
 
@@ -172,36 +173,36 @@ int itkImageRandomConstIteratorWithOnlyIndexTest(int, char* [] )
     size[2] = 13;
 
     ImageType::RegionType region;
-    region.SetIndex( start );
-    region.SetSize( size );
+    region.SetIndex(start);
+    region.SetSize(size);
 
-    RandomConstIteratorType cbot( myImage, region );
+    RandomConstIteratorType cbot(myImage, region);
 
-    cbot.SetNumberOfSamples( numberOfSamples );
+    cbot.SetNumberOfSamples(numberOfSamples);
     cbot.GoToBegin();
 
-    while( !cbot.IsAtEnd() )
-      {
-      ImageType::IndexType index =  cbot.GetIndex();
-      it.SetIndex( index );
-      ImageType::PixelType pixel =  it.Get();
+    while (!cbot.IsAtEnd())
+    {
+      ImageType::IndexType index = cbot.GetIndex();
+      it.SetIndex(index);
+      ImageType::PixelType pixel = it.Get();
 
-      if( index != pixel )
-        {
+      if (index != pixel)
+      {
         std::cerr << "Iterator in region test failed" << std::endl;
         std::cerr << pixel << " should be" << index << std::endl;
         return EXIT_FAILURE;
-        }
-      if( !region.IsInside( index ) )
-        {
+      }
+      if (!region.IsInside(index))
+      {
         std::cerr << "Iterator in region test failed" << std::endl;
         std::cerr << index << " is outside the region " << region << std::endl;
         return EXIT_FAILURE;
-        }
+      }
       std::cout << index << std::endl;
 
       ++cbot;
-      }
+    }
 
     std::cout << "   Done ! " << std::endl;
   }

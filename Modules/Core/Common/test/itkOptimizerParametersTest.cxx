@@ -21,8 +21,9 @@
 #include "itkTestingMacros.h"
 #include "itkMath.h"
 
-template< typename TValue >
-bool runTestByType()
+template <typename TValue>
+bool
+runTestByType()
 {
   bool passed = true;
 
@@ -33,137 +34,142 @@ bool runTestByType()
 
   /* Test different ctors */
 
-  //Construct by size
-  itk::SizeValueType dim = 20;
+  // Construct by size
+  itk::SizeValueType               dim = 20;
   itk::OptimizerParameters<TValue> paramsSize(dim);
-  if( paramsSize.GetSize() != dim )
-    {
-    std::cerr << "Constructor with dimension failed. Expected size of "
-              << dim << ", but got " << paramsSize.GetSize() << "." << std::endl;
-    passed = false;
-    }
-
-  //Copy constructor
+  if (paramsSize.GetSize() != dim)
   {
-  itk::OptimizerParameters<TValue> paramsCopy( params );
-  for( itk::SizeValueType i=0; i < params.GetSize(); i++ )
+    std::cerr << "Constructor with dimension failed. Expected size of " << dim << ", but got " << paramsSize.GetSize()
+              << "." << std::endl;
+    passed = false;
+  }
+
+  // Copy constructor
+  {
+    itk::OptimizerParameters<TValue> paramsCopy(params);
+    for (itk::SizeValueType i = 0; i < params.GetSize(); i++)
     {
-    if( itk::Math::NotExactlyEquals(params[i], paramsCopy[i]) )
+      if (itk::Math::NotExactlyEquals(params[i], paramsCopy[i]))
       {
-      std::cerr << "Copy constructor failed. " << std::endl;
-      passed = false;
+        std::cerr << "Copy constructor failed. " << std::endl;
+        passed = false;
       }
     }
   }
 
-  //Constructor from array
+  // Constructor from array
   itk::Array<TValue> array(dim);
-  for( itk::SizeValueType i=0; i<dim; i++ )
-    { array[i]=i*3.19; }
+  for (itk::SizeValueType i = 0; i < dim; i++)
   {
-  itk::OptimizerParameters<TValue> paramsCopy( array );
-  for( itk::SizeValueType i=0; i < params.GetSize(); i++ )
+    array[i] = i * 3.19;
+  }
+  {
+    itk::OptimizerParameters<TValue> paramsCopy(array);
+    for (itk::SizeValueType i = 0; i < params.GetSize(); i++)
     {
-    if( itk::Math::NotExactlyEquals(array[i], paramsCopy[i]) )
+      if (itk::Math::NotExactlyEquals(array[i], paramsCopy[i]))
       {
-      std::cerr << "Constructor from Array failed. " << std::endl;
-      passed = false;
+        std::cerr << "Constructor from Array failed. " << std::endl;
+        passed = false;
       }
     }
   }
 
   /* Test assignment operators from different types */
 
-  //Assign from Array
+  // Assign from Array
   itk::OptimizerParameters<TValue> paramsArray;
   paramsArray = array;
-  for( itk::SizeValueType i=0; i < array.GetSize(); i++ )
+  for (itk::SizeValueType i = 0; i < array.GetSize(); i++)
+  {
+    if (itk::Math::NotExactlyEquals(paramsArray[i], array[i]))
     {
-    if( itk::Math::NotExactlyEquals(paramsArray[i], array[i]) )
-      {
       std::cerr << "Copy from Array via assignment failed. " << std::endl;
       passed = false;
-      }
     }
+  }
 
-  //Assign from VnlVector
+  // Assign from VnlVector
   vnl_vector<TValue> vector(dim);
-  for( itk::SizeValueType i=0; i<dim; i++ )
-    { vector[i]=i*0.123; }
+  for (itk::SizeValueType i = 0; i < dim; i++)
   {
-  itk::OptimizerParameters<TValue> paramsVnl;
-  paramsVnl = vector;
-  for( itk::SizeValueType i=0; i < paramsVnl.GetSize(); i++ )
+    vector[i] = i * 0.123;
+  }
+  {
+    itk::OptimizerParameters<TValue> paramsVnl;
+    paramsVnl = vector;
+    for (itk::SizeValueType i = 0; i < paramsVnl.GetSize(); i++)
     {
-    if( itk::Math::NotExactlyEquals(vector[i], paramsVnl[i]) )
+      if (itk::Math::NotExactlyEquals(vector[i], paramsVnl[i]))
       {
-      std::cerr << "Assignment from VnlVector failed. " << std::endl;
-      passed = false;
+        std::cerr << "Assignment from VnlVector failed. " << std::endl;
+        passed = false;
       }
     }
   }
 
   /* Test MoveDataPointer to point to different memory block */
-  TValue  block[10] = {10,9,8,7,6,5,4,3,2,1};
-  params.MoveDataPointer( block );
-  for( int i=0; i < 10; i++)
+  TValue block[10] = { 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 };
+  params.MoveDataPointer(block);
+  for (int i = 0; i < 10; i++)
+  {
+    if (itk::Math::NotExactlyEquals(params[i], 10 - i))
     {
-    if( itk::Math::NotExactlyEquals(params[i], 10-i) )
-      {
       std::cerr << "Failed reading memory after MoveDataPointer." << std::endl
-                << "Expected: " << 10-i << ", got: " << params[i] << std::endl;
+                << "Expected: " << 10 - i << ", got: " << params[i] << std::endl;
       passed = false;
-      }
     }
+  }
 
   /* Test SetParametersObject. Should throw exception with default helper. */
   typename itk::LightObject::Pointer dummyObj = itk::LightObject::New();
-  ITK_TRY_EXPECT_EXCEPTION( params.SetParametersObject( dummyObj ) );
+  ITK_TRY_EXPECT_EXCEPTION(params.SetParametersObject(dummyObj));
 
   /* Test with null helper and expect exception */
-  params.SetHelper( nullptr );
-  ITK_TRY_EXPECT_EXCEPTION( params.MoveDataPointer( block ) );
-  ITK_TRY_EXPECT_EXCEPTION( params.SetParametersObject( dummyObj ) );
+  params.SetHelper(nullptr);
+  ITK_TRY_EXPECT_EXCEPTION(params.MoveDataPointer(block));
+  ITK_TRY_EXPECT_EXCEPTION(params.SetParametersObject(dummyObj));
 
   /* Test copy operator */
   itk::OptimizerParameters<TValue> params1(4);
   itk::OptimizerParameters<TValue> params2(4);
   params1.Fill(1.23);
   params2 = params1;
-  for( itk::SizeValueType i=0; i < params1.GetSize(); i++ )
+  for (itk::SizeValueType i = 0; i < params1.GetSize(); i++)
+  {
+    if (itk::Math::NotExactlyEquals(params1[i], params2[i]))
     {
-    if( itk::Math::NotExactlyEquals(params1[i], params2[i]) )
-      {
       std::cerr << "Copy operator failed:" << std::endl
-              << "params1 " << params1 << std::endl
-              << "params2 " << params2 << std::endl;
+                << "params1 " << params1 << std::endl
+                << "params2 " << params2 << std::endl;
       passed = false;
       break;
-      }
     }
+  }
 
   /* Exercise set helper */
   using HelperType = typename itk::OptimizerParameters<TValue>::OptimizerParametersHelperType;
   auto * helper = new HelperType;
-  params1.SetHelper( helper );
+  params1.SetHelper(helper);
 
   return passed;
 }
 
-int itkOptimizerParametersTest(int, char *[])
+int
+itkOptimizerParametersTest(int, char *[])
 {
   bool passed = true;
 
   /* Test double type */
-  if( runTestByType<double>() == false )
-    {
+  if (runTestByType<double>() == false)
+  {
     passed = false;
-    }
+  }
   /* Test float type */
-  if( runTestByType<float>() == false )
-    {
+  if (runTestByType<float>() == false)
+  {
     passed = false;
-    }
+  }
 
   return passed ? EXIT_SUCCESS : EXIT_FAILURE;
 }

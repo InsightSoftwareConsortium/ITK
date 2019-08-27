@@ -23,19 +23,18 @@
 namespace itk
 {
 
-template< typename TImage >
+template <typename TImage>
 void
-LevelSetDomainPartition< TImage >::
-PopulateListImage()
+LevelSetDomainPartition<TImage>::PopulateListImage()
 {
-  ListPixelType pixelList;
-  IdentifierType i = NumericTraits< IdentifierType >::ZeroValue();
-  while( i < this->m_NumberOfLevelSetFunctions )
-    {
+  ListPixelType  pixelList;
+  IdentifierType i = NumericTraits<IdentifierType>::ZeroValue();
+  while (i < this->m_NumberOfLevelSetFunctions)
+  {
     pixelList.push_back(i++);
-    }
-  this->m_NearestNeighborListImage->FillBuffer( pixelList );
+  }
+  this->m_NearestNeighborListImage->FillBuffer(pixelList);
 }
 
-}
+} // namespace itk
 #endif

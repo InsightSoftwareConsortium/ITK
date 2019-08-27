@@ -22,10 +22,11 @@
 
 #include "vtkMatrix3x3.h"
 
-int itkImageToVTKImageFilterTest(int, char *[])
+int
+itkImageToVTKImageFilterTest(int, char *[])
 {
   const int dim = 3;
-  using ImageType = itk::Image<float, dim >;
+  using ImageType = itk::Image<float, dim>;
   using SourceType = itk::RandomImageSource<ImageType>;
   using SpacingType = SourceType::SpacingType;
   using OriginType = SourceType::PointType;
@@ -88,7 +89,7 @@ int itkImageToVTKImageFilterTest(int, char *[])
 #if VTK_MAJOR_VERSION >= 9 || (VTK_MAJOR_VERSION == 8 && VTK_MINOR_VERSION >= 90)
     for (int j = 0; j < dim; ++j)
     {
-      if (input->GetDirection()[i][j] != output->GetDirectionMatrix()->GetData()[i*3+j])
+      if (input->GetDirection()[i][j] != output->GetDirectionMatrix()->GetData()[i * 3 + j])
       {
         std::cerr << "Error: directions do not match for component (" << i << "," << j << ")." << std::endl;
         return EXIT_FAILURE;

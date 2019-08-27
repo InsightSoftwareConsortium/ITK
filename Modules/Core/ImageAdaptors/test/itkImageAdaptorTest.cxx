@@ -37,22 +37,24 @@
 //-------------------------------------
 //     Typedefs for convenience
 //-------------------------------------
-using myImageType = itk::Image< itk::RGBPixel<float>,   2 >;
+using myImageType = itk::Image<itk::RGBPixel<float>, 2>;
 
 using myRedAccessorType = itk::RedPixelAccessor<float>;
 
-using myRedAdaptorType = itk::ImageAdaptor< myImageType, myRedAccessorType >;
+using myRedAdaptorType = itk::ImageAdaptor<myImageType, myRedAccessorType>;
 
-using myIteratorType = itk::ImageRegionIteratorWithIndex< myImageType >;
+using myIteratorType = itk::ImageRegionIteratorWithIndex<myImageType>;
 
-using myRedIteratorType = itk::ImageRegionIteratorWithIndex< myRedAdaptorType >;
+using myRedIteratorType = itk::ImageRegionIteratorWithIndex<myRedAdaptorType>;
 
 //-------------------------
 //
 //   Main code
 //
 //-------------------------
-int itkImageAdaptorTest(int, char* []) {
+int
+itkImageAdaptorTest(int, char *[])
+{
 
 
   myImageType::SizeType size;
@@ -64,138 +66,126 @@ int itkImageAdaptorTest(int, char* []) {
   index[1] = 0;
 
   myImageType::RegionType region;
-  region.SetIndex( index );
-  region.SetSize(  size  );
+  region.SetIndex(index);
+  region.SetSize(size);
 
   myImageType::Pointer myImage = myImageType::New();
 
 
-  myImage->SetLargestPossibleRegion( region );
-  myImage->SetBufferedRegion( region );
-  myImage->SetRequestedRegion( region );
+  myImage->SetLargestPossibleRegion(region);
+  myImage->SetBufferedRegion(region);
+  myImage->SetRequestedRegion(region);
   myImage->Allocate();
 
-  myIteratorType  it1( myImage, myImage->GetRequestedRegion() );
+  myIteratorType it1(myImage, myImage->GetRequestedRegion());
 
   // Value to initialize the pixels
-  myImageType::PixelType::ComponentType colorInit[3] = {1.0f, 0.5f, 0.5f};
-  myImageType::PixelType color = colorInit;
+  myImageType::PixelType::ComponentType colorInit[3] = { 1.0f, 0.5f, 0.5f };
+  myImageType::PixelType                color = colorInit;
 
   // Initializing all the pixel in the image
   it1.GoToBegin();
-  while( !it1.IsAtEnd() )
-    {
+  while (!it1.IsAtEnd())
+  {
     it1.Set(color);
     ++it1;
-    }
+  }
 
   // Reading the values to verify the image content
   std::cout << "--- Before --- " << std::endl;
   it1.GoToBegin();
-  while( !it1.IsAtEnd() )
-    {
-    const myImageType::PixelType c( it1.Get() );
-    std::cout << c.GetRed()   << "  ";
+  while (!it1.IsAtEnd())
+  {
+    const myImageType::PixelType c(it1.Get());
+    std::cout << c.GetRed() << "  ";
     std::cout << c.GetGreen() << "  ";
-    std::cout << c.GetBlue()  << std::endl;
+    std::cout << c.GetBlue() << std::endl;
     ++it1;
-    }
+  }
 
   myRedAdaptorType::Pointer myAdaptor = myRedAdaptorType::New();
-  myAdaptor->SetImage( myImage );
+  myAdaptor->SetImage(myImage);
 
 
-  myRedIteratorType  it2( myAdaptor, myAdaptor->GetRequestedRegion() );
+  myRedIteratorType it2(myAdaptor, myAdaptor->GetRequestedRegion());
 
   // Set the values of the Red component of myImage, using myAdaptor
   it2.GoToBegin();
-  while( !it2.IsAtEnd() )
-    {
-    it2.Set( 0.4 );
+  while (!it2.IsAtEnd())
+  {
+    it2.Set(0.4);
     ++it2;
-    }
+  }
 
 
   std::cout << "--- After --- " << std::endl;
 
   it1.GoToBegin();
-  while( !it1.IsAtEnd() )
-    {
-    const myImageType::PixelType c( it1.Get() );
-    std::cout << c.GetRed()   << "  ";
+  while (!it1.IsAtEnd())
+  {
+    const myImageType::PixelType c(it1.Get());
+    std::cout << c.GetRed() << "  ";
     std::cout << c.GetGreen() << "  ";
-    std::cout << c.GetBlue()  << std::endl;
+    std::cout << c.GetBlue() << std::endl;
     ++it1;
-    }
+  }
 
   // Test the Set/Get Methods of the adaptor
   // First test the get methods of the adaptor
 
   if (myImage->GetPixelContainer() != myAdaptor->GetPixelContainer())
-    {
-    std::cout << "image pixel container != adaptor pixel container: "
-              << myImage->GetPixelContainer() << " != "
-              << myAdaptor->GetPixelContainer()
-              << std::endl;
+  {
+    std::cout << "image pixel container != adaptor pixel container: " << myImage->GetPixelContainer()
+              << " != " << myAdaptor->GetPixelContainer() << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  float forigin[2] = {2.0, 3.0};
+  float forigin[2] = { 2.0, 3.0 };
   myImage->SetOrigin(forigin);
   if (myImage->GetOrigin() != myAdaptor->GetOrigin())
-    {
-    std::cout << "image origin != adaptor origin: "
-              << myImage->GetOrigin() << " != "
-              << myAdaptor->GetOrigin()
+  {
+    std::cout << "image origin != adaptor origin: " << myImage->GetOrigin() << " != " << myAdaptor->GetOrigin()
               << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  double dorigin[2] = {2.0, 3.0};
+  double dorigin[2] = { 2.0, 3.0 };
   myImage->SetOrigin(dorigin);
   if (myImage->GetOrigin() != myAdaptor->GetOrigin())
-    {
-    std::cout << "image origin != adaptor origin: "
-              << myImage->GetOrigin() << " != "
-              << myAdaptor->GetOrigin()
+  {
+    std::cout << "image origin != adaptor origin: " << myImage->GetOrigin() << " != " << myAdaptor->GetOrigin()
               << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   myImageType::PointType imageOrigin;
   imageOrigin.Fill(10.0);
   myImage->SetOrigin(imageOrigin);
   if (myImage->GetOrigin() != myAdaptor->GetOrigin())
-    {
-    std::cout << "image origin != adaptor origin: "
-              << myImage->GetOrigin() << " != "
-              << myAdaptor->GetOrigin()
+  {
+    std::cout << "image origin != adaptor origin: " << myImage->GetOrigin() << " != " << myAdaptor->GetOrigin()
               << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  float fspacing[2] = {2.0, 3.0};
+  float fspacing[2] = { 2.0, 3.0 };
   myImage->SetSpacing(fspacing);
   if (myImage->GetSpacing() != myAdaptor->GetSpacing())
-    {
-    std::cout << "image spacing != adaptor spacing: "
-              << myImage->GetSpacing() << " != "
-              << myAdaptor->GetSpacing()
+  {
+    std::cout << "image spacing != adaptor spacing: " << myImage->GetSpacing() << " != " << myAdaptor->GetSpacing()
               << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  double dspacing[2] = {2.0, 3.0};
+  double dspacing[2] = { 2.0, 3.0 };
   myImage->SetSpacing(dspacing);
   if (myImage->GetSpacing() != myAdaptor->GetSpacing())
-    {
-    std::cout << "image spacing != adaptor spacing: "
-              << myImage->GetSpacing() << " != "
-              << myAdaptor->GetSpacing()
+  {
+    std::cout << "image spacing != adaptor spacing: " << myImage->GetSpacing() << " != " << myAdaptor->GetSpacing()
               << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   myImageType::SpacingType imageSpacing;
@@ -203,108 +193,90 @@ int itkImageAdaptorTest(int, char* []) {
 
   myImage->SetSpacing(imageSpacing);
   if (myImage->GetSpacing() != myAdaptor->GetSpacing())
-    {
-    std::cout << "image spacing != adaptor spacing: "
-              << myImage->GetSpacing() << " != "
-              << myAdaptor->GetSpacing()
+  {
+    std::cout << "image spacing != adaptor spacing: " << myImage->GetSpacing() << " != " << myAdaptor->GetSpacing()
               << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   myImageType::DirectionType imageDirection;
   imageDirection.SetIdentity();
-  imageDirection[1][1]=10.0;
+  imageDirection[1][1] = 10.0;
 
   myImage->SetDirection(imageDirection);
   if (myImage->GetDirection() != myAdaptor->GetDirection())
-    {
-    std::cout << "image direction != adaptor direction: "
-              << myImage->GetDirection() << " != "
-              << myAdaptor->GetDirection()
-              << std::endl;
+  {
+    std::cout << "image direction != adaptor direction: " << myImage->GetDirection()
+              << " != " << myAdaptor->GetDirection() << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Now test the set methods of the adaptor
   forigin[0] = 20.0;
   myAdaptor->SetOrigin(forigin);
   if (myImage->GetOrigin() != myAdaptor->GetOrigin())
-    {
-    std::cout << "image origin != adaptor origin: "
-              << myImage->GetOrigin() << " != "
-              << myAdaptor->GetOrigin()
+  {
+    std::cout << "image origin != adaptor origin: " << myImage->GetOrigin() << " != " << myAdaptor->GetOrigin()
               << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   dorigin[0] = 20.0;
   myAdaptor->SetOrigin(dorigin);
   if (myImage->GetOrigin() != myAdaptor->GetOrigin())
-    {
-    std::cout << "image origin != adaptor origin: "
-              << myImage->GetOrigin() << " != "
-              << myAdaptor->GetOrigin()
+  {
+    std::cout << "image origin != adaptor origin: " << myImage->GetOrigin() << " != " << myAdaptor->GetOrigin()
               << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   imageOrigin.Fill(100.0);
 
   myAdaptor->SetOrigin(imageOrigin);
   if (myImage->GetOrigin() != myAdaptor->GetOrigin())
-    {
-    std::cout << "image origin != adaptor origin: "
-              << myImage->GetOrigin() << " != "
-              << myAdaptor->GetOrigin()
+  {
+    std::cout << "image origin != adaptor origin: " << myImage->GetOrigin() << " != " << myAdaptor->GetOrigin()
               << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   fspacing[0] = 20.0;
   myAdaptor->SetSpacing(fspacing);
   if (myImage->GetSpacing() != myAdaptor->GetSpacing())
-    {
-    std::cout << "image spacing != adaptor spacing: "
-              << myImage->GetSpacing() << " != "
-              << myAdaptor->GetSpacing()
+  {
+    std::cout << "image spacing != adaptor spacing: " << myImage->GetSpacing() << " != " << myAdaptor->GetSpacing()
               << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   dspacing[0] = 20.0;
   myAdaptor->SetSpacing(dspacing);
   if (myImage->GetSpacing() != myAdaptor->GetSpacing())
-    {
-    std::cout << "image spacing != adaptor spacing: "
-              << myImage->GetSpacing() << " != "
-              << myAdaptor->GetSpacing()
+  {
+    std::cout << "image spacing != adaptor spacing: " << myImage->GetSpacing() << " != " << myAdaptor->GetSpacing()
               << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   imageSpacing.Fill(100.0);
 
   myAdaptor->SetSpacing(imageSpacing);
   if (myImage->GetSpacing() != myAdaptor->GetSpacing())
-    {
-    std::cout << "image spacing != adaptor spacing: "
-              << myImage->GetSpacing() << " != "
-              << myAdaptor->GetSpacing()
+  {
+    std::cout << "image spacing != adaptor spacing: " << myImage->GetSpacing() << " != " << myAdaptor->GetSpacing()
               << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  imageDirection[1][1]=100.0;
+  imageDirection[1][1] = 100.0;
 
   myAdaptor->SetDirection(imageDirection);
   if (myImage->GetDirection() != myAdaptor->GetDirection())
-    {
-    std::cout << "image direction != adaptor direction: "
-              << myImage->GetDirection() << " != "
-              << myAdaptor->GetDirection()
-              << std::endl;
+  {
+    std::cout << "image direction != adaptor direction: " << myImage->GetDirection()
+              << " != " << myAdaptor->GetDirection() << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

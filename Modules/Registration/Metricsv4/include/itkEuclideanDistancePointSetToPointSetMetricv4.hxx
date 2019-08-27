@@ -23,45 +23,48 @@
 namespace itk
 {
 
-template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
-typename EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::MeasureType
-EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::GetLocalNeighborhoodValue( const PointType & point, const PixelType & itkNotUsed( pixel ) ) const
+template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
+typename EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::
+  MeasureType
+  EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::
+    GetLocalNeighborhoodValue(const PointType & point, const PixelType & itkNotUsed(pixel)) const
 {
   PointType closestPoint;
-  closestPoint.Fill( 0.0 );
+  closestPoint.Fill(0.0);
 
-  PointIdentifier pointId = this->m_MovingTransformedPointsLocator->FindClosestPoint( point );
-  closestPoint = this->m_MovingTransformedPointSet->GetPoint( pointId );
+  PointIdentifier pointId = this->m_MovingTransformedPointsLocator->FindClosestPoint(point);
+  closestPoint = this->m_MovingTransformedPointSet->GetPoint(pointId);
 
-  const MeasureType distance = point.EuclideanDistanceTo( closestPoint );
+  const MeasureType distance = point.EuclideanDistanceTo(closestPoint);
   return distance;
 }
 
-template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
+template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 void
-EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::GetLocalNeighborhoodValueAndDerivative( const PointType & point,
-  MeasureType &measure, LocalDerivativeType & localDerivative, const PixelType & itkNotUsed( pixel ) ) const
+EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::
+  GetLocalNeighborhoodValueAndDerivative(const PointType &     point,
+                                         MeasureType &         measure,
+                                         LocalDerivativeType & localDerivative,
+                                         const PixelType &     itkNotUsed(pixel)) const
 {
   PointType closestPoint;
-  closestPoint.Fill( 0.0 );
+  closestPoint.Fill(0.0);
 
-  PointIdentifier pointId = this->m_MovingTransformedPointsLocator->FindClosestPoint( point );
-  closestPoint = this->m_MovingTransformedPointSet->GetPoint( pointId );
+  PointIdentifier pointId = this->m_MovingTransformedPointsLocator->FindClosestPoint(point);
+  closestPoint = this->m_MovingTransformedPointSet->GetPoint(pointId);
 
-  measure = point.EuclideanDistanceTo( closestPoint );
+  measure = point.EuclideanDistanceTo(closestPoint);
   localDerivative = closestPoint - point;
 }
 
 /** PrintSelf method */
-template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
+template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 void
-EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::PrintSelf( std::ostream & os, Indent indent ) const
+EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::PrintSelf(
+  std::ostream & os,
+  Indent         indent) const
 {
-  Superclass::PrintSelf( os, indent );
+  Superclass::PrintSelf(os, indent);
 }
 
 } // end namespace itk

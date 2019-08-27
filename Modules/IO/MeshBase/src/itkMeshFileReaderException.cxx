@@ -21,15 +21,17 @@ namespace itk
 {
 MeshFileReaderException::~MeshFileReaderException() noexcept = default;
 
-MeshFileReaderException::MeshFileReaderException(const char *file, unsigned int line,
-                          const char *message,
-                          const char *loc):
-    ExceptionObject(file, line, message, loc)
-  {}
+MeshFileReaderException::MeshFileReaderException(const char * file,
+                                                 unsigned int line,
+                                                 const char * message,
+                                                 const char * loc)
+  : ExceptionObject(file, line, message, loc)
+{}
 
-MeshFileReaderException::MeshFileReaderException(const std::string & file, unsigned int line,
-                          const char *message,
-                          const char *loc):
-    ExceptionObject(file, line, message, loc)
-  {}
-}
+MeshFileReaderException::MeshFileReaderException(const std::string & file,
+                                                 unsigned int        line,
+                                                 const char *        message,
+                                                 const char *        loc)
+  : ExceptionObject(file, line, message, loc)
+{}
+} // namespace itk

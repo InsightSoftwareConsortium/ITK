@@ -54,14 +54,12 @@ namespace itk
  * \ingroup MeshObjects
  * \ingroup ITKCommon
  */
-template<
-  typename TPixelType,
-  unsigned int VPointDimension = 3,
-  unsigned int VMaxTopologicalDimension = VPointDimension,
-  typename TCoordRep = float,
-  typename TInterpolationWeight = float,
-  typename TCellPixelType = TPixelType
-  >
+template <typename TPixelType,
+          unsigned int VPointDimension = 3,
+          unsigned int VMaxTopologicalDimension = VPointDimension,
+          typename TCoordRep = float,
+          typename TInterpolationWeight = float,
+          typename TCellPixelType = TPixelType>
 class DefaultDynamicMeshTraits
 {
 public:
@@ -92,19 +90,19 @@ public:
   using CellFeatureIdentifier = IdentifierType;
 
   /** The type of point used by the mesh. */
-  using PointType = Point< CoordRepType, VPointDimension >;
+  using PointType = Point<CoordRepType, VPointDimension>;
 
   /** The type of point used for hashing.  This should never change from
    * this setting, regardless of the mesh type. */
-  using PointHashType = Point< CoordRepType, VPointDimension >;
+  using PointHashType = Point<CoordRepType, VPointDimension>;
 
   /** The container type for use in storing points.  It must conform to
    * the IndexedContainerInterface. */
-  using PointsContainer = MapContainer< PointIdentifier, PointType >;
+  using PointsContainer = MapContainer<PointIdentifier, PointType>;
 
   /** The container type that will be used to store boundary links
    * back to cells.  This must conform to the STL "set" interface. */
-  using UsingCellsContainer = std::set< CellIdentifier >;
+  using UsingCellsContainer = std::set<CellIdentifier>;
 
   /** The information needed for a cell type is now defined, so we can
    * define the cell type. */
@@ -112,30 +110,28 @@ public:
 
   /** The interface to cells to be used by the mesh.
    * This should not be changed. */
-  using CellType = CellInterface< CellPixelType, CellTraits >;
+  using CellType = CellInterface<CellPixelType, CellTraits>;
   using CellAutoPointer = typename CellType::CellAutoPointer;
 
   /** The container type for use in storing cells.  It must conform to
    * the IndexedContainerInterface. */
-  using CellsContainer = MapContainer< CellIdentifier, CellType * >;
+  using CellsContainer = MapContainer<CellIdentifier, CellType *>;
 
   /** The CellLinks container should be a container of PointCellLinksContainer,
    * which should be a container conforming to the STL "set" interface. */
-  using PointCellLinksContainer = std::set< CellIdentifier >;
+  using PointCellLinksContainer = std::set<CellIdentifier>;
 
   /** The container type for use in storing point links back to cells.]
    * It must conform to the IndexedContainerInterface. */
-  using CellLinksContainer = MapContainer<
-    PointIdentifier, PointCellLinksContainer >;
+  using CellLinksContainer = MapContainer<PointIdentifier, PointCellLinksContainer>;
 
   /** The container type for use in storing point data.  It must conform to
    * the IndexedContainerInterface. */
-  using PointDataContainer = MapContainer< PointIdentifier, PixelType >;
+  using PointDataContainer = MapContainer<PointIdentifier, PixelType>;
 
   /** The container type for use in storing cell data.  It must conform to
    * the IndexedContainerInterface. */
-  using CellDataContainer = MapContainer<
-    CellIdentifier, CellPixelType >;
+  using CellDataContainer = MapContainer<CellIdentifier, CellPixelType>;
 };
 } // end namespace itk
 

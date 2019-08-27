@@ -24,7 +24,7 @@
 namespace itk
 {
 /** \class LevelSetFunction
-  * \brief The LevelSetFunction class is a generic function object which can be
+ * \brief The LevelSetFunction class is a generic function object which can be
  * used to create a level set method filter when combined with an appropriate
  * finite difference image filter.  (See FiniteDifferenceImageFilter.)
  *
@@ -61,19 +61,18 @@ namespace itk
  * \ingroup FiniteDifferenceFunctions
  * \ingroup Functions
  * \ingroup ITKLevelSets
-  */
-template< typename TImageType >
-class ITK_TEMPLATE_EXPORT LevelSetFunction:
-  public FiniteDifferenceFunction< TImageType >
+ */
+template <typename TImageType>
+class ITK_TEMPLATE_EXPORT LevelSetFunction : public FiniteDifferenceFunction<TImageType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetFunction);
 
   /** Standard class type aliases. */
   using Self = LevelSetFunction;
-  using Superclass = FiniteDifferenceFunction< TImageType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = FiniteDifferenceFunction<TImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -97,22 +96,21 @@ public:
 
   /** The vector type that will be used in the calculations. */
   //  typedef
-  using VectorType = FixedArray< ScalarValueType, Self::ImageDimension >;
+  using VectorType = FixedArray<ScalarValueType, Self::ImageDimension>;
 
   /** A global data type for this class of equations.  Used to store
    * values that are needed in calculating the time step and other intermediate
    * products such as derivatives that may be used by virtual functions called
    * from ComputeUpdate.  Caching these values here allows the ComputeUpdate
    * function to be const and thread safe. */
-  struct GlobalDataStruct {
+  struct GlobalDataStruct
+  {
     ScalarValueType m_MaxAdvectionChange;
     ScalarValueType m_MaxPropagationChange;
     ScalarValueType m_MaxCurvatureChange;
 
     /** Hessian matrix */
-    vnl_matrix_fixed< ScalarValueType,
-                      Self::ImageDimension,
-                      Self::ImageDimension > m_dxy;
+    vnl_matrix_fixed<ScalarValueType, Self::ImageDimension, Self::ImageDimension> m_dxy;
 
     /** Array of first derivatives */
     ScalarValueType m_dx[Self::ImageDimension];
@@ -124,65 +122,101 @@ public:
   };
 
   /** Advection field.  Default implementation returns a vector of zeros. */
-  virtual VectorType AdvectionField(const NeighborhoodType &,
-                                    const FloatOffsetType &, GlobalDataStruct * = 0)  const
-  { return m_ZeroVectorConstant; }
+  virtual VectorType
+  AdvectionField(const NeighborhoodType &, const FloatOffsetType &, GlobalDataStruct * = 0) const
+  {
+    return m_ZeroVectorConstant;
+  }
 
   /** Propagation speed.  This term controls surface expansion/contraction.
    *  Default implementation returns zero. */
-  virtual ScalarValueType PropagationSpeed(
-    const NeighborhoodType &,
-    const FloatOffsetType &, GlobalDataStruct * = 0) const
-  { return NumericTraits< ScalarValueType >::ZeroValue(); }
+  virtual ScalarValueType
+  PropagationSpeed(const NeighborhoodType &, const FloatOffsetType &, GlobalDataStruct * = 0) const
+  {
+    return NumericTraits<ScalarValueType>::ZeroValue();
+  }
 
   /** Curvature speed.  Can be used to spatially modify the effects of
       curvature . The default implementation returns one. */
-  virtual ScalarValueType CurvatureSpeed(const NeighborhoodType &,
-                                         const FloatOffsetType &, GlobalDataStruct * = nullptr
-                                         ) const
-  { return NumericTraits< ScalarValueType >::OneValue(); }
+  virtual ScalarValueType
+  CurvatureSpeed(const NeighborhoodType &, const FloatOffsetType &, GlobalDataStruct * = nullptr) const
+  {
+    return NumericTraits<ScalarValueType>::OneValue();
+  }
 
   /** Laplacian smoothing speed.  Can be used to spatially modify the
     effects of laplacian smoothing of the level set function */
-  virtual ScalarValueType LaplacianSmoothingSpeed(
-    const NeighborhoodType &,
-    const FloatOffsetType &, GlobalDataStruct * = 0) const
-  { return NumericTraits< ScalarValueType >::OneValue(); }
+  virtual ScalarValueType
+  LaplacianSmoothingSpeed(const NeighborhoodType &, const FloatOffsetType &, GlobalDataStruct * = 0) const
+  {
+    return NumericTraits<ScalarValueType>::OneValue();
+  }
 
   /** Alpha.  Scales all advection term values. */
-  virtual void SetAdvectionWeight(const ScalarValueType a)
-  { m_AdvectionWeight = a; }
-  ScalarValueType GetAdvectionWeight() const
-  { return m_AdvectionWeight; }
+  virtual void
+  SetAdvectionWeight(const ScalarValueType a)
+  {
+    m_AdvectionWeight = a;
+  }
+  ScalarValueType
+  GetAdvectionWeight() const
+  {
+    return m_AdvectionWeight;
+  }
 
   /** Beta.  Scales all propagation term values. */
-  virtual void SetPropagationWeight(const ScalarValueType p)
-  { m_PropagationWeight = p; }
-  ScalarValueType GetPropagationWeight() const
-  { return m_PropagationWeight; }
+  virtual void
+  SetPropagationWeight(const ScalarValueType p)
+  {
+    m_PropagationWeight = p;
+  }
+  ScalarValueType
+  GetPropagationWeight() const
+  {
+    return m_PropagationWeight;
+  }
 
   /** Gamma. Scales all curvature weight values */
-  virtual void SetCurvatureWeight(const ScalarValueType c)
-  { m_CurvatureWeight = c; }
-  ScalarValueType GetCurvatureWeight() const
-  { return m_CurvatureWeight; }
+  virtual void
+  SetCurvatureWeight(const ScalarValueType c)
+  {
+    m_CurvatureWeight = c;
+  }
+  ScalarValueType
+  GetCurvatureWeight() const
+  {
+    return m_CurvatureWeight;
+  }
 
   /** Weight of the laplacian smoothing term */
-  void SetLaplacianSmoothingWeight(const ScalarValueType c)
-  { m_LaplacianSmoothingWeight = c; }
-  ScalarValueType GetLaplacianSmoothingWeight() const
-  { return m_LaplacianSmoothingWeight; }
+  void
+  SetLaplacianSmoothingWeight(const ScalarValueType c)
+  {
+    m_LaplacianSmoothingWeight = c;
+  }
+  ScalarValueType
+  GetLaplacianSmoothingWeight() const
+  {
+    return m_LaplacianSmoothingWeight;
+  }
 
   /** Epsilon. */
-  void SetEpsilonMagnitude(const ScalarValueType e)
-  { m_EpsilonMagnitude = e; }
-  ScalarValueType GetEpsilonMagnitude() const
-  { return m_EpsilonMagnitude; }
+  void
+  SetEpsilonMagnitude(const ScalarValueType e)
+  {
+    m_EpsilonMagnitude = e;
+  }
+  ScalarValueType
+  GetEpsilonMagnitude() const
+  {
+    return m_EpsilonMagnitude;
+  }
 
   /** Compute the equation value. */
-  PixelType ComputeUpdate( const NeighborhoodType & neighborhood,
-                                   void *globalData,
-                                   const FloatOffsetType & = FloatOffsetType(0.0) ) override;
+  PixelType
+  ComputeUpdate(const NeighborhoodType & neighborhood,
+                void *                   globalData,
+                const FloatOffsetType & = FloatOffsetType(0.0)) override;
 
   /** Computes the time step for an update given a global data structure.
    * The data used in the computation may take different forms depending on
@@ -190,7 +224,8 @@ public:
    * instance of the equation object itself since the equation object must
    * remain stateless for thread safety.  The global data is therefore managed
    * for each thread by the finite difference solver filters. */
-  TimeStepType ComputeGlobalTimeStep(void *GlobalData) const override;
+  TimeStepType
+  ComputeGlobalTimeStep(void * GlobalData) const override;
 
   /** Returns a pointer to a global data structure that is passed to this
    * object from the solver at each calculation.  The idea is that the solver
@@ -199,66 +234,67 @@ public:
    * data should also be initialized in this method.  Global data can be used
    * for caching any values used or reused by the FunctionObject.  Each thread
    * should receive its own global data struct. */
-  void * GetGlobalDataPointer() const override
+  void *
+  GetGlobalDataPointer() const override
   {
     auto * ans = new GlobalDataStruct();
 
-    ans->m_MaxAdvectionChange   = NumericTraits< ScalarValueType >::ZeroValue();
-    ans->m_MaxPropagationChange = NumericTraits< ScalarValueType >::ZeroValue();
-    ans->m_MaxCurvatureChange   = NumericTraits< ScalarValueType >::ZeroValue();
+    ans->m_MaxAdvectionChange = NumericTraits<ScalarValueType>::ZeroValue();
+    ans->m_MaxPropagationChange = NumericTraits<ScalarValueType>::ZeroValue();
+    ans->m_MaxCurvatureChange = NumericTraits<ScalarValueType>::ZeroValue();
     return ans;
   }
 
   /** This method creates the appropriate member variable operators for the
    * level-set calculations.  The argument to this function is a the radius
    * necessary for performing the level-set calculations. */
-  virtual void Initialize(const RadiusType & r);
+  virtual void
+  Initialize(const RadiusType & r);
 
   /** When the finite difference solver filter has finished using a global
    * data pointer, it passes it to this method, which frees the memory.
    * The solver cannot free the memory because it does not know the type
    * to which the pointer points. */
-  void ReleaseGlobalDataPointer(void *GlobalData) const override
-  { delete (GlobalDataStruct *)GlobalData; }
+  void
+  ReleaseGlobalDataPointer(void * GlobalData) const override
+  {
+    delete (GlobalDataStruct *)GlobalData;
+  }
 
   /**  */
-  virtual ScalarValueType ComputeCurvatureTerm(const NeighborhoodType &,
-                                               const FloatOffsetType &,
-                                               GlobalDataStruct *gd = 0
-                                               );
+  virtual ScalarValueType
+  ComputeCurvatureTerm(const NeighborhoodType &, const FloatOffsetType &, GlobalDataStruct * gd = 0);
 
-  virtual ScalarValueType ComputeMeanCurvature(const NeighborhoodType &,
-                                               const FloatOffsetType &,
-                                               GlobalDataStruct *gd = 0
-                                               );
+  virtual ScalarValueType
+  ComputeMeanCurvature(const NeighborhoodType &, const FloatOffsetType &, GlobalDataStruct * gd = 0);
 
-  virtual ScalarValueType ComputeMinimalCurvature(const NeighborhoodType &,
-                                                  const FloatOffsetType &,
-                                                  GlobalDataStruct *gd = 0
-                                                  );
+  virtual ScalarValueType
+  ComputeMinimalCurvature(const NeighborhoodType &, const FloatOffsetType &, GlobalDataStruct * gd = 0);
 
-  virtual ScalarValueType Compute3DMinimalCurvature(const NeighborhoodType &,
-                                                    const FloatOffsetType &,
-                                                    GlobalDataStruct *gd = 0
-                                                    );
+  virtual ScalarValueType
+  Compute3DMinimalCurvature(const NeighborhoodType &, const FloatOffsetType &, GlobalDataStruct * gd = 0);
 
   /** */
-  void SetUseMinimalCurvature(bool b)
+  void
+  SetUseMinimalCurvature(bool b)
   {
     m_UseMinimalCurvature = b;
   }
 
-  bool GetUseMinimalCurvature() const
+  bool
+  GetUseMinimalCurvature() const
   {
     return m_UseMinimalCurvature;
   }
 
-  void UseMinimalCurvatureOn()
+  void
+  UseMinimalCurvatureOn()
   {
     this->SetUseMinimalCurvature(true);
   }
 
-  void UseMinimalCurvatureOff()
+  void
+  UseMinimalCurvatureOff()
   {
     this->SetUseMinimalCurvature(false);
   }
@@ -267,12 +303,14 @@ public:
       calculation.  Changing this value from the default is not recommended or
       necessary, but can be used to speed up the surface evolution at the risk
       of creating an unstable solution. */
-  static void SetMaximumCurvatureTimeStep(double n)
+  static void
+  SetMaximumCurvatureTimeStep(double n)
   {
     m_DT = n;
   }
 
-  static double GetMaximumCurvatureTimeStep()
+  static double
+  GetMaximumCurvatureTimeStep()
   {
     return m_DT;
   }
@@ -281,28 +319,30 @@ public:
       calculation.  Changing this value from the default is not recommended or
       necessary, but can be used to speed up the surface evolution at the risk
       of creating an unstable solution. */
-  static void SetMaximumPropagationTimeStep(double n)
+  static void
+  SetMaximumPropagationTimeStep(double n)
   {
     m_WaveDT = n;
   }
 
-  static double GetMaximumPropagationTimeStep()
+  static double
+  GetMaximumPropagationTimeStep()
   {
     return m_WaveDT;
   }
 
 protected:
-  LevelSetFunction() :
-    m_EpsilonMagnitude(static_cast< ScalarValueType >( 1.0e-5 )),
-    m_AdvectionWeight(NumericTraits< ScalarValueType >::ZeroValue()),
-    m_PropagationWeight(NumericTraits< ScalarValueType >::ZeroValue()),
-    m_CurvatureWeight(NumericTraits< ScalarValueType >::ZeroValue()),
-    m_LaplacianSmoothingWeight(NumericTraits< ScalarValueType >::ZeroValue())
-  {
-  }
+  LevelSetFunction()
+    : m_EpsilonMagnitude(static_cast<ScalarValueType>(1.0e-5))
+    , m_AdvectionWeight(NumericTraits<ScalarValueType>::ZeroValue())
+    , m_PropagationWeight(NumericTraits<ScalarValueType>::ZeroValue())
+    , m_CurvatureWeight(NumericTraits<ScalarValueType>::ZeroValue())
+    , m_LaplacianSmoothingWeight(NumericTraits<ScalarValueType>::ZeroValue())
+  {}
 
   ~LevelSetFunction() override = default;
-  void PrintSelf(std::ostream & s, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & s, Indent indent) const override;
 
   /** Constants used in the time step calculation. */
   static double m_WaveDT;
@@ -312,16 +352,17 @@ protected:
   std::slice x_slice[Self::ImageDimension];
 
   /** The offset of the center pixel in the neighborhood. */
-  OffsetValueType m_Center{0};
+  OffsetValueType m_Center{ 0 };
 
   /** Stride length along the y-dimension. */
   OffsetValueType m_xStride[Self::ImageDimension];
 
-  bool m_UseMinimalCurvature{false};
+  bool m_UseMinimalCurvature{ false };
 
   /** This method's only purpose is to initialize the zero vector
    * constant. */
-  static VectorType InitializeZeroVectorConstant();
+  static VectorType
+  InitializeZeroVectorConstant();
 
   /** Zero vector constant. */
   static VectorType m_ZeroVectorConstant;
@@ -344,7 +385,7 @@ protected:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetFunction.hxx"
+#  include "itkLevelSetFunction.hxx"
 #endif
 
 #endif

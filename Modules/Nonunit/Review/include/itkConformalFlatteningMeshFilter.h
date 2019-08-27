@@ -44,9 +44,8 @@ namespace itk
  * \ingroup ITKReview
  */
 
-template< typename TInputMesh, typename TOutputMesh >
-class ITK_TEMPLATE_EXPORT ConformalFlatteningMeshFilter:
-  public MeshToMeshFilter< TInputMesh, TOutputMesh >
+template <typename TInputMesh, typename TOutputMesh>
+class ITK_TEMPLATE_EXPORT ConformalFlatteningMeshFilter : public MeshToMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ConformalFlatteningMeshFilter);
@@ -57,10 +56,10 @@ public:
   using InputMeshType = TInputMesh;
   using OutputMeshType = TOutputMesh;
 
-  using Superclass = MeshToMeshFilter< TInputMesh, TOutputMesh >;
+  using Superclass = MeshToMeshFilter<TInputMesh, TOutputMesh>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using InputMeshConstPointer = typename InputMeshType::ConstPointer;
   using OutputMeshPointer = typename OutputMeshType::Pointer;
@@ -68,7 +67,7 @@ public:
   using OutputPointType = typename OutputMeshType::PointType;
 
   /** Type for representing coordinates. */
-  //using CoordRepType = typename TInputMesh::CoordRepType;
+  // using CoordRepType = typename TInputMesh::CoordRepType;
   using CoordRepType = double;
 
   /** Method for creation through the object factory. */
@@ -96,30 +95,36 @@ public:
    * A point of this cell will be mapped to infinity on the plane, or it
    * will be mapped to the north-pole on the sphere. It is recommended to
    * select a cell whose curvature is relatively flat. */
-  void SetPolarCellIdentifier(CellIdentifier cellId);
+  void
+  SetPolarCellIdentifier(CellIdentifier cellId);
 
   /** Define the scale of the mapping. The largest coordinates of the
    * furthest point in the plane is m_MapScale. */
-  void SetScale(double);
+  void
+  SetScale(double);
 
   /** Define that the input surface will be mapped to a sphere */
-  void MapToSphere();
+  void
+  MapToSphere();
 
   /** Define that the input surface will be mapped to a plane.
    *  This skips the steps of the stereographic projection. */
-  void MapToPlane();
+  void
+  MapToPlane();
 
 protected:
   ConformalFlatteningMeshFilter();
   ~ConformalFlatteningMeshFilter() override {}
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate Requested Data */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
-  using VectorCoordType = vnl_vector< CoordRepType >;
-  using SparseMatrixCoordType = vnl_sparse_matrix< CoordRepType >;
+  using VectorCoordType = vnl_vector<CoordRepType>;
+  using SparseMatrixCoordType = vnl_sparse_matrix<CoordRepType>;
 
   /** Cell Id  in which the point P, which is used
    * to define the mapping, lies in. */
@@ -135,7 +140,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkConformalFlatteningMeshFilter.hxx"
+#  include "itkConformalFlatteningMeshFilter.hxx"
 #endif
 
 #endif

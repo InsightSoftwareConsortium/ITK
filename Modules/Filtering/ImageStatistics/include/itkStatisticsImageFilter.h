@@ -48,21 +48,20 @@ namespace itk
  * \ingroup ITKImageStatistics
  *
  * \sphinx
- * \sphinxexample{Filtering/ImageStatistics/ComputeMinMaxVarianceMeanOfImage,Compute Min, Max, Variance And Mean Of Image}
- * \endsphinx
+ * \sphinxexample{Filtering/ImageStatistics/ComputeMinMaxVarianceMeanOfImage,Compute Min, Max, Variance And Mean Of
+ * Image} \endsphinx
  */
-template< typename TInputImage >
-class ITK_TEMPLATE_EXPORT StatisticsImageFilter:
-  public ImageSink< TInputImage >
+template <typename TInputImage>
+class ITK_TEMPLATE_EXPORT StatisticsImageFilter : public ImageSink<TInputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsImageFilter);
 
   /** Standard Self type alias */
   using Self = StatisticsImageFilter;
-  using Superclass = ImageSink< TInputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageSink<TInputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -82,14 +81,14 @@ public:
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Type to use for computations. */
-  using RealType = typename NumericTraits< PixelType >::RealType;
+  using RealType = typename NumericTraits<PixelType>::RealType;
 
   /** Smart Pointer type to a DataObject. */
   using DataObjectPointer = typename DataObject::Pointer;
 
   /** Type of DataObjects used for scalar outputs */
-  using RealObjectType = SimpleDataObjectDecorator< RealType >;
-  using PixelObjectType = SimpleDataObjectDecorator< PixelType >;
+  using RealObjectType = SimpleDataObjectDecorator<RealType>;
+  using PixelObjectType = SimpleDataObjectDecorator<PixelType>;
 
   /** Return the computed Minimum. */
   itkGetDecoratedOutputMacro(Minimum, PixelType);
@@ -120,28 +119,32 @@ public:
    * output. */
   using DataObjectIdentifierType = ProcessObject::DataObjectIdentifierType;
   using Superclass::MakeOutput;
-  DataObjectPointer MakeOutput( const DataObjectIdentifierType & name ) override;
+  DataObjectPointer
+  MakeOutput(const DataObjectIdentifierType & name) override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< PixelType > ) );
+  itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<PixelType>));
   // End concept checking
 #endif
 
 protected:
   StatisticsImageFilter();
   ~StatisticsImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Initialize some accumulators before the threads run. */
-  void BeforeStreamedGenerateData() override;
+  void
+  BeforeStreamedGenerateData() override;
 
   /** Set outputs to computed values from all regions
    */
-  void AfterStreamedGenerateData() override;
+  void
+  AfterStreamedGenerateData() override;
 
-  void ThreadedStreamedGenerateData( const RegionType &) override;
+  void
+  ThreadedStreamedGenerateData(const RegionType &) override;
 
   itkSetDecoratedOutputMacro(Minimum, PixelType);
   itkSetDecoratedOutputMacro(Maximum, PixelType);
@@ -152,19 +155,19 @@ protected:
   itkSetDecoratedOutputMacro(SumOfSquares, RealType);
 
 private:
-  CompensatedSummation<RealType> m_ThreadSum{1};
-  CompensatedSummation<RealType> m_SumOfSquares{1};
+  CompensatedSummation<RealType> m_ThreadSum{ 1 };
+  CompensatedSummation<RealType> m_SumOfSquares{ 1 };
 
-  SizeValueType m_Count{1};
-  PixelType     m_ThreadMin{1};
-  PixelType     m_ThreadMax{1};
+  SizeValueType m_Count{ 1 };
+  PixelType     m_ThreadMin{ 1 };
+  PixelType     m_ThreadMax{ 1 };
 
   std::mutex m_Mutex;
 }; // end of class
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkStatisticsImageFilter.hxx"
+#  include "itkStatisticsImageFilter.hxx"
 #endif
 
 #endif

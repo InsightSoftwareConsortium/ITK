@@ -23,88 +23,89 @@
 #include "itkTextOutput.h"
 #include "itkSimpleFilterWatcher.h"
 
-int itkFastApproximateRankImageFilterTest(int ac, char* av[] )
+int
+itkFastApproximateRankImageFilterTest(int ac, char * av[])
 {
   // Comment the following if you want to use the itk text output window
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
-  if(ac < 4)
-    {
+  if (ac < 4)
+  {
     std::cerr << "Usage: " << av[0] << " InputImage BaselineImage radius" << std::endl;
     return -1;
-    }
+  }
 
   using ImageType = itk::Image<unsigned char, 2>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer input  = ReaderType::New();
+  ReaderType::Pointer input = ReaderType::New();
   input->SetFileName(av[1]);
 
   // Create a filter
-  using FilterType = itk::FastApproximateRankImageFilter<ImageType,ImageType>;
-  FilterType::Pointer filter = FilterType::New();
+  using FilterType = itk::FastApproximateRankImageFilter<ImageType, ImageType>;
+  FilterType::Pointer      filter = FilterType::New();
   itk::SimpleFilterWatcher filterWatch(filter);
 
   using RadiusType = FilterType::RadiusType;
 
   // test default values
   RadiusType r1;
-  r1.Fill( 1 );
-  if ( filter->GetRadius() != r1 )
-    {
+  r1.Fill(1);
+  if (filter->GetRadius() != r1)
+  {
     std::cerr << "Wrong default Radius." << std::endl;
     return EXIT_FAILURE;
-    }
-  if ( filter->GetRank() != 0.5 )
-    {
+  }
+  if (filter->GetRank() != 0.5)
+  {
     std::cerr << "Wrong default Rank." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // set radius with a radius type
   RadiusType r5;
-  r5.Fill( 5 );
-  filter->SetRadius( r5 );
-  if ( filter->GetRadius() != r5 )
-    {
+  r5.Fill(5);
+  filter->SetRadius(r5);
+  if (filter->GetRadius() != r5)
+  {
     std::cerr << "Radius value is not the expected one: r5." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // set radius with an integer
-  filter->SetRadius( 1 );
-  if ( filter->GetRadius() != r1 )
-    {
+  filter->SetRadius(1);
+  if (filter->GetRadius() != r1)
+  {
     std::cerr << "Radius value is not the expected one: r1." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  filter->SetRank( 0.25 );
-  if ( filter->GetRank() != 0.25 )
-    {
+  filter->SetRank(0.25);
+  if (filter->GetRank() != 0.25)
+  {
     std::cerr << "Rank value is not the expected one: " << filter->GetRank() << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   try
-    {
-    int r = std::stoi( av[3] );
+  {
+    int r = std::stoi(av[3]);
     filter->SetInput(input->GetOutput());
-    filter->SetRadius( r );
-    filter->SetRank( 0.5 );
+    filter->SetRadius(r);
+    filter->SetRank(0.5);
     filter->Update();
-    }
-  catch (itk::ExceptionObject& e)
-    {
-    std::cerr << "Exception detected: "  << e.GetDescription();
+  }
+  catch (itk::ExceptionObject & e)
+  {
+    std::cerr << "Exception detected: " << e.GetDescription();
     return EXIT_FAILURE;
-    }
+  }
 
   // Generate test image
   using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( filter->GetOutput() );
-  writer->SetFileName( av[2] );
+  writer->SetInput(filter->GetOutput());
+  writer->SetFileName(av[2]);
   writer->Update();
 
   return EXIT_SUCCESS;

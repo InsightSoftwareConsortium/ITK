@@ -25,10 +25,11 @@
 #include "itkTestingMacros.h"
 
 
-int itkVotingBinaryHoleFillingImageFilterTest( int argc, char* argv[] )
+int
+itkVotingBinaryHoleFillingImageFilterTest(int argc, char * argv[])
 {
 
-  if ( argc != 3 )
+  if (argc != 3)
   {
     std::cerr << "Missing arguments" << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Inputimage OutputImage" << std::endl;
@@ -41,67 +42,64 @@ int itkVotingBinaryHoleFillingImageFilterTest( int argc, char* argv[] )
   // Declare the pixel types of the images
   using InputPixelType = unsigned short;
   using OutputPixelType = unsigned char;
-  using InputImageType = itk::Image< InputPixelType, Dimension >;
-  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
-  using ReaderType = itk::ImageFileReader< InputImageType >;
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
   InputImageType::PixelType foreground = 97; // Prime numbers are good testers
   InputImageType::PixelType background = 29;
 
-  itk::BinaryThresholdImageFilter< InputImageType, InputImageType >::Pointer thresholder =
-    itk::BinaryThresholdImageFilter< InputImageType, InputImageType >::New();
+  itk::BinaryThresholdImageFilter<InputImageType, InputImageType>::Pointer thresholder =
+    itk::BinaryThresholdImageFilter<InputImageType, InputImageType>::New();
 
-  thresholder->SetInput( reader->GetOutput() );
-  thresholder->SetLowerThreshold(  30 );
-  thresholder->SetUpperThreshold( 100 );
-  thresholder->SetInsideValue( foreground );
-  thresholder->SetOutsideValue( background );
+  thresholder->SetInput(reader->GetOutput());
+  thresholder->SetLowerThreshold(30);
+  thresholder->SetUpperThreshold(100);
+  thresholder->SetInsideValue(foreground);
+  thresholder->SetOutsideValue(background);
 
   // Define the voting binary hole filling filter
   using VotingBinaryHoleFillingImageFilterType =
-      itk::VotingBinaryHoleFillingImageFilter< InputImageType, OutputImageType >;
+    itk::VotingBinaryHoleFillingImageFilter<InputImageType, OutputImageType>;
 
-  VotingBinaryHoleFillingImageFilterType::Pointer voting =
-    VotingBinaryHoleFillingImageFilterType::New();
+  VotingBinaryHoleFillingImageFilterType::Pointer voting = VotingBinaryHoleFillingImageFilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( voting, VotingBinaryHoleFillingImageFilter,
-    VotingBinaryImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(voting, VotingBinaryHoleFillingImageFilter, VotingBinaryImageFilter);
 
   // Define the neighborhood size used for the voting filter (3x3)
   InputImageType::SizeType neighRadius;
   neighRadius[0] = 1;
   neighRadius[1] = 1;
-  voting->SetRadius( neighRadius );
+  voting->SetRadius(neighRadius);
 
   // Set the number of pixels over 50% that will tip the decision about
   // switching a pixel
   unsigned int majorityThreshold = 1;
-  voting->SetMajorityThreshold( majorityThreshold );
-  ITK_TEST_SET_GET_VALUE( majorityThreshold, voting->GetMajorityThreshold() );
+  voting->SetMajorityThreshold(majorityThreshold);
+  ITK_TEST_SET_GET_VALUE(majorityThreshold, voting->GetMajorityThreshold());
 
-  voting->SetForegroundValue( foreground );
-  voting->SetBackgroundValue( background );
+  voting->SetForegroundValue(foreground);
+  voting->SetBackgroundValue(background);
 
-  voting->SetInput( thresholder->GetOutput());
+  voting->SetInput(thresholder->GetOutput());
 
   // Execute the filter
-  ITK_TRY_EXPECT_NO_EXCEPTION( voting->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(voting->Update());
 
 
-  std::cout << "Number of pixels changed: "
-    << voting->GetNumberOfPixelsChanged() << std::endl;
+  std::cout << "Number of pixels changed: " << voting->GetNumberOfPixelsChanged() << std::endl;
 
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( voting->GetOutput() );
-  writer->SetFileName( argv[2] );
+  writer->SetInput(voting->GetOutput());
+  writer->SetFileName(argv[2]);
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
   std::cout << "Test finished" << std::endl;

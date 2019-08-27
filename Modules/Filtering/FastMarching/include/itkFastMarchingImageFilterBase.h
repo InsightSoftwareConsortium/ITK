@@ -70,18 +70,17 @@ namespace itk
  * \sa ImageFastMarchingTraits2
  *
  * \ingroup ITKFastMarching
-*/
-template< typename TInput, typename TOutput >
-class ITK_TEMPLATE_EXPORT FastMarchingImageFilterBase :
-    public FastMarchingBase< TInput, TOutput >
-  {
+ */
+template <typename TInput, typename TOutput>
+class ITK_TEMPLATE_EXPORT FastMarchingImageFilterBase : public FastMarchingBase<TInput, TOutput>
+{
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingImageFilterBase);
 
   using Self = FastMarchingImageFilterBase;
-  using Superclass = FastMarchingBase< TInput, TOutput >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = FastMarchingBase<TInput, TOutput>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
   using Traits = typename Superclass::Traits;
 
   /** Method for creation through the object factory. */
@@ -115,11 +114,10 @@ public:
   static constexpr unsigned int ImageDimension = Traits::ImageDimension;
 
 
-  using LabelImageType = Image< unsigned char, ImageDimension >;
+  using LabelImageType = Image<unsigned char, ImageDimension>;
   using LabelImagePointer = typename LabelImageType::Pointer;
 
-  using ConnectedComponentImageType =
-      Image< unsigned int, ImageDimension >;
+  using ConnectedComponentImageType = Image<unsigned int, ImageDimension>;
   using ConnectedComponentImagePointer = typename ConnectedComponentImageType::Pointer;
 
   using NeighborhoodIteratorType = NeighborhoodIterator<LabelImageType>;
@@ -128,9 +126,9 @@ public:
   class InternalNodeStructure;
 
 
-  using InternalNodeStructureArray = FixedArray< InternalNodeStructure, ImageDimension >;
+  using InternalNodeStructureArray = FixedArray<InternalNodeStructure, ImageDimension>;
 
-  itkGetModifiableObjectMacro(LabelImage, LabelImageType );
+  itkGetModifiableObjectMacro(LabelImage, LabelImageType);
 
   /** The output largeset possible, spacing and origin is computed as follows.
    * If the speed image is nullptr or if the OverrideOutputInformation is true,
@@ -139,10 +137,16 @@ public:
    * SetOutputSpacing(), SetOutputDirection(), and SetOutputOrigin().
    * Else if the speed image is not nullptr, the output information
    * is copied from the input speed image. */
-  virtual void SetOutputSize(const OutputSizeType & size)
-  { m_OutputRegion = size; }
-  virtual OutputSizeType GetOutputSize() const
-  { return m_OutputRegion.GetSize(); }
+  virtual void
+  SetOutputSize(const OutputSizeType & size)
+  {
+    m_OutputRegion = size;
+  }
+  virtual OutputSizeType
+  GetOutputSize() const
+  {
+    return m_OutputRegion.GetSize();
+  }
   itkSetMacro(OutputRegion, OutputRegionType);
   itkGetConstReferenceMacro(OutputRegion, OutputRegionType);
   itkSetMacro(OutputSpacing, OutputSpacingType);
@@ -156,16 +160,16 @@ public:
   itkBooleanMacro(OverrideOutputInformation);
 
 protected:
-
   FastMarchingImageFilterBase();
 
   ~FastMarchingImageFilterBase() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  OutputRegionType  m_BufferedRegion;
-  NodeType          m_StartIndex;
-  NodeType          m_LastIndex;
+  OutputRegionType m_BufferedRegion;
+  NodeType         m_StartIndex;
+  NodeType         m_LastIndex;
 
   OutputRegionType    m_OutputRegion;
   OutputPointType     m_OutputOrigin;
@@ -174,91 +178,103 @@ protected:
   bool                m_OverrideOutputInformation{ false };
 
   /** Generate the output image meta information. */
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
-  void EnlargeOutputRequestedRegion(DataObject *output) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * output) override;
 
-  LabelImagePointer               m_LabelImage;
-  ConnectedComponentImagePointer  m_ConnectedComponentImage;
+  LabelImagePointer              m_LabelImage;
+  ConnectedComponentImagePointer m_ConnectedComponentImage;
 
-  IdentifierType GetTotalNumberOfNodes() const override;
+  IdentifierType
+  GetTotalNumberOfNodes() const override;
 
-  void SetOutputValue( OutputImageType* oDomain,
-                       const NodeType& iNode,
-                       const OutputPixelType& iValue ) override;
+  void
+  SetOutputValue(OutputImageType * oDomain, const NodeType & iNode, const OutputPixelType & iValue) override;
 
   /** Returns the output value for a given node */
-  const OutputPixelType GetOutputValue( OutputImageType* oImage,
-                                  const NodeType& iNode ) const override;
+  const OutputPixelType
+  GetOutputValue(OutputImageType * oImage, const NodeType & iNode) const override;
 
   /** Returns the label value for a given node */
   unsigned char
-  GetLabelValueForGivenNode( const NodeType& iNode ) const override;
+  GetLabelValueForGivenNode(const NodeType & iNode) const override;
 
   /** Set the label value for a given node */
-  void SetLabelValueForGivenNode( const NodeType& iNode,
-                                 const LabelType& iLabel ) override;
+  void
+  SetLabelValueForGivenNode(const NodeType & iNode, const LabelType & iLabel) override;
 
   /** Update values for the neighbors of a given node */
-  void UpdateNeighbors( OutputImageType* oImage,
-                                const NodeType& iNode ) override;
+  void
+  UpdateNeighbors(OutputImageType * oImage, const NodeType & iNode) override;
 
   /** Update value for a given node */
-  void UpdateValue( OutputImageType* oImage,
-                            const NodeType& iValue ) override;
+  void
+  UpdateValue(OutputImageType * oImage, const NodeType & iValue) override;
 
   /** Make sure the given node does not violate any topological constraint*/
-  bool CheckTopology( OutputImageType* oImage,
-                      const NodeType& iNode ) override;
-  void InitializeOutput( OutputImageType* oImage ) override;
+  bool
+  CheckTopology(OutputImageType * oImage, const NodeType & iNode) override;
+  void
+  InitializeOutput(OutputImageType * oImage) override;
 
   /** Find the nodes were the front will propagate given a node */
-  void GetInternalNodesUsed( OutputImageType* oImage,
-                             const NodeType& iNode,
-                             InternalNodeStructureArray& ioNodesUsed );
+  void
+  GetInternalNodesUsed(OutputImageType * oImage, const NodeType & iNode, InternalNodeStructureArray & ioNodesUsed);
 
   /** Solve the quadratic equation */
-  double Solve( OutputImageType* oImage,
-               const NodeType& iNode,
-               InternalNodeStructureArray& ioNeighbors ) const;
+  double
+  Solve(OutputImageType * oImage, const NodeType & iNode, InternalNodeStructureArray & ioNeighbors) const;
 
   //
   // Functions and variables to check for topology changes (2D/3D only).
   //
 
   // Functions/data for the 2-D case
-  void InitializeIndices2D();
-  bool IsChangeWellComposed2D( const NodeType& ) const;
-  bool IsCriticalC1Configuration2D( const std::bitset<9>& ) const;
-  bool IsCriticalC2Configuration2D( const std::bitset<9>& ) const;
-  bool IsCriticalC3Configuration2D( const std::bitset<9>& ) const;
-  bool IsCriticalC4Configuration2D( const std::bitset<9>& ) const;
+  void
+  InitializeIndices2D();
+  bool
+  IsChangeWellComposed2D(const NodeType &) const;
+  bool
+  IsCriticalC1Configuration2D(const std::bitset<9> &) const;
+  bool
+  IsCriticalC2Configuration2D(const std::bitset<9> &) const;
+  bool
+  IsCriticalC3Configuration2D(const std::bitset<9> &) const;
+  bool
+  IsCriticalC4Configuration2D(const std::bitset<9> &) const;
 
-  Array<unsigned char>  m_RotationIndices[4];
-  Array<unsigned char>  m_ReflectionIndices[2];
+  Array<unsigned char> m_RotationIndices[4];
+  Array<unsigned char> m_ReflectionIndices[2];
 
   // Functions/data for the 3-D case
-  void InitializeIndices3D();
-  bool IsCriticalC1Configuration3D( const std::bitset<8>& ) const;
-  unsigned int IsCriticalC2Configuration3D( const std::bitset<8>& ) const;
-  bool IsChangeWellComposed3D( const NodeType& ) const;
+  void
+  InitializeIndices3D();
+  bool
+  IsCriticalC1Configuration3D(const std::bitset<8> &) const;
+  unsigned int
+  IsCriticalC2Configuration3D(const std::bitset<8> &) const;
+  bool
+  IsChangeWellComposed3D(const NodeType &) const;
 
-  Array<unsigned char>                        m_C1Indices[12];
-  Array<unsigned char>                        m_C2Indices[8];
+  Array<unsigned char> m_C1Indices[12];
+  Array<unsigned char> m_C2Indices[8];
 
   // Functions for both 2D/3D cases
-  bool DoesVoxelChangeViolateWellComposedness( const NodeType& ) const;
-  bool DoesVoxelChangeViolateStrictTopology( const NodeType& ) const;
+  bool
+  DoesVoxelChangeViolateWellComposedness(const NodeType &) const;
+  bool
+  DoesVoxelChangeViolateStrictTopology(const NodeType &) const;
 
-  const InputImageType* m_InputCache;
+  const InputImageType * m_InputCache;
 
 private:
-
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFastMarchingImageFilterBase.hxx"
+#  include "itkFastMarchingImageFilterBase.hxx"
 #endif
 
 #endif // itkFastMarchingImageFilterBase_h

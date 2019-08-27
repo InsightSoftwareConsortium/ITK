@@ -23,44 +23,45 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
-int itkMINCImageIOTest_4D( int argc, char * argv [] )
+int
+itkMINCImageIOTest_4D(int argc, char * argv[])
 {
 
-  if ( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Missing Arguments " << std::endl;
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << " inputfile outputfile " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   itk::MINCImageIOFactory::RegisterOneFactory();
 
-  using ImageType = itk::VectorImage< float, 3 >;
+  using ImageType = itk::VectorImage<float, 3>;
 
-  using ReaderType = itk::ImageFileReader< ImageType >;
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  using WriterType = itk::ImageFileWriter<ImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
 
-  reader->SetFileName( argv[1] );
-  writer->SetFileName( argv[2] );
-  writer->SetInput( reader->GetOutput() );
+  reader->SetFileName(argv[1]);
+  writer->SetFileName(argv[2]);
+  writer->SetInput(reader->GetOutput());
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   ImageType::ConstPointer image = reader->GetOutput();
 
-  image->Print( std::cout );
+  image->Print(std::cout);
 
   return EXIT_SUCCESS;
 }

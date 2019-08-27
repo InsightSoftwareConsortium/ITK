@@ -23,20 +23,34 @@
 namespace itk
 {
 
-template < typename TFixedImage, typename TMovingImage, typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits >
-MeanSquaresImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage,TInternalComputationValueType,TMetricTraits>
-::MeanSquaresImageToImageMetricv4()
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage,
+          typename TInternalComputationValueType,
+          typename TMetricTraits>
+MeanSquaresImageToImageMetricv4<TFixedImage,
+                                TMovingImage,
+                                TVirtualImage,
+                                TInternalComputationValueType,
+                                TMetricTraits>::MeanSquaresImageToImageMetricv4()
 {
   // We have our own GetValueAndDerivativeThreader's that we want
   // ImageToImageMetricv4 to use.
-  this->m_DenseGetValueAndDerivativeThreader  = MeanSquaresDenseGetValueAndDerivativeThreaderType::New();
+  this->m_DenseGetValueAndDerivativeThreader = MeanSquaresDenseGetValueAndDerivativeThreaderType::New();
   this->m_SparseGetValueAndDerivativeThreader = MeanSquaresSparseGetValueAndDerivativeThreaderType::New();
 }
 
-template < typename TFixedImage, typename TMovingImage, typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits >
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage,
+          typename TInternalComputationValueType,
+          typename TMetricTraits>
 void
-MeanSquaresImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage,TInternalComputationValueType,TMetricTraits>
-::PrintSelf(std::ostream& os, Indent indent) const
+MeanSquaresImageToImageMetricv4<TFixedImage,
+                                TMovingImage,
+                                TVirtualImage,
+                                TInternalComputationValueType,
+                                TMetricTraits>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

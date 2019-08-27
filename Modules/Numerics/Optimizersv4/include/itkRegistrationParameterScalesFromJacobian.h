@@ -37,24 +37,23 @@ namespace itk
  *
  * \ingroup ITKOptimizersv4
  */
-template < typename TMetric >
-class ITK_TEMPLATE_EXPORT RegistrationParameterScalesFromJacobian :
-  public RegistrationParameterScalesEstimator< TMetric >
+template <typename TMetric>
+class ITK_TEMPLATE_EXPORT RegistrationParameterScalesFromJacobian : public RegistrationParameterScalesEstimator<TMetric>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(RegistrationParameterScalesFromJacobian);
 
   /** Standard class type aliases. */
   using Self = RegistrationParameterScalesFromJacobian;
-  using Superclass = RegistrationParameterScalesEstimator< TMetric >;
+  using Superclass = RegistrationParameterScalesEstimator<TMetric>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
   /** New macro for creation of through a Smart Pointer. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( RegistrationParameterScalesFromJacobian, RegistrationParameterScalesEstimator );
+  itkTypeMacro(RegistrationParameterScalesFromJacobian, RegistrationParameterScalesEstimator);
 
   /** Type of scales */
   using ScalesType = typename Superclass::ScalesType;
@@ -71,7 +70,8 @@ public:
   using VirtualImageConstPointer = typename Superclass::VirtualImageConstPointer;
 
   /** Estimate parameter scales. */
-  void EstimateScales(ScalesType &scales) override;
+  void
+  EstimateScales(ScalesType & scales) override;
 
   /**
    *  Estimate the scale for \f$\Delta p\f$, the step of change on parameters.
@@ -90,31 +90,34 @@ public:
    *  For multiple voxels, we average the above formula to get the overall
    *  step scale.
    */
-  FloatType EstimateStepScale(const ParametersType &step) override;
+  FloatType
+  EstimateStepScale(const ParametersType & step) override;
 
   /** Estimate the scales of local steps. */
-  void EstimateLocalStepScales(const ParametersType &step,
-    ScalesType &localStepScales) override;
+  void
+  EstimateLocalStepScales(const ParametersType & step, ScalesType & localStepScales) override;
 
 protected:
   RegistrationParameterScalesFromJacobian() = default;
   ~RegistrationParameterScalesFromJacobian() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**
    *  Compute the step scales for samples, i.e. the impacts on each sampled
    *  voxel from a change on the transform.
    */
-  void ComputeSampleStepScales(const ParametersType &step, ScalesType &sampleScales);
-}; //class RegistrationParameterScalesFromJacobian
+  void
+  ComputeSampleStepScales(const ParametersType & step, ScalesType & sampleScales);
+}; // class RegistrationParameterScalesFromJacobian
 
 
-}  // namespace itk
+} // namespace itk
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRegistrationParameterScalesFromJacobian.hxx"
+#  include "itkRegistrationParameterScalesFromJacobian.hxx"
 #endif
 
 #endif /* itkRegistrationParameterScalesFromJacobian_h */

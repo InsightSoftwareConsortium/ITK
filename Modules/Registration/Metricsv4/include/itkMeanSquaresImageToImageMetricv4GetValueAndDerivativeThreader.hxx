@@ -24,62 +24,63 @@
 namespace itk
 {
 
-template< typename TDomainPartitioner, typename TImageToImageMetric, typename TMeanSquaresMetric >
+template <typename TDomainPartitioner, typename TImageToImageMetric, typename TMeanSquaresMetric>
 bool
-MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TMeanSquaresMetric >
-::ProcessPoint( const VirtualIndexType &,
-                const VirtualPointType &           virtualPoint,
-                const FixedImagePointType &,
-                const FixedImagePixelType &        fixedImageValue,
-                const FixedImageGradientType &,
-                const MovingImagePointType &       ,
-                const MovingImagePixelType &       movingImageValue,
-                const MovingImageGradientType &    movingImageGradient,
-                MeasureType &                      metricValueReturn,
-                DerivativeType &                   localDerivativeReturn,
-                const ThreadIdType                 threadId) const
+MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader<
+  TDomainPartitioner,
+  TImageToImageMetric,
+  TMeanSquaresMetric>::ProcessPoint(const VirtualIndexType &,
+                                    const VirtualPointType & virtualPoint,
+                                    const FixedImagePointType &,
+                                    const FixedImagePixelType & fixedImageValue,
+                                    const FixedImageGradientType &,
+                                    const MovingImagePointType &,
+                                    const MovingImagePixelType &    movingImageValue,
+                                    const MovingImageGradientType & movingImageGradient,
+                                    MeasureType &                   metricValueReturn,
+                                    DerivativeType &                localDerivativeReturn,
+                                    const ThreadIdType              threadId) const
 {
   /** Only the voxelwise contribution given the point pairs. */
   FixedImagePixelType diff = fixedImageValue - movingImageValue;
-  const unsigned int nComponents = NumericTraits<FixedImagePixelType>::GetLength( diff );
+  const unsigned int  nComponents = NumericTraits<FixedImagePixelType>::GetLength(diff);
   metricValueReturn = NumericTraits<MeasureType>::ZeroValue();
 
-  for ( unsigned int nc = 0; nc < nComponents; nc++ )
-    {
+  for (unsigned int nc = 0; nc < nComponents; nc++)
+  {
     MeasureType diffC = DefaultConvertPixelTraits<FixedImagePixelType>::GetNthComponent(nc, diff);
-    metricValueReturn += diffC*diffC;
-    }
+    metricValueReturn += diffC * diffC;
+  }
 
-  if( ! this->GetComputeDerivative() )
-    {
+  if (!this->GetComputeDerivative())
+  {
     return true;
-    }
+  }
 
   /* Use a pre-allocated jacobian object for efficiency */
   using JacobianReferenceType = typename TImageToImageMetric::JacobianType &;
   JacobianReferenceType jacobian = this->m_GetValueAndDerivativePerThreadVariables[threadId].MovingTransformJacobian;
-  JacobianReferenceType jacobianPositional = this->m_GetValueAndDerivativePerThreadVariables[threadId].MovingTransformJacobianPositional;
+  JacobianReferenceType jacobianPositional =
+    this->m_GetValueAndDerivativePerThreadVariables[threadId].MovingTransformJacobianPositional;
 
   /** For dense transforms, this returns identity */
-  this->m_Associate->GetMovingTransform()->
-    ComputeJacobianWithRespectToParametersCachedTemporaries(virtualPoint,
-                                                            jacobian,
-                                                            jacobianPositional);
+  this->m_Associate->GetMovingTransform()->ComputeJacobianWithRespectToParametersCachedTemporaries(
+    virtualPoint, jacobian, jacobianPositional);
 
-  for ( unsigned int par = 0; par < this->GetCachedNumberOfLocalParameters(); par++ )
-    {
+  for (unsigned int par = 0; par < this->GetCachedNumberOfLocalParameters(); par++)
+  {
     localDerivativeReturn[par] = NumericTraits<DerivativeValueType>::ZeroValue();
-    for ( unsigned int nc = 0; nc < nComponents; nc++ )
+    for (unsigned int nc = 0; nc < nComponents; nc++)
+    {
+      MeasureType diffValue = DefaultConvertPixelTraits<FixedImagePixelType>::GetNthComponent(nc, diff);
+      for (SizeValueType dim = 0; dim < ImageToImageMetricv4Type::MovingImageDimension; dim++)
       {
-      MeasureType diffValue = DefaultConvertPixelTraits<FixedImagePixelType>::GetNthComponent(nc,diff);
-      for ( SizeValueType dim = 0; dim < ImageToImageMetricv4Type::MovingImageDimension; dim++ )
-        {
         localDerivativeReturn[par] += 2.0 * diffValue * jacobian(dim, par) *
-          DefaultConvertPixelTraits<MovingImageGradientType>::GetNthComponent(
-            ImageToImageMetricv4Type::FixedImageDimension * nc + dim, movingImageGradient );
-        }
+                                      DefaultConvertPixelTraits<MovingImageGradientType>::GetNthComponent(
+                                        ImageToImageMetricv4Type::FixedImageDimension * nc + dim, movingImageGradient);
       }
     }
+  }
   return true;
 }
 

@@ -49,27 +49,27 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-template< typename TInput = float, typename TOutput = double >
-class ITK_TEMPLATE_EXPORT RegularizedHeavisideStepFunction:
-    public HeavisideStepFunctionBase< TInput, TOutput >
+template <typename TInput = float, typename TOutput = double>
+class ITK_TEMPLATE_EXPORT RegularizedHeavisideStepFunction : public HeavisideStepFunctionBase<TInput, TOutput>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(RegularizedHeavisideStepFunction);
 
   using Self = RegularizedHeavisideStepFunction;
-  using Superclass = HeavisideStepFunctionBase< TInput, TOutput >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = HeavisideStepFunctionBase<TInput, TOutput>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using InputType = typename Superclass::InputType;
   using OutputType = typename Superclass::OutputType;
 
-  using RealType = typename NumericTraits< InputType >::RealType;
+  using RealType = typename NumericTraits<InputType>::RealType;
 
-  void SetEpsilon(const RealType & ieps);
+  void
+  SetEpsilon(const RealType & ieps);
 
-  itkGetConstMacro( Epsilon, RealType );
-  itkGetConstMacro( OneOverEpsilon, RealType );
+  itkGetConstMacro(Epsilon, RealType);
+  itkGetConstMacro(OneOverEpsilon, RealType);
 
 protected:
   RegularizedHeavisideStepFunction();
@@ -79,10 +79,10 @@ private:
   RealType m_Epsilon;
   RealType m_OneOverEpsilon;
 };
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRegularizedHeavisideStepFunction.hxx"
+#  include "itkRegularizedHeavisideStepFunction.hxx"
 #endif
 
 #endif

@@ -37,19 +37,20 @@
  *   the solution is the vector | 2 -2 |
  *
  */
-class GradientDescentOptimizerv4TestMetric
-  : public itk::ObjectToObjectMetricBase
+class GradientDescentOptimizerv4TestMetric : public itk::ObjectToObjectMetricBase
 {
 public:
-
   using Self = GradientDescentOptimizerv4TestMetric;
   using Superclass = itk::ObjectToObjectMetricBase;
   using Pointer = itk::SmartPointer<Self>;
   using ConstPointer = itk::SmartPointer<const Self>;
-  itkNewMacro( Self );
-  itkTypeMacro( GradientDescentOptimizerv4TestMetric, ObjectToObjectMetricBase );
+  itkNewMacro(Self);
+  itkTypeMacro(GradientDescentOptimizerv4TestMetric, ObjectToObjectMetricBase);
 
-  enum { SpaceDimension=2 };
+  enum
+  {
+    SpaceDimension = 2
+  };
 
   using ParametersType = Superclass::ParametersType;
   using ParametersValueType = Superclass::ParametersValueType;
@@ -58,22 +59,25 @@ public:
 
   GradientDescentOptimizerv4TestMetric()
   {
-    m_Parameters.SetSize( SpaceDimension );
-    m_Parameters.Fill( 0 );
+    m_Parameters.SetSize(SpaceDimension);
+    m_Parameters.Fill(0);
   }
 
-  void Initialize() throw ( itk::ExceptionObject ) override {}
+  void
+  Initialize() throw(itk::ExceptionObject) override
+  {}
 
-  void GetDerivative( DerivativeType & derivative ) const override
+  void
+  GetDerivative(DerivativeType & derivative) const override
   {
     MeasureType value;
-    GetValueAndDerivative( value, derivative );
+    GetValueAndDerivative(value, derivative);
   }
 
-  void GetValueAndDerivative( MeasureType & value,
-                              DerivativeType & derivative ) const override
+  void
+  GetValueAndDerivative(MeasureType & value, DerivativeType & derivative) const override
   {
-    if( derivative.Size() != 2 )
+    if (derivative.Size() != 2)
       derivative.SetSize(2);
 
     double x = m_Parameters[0];
@@ -83,7 +87,7 @@ public:
     std::cout << x << " ";
     std::cout << y << ") = ";
 
-    value = 0.5*(3*x*x+4*x*y+6*y*y) - 2*x + 8*y;
+    value = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
 
     std::cout << "value: " << value << std::endl;
 
@@ -91,72 +95,79 @@ public:
      * and adds it to the transform after scaling. So instead of
      * setting a 'minimize' option in the gradient, we return
      * a minimizing derivative. */
-    derivative[0] = -( 3 * x + 2 * y -2 );
-    derivative[1] = -( 2 * x + 6 * y +8 );
+    derivative[0] = -(3 * x + 2 * y - 2);
+    derivative[1] = -(2 * x + 6 * y + 8);
 
     std::cout << "derivative: " << derivative << std::endl;
   }
 
-  MeasureType  GetValue() const override
+  MeasureType
+  GetValue() const override
   {
     return 0.0;
   }
 
-  void UpdateTransformParameters( const DerivativeType & update, ParametersValueType ) override
+  void
+  UpdateTransformParameters(const DerivativeType & update, ParametersValueType) override
   {
     m_Parameters += update;
   }
 
-  unsigned int GetNumberOfParameters() const override
+  unsigned int
+  GetNumberOfParameters() const override
   {
     return SpaceDimension;
   }
 
-  bool HasLocalSupport() const override
-    {
+  bool
+  HasLocalSupport() const override
+  {
     return false;
-    }
+  }
 
-  unsigned int GetNumberOfLocalParameters() const override
+  unsigned int
+  GetNumberOfLocalParameters() const override
   {
     return SpaceDimension;
   }
 
   /* These Set/Get methods are only needed for this test derivation that
    * isn't using a transform */
-  void SetParameters( ParametersType & parameters ) override
+  void
+  SetParameters(ParametersType & parameters) override
   {
     m_Parameters = parameters;
   }
 
-  const ParametersType & GetParameters() const override
+  const ParametersType &
+  GetParameters() const override
   {
     return m_Parameters;
   }
 
 private:
-
   ParametersType m_Parameters;
 };
 
 ///////////////////////////////////////////////////////////
-int GradientDescentOptimizerv4RunTest( itk::GradientDescentOptimizerv4::Pointer & itkOptimizer,
-                                       GradientDescentOptimizerv4TestMetric::ParametersType & trueParameters )
+int
+GradientDescentOptimizerv4RunTest(itk::GradientDescentOptimizerv4::Pointer &             itkOptimizer,
+                                  GradientDescentOptimizerv4TestMetric::ParametersType & trueParameters)
 {
   try
-    {
+  {
     std::cout << "currentPosition before optimization: " << itkOptimizer->GetCurrentPosition() << std::endl;
     itkOptimizer->StartOptimization();
     std::cout << "currentPosition after optimization: " << itkOptimizer->GetCurrentPosition() << std::endl;
-    }
-  catch( itk::ExceptionObject & e )
-    {
+  }
+  catch (itk::ExceptionObject & e)
+  {
     std::cout << "Exception thrown ! " << std::endl;
     std::cout << "An error occurred during Optimization" << std::endl;
-    std::cout << "Location    = " << e.GetLocation()    << std::endl;
+    std::cout << "Location    = " << e.GetLocation() << std::endl;
     std::cout << "Description = " << e.GetDescription() << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   using ParametersType = GradientDescentOptimizerv4TestMetric::ParametersType;
   ParametersType finalPosition = itkOptimizer->GetMetric()->GetParameters();
@@ -166,21 +177,22 @@ int GradientDescentOptimizerv4RunTest( itk::GradientDescentOptimizerv4::Pointer 
 
   // check results to see if it is within range
   ParametersType::ValueType eps = 0.03;
-  for( unsigned int j = 0; j < 2; j++ )
+  for (unsigned int j = 0; j < 2; j++)
+  {
+    if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > eps)
     {
-    if( itk::Math::abs( finalPosition[j] - trueParameters[j] ) > eps)
-      {
       std::cerr << "Results do not match: " << std::endl
                 << "expected: " << trueParameters << std::endl
                 << "returned: " << finalPosition << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
 
   return EXIT_SUCCESS;
 }
 ///////////////////////////////////////////////////////////
-int itkGradientDescentOptimizerv4Test(int, char* [] )
+int
+itkGradientDescentOptimizerv4Test(int, char *[])
 {
   std::cout << "Gradient Descent Object Optimizer Test ";
   std::cout << std::endl << std::endl;
@@ -191,26 +203,26 @@ int itkGradientDescentOptimizerv4Test(int, char* [] )
   using ScalesType = OptimizerType::ScalesType;
 
   // Declaration of a itkOptimizer
-  OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
+  OptimizerType::Pointer itkOptimizer = OptimizerType::New();
 
   // Declaration of the Metric
   GradientDescentOptimizerv4TestMetric::Pointer metric = GradientDescentOptimizerv4TestMetric::New();
 
-  itkOptimizer->SetMetric( metric );
+  itkOptimizer->SetMetric(metric);
 
   using ParametersType = GradientDescentOptimizerv4TestMetric::ParametersType;
 
   const unsigned int spaceDimension = metric->GetNumberOfParameters();
 
   // We start not so far from  | 2 -2 |
-  ParametersType  initialPosition( spaceDimension );
+  ParametersType initialPosition(spaceDimension);
 
-  initialPosition[0] =  100;
+  initialPosition[0] = 100;
   initialPosition[1] = -100;
-  metric->SetParameters( initialPosition );
+  metric->SetParameters(initialPosition);
 
-  itkOptimizer->SetLearningRate( 0.1 );
-  itkOptimizer->SetNumberOfIterations( 50 );
+  itkOptimizer->SetLearningRate(0.1);
+  itkOptimizer->SetNumberOfIterations(50);
 
   // Truth
   ParametersType trueParameters(2);
@@ -219,67 +231,67 @@ int itkGradientDescentOptimizerv4Test(int, char* [] )
 
   // test the optimization
   std::cout << "Test optimization 1:" << std::endl;
-  if( GradientDescentOptimizerv4RunTest( itkOptimizer, trueParameters ) == EXIT_FAILURE )
-    {
+  if (GradientDescentOptimizerv4RunTest(itkOptimizer, trueParameters) == EXIT_FAILURE)
+  {
     result = EXIT_FAILURE;
-    }
+  }
 
   // test with non-idenity scales
   std::cout << "Test optimization with non-identity scales:" << std::endl;
-  ScalesType scales( metric->GetNumberOfLocalParameters() );
+  ScalesType scales(metric->GetNumberOfLocalParameters());
   scales.Fill(0.5);
-  itkOptimizer->SetScales( scales );
-  metric->SetParameters( initialPosition );
-  if( GradientDescentOptimizerv4RunTest( itkOptimizer, trueParameters ) == EXIT_FAILURE )
-    {
+  itkOptimizer->SetScales(scales);
+  metric->SetParameters(initialPosition);
+  if (GradientDescentOptimizerv4RunTest(itkOptimizer, trueParameters) == EXIT_FAILURE)
+  {
     result = EXIT_FAILURE;
-    }
+  }
 
   // test with weights {0.4,0.5}
   std::cout << std::endl << "Test with weights {0.4,0.5}:" << std::endl;
   scales.Fill(1.0);
-  itkOptimizer->SetScales( scales );
+  itkOptimizer->SetScales(scales);
   ScalesType weights(2);
   weights[0] = 0.4;
   weights[1] = 0.5;
-  itkOptimizer->SetWeights( weights );
-  itkOptimizer->SetNumberOfIterations( 110 );
-  metric->SetParameters( initialPosition );
-  if( GradientDescentOptimizerv4RunTest( itkOptimizer, trueParameters ) == EXIT_FAILURE )
-    {
+  itkOptimizer->SetWeights(weights);
+  itkOptimizer->SetNumberOfIterations(110);
+  metric->SetParameters(initialPosition);
+  if (GradientDescentOptimizerv4RunTest(itkOptimizer, trueParameters) == EXIT_FAILURE)
+  {
     result = EXIT_FAILURE;
-    }
+  }
 
   // test with weights {0,1}
   std::cout << std::endl << "Test with weights {0,1}:" << std::endl;
   scales.Fill(1.0);
-  itkOptimizer->SetScales( scales );
+  itkOptimizer->SetScales(scales);
   weights[0] = 0.0;
   weights[1] = 1.0;
-  itkOptimizer->SetWeights( weights );
+  itkOptimizer->SetWeights(weights);
   trueParameters[0] = initialPosition[0];
   trueParameters[1] = -34.6667;
-  metric->SetParameters( initialPosition );
-  itkOptimizer->SetNumberOfIterations( 40 );
-  if( GradientDescentOptimizerv4RunTest( itkOptimizer, trueParameters ) == EXIT_FAILURE )
-    {
+  metric->SetParameters(initialPosition);
+  itkOptimizer->SetNumberOfIterations(40);
+  if (GradientDescentOptimizerv4RunTest(itkOptimizer, trueParameters) == EXIT_FAILURE)
+  {
     result = EXIT_FAILURE;
-    }
+  }
 
   // test with weights {1,0}
   std::cout << std::endl << "Test with weights {1,0}:" << std::endl;
   scales.Fill(1.0);
-  itkOptimizer->SetScales( scales );
+  itkOptimizer->SetScales(scales);
   weights[0] = 1.0;
   weights[1] = 0.0;
-  itkOptimizer->SetWeights( weights );
+  itkOptimizer->SetWeights(weights);
   trueParameters[0] = 67.3333;
   trueParameters[1] = initialPosition[1];
-  metric->SetParameters( initialPosition );
-  if( GradientDescentOptimizerv4RunTest( itkOptimizer, trueParameters ) == EXIT_FAILURE )
-    {
+  metric->SetParameters(initialPosition);
+  if (GradientDescentOptimizerv4RunTest(itkOptimizer, trueParameters) == EXIT_FAILURE)
+  {
     result = EXIT_FAILURE;
-    }
+  }
 
   // Exercise various member functions.
   std::cout << "LearningRate: " << itkOptimizer->GetLearningRate();
@@ -289,66 +301,66 @@ int itkGradientDescentOptimizerv4Test(int, char* [] )
   // For test of learning rate and scales estimation options
   // in an actual registration, see
   // itkAutoScaledGradientDescentRegistrationTest.
-  itkOptimizer->SetDoEstimateLearningRateOnce( false );
+  itkOptimizer->SetDoEstimateLearningRateOnce(false);
   std::cout << "GetDoEstimateLearningRateOnce: " << itkOptimizer->GetDoEstimateLearningRateOnce() << std::endl;
-  itkOptimizer->SetDoEstimateLearningRateAtEachIteration( true );
-  std::cout << "GetDoEstimateLearningRateAtEachIteration: " << itkOptimizer->GetDoEstimateLearningRateAtEachIteration() << std::endl;
-  itkOptimizer->SetDoEstimateScales( false );
+  itkOptimizer->SetDoEstimateLearningRateAtEachIteration(true);
+  std::cout << "GetDoEstimateLearningRateAtEachIteration: " << itkOptimizer->GetDoEstimateLearningRateAtEachIteration()
+            << std::endl;
+  itkOptimizer->SetDoEstimateScales(false);
   std::cout << "GetDoEstimateScales: " << itkOptimizer->GetDoEstimateScales() << std::endl;
 
-  itkOptimizer->Print( std::cout );
+  itkOptimizer->Print(std::cout);
   std::cout << "Stop description   = " << itkOptimizer->GetStopConditionDescription() << std::endl;
 
   // Verify that the optimizer doesn't run if the
   // number of iterations is set to zero.
   std::cout << "\nCheck the optimizer when number of iterations is set to zero:" << std::endl;
   {
-  itkOptimizer->SetNumberOfIterations( 0 );
-  metric->SetParameters( initialPosition );
-  trueParameters[0] = 100;
-  trueParameters[1] = -100;
-  if( GradientDescentOptimizerv4RunTest( itkOptimizer, trueParameters ) == EXIT_FAILURE )
+    itkOptimizer->SetNumberOfIterations(0);
+    metric->SetParameters(initialPosition);
+    trueParameters[0] = 100;
+    trueParameters[1] = -100;
+    if (GradientDescentOptimizerv4RunTest(itkOptimizer, trueParameters) == EXIT_FAILURE)
     {
-    result = EXIT_FAILURE;
+      result = EXIT_FAILURE;
     }
-  if( itkOptimizer->GetCurrentIteration() > 0 )
+    if (itkOptimizer->GetCurrentIteration() > 0)
     {
-    std::cout << "The optimizer is running iterations despite of ";
-    std::cout << "having a maximum number of iterations set to zero" << std::endl;
-    result = EXIT_FAILURE;
+      std::cout << "The optimizer is running iterations despite of ";
+      std::cout << "having a maximum number of iterations set to zero" << std::endl;
+      result = EXIT_FAILURE;
     }
   }
 
   std::cout << "\nTest the Exception if the optimizer is not set properly:" << std::endl;
   OptimizerType::Pointer badOptimizer = OptimizerType::New();
-  bool caught=false;
+  bool                   caught = false;
   try
-    {
+  {
     badOptimizer->GetCurrentPosition();
-    }
-  catch( itk::ExceptionObject & e )
-    {
+  }
+  catch (itk::ExceptionObject & e)
+  {
     std::cout << "Caught expected exception!";
     std::cout << e << std::endl;
     caught = true;
-    }
+  }
 
   if (!caught)
-    {
+  {
     std::cout << "Failed to catch expected exception! " << std::endl;
     result = EXIT_FAILURE;
-    }
-  std::cout <<  "Printing self.. " << std::endl;
-  std::cout << itkOptimizer  << std::endl;
+  }
+  std::cout << "Printing self.. " << std::endl;
+  std::cout << itkOptimizer << std::endl;
 
   if (result != EXIT_FAILURE)
-    {
+  {
     std::cout << "Test passed." << std::endl;
-    }
+  }
   else
-    {
+  {
     std::cout << "Test FAILED." << std::endl;
-    }
+  }
   return result;
-
 }

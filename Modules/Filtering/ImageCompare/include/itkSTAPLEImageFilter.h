@@ -117,18 +117,17 @@ namespace itk
  * number of iterations needed cannot be known in advance.
  * \ingroup ITKImageCompare
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT STAPLEImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT STAPLEImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(STAPLEImageFilter);
 
   /** Standard class type aliases. */
   using Self = STAPLEImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -140,7 +139,7 @@ public:
    * of the two images is assumed to be the same. */
   using OutputPixelType = typename TOutputImage::PixelType;
   using InputPixelType = typename TInputImage::PixelType;
-  using RealType = typename NumericTraits< InputPixelType >::RealType;
+  using RealType = typename NumericTraits<InputPixelType>::RealType;
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
@@ -162,7 +161,8 @@ public:
   /** After the filter is updated, this method returns a std::vector<double> of
    *  all Specificity (true negative fraction, q) values for the expert
    *  input volumes. */
-  const std::vector< double > & GetSpecificity() const
+  const std::vector<double> &
+  GetSpecificity() const
   {
     return m_Specificity;
   }
@@ -170,30 +170,33 @@ public:
   /** After the filter is updated, this method returns a std::vector<double> of
    * all Sensitivity (true positive fraction, p) values for the expert input
    * volumes. */
-  const std::vector< double > & GetSensitivity() const
+  const std::vector<double> &
+  GetSensitivity() const
   {
     return m_Sensitivity;
   }
 
   /** After the filter is updated, this method returns the Sensitivity (true
    * positive fraction, p) value for the i-th expert input volume. */
-  double GetSensitivity(unsigned int i)
+  double
+  GetSensitivity(unsigned int i)
   {
-    if ( i > this->GetNumberOfIndexedInputs() )
-      {
+    if (i > this->GetNumberOfIndexedInputs())
+    {
       itkExceptionMacro(<< "Array reference out of bounds.");
-      }
+    }
     return m_Sensitivity[i];
   }
 
   /** After the filter is updated, this method returns the Specificity (true
    * negative fraction, q) value for the i-th expert input volume. */
-  double GetSpecificity(unsigned int i)
+  double
+  GetSpecificity(unsigned int i)
   {
-    if ( i > this->GetNumberOfIndexedInputs() )
-      {
+    if (i > this->GetNumberOfIndexedInputs())
+    {
       itkExceptionMacro(<< "Array reference out of bounds.");
-      }
+    }
     return m_Specificity[i];
   }
 
@@ -218,24 +221,25 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< InputPixelType > ) );
+  itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputPixelType>));
   // End concept checking
 #endif
 
 protected:
   STAPLEImageFilter()
   {
-    m_ForegroundValue = NumericTraits< InputPixelType >::OneValue();
-    m_MaximumIterations = NumericTraits< unsigned int >::max();
+    m_ForegroundValue = NumericTraits<InputPixelType>::OneValue();
+    m_MaximumIterations = NumericTraits<unsigned int>::max();
     m_ElapsedIterations = 0;
     m_ConfidenceWeight = 1.0;
   }
 
   ~STAPLEImageFilter() override = default;
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  void PrintSelf(std::ostream &, Indent) const override;
+  void
+  PrintSelf(std::ostream &, Indent) const override;
 
 private:
   InputPixelType m_ForegroundValue;
@@ -244,13 +248,13 @@ private:
 
   double m_ConfidenceWeight;
 
-  std::vector< double > m_Sensitivity;
-  std::vector< double > m_Specificity;
+  std::vector<double> m_Sensitivity;
+  std::vector<double> m_Specificity;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSTAPLEImageFilter.hxx"
+#  include "itkSTAPLEImageFilter.hxx"
 #endif
 
 #endif

@@ -40,16 +40,20 @@ namespace itk
 {
 extern "C"
 {
-static void TagExtender(TIFF *tiff)
-{
-  static constexpr TIFFFieldInfo xtiffFieldInfo[] = {
-          { TIF_CZ_LSMINFO, TIFF_VARIABLE, TIFF_VARIABLE, TIFF_BYTE,
-          FIELD_CUSTOM, 0, 1, const_cast< char * >( "LSM Private Tag" ) }
-    };
+  static void
+  TagExtender(TIFF * tiff)
+  {
+    static constexpr TIFFFieldInfo xtiffFieldInfo[] = { { TIF_CZ_LSMINFO,
+                                                          TIFF_VARIABLE,
+                                                          TIFF_VARIABLE,
+                                                          TIFF_BYTE,
+                                                          FIELD_CUSTOM,
+                                                          0,
+                                                          1,
+                                                          const_cast<char *>("LSM Private Tag") } };
 
-  TIFFMergeFieldInfo( tiff, xtiffFieldInfo,
-                      sizeof( xtiffFieldInfo ) / sizeof( xtiffFieldInfo[0] ) );
-}
+    TIFFMergeFieldInfo(tiff, xtiffFieldInfo, sizeof(xtiffFieldInfo) / sizeof(xtiffFieldInfo[0]));
+  }
 }
 
 using Int32_t = ::int32_t;
@@ -59,36 +63,37 @@ using Float32_t = float;
 using Float64_t = double;
 using Float96_t = long double;
 
-using zeiss_info = struct {
-  UInt32_t U32MagicNumber;
-  Int32_t S32StructureSize;
-  Int32_t S32DimensionX;
-  Int32_t S32DimensionY;
-  Int32_t S32DimensionZ;
-  Int32_t S32DimensionChannels;
-  Int32_t S32DimensionTime;
-  Int32_t S32DataType;
-  Int32_t S32ThumbnailX;
-  Int32_t S32ThumbnailY;
+using zeiss_info = struct
+{
+  UInt32_t  U32MagicNumber;
+  Int32_t   S32StructureSize;
+  Int32_t   S32DimensionX;
+  Int32_t   S32DimensionY;
+  Int32_t   S32DimensionZ;
+  Int32_t   S32DimensionChannels;
+  Int32_t   S32DimensionTime;
+  Int32_t   S32DataType;
+  Int32_t   S32ThumbnailX;
+  Int32_t   S32ThumbnailY;
   Float64_t F64VoxelSizeX;
   Float64_t F64VoxelSizeY;
   Float64_t F64VoxelSizeZ;
-  UInt32_t u32ScanType;
-  UInt32_t u32DataType;
-  UInt32_t u32OffsetVectorOverlay;
-  UInt32_t u32OffsetInputLut;
-  UInt32_t u32OffsetOutputLut;
-  UInt32_t u32OffsetChannelColors;
+  UInt32_t  u32ScanType;
+  UInt32_t  u32DataType;
+  UInt32_t  u32OffsetVectorOverlay;
+  UInt32_t  u32OffsetInputLut;
+  UInt32_t  u32OffsetOutputLut;
+  UInt32_t  u32OffsetChannelColors;
   Float64_t F64TimeIntervall;
-  UInt32_t u32OffsetChannelDataTypes;
-  UInt32_t u32OffsetScanInformation;
-  UInt32_t u32OffsetKsData;
-  UInt32_t u32OffsetTimeStamps;
-  UInt32_t u32OffsetEventList;
-  UInt32_t u32OffsetRoi;
-  UInt32_t u32OffsetBleachRoi;
-  UInt32_t u32OffsetNextRecording;
-  UInt32_t u32Reserved[TIF_CZ_LSMINFO_SIZE_RESERVED];
+  UInt32_t  u32OffsetChannelDataTypes;
+  UInt32_t  u32OffsetScanInformation;
+  UInt32_t  u32OffsetKsData;
+  UInt32_t  u32OffsetTimeStamps;
+  UInt32_t  u32OffsetEventList;
+  UInt32_t  u32OffsetRoi;
+  UInt32_t  u32OffsetBleachRoi;
+  UInt32_t  u32OffsetNextRecording;
+  UInt32_t  u32Reserved[TIF_CZ_LSMINFO_SIZE_RESERVED];
 };
 
 LSMImageIO::LSMImageIO()
@@ -109,129 +114,129 @@ LSMImageIO::~LSMImageIO() = default;
 
 // This method will only test if the header looks like a
 // LSM image file.
-bool LSMImageIO::CanReadFile(const char *filename)
+bool
+LSMImageIO::CanReadFile(const char * filename)
 {
-  std::string   fname(filename);
+  std::string fname(filename);
 
-  if ( fname.empty() )
-    {
+  if (fname.empty())
+  {
     itkDebugMacro(<< "No filename specified.");
     return false;
-    }
+  }
 
   bool                   extensionFound = false;
   std::string::size_type sprPos = fname.rfind(".lsm");
-  if ( ( sprPos != std::string::npos )
-       && ( sprPos == fname.length() - 4 ) )
-    {
+  if ((sprPos != std::string::npos) && (sprPos == fname.length() - 4))
+  {
     extensionFound = true;
-    }
+  }
   sprPos = fname.rfind(".LSM");
-  if ( ( sprPos != std::string::npos )
-       && ( sprPos == fname.length() - 4 ) )
-    {
+  if ((sprPos != std::string::npos) && (sprPos == fname.length() - 4))
+  {
     extensionFound = true;
-    }
+  }
 
-  if ( !extensionFound )
-    {
+  if (!extensionFound)
+  {
     itkDebugMacro(<< "The filename extension is not recognized");
     return false;
-    }
+  }
 
   // Check that TIFFImageIO can read this file:
   TIFFErrorHandler save = TIFFSetWarningHandler(nullptr); // get rid of warning about
-                                                    // Zeiss tag
-  if ( !this->TIFFImageIO::CanReadFile(filename) )
-    {
+                                                          // Zeiss tag
+  if (!this->TIFFImageIO::CanReadFile(filename))
+  {
     return false;
-    }
+  }
   TIFFSetWarningHandler(save);
 
   // Check this is indeed a LSM file
-  if ( !this->CanFindTIFFTag(TIF_CZ_LSMINFO) )
-    {
+  if (!this->CanFindTIFFTag(TIF_CZ_LSMINFO))
+  {
     return false;
-    }
+  }
 
   // everything was ok
   return true;
 }
 
-void LSMImageIO::Read(void *buffer)
+void
+LSMImageIO::Read(void * buffer)
 {
   this->TIFFImageIO::Read(buffer);
 }
 
-void LSMImageIO::ReadImageInformation()
+void
+LSMImageIO::ReadImageInformation()
 {
   // this really should be a compile time assert
-  itkAssertInDebugAndIgnoreInReleaseMacro( sizeof( zeiss_info ) == TIF_CZ_LSMINFO_SIZE );
+  itkAssertInDebugAndIgnoreInReleaseMacro(sizeof(zeiss_info) == TIF_CZ_LSMINFO_SIZE);
 
   this->TIFFImageIO::ReadImageInformation();
 
   // Now is a good time to check what was read and replaced it with LSM
   // information
   unsigned int tif_cz_lsminfo_size;
-  void *praw = this->TIFFImageIO::ReadRawByteFromTag(TIF_CZ_LSMINFO, tif_cz_lsminfo_size);
-  auto * zi = reinterpret_cast< zeiss_info * >( praw );
-  if ( praw == nullptr
-       || tif_cz_lsminfo_size != TIF_CZ_LSMINFO_SIZE )
-    {
+  void *       praw = this->TIFFImageIO::ReadRawByteFromTag(TIF_CZ_LSMINFO, tif_cz_lsminfo_size);
+  auto *       zi = reinterpret_cast<zeiss_info *>(praw);
+  if (praw == nullptr || tif_cz_lsminfo_size != TIF_CZ_LSMINFO_SIZE)
+  {
     // no zeiss info, just use tiff spacing
     return;
-    }
+  }
   // FIXME byte swap, when should it happen? writting?
-  ByteSwapper<double>::SwapFromSystemToLittleEndian( &zi->F64VoxelSizeX );
-  ByteSwapper<double>::SwapFromSystemToLittleEndian( &zi->F64VoxelSizeY );
-  ByteSwapper<double>::SwapFromSystemToLittleEndian( &zi->F64VoxelSizeZ );
+  ByteSwapper<double>::SwapFromSystemToLittleEndian(&zi->F64VoxelSizeX);
+  ByteSwapper<double>::SwapFromSystemToLittleEndian(&zi->F64VoxelSizeY);
+  ByteSwapper<double>::SwapFromSystemToLittleEndian(&zi->F64VoxelSizeZ);
   m_Spacing[0] = zi->F64VoxelSizeX;
   m_Spacing[1] = zi->F64VoxelSizeY;
   // TIFF only support 2 or 3 dimension:
-  if ( m_NumberOfDimensions == 3 )
-    {
+  if (m_NumberOfDimensions == 3)
+  {
     m_Spacing[2] = zi->F64VoxelSizeZ;
-    }
+  }
 }
 
-bool LSMImageIO::CanWriteFile(const char *name)
+bool
+LSMImageIO::CanWriteFile(const char * name)
 {
   std::string filename = name;
 
-  if ( filename.empty() )
-    {
+  if (filename.empty())
+  {
     return false;
-    }
+  }
 
   std::string::size_type pos = filename.rfind(".lsm");
-  if ( ( pos != std::string::npos )
-       && ( pos == filename.length() - 4 ) )
-    {
+  if ((pos != std::string::npos) && (pos == filename.length() - 4))
+  {
     return true;
-    }
+  }
 
   pos = filename.rfind(".LSM");
-  if ( ( pos != std::string::npos )
-       && ( pos == filename.length() - 4 ) )
-    {
+  if ((pos != std::string::npos) && (pos == filename.length() - 4))
+  {
     return true;
-    }
+  }
 
   return false;
 }
 
-void LSMImageIO::FillZeissStruct(char *cz)
+void
+LSMImageIO::FillZeissStruct(char * cz)
 {
   memset(cz, 0, TIF_CZ_LSMINFO_SIZE); // fill with 0
-  auto * z = reinterpret_cast< zeiss_info * >( cz );
+  auto * z = reinterpret_cast<zeiss_info *>(cz);
   z->U32MagicNumber = 0x0400494c;
   z->S32StructureSize = TIF_CZ_LSMINFO_SIZE;
   z->S32DimensionX = m_Dimensions[0];
   z->S32DimensionY = m_Dimensions[1];
-  if ( m_NumberOfDimensions == 3 )
-    {
+  if (m_NumberOfDimensions == 3)
+  {
     z->S32DimensionZ = m_Dimensions[2];
-    }
+  }
   z->S32DimensionChannels = m_NumberOfComponents;
   z->S32DimensionTime = 1;
   z->S32DataType = 0;
@@ -239,34 +244,35 @@ void LSMImageIO::FillZeissStruct(char *cz)
   z->S32ThumbnailY = 128;
   z->F64VoxelSizeX = m_Spacing[0];
   z->F64VoxelSizeY = m_Spacing[1];
-  if ( m_NumberOfDimensions == 3 )
-    {
+  if (m_NumberOfDimensions == 3)
+  {
     z->F64VoxelSizeZ = m_Spacing[2];
-    }
+  }
 }
 
-void LSMImageIO::Write(const void *buffer)
+void
+LSMImageIO::Write(const void * buffer)
 {
   const auto * outPtr = (const unsigned char *)buffer;
 
   unsigned int width, height, page, pages = 1;
-  if ( this->GetNumberOfDimensions() < 2 )
-    {
+  if (this->GetNumberOfDimensions() < 2)
+  {
     itkExceptionMacro("TIFF requires images to have at least 2 dimensions");
-    }
-  width =  m_Dimensions[0];
+  }
+  width = m_Dimensions[0];
   height = m_Dimensions[1];
-  if ( m_NumberOfDimensions == 3 )
-    {
+  if (m_NumberOfDimensions == 3)
+  {
     pages = m_Dimensions[2];
-    }
+  }
 
-  uint16_t    scomponents = this->GetNumberOfComponents();
-  float resolution = -1;
-  uint16_t    bps;
+  uint16_t scomponents = this->GetNumberOfComponents();
+  float    resolution = -1;
+  uint16_t bps;
 
-  switch ( this->GetComponentType() )
-    {
+  switch (this->GetComponentType())
+  {
     case UCHAR:
       bps = 8;
       break;
@@ -277,27 +283,27 @@ void LSMImageIO::Write(const void *buffer)
 
     default:
       itkExceptionMacro(<< "TIFF supports unsigned char and unsigned short");
-    }
+  }
 
   uint16_t predictor;
 
-  TIFF *tif = TIFFOpen(m_FileName.c_str(), "w");
-  if ( !tif )
-    {
+  TIFF * tif = TIFFOpen(m_FileName.c_str(), "w");
+  if (!tif)
+  {
     itkDebugMacro(<< "Returning");
     return;
-    }
+  }
 
   uint32 w = width;
   uint32 h = height;
 
   TIFFSetTagExtender(TagExtender);
-  if ( m_NumberOfDimensions == 3 )
-    {
+  if (m_NumberOfDimensions == 3)
+  {
     TIFFCreateDirectory(tif);
-    }
-  for ( page = 0; page < pages; page++ )
-    {
+  }
+  for (page = 0; page < pages; page++)
+  {
     TIFFSetDirectory(tif, page);
     TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, w);
     TIFFSetField(tif, TIFFTAG_IMAGELENGTH, h);
@@ -306,126 +312,130 @@ void LSMImageIO::Write(const void *buffer)
     TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
     char zeiss[TIF_CZ_LSMINFO_SIZE];
     FillZeissStruct(zeiss);
-    unsigned int iCount = sizeof( zeiss ) / sizeof( zeiss[0] );
+    unsigned int iCount = sizeof(zeiss) / sizeof(zeiss[0]);
     // Zeiss field is only on the first TIFF image
-    if ( page == 0 )
-      {
+    if (page == 0)
+    {
       TIFFSetField(tif, TIF_CZ_LSMINFO, iCount, zeiss);
-      }
+    }
 
-    if ( scomponents > 3 )
-      {
+    if (scomponents > 3)
+    {
       // if number of scalar components is greater than 3, that means we assume
       // there is alpha.
-      uint16  extra_samples = scomponents - 3;
+      uint16 extra_samples = scomponents - 3;
       auto * sample_info = new uint16[scomponents - 3];
       sample_info[0] = EXTRASAMPLE_ASSOCALPHA;
       int cc;
-      for ( cc = 1; cc < scomponents - 3; cc++ )
-        {
+      for (cc = 1; cc < scomponents - 3; cc++)
+      {
         sample_info[cc] = EXTRASAMPLE_UNSPECIFIED;
-        }
-      TIFFSetField(tif, TIFFTAG_EXTRASAMPLES, extra_samples,
-                   sample_info);
-      delete[] sample_info;
       }
+      TIFFSetField(tif, TIFFTAG_EXTRASAMPLES, extra_samples, sample_info);
+      delete[] sample_info;
+    }
 
     uint16_t compression;
 
-    if ( m_UseCompression )
+    if (m_UseCompression)
+    {
+      switch (m_Compression)
       {
-      switch ( m_Compression )
-        {
         case TIFFImageIO::PackBits:
-          compression = COMPRESSION_PACKBITS; break;
+          compression = COMPRESSION_PACKBITS;
+          break;
         case TIFFImageIO::JPEG:
-          compression = COMPRESSION_JPEG; break;
+          compression = COMPRESSION_JPEG;
+          break;
         case TIFFImageIO::Deflate:
-          compression = COMPRESSION_DEFLATE; break;
+          compression = COMPRESSION_DEFLATE;
+          break;
         case TIFFImageIO::LZW:
-          compression = COMPRESSION_LZW; break;
+          compression = COMPRESSION_LZW;
+          break;
         default:
           compression = COMPRESSION_NONE;
-        }
       }
+    }
     else
-      {
+    {
       compression = COMPRESSION_NONE;
-      }
+    }
 
     TIFFSetField(tif, TIFFTAG_COMPRESSION, compression); // Fix for compression
 
-    uint16 photometric = ( scomponents == 1 ) ? PHOTOMETRIC_MINISBLACK : PHOTOMETRIC_RGB;
+    uint16 photometric = (scomponents == 1) ? PHOTOMETRIC_MINISBLACK : PHOTOMETRIC_RGB;
 
-    if ( compression == COMPRESSION_JPEG )
-      {
+    if (compression == COMPRESSION_JPEG)
+    {
       TIFFSetField(tif, TIFFTAG_JPEGQUALITY, this->GetCompressionLevel()); // Parameter
       TIFFSetField(tif, TIFFTAG_JPEGCOLORMODE, JPEGCOLORMODE_RGB);
       photometric = PHOTOMETRIC_YCBCR;
-      }
-    else if ( compression == COMPRESSION_LZW )
-      {
+    }
+    else if (compression == COMPRESSION_LZW)
+    {
       predictor = 2;
       TIFFSetField(tif, TIFFTAG_PREDICTOR, predictor);
       itkDebugMacro(<< "LZW compression is patented outside US so it is disabled");
-      }
-    else if ( compression == COMPRESSION_DEFLATE )
-      {
+    }
+    else if (compression == COMPRESSION_DEFLATE)
+    {
       predictor = 2;
       TIFFSetField(tif, TIFFTAG_PREDICTOR, predictor);
-      }
+    }
 
     TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, photometric); // Fix for scomponents
 
-    if ( resolution > 0 )
-      {
+    if (resolution > 0)
+    {
       TIFFSetField(tif, TIFFTAG_XRESOLUTION, resolution);
       TIFFSetField(tif, TIFFTAG_YRESOLUTION, resolution);
       TIFFSetField(tif, TIFFTAG_RESOLUTIONUNIT, RESUNIT_INCH);
-      }
+    }
 
-    if ( m_NumberOfDimensions == 3 )
-      {
+    if (m_NumberOfDimensions == 3)
+    {
       // We are writing single page of the multipage file
       TIFFSetField(tif, TIFFTAG_SUBFILETYPE, FILETYPE_PAGE);
-      }
+    }
     int rowLength; // in bytes
 
-    switch ( this->GetComponentType() )
-      {
+    switch (this->GetComponentType())
+    {
       case UCHAR:
-        rowLength = sizeof( unsigned char );
+        rowLength = sizeof(unsigned char);
         break;
       case USHORT:
-        rowLength = sizeof( unsigned short );
+        rowLength = sizeof(unsigned short);
         break;
       default:
         itkExceptionMacro(<< "TIFF supports unsigned char and unsigned short");
-      }
+    }
 
     rowLength *= this->GetNumberOfComponents();
     rowLength *= width;
 
     int row = 0;
-    for ( unsigned int idx2 = 0; idx2 < height; idx2++ )
+    for (unsigned int idx2 = 0; idx2 < height; idx2++)
+    {
+      if (TIFFWriteScanline(tif, const_cast<unsigned char *>(outPtr), row, 0) < 0)
       {
-      if ( TIFFWriteScanline(tif, const_cast< unsigned char * >( outPtr ), row, 0) < 0 )
-        {
         itkExceptionMacro(<< "TIFFImageIO: error out of disk space");
-        }
+      }
       outPtr += rowLength;
       row++;
-      }
-
-    if ( m_NumberOfDimensions == 3 )
-      {
-      TIFFWriteDirectory(tif);
-      }
     }
+
+    if (m_NumberOfDimensions == 3)
+    {
+      TIFFWriteDirectory(tif);
+    }
+  }
   TIFFClose(tif);
 }
 
-void LSMImageIO::PrintSelf(std::ostream & os, Indent indent) const
+void
+LSMImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

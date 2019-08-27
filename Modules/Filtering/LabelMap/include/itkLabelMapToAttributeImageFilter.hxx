@@ -23,85 +23,84 @@
 #include "itkProgressReporter.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 
-namespace itk {
+namespace itk
+{
 
 template <typename TInputImage, typename TOutputImage, typename TAttributeAccessor>
-LabelMapToAttributeImageFilter<TInputImage, TOutputImage, TAttributeAccessor>
-::LabelMapToAttributeImageFilter()
+LabelMapToAttributeImageFilter<TInputImage, TOutputImage, TAttributeAccessor>::LabelMapToAttributeImageFilter()
 {
   m_BackgroundValue = NumericTraits<OutputImagePixelType>::NonpositiveMin();
 }
 
 template <typename TInputImage, typename TOutputImage, typename TAttributeAccessor>
 void
-LabelMapToAttributeImageFilter<TInputImage, TOutputImage, TAttributeAccessor>
-::GenerateInputRequestedRegion()
+LabelMapToAttributeImageFilter<TInputImage, TOutputImage, TAttributeAccessor>::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the input.
   InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
-  if ( !input )
-    { return; }
-  input->SetRequestedRegion( input->GetLargestPossibleRegion() );
+  if (!input)
+  {
+    return;
+  }
+  input->SetRequestedRegion(input->GetLargestPossibleRegion());
 }
 
 
 template <typename TInputImage, typename TOutputImage, typename TAttributeAccessor>
 void
-LabelMapToAttributeImageFilter<TInputImage, TOutputImage, TAttributeAccessor>
-::EnlargeOutputRequestedRegion(DataObject *)
+LabelMapToAttributeImageFilter<TInputImage, TOutputImage, TAttributeAccessor>::EnlargeOutputRequestedRegion(
+  DataObject *)
 {
-  this->GetOutput()
-    ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
+  this->GetOutput()->SetRequestedRegion(this->GetOutput()->GetLargestPossibleRegion());
 }
 
 
-template<typename TInputImage, typename TOutputImage, typename TAttributeAccessor>
+template <typename TInputImage, typename TOutputImage, typename TAttributeAccessor>
 void
-LabelMapToAttributeImageFilter<TInputImage, TOutputImage, TAttributeAccessor>
-::GenerateData()
+LabelMapToAttributeImageFilter<TInputImage, TOutputImage, TAttributeAccessor>::GenerateData()
 {
   // Allocate the output
   this->AllocateOutputs();
-  OutputImageType * output = this->GetOutput();
+  OutputImageType *      output = this->GetOutput();
   const InputImageType * input = this->GetInput();
-  ProgressReporter progress( this, 0, output->GetRequestedRegion().GetNumberOfPixels() );
+  ProgressReporter       progress(this, 0, output->GetRequestedRegion().GetNumberOfPixels());
 
   AttributeAccessorType accessor;
 
-  output->FillBuffer( m_BackgroundValue );
+  output->FillBuffer(m_BackgroundValue);
 
-  for( typename InputImageType::ConstIterator loit( input );
-       ! loit.IsAtEnd();
-       ++loit )
-    {
+  for (typename InputImageType::ConstIterator loit(input); !loit.IsAtEnd(); ++loit)
+  {
     using LabelObjectType = typename InputImageType::LabelObjectType;
-    const LabelObjectType * labelObject = loit.GetLabelObject();
-    const AttributeValueType & attribute = accessor( labelObject );
+    const LabelObjectType *    labelObject = loit.GetLabelObject();
+    const AttributeValueType & attribute = accessor(labelObject);
 
-    typename LabelObjectType::ConstIndexIterator it( labelObject );
-    while( ! it.IsAtEnd() )
-      {
+    typename LabelObjectType::ConstIndexIterator it(labelObject);
+    while (!it.IsAtEnd())
+    {
       const IndexType idx = it.GetIndex();
-      output->SetPixel( idx, static_cast<OutputImagePixelType>( attribute ) );
+      output->SetPixel(idx, static_cast<OutputImagePixelType>(attribute));
       ++it;
       progress.CompletedPixel();
-      }
     }
+  }
 }
 
 
-template<typename TInputImage, typename TOutputImage, typename TAttributeAccessor>
+template <typename TInputImage, typename TOutputImage, typename TAttributeAccessor>
 void
-LabelMapToAttributeImageFilter<TInputImage, TOutputImage, TAttributeAccessor>
-::PrintSelf(std::ostream &os, Indent indent) const
+LabelMapToAttributeImageFilter<TInputImage, TOutputImage, TAttributeAccessor>::PrintSelf(std::ostream & os,
+                                                                                         Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "BackgroundValue: "  << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue) << std::endl;
+  os << indent
+     << "BackgroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
+     << std::endl;
 }
 
-}// end namespace itk
+} // end namespace itk
 #endif

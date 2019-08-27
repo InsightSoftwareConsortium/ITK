@@ -41,17 +41,17 @@ namespace itk
  *
  * \sa MeshFileReader
  */
-template< typename TOutputMesh >
-class ITK_TEMPLATE_EXPORT VTKPolyDataReader:public MeshSource< TOutputMesh >
+template <typename TOutputMesh>
+class ITK_TEMPLATE_EXPORT VTKPolyDataReader : public MeshSource<TOutputMesh>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VTKPolyDataReader);
 
   /** Standard "Self" type alias. */
   using Self = VTKPolyDataReader;
-  using Superclass = MeshSource< TOutputMesh >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = MeshSource<TOutputMesh>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -78,12 +78,12 @@ public:
   using PointsContainer = typename OutputMeshType::PointsContainer;
 
   /** Define the triangular cell types which form the surface  */
-  using TriangleCellType = TriangleCell< CellType >;
+  using TriangleCellType = TriangleCell<CellType>;
 
   using TriangleCellAutoPointer = typename TriangleCellType::SelfAutoPointer;
 
-  using IndexPairType = std::pair< IdentifierType, IdentifierType >;
-  using PointMapType = MapContainer< IndexPairType, IdentifierType >;
+  using IndexPairType = std::pair<IdentifierType, IdentifierType>;
+  using PointMapType = MapContainer<IndexPairType, IdentifierType>;
   using VectorType = typename PointType::VectorType;
 
   /** Set the resolution level to be used for generating cells in the
@@ -102,10 +102,12 @@ public:
 protected:
   VTKPolyDataReader();
   ~VTKPolyDataReader() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Reads the file */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /** Filename to read */
 
@@ -117,7 +119,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVTKPolyDataReader.hxx"
+#  include "itkVTKPolyDataReader.hxx"
 #endif
 
 #endif //_itkVTKPolyDataReader_h

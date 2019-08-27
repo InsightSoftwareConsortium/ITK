@@ -55,25 +55,24 @@ namespace itk
 /** Create a helper GPU Kernel class for GPUGradientNDAnisotropicDiffusionFunction */
 itkGPUKernelClassMacro(GPUGradientNDAnisotropicDiffusionFunctionKernel);
 
-template< typename TImage >
-class ITK_TEMPLATE_EXPORT GPUGradientNDAnisotropicDiffusionFunction :
-  public GPUScalarAnisotropicDiffusionFunction< TImage >
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT GPUGradientNDAnisotropicDiffusionFunction
+  : public GPUScalarAnisotropicDiffusionFunction<TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GPUGradientNDAnisotropicDiffusionFunction);
 
   /** Standard class type aliases. */
   using Self = GPUGradientNDAnisotropicDiffusionFunction;
-  using Superclass = GPUScalarAnisotropicDiffusionFunction< TImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = GPUScalarAnisotropicDiffusionFunction<TImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(GPUGradientNDAnisotropicDiffusionFunction,
-               GPUScalarAnisotropicDiffusionFunction);
+  itkTypeMacro(GPUGradientNDAnisotropicDiffusionFunction, GPUScalarAnisotropicDiffusionFunction);
 
   /** Inherit some parameters from the superclass type. */
   using ImageType = typename Superclass::ImageType;
@@ -93,14 +92,15 @@ public:
   itkGetOpenCLSourceFromKernelMacro(GPUGradientNDAnisotropicDiffusionFunctionKernel);
 
   /** Compute the equation value. */
-  virtual void GPUComputeUpdate( const typename TImage::Pointer output, typename TImage::Pointer buffer,
-                                 void *globalData ) override;
+  virtual void
+  GPUComputeUpdate(const typename TImage::Pointer output, typename TImage::Pointer buffer, void * globalData) override;
 
   /** This method is called prior to each iteration of the solver. */
-  void InitializeIteration() override
+  void
+  InitializeIteration() override
   {
-    m_K = static_cast< PixelType >( this->GetAverageGradientMagnitudeSquared()
-                                    * this->GetConductanceParameter() * this->GetConductanceParameter() * -2.0f );
+    m_K = static_cast<PixelType>(this->GetAverageGradientMagnitudeSquared() * this->GetConductanceParameter() *
+                                 this->GetConductanceParameter() * -2.0f);
   }
 
 protected:
@@ -108,7 +108,7 @@ protected:
   ~GPUGradientNDAnisotropicDiffusionFunction() override {}
 
   /** Inner product function. */
-  NeighborhoodInnerProduct< ImageType > m_InnerProduct;
+  NeighborhoodInnerProduct<ImageType> m_InnerProduct;
 
   /** Slices for the ND neighborhood. */
   std::slice x_slice[ImageDimension];
@@ -116,7 +116,7 @@ protected:
   std::slice xd_slice[ImageDimension][ImageDimension];
 
   /** Derivative operator. */
-  DerivativeOperator< PixelType, Self::ImageDimension > m_DerivativeOperator;
+  DerivativeOperator<PixelType, Self::ImageDimension> m_DerivativeOperator;
 
   /** Modified global average gradient magnitude term. */
   PixelType m_K;
@@ -129,7 +129,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGPUGradientNDAnisotropicDiffusionFunction.hxx"
+#  include "itkGPUGradientNDAnisotropicDiffusionFunction.hxx"
 #endif
 
 #endif

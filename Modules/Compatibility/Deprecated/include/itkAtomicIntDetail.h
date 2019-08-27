@@ -44,9 +44,11 @@ namespace itk
 namespace Detail
 {
 
-template <size_t VSize> struct BaseType;
+template <size_t VSize>
+struct BaseType;
 
-template <size_t VSize> class AtomicOps
+template <size_t VSize>
+class AtomicOps
 {
 public:
   using AtomicType = typename BaseType<VSize>::Type;
@@ -54,26 +56,30 @@ public:
 };
 
 
-template<> struct BaseType<8>
+template <>
+struct BaseType<8>
 {
-  itkAlignedTypedef( 8, int64_t, Type );
+  itkAlignedTypedef(8, int64_t, Type);
 };
 
-template<> struct BaseType<4>
+template <>
+struct BaseType<4>
 {
-  itkAlignedTypedef( 4, int32_t, Type );
+  itkAlignedTypedef(4, int32_t, Type);
 };
 
 template <typename T>
 struct IsAtomicSupportedIntegralType
 {
   using Self = IsAtomicSupportedIntegralType;
-  struct Constraints {
-    using TrueT = Concept::Detail::UniqueType_bool< true >;
-    using SpecializedT = Concept::Detail::UniqueType_bool< NumericTraits<T>::is_specialized >;
-    using IntegralT = Concept::Detail::UniqueType_bool< NumericTraits<T>::is_integer >;
-    using SizeT = Concept::Detail::UniqueType_bool <sizeof(T) == 4 || sizeof(T) == 8 >;
-    void constraints()
+  struct Constraints
+  {
+    using TrueT = Concept::Detail::UniqueType_bool<true>;
+    using SpecializedT = Concept::Detail::UniqueType_bool<NumericTraits<T>::is_specialized>;
+    using IntegralT = Concept::Detail::UniqueType_bool<NumericTraits<T>::is_integer>;
+    using SizeT = Concept::Detail::UniqueType_bool<sizeof(T) == 4 || sizeof(T) == 8>;
+    void
+    constraints()
     {
       IntegralT a = TrueT();
       IntegralT b = TrueT();

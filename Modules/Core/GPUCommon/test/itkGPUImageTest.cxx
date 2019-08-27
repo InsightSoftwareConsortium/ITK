@@ -1,20 +1,20 @@
 /*=========================================================================
-*
-*  Copyright Insight Software Consortium
-*
-*  Licensed under the Apache License, Version 2.0 (the "License");
-*  you may not use this file except in compliance with the License.
-*  You may obtain a copy of the License at
-*
-*         http://www.apache.org/licenses/LICENSE-2.0.txt
-*
-*  Unless required by applicable law or agreed to in writing, software
-*  distributed under the License is distributed on an "AS IS" BASIS,
-*  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-*  See the License for the specific language governing permissions and
-*  limitations under the License.
-*
-*=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 
 /**
  * Test program for itkGPUImage class.
@@ -29,7 +29,8 @@
 using ItkImage1f = itk::GPUImage<float, 2>;
 
 
-int itkGPUImageTest(int argc, char *argv[])
+int
+itkGPUImageTest(int argc, char * argv[])
 {
   if (argc > 1)
   {
@@ -38,7 +39,7 @@ int itkGPUImageTest(int argc, char *argv[])
   }
   unsigned int width, height;
 
-  width  = 256;
+  width = 256;
   height = 256;
 
   //
@@ -55,22 +56,22 @@ int itkGPUImageTest(int argc, char *argv[])
   size[0] = width;
   size[1] = height;
   ItkImage1f::RegionType region;
-  region.SetSize( size );
-  region.SetIndex( start );
+  region.SetSize(size);
+  region.SetIndex(start);
 
   // create
   srcA = ItkImage1f::New();
-  srcA->SetRegions( region );
+  srcA->SetRegions(region);
   srcA->Allocate();
-  srcA->FillBuffer( 1.0f );
+  srcA->FillBuffer(1.0f);
 
   srcB = ItkImage1f::New();
-  srcB->SetRegions( region );
+  srcB->SetRegions(region);
   srcB->Allocate();
-  srcB->FillBuffer( 3.0f );
+  srcB->FillBuffer(3.0f);
 
   dest = ItkImage1f::New();
-  dest->SetRegions( region );
+  dest->SetRegions(region);
   dest->Allocate(true); // initialize buffer to zero
 
   // check pixel value
@@ -79,7 +80,7 @@ int itkGPUImageTest(int argc, char *argv[])
   idx[1] = 0;
 
 
-  unsigned int nElem = width*height;
+  unsigned int nElem = width * height;
 
   //
   // create GPU program object
@@ -88,7 +89,7 @@ int itkGPUImageTest(int argc, char *argv[])
 
   // load program and compile
 
-  const char* GPUSource = itk::GPUImageOps::GetOpenCLSource();
+  const char * GPUSource = itk::GPUImageOps::GetOpenCLSource();
   kernelManager->LoadProgramFromString(GPUSource, "#define PIXELTYPE float\n");
 
   //
@@ -96,10 +97,10 @@ int itkGPUImageTest(int argc, char *argv[])
   //
   int kernel_add = kernelManager->CreateKernel("ImageAdd");
 
-  srcA->SetCurrentCommandQueue( 0 );
-  srcB->SetCurrentCommandQueue( 0 );
-  dest->SetCurrentCommandQueue( 0 );
-  kernelManager->SetCurrentCommandQueue( 0 );
+  srcA->SetCurrentCommandQueue(0);
+  srcB->SetCurrentCommandQueue(0);
+  dest->SetCurrentCommandQueue(0);
+  kernelManager->SetCurrentCommandQueue(0);
 
   std::cout << "Current Command Queue ID : 0 " << std::endl;
 
@@ -107,9 +108,9 @@ int itkGPUImageTest(int argc, char *argv[])
   std::cout << "Kernel : Addition" << std::endl;
   std::cout << "------------------" << std::endl;
   std::cout << "Before GPU kernel execution" << std::endl;
-  std::cout << "SrcA : " << srcA->GetPixel( idx ) << std::endl;
-  std::cout << "SrcB : " << srcB->GetPixel( idx ) << std::endl;
-  std::cout << "Dest : " << dest->GetPixel( idx ) << std::endl;
+  std::cout << "SrcA : " << srcA->GetPixel(idx) << std::endl;
+  std::cout << "SrcB : " << srcB->GetPixel(idx) << std::endl;
+  std::cout << "Dest : " << dest->GetPixel(idx) << std::endl;
 
   kernelManager->SetKernelArgWithImage(kernel_add, 0, srcA->GetGPUDataManager());
   kernelManager->SetKernelArgWithImage(kernel_add, 1, srcB->GetGPUDataManager());
@@ -119,9 +120,9 @@ int itkGPUImageTest(int argc, char *argv[])
 
   std::cout << "------------------" << std::endl;
   std::cout << "After GPU kernel execution" << std::endl;
-  std::cout << "SrcA : " << srcA->GetPixel( idx ) << std::endl;
-  std::cout << "SrcB : " << srcB->GetPixel( idx ) << std::endl;
-  std::cout << "Des  : " << dest->GetPixel( idx ) << std::endl;
+  std::cout << "SrcA : " << srcA->GetPixel(idx) << std::endl;
+  std::cout << "SrcB : " << srcB->GetPixel(idx) << std::endl;
+  std::cout << "Des  : " << dest->GetPixel(idx) << std::endl;
   std::cout << "======================" << std::endl;
 
   //
@@ -133,9 +134,9 @@ int itkGPUImageTest(int argc, char *argv[])
   std::cout << "Kernel : Multiplication" << std::endl;
   std::cout << "------------------" << std::endl;
   std::cout << "Before GPU kernel execution" << std::endl;
-  std::cout << "SrcA : " << srcA->GetPixel( idx ) << std::endl;
-  std::cout << "SrcB : " << srcB->GetPixel( idx ) << std::endl;
-  std::cout << "Dest : " << dest->GetPixel( idx ) << std::endl;
+  std::cout << "SrcA : " << srcA->GetPixel(idx) << std::endl;
+  std::cout << "SrcB : " << srcB->GetPixel(idx) << std::endl;
+  std::cout << "Dest : " << dest->GetPixel(idx) << std::endl;
 
   kernelManager->SetKernelArgWithImage(kernel_mult, 0, srcA->GetGPUDataManager());
   kernelManager->SetKernelArgWithImage(kernel_mult, 1, srcB->GetGPUDataManager());
@@ -145,27 +146,25 @@ int itkGPUImageTest(int argc, char *argv[])
 
   std::cout << "------------------" << std::endl;
   std::cout << "After GPU kernel execution" << std::endl;
-  std::cout << "SrcA : " << srcA->GetPixel( idx ) << std::endl;
-  std::cout << "SrcB : " << srcB->GetPixel( idx ) << std::endl;
-  std::cout << "Des  : " << dest->GetPixel( idx ) << std::endl;
+  std::cout << "SrcA : " << srcA->GetPixel(idx) << std::endl;
+  std::cout << "SrcB : " << srcB->GetPixel(idx) << std::endl;
+  std::cout << "Des  : " << dest->GetPixel(idx) << std::endl;
   std::cout << "======================" << std::endl;
 
   //
   // Change Command Queue if more than one GPU device exists
   // otherwise, use same command queue
   //
-  unsigned int queueID = 0;
-  itk::GPUContextManager *contextManager = itk::GPUContextManager::GetInstance();
-  if(contextManager->GetNumberOfCommandQueues() >= 2)
+  unsigned int             queueID = 0;
+  itk::GPUContextManager * contextManager = itk::GPUContextManager::GetInstance();
+  if (contextManager->GetNumberOfCommandQueues() >= 2)
   {
     queueID = 1;
-    std::cout << "More than one GPU device available, switching command queues."
-              << std::endl;
+    std::cout << "More than one GPU device available, switching command queues." << std::endl;
   }
   else
   {
-    std::cout << "Only one GPU device available, using same command queue."
-              << std::endl;
+    std::cout << "Only one GPU device available, using same command queue." << std::endl;
   }
 
   std::cout << "Current Command Queue ID : " << queueID << std::endl;
@@ -175,23 +174,23 @@ int itkGPUImageTest(int argc, char *argv[])
   //
   int kernel_sub = kernelManager->CreateKernel("ImageSub");
 
-  srcA->FillBuffer( 2.0f );
-  srcB->FillBuffer( 4.0f );
-  dest->FillBuffer( 1.0f );
+  srcA->FillBuffer(2.0f);
+  srcB->FillBuffer(4.0f);
+  dest->FillBuffer(1.0f);
 
   // default queue id was 0
-  srcA->SetCurrentCommandQueue( queueID );
-  srcB->SetCurrentCommandQueue( queueID );
-  dest->SetCurrentCommandQueue( queueID );
-  kernelManager->SetCurrentCommandQueue( queueID );
+  srcA->SetCurrentCommandQueue(queueID);
+  srcB->SetCurrentCommandQueue(queueID);
+  dest->SetCurrentCommandQueue(queueID);
+  kernelManager->SetCurrentCommandQueue(queueID);
 
   std::cout << "======================" << std::endl;
   std::cout << "Kernel : Subtraction" << std::endl;
   std::cout << "------------------" << std::endl;
   std::cout << "Before GPU kernel execution" << std::endl;
-  std::cout << "SrcA : " << srcA->GetPixel( idx ) << std::endl;
-  std::cout << "SrcB : " << srcB->GetPixel( idx ) << std::endl;
-  std::cout << "Dest : " << dest->GetPixel( idx ) << std::endl;
+  std::cout << "SrcA : " << srcA->GetPixel(idx) << std::endl;
+  std::cout << "SrcB : " << srcB->GetPixel(idx) << std::endl;
+  std::cout << "Dest : " << dest->GetPixel(idx) << std::endl;
 
   kernelManager->SetKernelArgWithImage(kernel_sub, 0, srcA->GetGPUDataManager());
   kernelManager->SetKernelArgWithImage(kernel_sub, 1, srcB->GetGPUDataManager());
@@ -201,9 +200,9 @@ int itkGPUImageTest(int argc, char *argv[])
 
   std::cout << "------------------" << std::endl;
   std::cout << "After GPU kernel execution" << std::endl;
-  std::cout << "SrcA : " << srcA->GetPixel( idx ) << std::endl;
-  std::cout << "SrcB : " << srcB->GetPixel( idx ) << std::endl;
-  std::cout << "Des  : " << dest->GetPixel( idx ) << std::endl;
+  std::cout << "SrcA : " << srcA->GetPixel(idx) << std::endl;
+  std::cout << "SrcB : " << srcB->GetPixel(idx) << std::endl;
+  std::cout << "Des  : " << dest->GetPixel(idx) << std::endl;
   std::cout << "======================" << std::endl;
 
   return EXIT_SUCCESS;

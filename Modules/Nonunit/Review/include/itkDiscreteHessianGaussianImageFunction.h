@@ -42,25 +42,21 @@ namespace itk
  * \sa ImageFunction
  * \ingroup ITKReview
  */
-template< typename TInputImage, typename TOutput = double >
-class ITK_TEMPLATE_EXPORT DiscreteHessianGaussianImageFunction:
-  public ImageFunction< TInputImage,
-                        SymmetricSecondRankTensor< TOutput, TInputImage::ImageDimension >,
-                        TOutput >
+template <typename TInputImage, typename TOutput = double>
+class ITK_TEMPLATE_EXPORT DiscreteHessianGaussianImageFunction
+  : public ImageFunction<TInputImage, SymmetricSecondRankTensor<TOutput, TInputImage::ImageDimension>, TOutput>
 {
 public:
-
   /**Standard "Self" type alias */
   using Self = DiscreteHessianGaussianImageFunction;
 
   /** Standard "Superclass" type alias */
-  using Superclass = ImageFunction< TInputImage,
-                         SymmetricSecondRankTensor< TOutput, TInputImage::ImageDimension >,
-                         TOutput >;
+  using Superclass =
+    ImageFunction<TInputImage, SymmetricSecondRankTensor<TOutput, TInputImage::ImageDimension>, TOutput>;
 
   /** Smart pointer type alias support */
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
@@ -80,47 +76,47 @@ public:
   static constexpr unsigned int ImageDimension2 = InputImageType::ImageDimension;
 
   /** Output type */
-  using TensorType = SymmetricSecondRankTensor< TOutput,
-                                     TInputImage::ImageDimension >;
+  using TensorType = SymmetricSecondRankTensor<TOutput, TInputImage::ImageDimension>;
   using OutputType = typename Superclass::OutputType;
 
-  using VarianceArrayType = FixedArray< double, Self::ImageDimension2 >;
+  using VarianceArrayType = FixedArray<double, Self::ImageDimension2>;
 
-  using GaussianDerivativeOperatorType = itk::GaussianDerivativeOperator< TOutput,
-                                           Self::ImageDimension2 >;
+  using GaussianDerivativeOperatorType = itk::GaussianDerivativeOperator<TOutput, Self::ImageDimension2>;
 
   /** Array to store gaussian derivative operators from zero to second order
-    * (3*ImageDimension operators) */
-  using GaussianDerivativeOperatorArrayType = FixedArray< GaussianDerivativeOperatorType,
-                      3 *Self::ImageDimension2 >;
+   * (3*ImageDimension operators) */
+  using GaussianDerivativeOperatorArrayType = FixedArray<GaussianDerivativeOperatorType, 3 * Self::ImageDimension2>;
 
-  using KernelType = Neighborhood< TOutput, Self::ImageDimension2 >;
+  using KernelType = Neighborhood<TOutput, Self::ImageDimension2>;
 
   /** Array to store precomputed N-dimensional kernels for the hessian
    * components  */
-  using KernelArrayType = FixedArray< KernelType, Self::ImageDimension2
-                      * ( Self::ImageDimension2 + 1 ) / 2 >;
+  using KernelArrayType = FixedArray<KernelType, Self::ImageDimension2 *(Self::ImageDimension2 + 1) / 2>;
 
   /** Image function that performs convolution with the neighborhood
    * operator  */
-  using OperatorImageFunctionType = NeighborhoodOperatorImageFunction
-  < InputImageType, TOutput >;
+  using OperatorImageFunctionType = NeighborhoodOperatorImageFunction<InputImageType, TOutput>;
   using OperatorImageFunctionPointer = typename OperatorImageFunctionType::Pointer;
 
   /** Interpolation modes */
-  enum InterpolationModeType { NearestNeighbourInterpolation, LinearInterpolation };
+  enum InterpolationModeType
+  {
+    NearestNeighbourInterpolation,
+    LinearInterpolation
+  };
 
 public:
-
   /** Evalutate the  in the given dimension at specified point */
-  OutputType Evaluate(const PointType & point) const override;
+  OutputType
+  Evaluate(const PointType & point) const override;
 
   /** Evaluate the function at specified Index position */
-  OutputType EvaluateAtIndex(const IndexType & index) const override;
+  OutputType
+  EvaluateAtIndex(const IndexType & index) const override;
 
   /** Evaluate the function at specified ContinuousIndex position */
-  OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & index) const override;
+  OutputType
+  EvaluateAtContinuousIndex(const ContinuousIndexType & index) const override;
 
   /** Set/Get the variance for the discrete Gaussian kernel.
    * Sets the variance for individual dimensions. The default is 0.0 in each dimension.
@@ -131,15 +127,17 @@ public:
   itkSetVectorMacro(Variance, double, VarianceArrayType::Length);
 
   /** Convenience method for setting the variance for all dimensions */
-  virtual void SetVariance(double variance)
+  virtual void
+  SetVariance(double variance)
   {
     m_Variance.Fill(variance);
     this->Modified();
   }
 
   /** Convenience method for setting the variance through the standard deviation
-    */
-  void SetSigma(const double sigma)
+   */
+  void
+  SetSigma(const double sigma)
   {
     SetVariance(sigma * sigma);
   }
@@ -179,26 +177,33 @@ public:
    * \warning this method caches BufferedRegion information.
    * If the BufferedRegion has changed, user must call
    * SetInputImage again to update cached values. */
-  void SetInputImage(const InputImageType *ptr) override;
+  void
+  SetInputImage(const InputImageType * ptr) override;
 
   /** Initialize the Gaussian kernel. Call this method before evaluating the function.
    * This method MUST be called after any changes to function parameters. */
-  virtual void Initialize() { RecomputeGaussianKernel(); }
+  virtual void
+  Initialize()
+  {
+    RecomputeGaussianKernel();
+  }
 
 protected:
-
   DiscreteHessianGaussianImageFunction();
-  DiscreteHessianGaussianImageFunction(const Self &){}
+  DiscreteHessianGaussianImageFunction(const Self &) {}
 
-  ~DiscreteHessianGaussianImageFunction() override{}
+  ~DiscreteHessianGaussianImageFunction() override {}
 
-  void operator=(const Self &){}
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  operator=(const Self &)
+  {}
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void RecomputeGaussianKernel();
+  void
+  RecomputeGaussianKernel();
 
 private:
-
   /** Desired variance of the discrete Gaussian function */
   VarianceArrayType m_Variance;
 
@@ -212,9 +217,9 @@ private:
   unsigned int m_MaximumKernelWidth;
 
   /** Array of derivative operators, one for each dimension and order.
-    * First N zero-order operators are stored, then N first-order and
-    * then N second-order making 3*N operators altogether where
-    * N=ImageDimension. */
+   * First N zero-order operators are stored, then N first-order and
+   * then N second-order making 3*N operators altogether where
+   * N=ImageDimension. */
   mutable GaussianDerivativeOperatorArrayType m_OperatorArray;
 
   /** Array of N-dimensional kernels which are the result of
@@ -237,7 +242,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDiscreteHessianGaussianImageFunction.hxx"
+#  include "itkDiscreteHessianGaussianImageFunction.hxx"
 #endif
 
 #endif

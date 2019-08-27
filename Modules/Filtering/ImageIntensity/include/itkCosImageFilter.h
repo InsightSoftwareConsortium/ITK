@@ -30,28 +30,31 @@ namespace Functor
  * \brief
  * \ingroup ITKImageIntensity
  */
-template< typename TInput, typename TOutput >
+template <typename TInput, typename TOutput>
 class Cos
 {
 public:
   Cos() = default;
   ~Cos() = default;
-  bool operator!=(const Cos &) const
+  bool
+  operator!=(const Cos &) const
   {
     return false;
   }
 
-  bool operator==(const Cos & other) const
+  bool
+  operator==(const Cos & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 
-  inline TOutput operator()(const TInput & A) const
+  inline TOutput
+  operator()(const TInput & A) const
   {
-    return static_cast< TOutput >( std::cos( static_cast< double >( A ) ) );
+    return static_cast<TOutput>(std::cos(static_cast<double>(A)));
   }
 };
-}
+} // namespace Functor
 
 /** \class CosImageFilter
  * \brief Computes the cosine of each pixel.
@@ -74,45 +77,39 @@ public:
  * \ingroup MultiThreaded
  * \ingroup ITKImageIntensity
  */
-template< typename TInputImage, typename TOutputImage >
-class CosImageFilter:
-  public
-  UnaryGeneratorImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class CosImageFilter : public UnaryGeneratorImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(CosImageFilter);
 
   /** Standard class type aliases. */
   using Self = CosImageFilter;
-  using Superclass = UnaryGeneratorImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using FunctorType = Functor::Cos< typename TInputImage::PixelType,
-                                    typename TOutputImage::PixelType >;
+  using Superclass = UnaryGeneratorImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using FunctorType = Functor::Cos<typename TInputImage::PixelType, typename TOutputImage::PixelType>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(CosImageFilter,
-               UnaryGeneratorImageFilter);
+  itkTypeMacro(CosImageFilter, UnaryGeneratorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputConvertibleToDoubleCheck,
-                   ( Concept::Convertible< typename TInputImage::PixelType, double > ) );
-  itkConceptMacro( DoubleConvertibleToOutputCheck,
-                   ( Concept::Convertible< double, typename TOutputImage::PixelType > ) );
+  itkConceptMacro(InputConvertibleToDoubleCheck, (Concept::Convertible<typename TInputImage::PixelType, double>));
+  itkConceptMacro(DoubleConvertibleToOutputCheck, (Concept::Convertible<double, typename TOutputImage::PixelType>));
   // End concept checking
 #endif
 
 protected:
   CosImageFilter()
-    {
-#if !defined( ITK_WRAPPING_PARSER )
-      Superclass::SetFunctor(FunctorType());
+  {
+#if !defined(ITK_WRAPPING_PARSER)
+    Superclass::SetFunctor(FunctorType());
 #endif
-    }
+  }
   ~CosImageFilter() override = default;
 };
 } // end namespace itk

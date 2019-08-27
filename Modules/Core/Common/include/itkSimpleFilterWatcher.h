@@ -69,7 +69,7 @@ class ITKCommon_EXPORT SimpleFilterWatcher
 public:
   /** Constructor. Takes a ProcessObject to monitor and an optional
    * comment string that is prepended to each event message. */
-  SimpleFilterWatcher(itk::ProcessObject *o, const char *comment = "");
+  SimpleFilterWatcher(itk::ProcessObject * o, const char * comment = "");
 
   /** Copy constructor */
   SimpleFilterWatcher(const SimpleFilterWatcher &);
@@ -79,174 +79,230 @@ public:
   SimpleFilterWatcher();
 
   /** operator=  */
-  SimpleFilterWatcher & operator=(const SimpleFilterWatcher &);
+  SimpleFilterWatcher &
+  operator=(const SimpleFilterWatcher &);
 
   /** Destructor. */
   virtual ~SimpleFilterWatcher();
 
   /** Method to get the name of the class be monitored by this
    *  SimpleFilterWatcher */
-  const char * GetNameOfClass()
+  const char *
+  GetNameOfClass()
   {
-    return ( m_Process ? m_Process->GetNameOfClass() : "None" );
+    return (m_Process ? m_Process->GetNameOfClass() : "None");
   }
 
   /** Methods to control the verbosity of the messages. Quiet
    * reporting limits the information emitted at a ProgressEvent. */
-  void QuietOn() { m_Quiet = true; }
-  void QuietOff() { m_Quiet = false; }
+  void
+  QuietOn()
+  {
+    m_Quiet = true;
+  }
+  void
+  QuietOff()
+  {
+    m_Quiet = false;
+  }
 
   /** Methods to use to test the AbortEvent of the a filter. If
    * TestAbort is on, the filter being watched will be aborted when
    * the progress reaches 30%. */
-  void TestAbortOn() { m_TestAbort = true; }
-  void TestAbortOff() { m_TestAbort = false; }
+  void
+  TestAbortOn()
+  {
+    m_TestAbort = true;
+  }
+  void
+  TestAbortOff()
+  {
+    m_TestAbort = false;
+  }
 
   /** Methods to access member data */
   /** Get a pointer to the process object being watched. */
-  ProcessObject * GetProcess() { return m_Process.GetPointer(); }
+  ProcessObject *
+  GetProcess()
+  {
+    return m_Process.GetPointer();
+  }
 
   /** Set/Get the steps completed. */
-  void SetSteps(int val) { m_Steps = val; }
-  int GetSteps() { return m_Steps; }
+  void
+  SetSteps(int val)
+  {
+    m_Steps = val;
+  }
+  int
+  GetSteps()
+  {
+    return m_Steps;
+  }
 
   /** Set/Get the number of iterations completed. */
-  void SetIterations(int val) { m_Iterations = val; }
-  int GetIterations() { return m_Iterations; }
+  void
+  SetIterations(int val)
+  {
+    m_Iterations = val;
+  }
+  int
+  GetIterations()
+  {
+    return m_Iterations;
+  }
 
   /** Set/Get the quiet mode boolean. If true, verbose progress is
-    * reported. */
-  void SetQuiet(bool val) { m_Quiet = val; }
-  bool GetQuiet() { return m_Quiet; }
+   * reported. */
+  void
+  SetQuiet(bool val)
+  {
+    m_Quiet = val;
+  }
+  bool
+  GetQuiet()
+  {
+    return m_Quiet;
+  }
 
   /** Get the comment for the watcher. */
-  std::string GetComment() { return m_Comment; }
+  std::string
+  GetComment()
+  {
+    return m_Comment;
+  }
 
   /** Get a reference to the TimeProbe */
-  TimeProbe & GetTimeProbe() { return m_TimeProbe; }
+  TimeProbe &
+  GetTimeProbe()
+  {
+    return m_TimeProbe;
+  }
 
 protected:
-
   /** Callback method to show the ProgressEvent */
-  virtual void ShowProgress()
+  virtual void
+  ShowProgress()
   {
-    if ( m_Process )
-      {
+    if (m_Process)
+    {
       m_Steps++;
-      if ( !m_Quiet )
-        {
+      if (!m_Quiet)
+      {
         std::cout << " | " << m_Process->GetProgress() << std::flush;
-        if ( ( m_Steps % 10 ) == 0 )
-          {
-          std::cout << std::endl;
-          }
-        }
-      if ( m_TestAbort )
+        if ((m_Steps % 10) == 0)
         {
-        if ( m_Process->GetProgress() > .03 )
-          {
-          m_Process->AbortGenerateDataOn();
-          }
+          std::cout << std::endl;
         }
       }
+      if (m_TestAbort)
+      {
+        if (m_Process->GetProgress() > .03)
+        {
+          m_Process->AbortGenerateDataOn();
+        }
+      }
+    }
   }
 
   /** Create commands for different event types. */
-  void CreateCommands();
+  void
+  CreateCommands();
 
   /** Remove observers we have on the process object. */
-  void RemoveObservers();
+  void
+  RemoveObservers();
 
   /** The common code for copying this class. */
-  void DeepCopy(const SimpleFilterWatcher & watch);
+  void
+  DeepCopy(const SimpleFilterWatcher & watch);
 
   /** Callback method to show the AbortEvent */
-  virtual void ShowAbort()
+  virtual void
+  ShowAbort()
   {
     std::cout << std::endl << "-------Aborted" << std::endl << std::flush;
   }
 
   /** Callback method to show the IterationEvent */
-  virtual void ShowIteration()
+  virtual void
+  ShowIteration()
   {
     std::cout << " #" << std::flush;
     m_Iterations++;
   }
 
   /** Callback method to show the StartEvent */
-  virtual void StartFilter()
+  virtual void
+  StartFilter()
   {
     m_Steps = 0;
     m_Iterations = 0;
     m_TimeProbe.Start();
-    std::cout << "-------- Start "
-              << ( m_Process.GetPointer() ? m_Process->GetNameOfClass() : "None" )
-              << " \"" << m_Comment << "\" ";
-    if ( !m_Quiet )
+    std::cout << "-------- Start " << (m_Process.GetPointer() ? m_Process->GetNameOfClass() : "None") << " \""
+              << m_Comment << "\" ";
+    if (!m_Quiet)
+    {
+      if (m_Process)
       {
-      if ( m_Process )
-        {
         std::cout << m_Process;
-        }
-      else
-        {
-        std::cout << "Null";
-        }
       }
-    std::cout << ( m_Quiet ? "Progress Quiet " : "Progress " )
-              << std::flush;
+      else
+      {
+        std::cout << "Null";
+      }
+    }
+    std::cout << (m_Quiet ? "Progress Quiet " : "Progress ") << std::flush;
   }
 
   /** Callback method to show the EndEvent */
-  virtual void EndFilter()
+  virtual void
+  EndFilter()
   {
     m_TimeProbe.Stop();
-    std::cout << std::endl << "Filter took "
-              << m_TimeProbe.GetMean()
-              << " seconds.";
+    std::cout << std::endl << "Filter took " << m_TimeProbe.GetMean() << " seconds.";
     std::cout << std::endl
-              << "-------- End "
-              << ( m_Process.GetPointer() ? m_Process->GetNameOfClass() : "None" )
-              << " \"" << m_Comment << "\" " << std::endl;
-    if ( !m_Quiet )
+              << "-------- End " << (m_Process.GetPointer() ? m_Process->GetNameOfClass() : "None") << " \""
+              << m_Comment << "\" " << std::endl;
+    if (!m_Quiet)
+    {
+      if (m_Process)
       {
-      if ( m_Process )
-        {
         std::cout << m_Process;
-        }
+      }
       else
-        {
-        std::cout << "None";
-        }
-      std::cout << std::flush;
-      }
-    if ( m_Steps < 1 )
       {
-      itkExceptionMacro ("Filter does not have progress.");
+        std::cout << "None";
       }
+      std::cout << std::flush;
+    }
+    if (m_Steps < 1)
+    {
+      itkExceptionMacro("Filter does not have progress.");
+    }
   }
 
 private:
   TimeProbe                   m_TimeProbe;
-  int                         m_Steps{0};
-  int                         m_Iterations{0};
-  bool                        m_Quiet{false};
-  bool                        m_TestAbort{false};
+  int                         m_Steps{ 0 };
+  int                         m_Iterations{ 0 };
+  bool                        m_Quiet{ false };
+  bool                        m_TestAbort{ false };
   std::string                 m_Comment;
   itk::ProcessObject::Pointer m_Process;
 
-  using CommandType = SimpleMemberCommand< SimpleFilterWatcher >;
+  using CommandType = SimpleMemberCommand<SimpleFilterWatcher>;
   CommandType::Pointer m_StartFilterCommand;
   CommandType::Pointer m_EndFilterCommand;
   CommandType::Pointer m_ProgressFilterCommand;
   CommandType::Pointer m_IterationFilterCommand;
   CommandType::Pointer m_AbortFilterCommand;
 
-  unsigned long m_StartTag{0};
-  unsigned long m_EndTag{0};
-  unsigned long m_ProgressTag{0};
-  unsigned long m_IterationTag{0};
-  unsigned long m_AbortTag{0};
+  unsigned long m_StartTag{ 0 };
+  unsigned long m_EndTag{ 0 };
+  unsigned long m_ProgressTag{ 0 };
+  unsigned long m_IterationTag{ 0 };
+  unsigned long m_AbortTag{ 0 };
 };
 } // end namespace itk
 

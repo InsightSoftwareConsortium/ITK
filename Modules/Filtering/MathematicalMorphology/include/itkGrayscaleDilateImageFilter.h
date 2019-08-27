@@ -49,25 +49,23 @@ namespace itk
  * \endsphinx
  */
 
-template< typename TInputImage, typename TOutputImage, typename TKernel >
-class ITK_TEMPLATE_EXPORT GrayscaleDilateImageFilter:
-  public KernelImageFilter< TInputImage, TOutputImage, TKernel >
+template <typename TInputImage, typename TOutputImage, typename TKernel>
+class ITK_TEMPLATE_EXPORT GrayscaleDilateImageFilter : public KernelImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleDilateImageFilter);
 
   /** Standard class type aliases. */
   using Self = GrayscaleDilateImageFilter;
-  using Superclass = KernelImageFilter< TInputImage, TOutputImage, TKernel >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = KernelImageFilter<TInputImage, TOutputImage, TKernel>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard New method. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(GrayscaleDilateImageFilter,
-               KernelImageFilter);
+  itkTypeMacro(GrayscaleDilateImageFilter, KernelImageFilter);
 
   /** Image related type alias. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
@@ -82,59 +80,65 @@ public:
   using OffsetType = typename TInputImage::OffsetType;
   using OutputImageRegionType = typename Superclass::OutputImageRegionType;
 
-  using HistogramFilterType =
-      MovingHistogramDilateImageFilter< TInputImage, TOutputImage, TKernel >;
-  using BasicFilterType =
-      BasicDilateImageFilter< TInputImage, TOutputImage, TKernel >;
+  using HistogramFilterType = MovingHistogramDilateImageFilter<TInputImage, TOutputImage, TKernel>;
+  using BasicFilterType = BasicDilateImageFilter<TInputImage, TOutputImage, TKernel>;
 
-  using FlatKernelType = FlatStructuringElement< Self::ImageDimension >;
+  using FlatKernelType = FlatStructuringElement<Self::ImageDimension>;
 
-  using AnchorFilterType = AnchorDilateImageFilter< TInputImage, FlatKernelType >;
-  using VHGWFilterType = VanHerkGilWermanDilateImageFilter< TInputImage, FlatKernelType >;
-  using CastFilterType = CastImageFilter< TInputImage, TOutputImage >;
+  using AnchorFilterType = AnchorDilateImageFilter<TInputImage, FlatKernelType>;
+  using VHGWFilterType = VanHerkGilWermanDilateImageFilter<TInputImage, FlatKernelType>;
+  using CastFilterType = CastImageFilter<TInputImage, TOutputImage>;
 
   /** Typedef for boundary conditions. */
-  using ImageBoundaryConditionPointerType = ImageBoundaryCondition< InputImageType > *;
+  using ImageBoundaryConditionPointerType = ImageBoundaryCondition<InputImageType> *;
   using ImageBoundaryConditionConstPointerType = const ImageBoundaryCondition<InputImageType> *;
-  using DefaultBoundaryConditionType = ConstantBoundaryCondition< InputImageType >;
+  using DefaultBoundaryConditionType = ConstantBoundaryCondition<InputImageType>;
 
   /** Kernel type alias. */
   using KernelType = TKernel;
-//   using KernelSuperclass = typename KernelType::Superclass;
-//   using KernelSuperclass = Neighborhood< typename KernelType::PixelType, ImageDimension >;
+  //   using KernelSuperclass = typename KernelType::Superclass;
+  //   using KernelSuperclass = Neighborhood< typename KernelType::PixelType, ImageDimension >;
 
   /** Set kernel (structuring element). */
-  void SetKernel(const KernelType & kernel) override;
+  void
+  SetKernel(const KernelType & kernel) override;
 
   /** Set/Get the boundary value. */
-  void SetBoundary(const PixelType value);
+  void
+  SetBoundary(const PixelType value);
 
   itkGetConstMacro(Boundary, PixelType);
 
   /** Set/Get the backend filter class. */
-  void SetAlgorithm(int algo);
+  void
+  SetAlgorithm(int algo);
 
   itkGetConstMacro(Algorithm, int);
 
   /** GrayscaleDilateImageFilter need to set its internal filters as modified */
-  void Modified() const override;
+  void
+  Modified() const override;
 
   /** define values used to determine which algorithm to use */
-  enum AlgorithmType {
+  enum AlgorithmType
+  {
     BASIC = 0,
     HISTO = 1,
     ANCHOR = 2,
     VHGW = 3
-    };
+  };
 
-  void SetNumberOfWorkUnits(ThreadIdType nb) override;
+  void
+  SetNumberOfWorkUnits(ThreadIdType nb) override;
 
 protected:
   GrayscaleDilateImageFilter();
   ~GrayscaleDilateImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   PixelType m_Boundary;
@@ -157,7 +161,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGrayscaleDilateImageFilter.hxx"
+#  include "itkGrayscaleDilateImageFilter.hxx"
 #endif
 
 #endif

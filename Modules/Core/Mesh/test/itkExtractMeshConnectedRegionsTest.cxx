@@ -24,16 +24,17 @@
 /*
  * Test the mesh connectivity class.
  */
-int itkExtractMeshConnectedRegionsTest(int, char* [])
+int
+itkExtractMeshConnectedRegionsTest(int, char *[])
 {
 
   /**
    * Some type alias to make things easier.
    */
 
-  using MeshType = itk::Mesh< int >;
-  using ConnectFilterType = itk::ConnectedRegionsMeshFilter<MeshType,MeshType>;
-  using PointType = itk::Point<float,3>;
+  using MeshType = itk::Mesh<int>;
+  using ConnectFilterType = itk::ConnectedRegionsMeshFilter<MeshType, MeshType>;
+  using PointType = itk::Point<float, 3>;
 
   // Define a simple mesh of three connected pieces. The mesh consists
   // of several different cell types.
@@ -42,8 +43,8 @@ int itkExtractMeshConnectedRegionsTest(int, char* [])
 
   // Pass the mesh through the filter in a variety of ways.
   //
-  PointType::ValueType pInit[3] = {1,2,3};
-  PointType p = pInit;
+  PointType::ValueType       pInit[3] = { 1, 2, 3 };
+  PointType                  p = pInit;
   ConnectFilterType::Pointer connect = ConnectFilterType::New();
 
   connect->SetInput(inMesh);
@@ -75,33 +76,34 @@ int itkExtractMeshConnectedRegionsTest(int, char* [])
   connect->Update();
 
   // Create a Sphere for running the filter on real input data.
-  using SphereMeshSourceType = itk::SphereMeshSource< MeshType >;
+  using SphereMeshSourceType = itk::SphereMeshSource<MeshType>;
 
   SphereMeshSourceType::Pointer meshSource = SphereMeshSourceType::New();
 
-  PointType center; center.Fill(0);
-  PointType::ValueType scaleInit[3] = {1,1,1};
-  PointType scale = scaleInit;
+  PointType center;
+  center.Fill(0);
+  PointType::ValueType scaleInit[3] = { 1, 1, 1 };
+  PointType            scale = scaleInit;
 
   meshSource->SetCenter(center);
-  meshSource->SetResolutionX( 10 );
-  meshSource->SetResolutionY( 10 );
+  meshSource->SetResolutionX(10);
+  meshSource->SetResolutionY(10);
   meshSource->SetScale(scale);
   meshSource->Modified();
   meshSource->Update();
 
-  connect->SetInput( meshSource->GetOutput() );
+  connect->SetInput(meshSource->GetOutput());
 
   try
-    {
+  {
     connect->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception caught " << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

@@ -24,65 +24,65 @@
 
 // Specific ImageIO test
 
-int itkMetaImageIOTest(int ac, char* av[])
+int
+itkMetaImageIOTest(int ac, char * av[])
 {
-  if(ac < 3)
-    {
+  if (ac < 3)
+  {
     std::cerr << "Usage: " << av[0] << " Input Output [ShouldFail]\n";
     return EXIT_FAILURE;
-    }
+  }
 
   // ATTENTION THIS IS THE PIXEL TYPE FOR
   // THE RESULTING IMAGE
   using PixelType = unsigned short;
   using myImage = itk::Image<PixelType, 3>;
 
-  itk::ImageFileReader<myImage>::Pointer reader
-    = itk::ImageFileReader<myImage>::New();
+  itk::ImageFileReader<myImage>::Pointer reader = itk::ImageFileReader<myImage>::New();
 
   // force use of MetaIO
   using IOType = itk::MetaImageIO;
   IOType::Pointer metaIn = IOType::New();
-  metaIn->SetDoublePrecision(8);  // Set manually for coverage
+  metaIn->SetDoublePrecision(8); // Set manually for coverage
   reader->SetImageIO(metaIn);
 
   // check usability of dimension (for coverage)
   if (!metaIn->SupportsDimension(3))
-    {
+  {
     std::cerr << "Did not support dimension 3" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // test subsampling factor (change it then change it back)
   unsigned int origSubSamplingFactor = metaIn->GetSubSamplingFactor();
   unsigned int subSamplingFactor = 2;
   metaIn->SetSubSamplingFactor(subSamplingFactor);
   if (metaIn->GetSubSamplingFactor() != subSamplingFactor)
-    {
+  {
     std::cerr << "Did not set/get Sub Sampling factor correctly" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   metaIn->SetSubSamplingFactor(origSubSamplingFactor);
 
   // read the file
   reader->SetFileName(av[1]);
   try
-    {
+  {
     reader->Update();
-    }
+  }
   catch (itk::ExceptionObject & e)
-    {
+  {
     std::cerr << "exception in file reader " << std::endl;
     std::cerr << e << std::endl;
-    if(ac == 3) // should fail
-      {
+    if (ac == 3) // should fail
+    {
       return EXIT_SUCCESS;
-      }
-    return EXIT_FAILURE;
     }
+    return EXIT_FAILURE;
+  }
 
   myImage::Pointer image = reader->GetOutput();
-  image->Print(std::cout );
+  image->Print(std::cout);
 
   myImage::RegionType region = image->GetLargestPossibleRegion();
   std::cout << "region " << region;
@@ -92,8 +92,8 @@ int itkMetaImageIOTest(int ac, char* av[])
   writer = itk::ImageFileWriter<myImage>::New();
   IOType::Pointer metaOut = IOType::New();
   writer->SetImageIO(metaOut);
-  writer->SetInput( reader->GetOutput() );
-  writer->SetFileName( av[2] );
+  writer->SetInput(reader->GetOutput());
+  writer->SetFileName(av[2]);
   writer->Update();
 
   return EXIT_SUCCESS;

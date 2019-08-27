@@ -46,7 +46,7 @@ namespace itk
  * \ingroup OSSystemObjects
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT XMLFileOutputWindow:public FileOutputWindow
+class ITKCommon_EXPORT XMLFileOutputWindow : public FileOutputWindow
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(XMLFileOutputWindow);
@@ -54,8 +54,8 @@ public:
   /** Standard class type aliases. */
   using Self = XMLFileOutputWindow;
   using Superclass = FileOutputWindow;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -64,31 +64,40 @@ public:
   itkTypeMacro(XMLFileOutputWindow, FileOutputWindow);
 
   /** Send a string to the XML file. */
-  void DisplayText(const char *) override;
+  void
+  DisplayText(const char *) override;
 
   /** Send an error string to the XML file. */
-  void DisplayErrorText(const char *) override;
+  void
+  DisplayErrorText(const char *) override;
 
   /** Send a warning string to the XML file. */
-  void DisplayWarningText(const char *) override;
+  void
+  DisplayWarningText(const char *) override;
 
   /** Send a generic output string to the XML file. */
-  void DisplayGenericOutputText(const char *) override;
+  void
+  DisplayGenericOutputText(const char *) override;
 
   /** Send a debug string to the XML file. */
-  void DisplayDebugText(const char *) override;
+  void
+  DisplayDebugText(const char *) override;
 
   /**  Put the text into the log file without processing it. */
-  virtual void DisplayTag(const char *);
+  virtual void
+  DisplayTag(const char *);
 
 protected:
   XMLFileOutputWindow();
   ~XMLFileOutputWindow() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void Initialize();
+  void
+  Initialize();
 
-  virtual void DisplayXML(const char *, const char *);
+  virtual void
+  DisplayXML(const char *, const char *);
 };
 } // end namespace itk
 

@@ -18,7 +18,7 @@
 #include "itkComplexToComplexFFTImageFilter.h"
 
 #ifndef itkVnlComplexToComplexFFTImageFilter_h
-#define itkVnlComplexToComplexFFTImageFilter_h
+#  define itkVnlComplexToComplexFFTImageFilter_h
 
 namespace itk
 {
@@ -36,18 +36,17 @@ namespace itk
  * \sa VnlForwardFFTImageFilter
  * \sa VnlInverseFFTImageFilter
  */
-template< typename TImage >
-class ITK_TEMPLATE_EXPORT VnlComplexToComplexFFTImageFilter:
-  public ComplexToComplexFFTImageFilter< TImage >
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT VnlComplexToComplexFFTImageFilter : public ComplexToComplexFFTImageFilter<TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VnlComplexToComplexFFTImageFilter);
 
   /** Standard class type aliases. */
   using Self = VnlComplexToComplexFFTImageFilter;
-  using Superclass = ComplexToComplexFFTImageFilter< TImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ComplexToComplexFFTImageFilter<TImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using ImageType = TImage;
   using PixelType = typename ImageType::PixelType;
@@ -59,8 +58,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VnlComplexToComplexFFTImageFilter,
-               ComplexToComplexFFTImageFilter);
+  itkTypeMacro(VnlComplexToComplexFFTImageFilter, ComplexToComplexFFTImageFilter);
 
   static constexpr unsigned int ImageDimension = ImageType::ImageDimension;
 
@@ -68,14 +66,16 @@ protected:
   VnlComplexToComplexFFTImageFilter();
   ~VnlComplexToComplexFFTImageFilter() override = default;
 
-  void BeforeThreadedGenerateData() override;
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  BeforeThreadedGenerateData() override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 };
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVnlComplexToComplexFFTImageFilter.hxx"
-#endif
+#  ifndef ITK_MANUAL_INSTANTIATION
+#    include "itkVnlComplexToComplexFFTImageFilter.hxx"
+#  endif
 
-#endif //itkVnlComplexToComplexFFTImageFilter_h
+#endif // itkVnlComplexToComplexFFTImageFilter_h

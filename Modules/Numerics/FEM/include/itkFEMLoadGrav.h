@@ -49,11 +49,11 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(LoadGrav, LoadElement);
 
-  virtual vnl_vector<Float> GetGravitationalForceAtPoint(vnl_vector<Float> ) = 0;
+  virtual vnl_vector<Float> GetGravitationalForceAtPoint(vnl_vector<Float>) = 0;
 
 protected:
-  void PrintSelf(std::ostream& os, Indent indent) const override;
-
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 };
 
 /**
@@ -81,26 +81,32 @@ public:
 
   /** CreateAnother method will clone the existing instance of this type,
    * including its internal member variables. */
-  ::itk::LightObject::Pointer CreateAnother() const override;
+  ::itk::LightObject::Pointer
+  CreateAnother() const override;
 
-  vnl_vector<Float> GetGravitationalForceAtPoint(vnl_vector<Float> ) override;
+  vnl_vector<Float> GetGravitationalForceAtPoint(vnl_vector<Float>) override;
 
   /**
    * Set the gravity force that exists at every point
    */
-  void SetForce(const vnl_vector<itk::fem::Element::Float> force);
+  void
+  SetForce(const vnl_vector<itk::fem::Element::Float> force);
 
   /**
    * Get the gravity force that exists at every point
    */
-  vnl_vector<itk::fem::Element::Float> & GetForce();
-  const vnl_vector<itk::fem::Element::Float> & GetForce() const;
+  vnl_vector<itk::fem::Element::Float> &
+  GetForce();
+  const vnl_vector<itk::fem::Element::Float> &
+  GetForce() const;
 
   /** Apply the load to the specified element */
-  void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe) override;
+  void
+  ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe) override;
 
 protected:
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   vnl_vector<Float> m_GravityForce;
 };

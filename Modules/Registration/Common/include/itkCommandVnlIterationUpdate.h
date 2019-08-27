@@ -21,14 +21,15 @@
 #include "itkCommand.h"
 #include "itkWeakPointer.h"
 
-namespace itk {
+namespace itk
+{
 
 /**
  *  Implementation of the Command Pattern to be invoked every iteration
  * \class CommandVnlIterationUpdate
  * \ingroup ITKRegistrationCommon
  */
-template < typename TOptimizer >
+template <typename TOptimizer>
 class CommandVnlIterationUpdate : public Command
 {
 public:
@@ -57,47 +58,48 @@ public:
   /**
    * Execute method will print data at each iteration
    */
-  void Execute(itk::Object *caller, const itk::EventObject & event) override
+  void
+  Execute(itk::Object * caller, const itk::EventObject & event) override
   {
-    Execute( (const itk::Object *)caller, event);
+    Execute((const itk::Object *)caller, event);
   }
 
-  void Execute(const itk::Object * itkNotUsed(caller), const itk::EventObject & event) override
+  void
+  Execute(const itk::Object * itkNotUsed(caller), const itk::EventObject & event) override
   {
-    if( typeid( event ) == typeid( itk::StartEvent ) )
-      {
+    if (typeid(event) == typeid(itk::StartEvent))
+    {
       std::cout << std::endl << "Position              Value";
       std::cout << std::endl << std::endl;
-      }
-    else if( itk::IterationEvent().CheckEvent( &event ) )
-      {
+    }
+    else if (itk::IterationEvent().CheckEvent(&event))
+    {
       std::cout << m_Optimizer->GetCurrentIteration() << " = ";
       std::cout << m_Optimizer->GetCurrentPosition() << std::endl;
-      }
-    else if( typeid( event ) == typeid( itk::EndEvent ) )
-      {
+    }
+    else if (typeid(event) == typeid(itk::EndEvent))
+    {
       std::cout << std::endl << std::endl;
       std::cout << "After " << m_Optimizer->GetCurrentIteration();
       std::cout << "  iterations " << std::endl;
       std::cout << "Solution is    = " << m_Optimizer->GetCurrentPosition();
       std::cout << std::endl;
       std::cout << "vnl report = " << std::endl;
-      m_Optimizer->GetOptimizer()->diagnose_outcome( std::cout );
-      }
-
+      m_Optimizer->GetOptimizer()->diagnose_outcome(std::cout);
+    }
   }
 
 
   /**
    * Run-time type information (and related methods).
    */
-  itkTypeMacro( CommandVnlIterationUpdate, ::itk::Command );
+  itkTypeMacro(CommandVnlIterationUpdate, ::itk::Command);
 
 
   /**
    * Method for creation through the object factory.
    */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
 
   /**
@@ -109,25 +111,24 @@ public:
   /**
    * Set Optimizer
    */
-  void SetOptimizer( OptimizerType * optimizer )
-    {
+  void
+  SetOptimizer(OptimizerType * optimizer)
+  {
     m_Optimizer = optimizer;
-    m_Optimizer->AddObserver( itk::IterationEvent(), this );
-    }
+    m_Optimizer->AddObserver(itk::IterationEvent(), this);
+  }
 
 protected:
-
   /**
    * Constructor
    */
   CommandVnlIterationUpdate() = default;
 
 private:
-
   /**
    *  WeakPointer to the Optimizer
    */
-  WeakPointer<OptimizerType>   m_Optimizer;
+  WeakPointer<OptimizerType> m_Optimizer;
 };
 
 

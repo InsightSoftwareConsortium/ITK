@@ -19,59 +19,82 @@
 
 namespace itk
 {
-bool EquivalencyTable::Add(unsigned long a, unsigned long b)
+bool
+EquivalencyTable::Add(unsigned long a, unsigned long b)
 {
-  std::pair< Iterator, bool > result;
-  if ( a == b ) { return false; }
-  else if ( a < b )
-    {  // swap a, b
+  std::pair<Iterator, bool> result;
+  if (a == b)
+  {
+    return false;
+  }
+  else if (a < b)
+  { // swap a, b
     unsigned long temp = a;
     a = b;
     b = temp;
-    }
-  result = m_HashMap.insert( ValueType(a, b) );
+  }
+  result = m_HashMap.insert(ValueType(a, b));
 
-  if ( result.second == false )
-    { // Stop endless loops.
-    if ( ( *( result.first ) ).second == b ) { return false; }
-    else { return ( this->Add( ( *( result.first ) ).second, b ) ); }
+  if (result.second == false)
+  { // Stop endless loops.
+    if ((*(result.first)).second == b)
+    {
+      return false;
     }
-  else { return true; }
+    else
+    {
+      return (this->Add((*(result.first)).second, b));
+    }
+  }
+  else
+  {
+    return true;
+  }
 }
 
-bool EquivalencyTable::AddAndFlatten(unsigned long a, unsigned long b)
+bool
+EquivalencyTable::AddAndFlatten(unsigned long a, unsigned long b)
 {
-  std::pair< Iterator, bool > result;
-  if ( a == b ) { return false; }
-  else if ( a < b )
-    {  // swap a, b
+  std::pair<Iterator, bool> result;
+  if (a == b)
+  {
+    return false;
+  }
+  else if (a < b)
+  { // swap a, b
     unsigned long temp = a;
     a = b;
     b = temp;
-    }
+  }
 
   unsigned long bFlattened = this->RecursiveLookup(b);
-  result = m_HashMap.insert( ValueType(a, bFlattened) );
+  result = m_HashMap.insert(ValueType(a, bFlattened));
 
-  if ( result.second == false )
-    { // Stop endless loops.
-    if ( ( *( result.first ) ).second == bFlattened ) { return false; }
-    else { return ( this->Add( ( *( result.first ) ).second, bFlattened ) ); }
-    }
-  else
+  if (result.second == false)
+  { // Stop endless loops.
+    if ((*(result.first)).second == bFlattened)
     {
-    if ( b != bFlattened )
-      {
-      // flatten b as well
-      m_HashMap.insert( ValueType(b, bFlattened) );
-      return true;
-      }
+      return false;
     }
+    else
+    {
+      return (this->Add((*(result.first)).second, bFlattened));
+    }
+  }
+  else
+  {
+    if (b != bFlattened)
+    {
+      // flatten b as well
+      m_HashMap.insert(ValueType(b, bFlattened));
+      return true;
+    }
+  }
 
   return false;
 }
 
-//void EquivalencyTable::PrintHashTable()
+// void EquivalencyTable::PrintHashTable()
 //{
 //  ConstIterator it = this->Begin();
 //  while (it != this->End() )
@@ -81,18 +104,20 @@ bool EquivalencyTable::AddAndFlatten(unsigned long a, unsigned long b)
 //    }
 //}
 
-void EquivalencyTable::Flatten()
+void
+EquivalencyTable::Flatten()
 {
   Iterator it = this->Begin();
 
-  while ( it != this->End() )
-    {
-    ( *it ).second = this->RecursiveLookup( ( *it ).second );
+  while (it != this->End())
+  {
+    (*it).second = this->RecursiveLookup((*it).second);
     ++it;
-    }
+  }
 }
 
-unsigned long EquivalencyTable::RecursiveLookup(const unsigned long a) const
+unsigned long
+EquivalencyTable::RecursiveLookup(const unsigned long a) const
 {
   unsigned long ans = a;
   unsigned long last_ans = a;
@@ -100,21 +125,21 @@ unsigned long EquivalencyTable::RecursiveLookup(const unsigned long a) const
   ConstIterator it;
   ConstIterator hashEnd = m_HashMap.end();
 
-  while ( ( it = m_HashMap.find(ans) ) != hashEnd )
+  while ((it = m_HashMap.find(ans)) != hashEnd)
+  {
+    ans = (*it).second;
+    if (ans == a)
     {
-    ans = ( *it ).second;
-    if ( ans == a )
-      {
-      return last_ans;              // about to cycle again.
-      }
-    last_ans = ans;
+      return last_ans; // about to cycle again.
     }
+    last_ans = ans;
+  }
 
   return ans;
 }
 
-void EquivalencyTable
-::PrintSelf(std::ostream & os, Indent indent) const
+void
+EquivalencyTable ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

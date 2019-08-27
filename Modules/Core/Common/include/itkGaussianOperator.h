@@ -62,15 +62,13 @@ namespace itk
  * \sphinxexample{Core/Common/CreateGaussianKernel,Create Gaussian Kernel}
  * \endsphinx
  */
-template< typename TPixel, unsigned int VDimension = 2,
-          typename TAllocator = NeighborhoodAllocator< TPixel > >
-class ITK_TEMPLATE_EXPORT GaussianOperator:
-  public NeighborhoodOperator< TPixel, VDimension, TAllocator >
+template <typename TPixel, unsigned int VDimension = 2, typename TAllocator = NeighborhoodAllocator<TPixel>>
+class ITK_TEMPLATE_EXPORT GaussianOperator : public NeighborhoodOperator<TPixel, VDimension, TAllocator>
 {
 public:
   /** Standard class type aliases. */
   using Self = GaussianOperator;
-  using Superclass = NeighborhoodOperator< TPixel, VDimension, TAllocator >;
+  using Superclass = NeighborhoodOperator<TPixel, VDimension, TAllocator>;
 
   itkTypeMacro(GaussianOperator, NeighborhoodOperator);
 
@@ -78,8 +76,8 @@ public:
   GaussianOperator() {}
 
   /** Copy constructor */
-  GaussianOperator(const Self & other):
-    NeighborhoodOperator< TPixel, VDimension, TAllocator >(other)
+  GaussianOperator(const Self & other)
+    : NeighborhoodOperator<TPixel, VDimension, TAllocator>(other)
   {
     m_Variance = other.m_Variance;
     m_MaximumError = other.m_MaximumError;
@@ -87,20 +85,22 @@ public:
   }
 
   /** Assignment operator */
-  Self & operator=(const Self & other)
+  Self &
+  operator=(const Self & other)
   {
-    if(this != &other)
-      {
+    if (this != &other)
+    {
       Superclass::operator=(other);
       m_Variance = other.m_Variance;
       m_MaximumError = other.m_MaximumError;
       m_MaximumKernelWidth = other.m_MaximumKernelWidth;
-      }
+    }
     return *this;
   }
 
   /** Sets the desired variance of the Gaussian kernel. */
-  void SetVariance(const double & variance)
+  void
+  SetVariance(const double & variance)
   {
     m_Variance = variance;
   }
@@ -109,46 +109,58 @@ public:
    * error is the difference between the area under the discrete Gaussian curve
    * and the area under the continuous Gaussian. Maximum error affects the
    * Gaussian operator size. The value must be between 0.0 and 1.0. */
-  void SetMaximumError(const double & max_error)
+  void
+  SetMaximumError(const double & max_error)
   {
-    if ( max_error >= 1 || max_error <= 0 )
-      {
+    if (max_error >= 1 || max_error <= 0)
+    {
       itkExceptionMacro("Maximum Error Must be in the range [ 0.0 , 1.0 ]");
-      }
+    }
 
     m_MaximumError = max_error;
   }
 
   /** Returns the variance of the Gaussian (scale) for the operator. */
-  double GetVariance()
-  {  return m_Variance;  }
+  double
+  GetVariance()
+  {
+    return m_Variance;
+  }
 
   /** Returns the maximum error of the gaussian approximation.  Maximum error is
    * the difference between the area under the discrete Gaussian curve and the
    * area under the continuous Gaussian. Maximum error affects the Gaussian
    * operator size. */
-  double GetMaximumError()
-  {    return m_MaximumError;  }
+  double
+  GetMaximumError()
+  {
+    return m_MaximumError;
+  }
 
   /** Sets a limit for growth of the kernel.  Small maximum error values with
    *  large variances will yield very large kernel sizes.  This value can be
    *  used to truncate a kernel in such instances.  A warning will be given on
    *  truncation of the kernel. */
-  void SetMaximumKernelWidth(unsigned int n)
-  {    m_MaximumKernelWidth = n; }
+  void
+  SetMaximumKernelWidth(unsigned int n)
+  {
+    m_MaximumKernelWidth = n;
+  }
 
   /** Returns the maximum allowed kernel width. */
-  unsigned int GetMaximumKernelWidth() const
-  {   return m_MaximumKernelWidth; }
+  unsigned int
+  GetMaximumKernelWidth() const
+  {
+    return m_MaximumKernelWidth;
+  }
 
   /** Prints some debugging information. */
-  void PrintSelf(std::ostream & os, Indent i) const override
+  void
+  PrintSelf(std::ostream & os, Indent i) const override
   {
-    os << i << "GaussianOperator { this=" << this
-       << ", m_Variance = " << m_Variance
-       << ", m_MaximumError = " << m_MaximumError
-       << "} "  << std::endl;
-    Superclass::PrintSelf( os, i.GetNextIndent() );
+    os << i << "GaussianOperator { this=" << this << ", m_Variance = " << m_Variance
+       << ", m_MaximumError = " << m_MaximumError << "} " << std::endl;
+    Superclass::PrintSelf(os, i.GetNextIndent());
   }
 
 protected:
@@ -156,43 +168,49 @@ protected:
 
 public:
   /** Returns the value of the modified Bessel function I0(x) at a point x >= 0.
-    */
-  double ModifiedBesselI0(double);
+   */
+  double
+  ModifiedBesselI0(double);
 
   /** Returns the value of the modified Bessel function I1(x) at a point x,
    * x real.  */
-  double ModifiedBesselI1(double);
+  double
+  ModifiedBesselI1(double);
 
   /** Returns the value of the modified Bessel function Ik(x) at a point x>=0,
    * where k>=2. */
-  double ModifiedBesselI(int, double);
+  double
+  ModifiedBesselI(int, double);
 
 protected:
   /** Calculates operator coefficients. */
-  CoefficientVector GenerateCoefficients() override;
+  CoefficientVector
+  GenerateCoefficients() override;
 
   /** Arranges coefficients spatially in the memory buffer. */
-  void Fill(const CoefficientVector & coeff) override
-  {    this->FillCenteredDirectional(coeff);  }
+  void
+  Fill(const CoefficientVector & coeff) override
+  {
+    this->FillCenteredDirectional(coeff);
+  }
 
 private:
   /** Desired variance of the discrete Gaussian function. */
-  double m_Variance{1};
+  double m_Variance{ 1 };
 
   /** Difference between the areas under the curves of the continuous and
    * discrete Gaussian functions. */
-  double m_MaximumError{.01};
+  double m_MaximumError{ .01 };
 
   /** Maximum kernel size allowed.  This value is used to truncate a kernel
    *  that has grown too large.  A warning is given when the specified maximum
    *  error causes the kernel to exceed this size. */
-  unsigned int m_MaximumKernelWidth{30};
-
+  unsigned int m_MaximumKernelWidth{ 30 };
 };
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGaussianOperator.hxx"
+#  include "itkGaussianOperator.hxx"
 #endif
 
 #endif

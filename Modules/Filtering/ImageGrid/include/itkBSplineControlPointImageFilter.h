@@ -57,8 +57,7 @@ namespace itk
  */
 
 template <typename TInputImage, typename TOutputImage = TInputImage>
-class ITK_TEMPLATE_EXPORT BSplineControlPointImageFilter
-  : public ImageToImageFilter<TInputImage, TOutputImage>
+class ITK_TEMPLATE_EXPORT BSplineControlPointImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BSplineControlPointImageFilter);
@@ -94,22 +93,17 @@ public:
 
   /** Other type alias */
   using RealType = float;
-  using RealImageType = Image<RealType,
-    Self::ImageDimension >;
+  using RealImageType = Image<RealType, Self::ImageDimension>;
   using RealImagePointer = typename RealImageType::Pointer;
 
-  using ArrayType = FixedArray<unsigned,
-    Self::ImageDimension >;
-  using RealArrayType = FixedArray<RealType,
-    Self::ImageDimension >;
+  using ArrayType = FixedArray<unsigned, Self::ImageDimension>;
+  using RealArrayType = FixedArray<RealType, Self::ImageDimension>;
 
   /** PointSet type alias support */
-  using PointSetType = PointSet<PixelType,
-    Self::ImageDimension >;
+  using PointSetType = PointSet<PixelType, Self::ImageDimension>;
   using PointDataType = typename PointSetType::PixelType;
   using PointDataContainerType = typename PointSetType::PointDataContainer;
-  using PointDataImageType = Image<PointDataType,
-    Self::ImageDimension >;
+  using PointDataImageType = Image<PointDataType, Self::ImageDimension>;
   using PointDataImagePointer = typename PointDataImageType::Pointer;
 
   /** Interpolation kernel type (default spline order = 3) */
@@ -123,18 +117,19 @@ public:
    * Set the spline order of the B-spline object for all parametric dimensions.
    * Default = 3.
    */
-  void SetSplineOrder( unsigned int );
+  void
+  SetSplineOrder(unsigned int);
 
   /**
    * Set the spline order array where each element of the array corresponds to
    * a single parametric dimension of the B-spline object.  Default = 3.
    */
-  void SetSplineOrder( ArrayType );
+  void SetSplineOrder(ArrayType);
 
   /**
    * Get the spline order array of the B-spline object.  Default = 3.
    */
-  itkGetConstReferenceMacro( SplineOrder, ArrayType );
+  itkGetConstReferenceMacro(SplineOrder, ArrayType);
 
   /**
    * Set/Get the boolean array indicating the periodicity of the B-spline object.
@@ -152,26 +147,26 @@ public:
    * they were also located at the end of the domain. The number of points to
    * be reused will depend on the spline order. As a user, you don't need to
    * replicate the points, the filter will do this for you. */
-  itkSetMacro( CloseDimension, ArrayType );
-  itkGetConstReferenceMacro( CloseDimension, ArrayType );
+  itkSetMacro(CloseDimension, ArrayType);
+  itkGetConstReferenceMacro(CloseDimension, ArrayType);
 
   /**
    * Set/Get the parametric spacing of the B-spline object domain.
    */
-  itkSetMacro( Spacing, SpacingType );
-  itkGetConstMacro( Spacing, SpacingType );
+  itkSetMacro(Spacing, SpacingType);
+  itkGetConstMacro(Spacing, SpacingType);
 
   /**
    * Set/Get the parametric origin of the B-spline object domain.
    */
-  itkSetMacro( Origin, OriginType );
-  itkGetConstMacro( Origin, OriginType );
+  itkSetMacro(Origin, OriginType);
+  itkGetConstMacro(Origin, OriginType);
 
   /**
    * Set/Get the parametric size of the B-spline object domain.
    */
-  itkSetMacro( Size, SizeType );
-  itkGetConstMacro( Size, SizeType );
+  itkSetMacro(Size, SizeType);
+  itkGetConstMacro(Size, SizeType);
 
   /**
    * Set the sampled object direction.  Note that this is not used in any of the
@@ -187,12 +182,12 @@ public:
    * us to go from the parametric space to the physical space.  Therefore,
    * the direction is not used.
    */
-  itkSetMacro( Direction, DirectionType );
+  itkSetMacro(Direction, DirectionType);
 
   /**
    * Get the sampled B-spline object direction.
    */
-  itkGetConstMacro( Direction, DirectionType );
+  itkGetConstMacro(Direction, DirectionType);
 
   /**
    * Generate a refined control point lattice from the input control point
@@ -201,93 +196,93 @@ public:
    * of refinement levels to all 1's, the control point lattice is not increased
    * in resolution.  Doubling the resolution starts at 2 refinement levels.
    */
-  typename ControlPointLatticeType::Pointer
-    RefineControlPointLattice( ArrayType );
+  typename ControlPointLatticeType::Pointer RefineControlPointLattice(ArrayType);
 
 protected:
   BSplineControlPointImageFilter();
   ~BSplineControlPointImageFilter() override = default;
-  void PrintSelf( std::ostream& os, Indent indent ) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Multi-threaded function which generates the output sampled B-spline object. */
-  void DynamicThreadedGenerateData( const OutputImageRegionType & ) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType &) override;
 
 
 private:
-
   /**
    * Before splitting, we need to allocate memory for the output sampled
    * B-spline object based on the multi-threading functionality
    */
-  void BeforeThreadedGenerateData() override;
+  void
+  BeforeThreadedGenerateData() override;
 
   /**
    * Based on the way CollapsePhiLattice() is written, we want to split on the
    * the last dimension.
    */
-  unsigned int SplitRequestedRegion( unsigned int, unsigned int, OutputImageRegionType & ) override;
+  unsigned int
+  SplitRequestedRegion(unsigned int, unsigned int, OutputImageRegionType &) override;
 
   /**
    * Sub-function used by GenerateOutputImageFast() to generate the sampled
    * B-spline object quickly.
    */
-  void CollapsePhiLattice( PointDataImageType *, PointDataImageType *,
-    const RealType, const unsigned int );
+  void
+  CollapsePhiLattice(PointDataImageType *, PointDataImageType *, const RealType, const unsigned int);
 
   /**
    * Private function to handle the internal ivars.
    */
-  void SetNumberOfLevels( ArrayType );
+  void SetNumberOfLevels(ArrayType);
 
   /** Parameters for the output image. */
-  SizeType                                     m_Size;
-  SpacingType                                  m_Spacing;
-  OriginType                                   m_Origin;
-  DirectionType                                m_Direction;
+  SizeType      m_Size;
+  SpacingType   m_Spacing;
+  OriginType    m_Origin;
+  DirectionType m_Direction;
 
-  bool                                         m_DoMultilevel{ false };
-  unsigned int                                 m_MaximumNumberOfLevels{ 1 };
-  ArrayType                                    m_NumberOfControlPoints;
-  ArrayType                                    m_CloseDimension;
-  ArrayType                                    m_SplineOrder;
-  ArrayType                                    m_NumberOfLevels;
+  bool         m_DoMultilevel{ false };
+  unsigned int m_MaximumNumberOfLevels{ 1 };
+  ArrayType    m_NumberOfControlPoints;
+  ArrayType    m_CloseDimension;
+  ArrayType    m_SplineOrder;
+  ArrayType    m_NumberOfLevels;
 
-  vnl_matrix<RealType>       m_RefinedLatticeCoefficients[ImageDimension];
+  vnl_matrix<RealType> m_RefinedLatticeCoefficients[ImageDimension];
 
-  typename KernelType::Pointer                 m_Kernel[ImageDimension];
-  typename KernelOrder0Type::Pointer           m_KernelOrder0;
-  typename KernelOrder1Type::Pointer           m_KernelOrder1;
-  typename KernelOrder2Type::Pointer           m_KernelOrder2;
-  typename KernelOrder3Type::Pointer           m_KernelOrder3;
+  typename KernelType::Pointer       m_Kernel[ImageDimension];
+  typename KernelOrder0Type::Pointer m_KernelOrder0;
+  typename KernelOrder1Type::Pointer m_KernelOrder1;
+  typename KernelOrder2Type::Pointer m_KernelOrder2;
+  typename KernelOrder3Type::Pointer m_KernelOrder3;
 
-  RealType                                     m_BSplineEpsilon{ static_cast< RealType >( 1e-3 ) };
+  RealType m_BSplineEpsilon{ static_cast<RealType>(1e-3) };
 
   inline typename RealImageType::IndexType
-  NumberToIndex( unsigned int number, typename RealImageType::SizeType size )
-    {
+  NumberToIndex(unsigned int number, typename RealImageType::SizeType size)
+  {
     typename RealImageType::IndexType k;
     k[0] = 1;
 
-    for ( unsigned int i = 1; i < ImageDimension; i++ )
-      {
-      k[i] = size[ImageDimension-i-1]*k[i-1];
-      }
-    typename RealImageType::IndexType index;
-    for ( unsigned int i = 0; i < ImageDimension; i++ )
-      {
-      index[ImageDimension-i-1]
-        = static_cast<unsigned int>( number/k[ImageDimension-i-1] );
-      number %= k[ImageDimension-i-1];
-      }
-    return index;
+    for (unsigned int i = 1; i < ImageDimension; i++)
+    {
+      k[i] = size[ImageDimension - i - 1] * k[i - 1];
     }
-
+    typename RealImageType::IndexType index;
+    for (unsigned int i = 0; i < ImageDimension; i++)
+    {
+      index[ImageDimension - i - 1] = static_cast<unsigned int>(number / k[ImageDimension - i - 1]);
+      number %= k[ImageDimension - i - 1];
+    }
+    return index;
+  }
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBSplineControlPointImageFilter.hxx"
+#  include "itkBSplineControlPointImageFilter.hxx"
 #endif
 
 #endif

@@ -20,23 +20,24 @@
 #include "itkLabelImageToLabelMapFilter.h"
 #include "itkTestingMacros.h"
 
-int itkShiftLabelObjectTest(int argc, char * argv[])
+int
+itkShiftLabelObjectTest(int argc, char * argv[])
 {
 
-  if( argc != 1 )
-    {
+  if (argc != 1)
+  {
     std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << "" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr int dim = 2;
 
-  using LabelObjectType = itk::LabelObject< unsigned long, dim >;
+  using LabelObjectType = itk::LabelObject<unsigned long, dim>;
   using IndexType = LabelObjectType::IndexType;
   using OffsetType = LabelObjectType::OffsetType;
-  using LabelMapType = itk::LabelMap< LabelObjectType >;
+  using LabelMapType = itk::LabelMap<LabelObjectType>;
   using SizeType = LabelMapType::SizeType;
-  using ImageType = itk::Image< unsigned char, dim >;
+  using ImageType = itk::Image<unsigned char, dim>;
 
   using LabelImageToLabelMapFilterType = itk::LabelImageToLabelMapFilter<ImageType, LabelMapType>;
 
@@ -45,26 +46,26 @@ int itkShiftLabelObjectTest(int argc, char * argv[])
   SizeType sizeIn;
   sizeIn[0] = 12;
   sizeIn[1] = 12;
-  image->SetRegions( sizeIn );
+  image->SetRegions(sizeIn);
   image->Allocate();
-  image->FillBuffer( 0 );
+  image->FillBuffer(0);
 
   IndexType idxHorizontal;
   idxHorizontal[1] = 6;
 
   IndexType idxVertical;
   idxVertical[0] = 6;
-  for (int ctr=1; ctr<12; ctr++)
-    {
+  for (int ctr = 1; ctr < 12; ctr++)
+  {
     idxHorizontal[0] = ctr;
     idxVertical[1] = ctr;
-    image->SetPixel( idxHorizontal, 1);
-    image->SetPixel( idxVertical, 1 );
-    }
+    image->SetPixel(idxHorizontal, 1);
+    image->SetPixel(idxVertical, 1);
+  }
 
   LabelImageToLabelMapFilterType::Pointer conversion = LabelImageToLabelMapFilterType::New();
-  conversion->SetInput( image );
-  conversion->Update( );
+  conversion->SetInput(image);
+  conversion->Update();
 
   LabelMapType::Pointer map;
   map = conversion->GetOutput();
@@ -72,35 +73,35 @@ int itkShiftLabelObjectTest(int argc, char * argv[])
   OffsetType o;
   o[0] = -1;
   o[1] = -1;
-  map->GetLabelObject(1)->Shift( o );
+  map->GetLabelObject(1)->Shift(o);
 
 
   map->Print(std::cout);
 
   std::cout << "Printing out map." << std::endl;
-  for (int ctrI=0; ctrI<11; ctrI++)
+  for (int ctrI = 0; ctrI < 11; ctrI++)
+  {
+    for (int ctrJ = 0; ctrJ < 11; ctrJ++)
     {
-    for (int ctrJ=0; ctrJ<11; ctrJ++)
-      {
       IndexType index;
       index[0] = ctrI;
       index[1] = ctrJ;
       unsigned long val;
       val = map->GetPixel(index);
       std::cout << "Pixel[" << ctrI << "," << ctrJ << "]: " << val << std::endl;
-      if ( (ctrI == 5) || (ctrJ==5) )
-        {
-        itkAssertOrThrowMacro( (val == 1), "Error in Label Image (foreground).");
-        }
+      if ((ctrI == 5) || (ctrJ == 5))
+      {
+        itkAssertOrThrowMacro((val == 1), "Error in Label Image (foreground).");
+      }
       else
-        {
-        itkAssertOrThrowMacro( (val == 0), "Error in Label Image (background).");
-        }
+      {
+        itkAssertOrThrowMacro((val == 0), "Error in Label Image (background).");
       }
     }
+  }
   std::cout << "End - Printing out map." << std::endl << std::endl;
 
-  conversion->Print( std::cout );
+  conversion->Print(std::cout);
 
   return EXIT_SUCCESS;
 }

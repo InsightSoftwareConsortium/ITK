@@ -26,21 +26,22 @@ to itkFloodFilledSpatialFunctionConditionalIterator.
 #include "itkSphereSpatialFunction.h"
 #include "itkFloodFilledSpatialFunctionConditionalIterator.h"
 
-int itkFloodFilledSpatialFunctionTest(int, char* [])
+int
+itkFloodFilledSpatialFunctionTest(int, char *[])
 {
   constexpr unsigned int dim = 2;
 
   // Image type alias
-  using ImageType = itk::Image< bool, dim >;
+  using ImageType = itk::Image<bool, dim>;
 
   using SizeValueType = ImageType::SizeValueType;
   using SpacingValueType = ImageType::SpacingValueType;
   using PointValueType = ImageType::PointValueType;
 
   // Image size and spacing parameters
-  SizeValueType     sourceImageSize[]  = { 5, 5};
-  SpacingValueType  sourceImageSpacing[] = { 1.0,1.0 };
-  PointValueType    sourceImageOrigin[] = { 0,0 };
+  SizeValueType    sourceImageSize[] = { 5, 5 };
+  SpacingValueType sourceImageSpacing[] = { 1.0, 1.0 };
+  PointValueType   sourceImageOrigin[] = { 0, 0 };
 
   // Creates the sourceImage (but doesn't set the size or allocate memory)
   ImageType::Pointer sourceImage = ImageType::New();
@@ -51,44 +52,43 @@ int itkFloodFilledSpatialFunctionTest(int, char* [])
   ImageType::SizeType sourceImageSizeObject;
 
   // Set the size object to the array defined earlier
-  sourceImageSizeObject.SetSize( sourceImageSize );
+  sourceImageSizeObject.SetSize(sourceImageSize);
 
   // Create a region object native to the sourceImage type
   ImageType::RegionType largestPossibleRegion;
 
   // Resize the region
-  largestPossibleRegion.SetSize( sourceImageSizeObject );
+  largestPossibleRegion.SetSize(sourceImageSizeObject);
 
   // Set the largest legal region size (i.e. the size of the whole sourceImage) to what we just defined
-  sourceImage->SetLargestPossibleRegion( largestPossibleRegion );
+  sourceImage->SetLargestPossibleRegion(largestPossibleRegion);
 
   // Set the buffered region
-  sourceImage->SetBufferedRegion( largestPossibleRegion );
+  sourceImage->SetBufferedRegion(largestPossibleRegion);
 
   // Set the requested region
-  sourceImage->SetRequestedRegion( largestPossibleRegion );
+  sourceImage->SetRequestedRegion(largestPossibleRegion);
 
   // Now allocate memory for the sourceImage
   sourceImage->Allocate();
 
   // Loop over all available iterator strategies
-  for(int strat = 0; strat < 4; strat++)
-    {
+  for (int strat = 0; strat < 4; strat++)
+  {
     // Initialize the image to hold all 0's
-    itk::ImageRegionIterator<ImageType> it =
-      itk::ImageRegionIterator<ImageType>(sourceImage, largestPossibleRegion);
+    itk::ImageRegionIterator<ImageType> it = itk::ImageRegionIterator<ImageType>(sourceImage, largestPossibleRegion);
 
-    for(it.GoToBegin(); !it.IsAtEnd(); ++it)
-      {
+    for (it.GoToBegin(); !it.IsAtEnd(); ++it)
+    {
       it.Set(false);
-      }
+    }
 
     // Create and initialize a spatial function
     using FunctionType = itk::SphereSpatialFunction<dim>;
     using FunctionPositionType = FunctionType::InputType;
 
     FunctionType::Pointer spatialFunc = FunctionType::New();
-    spatialFunc->SetRadius( 1.0 );
+    spatialFunc->SetRadius(1.0);
 
     FunctionPositionType center;
     center[0] = 2.5;
@@ -96,44 +96,44 @@ int itkFloodFilledSpatialFunctionTest(int, char* [])
     spatialFunc->SetCenter(center);
 
     // Create and initialize a spatial function iterator
-    ImageType::IndexType seedPos;
-    const ImageType::IndexValueType pos[] = {2,2};
+    ImageType::IndexType            seedPos;
+    const ImageType::IndexValueType pos[] = { 2, 2 };
     seedPos.SetIndex(pos);
 
-    using ItType = itk::FloodFilledSpatialFunctionConditionalIterator
-      <ImageType, FunctionType>;
+    using ItType = itk::FloodFilledSpatialFunctionConditionalIterator<ImageType, FunctionType>;
 
     ItType sfi = ItType(sourceImage, spatialFunc, seedPos);
 
-    switch(strat){
-    case 0:
+    switch (strat)
+    {
+      case 0:
       {
         sfi.SetOriginInclusionStrategy();
       }
-    break;
-    case 1:
+      break;
+      case 1:
       {
         sfi.SetCenterInclusionStrategy();
       }
-    break;
-    case 2:
+      break;
+      case 2:
       {
         sfi.SetCompleteInclusionStrategy();
       }
-    break;
-    case 3:
+      break;
+      case 3:
       {
         sfi.SetIntersectInclusionStrategy();
       }
     } // end switch inclusion strategy
 
     // Iterate through the entire image and set interior pixels to 1
-    for( sfi.GoToBegin(); !( sfi.IsAtEnd() ); ++sfi)
-      {
+    for (sfi.GoToBegin(); !(sfi.IsAtEnd()); ++sfi)
+    {
       sfi.Set(true);
-      }
+    }
 
-    } // end loop over iterator strategies
+  } // end loop over iterator strategies
 
   return EXIT_SUCCESS;
 }

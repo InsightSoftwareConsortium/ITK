@@ -19,9 +19,9 @@
 #ifndef itkMultiThreader_h
 #define itkMultiThreader_h
 
-#if !defined ( ITK_LEGACY_REMOVE )
-#include "itkMultiThreaderBase.h"
-#include "itkPlatformMultiThreader.h"
+#if !defined(ITK_LEGACY_REMOVE)
+#  include "itkMultiThreaderBase.h"
+#  include "itkPlatformMultiThreader.h"
 namespace itk
 {
 /** Since ITK 5.0 MultiThreader has been split into a class hierarchy.
@@ -39,10 +39,10 @@ using MultiThreader = MultiThreaderBase;
  *  - Your filter uses cross-thread synchronization e.g. itkBarrier
  *  - Your filter uses MultipleMethodExecute()
  *  - Your filter uses SpawnThread/TerminateThread. */
-//using MultiThreader = PlatformMultiThreader;
-}
-#else //ITK_LEGACY_REMOVE
-#error itkMultiThreader.h is a legacy file since ITK 5.0 and will be removed in the future.
-#endif //ITK_LEGACY_REMOVE
+// using MultiThreader = PlatformMultiThreader;
+} // namespace itk
+#else // ITK_LEGACY_REMOVE
+#  error itkMultiThreader.h is a legacy file since ITK 5.0 and will be removed in the future.
+#endif // ITK_LEGACY_REMOVE
 
-#endif //itkMultiThreader_h
+#endif // itkMultiThreader_h

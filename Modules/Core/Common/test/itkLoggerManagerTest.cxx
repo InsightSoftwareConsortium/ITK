@@ -23,15 +23,16 @@
 #include "itkLogTester.h"
 
 
-int itkLoggerManagerTest( int argc, char *argv [] )
+int
+itkLoggerManagerTest(int argc, char * argv[])
 {
   try
-    {
+  {
     if (argc < 2)
-      {
+    {
       std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " logFilename" << std::endl;
       return EXIT_FAILURE;
-      }
+    }
 
     // Create an ITK StdStreamLogOutputs
     itk::StdStreamLogOutput::Pointer coutput = itk::StdStreamLogOutput::New();
@@ -43,11 +44,13 @@ int itkLoggerManagerTest( int argc, char *argv [] )
     // Create an ITK Loggers using itk::LoggerManager
     itk::LoggerManager::Pointer manager = itk::LoggerManager::New();
 
-    itk::Logger::Pointer logger = manager->CreateLogger( "org.itk.logTester.logger",
-      itk::LoggerBase::PriorityLevelType::DEBUG, itk::LoggerBase::PriorityLevelType::CRITICAL );
+    itk::Logger::Pointer logger = manager->CreateLogger("org.itk.logTester.logger",
+                                                        itk::LoggerBase::PriorityLevelType::DEBUG,
+                                                        itk::LoggerBase::PriorityLevelType::CRITICAL);
 
-    itk::ThreadLogger::Pointer t_logger = manager->CreateThreadLogger( "org.itk.ThreadLogger",
-      itk::LoggerBase::PriorityLevelType::WARNING, itk::LoggerBase::PriorityLevelType::CRITICAL );
+    itk::ThreadLogger::Pointer t_logger = manager->CreateThreadLogger("org.itk.ThreadLogger",
+                                                                      itk::LoggerBase::PriorityLevelType::WARNING,
+                                                                      itk::LoggerBase::PriorityLevelType::CRITICAL);
 
     std::cout << "Testing itk::LoggerManager" << std::endl;
 
@@ -62,7 +65,8 @@ int itkLoggerManagerTest( int argc, char *argv [] )
     // Logging by the itkLogMacroStatic from a class with itk::ThreadLogger
     itk::Testing::LogTester::logStatic(&tester);
 
-    std::cout << "  The printed order of 'Messages ##' below might not be predictable because of multi-threaded logging" << std::endl;
+    std::cout << "  The printed order of 'Messages ##' below might not be predictable because of multi-threaded logging"
+              << std::endl;
     std::cout << "  But the logged messages will be in order." << std::endl;
     std::cout << "  Each line is an atom for synchronization." << std::endl;
     // Writing by the logger
@@ -75,24 +79,25 @@ int itkLoggerManagerTest( int argc, char *argv [] )
     manager->Write(itk::Logger::PriorityLevelType::FATAL, "This is the FATAL message.\n");
     manager->Write(itk::LoggerBase::PriorityLevelType::MUSTFLUSH, "This is the MUSTFLUSH message.\n");
     std::cout << "  Message #3" << std::endl;
-    itk::Logger* pLogger;
+    itk::Logger * pLogger;
     pLogger = manager->GetLogger("org.itk.logTester.logger");
-    if( pLogger == nullptr )
+    if (pLogger == nullptr)
     {
       throw "LoggerManager::GetLogger() failed";
     }
-    pLogger->Write(itk::LoggerBase::PriorityLevelType::INFO, "This is the message from the logger got from a LoggerManager");
-    if( manager->GetLogger("abc") != nullptr )
+    pLogger->Write(itk::LoggerBase::PriorityLevelType::INFO,
+                   "This is the message from the logger got from a LoggerManager");
+    if (manager->GetLogger("abc") != nullptr)
     {
       throw "LoggerManager::GetLogger() must return nullptr";
     }
     manager->Flush();
-    }
-  catch(const char * errmsg)
-    {
+  }
+  catch (const char * errmsg)
+  {
     std::cerr << "Exception caught! : " << errmsg << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "[PASSED]" << std::endl;
   return EXIT_SUCCESS;

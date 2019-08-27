@@ -41,8 +41,8 @@ namespace itk
  * \ingroup Operators
  * \ingroup ITKReview
  */
-template< typename TInputImage >
-class ITK_TEMPLATE_EXPORT WarpHarmonicEnergyCalculator:public Object
+template <typename TInputImage>
+class ITK_TEMPLATE_EXPORT WarpHarmonicEnergyCalculator : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(WarpHarmonicEnergyCalculator);
@@ -50,8 +50,8 @@ public:
   /** Standard class type aliases. */
   using Self = WarpHarmonicEnergyCalculator;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -85,7 +85,7 @@ public:
 
   /** Type of the iterator that will be used to move through the image.  Also
       the type which will be passed to the evaluate function */
-  using ConstNeighborhoodIteratorType = ConstNeighborhoodIterator< ImageType >;
+  using ConstNeighborhoodIteratorType = ConstNeighborhoodIterator<ImageType>;
   using RadiusType = typename ConstNeighborhoodIteratorType::RadiusType;
 
   /** Set/Get whether or not the filter will use the spacing of the input
@@ -97,11 +97,12 @@ public:
    *  spacing. Use this option if you want to calculate the Jacobian
    *  determinant in the image space.
    *  Default value is "On". */
-  void SetUseImageSpacing(bool);
+  void
+  SetUseImageSpacing(bool);
   itkGetConstMacro(UseImageSpacing, bool);
   itkBooleanMacro(UseImageSpacing);
 
-  using WeightsType = FixedArray< double, ImageDimension >;
+  using WeightsType = FixedArray<double, ImageDimension>;
 
   /** Set/Get the array of weights used to scale partial derivatives in the
    *  gradient calculations.
@@ -113,24 +114,28 @@ public:
   itkSetConstObjectMacro(Image, ImageType);
 
   /** Compute the minimum and maximum values of intensity of the input image. */
-  void Compute();
+  void
+  Compute();
 
   /** Return the smoothness value. */
   itkGetConstMacro(HarmonicEnergy, double);
 
   /** Set the region over which the values will be computed */
-  void SetRegion(const RegionType & region);
+  void
+  SetRegion(const RegionType & region);
 
 protected:
   WarpHarmonicEnergyCalculator();
   ~WarpHarmonicEnergyCalculator() override {}
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Get/Set the neighborhood radius used for gradient computation */
   itkGetConstReferenceMacro(NeighborhoodRadius, RadiusType);
   itkSetMacro(NeighborhoodRadius, RadiusType);
 
-  double EvaluateAtNeighborhood(ConstNeighborhoodIteratorType & it) const;
+  double
+  EvaluateAtNeighborhood(ConstNeighborhoodIteratorType & it) const;
 
 private:
   double            m_HarmonicEnergy;
@@ -148,7 +153,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkWarpHarmonicEnergyCalculator.hxx"
+#  include "itkWarpHarmonicEnergyCalculator.hxx"
 #endif
 
 #endif /* itkWarpHarmonicEnergyCalculator_h */

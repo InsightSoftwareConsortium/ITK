@@ -65,24 +65,26 @@ public:
   using InternalType = unsigned char;
   using ExternalType = unsigned char;
 
-  ThresholdingPixelAccessor()  {};
+  ThresholdingPixelAccessor(){};
 
-  ExternalType Get( const InternalType & input ) const
-    {
+  ExternalType
+  Get(const InternalType & input) const
+  {
     return (input > m_Threshold) ? 1 : 0;
-    }
-  void SetThreshold( const InternalType threshold )
-    {
+  }
+  void
+  SetThreshold(const InternalType threshold)
+  {
     m_Threshold = threshold;
-    }
+  }
 
   ThresholdingPixelAccessor &
-    operator=( const ThresholdingPixelAccessor & vpa ) = default;
+  operator=(const ThresholdingPixelAccessor & vpa) = default;
 
 private:
-  InternalType m_Threshold{0};
+  InternalType m_Threshold{ 0 };
 };
-}
+} // namespace itk
 
 // Software Guide : EndCodeSnippet
 
@@ -103,99 +105,98 @@ private:
 //
 //-------------------------
 
-int main( int argc, char *argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 4 )
-    {
+  if (argc < 4)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << "ImageAdaptor4   inputFileName outputBinaryFileName ";
     std::cerr << " thresholdValue" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
-//  Software Guide : BeginLatex
-//
-//  To create an image adaptor, we first instantiate an image type
-//  whose pixel type is the same as the internal pixel type of the pixel
-//  accessor.
-//
-//  Software Guide : EndLatex
+  //  Software Guide : BeginLatex
+  //
+  //  To create an image adaptor, we first instantiate an image type
+  //  whose pixel type is the same as the internal pixel type of the pixel
+  //  accessor.
+  //
+  //  Software Guide : EndLatex
 
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   using PixelType = itk::ThresholdingPixelAccessor::InternalType;
   constexpr unsigned int Dimension = 2;
-  using ImageType = itk::Image< PixelType,  Dimension >;
-// Software Guide : EndCodeSnippet
+  using ImageType = itk::Image<PixelType, Dimension>;
+  // Software Guide : EndCodeSnippet
 
 
-//  Software Guide : BeginLatex
-//
-//  We instantiate the ImageAdaptor using the image type as the
-//  first template parameter and the pixel accessor as the second template
-//  parameter.
-//
-//  Software Guide : EndLatex
+  //  Software Guide : BeginLatex
+  //
+  //  We instantiate the ImageAdaptor using the image type as the
+  //  first template parameter and the pixel accessor as the second template
+  //  parameter.
+  //
+  //  Software Guide : EndLatex
 
 
-// Software Guide : BeginCodeSnippet
-  using ImageAdaptorType = itk::ImageAdaptor< ImageType,
-                             itk::ThresholdingPixelAccessor >;
+  // Software Guide : BeginCodeSnippet
+  using ImageAdaptorType = itk::ImageAdaptor<ImageType, itk::ThresholdingPixelAccessor>;
 
   ImageAdaptorType::Pointer adaptor = ImageAdaptorType::New();
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
 
-//  Software Guide : BeginLatex
-//
-//  The threshold value is set from the command line. A threshold
-//  pixel accessor is created and connected to the image adaptor
-//  in the same manner as in the previous example.
-//
-//  Software Guide : EndLatex
+  //  Software Guide : BeginLatex
+  //
+  //  The threshold value is set from the command line. A threshold
+  //  pixel accessor is created and connected to the image adaptor
+  //  in the same manner as in the previous example.
+  //
+  //  Software Guide : EndLatex
 
 
-// Software Guide : BeginCodeSnippet
-  itk::ThresholdingPixelAccessor  accessor;
-  accessor.SetThreshold( std::stoi( argv[3] ) );
-  adaptor->SetPixelAccessor( accessor );
-// Software Guide : EndCodeSnippet
+  // Software Guide : BeginCodeSnippet
+  itk::ThresholdingPixelAccessor accessor;
+  accessor.SetThreshold(std::stoi(argv[3]));
+  adaptor->SetPixelAccessor(accessor);
+  // Software Guide : EndCodeSnippet
 
 
-//  Software Guide : BeginLatex
-//
-//  We create a reader to load the input image and connect the output
-//  of the reader as the input to the adaptor.
-//
-//  Software Guide : EndLatex
+  //  Software Guide : BeginLatex
+  //
+  //  We create a reader to load the input image and connect the output
+  //  of the reader as the input to the adaptor.
+  //
+  //  Software Guide : EndLatex
 
 
-// Software Guide : BeginCodeSnippet
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  // Software Guide : BeginCodeSnippet
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
   reader->Update();
 
-  adaptor->SetImage( reader->GetOutput() );
-//  Software Guide : EndCodeSnippet
+  adaptor->SetImage(reader->GetOutput());
+  //  Software Guide : EndCodeSnippet
 
 
-  using RescalerType = itk::RescaleIntensityImageFilter< ImageAdaptorType,
-                                            ImageType >;
+  using RescalerType = itk::RescaleIntensityImageFilter<ImageAdaptorType, ImageType>;
 
   RescalerType::Pointer rescaler = RescalerType::New();
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
 
 
-  writer->SetFileName( argv[2] );
+  writer->SetFileName(argv[2]);
 
-  rescaler->SetOutputMinimum(  0  );
-  rescaler->SetOutputMaximum( 255 );
+  rescaler->SetOutputMinimum(0);
+  rescaler->SetOutputMaximum(255);
 
-  rescaler->SetInput( adaptor );
-  writer->SetInput( rescaler->GetOutput() );
+  rescaler->SetInput(adaptor);
+  writer->SetInput(rescaler->GetOutput());
   writer->Update();
 
 

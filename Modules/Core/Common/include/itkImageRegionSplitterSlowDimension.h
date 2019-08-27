@@ -43,8 +43,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-class ITKCommon_EXPORT ImageRegionSplitterSlowDimension
-  :public ImageRegionSplitterBase
+class ITKCommon_EXPORT ImageRegionSplitterSlowDimension : public ImageRegionSplitterBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageRegionSplitterSlowDimension);
@@ -52,8 +51,8 @@ public:
   /** Standard class type aliases. */
   using Self = ImageRegionSplitterSlowDimension;
   using Superclass = ImageRegionSplitterBase;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -65,16 +64,18 @@ public:
 protected:
   ImageRegionSplitterSlowDimension();
 
-  unsigned int GetNumberOfSplitsInternal( unsigned int dim,
-                                                  const IndexValueType regionIndex[],
-                                                  const SizeValueType regionSize[],
-                                                  unsigned int requestedNumber ) const override;
+  unsigned int
+  GetNumberOfSplitsInternal(unsigned int         dim,
+                            const IndexValueType regionIndex[],
+                            const SizeValueType  regionSize[],
+                            unsigned int         requestedNumber) const override;
 
-  unsigned int GetSplitInternal( unsigned int dim,
-                                         unsigned int i,
-                                         unsigned int numberOfPieces,
-                                         IndexValueType regionIndex[],
-                                         SizeValueType regionSize[] ) const override;
+  unsigned int
+  GetSplitInternal(unsigned int   dim,
+                   unsigned int   i,
+                   unsigned int   numberOfPieces,
+                   IndexValueType regionIndex[],
+                   SizeValueType  regionSize[]) const override;
 };
 } // end namespace itk
 

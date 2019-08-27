@@ -34,39 +34,39 @@ namespace itk
  * \ingroup IntensityImageFilters
  * \ingroup ITKImageIntensity
  */
-template< typename TInputImage1, typename TInputImage2,
-          typename TInputImage3, typename TOutputImage >
-class TernaryAddImageFilter:
-  public
-  TernaryFunctorImageFilter< TInputImage1, TInputImage2,
-                             TInputImage3, TOutputImage,
-                             Functor::Add3< typename TInputImage1::PixelType,
-                                            typename TInputImage2::PixelType,
-                                            typename TInputImage3::PixelType,
-                                            typename TOutputImage::PixelType >   >
+template <typename TInputImage1, typename TInputImage2, typename TInputImage3, typename TOutputImage>
+class TernaryAddImageFilter
+  : public TernaryFunctorImageFilter<TInputImage1,
+                                     TInputImage2,
+                                     TInputImage3,
+                                     TOutputImage,
+                                     Functor::Add3<typename TInputImage1::PixelType,
+                                                   typename TInputImage2::PixelType,
+                                                   typename TInputImage3::PixelType,
+                                                   typename TOutputImage::PixelType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(TernaryAddImageFilter);
 
   /** Standard class type aliases. */
   using Self = TernaryAddImageFilter;
-  using Superclass = TernaryFunctorImageFilter<
-    TInputImage1, TInputImage2,
-    TInputImage3, TOutputImage,
-    Functor::Add3< typename TInputImage1::PixelType,
-                   typename TInputImage2::PixelType,
-                   typename TInputImage3::PixelType,
-                   typename TOutputImage::PixelType >   >;
+  using Superclass = TernaryFunctorImageFilter<TInputImage1,
+                                               TInputImage2,
+                                               TInputImage3,
+                                               TOutputImage,
+                                               Functor::Add3<typename TInputImage1::PixelType,
+                                                             typename TInputImage2::PixelType,
+                                                             typename TInputImage3::PixelType,
+                                                             typename TOutputImage::PixelType>>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(TernaryAddImageFilter,
-               TernaryFunctorImageFilter);
+  itkTypeMacro(TernaryAddImageFilter, TernaryFunctorImageFilter);
 
 protected:
   TernaryAddImageFilter() = default;

@@ -21,7 +21,8 @@
 // \index{itk::Spatial\-Object\-To\-Image\-Statistics\-Calculator}
 // This example describes how to use the
 // \doxygen{SpatialObjectToImageStatisticsCalculator} to compute statistics
-// of an \doxygen{Image} only in a region defined inside a given \doxygen{SpatialObject}.
+// of an \doxygen{Image} only in a region defined inside a given
+// \doxygen{SpatialObject}.
 //
 // Software Guide : EndLatex
 
@@ -33,35 +34,35 @@
 #include "itkEllipseSpatialObject.h"
 #include "itkRandomImageSource.h"
 
-int main(int, char * [] )
+int
+main(int, char *[])
 {
-// Software Guide : BeginLatex
-//
-// We first create a test image using the \doxygen{RandomImageSource}
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // We first create a test image using the \doxygen{RandomImageSource}
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
-  using ImageType = itk::Image< unsigned char, 2 >;
-  using RandomImageSourceType = itk::RandomImageSource< ImageType >;
-  RandomImageSourceType::Pointer randomImageSource
-    = RandomImageSourceType::New();
-  ImageType::SizeValueType size[2];
+  // Software Guide : BeginCodeSnippet
+  using ImageType = itk::Image<unsigned char, 2>;
+  using RandomImageSourceType = itk::RandomImageSource<ImageType>;
+  RandomImageSourceType::Pointer randomImageSource = RandomImageSourceType::New();
+  ImageType::SizeValueType       size[2];
   size[0] = 10;
   size[1] = 10;
   randomImageSource->SetSize(size);
   randomImageSource->Update();
   ImageType::Pointer image = randomImageSource->GetOutput();
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// Next we create an \doxygen{EllipseSpatialObject} with a radius of 2.
-// We also move the ellipse to the center of the image.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // Next we create an \doxygen{EllipseSpatialObject} with a radius of 2.
+  // We also move the ellipse to the center of the image.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   using EllipseType = itk::EllipseSpatialObject<2>;
   EllipseType::Pointer ellipse = EllipseType::New();
   ellipse->SetRadiusInObjectSpace(2);
@@ -69,55 +70,55 @@ int main(int, char * [] )
   offset.Fill(5);
   ellipse->SetCenterInObjectSpace(offset);
   ellipse->Update();
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// Then we can create the \doxygen{SpatialObjectToImageStatisticsCalculator}.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // Then we can create the \doxygen{SpatialObjectToImageStatisticsCalculator}.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
-  using CalculatorType = itk::SpatialObjectToImageStatisticsCalculator<
-    ImageType, EllipseType >;
+  // Software Guide : BeginCodeSnippet
+  using CalculatorType =
+    itk::SpatialObjectToImageStatisticsCalculator<ImageType, EllipseType>;
   CalculatorType::Pointer calculator = CalculatorType::New();
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// We pass a pointer to the image to the calculator.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // We pass a pointer to the image to the calculator.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   calculator->SetImage(image);
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// We also pass the SpatialObject. The statistics will be computed inside the SpatialObject
-// (Internally the calculator is using the \code{IsInside()} function).
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // We also pass the SpatialObject. The statistics will be computed inside the
+  // SpatialObject (Internally the calculator is using the \code{IsInside()} function).
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   calculator->SetSpatialObject(ellipse);
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// At the end we trigger the computation via the \code{Update()} function and we
-// can retrieve the mean and the covariance matrix using \code{GetMean()}
-// and \code{GetCovarianceMatrix()}
-// respectively.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // At the end we trigger the computation via the \code{Update()} function and we
+  // can retrieve the mean and the covariance matrix using \code{GetMean()}
+  // and \code{GetCovarianceMatrix()}
+  // respectively.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   calculator->Update();
   std::cout << "Sample mean = " << calculator->GetMean() << std::endl;
   std::cout << "Sample covariance = " << calculator->GetCovarianceMatrix();
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;
 }

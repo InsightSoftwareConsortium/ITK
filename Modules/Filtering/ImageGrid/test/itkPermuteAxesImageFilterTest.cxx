@@ -26,105 +26,109 @@
 class ShowProgressObject
 {
 public:
-  ShowProgressObject(itk::ProcessObject* o)
-    {m_Process = o;}
-  void ShowProgress()
-    {std::cout << "Progress " << m_Process->GetProgress() << std::endl;}
+  ShowProgressObject(itk::ProcessObject * o) { m_Process = o; }
+  void
+  ShowProgress()
+  {
+    std::cout << "Progress " << m_Process->GetProgress() << std::endl;
+  }
   itk::ProcessObject::Pointer m_Process;
 };
 
-int itkPermuteAxesImageFilterTest(int, char* [] )
+int
+itkPermuteAxesImageFilterTest(int, char *[])
 {
 
-  itk::OutputWindow::SetInstance( itk::TextOutput::New() );
+  itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
   using PixelType = unsigned char;
-  enum { ImageDimension = 4 };
-  using ImageType = itk::Image<PixelType,ImageDimension>;
+  enum
+  {
+    ImageDimension = 4
+  };
+  using ImageType = itk::Image<PixelType, ImageDimension>;
   using PermuterType = itk::PermuteAxesImageFilter<ImageType>;
 
 
   // define a small input test
-  ImageType::IndexType index = {{ 10, 20, 30, 40 }};
-  ImageType::SizeType size = {{5,4,3,2}};
+  ImageType::IndexType  index = { { 10, 20, 30, 40 } };
+  ImageType::SizeType   size = { { 5, 4, 3, 2 } };
   ImageType::RegionType region;
-  region.SetSize( size );
-  region.SetIndex( index );
+  region.SetSize(size);
+  region.SetIndex(index);
 
   double spacing[ImageDimension] = { 1.1, 1.2, 1.3, 1.4 };
   double origin[ImageDimension] = { 0.5, 0.4, 0.3, 0.2 };
 
   ImageType::Pointer inputImage = ImageType::New();
-  inputImage->SetLargestPossibleRegion( region );
-  inputImage->SetBufferedRegion( region );
+  inputImage->SetLargestPossibleRegion(region);
+  inputImage->SetBufferedRegion(region);
   inputImage->Allocate();
 
-  inputImage->SetSpacing( spacing );
-  inputImage->SetOrigin( origin );
+  inputImage->SetSpacing(spacing);
+  inputImage->SetOrigin(origin);
 
   using Iterator = itk::ImageRegionIteratorWithIndex<ImageType>;
-  Iterator inputIter( inputImage, inputImage->GetBufferedRegion() );
+  Iterator inputIter(inputImage, inputImage->GetBufferedRegion());
 
   PixelType counter = 0;
-  while ( !inputIter.IsAtEnd() )
-    {
-    inputIter.Set( counter );
+  while (!inputIter.IsAtEnd())
+  {
+    inputIter.Set(counter);
     ++counter;
     ++inputIter;
-    }
+  }
 
 
   // permute the image
   PermuterType::Pointer permuter = PermuterType::New();
 
   unsigned int order[ImageDimension] = { 2, 0, 3, 1 };
-  permuter->SetOrder( order );
+  permuter->SetOrder(order);
 
-  permuter->SetInput( inputImage );
+  permuter->SetInput(inputImage);
 
-  ShowProgressObject progressWatch(permuter);
+  ShowProgressObject                                    progressWatch(permuter);
   itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
   command = itk::SimpleMemberCommand<ShowProgressObject>::New();
-  command->SetCallbackFunction(&progressWatch,
-                               &ShowProgressObject::ShowProgress);
-  permuter->AddObserver( itk::ProgressEvent(), command);
+  command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);
+  permuter->AddObserver(itk::ProgressEvent(), command);
 
   permuter->Update();
 
-  permuter->GetOutput()->Print( std::cout );
-  permuter->Print( std::cout );
+  permuter->GetOutput()->Print(std::cout);
+  permuter->Print(std::cout);
 
   // check the output
   ImageType::Pointer outputImage = permuter->GetOutput();
 
   inputIter.GoToBegin();
   bool passed = true;
-  while ( !inputIter.IsAtEnd() )
-    {
+  while (!inputIter.IsAtEnd())
+  {
 
     ImageType::IndexType inputIndex = inputIter.GetIndex();
     ImageType::IndexType outputIndex;
 
-    for ( int j = 0; j < ImageDimension; j++ )
-      {
+    for (int j = 0; j < ImageDimension; j++)
+    {
       outputIndex[j] = inputIndex[order[j]];
-      }
+    }
 
-    if ( inputIter.Get() != outputImage->GetPixel( outputIndex ) )
-      {
+    if (inputIter.Get() != outputImage->GetPixel(outputIndex))
+    {
       passed = false;
       std::cout << "Mismatch at index: " << inputIndex << std::endl;
-      }
+    }
 
     ++inputIter;
+  }
 
-    }
-
-  if ( !passed )
-    {
+  if (!passed)
+  {
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // exercise Get methods
   std::cout << "Order: " << permuter->GetOrder() << std::endl;
@@ -134,42 +138,41 @@ int itkPermuteAxesImageFilterTest(int, char* [] )
   passed = false;
   order[0] = order[1];
   try
-    {
-    permuter->SetOrder( order );
-    }
-  catch( itk::ExceptionObject & err )
-    {
+  {
+    permuter->SetOrder(order);
+  }
+  catch (itk::ExceptionObject & err)
+  {
     passed = true;
     std::cout << err << std::endl;
-    }
+  }
 
-  if ( !passed )
-    {
+  if (!passed)
+  {
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // test SetOrder logic - indices out of range
   passed = false;
   order[0] = ImageDimension + 2;
   try
-    {
-    permuter->SetOrder( order );
-    }
-  catch( itk::ExceptionObject & err )
-    {
+  {
+    permuter->SetOrder(order);
+  }
+  catch (itk::ExceptionObject & err)
+  {
     passed = true;
     std::cout << err << std::endl;
-    }
+  }
 
-  if ( !passed )
-    {
+  if (!passed)
+  {
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
-
 }

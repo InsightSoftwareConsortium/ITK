@@ -57,17 +57,15 @@ namespace itk
  *
  * \ingroup ITKReview
  */
-template< typename TInputImage, typename TFeatureImage, typename TSingleData >
-class UnconstrainedRegionBasedLevelSetFunctionSharedData:
-  public RegionBasedLevelSetFunctionSharedData< TInputImage, TFeatureImage, TSingleData >
+template <typename TInputImage, typename TFeatureImage, typename TSingleData>
+class UnconstrainedRegionBasedLevelSetFunctionSharedData
+  : public RegionBasedLevelSetFunctionSharedData<TInputImage, TFeatureImage, TSingleData>
 {
 public:
-
   using Self = UnconstrainedRegionBasedLevelSetFunctionSharedData;
-  using Superclass =
-      RegionBasedLevelSetFunctionSharedData< TInputImage, TFeatureImage, TSingleData >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = RegionBasedLevelSetFunctionSharedData<TInputImage, TFeatureImage, TSingleData>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   static constexpr unsigned int ImageDimension = TFeatureImage::ImageDimension;
 
@@ -124,29 +122,33 @@ public:
   using LevelSetDataPointerVector = typename Superclass::LevelSetDataPointerVector;
   using LevelSetDataPointerVectorIterator = typename Superclass::LevelSetDataPointerVectorIterator;
 
-  void PopulateListImage() override
+  void
+  PopulateListImage() override
   {
     ListPixelType L;
 
-    for ( unsigned int i = 0; i < this->m_FunctionCount; i++ )
-      {
+    for (unsigned int i = 0; i < this->m_FunctionCount; i++)
+    {
       L.push_back(i);
-      }
+    }
     this->m_NearestNeighborListImage->FillBuffer(L);
   }
 
 protected:
-  UnconstrainedRegionBasedLevelSetFunctionSharedData():Superclass(){}
-  ~UnconstrainedRegionBasedLevelSetFunctionSharedData() override{}
+  UnconstrainedRegionBasedLevelSetFunctionSharedData()
+    : Superclass()
+  {}
+  ~UnconstrainedRegionBasedLevelSetFunctionSharedData() override {}
 
 private:
-  UnconstrainedRegionBasedLevelSetFunctionSharedData(const Self &); //purposely
+  UnconstrainedRegionBasedLevelSetFunctionSharedData(const Self &); // purposely
                                                                     // not
                                                                     // implemented
-  void operator=(const Self &);                                     //purposely
-                                                                    // not
-                                                                    // implemented
+  void
+  operator=(const Self &); // purposely
+                           // not
+                           // implemented
 };
-} //end namespace itk
+} // end namespace itk
 
 #endif

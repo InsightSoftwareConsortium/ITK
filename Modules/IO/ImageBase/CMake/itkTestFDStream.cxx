@@ -21,7 +21,8 @@
 
 #include "itkfdstream/fdstream.hpp"
 
-int main()
+int
+main()
 {
   // stream with buffer reading from file descriptor 0 (standard input)
   itk::fdistream in(0);

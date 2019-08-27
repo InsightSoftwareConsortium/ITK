@@ -23,39 +23,58 @@
 namespace itk
 {
 
-template <typename TFixedImage, typename TMovingImage, typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
-CorrelationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage, TInternalComputationValueType, TMetricTraits>
-::CorrelationImageToImageMetricv4() :
-  m_AverageFix(0.0),
-  m_AverageMov(0.0)
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage,
+          typename TInternalComputationValueType,
+          typename TMetricTraits>
+CorrelationImageToImageMetricv4<TFixedImage,
+                                TMovingImage,
+                                TVirtualImage,
+                                TInternalComputationValueType,
+                                TMetricTraits>::CorrelationImageToImageMetricv4()
+  : m_AverageFix(0.0)
+  , m_AverageMov(0.0)
 {
-  this->m_DenseGetValueAndDerivativeThreader =
-    CorrelationDenseGetValueAndDerivativeThreaderType::New();
-  this->m_SparseGetValueAndDerivativeThreader =
-    CorrelationSparseGetValueAndDerivativeThreaderType::New();
+  this->m_DenseGetValueAndDerivativeThreader = CorrelationDenseGetValueAndDerivativeThreaderType::New();
+  this->m_SparseGetValueAndDerivativeThreader = CorrelationSparseGetValueAndDerivativeThreaderType::New();
 
   m_HelperDenseThreader = CorrelationHelperDenseThreaderType::New();
   m_HelperSparseThreader = CorrelationHelperSparseThreaderType::New();
 
-  if( this->m_MovingTransform->GetTransformCategory() == MovingTransformType::TransformCategoryType::DisplacementField )
-    {
+  if (this->m_MovingTransform->GetTransformCategory() == MovingTransformType::TransformCategoryType::DisplacementField)
+  {
     itkExceptionMacro("does not support displacement field transforms!!");
-    }
+  }
 }
 
-template <typename TFixedImage, typename TMovingImage, typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage,
+          typename TInternalComputationValueType,
+          typename TMetricTraits>
 void
-CorrelationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage, TInternalComputationValueType, TMetricTraits>
-::PrintSelf(std::ostream& os, Indent indent) const
+CorrelationImageToImageMetricv4<TFixedImage,
+                                TMovingImage,
+                                TVirtualImage,
+                                TInternalComputationValueType,
+                                TMetricTraits>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
 
 
-template <typename TFixedImage, typename TMovingImage, typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage,
+          typename TInternalComputationValueType,
+          typename TMetricTraits>
 void
-CorrelationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage, TInternalComputationValueType, TMetricTraits>
-::InitializeForIteration() const
+CorrelationImageToImageMetricv4<TFixedImage,
+                                TMovingImage,
+                                TVirtualImage,
+                                TInternalComputationValueType,
+                                TMetricTraits>::InitializeForIteration() const
 {
 
   Superclass::InitializeForIteration();
@@ -67,22 +86,23 @@ CorrelationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage, TInterna
   // Invoke the pipeline in the helper threader
   // refer to DomainThreader::Execute()
 
-  if( this->m_UseSampledPointSet ) // sparse sampling
-    {
+  if (this->m_UseSampledPointSet) // sparse sampling
+  {
     SizeValueType numberOfPoints = this->GetNumberOfDomainPoints();
-    if( numberOfPoints < 1 )
-      {
+    if (numberOfPoints < 1)
+    {
       itkExceptionMacro("FixedSampledPointSet must have 1 or more points.");
-      }
-    typename ImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Self >::DomainType range;
+    }
+    typename ImageToImageMetricv4GetValueAndDerivativeThreader<ThreadedIndexedContainerPartitioner, Self>::DomainType
+      range;
     range[0] = 0;
     range[1] = numberOfPoints - 1;
-    this->m_HelperSparseThreader->Execute( const_cast< Self* >(this), range );
-    }
+    this->m_HelperSparseThreader->Execute(const_cast<Self *>(this), range);
+  }
   else // dense sampling
-    {
-    this->m_HelperDenseThreader->Execute( const_cast< Self* >(this), this->GetVirtualRegion() );
-    }
+  {
+    this->m_HelperDenseThreader->Execute(const_cast<Self *>(this), this->GetVirtualRegion());
+  }
 
   /*
    * the results:
@@ -90,8 +110,6 @@ CorrelationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage, TInterna
    *  this->m_AverageMov
    * will be stored during helper::AfterThreadedExecution()
    */
-
-
 }
 
 } // end namespace itk

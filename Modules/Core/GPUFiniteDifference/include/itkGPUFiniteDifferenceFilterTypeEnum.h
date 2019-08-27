@@ -27,12 +27,14 @@ namespace itk
  * \class GPUFiniteDifferenceFilterTypeEnum
  * \ingroup ITKGPUFiniteDifference
  */
-enum class GPUFiniteDifferenceFilterTypeEnum : uint8_t {
-     UNINITIALIZED = 0,
-     INITIALIZED = 1
+enum class GPUFiniteDifferenceFilterTypeEnum : uint8_t
+{
+  UNINITIALIZED = 0,
+  INITIALIZED = 1
 };
 /** Define how to print enumeration values */
-extern ITKGPUFiniteDifference_EXPORT std::ostream& operator<<(std::ostream& out, const GPUFiniteDifferenceFilterTypeEnum value);
+extern ITKGPUFiniteDifference_EXPORT std::ostream &
+                                     operator<<(std::ostream & out, const GPUFiniteDifferenceFilterTypeEnum value);
 } // end namespace itk
 
 #endif

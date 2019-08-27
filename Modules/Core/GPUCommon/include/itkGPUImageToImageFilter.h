@@ -35,8 +35,9 @@ namespace itk
  *
  * \ingroup ITKGPUCommon
  */
-template< typename TInputImage, typename TOutputImage, typename TParentImageFilter =
-            ImageToImageFilter< TInputImage, TOutputImage > >
+template <typename TInputImage,
+          typename TOutputImage,
+          typename TParentImageFilter = ImageToImageFilter<TInputImage, TOutputImage>>
 class ITK_TEMPLATE_EXPORT GPUImageToImageFilter : public TParentImageFilter
 {
 public:
@@ -45,8 +46,8 @@ public:
   /** Standard class type aliases. */
   using Self = GPUImageToImageFilter;
   using Superclass = TParentImageFilter;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   itkNewMacro(Self);
 
@@ -74,27 +75,34 @@ public:
   itkGetConstMacro(GPUEnabled, bool);
   itkBooleanMacro(GPUEnabled);
 
-  void GenerateData() override;
-  virtual void GraftOutput(typename itk::GPUTraits< TOutputImage >::Type *output);
-  virtual void GraftOutput(const DataObjectIdentifierType & key, typename itk::GPUTraits< TOutputImage >::Type *output);
+  void
+  GenerateData() override;
+  virtual void
+  GraftOutput(typename itk::GPUTraits<TOutputImage>::Type * output);
+  virtual void
+  GraftOutput(const DataObjectIdentifierType & key, typename itk::GPUTraits<TOutputImage>::Type * output);
 
 protected:
-  void GraftOutput(DataObject *output) override;
-  void GraftOutput(const DataObjectIdentifierType & key, DataObject *output) override;
+  void
+  GraftOutput(DataObject * output) override;
+  void
+  GraftOutput(const DataObjectIdentifierType & key, DataObject * output) override;
   GPUImageToImageFilter();
   ~GPUImageToImageFilter() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  virtual void GPUGenerateData() {
-  }
+  virtual void
+  GPUGenerateData()
+  {}
 
   // GPU kernel manager
   typename GPUKernelManager::Pointer m_GPUKernelManager;
 
   // GPU kernel handle - kernel should be defined in specific filter (not in the
   // base class)
-  //int m_KernelHandle;
+  // int m_KernelHandle;
 
 private:
   bool m_GPUEnabled;
@@ -103,7 +111,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGPUImageToImageFilter.hxx"
+#  include "itkGPUImageToImageFilter.hxx"
 #endif
 
 #endif

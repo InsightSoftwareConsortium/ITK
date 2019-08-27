@@ -41,7 +41,7 @@ namespace itk
  *
  * \ingroup ITKDeconvolution
  */
-template< typename TSuperclass >
+template <typename TSuperclass>
 class ITK_TEMPLATE_EXPORT ProjectedIterativeDeconvolutionImageFilter : public TSuperclass
 {
 public:
@@ -50,8 +50,8 @@ public:
   /** Standard type alias. */
   using Self = ProjectedIterativeDeconvolutionImageFilter;
   using Superclass = TSuperclass;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Other useful type alias. */
   using InputImageType = typename Superclass::InputImageType;
@@ -69,29 +69,27 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ProjectedIterativeDeconvolutionImageFilter,
-               IterativeDeconvolutionImageFilter);
+  itkTypeMacro(ProjectedIterativeDeconvolutionImageFilter, IterativeDeconvolutionImageFilter);
 
 protected:
   ProjectedIterativeDeconvolutionImageFilter();
   ~ProjectedIterativeDeconvolutionImageFilter() override;
 
-  void Initialize(ProgressAccumulator * progress,
-                          float progressWeight,
-                          float iterationProgressWeight) override;
+  void
+  Initialize(ProgressAccumulator * progress, float progressWeight, float iterationProgressWeight) override;
 
-  void Iteration(ProgressAccumulator * progress,
-                         float iterationProgressWeight) override;
+  void
+  Iteration(ProgressAccumulator * progress, float iterationProgressWeight) override;
 
 private:
-  using ProjectionFilterType = ThresholdImageFilter< InternalImageType >;
+  using ProjectionFilterType = ThresholdImageFilter<InternalImageType>;
 
   typename ProjectionFilterType::Pointer m_ProjectionFilter;
 };
-} // end namespace ITK
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkProjectedIterativeDeconvolutionImageFilter.hxx"
+#  include "itkProjectedIterativeDeconvolutionImageFilter.hxx"
 #endif
 
 #endif

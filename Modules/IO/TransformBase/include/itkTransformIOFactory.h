@@ -28,23 +28,28 @@ namespace itk
 /** \class TransformIOFactorFileModeType
  * \ingroup ITKIOTransformBase
  * Mode in which the files is intended to be used */
-enum class TransformIOFactoryFileModeType : uint8_t { ReadMode, WriteMode };
+enum class TransformIOFactoryFileModeType : uint8_t
+{
+  ReadMode,
+  WriteMode
+};
 #if !defined(ITK_LEGACY_REMOVE)
-    //We need to expose the enum values at the class level
-    // for backwards compatibility
-    static constexpr TransformIOFactoryFileModeType ReadMode = TransformIOFactoryFileModeType::ReadMode;
-    static constexpr TransformIOFactoryFileModeType WriteMode = TransformIOFactoryFileModeType::WriteMode;
+// We need to expose the enum values at the class level
+// for backwards compatibility
+static constexpr TransformIOFactoryFileModeType ReadMode = TransformIOFactoryFileModeType::ReadMode;
+static constexpr TransformIOFactoryFileModeType WriteMode = TransformIOFactoryFileModeType::WriteMode;
 #endif
 
 // Define how to print enumeration
-extern ITKIOTransformBase_EXPORT std::ostream& operator<<(std::ostream& out, const TransformIOFactoryFileModeType value);
+extern ITKIOTransformBase_EXPORT std::ostream &
+                                 operator<<(std::ostream & out, const TransformIOFactoryFileModeType value);
 
 /** \class TransformIOFactoryTemplate
  * \brief Create instances of TransformIO objects using an object factory.
  * \ingroup ITKIOTransformBase
  */
-template<typename TParametersValueType>
-class ITK_TEMPLATE_EXPORT TransformIOFactoryTemplate:public Object
+template <typename TParametersValueType>
+class ITK_TEMPLATE_EXPORT TransformIOFactoryTemplate : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(TransformIOFactoryTemplate);
@@ -67,7 +72,7 @@ public:
    *  the particulars of the file.
    */
   static TransformIOBasePointer
-  CreateTransformIO(const char *path, TransformIOFactoryFileModeType mode);
+  CreateTransformIO(const char * path, TransformIOFactoryFileModeType mode);
 
 protected:
   TransformIOFactoryTemplate();
@@ -93,24 +98,24 @@ using TransformIOFactory = TransformIOFactoryTemplate<double>;
 //            need to be considered. This code *MUST* be *OUTSIDE* the header
 //            guards.
 //
-#  if defined( ITKIOTransformBase_EXPORTS )
+#if defined(ITKIOTransformBase_EXPORTS)
 //   We are building this library
-#    define ITKIOTransformBase_EXPORT_EXPLICIT ITK_FORWARD_EXPORT
-#  else
+#  define ITKIOTransformBase_EXPORT_EXPLICIT ITK_FORWARD_EXPORT
+#else
 //   We are using this library
-#    define ITKIOTransformBase_EXPORT_EXPLICIT ITKIOTransformBase_EXPORT
-#  endif
+#  define ITKIOTransformBase_EXPORT_EXPLICIT ITKIOTransformBase_EXPORT
+#endif
 namespace itk
 {
 
 ITK_GCC_PRAGMA_DIAG_PUSH()
 ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
 
-extern template class ITKIOTransformBase_EXPORT_EXPLICIT TransformIOFactoryTemplate< double >;
-extern template class ITKIOTransformBase_EXPORT_EXPLICIT TransformIOFactoryTemplate< float >;
+extern template class ITKIOTransformBase_EXPORT_EXPLICIT TransformIOFactoryTemplate<double>;
+extern template class ITKIOTransformBase_EXPORT_EXPLICIT TransformIOFactoryTemplate<float>;
 
 ITK_GCC_PRAGMA_DIAG_POP()
 
 } // end namespace itk
-#  undef ITKIOTransformBase_EXPORT_EXPLICIT
+#undef ITKIOTransformBase_EXPORT_EXPLICIT
 #endif

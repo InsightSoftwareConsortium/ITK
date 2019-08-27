@@ -35,36 +35,33 @@ namespace itk
 /**
  *
  */
-template< typename TPixel, unsigned int VImageDimension >
-VectorImage< TPixel, VImageDimension >
-::VectorImage()
+template <typename TPixel, unsigned int VImageDimension>
+VectorImage<TPixel, VImageDimension>::VectorImage()
 
 {
   m_Buffer = PixelContainer::New();
 }
 
 //----------------------------------------------------------------------------
-template< typename TPixel, unsigned int VImageDimension >
+template <typename TPixel, unsigned int VImageDimension>
 void
-VectorImage< TPixel, VImageDimension >
-::Allocate(const bool UseDefaultConstructor)
+VectorImage<TPixel, VImageDimension>::Allocate(const bool UseDefaultConstructor)
 {
-  if ( m_VectorLength == 0 )
-    {
+  if (m_VectorLength == 0)
+  {
     itkExceptionMacro(<< "Cannot allocate VectorImage with VectorLength = 0");
-    }
+  }
 
   SizeValueType num;
   this->ComputeOffsetTable();
   num = this->GetOffsetTable()[VImageDimension];
 
-  m_Buffer->Reserve(num * m_VectorLength,UseDefaultConstructor);
+  m_Buffer->Reserve(num * m_VectorLength, UseDefaultConstructor);
 }
 
-template< typename TPixel, unsigned int VImageDimension >
+template <typename TPixel, unsigned int VImageDimension>
 void
-VectorImage< TPixel, VImageDimension >
-::Initialize()
+VectorImage<TPixel, VImageDimension>::Initialize()
 {
   //
   // We don't modify ourselves because the "ReleaseData" methods depend upon
@@ -80,112 +77,102 @@ VectorImage< TPixel, VImageDimension >
   m_Buffer = PixelContainer::New();
 }
 
-template< typename TPixel, unsigned int VImageDimension >
+template <typename TPixel, unsigned int VImageDimension>
 void
-VectorImage< TPixel, VImageDimension >
-::FillBuffer(const PixelType & value)
+VectorImage<TPixel, VImageDimension>::FillBuffer(const PixelType & value)
 {
-  const SizeValueType numberOfPixels =
-    this->GetBufferedRegion().GetNumberOfPixels();
+  const SizeValueType numberOfPixels = this->GetBufferedRegion().GetNumberOfPixels();
 
   SizeValueType ctr = 0;
 
-  for ( SizeValueType i = 0; i < numberOfPixels; i++ )
+  for (SizeValueType i = 0; i < numberOfPixels; i++)
+  {
+    for (VectorLengthType j = 0; j < m_VectorLength; j++)
     {
-    for ( VectorLengthType j = 0; j < m_VectorLength; j++ )
-      {
-      ( *m_Buffer )[ctr++] = value[j];
-      }
+      (*m_Buffer)[ctr++] = value[j];
     }
+  }
 }
 
-template< typename TPixel, unsigned int VImageDimension >
+template <typename TPixel, unsigned int VImageDimension>
 void
-VectorImage< TPixel, VImageDimension >
-::SetPixelContainer(PixelContainer *container)
+VectorImage<TPixel, VImageDimension>::SetPixelContainer(PixelContainer * container)
 {
-  if ( m_Buffer != container )
-    {
+  if (m_Buffer != container)
+  {
     m_Buffer = container;
     this->Modified();
-    }
+  }
 }
 
 //----------------------------------------------------------------------------
-template< typename TPixel, unsigned int VImageDimension >
+template <typename TPixel, unsigned int VImageDimension>
 void
-VectorImage< TPixel, VImageDimension >
-::Graft(const Self *image)
+VectorImage<TPixel, VImageDimension>::Graft(const Self * image)
 {
-  if(image == nullptr)
-    {
+  if (image == nullptr)
+  {
     return;
-    }
+  }
   // call the superclass' implementation
   Superclass::Graft(image);
 
   // Copy from VectorImage< TPixel, dim >
   // Now copy anything remaining that is needed
-  this->SetPixelContainer( const_cast< PixelContainer * >
-                           ( image->GetPixelContainer() ) );
+  this->SetPixelContainer(const_cast<PixelContainer *>(image->GetPixelContainer()));
 }
 
 //----------------------------------------------------------------------------
-template< typename TPixel, unsigned int VImageDimension >
+template <typename TPixel, unsigned int VImageDimension>
 void
-VectorImage< TPixel, VImageDimension >
-::Graft(const DataObject *data)
+VectorImage<TPixel, VImageDimension>::Graft(const DataObject * data)
 {
-  if(data == nullptr)
-    {
+  if (data == nullptr)
+  {
     return;
-    }
+  }
   // Attempt to cast data to an Image
-  const auto * imgData = dynamic_cast< const Self * >( data );
+  const auto * imgData = dynamic_cast<const Self *>(data);
 
-  if( imgData == nullptr )
-    {
+  if (imgData == nullptr)
+  {
     // pointer could not be cast back down
-    itkExceptionMacro( << "itk::VectorImage::Graft() cannot cast "
-                       << typeid( data ).name() << " to "
-                       << typeid( const Self * ).name() );
-    }
+    itkExceptionMacro(<< "itk::VectorImage::Graft() cannot cast " << typeid(data).name() << " to "
+                      << typeid(const Self *).name());
+  }
   // Copy from VectorImage< TPixel, dim >
   // Now copy anything remaining that is needed
   this->Graft(imgData);
 }
 
 //----------------------------------------------------------------------------
-template< typename TPixel, unsigned int VImageDimension >
+template <typename TPixel, unsigned int VImageDimension>
 unsigned int
-VectorImage< TPixel, VImageDimension >
-::GetNumberOfComponentsPerPixel() const
+VectorImage<TPixel, VImageDimension>::GetNumberOfComponentsPerPixel() const
 {
   return this->m_VectorLength;
 }
 
 //----------------------------------------------------------------------------
-template< typename TPixel, unsigned int VImageDimension >
+template <typename TPixel, unsigned int VImageDimension>
 void
-VectorImage< TPixel, VImageDimension >
-::SetNumberOfComponentsPerPixel(unsigned int n)
+VectorImage<TPixel, VImageDimension>::SetNumberOfComponentsPerPixel(unsigned int n)
 {
-  this->SetVectorLength( static_cast< VectorLengthType >( n ) );
+  this->SetVectorLength(static_cast<VectorLengthType>(n));
 }
 
 /**
  *
  */
-template< typename TPixel, unsigned int VImageDimension >
+template <typename TPixel, unsigned int VImageDimension>
 void
-VectorImage< TPixel, VImageDimension >
-::PrintSelf(std::ostream & os, Indent indent) const
+VectorImage<TPixel, VImageDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << indent << "VectorLength: " << m_VectorLength << std::endl;
   os << indent << "PixelContainer: " << std::endl;
-  m_Buffer->Print( os, indent.GetNextIndent() );
+  m_Buffer->Print(os, indent.GetNextIndent());
 
   // m_Origin and m_Spacing are printed in the Superclass
 }

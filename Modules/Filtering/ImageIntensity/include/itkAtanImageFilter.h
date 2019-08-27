@@ -30,28 +30,31 @@ namespace Functor
  * \brief
  * \ingroup ITKImageIntensity
  */
-template< typename TInput, typename TOutput >
+template <typename TInput, typename TOutput>
 class Atan
 {
 public:
   Atan() = default;
   ~Atan() = default;
-  bool operator!=(const Atan &) const
+  bool
+  operator!=(const Atan &) const
   {
     return false;
   }
 
-  bool operator==(const Atan & other) const
+  bool
+  operator==(const Atan & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 
-  inline TOutput operator()(const TInput & A) const
+  inline TOutput
+  operator()(const TInput & A) const
   {
-    return static_cast< TOutput >( std::atan( static_cast< double >( A ) ) );
+    return static_cast<TOutput>(std::atan(static_cast<double>(A)));
   }
 };
-}
+} // namespace Functor
 
 /** \class AtanImageFilter
  * \brief Computes the one-argument inverse tangent of each pixel.
@@ -72,45 +75,39 @@ public:
  * \ingroup MultiThreaded
  * \ingroup ITKImageIntensity
  */
-template< typename TInputImage, typename TOutputImage >
-class AtanImageFilter:
-  public
-  UnaryGeneratorImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class AtanImageFilter : public UnaryGeneratorImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(AtanImageFilter);
 
   /** Standard class type aliases. */
   using Self = AtanImageFilter;
-  using Superclass = UnaryGeneratorImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using FunctorType = Functor::Atan< typename TInputImage::PixelType,
-                                     typename TOutputImage::PixelType >;
+  using Superclass = UnaryGeneratorImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using FunctorType = Functor::Atan<typename TInputImage::PixelType, typename TOutputImage::PixelType>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(AtanImageFilter,
-               UnaryGeneratorImageFilter);
+  itkTypeMacro(AtanImageFilter, UnaryGeneratorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputConvertibleToDoubleCheck,
-                   ( Concept::Convertible< typename TInputImage::PixelType, double > ) );
-  itkConceptMacro( DoubleConvertibleToOutputCheck,
-                   ( Concept::Convertible< double, typename TOutputImage::PixelType > ) );
+  itkConceptMacro(InputConvertibleToDoubleCheck, (Concept::Convertible<typename TInputImage::PixelType, double>));
+  itkConceptMacro(DoubleConvertibleToOutputCheck, (Concept::Convertible<double, typename TOutputImage::PixelType>));
   // End concept checking
 #endif
 
 protected:
   AtanImageFilter()
-    {
-#if !defined( ITK_WRAPPING_PARSER )
-      Superclass::SetFunctor(FunctorType());
+  {
+#if !defined(ITK_WRAPPING_PARSER)
+    Superclass::SetFunctor(FunctorType());
 #endif
-    }
+  }
 
   ~AtanImageFilter() override = default;
 };

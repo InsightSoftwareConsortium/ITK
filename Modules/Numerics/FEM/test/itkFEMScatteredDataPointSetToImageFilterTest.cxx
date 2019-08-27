@@ -41,49 +41,48 @@
  *  0     1   2   3   4
  *
  */
-int itkFEMScatteredDataPointSetToImageFilterTest(int, char *[])
+int
+itkFEMScatteredDataPointSetToImageFilterTest(int, char *[])
 {
   constexpr unsigned int ParametricDimension = 2;
   constexpr unsigned int DataDimension = 2;
 
   using RealType = float;
   using VectorType = itk::Vector<RealType, DataDimension>;
-  using MatrixType = itk::Matrix<RealType, DataDimension,
-      DataDimension>;
+  using MatrixType = itk::Matrix<RealType, DataDimension, DataDimension>;
   using DeformationFieldType = itk::Image<VectorType, ParametricDimension>;
-  using FeaturePointSetType = itk::PointSet
-    <VectorType, ParametricDimension>;
-  using TensorPointSetType = itk::PointSet
-    <MatrixType, ParametricDimension>;
-  using ConfidencePointSetType = itk::PointSet
-    <RealType, ParametricDimension>;
-  using MeshType = itk::Mesh< VectorType, ParametricDimension >;
+  using FeaturePointSetType = itk::PointSet<VectorType, ParametricDimension>;
+  using TensorPointSetType = itk::PointSet<MatrixType, ParametricDimension>;
+  using ConfidencePointSetType = itk::PointSet<RealType, ParametricDimension>;
+  using MeshType = itk::Mesh<VectorType, ParametricDimension>;
   using PointType = FeaturePointSetType::PointType;
 
-  using FilterType = itk::fem::FEMScatteredDataPointSetToImageFilter
-    <FeaturePointSetType, MeshType, DeformationFieldType, ConfidencePointSetType,
-    TensorPointSetType>;
+  using FilterType = itk::fem::FEMScatteredDataPointSetToImageFilter<FeaturePointSetType,
+                                                                     MeshType,
+                                                                     DeformationFieldType,
+                                                                     ConfidencePointSetType,
+                                                                     TensorPointSetType>;
 
-  using ConstIteratorType = itk::ImageRegionConstIterator< DeformationFieldType >;
+  using ConstIteratorType = itk::ImageRegionConstIterator<DeformationFieldType>;
 
   FilterType::Pointer filter = FilterType::New();
 
-  //Construct a feature point set
+  // Construct a feature point set
   FeaturePointSetType::Pointer featurePoints = FeaturePointSetType::New();
-  PointType p0;
-  PointType p1;
-  PointType p2;
-  PointType p3;
-  //point is on the bottom boundary
+  PointType                    p0;
+  PointType                    p1;
+  PointType                    p2;
+  PointType                    p3;
+  // point is on the bottom boundary
   p0[0] = 1.0;
   p0[1] = 0.0;
-  //point is inside a element
+  // point is inside a element
   p1[0] = 3.0;
   p1[1] = 1.0;
-  //point is the node
+  // point is the node
   p2[0] = 2.0;
   p2[1] = 2.0;
-  //point is on the right boundary
+  // point is on the right boundary
   p3[0] = 4.0;
   p3[1] = 3.0;
 
@@ -111,7 +110,7 @@ int itkFEMScatteredDataPointSetToImageFilterTest(int, char *[])
   featurePoints->SetPointData(2, u2);
   featurePoints->SetPointData(3, u3);
 
-  //Set the feature point set
+  // Set the feature point set
   filter->SetInput(featurePoints);
 
   // Set the parameters for a rectilinear mesh.
@@ -121,7 +120,7 @@ int itkFEMScatteredDataPointSetToImageFilterTest(int, char *[])
   elementSpacing[1] = 2.0;
   filter->SetElementSpacing(elementSpacing);
 
-  //Set the output
+  // Set the output
   DeformationFieldType::SizeType size;
   size[0] = 5;
   size[1] = 5;
@@ -141,29 +140,29 @@ int itkFEMScatteredDataPointSetToImageFilterTest(int, char *[])
 
   DeformationFieldType::Pointer DF = filter->GetOutput();
 
-  ConstIteratorType constIterator( DF, DF->GetRequestedRegion() );
+  ConstIteratorType constIterator(DF, DF->GetRequestedRegion());
 
-  //examine the results
-  bool hasError = false;
+  // examine the results
+  bool       hasError = false;
   VectorType realDisplacement;
   realDisplacement[0] = 1.0;
   realDisplacement[1] = 1.0;
-  for(constIterator.GoToBegin(); !constIterator.IsAtEnd(); ++constIterator)
-    {
+  for (constIterator.GoToBegin(); !constIterator.IsAtEnd(); ++constIterator)
+  {
     VectorType simulatedDisplacement = constIterator.Get();
     VectorType error = simulatedDisplacement - realDisplacement;
 
-    if(error.GetNorm() > 0.0001)
-      {
-      hasError = true;
-      }
-    }
-
-  if( hasError )
+    if (error.GetNorm() > 0.0001)
     {
+      hasError = true;
+    }
+  }
+
+  if (hasError)
+  {
     std::cout << "Test FAILED!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "Test PASSED!" << std::endl;
   return EXIT_SUCCESS;

@@ -30,9 +30,8 @@ namespace itk
 //
 // Constructor
 //
-template<typename TInputVideoStream, typename TOutputVideoStream>
-FrameAverageVideoFilter<TInputVideoStream, TOutputVideoStream>::
-FrameAverageVideoFilter()
+template <typename TInputVideoStream, typename TOutputVideoStream>
+FrameAverageVideoFilter<TInputVideoStream, TOutputVideoStream>::FrameAverageVideoFilter()
 {
   // Default to average over 2 frames
   this->TemporalProcessObject::m_UnitInputNumberOfFrames = 2;
@@ -51,25 +50,21 @@ FrameAverageVideoFilter()
 //
 // PrintSelf
 //
-template<typename TInputVideoStream, typename TOutputVideoStream>
+template <typename TInputVideoStream, typename TOutputVideoStream>
 void
-FrameAverageVideoFilter<TInputVideoStream, TOutputVideoStream>::
-PrintSelf(std::ostream & os, Indent indent) const
+FrameAverageVideoFilter<TInputVideoStream, TOutputVideoStream>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent
-     << "NumberOfFrames: " << this->TemporalProcessObject::m_UnitInputNumberOfFrames
-     << std::endl;
+  os << indent << "NumberOfFrames: " << this->TemporalProcessObject::m_UnitInputNumberOfFrames << std::endl;
 }
 
 
 //
 // SetNumberOfFrames
 //
-template<typename TInputVideoStream, typename TOutputVideoStream>
+template <typename TInputVideoStream, typename TOutputVideoStream>
 void
-FrameAverageVideoFilter<TInputVideoStream, TOutputVideoStream>::
-SetNumberOfFrames(SizeValueType numFrames)
+FrameAverageVideoFilter<TInputVideoStream, TOutputVideoStream>::SetNumberOfFrames(SizeValueType numFrames)
 {
   this->TemporalProcessObject::m_UnitInputNumberOfFrames = numFrames;
   this->Modified();
@@ -79,10 +74,9 @@ SetNumberOfFrames(SizeValueType numFrames)
 //
 // GetNumberOfFrames
 //
-template<typename TInputVideoStream, typename TOutputVideoStream>
+template <typename TInputVideoStream, typename TOutputVideoStream>
 SizeValueType
-FrameAverageVideoFilter<TInputVideoStream, TOutputVideoStream>::
-GetNumberOfFrames()
+FrameAverageVideoFilter<TInputVideoStream, TOutputVideoStream>::GetNumberOfFrames()
 {
   return this->TemporalProcessObject::m_UnitInputNumberOfFrames;
 }
@@ -91,58 +85,56 @@ GetNumberOfFrames()
 //
 // ThreadedGenerateData
 //
-template<typename TInputVideoStream, typename TOutputVideoStream>
+template <typename TInputVideoStream, typename TOutputVideoStream>
 void
-FrameAverageVideoFilter<TInputVideoStream, TOutputVideoStream>::
-ThreadedGenerateData(const OutputFrameSpatialRegionType& outputRegionForThread,
-                     int itkNotUsed(threadId))
+FrameAverageVideoFilter<TInputVideoStream, TOutputVideoStream>::ThreadedGenerateData(
+  const OutputFrameSpatialRegionType & outputRegionForThread,
+  int                                  itkNotUsed(threadId))
 {
   // Get the input and output video streams
-  const InputVideoStreamType* input = this->GetInput();
-  OutputVideoStreamType* output = this->GetOutput();
-  SizeValueType numFrames = this->TemporalProcessObject::m_UnitInputNumberOfFrames;
+  const InputVideoStreamType * input = this->GetInput();
+  OutputVideoStreamType *      output = this->GetOutput();
+  SizeValueType                numFrames = this->TemporalProcessObject::m_UnitInputNumberOfFrames;
 
   // Get output frame number
-  typename OutputVideoStreamType::TemporalRegionType outReqTempRegion =
-    output->GetRequestedTemporalRegion();
-  SizeValueType outputFrameNumber = outReqTempRegion.GetFrameStart();
+  typename OutputVideoStreamType::TemporalRegionType outReqTempRegion = output->GetRequestedTemporalRegion();
+  SizeValueType                                      outputFrameNumber = outReqTempRegion.GetFrameStart();
 
-  typename InputVideoStreamType::TemporalRegionType inReqTempRegion =
-    input->GetRequestedTemporalRegion();
-  SizeValueType inputStart = inReqTempRegion.GetFrameStart();
-  SizeValueType inputDuration = inReqTempRegion.GetFrameDuration();
+  typename InputVideoStreamType::TemporalRegionType inReqTempRegion = input->GetRequestedTemporalRegion();
+  SizeValueType                                     inputStart = inReqTempRegion.GetFrameStart();
+  SizeValueType                                     inputDuration = inReqTempRegion.GetFrameDuration();
 
   // Make sure we've got the right duration
   if (inputDuration != numFrames)
-    {
+  {
     itkExceptionMacro("Incorrect number of input frames");
-    }
+  }
 
   // Get iterators for the input frames
   using IterType = ImageRegionConstIterator<InputFrameType>;
-  std::vector< IterType > inputIters;
+  std::vector<IterType> inputIters;
   for (SizeValueType i = inputStart; i < inputStart + numFrames; ++i)
-    {
+  {
     OutputFrameSpatialRegionType inputRegion;
     inputRegion.SetSize(outputRegionForThread.GetSize());
     inputRegion.SetIndex(outputRegionForThread.GetIndex());
     inputIters.push_back(IterType(input->GetFrame(i), inputRegion));
-    }
+  }
 
   // Get the output frame and its iterator
-  OutputFrameType* outFrame = output->GetFrame(outputFrameNumber);
+  OutputFrameType *                         outFrame = output->GetFrame(outputFrameNumber);
   itk::ImageRegionIterator<OutputFrameType> outIter(outFrame, outputRegionForThread);
 
   // Average the input frames at each pixel of the output region
   using OutputPixelRealType = typename NumericTraits<OutputPixelType>::RealType;
-  while(!outIter.IsAtEnd())
-    {
+  while (!outIter.IsAtEnd())
+  {
     // Get values for each input frame
     OutputPixelRealType val = 0;
     for (SizeValueType i = 0; i < numFrames; ++i)
-      {
+    {
       val += (OutputPixelRealType)(inputIters[i].Get()) / (OutputPixelRealType)numFrames;
-      }
+    }
 
     // Compute the average and set the output pixel's value
     outIter.Set((OutputPixelType)val);
@@ -150,10 +142,10 @@ ThreadedGenerateData(const OutputFrameSpatialRegionType& outputRegionForThread,
     // Update the iterators
     ++outIter;
     for (SizeValueType i = 0; i < numFrames; ++i)
-      {
+    {
       ++inputIters[i];
-      }
     }
+  }
 }
 
 } // end namespace itk

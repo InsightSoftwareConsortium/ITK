@@ -38,7 +38,7 @@ namespace itk
  * \brief Create instances of StimulateImageIO objects using an object factory.
  * \ingroup ITKIOStimulate
  */
-class ITKIOStimulate_EXPORT StimulateImageIOFactory:public ObjectFactoryBase
+class ITKIOStimulate_EXPORT StimulateImageIOFactory : public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(StimulateImageIOFactory);
@@ -46,13 +46,15 @@ public:
   /** Standard class type aliases. */
   using Self = StimulateImageIOFactory;
   using Superclass = ObjectFactoryBase;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Class Methods used to interface with the registered factories. */
-  const char * GetITKSourceVersion() const override;
+  const char *
+  GetITKSourceVersion() const override;
 
-  const char * GetDescription() const override;
+  const char *
+  GetDescription() const override;
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
@@ -61,7 +63,8 @@ public:
   itkTypeMacro(StimulateImageIOFactory, ObjectFactoryBase);
 
   /** Register one factory of this type  */
-  static void RegisterOneFactory()
+  static void
+  RegisterOneFactory()
   {
     StimulateImageIOFactory::Pointer stimulateFactory = StimulateImageIOFactory::New();
 

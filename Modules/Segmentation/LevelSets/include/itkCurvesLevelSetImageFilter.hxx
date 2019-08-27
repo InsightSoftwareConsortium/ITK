@@ -23,9 +23,8 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TFeatureImage, typename TOutputType >
-CurvesLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
-::CurvesLevelSetImageFilter()
+template <typename TInputImage, typename TFeatureImage, typename TOutputType>
+CurvesLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>::CurvesLevelSetImageFilter()
 {
   /* Instantiate a geodesic active contour function and set it as the
     segmentation function. */
@@ -40,28 +39,26 @@ CurvesLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
   this->InterpolateSurfaceLocationOff();
 }
 
-template< typename TInputImage, typename TFeatureImage, typename TOutputType >
+template <typename TInputImage, typename TFeatureImage, typename TOutputType>
 void
-CurvesLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
-::PrintSelf(std::ostream & os, Indent indent) const
+CurvesLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  itkPrintSelfObjectMacro( CurvesFunction );
+  itkPrintSelfObjectMacro(CurvesFunction);
 }
 
-template< typename TInputImage, typename TFeatureImage, typename TOutputType >
+template <typename TInputImage, typename TFeatureImage, typename TOutputType>
 void
-CurvesLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
-::GenerateData()
+CurvesLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>::GenerateData()
 {
   // Make sure the SpeedImage is setup for the case when PropagationScaling
   // is zero
-  if ( this->GetSegmentationFunction()
-       && Math::ExactlyEquals(this->GetSegmentationFunction()->GetPropagationWeight(), 0) )
-    {
+  if (this->GetSegmentationFunction() &&
+      Math::ExactlyEquals(this->GetSegmentationFunction()->GetPropagationWeight(), 0))
+  {
     this->GetSegmentationFunction()->AllocateSpeedImage();
     this->GetSegmentationFunction()->CalculateSpeedImage();
-    }
+  }
 
   // Continue with Superclass implementation
   Superclass::GenerateData();

@@ -47,88 +47,99 @@ namespace itk
  * \ingroup DataAccess
  * \ingroup ITKCommon
  */
-template< typename TObjectType >
+template <typename TObjectType>
 class SmartPointer
 {
 public:
   using ObjectType = TObjectType;
 
-  template<typename T> using EnableIfConvertible =
-    typename std::enable_if<std::is_convertible<T*, TObjectType*>::value>;
+  template <typename T>
+  using EnableIfConvertible = typename std::enable_if<std::is_convertible<T *, TObjectType *>::value>;
 
   /** Constructor  */
-  constexpr SmartPointer () noexcept:
-    m_Pointer(nullptr)
-  { }
+  constexpr SmartPointer() noexcept
+    : m_Pointer(nullptr)
+  {}
 
   /** Copy constructor  */
-  SmartPointer (const SmartPointer& p) noexcept:
-    m_Pointer(p.m_Pointer)
-  { this->Register(); }
+  SmartPointer(const SmartPointer & p) noexcept
+    : m_Pointer(p.m_Pointer)
+  {
+    this->Register();
+  }
 
-  constexpr SmartPointer (std::nullptr_t p) noexcept:
-    m_Pointer(p)
-    {}
+  constexpr SmartPointer(std::nullptr_t p) noexcept
+    : m_Pointer(p)
+  {}
 
   /** constructor with implicit conversion of pointer type */
-  template<typename T,
-           typename = typename EnableIfConvertible<T>::type>
-  SmartPointer(const SmartPointer<T> &p) noexcept:
-    m_Pointer(p.m_Pointer)
-    {
-      this->Register();
-    }
+  template <typename T, typename = typename EnableIfConvertible<T>::type>
+  SmartPointer(const SmartPointer<T> & p) noexcept
+    : m_Pointer(p.m_Pointer)
+  {
+    this->Register();
+  }
 
   /** Move constructor */
-  SmartPointer (SmartPointer<ObjectType > &&p) noexcept :
-    m_Pointer(p.m_Pointer)
-    { p.m_Pointer = nullptr; }
+  SmartPointer(SmartPointer<ObjectType> && p) noexcept
+    : m_Pointer(p.m_Pointer)
+  {
+    p.m_Pointer = nullptr;
+  }
 
   /** move constructor with implicit conversion of pointer type */
-  template<typename T,
-           typename = typename EnableIfConvertible<T>::type >
-  SmartPointer( SmartPointer<T> &&p) noexcept:
-    m_Pointer(p.m_Pointer)
-    { p.m_Pointer = nullptr; }
+  template <typename T, typename = typename EnableIfConvertible<T>::type>
+  SmartPointer(SmartPointer<T> && p) noexcept
+    : m_Pointer(p.m_Pointer)
+  {
+    p.m_Pointer = nullptr;
+  }
 
   /** Constructor to pointer p  */
-  SmartPointer (ObjectType *p) noexcept:
-    m_Pointer(p)
-  { this->Register(); }
+  SmartPointer(ObjectType * p) noexcept
+    : m_Pointer(p)
+  {
+    this->Register();
+  }
 
   /** Destructor  */
-  ~SmartPointer ()
+  ~SmartPointer()
   {
     this->UnRegister();
     m_Pointer = nullptr;
   }
 
   /** Overload operator ->  */
-  ObjectType * operator->() const noexcept
-  { return m_Pointer; }
+  ObjectType * operator->() const noexcept { return m_Pointer; }
 
-  ObjectType &operator*() const noexcept
-    {return *m_Pointer;}
+  ObjectType & operator*() const noexcept { return *m_Pointer; }
 
-  explicit operator bool() const noexcept
-    { return m_Pointer != nullptr; }
+  explicit operator bool() const noexcept { return m_Pointer != nullptr; }
 
   /** Return pointer to object.  */
-  operator ObjectType *() const noexcept
-    { return m_Pointer; }
+  operator ObjectType *() const noexcept { return m_Pointer; }
 
   /** Test if the pointer is not NULL. */
-  bool IsNotNull() const noexcept
-  { return m_Pointer != nullptr; }
+  bool
+  IsNotNull() const noexcept
+  {
+    return m_Pointer != nullptr;
+  }
 
   /** Test if the pointer is NULL. */
-  bool IsNull() const noexcept
-  { return m_Pointer == nullptr; }
+  bool
+  IsNull() const noexcept
+  {
+    return m_Pointer == nullptr;
+  }
 
 
   /** Access function to pointer. */
-  ObjectType * GetPointer() const noexcept
-  { return m_Pointer; }
+  ObjectType *
+  GetPointer() const noexcept
+  {
+    return m_Pointer;
+  }
 
   /** Overload operator assignment.
    *
@@ -137,7 +148,8 @@ public:
    * for pointer types.
    */
   // cppcheck-suppress operatorEqVarError
-  SmartPointer & operator=(SmartPointer  r) noexcept
+  SmartPointer &
+  operator=(SmartPointer r) noexcept
   {
     // The Copy-Swap idiom is used, with the implicit copy from the
     // value-based argument r (intentionally not reference). If a move
@@ -146,113 +158,156 @@ public:
     return *this;
   }
 
-  SmartPointer &operator=(std::nullptr_t)  noexcept
-    {
-      this->UnRegister();
-      this->m_Pointer = nullptr;
-      return *this;
-    }
+  SmartPointer & operator=(std::nullptr_t) noexcept
+  {
+    this->UnRegister();
+    this->m_Pointer = nullptr;
+    return *this;
+  }
 
   /** Function to print object pointed to  */
-  ObjectType * Print(std::ostream & os) const
+  ObjectType *
+  Print(std::ostream & os) const
   {
-    if( this->IsNull() )
-      {
+    if (this->IsNull())
+    {
       os << "(null)";
-      }
+    }
     else
-      {
+    {
       // This prints the object pointed to by the pointer
-      ( *m_Pointer ).Print(os);
-      }
+      (*m_Pointer).Print(os);
+    }
     return m_Pointer;
   }
 
-#if ! defined ( ITK_LEGACY_REMOVE )
-  void swap(SmartPointer &other) noexcept
-    {
-      this->Swap(other);
-    }
+#if !defined(ITK_LEGACY_REMOVE)
+  void
+  swap(SmartPointer & other) noexcept
+  {
+    this->Swap(other);
+  }
 #endif
 
-  void Swap(SmartPointer &other)  noexcept
-    {
-      ObjectType *tmp = this->m_Pointer;
-      this->m_Pointer = other.m_Pointer;
-      other.m_Pointer = tmp;
-    }
+  void
+  Swap(SmartPointer & other) noexcept
+  {
+    ObjectType * tmp = this->m_Pointer;
+    this->m_Pointer = other.m_Pointer;
+    other.m_Pointer = tmp;
+  }
 
 private:
   /** The pointer to the object referred to by this smart pointer. */
-  ObjectType *m_Pointer;
+  ObjectType * m_Pointer;
 
-  template<typename T>
+  template <typename T>
   friend class SmartPointer;
 
-  void Register()  noexcept
+  void
+  Register() noexcept
   {
-    if ( m_Pointer ) { m_Pointer->Register(); }
+    if (m_Pointer)
+    {
+      m_Pointer->Register();
+    }
   }
 
-  void UnRegister() noexcept
+  void
+  UnRegister() noexcept
   {
-    if ( m_Pointer ) { m_Pointer->UnRegister(); }
+    if (m_Pointer)
+    {
+      m_Pointer->UnRegister();
+    }
   }
 };
 
 
 /** Comparison of pointers. Equality comparison. */
-template < class T, class TU >
-bool operator==( const SmartPointer<T>& l, const SmartPointer<TU>& r )  noexcept
-{ return ( l.GetPointer() == r.GetPointer() ); }
-template < class T >
-bool operator==( const SmartPointer<T>& l, std::nullptr_t )  noexcept
-{ return ( l.GetPointer() == nullptr ); }
-template < class T >
-bool operator==( std::nullptr_t, const SmartPointer<T>& r )  noexcept
-{ return ( nullptr == r.GetPointer() ); }
+template <class T, class TU>
+bool
+operator==(const SmartPointer<T> & l, const SmartPointer<TU> & r) noexcept
+{
+  return (l.GetPointer() == r.GetPointer());
+}
+template <class T>
+bool
+operator==(const SmartPointer<T> & l, std::nullptr_t) noexcept
+{
+  return (l.GetPointer() == nullptr);
+}
+template <class T>
+bool
+operator==(std::nullptr_t, const SmartPointer<T> & r) noexcept
+{
+  return (nullptr == r.GetPointer());
+}
 
 /** Comparison of pointers. Not equal comparison. */
-template < class T, class TU >
-bool operator!=( const SmartPointer<T>& l, const SmartPointer<TU>& r )  noexcept
-{ return ( l.GetPointer() != r.GetPointer() ); }
-template < class T >
-bool operator!=( const SmartPointer<T>& l, std::nullptr_t )  noexcept
-{ return ( l.GetPointer() != nullptr ); }
-template < class T >
-bool operator!=( std::nullptr_t, const SmartPointer<T>& r )  noexcept
-{ return ( nullptr != r.GetPointer() ); }
+template <class T, class TU>
+bool
+operator!=(const SmartPointer<T> & l, const SmartPointer<TU> & r) noexcept
+{
+  return (l.GetPointer() != r.GetPointer());
+}
+template <class T>
+bool
+operator!=(const SmartPointer<T> & l, std::nullptr_t) noexcept
+{
+  return (l.GetPointer() != nullptr);
+}
+template <class T>
+bool
+operator!=(std::nullptr_t, const SmartPointer<T> & r) noexcept
+{
+  return (nullptr != r.GetPointer());
+}
 
 
 /** Comparison of pointers. Less than comparison.  */
-template < class T, class TU >
-bool operator<( const SmartPointer<T>& l, const SmartPointer<TU>& r )  noexcept
-{ return ( l.GetPointer() < r.GetPointer() ); }
+template <class T, class TU>
+bool
+operator<(const SmartPointer<T> & l, const SmartPointer<TU> & r) noexcept
+{
+  return (l.GetPointer() < r.GetPointer());
+}
 
 /** Comparison of pointers. Greater than comparison.  */
-template < class T, class TU >
-bool operator>( const SmartPointer<T>& l, const SmartPointer<TU>& r )  noexcept
-{ return ( l.GetPointer() > r.GetPointer() ); }
+template <class T, class TU>
+bool
+operator>(const SmartPointer<T> & l, const SmartPointer<TU> & r) noexcept
+{
+  return (l.GetPointer() > r.GetPointer());
+}
 
 /** Comparison of pointers. Less than or equal to comparison.  */
-template < class T, class TU >
-bool operator<=( const SmartPointer<T>& l, const SmartPointer<TU>& r )  noexcept
-{ return ( l.GetPointer() <= r.GetPointer() ); }
+template <class T, class TU>
+bool
+operator<=(const SmartPointer<T> & l, const SmartPointer<TU> & r) noexcept
+{
+  return (l.GetPointer() <= r.GetPointer());
+}
 
 /** Comparison of pointers. Greater than or equal to comparison.  */
-template < class T, class TU >
-bool operator>=( const SmartPointer<T>& l, const SmartPointer<TU>& r ) noexcept
-{ return ( l.GetPointer() >= r.GetPointer() ); }
+template <class T, class TU>
+bool
+operator>=(const SmartPointer<T> & l, const SmartPointer<TU> & r) noexcept
+{
+  return (l.GetPointer() >= r.GetPointer());
+}
 
-template< typename T >
-std::ostream & operator<<(std::ostream & os, SmartPointer< T > p)
+template <typename T>
+std::ostream &
+operator<<(std::ostream & os, SmartPointer<T> p)
 {
   p.Print(os);
   return os;
 }
 
-template<typename T>
-inline void swap( SmartPointer<T> &a, SmartPointer<T> &b ) noexcept
+template <typename T>
+inline void
+swap(SmartPointer<T> & a, SmartPointer<T> & b) noexcept
 {
   a.Swap(b);
 }

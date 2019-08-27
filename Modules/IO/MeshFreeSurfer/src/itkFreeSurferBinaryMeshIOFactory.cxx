@@ -24,33 +24,28 @@
 namespace itk
 {
 void
-FreeSurferBinaryMeshIOFactory
-::PrintSelf(std::ostream &, Indent) const
+FreeSurferBinaryMeshIOFactory ::PrintSelf(std::ostream &, Indent) const
 {}
 
-FreeSurferBinaryMeshIOFactory
-::FreeSurferBinaryMeshIOFactory()
+FreeSurferBinaryMeshIOFactory ::FreeSurferBinaryMeshIOFactory()
 {
-  this->RegisterOverride( "itkMeshIOBase",
+  this->RegisterOverride("itkMeshIOBase",
                          "itkFreeSurferBinaryMeshIO",
                          "Freesurfer Binary Mesh IO",
                          true,
-                         CreateObjectFunction< FreeSurferBinaryMeshIO >::New() );
+                         CreateObjectFunction<FreeSurferBinaryMeshIO>::New());
 }
 
-FreeSurferBinaryMeshIOFactory
-::~FreeSurferBinaryMeshIOFactory() = default;
+FreeSurferBinaryMeshIOFactory ::~FreeSurferBinaryMeshIOFactory() = default;
 
 const char *
-FreeSurferBinaryMeshIOFactory
-::GetITKSourceVersion() const
+FreeSurferBinaryMeshIOFactory ::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
 
 const char *
-FreeSurferBinaryMeshIOFactory
-::GetDescription() const
+FreeSurferBinaryMeshIOFactory ::GetDescription() const
 {
   return "FreeSurfer BINARY Mesh IO Factory, allows the loading of FreeSurfer Binary mesh into insight";
 }
@@ -59,13 +54,14 @@ FreeSurferBinaryMeshIOFactory
 // DO NOT CALL DIRECTLY.
 static bool FreeSurferBinaryMeshIOFactoryHasBeenRegistered;
 
-void ITKIOMeshFreeSurfer_EXPORT FreeSurferBinaryMeshIOFactoryRegister__Private()
+void ITKIOMeshFreeSurfer_EXPORT
+     FreeSurferBinaryMeshIOFactoryRegister__Private()
 {
-  if( ! FreeSurferBinaryMeshIOFactoryHasBeenRegistered )
-    {
+  if (!FreeSurferBinaryMeshIOFactoryHasBeenRegistered)
+  {
     FreeSurferBinaryMeshIOFactoryHasBeenRegistered = true;
     FreeSurferBinaryMeshIOFactory::RegisterOneFactory();
-    }
+  }
 }
 
 } // end namespace itk

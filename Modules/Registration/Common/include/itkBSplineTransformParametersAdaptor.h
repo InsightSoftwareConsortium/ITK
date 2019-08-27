@@ -51,9 +51,8 @@ namespace itk
      transformAdaptor->SetTransform( transform );
      transformAdaptor->SetRequiredTransformDomainOrigin( transform->GetTransformDomainOrigin() );
      transformAdaptor->SetRequiredTransformDomainDirection( transform->GetTransformDomainDirection() );
-     transformAdaptor->SetRequiredTransformDomainPhysicalDimensions( transform->GetTransformDomainPhysicalDimensions() );
-     transformAdaptor->SetRequiredTransformDomainMeshSize( newMeshSize );
-     transformAdaptor->AdaptTransformParameters();
+     transformAdaptor->SetRequiredTransformDomainPhysicalDimensions( transform->GetTransformDomainPhysicalDimensions()
+ ); transformAdaptor->SetRequiredTransformDomainMeshSize( newMeshSize ); transformAdaptor->AdaptTransformParameters();
      \endcode
  *
  * \author Nick Tustison
@@ -61,9 +60,8 @@ namespace itk
  *
  * \ingroup ITKRegistrationCommon
  */
-template<typename TTransform>
-class ITK_TEMPLATE_EXPORT BSplineTransformParametersAdaptor
-: public TransformParametersAdaptor<TTransform>
+template <typename TTransform>
+class ITK_TEMPLATE_EXPORT BSplineTransformParametersAdaptor : public TransformParametersAdaptor<TTransform>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BSplineTransformParametersAdaptor);
@@ -75,10 +73,10 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** New macro for creation of through a Smart Pointer. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( BSplineTransformParametersAdaptor, TransformParametersAdaptor );
+  itkTypeMacro(BSplineTransformParametersAdaptor, TransformParametersAdaptor);
 
   /** Typedefs associated with the transform */
   using TransformType = TTransform;
@@ -106,54 +104,62 @@ public:
   static constexpr unsigned int SpaceDimension = TransformType::SpaceDimension;
 
   /** Alternative method for setting the required mesh size. */
-  void SetRequiredTransformDomainMeshSize( const MeshSizeType & );
+  void
+  SetRequiredTransformDomainMeshSize(const MeshSizeType &);
 
   /** Get the required mesh size. */
-  itkGetConstReferenceMacro( RequiredTransformDomainMeshSize, MeshSizeType );
+  itkGetConstReferenceMacro(RequiredTransformDomainMeshSize, MeshSizeType);
 
   /** Alternative method for setting the required mesh size. */
-  void SetRequiredTransformDomainPhysicalDimensions( const PhysicalDimensionsType & );
+  void
+  SetRequiredTransformDomainPhysicalDimensions(const PhysicalDimensionsType &);
 
   /** Get the required physical dimensions. */
-  itkGetConstReferenceMacro( RequiredTransformDomainPhysicalDimensions, PhysicalDimensionsType );
+  itkGetConstReferenceMacro(RequiredTransformDomainPhysicalDimensions, PhysicalDimensionsType);
 
   /** Alternative method for setting the required origin. */
-  void SetRequiredTransformDomainOrigin( const OriginType & );
+  void
+  SetRequiredTransformDomainOrigin(const OriginType &);
 
   /** Get the required origin. */
-  itkGetConstReferenceMacro( RequiredTransformDomainOrigin, OriginType );
+  itkGetConstReferenceMacro(RequiredTransformDomainOrigin, OriginType);
 
   /** Alternative method for setting the required direction. */
-  void SetRequiredTransformDomainDirection( const DirectionType & );
+  void
+  SetRequiredTransformDomainDirection(const DirectionType &);
 
   /** Get the required direction. */
-  itkGetConstReferenceMacro( RequiredTransformDomainDirection, DirectionType );
+  itkGetConstReferenceMacro(RequiredTransformDomainDirection, DirectionType);
 
-  void SetRequiredFixedParameters( const FixedParametersType ) override;
+  void
+  SetRequiredFixedParameters(const FixedParametersType) override;
 
   /** Initialize the transform using the specified fixed parameters */
-  void AdaptTransformParameters() override;
+  void
+  AdaptTransformParameters() override;
 
 protected:
   BSplineTransformParametersAdaptor();
   ~BSplineTransformParametersAdaptor() override = default;
 
-  void PrintSelf( std::ostream & os, Indent indent ) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /** Helper function to set m_RequiredFixedParameters */
-  void UpdateRequiredFixedParameters();
+  void
+  UpdateRequiredFixedParameters();
 
-  MeshSizeType                               m_RequiredTransformDomainMeshSize;
-  OriginType                                 m_RequiredTransformDomainOrigin;
-  DirectionType                              m_RequiredTransformDomainDirection;
-  PhysicalDimensionsType                     m_RequiredTransformDomainPhysicalDimensions;
+  MeshSizeType           m_RequiredTransformDomainMeshSize;
+  OriginType             m_RequiredTransformDomainOrigin;
+  DirectionType          m_RequiredTransformDomainDirection;
+  PhysicalDimensionsType m_RequiredTransformDomainPhysicalDimensions;
 
-}; //class BSplineTransformParametersAdaptor
-}  // namespace itk
+}; // class BSplineTransformParametersAdaptor
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBSplineTransformParametersAdaptor.hxx"
+#  include "itkBSplineTransformParametersAdaptor.hxx"
 #endif
 
 #endif /* itkBSplineTransformParametersAdaptor_h */

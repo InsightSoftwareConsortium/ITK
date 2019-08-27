@@ -102,21 +102,18 @@ namespace itk
  * \ingroup LevelSetSegmentation
  * \ingroup ITKLevelSets
  */
-template< typename TInputImage,
-          typename TFeatureImage,
-          typename TOutputPixelType = float >
-class ITK_TEMPLATE_EXPORT ShapeDetectionLevelSetImageFilter:
-  public SegmentationLevelSetImageFilter< TInputImage,
-                                          TFeatureImage, TOutputPixelType >
+template <typename TInputImage, typename TFeatureImage, typename TOutputPixelType = float>
+class ITK_TEMPLATE_EXPORT ShapeDetectionLevelSetImageFilter
+  : public SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ShapeDetectionLevelSetImageFilter);
 
   /** Standard class type aliases */
   using Self = ShapeDetectionLevelSetImageFilter;
-  using Superclass = SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Inherited type alias from the superclass. */
   using ValueType = typename Superclass::ValueType;
@@ -124,8 +121,7 @@ public:
   using FeatureImageType = typename Superclass::FeatureImageType;
 
   /** Type of the segmentation function */
-  using ShapeDetectionFunctionType = ShapeDetectionLevelSetFunction< OutputImageType,
-                                          FeatureImageType >;
+  using ShapeDetectionFunctionType = ShapeDetectionLevelSetFunction<OutputImageType, FeatureImageType>;
   using ShapeDetectionFunctionPointer = typename ShapeDetectionFunctionType::Pointer;
 
   /** Run-time type information (and related methods). */
@@ -138,11 +134,13 @@ protected:
   ~ShapeDetectionLevelSetImageFilter() override = default;
   ShapeDetectionLevelSetImageFilter();
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Overridden from Superclass to handle the case when PropagationScaling is zero
    * and CurvatureScaling is non-zero.*/
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   ShapeDetectionFunctionPointer m_ShapeDetectionFunction;
@@ -150,7 +148,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShapeDetectionLevelSetImageFilter.hxx"
+#  include "itkShapeDetectionLevelSetImageFilter.hxx"
 #endif
 
 #endif

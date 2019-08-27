@@ -31,9 +31,8 @@ namespace itk
  *
  * \ingroup ITKVideoFiltering
  */
-template<typename TVideoStream>
-class ITK_TEMPLATE_EXPORT DecimateFramesVideoFilter :
-  public VideoToVideoFilter<TVideoStream, TVideoStream>
+template <typename TVideoStream>
+class ITK_TEMPLATE_EXPORT DecimateFramesVideoFilter : public VideoToVideoFilter<TVideoStream, TVideoStream>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(DecimateFramesVideoFilter);
@@ -42,12 +41,11 @@ public:
   using VideoStreamType = TVideoStream;
   using InputVideoStreamType = TVideoStream;
   using OutputVideoStreamType = TVideoStream;
-  using Self = DecimateFramesVideoFilter< VideoStreamType >;
-  using Superclass = VideoToVideoFilter< VideoStreamType,
-                              VideoStreamType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using ConstWeakPointer = WeakPointer< const Self >;
+  using Self = DecimateFramesVideoFilter<VideoStreamType>;
+  using Superclass = VideoToVideoFilter<VideoStreamType, VideoStreamType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using ConstWeakPointer = WeakPointer<const Self>;
 
   using FrameType = typename TVideoStream::FrameType;
   using PixelType = typename FrameType::PixelType;
@@ -58,32 +56,32 @@ public:
   itkTypeMacro(DecimateFramesVideoFilter, VideoToVideoFilter);
 
   /** Get/Set the spacing of the preserved frames */
-  void SetPreservedFrameSpacing(SizeValueType numFrames);
-  SizeValueType GetPreservedFrameSpacing();
+  void
+  SetPreservedFrameSpacing(SizeValueType numFrames);
+  SizeValueType
+  GetPreservedFrameSpacing();
 
 protected:
-
   /** Constructor and Destructor */
   DecimateFramesVideoFilter();
   ~DecimateFramesVideoFilter() override = default;
 
   /** PrintSelf */
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** DecimateFramesVideoFilter is implemented as a temporal streaming and
    * spatially multithreaded filter, so we override ThreadedGenerateData */
-  void ThreadedGenerateData(
-                const FrameSpatialRegionType& outputRegionForThread,
-                int threadId) override;
+  void
+  ThreadedGenerateData(const FrameSpatialRegionType & outputRegionForThread, int threadId) override;
 
 private:
-
-};  // end class DecimateFramesVideoFilter
+}; // end class DecimateFramesVideoFilter
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDecimateFramesVideoFilter.hxx"
+#  include "itkDecimateFramesVideoFilter.hxx"
 #endif
 
 #endif

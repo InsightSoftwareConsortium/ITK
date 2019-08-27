@@ -39,8 +39,7 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 
-class ITKStatistics_EXPORT DenseFrequencyContainer2:
-  public Object
+class ITKStatistics_EXPORT DenseFrequencyContainer2 : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(DenseFrequencyContainer2);
@@ -48,8 +47,8 @@ public:
   /** Standard class type aliases */
   using Self = DenseFrequencyContainer2;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(DenseFrequencyContainer2, Object);
@@ -73,35 +72,39 @@ public:
   using TotalRelativeFrequencyType = MeasurementVectorTraits::TotalRelativeFrequencyType;
 
   /** Internal storage class type alias */
-  using FrequencyContainerType =
-      ValarrayImageContainer< InstanceIdentifier, AbsoluteFrequencyType >;
+  using FrequencyContainerType = ValarrayImageContainer<InstanceIdentifier, AbsoluteFrequencyType>;
 
   using FrequencyContainerPointer = FrequencyContainerType::Pointer;
 
   /** Calls the Initialize method of superclass to generate the offset table
    * and prepare the frequency container */
-  void Initialize(SizeValueType length);
+  void
+  Initialize(SizeValueType length);
 
   /** Calls the SetToZero method of superclass to initialize all the bins to Zero.
    *  This should be done before starting to call the IncreaseFrequency method. */
-  void SetToZero();
+  void
+  SetToZero();
 
   /** Sets the frequency of histogram using instance identifier. It returns
    * false when the Id is out of bounds. */
-  bool SetFrequency(const InstanceIdentifier id, const AbsoluteFrequencyType value);
+  bool
+  SetFrequency(const InstanceIdentifier id, const AbsoluteFrequencyType value);
 
   /** Increases the frequency of a bin specified by the InstanceIdentifier by
    * one.  This function is convinient to create a histogram. It returns false
    * when the bin id is out of bounds. */
-  bool IncreaseFrequency(const InstanceIdentifier id,
-                         const AbsoluteFrequencyType value);
+  bool
+  IncreaseFrequency(const InstanceIdentifier id, const AbsoluteFrequencyType value);
 
   /** Method to get the frequency of a bin from the histogram. It returns zero
    * when the Id is out of bounds. */
-  AbsoluteFrequencyType GetFrequency(const InstanceIdentifier id) const;
+  AbsoluteFrequencyType
+  GetFrequency(const InstanceIdentifier id) const;
 
   /** Gets the sum of the frequencies */
-  TotalAbsoluteFrequencyType GetTotalFrequency()
+  TotalAbsoluteFrequencyType
+  GetTotalFrequency()
   {
     return m_TotalFrequency;
   }
@@ -109,13 +112,14 @@ public:
 protected:
   DenseFrequencyContainer2();
   ~DenseFrequencyContainer2() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /** Internal storage */
   FrequencyContainerPointer  m_FrequencyContainer;
   TotalAbsoluteFrequencyType m_TotalFrequency;
-};  // end of class
+}; // end of class
 } // end of namespace Statistics
 } // end of namespace itk
 

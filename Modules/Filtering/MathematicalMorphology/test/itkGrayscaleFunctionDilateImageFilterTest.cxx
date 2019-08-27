@@ -21,7 +21,8 @@
 #include "itkSimpleFilterWatcher.h"
 #include "itkImageFileWriter.h"
 
-int itkGrayscaleFunctionDilateImageFilterTest(int argc, char *argv[] )
+int
+itkGrayscaleFunctionDilateImageFilterTest(int argc, char * argv[])
 {
   unsigned int i;
 
@@ -45,7 +46,7 @@ int itkGrayscaleFunctionDilateImageFilterTest(int argc, char *argv[] )
   using myRegionType = itk::ImageRegion<myDimension>;
 
   // Create an image
-  myImageType::Pointer inputImage  = myImageType::New();
+  myImageType::Pointer inputImage = myImageType::New();
 
   // Define their size, and start index
   mySizeType size;
@@ -57,18 +58,18 @@ int itkGrayscaleFunctionDilateImageFilterTest(int argc, char *argv[] )
   start[1] = 0;
 
   myRegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
+  region.SetIndex(start);
+  region.SetSize(size);
 
   // Initialize Image
-  inputImage->SetRegions( region );
+  inputImage->SetRegions(region);
   inputImage->Allocate();
 
   // Declare Iterator types apropriated for each image
   using myIteratorType = itk::ImageRegionIterator<myImageType>;
 
   // Create one iterator for image (this is a light object)
-  myIteratorType it( inputImage, inputImage->GetBufferedRegion() );
+  myIteratorType it(inputImage, inputImage->GetBufferedRegion());
 
   // Initialize the content of Image
   std::cout << "Input image " << std::endl;
@@ -100,31 +101,29 @@ int itkGrayscaleFunctionDilateImageFilterTest(int argc, char *argv[] )
 
   i = 0;
   it.GoToBegin();
-  while ( !it.IsAtEnd() )
-    {
+  while (!it.IsAtEnd())
+  {
     std::cout << it.Get() << "  ";
     ++it;
 
     if (++i % 20 == 0)
-      {
+    {
       std::cout << std::endl;
-      }
     }
+  }
 
   // Declare the type for the structuring element
-  using myKernelType =
-      itk::BinaryBallStructuringElement<unsigned short, myDimension>;
+  using myKernelType = itk::BinaryBallStructuringElement<unsigned short, myDimension>;
 
   // Declare the type for the morphology Filter
-  using myFilterType =
-      itk::GrayscaleFunctionDilateImageFilter<myImageType, myImageType, myKernelType>;
+  using myFilterType = itk::GrayscaleFunctionDilateImageFilter<myImageType, myImageType, myKernelType>;
 
   // Create the filter
-  myFilterType::Pointer filter = myFilterType::New();
+  myFilterType::Pointer    filter = myFilterType::New();
   itk::SimpleFilterWatcher filterWatcher(filter);
 
   // Create the structuring element
-  myKernelType ball;
+  myKernelType           ball;
   myKernelType::SizeType ballSize;
   ballSize[0] = 1;
   ballSize[1] = 4;
@@ -132,8 +131,8 @@ int itkGrayscaleFunctionDilateImageFilterTest(int argc, char *argv[] )
   ball.CreateStructuringElement();
 
   // Connect the input image
-  filter->SetInput( inputImage );
-  filter->SetKernel( ball );
+  filter->SetInput(inputImage);
+  filter->SetKernel(ball);
 
   // Get the Smart Pointer to the Filter Output
   myImageType::Pointer outputImage = filter->GetOutput();
@@ -141,7 +140,7 @@ int itkGrayscaleFunctionDilateImageFilterTest(int argc, char *argv[] )
 
   // Execute the filter
   try
-    {
+  {
 
     filter->Update();
     // Create an iterator for going through the image output
@@ -149,36 +148,35 @@ int itkGrayscaleFunctionDilateImageFilterTest(int argc, char *argv[] )
 
     //  Print the content of the result image
     std::cout << "Result " << std::endl;
-    i=0;
-    while( !it2.IsAtEnd() )
-      {
+    i = 0;
+    while (!it2.IsAtEnd())
+    {
       std::cout << it2.Get() << "  ";
       ++it2;
 
       if (++i % 20 == 0)
-        {
+      {
         std::cout << std::endl;
-        }
       }
-   }
-
-  catch (itk::ExceptionObject& e)
-    {
-    std::cerr << "Exception caught during filter Update\n"  << e;
-    return -1;
     }
+  }
+
+  catch (itk::ExceptionObject & e)
+  {
+    std::cerr << "Exception caught during filter Update\n" << e;
+    return -1;
+  }
 
   // if there is a file name specified as an argument, write the data
   //  into the file. This enables regression testing of the filter.
   if (argc == 2)
-    {
-    using WriterType = itk::ImageFileWriter<  myImageType  >;
+  {
+    using WriterType = itk::ImageFileWriter<myImageType>;
     WriterType::Pointer writer = WriterType::New();
-    writer->SetFileName( argv[1] );
-    writer->SetInput( filter->GetOutput() );
+    writer->SetFileName(argv[1]);
+    writer->SetInput(filter->GetOutput());
     writer->Update();
-    }
+  }
 
   return EXIT_SUCCESS;
-
 }

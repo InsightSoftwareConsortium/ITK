@@ -28,7 +28,7 @@ namespace itk
  * \brief Create instances of BMPImageIO objects using an object factory.
  * \ingroup ITKIOBMP
  */
-class ITKIOBMP_EXPORT BMPImageIOFactory:public ObjectFactoryBase
+class ITKIOBMP_EXPORT BMPImageIOFactory : public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BMPImageIOFactory);
@@ -36,13 +36,15 @@ public:
   /** Standard class type aliases. */
   using Self = BMPImageIOFactory;
   using Superclass = ObjectFactoryBase;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
-  const char * GetITKSourceVersion() const override;
+  const char *
+  GetITKSourceVersion() const override;
 
-  const char * GetDescription() const override;
+  const char *
+  GetDescription() const override;
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
@@ -51,7 +53,8 @@ public:
   itkTypeMacro(BMPImageIOFactory, ObjectFactoryBase);
 
   /** Register one factory of this type  */
-  static void RegisterOneFactory()
+  static void
+  RegisterOneFactory()
   {
     BMPImageIOFactory::Pointer BMPFactory = BMPImageIOFactory::New();
 

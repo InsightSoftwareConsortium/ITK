@@ -22,63 +22,59 @@
 
 namespace itk
 {
-template< typename TImage >
-double CurvatureNDAnisotropicDiffusionFunction< TImage >
-::m_MIN_NORM = 1.0e-10;
+template <typename TImage>
+double CurvatureNDAnisotropicDiffusionFunction<TImage>::m_MIN_NORM = 1.0e-10;
 
-template< typename TImage >
-CurvatureNDAnisotropicDiffusionFunction< TImage >
-::CurvatureNDAnisotropicDiffusionFunction() :
-  m_K(0.0)
+template <typename TImage>
+CurvatureNDAnisotropicDiffusionFunction<TImage>::CurvatureNDAnisotropicDiffusionFunction()
+  : m_K(0.0)
 {
   unsigned int i, j;
   RadiusType   r;
 
-  for ( i = 0; i < ImageDimension; ++i )
-    {
+  for (i = 0; i < ImageDimension; ++i)
+  {
     r[i] = 1;
-    }
+  }
   this->SetRadius(r);
 
   // Dummy neighborhood used to set up the slices.
-  Neighborhood< PixelType, ImageDimension > it;
+  Neighborhood<PixelType, ImageDimension> it;
   it.SetRadius(r);
 
   // Slice the neighborhood
-  m_Center =  it.Size() / 2;
+  m_Center = it.Size() / 2;
 
-  for ( i = 0; i < ImageDimension; ++i )
-    {
+  for (i = 0; i < ImageDimension; ++i)
+  {
     m_Stride[i] = it.GetStride(i);
-    x_slice[i]  = std::slice(m_Center - m_Stride[i], 3, m_Stride[i]);
-    }
+    x_slice[i] = std::slice(m_Center - m_Stride[i], 3, m_Stride[i]);
+  }
 
-  for ( i = 0; i < ImageDimension; ++i )
+  for (i = 0; i < ImageDimension; ++i)
+  {
+    for (j = 0; j < ImageDimension; ++j)
     {
-    for ( j = 0; j < ImageDimension; ++j )
-      {
       // For taking derivatives in the i direction that are offset one
       // pixel in the j direction.
-      xa_slice[i][j] =
-        std::slice( ( m_Center + m_Stride[j] ) - m_Stride[i], 3, m_Stride[i] );
-      xd_slice[i][j] =
-        std::slice( ( m_Center - m_Stride[j] ) - m_Stride[i], 3, m_Stride[i] );
-      }
+      xa_slice[i][j] = std::slice((m_Center + m_Stride[j]) - m_Stride[i], 3, m_Stride[i]);
+      xd_slice[i][j] = std::slice((m_Center - m_Stride[j]) - m_Stride[i], 3, m_Stride[i]);
     }
+  }
 
   // Allocate the derivative operator.
-  m_DerivativeOperator.SetDirection(0);  // Not relevant, will be applied in a slice-based
-                          // fashion.
+  m_DerivativeOperator.SetDirection(0); // Not relevant, will be applied in a slice-based
+                                        // fashion.
 
   m_DerivativeOperator.SetOrder(1);
   m_DerivativeOperator.CreateDirectional();
 }
 
-template< typename TImage >
-typename CurvatureNDAnisotropicDiffusionFunction< TImage >::PixelType
-CurvatureNDAnisotropicDiffusionFunction< TImage >
-::ComputeUpdate( const NeighborhoodType & it, void *itkNotUsed(globalData),
-                 const FloatOffsetType & itkNotUsed(offset) )
+template <typename TImage>
+typename CurvatureNDAnisotropicDiffusionFunction<TImage>::PixelType
+CurvatureNDAnisotropicDiffusionFunction<TImage>::ComputeUpdate(const NeighborhoodType & it,
+                                                               void *                   itkNotUsed(globalData),
+                                                               const FloatOffsetType &  itkNotUsed(offset))
 {
   unsigned int i, j;
   double       speed, dx_forward_Cn, dx_backward_Cn, propagation_gradient;
@@ -91,81 +87,77 @@ CurvatureNDAnisotropicDiffusionFunction< TImage >
   double       dx_dim;
 
   // Calculate the partial derivatives for each dimension
-  for ( i = 0; i < ImageDimension; i++ )
-    {
+  for (i = 0; i < ImageDimension; i++)
+  {
     // "Half" derivatives
-    dx_forward[i] = it.GetPixel(m_Center + m_Stride[i])
-                    - it.GetPixel(m_Center);
+    dx_forward[i] = it.GetPixel(m_Center + m_Stride[i]) - it.GetPixel(m_Center);
     dx_forward[i] *= this->m_ScaleCoefficients[i];
-    dx_backward[i] = it.GetPixel(m_Center)
-                     - it.GetPixel(m_Center - m_Stride[i]);
+    dx_backward[i] = it.GetPixel(m_Center) - it.GetPixel(m_Center - m_Stride[i]);
     dx_backward[i] *= this->m_ScaleCoefficients[i];
 
     // Centralized differences
     dx[i] = m_InnerProduct(x_slice[i], it, m_DerivativeOperator);
     dx[i] *= this->m_ScaleCoefficients[i];
-    }
+  }
 
   speed = 0.0;
-  for ( i = 0; i < ImageDimension; i++ )
-    {
+  for (i = 0; i < ImageDimension; i++)
+  {
     // Gradient magnitude approximations
-    grad_mag_sq   = dx_forward[i]  * dx_forward[i];
+    grad_mag_sq = dx_forward[i] * dx_forward[i];
     grad_mag_sq_d = dx_backward[i] * dx_backward[i];
-    for ( j = 0; j < ImageDimension; j++ )
+    for (j = 0; j < ImageDimension; j++)
+    {
+      if (j != i)
       {
-      if ( j != i )
-        {
         dx_aug = m_InnerProduct(xa_slice[j][i], it, m_DerivativeOperator);
         dx_aug *= this->m_ScaleCoefficients[j];
         dx_dim = m_InnerProduct(xd_slice[j][i], it, m_DerivativeOperator);
         dx_dim *= this->m_ScaleCoefficients[j];
-        grad_mag_sq += 0.25f * ( dx[j] + dx_aug ) * ( dx[j] + dx_aug );
-        grad_mag_sq_d += 0.25f * ( dx[j] + dx_dim ) * ( dx[j] + dx_dim );
-        }
+        grad_mag_sq += 0.25f * (dx[j] + dx_aug) * (dx[j] + dx_aug);
+        grad_mag_sq_d += 0.25f * (dx[j] + dx_dim) * (dx[j] + dx_dim);
       }
+    }
     grad_mag = std::sqrt(m_MIN_NORM + grad_mag_sq);
     grad_mag_d = std::sqrt(m_MIN_NORM + grad_mag_sq_d);
 
     // Conductance Terms
-    if ( m_K == 0.0 )
-      {
+    if (m_K == 0.0)
+    {
       Cx = 0.0;
       Cxd = 0.0;
-      }
+    }
     else
-      {
-      Cx  = std::exp(grad_mag_sq   / m_K);
+    {
+      Cx = std::exp(grad_mag_sq / m_K);
       Cxd = std::exp(grad_mag_sq_d / m_K);
-      }
+    }
     // First order normalized finite-difference conductance products
-    dx_forward_Cn  = ( dx_forward[i]  / grad_mag ) * Cx;
-    dx_backward_Cn = ( dx_backward[i] / grad_mag_d ) * Cxd;
+    dx_forward_Cn = (dx_forward[i] / grad_mag) * Cx;
+    dx_backward_Cn = (dx_backward[i] / grad_mag_d) * Cxd;
 
     // Second order conductance-modified curvature
-    speed += ( dx_forward_Cn - dx_backward_Cn );
-    }
+    speed += (dx_forward_Cn - dx_backward_Cn);
+  }
   // "Upwind" gradient magnitude term
   propagation_gradient = 0.0;
-  if ( speed > 0 )
+  if (speed > 0)
+  {
+    for (i = 0; i < ImageDimension; i++)
     {
-    for ( i = 0; i < ImageDimension; i++ )
-      {
       propagation_gradient +=
-        itk::Math::sqr( std::min(dx_backward[i], 0.0) )
-        + itk::Math::sqr( std::max(dx_forward[i],  0.0) );
-      }
+        itk::Math::sqr(std::min(dx_backward[i], 0.0)) + itk::Math::sqr(std::max(dx_forward[i], 0.0));
     }
+  }
   else
+  {
+    for (i = 0; i < ImageDimension; i++)
     {
-    for ( i = 0; i < ImageDimension; i++ )
-      {
       propagation_gradient +=
-        itk::Math::sqr( std::max(dx_backward[i], 0.0) )
-        + itk::Math::sqr( std::min(dx_forward[i],  0.0) );
-      }
+        itk::Math::sqr(std::max(dx_backward[i], 0.0)) + itk::Math::sqr(std::min(dx_forward[i], 0.0));
     }
-  return static_cast< PixelType >( std::sqrt(propagation_gradient) * speed );
+  }
+  return static_cast<PixelType>(std::sqrt(propagation_gradient) * speed);
 }
 } // end namespace itk
 

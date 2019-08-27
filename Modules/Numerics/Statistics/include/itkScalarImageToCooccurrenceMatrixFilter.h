@@ -90,9 +90,8 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 
-template< typename TImageType,
-          typename THistogramFrequencyContainer = DenseFrequencyContainer2 >
-class ITK_TEMPLATE_EXPORT ScalarImageToCooccurrenceMatrixFilter:public ProcessObject
+template <typename TImageType, typename THistogramFrequencyContainer = DenseFrequencyContainer2>
+class ITK_TEMPLATE_EXPORT ScalarImageToCooccurrenceMatrixFilter : public ProcessObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ScalarImageToCooccurrenceMatrixFilter);
@@ -100,8 +99,8 @@ public:
   /** Standard type alias */
   using Self = ScalarImageToCooccurrenceMatrixFilter;
   using Superclass = ProcessObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ScalarImageToCooccurrenceMatrixFilter, ProcessObject);
@@ -116,13 +115,13 @@ public:
   using RegionType = typename ImageType::RegionType;
   using RadiusType = typename ImageType::SizeType;
   using OffsetType = typename ImageType::OffsetType;
-  using OffsetVector = VectorContainer< unsigned char, OffsetType >;
+  using OffsetVector = VectorContainer<unsigned char, OffsetType>;
   using OffsetVectorPointer = typename OffsetVector::Pointer;
   using OffsetVectorConstPointer = typename OffsetVector::ConstPointer;
 
-  using MeasurementType = typename NumericTraits< PixelType >::RealType;
+  using MeasurementType = typename NumericTraits<PixelType>::RealType;
 
-  using HistogramType = Histogram< MeasurementType, THistogramFrequencyContainer >;
+  using HistogramType = Histogram<MeasurementType, THistogramFrequencyContainer>;
   using HistogramPointer = typename HistogramType::Pointer;
   using HistogramConstPointer = typename HistogramType::ConstPointer;
   using MeasurementVectorType = typename HistogramType::MeasurementVectorType;
@@ -134,7 +133,8 @@ public:
   itkSetConstObjectMacro(Offsets, OffsetVector);
   itkGetConstObjectMacro(Offsets, OffsetVector);
 
-  void SetOffset(const OffsetType offset);
+  void
+  SetOffset(const OffsetType offset);
 
   /** Set number of histogram bins along each axis */
   itkSetMacro(NumberOfBinsPerAxis, unsigned int);
@@ -142,7 +142,8 @@ public:
 
   /** Set the min and max (inclusive) pixel value that will be placed in the
     histogram */
-  void SetPixelValueMinMax(PixelType min, PixelType max);
+  void
+  SetPixelValueMinMax(PixelType min, PixelType max);
 
   itkGetConstMacro(Min, PixelType);
   itkGetConstMacro(Max, PixelType);
@@ -155,17 +156,22 @@ public:
 
   /** Method to set/get the image */
   using Superclass::SetInput;
-  void SetInput(const ImageType *image);
+  void
+  SetInput(const ImageType * image);
 
-  const ImageType * GetInput() const;
+  const ImageType *
+  GetInput() const;
 
   /** Method to set/get the mask image */
-  void SetMaskImage(const ImageType *image);
+  void
+  SetMaskImage(const ImageType * image);
 
-  const ImageType * GetMaskImage() const;
+  const ImageType *
+  GetMaskImage() const;
 
   /** method to get the Histogram */
-  const HistogramType * GetOutput() const;
+  const HistogramType *
+  GetOutput() const;
 
   /** Set the pixel value of the mask that should be considered "inside" the
     object. Defaults to one. */
@@ -175,24 +181,30 @@ public:
 protected:
   ScalarImageToCooccurrenceMatrixFilter();
   ~ScalarImageToCooccurrenceMatrixFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  virtual void FillHistogram(RadiusType radius, RegionType region);
+  virtual void
+  FillHistogram(RadiusType radius, RegionType region);
 
-  virtual void FillHistogramWithMask(RadiusType radius, RegionType region, const ImageType *maskImage);
+  virtual void
+  FillHistogramWithMask(RadiusType radius, RegionType region, const ImageType * maskImage);
 
   /** Standard itk::ProcessObject subclass method. */
   using DataObjectPointer = DataObject::Pointer;
 
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
+  DataObjectPointer
+  MakeOutput(DataObjectPointerArraySizeType idx) override;
 
   /** This method causes the filter to generate its output. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
-  void NormalizeHistogram();
+  void
+  NormalizeHistogram();
 
   OffsetVectorConstPointer m_Offsets;
   PixelType                m_Min;
@@ -209,7 +221,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkScalarImageToCooccurrenceMatrixFilter.hxx"
+#  include "itkScalarImageToCooccurrenceMatrixFilter.hxx"
 #endif
 
 #endif

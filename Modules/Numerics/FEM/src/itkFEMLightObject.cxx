@@ -27,17 +27,20 @@ namespace fem
  * This should be the first function called when reading object data.
  */
 
-void FEMLightObject::SetGlobalNumber(int gn)
+void
+FEMLightObject::SetGlobalNumber(int gn)
 {
   this->m_GlobalNumber = gn;
 }
 
-int FEMLightObject::GetGlobalNumber() const
+int
+FEMLightObject::GetGlobalNumber() const
 {
   return this->m_GlobalNumber;
 }
 
-void FEMLightObject::PrintSelf(std::ostream& os, Indent indent) const
+void
+FEMLightObject::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Global Number: " << this->m_GlobalNumber << std::endl;

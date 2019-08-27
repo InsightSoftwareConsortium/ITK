@@ -20,7 +20,8 @@
 #include "itkTestingMacros.h"
 
 
-int itkPowImageFilterTest(int, char* [] )
+int
+itkPowImageFilterTest(int, char *[])
 {
 
   using ImageType = itk::Image<float, 1>;
@@ -48,36 +49,36 @@ int itkPowImageFilterTest(int, char* [] )
   SizeType size;
   size[0] = 2;
 
-  ImageType::RegionType region( size );
+  ImageType::RegionType region(size);
 
   // Initialize Image A
-  inputImageA->SetRegions( region );
+  inputImageA->SetRegions(region);
   inputImageA->Allocate();
 
   // Initialize Image B
-  inputImageB->SetRegions( region );
+  inputImageB->SetRegions(region);
   inputImageB->Allocate();
 
   // set some initial pixel values
   IndexType idx;
-  for ( unsigned int i = 0; i < size[0]; ++i )
-    {
+  for (unsigned int i = 0; i < size[0]; ++i)
+  {
     idx[0] = i;
-    inputImageA->SetPixel( idx, i + 1 );
-    inputImageB->SetPixel( idx, 1.0 );
-    }
+    inputImageA->SetPixel(idx, i + 1);
+    inputImageB->SetPixel(idx, 1.0);
+  }
 
   // Create a PowFilter
   FilterType::Pointer filter = FilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, PowImageFilter, BinaryGeneratorImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, PowImageFilter, BinaryGeneratorImageFilter);
 
   // Check == and != operators
-  //FilterType::FunctorType func2;
+  // FilterType::FunctorType func2;
 
   // Connect the input images
-  filter->SetInput1( inputImageA );
-  filter->SetInput2( inputImageB );
+  filter->SetInput1(inputImageA);
+  filter->SetInput2(inputImageB);
 
   // Get the Smart Pointer to the Filter Output
   ImageType::Pointer outputImage = filter->GetOutput();
@@ -91,34 +92,32 @@ int itkPowImageFilterTest(int, char* [] )
   idx1[0] = 1;
 
   // Values should be 1.0^1.0 and 2.0^1.0
-  ITK_TEST_EXPECT_EQUAL( outputImage->GetPixel( idx0 ), 1.0 );
-  ITK_TEST_EXPECT_EQUAL( outputImage->GetPixel( idx1 ), 2.0 );
+  ITK_TEST_EXPECT_EQUAL(outputImage->GetPixel(idx0), 1.0);
+  ITK_TEST_EXPECT_EQUAL(outputImage->GetPixel(idx1), 2.0);
 
-  filter->SetInput1( inputImageA );
-  filter->SetConstant2( 2.0 );
+  filter->SetInput1(inputImageA);
+  filter->SetConstant2(2.0);
   filter->Update();
 
   // Values should be 1.0^2.0 and 2.0^2.0
-  ITK_TEST_EXPECT_EQUAL( outputImage->GetPixel( idx0 ), 1.0 );
-  ITK_TEST_EXPECT_EQUAL( outputImage->GetPixel( idx1 ), 4.0 );
+  ITK_TEST_EXPECT_EQUAL(outputImage->GetPixel(idx0), 1.0);
+  ITK_TEST_EXPECT_EQUAL(outputImage->GetPixel(idx1), 4.0);
 
-  filter->SetConstant1( 2.0 );
-  filter->SetInput2( inputImageA );
+  filter->SetConstant1(2.0);
+  filter->SetInput2(inputImageA);
   filter->Update();
 
   // Values should be 2.0^1.0 and 2.0^2.0
-  ITK_TEST_EXPECT_EQUAL( outputImage->GetPixel( idx0 ), 2.0 );
-  ITK_TEST_EXPECT_EQUAL( outputImage->GetPixel( idx1 ), 4.0 );
+  ITK_TEST_EXPECT_EQUAL(outputImage->GetPixel(idx0), 2.0);
+  ITK_TEST_EXPECT_EQUAL(outputImage->GetPixel(idx1), 4.0);
 
   {
-  using complexFloatFilterType = itk::PowImageFilter<itk::Image<float>,
-                              itk::Image<std::complex<float> >,
-                              itk::Image<std::complex<float> > >;
-  complexFloatFilterType::Pointer tFilter = complexFloatFilterType::New();
-  ITK_TEST_EXPECT_TRUE(!tFilter.IsNull());
+    using complexFloatFilterType =
+      itk::PowImageFilter<itk::Image<float>, itk::Image<std::complex<float>>, itk::Image<std::complex<float>>>;
+    complexFloatFilterType::Pointer tFilter = complexFloatFilterType::New();
+    ITK_TEST_EXPECT_TRUE(!tFilter.IsNull());
   }
 
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;
-
 }

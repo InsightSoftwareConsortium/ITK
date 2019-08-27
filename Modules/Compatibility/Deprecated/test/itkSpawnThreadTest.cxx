@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#define ITK_LEGACY_TEST //so deprecation warnings are not triggered by this test
+#define ITK_LEGACY_TEST // so deprecation warnings are not triggered by this test
 #include "itkPlatformMultiThreader.h"
 #include "itkMutexLock.h"
 #include "itkTimeProbe.h"
@@ -24,26 +24,28 @@
 #include "itksys/SystemTools.hxx"
 #include "itkMutexLock.h"
 
-using SharedThreadData = struct {
-  int numberOfLoop;
+using SharedThreadData = struct
+{
+  int                     numberOfLoop;
   itk::MutexLock::Pointer sharedMutex;
 };
 
-void* ThreadFunction(void *ptr)
+void *
+ThreadFunction(void * ptr)
 {
   // Retrieve shared thread data and user data
-  auto * workUnitInfo = static_cast<itk::PlatformMultiThreader::WorkUnitInfo*>(ptr);
-  itk::ThreadIdType localthreadId = workUnitInfo->WorkUnitID;
-  auto * localThreadData = static_cast<SharedThreadData*>(workUnitInfo->UserData);
-  int localnumberOfLoop = localThreadData->numberOfLoop;
+  auto *                  workUnitInfo = static_cast<itk::PlatformMultiThreader::WorkUnitInfo *>(ptr);
+  itk::ThreadIdType       localthreadId = workUnitInfo->WorkUnitID;
+  auto *                  localThreadData = static_cast<SharedThreadData *>(workUnitInfo->UserData);
+  int                     localnumberOfLoop = localThreadData->numberOfLoop;
   itk::MutexLock::Pointer localMutex = localThreadData->sharedMutex;
 
   for (int i = 0; i < localnumberOfLoop; ++i)
-    {
+  {
     localMutex->Lock();
     std::cerr << "Thread #" << localthreadId << ":: counter = " << i << std::endl;
     localMutex->Unlock();
-    }
+  }
 
   localMutex->Lock();
   std::cerr << "Thread #" << localthreadId << " is done." << std::endl;
@@ -52,43 +54,44 @@ void* ThreadFunction(void *ptr)
   return nullptr;
 }
 
-int itkSpawnThreadTest(int argc, char* argv[])
+int
+itkSpawnThreadTest(int argc, char * argv[])
 {
   int loop = 100;
-  if( argc > 1 )
+  if (argc > 1)
+  {
+    const int nt = std::stoi(argv[1]);
+    if (nt > 1)
     {
-    const int nt = std::stoi( argv[1] );
-    if(nt > 1)
-      {
       loop = nt;
-      }
     }
+  }
 
-  itk::PlatformMultiThreader::Pointer    threader  = itk::PlatformMultiThreader::New();
-  itk::MutexLock::Pointer        mutexlock = itk::MutexLock::New();
-  if(threader.IsNull() || mutexlock.IsNull() )
-    {
+  itk::PlatformMultiThreader::Pointer threader = itk::PlatformMultiThreader::New();
+  itk::MutexLock::Pointer             mutexlock = itk::MutexLock::New();
+  if (threader.IsNull() || mutexlock.IsNull())
+  {
     return EXIT_FAILURE;
-    }
+  }
 
   SharedThreadData threadData;
   threadData.numberOfLoop = loop;
-  threadData.sharedMutex  = mutexlock;
+  threadData.sharedMutex = mutexlock;
 
-  int id1 = threader->SpawnThread((itk::ThreadFunctionType) &ThreadFunction, &threadData);
-  int id2 = threader->SpawnThread((itk::ThreadFunctionType) &ThreadFunction, &threadData);
-  int id3 = threader->SpawnThread((itk::ThreadFunctionType) &ThreadFunction, &threadData);
-  int id4 = threader->SpawnThread((itk::ThreadFunctionType) &ThreadFunction, &threadData);
-  int id5 = threader->SpawnThread((itk::ThreadFunctionType) &ThreadFunction, &threadData);
-  int id6 = threader->SpawnThread((itk::ThreadFunctionType) &ThreadFunction, &threadData);
-  int id7 = threader->SpawnThread((itk::ThreadFunctionType) &ThreadFunction, &threadData);
+  int id1 = threader->SpawnThread((itk::ThreadFunctionType)&ThreadFunction, &threadData);
+  int id2 = threader->SpawnThread((itk::ThreadFunctionType)&ThreadFunction, &threadData);
+  int id3 = threader->SpawnThread((itk::ThreadFunctionType)&ThreadFunction, &threadData);
+  int id4 = threader->SpawnThread((itk::ThreadFunctionType)&ThreadFunction, &threadData);
+  int id5 = threader->SpawnThread((itk::ThreadFunctionType)&ThreadFunction, &threadData);
+  int id6 = threader->SpawnThread((itk::ThreadFunctionType)&ThreadFunction, &threadData);
+  int id7 = threader->SpawnThread((itk::ThreadFunctionType)&ThreadFunction, &threadData);
 
-  for(int i=0; i<threadData.numberOfLoop; ++i)
-    {
+  for (int i = 0; i < threadData.numberOfLoop; ++i)
+  {
     mutexlock->Lock();
     std::cerr << "Main Thread:: counter = " << i << std::endl;
     mutexlock->Unlock();
-    }
+  }
 
   mutexlock->Lock();
   std::cerr << "Main Thread is done." << std::endl;

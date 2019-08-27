@@ -33,11 +33,8 @@ namespace itk
 {
 VTKImageIOFactory::VTKImageIOFactory()
 {
-  this->RegisterOverride( "itkImageIOBase",
-                          "itkVTKImageIO",
-                          "VTK Image IO",
-                          true,
-                          CreateObjectFunction< VTKImageIO >::New() );
+  this->RegisterOverride(
+    "itkImageIOBase", "itkVTKImageIO", "VTK Image IO", true, CreateObjectFunction<VTKImageIO>::New());
 }
 
 VTKImageIOFactory::~VTKImageIOFactory() = default;
@@ -59,13 +56,14 @@ VTKImageIOFactory::GetDescription() const
 
 static bool VTKImageIOFactoryHasBeenRegistered;
 
-void ITKIOVTK_EXPORT VTKImageIOFactoryRegister__Private()
+void ITKIOVTK_EXPORT
+     VTKImageIOFactoryRegister__Private()
 {
-  if( ! VTKImageIOFactoryHasBeenRegistered )
-    {
+  if (!VTKImageIOFactoryHasBeenRegistered)
+  {
     VTKImageIOFactoryHasBeenRegistered = true;
     VTKImageIOFactory::RegisterOneFactory();
-    }
+  }
 }
 
 } // end namespace itk

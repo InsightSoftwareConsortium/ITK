@@ -80,21 +80,18 @@ namespace itk
  *   \sa SparseFieldLevelSetImageFilter
  * \ingroup ITKLevelSets
  */
-template< typename TInputImage,
-          typename TFeatureImage,
-          typename TOutputPixelType = float >
-class ITK_TEMPLATE_EXPORT ThresholdSegmentationLevelSetImageFilter:
-  public SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
+template <typename TInputImage, typename TFeatureImage, typename TOutputPixelType = float>
+class ITK_TEMPLATE_EXPORT ThresholdSegmentationLevelSetImageFilter
+  : public SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ThresholdSegmentationLevelSetImageFilter);
 
   /** Standard class type aliases */
   using Self = ThresholdSegmentationLevelSetImageFilter;
-  using Superclass =
-      SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Inherited type alias from the superclass. */
   using ValueType = typename Superclass::ValueType;
@@ -102,8 +99,7 @@ public:
   using FeatureImageType = typename Superclass::FeatureImageType;
 
   /** Type of the segmentation function */
-  using ThresholdFunctionType = ThresholdSegmentationLevelSetFunction< OutputImageType,
-                                                 FeatureImageType >;
+  using ThresholdFunctionType = ThresholdSegmentationLevelSetFunction<OutputImageType, FeatureImageType>;
   using ThresholdFunctionPointer = typename ThresholdFunctionType::Pointer;
 
   /** Run-time type information (and related methods). */
@@ -114,37 +110,43 @@ public:
 
   /** Get/Set the threshold values that will be used to calculate the speed
     function. */
-  void SetUpperThreshold(ValueType v)
+  void
+  SetUpperThreshold(ValueType v)
   {
     this->m_ThresholdFunction->SetUpperThreshold(v);
     this->Modified();
   }
 
-  void SetLowerThreshold(ValueType v)
+  void
+  SetLowerThreshold(ValueType v)
   {
     this->m_ThresholdFunction->SetLowerThreshold(v);
     this->Modified();
   }
 
-  ValueType GetUpperThreshold() const
+  ValueType
+  GetUpperThreshold() const
   {
     return m_ThresholdFunction->GetUpperThreshold();
   }
 
-  ValueType GetLowerThreshold() const
+  ValueType
+  GetLowerThreshold() const
   {
     return m_ThresholdFunction->GetLowerThreshold();
   }
 
   /** Set/Get the weight applied to the edge (Laplacian) attractor in the speed
    *  term function. Zero will turn this term off. */
-  void SetEdgeWeight(ValueType v)
+  void
+  SetEdgeWeight(ValueType v)
   {
     this->m_ThresholdFunction->SetEdgeWeight(v);
     this->Modified();
   }
 
-  ValueType GetEdgeWeight() const
+  ValueType
+  GetEdgeWeight() const
   {
     return m_ThresholdFunction->GetEdgeWeight();
   }
@@ -152,13 +154,15 @@ public:
   /** Anisotropic diffusion is applied to the FeatureImage before calculating
    * the Laplacian (edge) term. This method sets/gets the number of diffusion
    * iterations. */
-  void SetSmoothingIterations(int v)
+  void
+  SetSmoothingIterations(int v)
   {
     this->m_ThresholdFunction->SetSmoothingIterations(v);
     this->Modified();
   }
 
-  int GetSmoothingIterations() const
+  int
+  GetSmoothingIterations() const
   {
     return m_ThresholdFunction->GetSmoothingIterations();
   }
@@ -166,13 +170,15 @@ public:
   /** Anisotropic diffusion is applied to the FeatureImage before calculating
    * the Laplacian (edge) term. This method sets/gets the diffusion time
    * step. */
-  void SetSmoothingTimeStep(ValueType v)
+  void
+  SetSmoothingTimeStep(ValueType v)
   {
     this->m_ThresholdFunction->SetSmoothingTimeStep(v);
     this->Modified();
   }
 
-  ValueType GetSmoothingTimeStep() const
+  ValueType
+  GetSmoothingTimeStep() const
   {
     return m_ThresholdFunction->GetSmoothingTimeStep();
   }
@@ -180,13 +186,15 @@ public:
   /** Anisotropic diffusion is applied to the FeatureImage before calculatign
    * the Laplacian (edge) term. This method sets/gets the smoothing
    * conductance. */
-  void SetSmoothingConductance(ValueType v)
+  void
+  SetSmoothingConductance(ValueType v)
   {
     this->m_ThresholdFunction->SetSmoothingConductance(v);
     this->Modified();
   }
 
-  ValueType GetSmoothingConductance() const
+  ValueType
+  GetSmoothingConductance() const
   {
     return m_ThresholdFunction->GetSmoothingConductance();
   }
@@ -195,7 +203,8 @@ protected:
   ~ThresholdSegmentationLevelSetImageFilter() override = default;
   ThresholdSegmentationLevelSetImageFilter();
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ThresholdFunctionPointer m_ThresholdFunction;
@@ -203,7 +212,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkThresholdSegmentationLevelSetImageFilter.hxx"
+#  include "itkThresholdSegmentationLevelSetImageFilter.hxx"
 #endif
 
 #endif

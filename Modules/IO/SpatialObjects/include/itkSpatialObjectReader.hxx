@@ -22,50 +22,45 @@
 
 namespace itk
 {
-template< unsigned int NDimensions, typename PixelType, typename TMeshTraits >
-SpatialObjectReader< NDimensions, PixelType, TMeshTraits >
-::SpatialObjectReader()
+template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
+SpatialObjectReader<NDimensions, PixelType, TMeshTraits>::SpatialObjectReader()
 {
   m_FileName = "";
   m_Group = nullptr;
   m_MetaToSpatialConverter = MetaSceneConverterType::New();
 }
 
-template< unsigned int NDimensions, typename PixelType, typename TMeshTraits >
+template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
 void
-SpatialObjectReader< NDimensions, PixelType, TMeshTraits >
-::Update()
+SpatialObjectReader<NDimensions, PixelType, TMeshTraits>::Update()
 {
-  m_Group = m_MetaToSpatialConverter->ReadMeta( m_FileName.c_str() );
+  m_Group = m_MetaToSpatialConverter->ReadMeta(m_FileName.c_str());
 
-  if ( m_Group->GetNumberOfChildren(0) == 0 )
-    {
+  if (m_Group->GetNumberOfChildren(0) == 0)
+  {
     itkExceptionMacro("No groups were found in file " << m_FileName);
-    }
-  else if ( m_Group->GetNumberOfChildren(0) == 1 )
-    {
+  }
+  else if (m_Group->GetNumberOfChildren(0) == 1)
+  {
     typename GroupType::ChildrenListType * list = m_Group->GetChildren(0);
-    auto it = list->begin();
-    if ( ( *it )->GetTypeName().find( "GroupSpatialObject" ) != std::string::npos )
-      {
-      m_Group = static_cast< GroupType * >( ( *it ).GetPointer() );
-      }
-    delete list;
+    auto                                   it = list->begin();
+    if ((*it)->GetTypeName().find("GroupSpatialObject") != std::string::npos)
+    {
+      m_Group = static_cast<GroupType *>((*it).GetPointer());
     }
+    delete list;
+  }
   m_Group->Update();
 }
 
 /** Add a converter for a new MetaObject/SpatialObject type */
-template< unsigned int NDimensions, typename PixelType, typename TMeshTraits >
+template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
 void
-SpatialObjectReader< NDimensions, PixelType, TMeshTraits >
-::RegisterMetaConverter(const char *metaTypeName,
-                      const char *spatialObjectTypeName,
-                      MetaConverterBaseType *converter)
+SpatialObjectReader<NDimensions, PixelType, TMeshTraits>::RegisterMetaConverter(const char * metaTypeName,
+                                                                                const char * spatialObjectTypeName,
+                                                                                MetaConverterBaseType * converter)
 {
-  this->m_MetaToSpatialConverter->RegisterMetaConverter(metaTypeName,
-                                                     spatialObjectTypeName,
-                                                     converter);
+  this->m_MetaToSpatialConverter->RegisterMetaConverter(metaTypeName, spatialObjectTypeName, converter);
 }
 
 } // namespace itk

@@ -38,18 +38,18 @@ namespace itk
  * \ingroup ImageFunctions
  * \ingroup ITKImageFunction
  */
-template< typename TInputImage, typename TCoordRep = float >
-class ITK_TEMPLATE_EXPORT NeighborhoodBinaryThresholdImageFunction:
-  public BinaryThresholdImageFunction< TInputImage, TCoordRep >
+template <typename TInputImage, typename TCoordRep = float>
+class ITK_TEMPLATE_EXPORT NeighborhoodBinaryThresholdImageFunction
+  : public BinaryThresholdImageFunction<TInputImage, TCoordRep>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(NeighborhoodBinaryThresholdImageFunction);
 
   /** Standard class type aliases. */
   using Self = NeighborhoodBinaryThresholdImageFunction;
-  using Superclass = BinaryThresholdImageFunction< TInputImage, TCoordRep >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = BinaryThresholdImageFunction<TInputImage, TCoordRep>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(NeighborhoodBinaryThresholdImageFunction, BinaryThresholdImageFunction);
@@ -88,10 +88,12 @@ public:
   itkGetConstReferenceMacro(Radius, InputSizeType);
 
   /** Evalulate the function at specified index */
-  bool EvaluateAtIndex(const IndexType & index) const override;
+  bool
+  EvaluateAtIndex(const IndexType & index) const override;
 
   /** Evaluate the function at non-integer positions */
-  bool Evaluate(const PointType & point) const override
+  bool
+  Evaluate(const PointType & point) const override
   {
     IndexType index;
 
@@ -99,8 +101,8 @@ public:
     return this->EvaluateAtIndex(index);
   }
 
-  bool EvaluateAtContinuousIndex(
-    const ContinuousIndexType & cindex) const override
+  bool
+  EvaluateAtContinuousIndex(const ContinuousIndexType & cindex) const override
   {
     IndexType index;
 
@@ -111,7 +113,8 @@ public:
 protected:
   NeighborhoodBinaryThresholdImageFunction();
   ~NeighborhoodBinaryThresholdImageFunction() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   InputSizeType m_Radius;
@@ -119,7 +122,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNeighborhoodBinaryThresholdImageFunction.hxx"
+#  include "itkNeighborhoodBinaryThresholdImageFunction.hxx"
 #endif
 
 /*

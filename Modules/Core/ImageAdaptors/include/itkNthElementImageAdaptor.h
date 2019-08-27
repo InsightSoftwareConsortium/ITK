@@ -36,37 +36,34 @@ namespace itk
  * \ingroup ITKImageAdaptors
  *
  * \sphinx
- * \sphinxexample{Core/ImageAdaptors/ExtractChannelOfImageWithMultipleComponents,Extract Channel Of Image With Multiple Components}
- * \sphinxexample{Core/ImageAdaptors/ProcessNthComponentOfVectorImage,Process Nth Component Of Vector Image}
+ * \sphinxexample{Core/ImageAdaptors/ExtractChannelOfImageWithMultipleComponents,Extract Channel Of Image With Multiple
+ * Components} \sphinxexample{Core/ImageAdaptors/ProcessNthComponentOfVectorImage,Process Nth Component Of Vector Image}
  * \endsphinx
  */
 
 // Create a helper class to help the SunPro CC compiler
 // parse the templates for the NthElementImageAdaptor.
 // This is used to define the Super class.  for NthElementImageAdaptor
-template< typename TImage, typename TOutputPixelType >
+template <typename TImage, typename TOutputPixelType>
 class NthElementImageAdaptorHelper
 {
 public:
-  using PixelAccessor = NthElementPixelAccessor<
-    TOutputPixelType,
-    typename TImage::PixelType >;
+  using PixelAccessor = NthElementPixelAccessor<TOutputPixelType, typename TImage::PixelType>;
 
-  using Super = ImageAdaptor< TImage, PixelAccessor >;
+  using Super = ImageAdaptor<TImage, PixelAccessor>;
 };
 
-template< typename TImage, typename TOutputPixelType >
-class NthElementImageAdaptor:
-  public NthElementImageAdaptorHelper< TImage, TOutputPixelType >::Super
+template <typename TImage, typename TOutputPixelType>
+class NthElementImageAdaptor : public NthElementImageAdaptorHelper<TImage, TOutputPixelType>::Super
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(NthElementImageAdaptor);
 
   /** Standard class type aliases. */
   using Self = NthElementImageAdaptor;
-  using Superclass = typename NthElementImageAdaptorHelper< TImage, TOutputPixelType >::Super;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = typename NthElementImageAdaptorHelper<TImage, TOutputPixelType>::Super;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(NthElementImageAdaptor, ImageAdaptor);
@@ -75,7 +72,8 @@ public:
   itkNewMacro(Self);
 
   /** Select the element number to be accessed */
-  void SelectNthElement(unsigned int nth)
+  void
+  SelectNthElement(unsigned int nth)
   {
     this->GetPixelAccessor().SetElementNumber(nth);
     this->Modified();

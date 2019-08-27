@@ -23,27 +23,27 @@
 
 
 // Test the reading of a corrupted grayscale image
-int itkPNGImageIOTest3( int argc, char * argv[] )
+int
+itkPNGImageIOTest3(int argc, char * argv[])
 {
-  if( argc < 2 )
-    {
-    std::cerr << "Usage: " << argv[0]
-      << " input" << std::endl;
+  if (argc < 2)
+  {
+    std::cerr << "Usage: " << argv[0] << " input" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int Dimension = 2;
   using PixelType = unsigned char;
-  using ImageType = itk::Image< PixelType, Dimension >;
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using ReaderType = itk::ImageFileReader<ImageType>;
 
   // Read the input image
   itk::PNGImageIO::Pointer io = itk::PNGImageIO::New();
-  ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
-  reader->SetImageIO( io );
+  ReaderType::Pointer      reader = ReaderType::New();
+  reader->SetFileName(argv[1]);
+  reader->SetImageIO(io);
 
-  ITK_TRY_EXPECT_EXCEPTION( reader->Update() );
+  ITK_TRY_EXPECT_EXCEPTION(reader->Update());
   std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

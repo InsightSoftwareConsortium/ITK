@@ -24,41 +24,40 @@
 namespace itk
 {
 
-template< typename TJointHistogramMetric >
+template <typename TJointHistogramMetric>
 void
-JointHistogramMutualInformationComputeJointPDFThreader< ThreadedImageRegionPartitioner< TJointHistogramMetric::VirtualImageDimension >, TJointHistogramMetric >
-::ThreadedExecution( const DomainType & imageSubRegion,
-                     const ThreadIdType threadId )
+JointHistogramMutualInformationComputeJointPDFThreader<
+  ThreadedImageRegionPartitioner<TJointHistogramMetric::VirtualImageDimension>,
+  TJointHistogramMetric>::ThreadedExecution(const DomainType & imageSubRegion, const ThreadIdType threadId)
 {
   VirtualPointType virtualPoint;
   VirtualIndexType virtualIndex;
-  using IteratorType = ImageRegionConstIteratorWithIndex< VirtualImageType >;
-  IteratorType it( this->m_Associate->GetVirtualImage(), imageSubRegion );
-  for( it.GoToBegin(); !it.IsAtEnd(); ++it )
-    {
+  using IteratorType = ImageRegionConstIteratorWithIndex<VirtualImageType>;
+  IteratorType it(this->m_Associate->GetVirtualImage(), imageSubRegion);
+  for (it.GoToBegin(); !it.IsAtEnd(); ++it)
+  {
     virtualIndex = it.GetIndex();
-    this->m_Associate->TransformVirtualIndexToPhysicalPoint( virtualIndex, virtualPoint );
-    this->ProcessPoint( virtualIndex, virtualPoint, threadId );
-    }
+    this->m_Associate->TransformVirtualIndexToPhysicalPoint(virtualIndex, virtualPoint);
+    this->ProcessPoint(virtualIndex, virtualPoint, threadId);
+  }
 }
 
-template< typename TJointHistogramMetric >
+template <typename TJointHistogramMetric>
 void
-JointHistogramMutualInformationComputeJointPDFThreader< ThreadedIndexedContainerPartitioner, TJointHistogramMetric >
-::ThreadedExecution( const DomainType & indexSubRange,
-                     const ThreadIdType threadId )
+JointHistogramMutualInformationComputeJointPDFThreader<ThreadedIndexedContainerPartitioner, TJointHistogramMetric>::
+  ThreadedExecution(const DomainType & indexSubRange, const ThreadIdType threadId)
 {
   VirtualPointType virtualPoint;
   VirtualIndexType virtualIndex;
   using ElementIdentifierType = typename VirtualPointSetType::MeshTraits::PointIdentifier;
   const ElementIdentifierType begin = indexSubRange[0];
-  const ElementIdentifierType end   = indexSubRange[1];
-  for( ElementIdentifierType i = begin; i <= end; ++i )
-    {
-    virtualPoint = this->m_Associate->m_VirtualSampledPointSet->GetPoint( i );
-    this->m_Associate->TransformPhysicalPointToVirtualIndex( virtualPoint, virtualIndex );
-    this->ProcessPoint( virtualIndex, virtualPoint, threadId );
-    }
+  const ElementIdentifierType end = indexSubRange[1];
+  for (ElementIdentifierType i = begin; i <= end; ++i)
+  {
+    virtualPoint = this->m_Associate->m_VirtualSampledPointSet->GetPoint(i);
+    this->m_Associate->TransformPhysicalPointToVirtualIndex(virtualPoint, virtualIndex);
+    this->ProcessPoint(virtualIndex, virtualPoint, threadId);
+  }
 }
 
 } // end namespace itk

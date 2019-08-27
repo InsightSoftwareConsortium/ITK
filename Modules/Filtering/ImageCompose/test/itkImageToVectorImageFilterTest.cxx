@@ -22,13 +22,14 @@
 #include "itkImageSeriesWriter.h"
 #include "itkTestingMacros.h"
 
-int itkImageToVectorImageFilterTest(int argc, char *argv[] )
+int
+itkImageToVectorImageFilterTest(int argc, char * argv[])
 {
 
   using PixelType = unsigned char;
 
-  using ScalarImageType = itk::Image<PixelType,2>;
-  using VectorImageType = itk::VectorImage<PixelType,2>;
+  using ScalarImageType = itk::Image<PixelType, 2>;
+  using VectorImageType = itk::VectorImage<PixelType, 2>;
 
   using ReaderType = itk::ImageFileReader<ScalarImageType>;
   using WriterType = itk::ImageFileWriter<VectorImageType>;
@@ -36,38 +37,36 @@ int itkImageToVectorImageFilterTest(int argc, char *argv[] )
   using FilterType = itk::ComposeImageFilter<ScalarImageType>;
 
   if (argc < 3)
-    {
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << itkNameOfTestExecutableMacro(argv) << "  input1 input2 ... inputn output" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   FilterType::Pointer filter = FilterType::New();
-  int f = 0;
-  for (int i=1; i < argc - 1; i++)
-    {
+  int                 f = 0;
+  for (int i = 1; i < argc - 1; i++)
+  {
     ReaderType::Pointer reader = ReaderType::New();
-    reader->SetFileName (argv[i]);
+    reader->SetFileName(argv[i]);
     reader->Update();
-    filter->SetInput(f++,reader->GetOutput());
-    }
+    filter->SetInput(f++, reader->GetOutput());
+  }
 
   WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName (  argv[argc-1] );
+  writer->SetFileName(argv[argc - 1]);
 
   try
-    {
+  {
     writer->SetInput(filter->GetOutput());
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Error while writing the file" << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-
-    }
+  }
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
-
 }

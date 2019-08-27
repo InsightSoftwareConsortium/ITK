@@ -27,8 +27,9 @@ namespace itk
 /** Set the priority level for the current logger. Only messages that have
  * priorities equal or greater than the one set here will be posted to the
  * current outputs */
-template< typename SimpleLoggerType >
-void LoggerThreadWrapper< SimpleLoggerType >::SetPriorityLevel(PriorityLevelType level)
+template <typename SimpleLoggerType>
+void
+LoggerThreadWrapper<SimpleLoggerType>::SetPriorityLevel(PriorityLevelType level)
 {
   this->m_Mutex.lock();
   this->m_OperationQ.push(LoggerThreadWrapperOperationType::SET_PRIORITY_LEVEL);
@@ -39,8 +40,9 @@ void LoggerThreadWrapper< SimpleLoggerType >::SetPriorityLevel(PriorityLevelType
 /** Get the priority level for the current logger. Only messages that have
  * priorities equal or greater than the one set here will be posted to the
  * current outputs */
-template< typename SimpleLoggerType >
-typename SimpleLoggerType::PriorityLevelType LoggerThreadWrapper< SimpleLoggerType >::GetPriorityLevel() const
+template <typename SimpleLoggerType>
+typename SimpleLoggerType::PriorityLevelType
+LoggerThreadWrapper<SimpleLoggerType>::GetPriorityLevel() const
 {
   this->m_Mutex.lock();
   PriorityLevelType level = this->m_PriorityLevel;
@@ -48,8 +50,9 @@ typename SimpleLoggerType::PriorityLevelType LoggerThreadWrapper< SimpleLoggerTy
   return level;
 }
 
-template< typename SimpleLoggerType >
-void LoggerThreadWrapper< SimpleLoggerType >::SetLevelForFlushing(PriorityLevelType level)
+template <typename SimpleLoggerType>
+void
+LoggerThreadWrapper<SimpleLoggerType>::SetLevelForFlushing(PriorityLevelType level)
 {
   this->m_Mutex.lock();
   this->m_LevelForFlushing = level;
@@ -58,8 +61,9 @@ void LoggerThreadWrapper< SimpleLoggerType >::SetLevelForFlushing(PriorityLevelT
   this->m_Mutex.unlock();
 }
 
-template< typename SimpleLoggerType >
-typename SimpleLoggerType::PriorityLevelType LoggerThreadWrapper< SimpleLoggerType >::GetLevelForFlushing() const
+template <typename SimpleLoggerType>
+typename SimpleLoggerType::PriorityLevelType
+LoggerThreadWrapper<SimpleLoggerType>::GetLevelForFlushing() const
 {
   this->m_Mutex.lock();
   PriorityLevelType level = this->m_LevelForFlushing;
@@ -67,16 +71,18 @@ typename SimpleLoggerType::PriorityLevelType LoggerThreadWrapper< SimpleLoggerTy
   return level;
 }
 
-template< typename SimpleLoggerType >
-void LoggerThreadWrapper< SimpleLoggerType >::SetDelay(DelayType delay)
+template <typename SimpleLoggerType>
+void
+LoggerThreadWrapper<SimpleLoggerType>::SetDelay(DelayType delay)
 {
   this->m_Mutex.lock();
   this->m_Delay = delay;
   this->m_Mutex.unlock();
 }
 
-template< typename SimpleLoggerType >
-typename LoggerThreadWrapper< SimpleLoggerType >::DelayType LoggerThreadWrapper< SimpleLoggerType >::GetDelay() const
+template <typename SimpleLoggerType>
+typename LoggerThreadWrapper<SimpleLoggerType>::DelayType
+LoggerThreadWrapper<SimpleLoggerType>::GetDelay() const
 {
   this->m_Mutex.lock();
   DelayType delay = this->m_Delay;
@@ -85,8 +91,9 @@ typename LoggerThreadWrapper< SimpleLoggerType >::DelayType LoggerThreadWrapper<
 }
 
 /** Adds an output stream to the MultipleLogOutput for writing. */
-template< typename SimpleLoggerType >
-void LoggerThreadWrapper< SimpleLoggerType >::AddLogOutput(OutputType *output)
+template <typename SimpleLoggerType>
+void
+LoggerThreadWrapper<SimpleLoggerType>::AddLogOutput(OutputType * output)
 {
   this->m_Mutex.lock();
   this->m_OperationQ.push(LoggerThreadWrapperOperationType::ADD_LOG_OUTPUT);
@@ -94,32 +101,34 @@ void LoggerThreadWrapper< SimpleLoggerType >::AddLogOutput(OutputType *output)
   this->m_Mutex.unlock();
 }
 
-template< typename SimpleLoggerType >
-void LoggerThreadWrapper< SimpleLoggerType >::Write(PriorityLevelType level, std::string const & content)
+template <typename SimpleLoggerType>
+void
+LoggerThreadWrapper<SimpleLoggerType>::Write(PriorityLevelType level, std::string const & content)
 {
   this->m_Mutex.lock();
-  if ( this->m_PriorityLevel >= level )
-    {
+  if (this->m_PriorityLevel >= level)
+  {
     this->m_OperationQ.push(LoggerThreadWrapperOperationType::WRITE);
     this->m_MessageQ.push(content);
     this->m_LevelQ.push(level);
-    }
+  }
   this->m_Mutex.unlock();
-  if ( this->m_LevelForFlushing >= level )
-    {
+  if (this->m_LevelForFlushing >= level)
+  {
     this->Flush();
-    }
+  }
 }
 
-template< typename SimpleLoggerType >
-void LoggerThreadWrapper< SimpleLoggerType >::Flush()
+template <typename SimpleLoggerType>
+void
+LoggerThreadWrapper<SimpleLoggerType>::Flush()
 {
   this->m_Mutex.lock();
 
-  while ( !this->m_OperationQ.empty() )
+  while (!this->m_OperationQ.empty())
+  {
+    switch (this->m_OperationQ.front())
     {
-    switch ( this->m_OperationQ.front() )
-      {
       case LoggerThreadWrapperOperationType::SET_PRIORITY_LEVEL:
         this->m_PriorityLevel = this->m_LevelQ.front();
         this->m_LevelQ.pop();
@@ -129,25 +138,25 @@ void LoggerThreadWrapper< SimpleLoggerType >::Flush()
         this->m_LevelQ.pop();
         break;
       case LoggerThreadWrapperOperationType::ADD_LOG_OUTPUT:
-        this->m_Output->AddLogOutput( this->m_OutputQ.front() );
+        this->m_Output->AddLogOutput(this->m_OutputQ.front());
         this->m_OutputQ.pop();
         break;
       case LoggerThreadWrapperOperationType::WRITE:
-        this->SimpleLoggerType::Write( this->m_LevelQ.front(), this->m_MessageQ.front() );
+        this->SimpleLoggerType::Write(this->m_LevelQ.front(), this->m_MessageQ.front());
         this->m_LevelQ.pop();
         this->m_MessageQ.pop();
         break;
-      }
-    this->m_OperationQ.pop();
     }
+    this->m_OperationQ.pop();
+  }
   this->SimpleLoggerType::Flush();
   this->m_Output->Flush();
   this->m_Mutex.unlock();
 }
 
 /** Constructor */
-template< typename SimpleLoggerType >
-LoggerThreadWrapper< SimpleLoggerType >::LoggerThreadWrapper()
+template <typename SimpleLoggerType>
+LoggerThreadWrapper<SimpleLoggerType>::LoggerThreadWrapper()
 {
   m_Delay = 300; // ms
   m_TerminationRequested = false;
@@ -155,29 +164,28 @@ LoggerThreadWrapper< SimpleLoggerType >::LoggerThreadWrapper()
 }
 
 /** Destructor */
-template< typename SimpleLoggerType >
-LoggerThreadWrapper< SimpleLoggerType >::~LoggerThreadWrapper()
+template <typename SimpleLoggerType>
+LoggerThreadWrapper<SimpleLoggerType>::~LoggerThreadWrapper()
 {
   this->Flush();
-  if( m_Thread.joinable() )
-    {
+  if (m_Thread.joinable())
+  {
     m_TerminationRequested = true;
-    m_Thread.join(); //waits for it to finish if necessary
-    }
+    m_Thread.join(); // waits for it to finish if necessary
+  }
 }
 
-template< typename SimpleLoggerType >
+template <typename SimpleLoggerType>
 void
-LoggerThreadWrapper< SimpleLoggerType >
-::ThreadFunction()
+LoggerThreadWrapper<SimpleLoggerType>::ThreadFunction()
 {
-  while ( !m_TerminationRequested )
-    {
+  while (!m_TerminationRequested)
+  {
     m_Mutex.lock();
-    while ( !m_OperationQ.empty() )
+    while (!m_OperationQ.empty())
+    {
+      switch (m_OperationQ.front())
       {
-      switch ( m_OperationQ.front() )
-        {
         case LoggerThreadWrapperOperationType::SET_PRIORITY_LEVEL:
           this->m_PriorityLevel = m_LevelQ.front();
           m_LevelQ.pop();
@@ -189,27 +197,28 @@ LoggerThreadWrapper< SimpleLoggerType >
           break;
 
         case LoggerThreadWrapperOperationType::ADD_LOG_OUTPUT:
-          this->m_Output->AddLogOutput( m_OutputQ.front() );
+          this->m_Output->AddLogOutput(m_OutputQ.front());
           m_OutputQ.pop();
           break;
 
         case LoggerThreadWrapperOperationType::WRITE:
-          SimpleLoggerType::Write( m_LevelQ.front(), m_MessageQ.front() );
+          SimpleLoggerType::Write(m_LevelQ.front(), m_MessageQ.front());
           m_LevelQ.pop();
           m_MessageQ.pop();
           break;
-        }
-      m_OperationQ.pop();
       }
+      m_OperationQ.pop();
+    }
     m_Mutex.unlock();
     SimpleLoggerType::Flush();
     itksys::SystemTools::Delay(this->GetDelay());
-    }
+  }
 }
 
 /** Print contents of a LoggerThreadWrapper */
-template< typename SimpleLoggerType >
-void LoggerThreadWrapper< SimpleLoggerType >::PrintSelf(std::ostream & os, Indent indent) const
+template <typename SimpleLoggerType>
+void
+LoggerThreadWrapper<SimpleLoggerType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

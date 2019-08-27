@@ -33,19 +33,16 @@ public:
   using RadiusType = typename Superclass::RadiusType;
   using RegionType = typename Superclass::RegionType;
 
-  void TestNewExposedProtectedMembers();
-  MyDerivedCSNI(const SizeType & radius,
-                const ImageType *ptr,
-                const RegionType & region):
-    Superclass (radius, const_cast< ImageType * >( ptr ), region)
-    {
-    }
+  void
+  TestNewExposedProtectedMembers();
+  MyDerivedCSNI(const SizeType & radius, const ImageType * ptr, const RegionType & region)
+    : Superclass(radius, const_cast<ImageType *>(ptr), region)
+  {}
 };
 
 template <typename ImageType>
 void
-MyDerivedCSNI<ImageType>
-::TestNewExposedProtectedMembers()
+MyDerivedCSNI<ImageType>::TestNewExposedProtectedMembers()
 {
   bool needToUseBoundaryCondition(this->GetNeedToUseBoundaryCondition());
   this->NeedToUseBoundaryConditionOn();
@@ -53,11 +50,15 @@ MyDerivedCSNI<ImageType>
   this->SetNeedToUseBoundaryCondition(needToUseBoundaryCondition);
 }
 
-int itkConstShapedNeighborhoodIteratorTest2(int, char* [] )
+int
+itkConstShapedNeighborhoodIteratorTest2(int, char *[])
 {
-  TestImageType::Pointer img = GetTestImage(10, 10, 5, 3);
+  TestImageType::Pointer                  img = GetTestImage(10, 10, 5, 3);
   MyDerivedCSNI<TestImageType>::IndexType loc;
-  loc[0] = 4; loc[1] = 4; loc[2] = 2; loc[3] = 1;
+  loc[0] = 4;
+  loc[1] = 4;
+  loc[2] = 2;
+  loc[3] = 1;
 
   // radius of the iterator
   MyDerivedCSNI<TestImageType>::RadiusType radius;
@@ -65,11 +66,15 @@ int itkConstShapedNeighborhoodIteratorTest2(int, char* [] )
 
   // region over which the iterator is defined
   MyDerivedCSNI<TestImageType>::RegionType reg;
-  MyDerivedCSNI<TestImageType>::SizeType sz;
-  MyDerivedCSNI<TestImageType>::IndexType idx;
-  idx[0] = idx[1] = idx[2] = 0;  idx[3] = 1;
-  sz[0] = sz[1] = 10; sz[2] = 5; sz[3] = 1;
-  reg.SetIndex(idx); reg.SetSize(sz);
+  MyDerivedCSNI<TestImageType>::SizeType   sz;
+  MyDerivedCSNI<TestImageType>::IndexType  idx;
+  idx[0] = idx[1] = idx[2] = 0;
+  idx[3] = 1;
+  sz[0] = sz[1] = 10;
+  sz[2] = 5;
+  sz[3] = 1;
+  reg.SetIndex(idx);
+  reg.SetSize(sz);
 
   // initialize an iterator
   println("Creating ConstShapedNeighborhoodIterator");

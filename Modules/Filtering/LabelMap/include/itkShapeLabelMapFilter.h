@@ -49,20 +49,17 @@ namespace itk
  * \ingroup ITKLabelMap
  */
 
-template< typename TImage, typename TLabelImage =
-            Image< typename TImage::PixelType,  TImage ::ImageDimension > >
-class ITK_TEMPLATE_EXPORT ShapeLabelMapFilter:
-  public
-  InPlaceLabelMapFilter< TImage >
+template <typename TImage, typename TLabelImage = Image<typename TImage::PixelType, TImage ::ImageDimension>>
+class ITK_TEMPLATE_EXPORT ShapeLabelMapFilter : public InPlaceLabelMapFilter<TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ShapeLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = ShapeLabelMapFilter;
-  using Superclass = InPlaceLabelMapFilter< TImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = InPlaceLabelMapFilter<TImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Some convenient type alias. */
   using ImageType = TImage;
@@ -128,7 +125,8 @@ public:
   itkBooleanMacro(ComputeOrientedBoundingBox);
 
   /** Set the label image */
-  void SetLabelImage(const TLabelImage *input)
+  void
+  SetLabelImage(const TLabelImage * input)
   {
     m_LabelImage = input;
   }
@@ -137,13 +135,17 @@ protected:
   ShapeLabelMapFilter();
   ~ShapeLabelMapFilter() override = default;
 
-  void ThreadedProcessLabelObject(LabelObjectType *labelObject) override;
+  void
+  ThreadedProcessLabelObject(LabelObjectType * labelObject) override;
 
-  void BeforeThreadedGenerateData() override;
+  void
+  BeforeThreadedGenerateData() override;
 
-  void AfterThreadedGenerateData() override;
+  void
+  AfterThreadedGenerateData() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   bool                   m_ComputeFeretDiameter;
@@ -151,9 +153,12 @@ private:
   bool                   m_ComputeOrientedBoundingBox;
   LabelImageConstPointer m_LabelImage;
 
-  void ComputeFeretDiameter(LabelObjectType *labelObject);
-  void ComputePerimeter(LabelObjectType *labelObject);
-  void ComputeOrientedBoundingBox(LabelObjectType *labelObject);
+  void
+  ComputeFeretDiameter(LabelObjectType * labelObject);
+  void
+  ComputePerimeter(LabelObjectType * labelObject);
+  void
+  ComputeOrientedBoundingBox(LabelObjectType * labelObject);
 
   using Offset2Type = itk::Offset<2>;
   using Offset3Type = itk::Offset<3>;
@@ -164,10 +169,14 @@ private:
 
   // it seems impossible to specialize a method without specializing the whole class, but we
   // can use simple overloading
-  template<typename TMapIntercept, typename TSpacing> double PerimeterFromInterceptCount( TMapIntercept & intercepts, const TSpacing & spacing );
-#if ! defined(ITK_DO_NOT_USE_PERIMETER_SPECIALIZATION)
-  double PerimeterFromInterceptCount( MapIntercept2Type & intercepts, const Spacing2Type spacing );
-  double PerimeterFromInterceptCount( MapIntercept3Type & intercepts, const Spacing3Type spacing );
+  template <typename TMapIntercept, typename TSpacing>
+  double
+  PerimeterFromInterceptCount(TMapIntercept & intercepts, const TSpacing & spacing);
+#if !defined(ITK_DO_NOT_USE_PERIMETER_SPECIALIZATION)
+  double
+  PerimeterFromInterceptCount(MapIntercept2Type & intercepts, const Spacing2Type spacing);
+  double
+  PerimeterFromInterceptCount(MapIntercept3Type & intercepts, const Spacing3Type spacing);
 #endif
 };
 
@@ -175,7 +184,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShapeLabelMapFilter.hxx"
+#  include "itkShapeLabelMapFilter.hxx"
 #endif
 
 #endif

@@ -24,44 +24,44 @@
 namespace itk
 {
 
-template< typename TImageToImageMetricv4 >
+template <typename TImageToImageMetricv4>
 void
-ImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< TImageToImageMetricv4::VirtualImageDimension >, TImageToImageMetricv4 >
-::ThreadedExecution ( const DomainType & imageSubRegion,
-                      const ThreadIdType threadId )
+ImageToImageMetricv4GetValueAndDerivativeThreader<
+  ThreadedImageRegionPartitioner<TImageToImageMetricv4::VirtualImageDimension>,
+  TImageToImageMetricv4>::ThreadedExecution(const DomainType & imageSubRegion, const ThreadIdType threadId)
 {
   typename VirtualImageType::ConstPointer virtualImage = this->m_Associate->GetVirtualImage();
-  using IteratorType = ImageRegionConstIteratorWithIndex< VirtualImageType >;
+  using IteratorType = ImageRegionConstIteratorWithIndex<VirtualImageType>;
   VirtualPointType virtualPoint;
-  for( IteratorType it( virtualImage, imageSubRegion ); !it.IsAtEnd(); ++it )
-    {
+  for (IteratorType it(virtualImage, imageSubRegion); !it.IsAtEnd(); ++it)
+  {
     const VirtualIndexType & virtualIndex = it.GetIndex();
-    virtualImage->TransformIndexToPhysicalPoint( virtualIndex, virtualPoint );
-    this->ProcessVirtualPoint( virtualIndex, virtualPoint, threadId );
-    }
-  //Finalize per thread actions
-  this->m_Associate->FinalizeThread( threadId );
+    virtualImage->TransformIndexToPhysicalPoint(virtualIndex, virtualPoint);
+    this->ProcessVirtualPoint(virtualIndex, virtualPoint, threadId);
+  }
+  // Finalize per thread actions
+  this->m_Associate->FinalizeThread(threadId);
 }
 
-template< typename TImageToImageMetricv4 >
+template <typename TImageToImageMetricv4>
 void
-ImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, TImageToImageMetricv4 >
-::ThreadedExecution ( const DomainType & indexSubRange,
-                      const ThreadIdType threadId )
+ImageToImageMetricv4GetValueAndDerivativeThreader<ThreadedIndexedContainerPartitioner, TImageToImageMetricv4>::
+  ThreadedExecution(const DomainType & indexSubRange, const ThreadIdType threadId)
 {
-  typename TImageToImageMetricv4::VirtualPointSetType::ConstPointer virtualSampledPointSet = this->m_Associate->GetVirtualSampledPointSet();
+  typename TImageToImageMetricv4::VirtualPointSetType::ConstPointer virtualSampledPointSet =
+    this->m_Associate->GetVirtualSampledPointSet();
   using ElementIdentifierType = typename TImageToImageMetricv4::VirtualPointSetType::MeshTraits::PointIdentifier;
-  const ElementIdentifierType begin = indexSubRange[0];
-  const ElementIdentifierType end   = indexSubRange[1];
+  const ElementIdentifierType             begin = indexSubRange[0];
+  const ElementIdentifierType             end = indexSubRange[1];
   typename VirtualImageType::ConstPointer virtualImage = this->m_Associate->GetVirtualImage();
-  for( ElementIdentifierType i = begin; i <= end; ++i )
-    {
-    const VirtualPointType & virtualPoint = virtualSampledPointSet->GetPoint( i );
-    const auto virtualIndex = virtualImage->TransformPhysicalPointToIndex( virtualPoint );
-    this->ProcessVirtualPoint( virtualIndex, virtualPoint, threadId );
-    }
-  //Finalize per thread actions
-  this->m_Associate->FinalizeThread( threadId );
+  for (ElementIdentifierType i = begin; i <= end; ++i)
+  {
+    const VirtualPointType & virtualPoint = virtualSampledPointSet->GetPoint(i);
+    const auto               virtualIndex = virtualImage->TransformPhysicalPointToIndex(virtualPoint);
+    this->ProcessVirtualPoint(virtualIndex, virtualPoint, threadId);
+  }
+  // Finalize per thread actions
+  this->m_Associate->FinalizeThread(threadId);
 }
 
 } // end namespace itk

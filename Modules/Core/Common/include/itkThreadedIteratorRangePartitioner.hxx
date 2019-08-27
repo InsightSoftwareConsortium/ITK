@@ -27,44 +27,43 @@
 namespace itk
 {
 
-template< typename TIterator >
+template <typename TIterator>
 ThreadIdType
-ThreadedIteratorRangePartitioner< TIterator >
-::PartitionDomain( const ThreadIdType threadId,
-                   const ThreadIdType requestedTotal,
-                   const DomainType& completeDomain,
-                   DomainType& subDomain ) const
+ThreadedIteratorRangePartitioner<TIterator>::PartitionDomain(const ThreadIdType threadId,
+                                                             const ThreadIdType requestedTotal,
+                                                             const DomainType & completeDomain,
+                                                             DomainType &       subDomain) const
 {
   // overallIndexRange is expected to be inclusive
 
   // determine the actual number of pieces that will be generated
-  ThreadIdType count = std::distance( completeDomain.Begin(), completeDomain.End() );
+  ThreadIdType count = std::distance(completeDomain.Begin(), completeDomain.End());
 
-  auto valuesPerThread = Math::Ceil<ThreadIdType>( static_cast< double >( count ) / static_cast< double >( requestedTotal ));
+  auto valuesPerThread = Math::Ceil<ThreadIdType>(static_cast<double>(count) / static_cast<double>(requestedTotal));
   ThreadIdType maxThreadIdUsed =
-    Math::Ceil<ThreadIdType>( static_cast< double >( count ) / static_cast< double >( valuesPerThread )) - 1;
+    Math::Ceil<ThreadIdType>(static_cast<double>(count) / static_cast<double>(valuesPerThread)) - 1;
 
-  if ( threadId > maxThreadIdUsed )
-    {
+  if (threadId > maxThreadIdUsed)
+  {
     // return before advancing Begin iterator, to prevent advancing
     // past end
     return maxThreadIdUsed + 1;
-    }
+  }
 
   const ThreadIdType startIndexCount = threadId * valuesPerThread;
   subDomain.m_Begin = completeDomain.Begin();
-  std::advance( subDomain.m_Begin, startIndexCount );
+  std::advance(subDomain.m_Begin, startIndexCount);
 
   if (threadId < maxThreadIdUsed)
-    {
+  {
     subDomain.m_End = subDomain.m_Begin;
-    std::advance( subDomain.m_End, valuesPerThread );
-    }
+    std::advance(subDomain.m_End, valuesPerThread);
+  }
   if (threadId == maxThreadIdUsed)
-    {
+  {
     // last thread needs to process the "rest" of the range
     subDomain.m_End = completeDomain.End();
-    }
+  }
 
   return maxThreadIdUsed + 1;
 }

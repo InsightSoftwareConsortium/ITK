@@ -23,16 +23,17 @@
 #include "itkTextOutput.h"
 #include "itkSimpleFilterWatcher.h"
 
-int itkVectorConfidenceConnectedImageFilterTest(int ac, char* av[] )
+int
+itkVectorConfidenceConnectedImageFilterTest(int ac, char * av[])
 {
   // Comment the following if you want to use the itk text output window
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
-  if(ac < 9)
-    {
+  if (ac < 9)
+  {
     std::cerr << "Usage: " << av[0] << " InputImage BaselineImage seed1X seed1Y seed2X seed2Y multiplier iterations\n";
     return -1;
-    }
+  }
 
   constexpr unsigned int Dimension = 2;
 
@@ -41,7 +42,7 @@ int itkVectorConfidenceConnectedImageFilterTest(int ac, char* av[] )
 
   using OutputPixelType = unsigned char;
 
-  using ImageType = itk::Image<PixelType,       Dimension>;
+  using ImageType = itk::Image<PixelType, Dimension>;
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
@@ -50,73 +51,65 @@ int itkVectorConfidenceConnectedImageFilterTest(int ac, char* av[] )
   input->SetFileName(av[1]);
 
   // Create a filter
-  using FilterType = itk::VectorConfidenceConnectedImageFilter<
-                                 ImageType, OutputImageType >;
+  using FilterType = itk::VectorConfidenceConnectedImageFilter<ImageType, OutputImageType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  FilterType::Pointer      filter = FilterType::New();
   itk::SimpleFilterWatcher filterWatch(filter);
 
   filter->SetInput(input->GetOutput());
-  filter->SetInitialNeighborhoodRadius( 3 ); // measured in pixels
+  filter->SetInitialNeighborhoodRadius(3); // measured in pixels
 
   FilterType::IndexType seed1;
   FilterType::IndexType seed2;
 
-  seed1[0] = std::stoi( av[3] );
-  seed1[1] = std::stoi( av[4] );
+  seed1[0] = std::stoi(av[3]);
+  seed1[1] = std::stoi(av[4]);
 
-  seed2[0] = std::stoi( av[5] );
-  seed2[1] = std::stoi( av[6] );
+  seed2[0] = std::stoi(av[5]);
+  seed2[1] = std::stoi(av[6]);
 
-  filter->AddSeed( seed1 );
-  filter->AddSeed( seed2 );
+  filter->AddSeed(seed1);
+  filter->AddSeed(seed2);
 
-  filter->SetReplaceValue( 255 );
-  filter->SetMultiplier(  std::stod( av[7] ) );
-  filter->SetNumberOfIterations( std::stoi( av[8] ) );
+  filter->SetReplaceValue(255);
+  filter->SetMultiplier(std::stod(av[7]));
+  filter->SetNumberOfIterations(std::stoi(av[8]));
 
   try
-    {
+  {
     input->Update();
     filter->Update();
-    }
-  catch (itk::ExceptionObject& e)
-    {
-    std::cerr << "Exception detected: "  << e.GetDescription();
+  }
+  catch (itk::ExceptionObject & e)
+  {
+    std::cerr << "Exception detected: " << e.GetDescription();
     return -1;
-    }
+  }
 
   // Test the GetMacros
   double doubleMultiplier = filter->GetMultiplier();
-  std::cout << "filter->GetMultiplier(): "
-            << doubleMultiplier
-            << std::endl;
+  std::cout << "filter->GetMultiplier(): " << doubleMultiplier << std::endl;
 
   unsigned int uintNumberOfIterations = filter->GetNumberOfIterations();
-  std::cout << "filter->GetNumberOfIterations(): "
-            << uintNumberOfIterations
-            << std::endl;
+  std::cout << "filter->GetNumberOfIterations(): " << uintNumberOfIterations << std::endl;
 
   OutputPixelType pixelReplaceValue = filter->GetReplaceValue();
   std::cout << "filter->GetReplaceValue(): "
-            << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(pixelReplaceValue)
-            << std::endl;
+            << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(pixelReplaceValue) << std::endl;
 
   const unsigned int cuintInitialNeighborhoodRadius = filter->GetInitialNeighborhoodRadius();
-  std::cout << "filter->GetInitialNeighborhoodRadius(): "
-            << cuintInitialNeighborhoodRadius
-            << std::endl;
+  std::cout << "filter->GetInitialNeighborhoodRadius(): " << cuintInitialNeighborhoodRadius << std::endl;
 
   // Generate test image
   using WriterType = itk::ImageFileWriter<OutputImageType>;
   WriterType::Pointer writer = WriterType::New();
 
-  writer->SetInput( filter->GetOutput() );
-  writer->SetFileName( av[2] );
+  writer->SetInput(filter->GetOutput());
+  writer->SetFileName(av[2]);
   writer->Update();
 
   // Exercise SetSeed() method
-  filter->SetSeed( seed1 );
+  filter->SetSeed(seed1);
 
 
   using VectorImageType = itk::VectorImage<PixelComponentType, Dimension>;
@@ -125,40 +118,40 @@ int itkVectorConfidenceConnectedImageFilterTest(int ac, char* av[] )
   VectorReaderType::Pointer vinput = VectorReaderType::New();
   vinput->SetFileName(av[1]);
 
-  using VectorFilterType = itk::VectorConfidenceConnectedImageFilter< VectorImageType, OutputImageType >;
+  using VectorFilterType = itk::VectorConfidenceConnectedImageFilter<VectorImageType, OutputImageType>;
   VectorFilterType::Pointer vFilter = VectorFilterType::New();
 
   vFilter->SetInput(vinput->GetOutput());
-  vFilter->SetInitialNeighborhoodRadius( 3 ); // measured in pixels
-  vFilter->AddSeed( seed1 );
-  vFilter->AddSeed( seed2 );
-  vFilter->SetReplaceValue( 255 );
-  vFilter->SetMultiplier(  std::stod( av[7] ) );
-  vFilter->SetNumberOfIterations( std::stoi( av[8] ) );
+  vFilter->SetInitialNeighborhoodRadius(3); // measured in pixels
+  vFilter->AddSeed(seed1);
+  vFilter->AddSeed(seed2);
+  vFilter->SetReplaceValue(255);
+  vFilter->SetMultiplier(std::stod(av[7]));
+  vFilter->SetNumberOfIterations(std::stoi(av[8]));
   vFilter->Update();
 
 
-  itk::ImageRegionConstIterator<OutputImageType> iter( filter->GetOutput(), filter->GetOutput()->GetBufferedRegion() );
-  itk::ImageRegionConstIterator<OutputImageType>  viter( vFilter->GetOutput(), vFilter->GetOutput()->GetBufferedRegion() );
+  itk::ImageRegionConstIterator<OutputImageType> iter(filter->GetOutput(), filter->GetOutput()->GetBufferedRegion());
+  itk::ImageRegionConstIterator<OutputImageType> viter(vFilter->GetOutput(), vFilter->GetOutput()->GetBufferedRegion());
 
   // check the at
   bool diff = false;
-  while( !iter.IsAtEnd() )
+  while (!iter.IsAtEnd())
+  {
+    if (iter.Get() != viter.Get())
     {
-      if ( iter.Get() != viter.Get() )
-        {
-        diff = true;
-        }
+      diff = true;
+    }
 
     ++viter;
     ++iter;
-    }
+  }
 
-  if ( diff )
-    {
+  if (diff)
+  {
     std::cerr << "VectorImage output does not match covarient!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-    return EXIT_SUCCESS;
+  return EXIT_SUCCESS;
 }

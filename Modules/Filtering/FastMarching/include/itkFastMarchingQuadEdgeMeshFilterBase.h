@@ -40,17 +40,16 @@ namespace itk
 
   \ingroup ITKFastMarching
 */
-template< typename TInput, typename TOutput >
-class ITK_TEMPLATE_EXPORT FastMarchingQuadEdgeMeshFilterBase :
-    public FastMarchingBase< TInput, TOutput >
+template <typename TInput, typename TOutput>
+class ITK_TEMPLATE_EXPORT FastMarchingQuadEdgeMeshFilterBase : public FastMarchingBase<TInput, TOutput>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingQuadEdgeMeshFilterBase);
 
   using Self = FastMarchingQuadEdgeMeshFilterBase;
-  using Superclass = FastMarchingBase< TInput, TOutput >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = FastMarchingBase<TInput, TOutput>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
   using Traits = typename Superclass::Traits;
 
   /** Method for creation through the object factory. */
@@ -91,83 +90,95 @@ public:
   using NodePairContainerPointer = typename Traits::NodePairContainerPointer;
   using NodePairContainerConstIterator = typename Traits::NodePairContainerConstIterator;
 
-//  using NodeContainerType = typename Traits::NodeContainerType;
-//  using NodeContainerPointer = typename Traits::NodeContainerPointer;
-//  using NodeContainerConstIterator = typename Traits::NodeContainerConstIterator;
+  //  using NodeContainerType = typename Traits::NodeContainerType;
+  //  using NodeContainerPointer = typename Traits::NodeContainerPointer;
+  //  using NodeContainerConstIterator = typename Traits::NodeContainerConstIterator;
 
   using LabelType = typename Superclass::LabelType;
 
-  using NodeLabelMapType = std::map< NodeType, LabelType >;
+  using NodeLabelMapType = std::map<NodeType, LabelType>;
   using NodeLabelMapIterator = typename NodeLabelMapType::iterator;
   using NodeLabelMapConstIterator = typename NodeLabelMapType::const_iterator;
 
 protected:
-
   FastMarchingQuadEdgeMeshFilterBase();
   ~FastMarchingQuadEdgeMeshFilterBase() override = default;
 
   NodeLabelMapType m_Label;
 
-  IdentifierType GetTotalNumberOfNodes() const override;
+  IdentifierType
+  GetTotalNumberOfNodes() const override;
 
-  void SetOutputValue( OutputMeshType* oMesh,
-                      const NodeType& iNode,
-                      const OutputPixelType& iValue ) override;
+  void
+  SetOutputValue(OutputMeshType * oMesh, const NodeType & iNode, const OutputPixelType & iValue) override;
 
-  const OutputPixelType GetOutputValue( OutputMeshType* oMesh,
-                                  const NodeType& iNode ) const override;
+  const OutputPixelType
+  GetOutputValue(OutputMeshType * oMesh, const NodeType & iNode) const override;
 
-  unsigned char GetLabelValueForGivenNode( const NodeType& iNode ) const override;
+  unsigned char
+  GetLabelValueForGivenNode(const NodeType & iNode) const override;
 
-  void SetLabelValueForGivenNode( const NodeType& iNode,
-                                  const LabelType& iLabel ) override;
+  void
+  SetLabelValueForGivenNode(const NodeType & iNode, const LabelType & iLabel) override;
 
-  void UpdateNeighbors( OutputMeshType* oMesh,
-                        const NodeType& iNode ) override;
+  void
+  UpdateNeighbors(OutputMeshType * oMesh, const NodeType & iNode) override;
 
-  void UpdateValue( OutputMeshType* oMesh,
-                    const NodeType& iNode ) override;
-
-  const OutputVectorRealType
-  Solve( OutputMeshType* oMesh,
-         const NodeType& iId, const OutputPointType& iCurrentPoint,
-         const OutputVectorRealType& iF,
-         const NodeType& iId1, const OutputPointType& iP1,
-         const bool& iIsFar1, const OutputVectorRealType iVal1,
-         const NodeType& iId2, const OutputPointType& iP2,
-         const bool& iIsFar2, const OutputVectorRealType& iVal2 )
-  const;
-
+  void
+  UpdateValue(OutputMeshType * oMesh, const NodeType & iNode) override;
 
   const OutputVectorRealType
-  ComputeUpdate(
-    const OutputVectorRealType& iVal1, const OutputVectorRealType& iVal2,
-    const OutputVectorRealType& iNorm1, const OutputVectorRealType& iSqNorm1,
-    const OutputVectorRealType& iNorm2, const OutputVectorRealType& iSqNorm2,
-    const OutputVectorRealType& iDot, const OutputVectorRealType& iF )
-    const;
+  Solve(OutputMeshType *             oMesh,
+        const NodeType &             iId,
+        const OutputPointType &      iCurrentPoint,
+        const OutputVectorRealType & iF,
+        const NodeType &             iId1,
+        const OutputPointType &      iP1,
+        const bool &                 iIsFar1,
+        const OutputVectorRealType   iVal1,
+        const NodeType &             iId2,
+        const OutputPointType &      iP2,
+        const bool &                 iIsFar2,
+        const OutputVectorRealType & iVal2) const;
 
-  bool UnfoldTriangle(
-    OutputMeshType* oMesh,
-    const OutputPointIdentifierType& iId, const OutputPointType& iP,
-    const OutputPointIdentifierType& iId1, const OutputPointType& iP1,
-    const OutputPointIdentifierType& iId2, const OutputPointType &iP2,
-    OutputVectorRealType& oNorm, OutputVectorRealType& oSqNorm,
-    OutputVectorRealType& oDot1, OutputVectorRealType& oDot2,
-    OutputPointIdentifierType& oId ) const;
 
-  bool CheckTopology( OutputMeshType* oMesh,
-                      const NodeType& iNode ) override;
+  const OutputVectorRealType
+  ComputeUpdate(const OutputVectorRealType & iVal1,
+                const OutputVectorRealType & iVal2,
+                const OutputVectorRealType & iNorm1,
+                const OutputVectorRealType & iSqNorm1,
+                const OutputVectorRealType & iNorm2,
+                const OutputVectorRealType & iSqNorm2,
+                const OutputVectorRealType & iDot,
+                const OutputVectorRealType & iF) const;
 
-  void InitializeOutput( OutputMeshType* oMesh ) override;
+  bool
+  UnfoldTriangle(OutputMeshType *                  oMesh,
+                 const OutputPointIdentifierType & iId,
+                 const OutputPointType &           iP,
+                 const OutputPointIdentifierType & iId1,
+                 const OutputPointType &           iP1,
+                 const OutputPointIdentifierType & iId2,
+                 const OutputPointType &           iP2,
+                 OutputVectorRealType &            oNorm,
+                 OutputVectorRealType &            oSqNorm,
+                 OutputVectorRealType &            oDot1,
+                 OutputVectorRealType &            oDot2,
+                 OutputPointIdentifierType &       oId) const;
+
+  bool
+  CheckTopology(OutputMeshType * oMesh, const NodeType & iNode) override;
+
+  void
+  InitializeOutput(OutputMeshType * oMesh) override;
 
 private:
-  const InputMeshType *m_InputMesh;
+  const InputMeshType * m_InputMesh;
 };
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFastMarchingQuadEdgeMeshFilterBase.hxx"
+#  include "itkFastMarchingQuadEdgeMeshFilterBase.hxx"
 #endif
 
 #endif // itkFastMarchingQuadEdgeMeshFilterBase_h

@@ -24,7 +24,8 @@
 #include <set>
 
 
-namespace itk {
+namespace itk
+{
 /** \class LabelSelectionLabelMapFilter
  * \brief remove the objects according to the value of their attribute
  *
@@ -49,9 +50,11 @@ namespace itk {
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template<typename TImage>
-class LabelSelectionLabelMapFilter :
-    public AttributeSelectionLabelMapFilter<TImage, typename Functor::LabelLabelObjectAccessor< typename TImage::LabelObjectType > >
+template <typename TImage>
+class LabelSelectionLabelMapFilter
+  : public AttributeSelectionLabelMapFilter<
+      TImage,
+      typename Functor::LabelLabelObjectAccessor<typename TImage::LabelObjectType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LabelSelectionLabelMapFilter);
@@ -59,7 +62,8 @@ public:
   /** Standard class type aliases. */
   using Self = LabelSelectionLabelMapFilter;
   using Superclass =
-      AttributeSelectionLabelMapFilter<TImage, typename Functor::LabelLabelObjectAccessor< typename TImage::LabelObjectType > >;
+    AttributeSelectionLabelMapFilter<TImage,
+                                     typename Functor::LabelLabelObjectAccessor<typename TImage::LabelObjectType>>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -82,45 +86,49 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(LabelSelectionLabelMapFilter,
-               AttributeSelectionLabelMapFilter);
+  itkTypeMacro(LabelSelectionLabelMapFilter, AttributeSelectionLabelMapFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-/*  itkConceptMacro(InputEqualityComparableCheck,
-    (Concept::EqualityComparable<InputImagePixelType>));
-  itkConceptMacro(IntConvertibleToInputCheck,
-    (Concept::Convertible<int, InputImagePixelType>));
-  itkConceptMacro(InputOStreamWritableCheck,
-    (Concept::OStreamWritable<InputImagePixelType>));*/
+  /*  itkConceptMacro(InputEqualityComparableCheck,
+      (Concept::EqualityComparable<InputImagePixelType>));
+    itkConceptMacro(IntConvertibleToInputCheck,
+      (Concept::Convertible<int, InputImagePixelType>));
+    itkConceptMacro(InputOStreamWritableCheck,
+      (Concept::OStreamWritable<InputImagePixelType>));*/
   // End concept checking
 #endif
 
-  const AttributeSetType & GetLabelSet() const
-    {
+  const AttributeSetType &
+  GetLabelSet() const
+  {
     return this->GetAttributeSet();
-    }
+  }
 
-  void SetLabelSet( const AttributeSetType & set )
-    {
-    this->SetAttributeSet( set );
-    }
+  void
+  SetLabelSet(const AttributeSetType & set)
+  {
+    this->SetAttributeSet(set);
+  }
 
   /** Clear the attribute set, and add the attribute passed in parameter */
-  void SetLabel( const AttributeValueType & attr )
-    {
-    this->SetAttribute( attr );
-    }
+  void
+  SetLabel(const AttributeValueType & attr)
+  {
+    this->SetAttribute(attr);
+  }
 
-  void ClearLabelSet()
-    {
+  void
+  ClearLabelSet()
+  {
     this->ClearAttributeSet();
-    }
+  }
 
-  void AddLabel( const AttributeValueType & attr )
-    {
-    this->AddAttribute( attr );
-    }
+  void
+  AddLabel(const AttributeValueType & attr)
+  {
+    this->AddAttribute(attr);
+  }
 
 protected:
   LabelSelectionLabelMapFilter() = default;

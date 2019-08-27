@@ -30,56 +30,60 @@ std::mutex createImageIOLock;
 }
 
 ImageIOBase::Pointer
-ImageIOFactory::CreateImageIO(const char *path, FileModeType mode)
+ImageIOFactory::CreateImageIO(const char * path, FileModeType mode)
 {
-  std::list< ImageIOBase::Pointer > possibleImageIO;
+  std::list<ImageIOBase::Pointer> possibleImageIO;
 
-  std::lock_guard< std::mutex > mutexHolder( createImageIOLock );
+  std::lock_guard<std::mutex> mutexHolder(createImageIOLock);
 
   for (auto & allobject : ObjectFactoryBase::CreateAllInstance("itkImageIOBase"))
+  {
+    auto * io = dynamic_cast<ImageIOBase *>(allobject.GetPointer());
+    if (io)
     {
-    auto * io = dynamic_cast< ImageIOBase * >( allobject.GetPointer() );
-    if ( io )
-      {
       possibleImageIO.emplace_back(io);
-      }
+    }
     else
-      {
-      std::cerr << "Error ImageIO factory did not return an ImageIOBase: "
-                << allobject->GetNameOfClass()
-                << std::endl;
-      }
-    }
-  for (auto & k : possibleImageIO)
     {
-    if ( mode == FileModeType::ReadMode )
+      std::cerr << "Error ImageIO factory did not return an ImageIOBase: " << allobject->GetNameOfClass() << std::endl;
+    }
+  }
+  for (auto & k : possibleImageIO)
+  {
+    if (mode == FileModeType::ReadMode)
+    {
+      if (k->CanReadFile(path))
       {
-      if ( k->CanReadFile(path) )
-        {
         return k;
-        }
-      }
-    else if ( mode == FileModeType::WriteMode )
-      {
-      if ( k->CanWriteFile(path) )
-        {
-        return k;
-        }
       }
     }
+    else if (mode == FileModeType::WriteMode)
+    {
+      if (k->CanWriteFile(path))
+      {
+        return k;
+      }
+    }
+  }
   return nullptr;
 }
 
 /** Print enum values */
-std::ostream& operator<<(std::ostream& out, const ImageIOFactory::FileModeType value)
+std::ostream &
+operator<<(std::ostream & out, const ImageIOFactory::FileModeType value)
 {
-    const char* s =0;
-    switch(value)
-    {
-        case ImageIOFactory::FileModeType::ReadMode: s = "ImageIOFactory::FileModeType::ReadMode"; break;
-        case ImageIOFactory::FileModeType::WriteMode: s = "ImageIOFactory::FileModeType::WriteMode"; break;
-        default: s = "INVALID VALUE FOR ImageIOFactory::FileModeType";
-    }
-    return out << s;
+  const char * s = 0;
+  switch (value)
+  {
+    case ImageIOFactory::FileModeType::ReadMode:
+      s = "ImageIOFactory::FileModeType::ReadMode";
+      break;
+    case ImageIOFactory::FileModeType::WriteMode:
+      s = "ImageIOFactory::FileModeType::WriteMode";
+      break;
+    default:
+      s = "INVALID VALUE FOR ImageIOFactory::FileModeType";
+  }
+  return out << s;
 }
 } // end namespace itk

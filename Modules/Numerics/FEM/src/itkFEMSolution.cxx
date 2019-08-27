@@ -22,7 +22,7 @@ namespace itk
 namespace fem
 {
 
-Solution::~Solution() { };
+Solution::~Solution(){};
 
 } // end namespace fem
 } // end namespace itk

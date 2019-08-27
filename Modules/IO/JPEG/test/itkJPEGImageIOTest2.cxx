@@ -18,19 +18,20 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
-int itkJPEGImageIOTest2( int argc, char* argv[] )
+int
+itkJPEGImageIOTest2(int argc, char * argv[])
 {
 
-  if( argc < 2 )
-    {
+  if (argc < 2)
+  {
     std::cerr << "Usage: " << argv[0] << " outputFilename " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int Dimension = 2;
   using PixelType = unsigned char;
 
-  using ImageType = itk::Image< PixelType, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
   ImageType::Pointer image = ImageType::New();
 
@@ -44,49 +45,49 @@ int itkJPEGImageIOTest2( int argc, char* argv[] )
   start[0] = 0;
   start[1] = 0;
 
-  region.SetSize( size );
-  region.SetIndex( start );
+  region.SetSize(size);
+  region.SetIndex(start);
 
-  image->SetRegions( region );
+  image->SetRegions(region);
   image->Allocate(true); // initialize buffer
-                                                // to zero
+                         // to zero
 
   ImageType::SpacingType spacing;
 
   spacing[0] = 3.1415;
   spacing[1] = 6.2830;
 
-  image->SetSpacing( spacing );
+  image->SetSpacing(spacing);
 
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName( argv[1] );
+  writer->SetFileName(argv[1]);
 
-  writer->SetInput( image );
+  writer->SetInput(image);
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
   try
-    {
+  {
     reader->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   const ImageType * readImage = reader->GetOutput();
 
@@ -94,21 +95,21 @@ int itkJPEGImageIOTest2( int argc, char* argv[] )
 
   const double tolerance = 1e-1;
 
-  if( std::abs( readSpacing[0] - spacing[0] ) > tolerance )
-    {
+  if (std::abs(readSpacing[0] - spacing[0]) > tolerance)
+  {
     std::cerr << "Spacing read/write failed !" << std::endl;
     std::cerr << "Expected spacing = " << spacing << std::endl;
     std::cerr << "Found    spacing = " << readSpacing << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  if( std::abs( readSpacing[1] - spacing[1] ) > tolerance )
-    {
+  if (std::abs(readSpacing[1] - spacing[1]) > tolerance)
+  {
     std::cerr << "Spacing read/write failed !" << std::endl;
     std::cerr << "Expected spacing = " << spacing << std::endl;
     std::cerr << "Found    spacing = " << readSpacing << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "Expected spacing = " << spacing << std::endl;
   std::cout << "Found    spacing = " << readSpacing << std::endl;

@@ -36,40 +36,39 @@
 namespace itk
 {
 /* Constructor. */
-template< typename TInputMesh, typename TOutputMesh >
-DeformableSimplexMesh3DBalloonForceFilter< TInputMesh, TOutputMesh >
-::DeformableSimplexMesh3DBalloonForceFilter()
+template <typename TInputMesh, typename TOutputMesh>
+DeformableSimplexMesh3DBalloonForceFilter<TInputMesh, TOutputMesh>::DeformableSimplexMesh3DBalloonForceFilter()
 
 {
   m_Kappa = 0.1;
 }
 
 /* PrintSelf. */
-template< typename TInputMesh, typename TOutputMesh >
+template <typename TInputMesh, typename TOutputMesh>
 void
-DeformableSimplexMesh3DBalloonForceFilter< TInputMesh, TOutputMesh >
-::PrintSelf(std::ostream & os, Indent indent) const
+DeformableSimplexMesh3DBalloonForceFilter<TInputMesh, TOutputMesh>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Kappa = " << m_Kappa << std::endl;
 } /* End PrintSelf. */
 
 /** Compute model Displacement according to image gradient forces */
-template< typename TInputMesh, typename TOutputMesh >
+template <typename TInputMesh, typename TOutputMesh>
 void
-DeformableSimplexMesh3DBalloonForceFilter< TInputMesh, TOutputMesh >
-::ComputeExternalForce(SimplexMeshGeometry *data, const GradientImageType *gradientImage)
+DeformableSimplexMesh3DBalloonForceFilter<TInputMesh, TOutputMesh>::ComputeExternalForce(
+  SimplexMeshGeometry *     data,
+  const GradientImageType * gradientImage)
 {
   PointType         vec_for, tmp_vec_1, tmp_vec_2, tmp_vec_3;
   GradientIndexType coord, coord2, tmp_co_1, tmp_co_2, tmp_co_3;
 
-  coord[0] = static_cast< GradientIndexValueType >( data->pos[0] );
-  coord[1] = static_cast< GradientIndexValueType >( data->pos[1] );
-  coord[2] = static_cast< GradientIndexValueType >( data->pos[2] );
+  coord[0] = static_cast<GradientIndexValueType>(data->pos[0]);
+  coord[1] = static_cast<GradientIndexValueType>(data->pos[1]);
+  coord[2] = static_cast<GradientIndexValueType>(data->pos[2]);
 
-  coord2[0] = static_cast< GradientIndexValueType >( std::ceil(data->pos[0]) );
-  coord2[1] = static_cast< GradientIndexValueType >( std::ceil(data->pos[1]) );
-  coord2[2] = static_cast< GradientIndexValueType >( std::ceil(data->pos[2]) );
+  coord2[0] = static_cast<GradientIndexValueType>(std::ceil(data->pos[0]));
+  coord2[1] = static_cast<GradientIndexValueType>(std::ceil(data->pos[1]));
+  coord2[2] = static_cast<GradientIndexValueType>(std::ceil(data->pos[2]));
 
   tmp_co_1[0] = coord2[0];
   tmp_co_1[1] = coord[1];
@@ -83,10 +82,9 @@ DeformableSimplexMesh3DBalloonForceFilter< TInputMesh, TOutputMesh >
   tmp_co_3[1] = coord[1];
   tmp_co_3[2] = coord2[2];
 
-  if ( ( coord[0] >= 0 ) && ( coord[1] >= 0 ) && ( coord[2] >= 0 )
-       && ( coord2[0] < this->GetImageWidth() ) && ( coord2[1] < this->GetImageHeight() )
-       && ( coord2[2] < this->GetImageDepth() ) )
-    {
+  if ((coord[0] >= 0) && (coord[1] >= 0) && (coord[2] >= 0) && (coord2[0] < this->GetImageWidth()) &&
+      (coord2[1] < this->GetImageHeight()) && (coord2[2] < this->GetImageDepth()))
+  {
     vec_for[0] = gradientImage->GetPixel(coord)[0];
     vec_for[1] = gradientImage->GetPixel(coord)[1];
     vec_for[2] = gradientImage->GetPixel(coord)[2];
@@ -101,31 +99,31 @@ DeformableSimplexMesh3DBalloonForceFilter< TInputMesh, TOutputMesh >
     tmp_vec_3[1] = gradientImage->GetPixel(tmp_co_3)[1] - gradientImage->GetPixel(coord)[1];
     tmp_vec_3[2] = gradientImage->GetPixel(tmp_co_3)[2] - gradientImage->GetPixel(coord)[2];
 
-    vec_for[0] = vec_for[0] + ( ( data->pos )[0] - coord[0] ) * tmp_vec_1[0]
-                 + ( ( data->pos )[1] - coord[1] ) * tmp_vec_2[0] + ( ( data->pos )[2] - coord[2] ) * tmp_vec_3[0];
-    vec_for[1] = vec_for[1] + ( ( data->pos )[1] - coord[1] ) * tmp_vec_2[1]
-                 + ( ( data->pos )[0] - coord[0] ) * tmp_vec_1[1] + ( ( data->pos )[2] - coord[2] ) * tmp_vec_3[1];
-    vec_for[2] = vec_for[2] + ( ( data->pos )[2] - coord[2] ) * tmp_vec_3[2]
-                 + ( ( data->pos )[1] - coord[1] ) * tmp_vec_2[2] + ( ( data->pos )[0] - coord[0] ) * tmp_vec_1[2];
-    }
+    vec_for[0] = vec_for[0] + ((data->pos)[0] - coord[0]) * tmp_vec_1[0] + ((data->pos)[1] - coord[1]) * tmp_vec_2[0] +
+                 ((data->pos)[2] - coord[2]) * tmp_vec_3[0];
+    vec_for[1] = vec_for[1] + ((data->pos)[1] - coord[1]) * tmp_vec_2[1] + ((data->pos)[0] - coord[0]) * tmp_vec_1[1] +
+                 ((data->pos)[2] - coord[2]) * tmp_vec_3[1];
+    vec_for[2] = vec_for[2] + ((data->pos)[2] - coord[2]) * tmp_vec_3[2] + ((data->pos)[1] - coord[1]) * tmp_vec_2[2] +
+                 ((data->pos)[0] - coord[0]) * tmp_vec_1[2];
+  }
   else
-    {
+  {
     vec_for.Fill(0);
-    }
+  }
 
-  double mag = dot_product( data->normal.GetVnlVector(), vec_for.GetVnlVector() );
+  double mag = dot_product(data->normal.GetVnlVector(), vec_for.GetVnlVector());
 
-  vec_for[0] = this->GetBeta() * mag * ( data->normal )[0]; /*num_for*/
-  vec_for[1] = this->GetBeta() * mag * ( data->normal )[1]; /*num_for*/
-  vec_for[2] = this->GetBeta() * mag * ( data->normal )[2]; /*num_for*/
+  vec_for[0] = this->GetBeta() * mag * (data->normal)[0]; /*num_for*/
+  vec_for[1] = this->GetBeta() * mag * (data->normal)[1]; /*num_for*/
+  vec_for[2] = this->GetBeta() * mag * (data->normal)[2]; /*num_for*/
 
   vec_for[0] += m_Kappa * data->normal[0];
   vec_for[1] += m_Kappa * data->normal[1];
   vec_for[2] += m_Kappa * data->normal[2];
 
-  //mag = vec_for.GetVectorFromOrigin().GetNorm();
+  // mag = vec_for.GetVectorFromOrigin().GetNorm();
 
-  //if (mag > 0.5)
+  // if (mag > 0.5)
   //{
   //  for (int i=0; i<3; i++)
   //    vec_for[i] = (0.5 * vec_for[i])/mag;
@@ -137,4 +135,4 @@ DeformableSimplexMesh3DBalloonForceFilter< TInputMesh, TOutputMesh >
 }
 } /* end namespace itk. */
 
-#endif //itkDeformableSimplexMesh3DBalloonForceFilter_hxx
+#endif // itkDeformableSimplexMesh3DBalloonForceFilter_hxx

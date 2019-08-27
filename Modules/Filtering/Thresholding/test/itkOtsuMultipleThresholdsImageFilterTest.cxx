@@ -23,10 +23,11 @@
 #include "itkSimpleFilterWatcher.h"
 #include "itkTestingMacros.h"
 
-int itkOtsuMultipleThresholdsImageFilterTest(int argc, char* argv[] )
+int
+itkOtsuMultipleThresholdsImageFilterTest(int argc, char * argv[])
 {
-  if( argc < 6 )
-    {
+  if (argc < 6)
+  {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " inputImageFile outputImageFile";
     std::cerr << " numberOfHistogramBins";
@@ -35,85 +36,84 @@ int itkOtsuMultipleThresholdsImageFilterTest(int argc, char* argv[] )
     std::cerr << " [valleyEmphasis]";
     std::cerr << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   using InputPixelType = short;
   using InternalPixelType = unsigned short;
   using OutputPixelType = unsigned char;
 
-  using InputImageType = itk::Image< InputPixelType,  2 >;
-  using InternalImageType = itk::Image< InternalPixelType, 2>;
-  using OutputImageType = itk::Image< OutputPixelType, 2 >;
+  using InputImageType = itk::Image<InputPixelType, 2>;
+  using InternalImageType = itk::Image<InternalPixelType, 2>;
+  using OutputImageType = itk::Image<OutputPixelType, 2>;
 
-  using ReaderType = itk::ImageFileReader< InputImageType >;
-  using FilterType = itk::OtsuMultipleThresholdsImageFilter< InputImageType, InternalImageType >;
-  using RescaleType = itk::RescaleIntensityImageFilter< InternalImageType, OutputImageType >;
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using FilterType = itk::OtsuMultipleThresholdsImageFilter<InputImageType, InternalImageType>;
+  using RescaleType = itk::RescaleIntensityImageFilter<InternalImageType, OutputImageType>;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   FilterType::Pointer filter = FilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, OtsuMultipleThresholdsImageFilter,
-    ImageToImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, OtsuMultipleThresholdsImageFilter, ImageToImageFilter);
 
   RescaleType::Pointer rescaler = RescaleType::New();
-  WriterType::Pointer writer = WriterType::New();
+  WriterType::Pointer  writer = WriterType::New();
 
   itk::SimpleFilterWatcher watcher(filter);
 
   // Set up the reader
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
 
 #if defined(ITKV4_COMPATIBILITY)
-  ITK_TEST_EXPECT_TRUE( filter->GetReturnBinMidpoint() );
+  ITK_TEST_EXPECT_TRUE(filter->GetReturnBinMidpoint());
 #else
-  ITK_TEST_EXPECT_TRUE( !filter->GetReturnBinMidpoint() );
+  ITK_TEST_EXPECT_TRUE(!filter->GetReturnBinMidpoint());
 #endif
   filter->ReturnBinMidpointOff();
 
   // Set up the filter parameters
-  filter->SetInput( reader->GetOutput() );
+  filter->SetInput(reader->GetOutput());
 
-  auto numberOfHistogramBins = static_cast< itk::SizeValueType >(std::stoi( argv[3] ) );
-  filter->SetNumberOfHistogramBins( numberOfHistogramBins );
-  ITK_TEST_SET_GET_VALUE( numberOfHistogramBins, filter->GetNumberOfHistogramBins() );
+  auto numberOfHistogramBins = static_cast<itk::SizeValueType>(std::stoi(argv[3]));
+  filter->SetNumberOfHistogramBins(numberOfHistogramBins);
+  ITK_TEST_SET_GET_VALUE(numberOfHistogramBins, filter->GetNumberOfHistogramBins());
 
-  auto numberOfThresholds = static_cast< itk::SizeValueType >(std::stoi( argv[4] ) );
-  filter->SetNumberOfThresholds( numberOfThresholds );
-  ITK_TEST_SET_GET_VALUE( numberOfThresholds, filter->GetNumberOfThresholds() );
+  auto numberOfThresholds = static_cast<itk::SizeValueType>(std::stoi(argv[4]));
+  filter->SetNumberOfThresholds(numberOfThresholds);
+  ITK_TEST_SET_GET_VALUE(numberOfThresholds, filter->GetNumberOfThresholds());
 
-  auto labelOffset =  static_cast< FilterType::OutputPixelType >(std::stoi( argv[5] ) );
-  filter->SetLabelOffset( labelOffset );
-  ITK_TEST_SET_GET_VALUE( labelOffset, filter->GetLabelOffset() );
+  auto labelOffset = static_cast<FilterType::OutputPixelType>(std::stoi(argv[5]));
+  filter->SetLabelOffset(labelOffset);
+  ITK_TEST_SET_GET_VALUE(labelOffset, filter->GetLabelOffset());
 
-  if( argc > 6 )
-    {
-    bool valleyEmphasis =  static_cast< bool >( std::stoi( argv[6] ) );
-    ITK_TEST_SET_GET_BOOLEAN( filter, ValleyEmphasis, valleyEmphasis );
-    }
+  if (argc > 6)
+  {
+    bool valleyEmphasis = static_cast<bool>(std::stoi(argv[6]));
+    ITK_TEST_SET_GET_BOOLEAN(filter, ValleyEmphasis, valleyEmphasis);
+  }
 
-  if( argc > 7 )
-    {
-    bool returnBinMidpoint =  static_cast< bool >( std::stoi( argv[7] ) );
-    ITK_TEST_SET_GET_BOOLEAN( filter, ReturnBinMidpoint, returnBinMidpoint );
-    }
+  if (argc > 7)
+  {
+    bool returnBinMidpoint = static_cast<bool>(std::stoi(argv[7]));
+    ITK_TEST_SET_GET_BOOLEAN(filter, ReturnBinMidpoint, returnBinMidpoint);
+  }
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
 
   // Rescale the image so that it can be seen.  The output of the
   // filter contains labels that are numbered sequentially, so the
   // image looks nearly uniform unless there are a large number of labels.
-  rescaler->SetInput( filter->GetOutput() );
+  rescaler->SetInput(filter->GetOutput());
   rescaler->SetOutputMinimum(0);
   rescaler->SetOutputMaximum(255);
 
   // Write out the test image
-  writer->SetFileName( argv[2] );
-  writer->SetInput( rescaler->GetOutput() );
+  writer->SetFileName(argv[2]);
+  writer->SetInput(rescaler->GetOutput());
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
   return EXIT_SUCCESS;

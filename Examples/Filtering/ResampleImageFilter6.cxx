@@ -24,54 +24,54 @@
 #include "itkRGBPixel.h"
 
 
-int main( int argc, char * argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  outputImageFile" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int Dimension = 2;
   using PixelComponentType = unsigned char;
-  using PixelType = itk::RGBPixel< PixelComponentType >;
+  using PixelType = itk::RGBPixel<PixelComponentType>;
 
-  using ImageType = itk::Image< PixelType,  Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
 
-  using ReaderType = itk::ImageFileReader< ImageType >;
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  using WriterType = itk::ImageFileWriter<ImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
 
-  reader->SetFileName( argv[1] );
-  writer->SetFileName( argv[2] );
+  reader->SetFileName(argv[1]);
+  writer->SetFileName(argv[2]);
 
 
-  using FilterType = itk::ResampleImageFilter<
-                            ImageType, ImageType >;
+  using FilterType = itk::ResampleImageFilter<ImageType, ImageType>;
 
   FilterType::Pointer filter = FilterType::New();
 
-  using InterpolatorType = itk::LinearInterpolateImageFunction< ImageType, double >;
+  using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, double>;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
-  filter->SetInterpolator( interpolator );
+  filter->SetInterpolator(interpolator);
 
 
-  using TransformType = itk::IdentityTransform< double, Dimension >;
+  using TransformType = itk::IdentityTransform<double, Dimension>;
   TransformType::Pointer transform = TransformType::New();
 
-  filter->SetTransform( transform );
+  filter->SetTransform(transform);
 
 
   // Software Guide : BeginCodeSnippet
   PixelType defaultValue;
   defaultValue.Fill(50);
 
-  filter->SetDefaultPixelValue( defaultValue );
+  filter->SetDefaultPixelValue(defaultValue);
   // Software Guide : EndCodeSnippet
 
 
@@ -80,46 +80,45 @@ int main( int argc, char * argv[] )
   spacing[0] = .5; // pixel spacing in millimeters along X
   spacing[1] = .5; // pixel spacing in millimeters along Y
 
-  filter->SetOutputSpacing( spacing );
+  filter->SetOutputSpacing(spacing);
   // Software Guide : EndCodeSnippet
 
 
   // Software Guide : BeginCodeSnippet
   ImageType::PointType origin;
-  origin[0] = 30.0;  // X space coordinate of origin
-  origin[1] = 40.0;  // Y space coordinate of origin
-  filter->SetOutputOrigin( origin );
+  origin[0] = 30.0; // X space coordinate of origin
+  origin[1] = 40.0; // Y space coordinate of origin
+  filter->SetOutputOrigin(origin);
   // Software Guide : EndCodeSnippet
 
 
   // Software Guide : BeginCodeSnippet
   ImageType::DirectionType direction;
   direction.SetIdentity();
-  filter->SetOutputDirection( direction );
+  filter->SetOutputDirection(direction);
   // Software Guide : EndCodeSnippet
 
 
-  ImageType::SizeType   size;
+  ImageType::SizeType size;
 
-  size[0] = 300;  // number of pixels along X
-  size[1] = 300;  // number of pixels along Y
+  size[0] = 300; // number of pixels along X
+  size[1] = 300; // number of pixels along Y
 
-  filter->SetSize( size );
+  filter->SetSize(size);
 
-  filter->SetInput( reader->GetOutput() );
-  writer->SetInput( filter->GetOutput() );
+  filter->SetInput(reader->GetOutput());
+  writer->SetInput(filter->GetOutput());
 
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception thrown " << std::endl;
     std::cerr << excp << std::endl;
-    }
+  }
 
   return EXIT_SUCCESS;
-
 }

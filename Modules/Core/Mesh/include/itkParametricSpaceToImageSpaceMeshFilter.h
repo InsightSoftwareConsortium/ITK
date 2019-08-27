@@ -43,18 +43,17 @@ namespace itk
  * \ingroup MeshFilters
  * \ingroup ITKMesh
  */
-template< typename TInputMesh, typename TOutputMesh >
-class ITK_TEMPLATE_EXPORT ParametricSpaceToImageSpaceMeshFilter:
-  public MeshToMeshFilter< TInputMesh, TOutputMesh >
+template <typename TInputMesh, typename TOutputMesh>
+class ITK_TEMPLATE_EXPORT ParametricSpaceToImageSpaceMeshFilter : public MeshToMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ParametricSpaceToImageSpaceMeshFilter);
 
   /** Standard class type aliases. */
   using Self = ParametricSpaceToImageSpaceMeshFilter;
-  using Superclass = MeshToMeshFilter< TInputMesh, TOutputMesh >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = MeshToMeshFilter<TInputMesh, TOutputMesh>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Type for representing coordinates. */
   using CoordRepType = typename TInputMesh::CoordRepType;
@@ -73,18 +72,21 @@ public:
 protected:
   ParametricSpaceToImageSpaceMeshFilter();
   ~ParametricSpaceToImageSpaceMeshFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate requested data. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /** Generate additional information in the output  */
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkParametricSpaceToImageSpaceMeshFilter.hxx"
+#  include "itkParametricSpaceToImageSpaceMeshFilter.hxx"
 #endif
 
 #endif

@@ -37,9 +37,8 @@ namespace itk
  * \ingroup IntensityImageFilters
  * \ingroup ITKLabelVoting
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT VotingBinaryHoleFillingImageFilter:
-  public VotingBinaryImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT VotingBinaryHoleFillingImageFilter : public VotingBinaryImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VotingBinaryHoleFillingImageFilter);
@@ -54,9 +53,9 @@ public:
 
   /** Standard class type aliases. */
   using Self = VotingBinaryHoleFillingImageFilter;
-  using Superclass = VotingBinaryImageFilter< InputImageType, OutputImageType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = VotingBinaryImageFilter<InputImageType, OutputImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -88,25 +87,30 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( IntConvertibleToInputCheck,
-                   ( Concept::Convertible< int, InputPixelType > ) );
-  itkConceptMacro( UnsignedIntConvertibleToInputCheck,
-                   ( Concept::Convertible< unsigned int, InputPixelType > ) );
+  itkConceptMacro(IntConvertibleToInputCheck, (Concept::Convertible<int, InputPixelType>));
+  itkConceptMacro(UnsignedIntConvertibleToInputCheck, (Concept::Convertible<unsigned int, InputPixelType>));
   // End concept checking
 #endif
 
 protected:
   VotingBinaryHoleFillingImageFilter();
   ~VotingBinaryHoleFillingImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Make protected the methods SetBirthThreshold() and
    * SetSurvivalThreshold() so users of this filter do not have access to
    * them. */
-  void SetBirthThreshold(const unsigned int value) override
-  { this->Superclass::SetBirthThreshold(value);  }
-  void SetSurvivalThreshold(const unsigned int value) override
-  { this->Superclass::SetSurvivalThreshold(value);  }
+  void
+  SetBirthThreshold(const unsigned int value) override
+  {
+    this->Superclass::SetBirthThreshold(value);
+  }
+  void
+  SetSurvivalThreshold(const unsigned int value) override
+  {
+    this->Superclass::SetSurvivalThreshold(value);
+  }
 
   /** VotingBinaryHoleFillingImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()
@@ -118,19 +122,22 @@ protected:
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) override;
+  void
+  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
 
-  void DynamicThreadedGenerateData( const OutputImageRegionType & ) override
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType &) override
   {
     itkExceptionMacro("This class requires threadId so it must use classic multi-threading model");
   }
 
   /** Methods to be called before and after the invokation of
    * ThreadedGenerateData(). */
-  void BeforeThreadedGenerateData() override;
+  void
+  BeforeThreadedGenerateData() override;
 
-  void AfterThreadedGenerateData() override;
+  void
+  AfterThreadedGenerateData() override;
 
 private:
   unsigned int m_MajorityThreshold;
@@ -138,12 +145,12 @@ private:
   SizeValueType m_NumberOfPixelsChanged;
 
   // Auxiliary array for multi-threading
-  Array< SizeValueType > m_Count;
+  Array<SizeValueType> m_Count;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVotingBinaryHoleFillingImageFilter.hxx"
+#  include "itkVotingBinaryHoleFillingImageFilter.hxx"
 #endif
 
 #endif

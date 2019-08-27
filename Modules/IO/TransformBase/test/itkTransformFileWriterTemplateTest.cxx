@@ -19,32 +19,31 @@
 
 #include "itkTransformFileWriter.h"
 
-int itkTransformFileWriterTemplateTest( int argc, char *argv[] )
+int
+itkTransformFileWriterTemplateTest(int argc, char * argv[])
 {
-  if( argc < 1 )
-    {
+  if (argc < 1)
+  {
     std::cerr << "Usage:" << argv[0];
     std::cerr << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   using TransformWriterType = itk::TransformFileWriterTemplate<double>;
 
 
   TransformWriterType::Pointer transformWriter = TransformWriterType::New();
 
-  std::cout << "Writer class = "
-            << transformWriter->GetNameOfClass()
-            << "Writer base = "
+  std::cout << "Writer class = " << transformWriter->GetNameOfClass() << "Writer base = "
             << dynamic_cast<TransformWriterType::Superclass *>(transformWriter.GetPointer())->GetNameOfClass()
             << std::endl;
 
   // trigger empty write exception
-  ITK_TRY_EXPECT_EXCEPTION( transformWriter->Update() );
+  ITK_TRY_EXPECT_EXCEPTION(transformWriter->Update());
 
   transformWriter->SetFileName("transform.garbage");
   // trigger exception for transformio not found
-  ITK_TRY_EXPECT_EXCEPTION( transformWriter->Update() );
+  ITK_TRY_EXPECT_EXCEPTION(transformWriter->Update());
 
   std::cout << "Test PASSED!" << std::endl;
   return EXIT_SUCCESS;

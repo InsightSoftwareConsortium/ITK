@@ -25,31 +25,29 @@ namespace itk
 {
 namespace fem
 {
-template< unsigned int VNumberOfNodes, unsigned int VNumberOfSpatialDimensions, typename TBaseClass >
-ElementStd< VNumberOfNodes, VNumberOfSpatialDimensions, TBaseClass >
-::ElementStd()
+template <unsigned int VNumberOfNodes, unsigned int VNumberOfSpatialDimensions, typename TBaseClass>
+ElementStd<VNumberOfNodes, VNumberOfSpatialDimensions, TBaseClass>::ElementStd()
 {
   // Set all node ids to 0 (undefined)
-  for( int i = 0; i < NumberOfNodes; i++ )
-    {
+  for (int i = 0; i < NumberOfNodes; i++)
+  {
     this->m_node[i] = nullptr;
-    }
+  }
 }
 
-template<unsigned int VNumberOfNodes, unsigned int VNumberOfSpatialDimensions, typename TBaseClass >
+template <unsigned int VNumberOfNodes, unsigned int VNumberOfSpatialDimensions, typename TBaseClass>
 void
-ElementStd< VNumberOfNodes, VNumberOfSpatialDimensions, TBaseClass >
-::PrintSelf(std::ostream& os, Indent indent) const
+ElementStd<VNumberOfNodes, VNumberOfSpatialDimensions, TBaseClass>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "#Nodes: " << NumberOfNodes << std::endl;
-  for( unsigned int i = 0; i < NumberOfNodes; i++ )
-    {
+  for (unsigned int i = 0; i < NumberOfNodes; i++)
+  {
     os << indent << "Node (" << i << "): " << this->m_node[i] << std::endl;
-    }
+  }
 }
 
-}  // end namespace fem
-}  // end namespace itk
+} // end namespace fem
+} // end namespace itk
 
 #endif

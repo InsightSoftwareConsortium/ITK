@@ -21,17 +21,18 @@
 #include "itkTestingExtractSliceImageFilter.h"
 #include "itkTestingMacros.h"
 
-int itkTestingExtractSliceImageFilterTest(int, char* [] )
+int
+itkTestingExtractSliceImageFilterTest(int, char *[])
 {
 
   using PixelType = unsigned char;
   constexpr unsigned int InputDimension = 3;
   constexpr unsigned int OutputDimension = 2;
 
-  using InputImageType = itk::Image< PixelType, InputDimension >;
-  using OutputImageType = itk::Image< PixelType, OutputDimension >;
+  using InputImageType = itk::Image<PixelType, InputDimension>;
+  using OutputImageType = itk::Image<PixelType, OutputDimension>;
 
-  using FilterType = itk::Testing::ExtractSliceImageFilter< InputImageType, OutputImageType >;
+  using FilterType = itk::Testing::ExtractSliceImageFilter<InputImageType, OutputImageType>;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -59,16 +60,16 @@ int itkTestingExtractSliceImageFilterTest(int, char* [] )
   direction[2][1] = 0.5;
   direction[2][2] = 1.0;
 
-  inputImage->SetDirection( direction );
+  inputImage->SetDirection(direction);
 
   InputImageType::SpacingType spacing;
   spacing[0] = 2.5;
   spacing[1] = 1.5;
   spacing[2] = 3.5;
 
-  inputImage->SetSpacing( spacing );
+  inputImage->SetSpacing(spacing);
 
-  filter->SetInput( inputImage );
+  filter->SetInput(inputImage);
 
   FilterType::InputImageRegionType extractRegion = inputImage->GetBufferedRegion();
 
@@ -76,65 +77,67 @@ int itkTestingExtractSliceImageFilterTest(int, char* [] )
 
   // expect exception, because for output dimension = 2, one of the size
   // components must be zero.
-  ITK_TRY_EXPECT_EXCEPTION( filter->SetExtractionRegion( extractRegion ) );
+  ITK_TRY_EXPECT_EXCEPTION(filter->SetExtractionRegion(extractRegion));
 
   // Set properly, one of the size components to zero.
   regionSize[2] = 0;
   extractRegion.SetSize(regionSize);
 
   // Now it should be good, with the zero inserted.
-  ITK_TRY_EXPECT_NO_EXCEPTION( filter->SetExtractionRegion( extractRegion ) );
-  ITK_TEST_SET_GET_VALUE( extractRegion, filter->GetExtractionRegion() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->SetExtractionRegion(extractRegion));
+  ITK_TEST_SET_GET_VALUE(extractRegion, filter->GetExtractionRegion());
 
-  FilterType::DIRECTIONCOLLAPSESTRATEGY strategy = itk::Testing::TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN;
+  FilterType::DIRECTIONCOLLAPSESTRATEGY strategy =
+    itk::Testing::TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN;
 
-  ITK_TEST_SET_GET_VALUE( strategy, filter->GetDirectionCollapseToStrategy() );
-  ITK_TRY_EXPECT_EXCEPTION( filter->Update() );
+  ITK_TEST_SET_GET_VALUE(strategy, filter->GetDirectionCollapseToStrategy());
+  ITK_TRY_EXPECT_EXCEPTION(filter->Update());
 
-  ITK_TRY_EXPECT_EXCEPTION( filter->SetDirectionCollapseToStrategy( itk::Testing::TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN ) );
+  ITK_TRY_EXPECT_EXCEPTION(filter->SetDirectionCollapseToStrategy(
+    itk::Testing::TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN));
 
   filter->SetDirectionCollapseToIdentity();
   strategy = itk::Testing::TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOIDENTITY;
-  ITK_TEST_SET_GET_VALUE( strategy, filter->GetDirectionCollapseToStrategy() );
-  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TEST_SET_GET_VALUE(strategy, filter->GetDirectionCollapseToStrategy());
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
   filter->SetDirectionCollapseToGuess();
   strategy = itk::Testing::TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS;
-  ITK_TEST_SET_GET_VALUE( strategy, filter->GetDirectionCollapseToStrategy() );
-  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TEST_SET_GET_VALUE(strategy, filter->GetDirectionCollapseToStrategy());
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
   filter->SetDirectionCollapseToSubmatrix();
   strategy = itk::Testing::TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOSUBMATRIX;
-  ITK_TEST_SET_GET_VALUE( strategy, filter->GetDirectionCollapseToStrategy() );
-  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TEST_SET_GET_VALUE(strategy, filter->GetDirectionCollapseToStrategy());
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
   strategy = itk::Testing::TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOIDENTITY;
   filter->SetDirectionCollapseToStrategy(strategy);
-  ITK_TEST_SET_GET_VALUE( strategy, filter->GetDirectionCollapseToStrategy() );
-  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TEST_SET_GET_VALUE(strategy, filter->GetDirectionCollapseToStrategy());
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
   strategy = itk::Testing::TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS;
   filter->SetDirectionCollapseToStrategy(strategy);
-  ITK_TEST_SET_GET_VALUE( strategy, filter->GetDirectionCollapseToStrategy() );
-  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TEST_SET_GET_VALUE(strategy, filter->GetDirectionCollapseToStrategy());
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
   strategy = itk::Testing::TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOSUBMATRIX;
   filter->SetDirectionCollapseToStrategy(strategy);
-  ITK_TEST_SET_GET_VALUE( strategy, filter->GetDirectionCollapseToStrategy() );
-  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TEST_SET_GET_VALUE(strategy, filter->GetDirectionCollapseToStrategy());
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
   try
-    {
+  {
     filter->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Exercise PrintSelf()
-  filter->Print( std::cout );
+  filter->Print(std::cout);
 
   return EXIT_SUCCESS;
 }

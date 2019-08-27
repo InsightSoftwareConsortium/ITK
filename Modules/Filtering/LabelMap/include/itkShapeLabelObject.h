@@ -38,19 +38,19 @@ namespace itk
  * \ingroup DataRepresentation
  * \ingroup ITKLabelMap
  */
-template< typename TLabel, unsigned int VImageDimension >
-class ShapeLabelObject:public LabelObject< TLabel, VImageDimension >
+template <typename TLabel, unsigned int VImageDimension>
+class ShapeLabelObject : public LabelObject<TLabel, VImageDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ShapeLabelObject);
 
   /** Standard class type aliases */
   using Self = ShapeLabelObject;
-  using Superclass = LabelObject< TLabel, VImageDimension >;
+  using Superclass = LabelObject<TLabel, VImageDimension>;
   using LabelObjectType = typename Superclass::LabelObjectType;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using ConstWeakPointer = WeakPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using ConstWeakPointer = WeakPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -58,7 +58,7 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ShapeLabelObject, LabelObject);
 
-  using LabelMapType = LabelMap< Self >;
+  using LabelMapType = LabelMap<Self>;
 
   static constexpr unsigned int ImageDimension = VImageDimension;
 
@@ -76,37 +76,37 @@ public:
   static constexpr AttributeType NUMBER_OF_PIXELS = 100;
 
   /** PhysicalSize is the size of the object in physical units.
-    * It is equal to the NumberOfPixels multiplied by the
-    * physical pixel size. Its type is double. */
+   * It is equal to the NumberOfPixels multiplied by the
+   * physical pixel size. Its type is double. */
   static constexpr AttributeType PHYSICAL_SIZE = 101;
 
   /** Centroid is the position of the center of the shape in
-    * physical coordinates. It is not constrained to be in the
-    * object, and thus can be outside if the object is not convex.*/
+   * physical coordinates. It is not constrained to be in the
+   * object, and thus can be outside if the object is not convex.*/
   static constexpr AttributeType CENTROID = 104;
 
   static constexpr AttributeType BOUNDING_BOX = 105;
 
   /** NumberOfPixelsOnBorder is the number of pixels in the objects
-    * which are on the border of the image. A pixel on several borders
-    * (a pixel in a corner) is counted only one time, so the size on
-    * border can't be greater than the size of the object. This attribute
-    * is particularly useful to remove the objects which are touching
-    * too much the border. Its type is unsigned long.*/
+   * which are on the border of the image. A pixel on several borders
+   * (a pixel in a corner) is counted only one time, so the size on
+   * border can't be greater than the size of the object. This attribute
+   * is particularly useful to remove the objects which are touching
+   * too much the border. Its type is unsigned long.*/
   static constexpr AttributeType NUMBER_OF_PIXELS_ON_BORDER = 106;
 
   /** PerimeterOnBorder is the physical size of the objects which are on
-    * the border of the image. In 2D, it is a distance, in 3D, a surface,
-    * etc. Contrary to the PhysicalSize attribute which is directly linked to
-    * the NumberOfPixels, this attribute is not directly linked to the
-    * NumberOfPixelsOnBorder attribute. This attribute is particularly useful
-    * to remove the objects which are touching too much the border.
-    * Its type is double.*/
+   * the border of the image. In 2D, it is a distance, in 3D, a surface,
+   * etc. Contrary to the PhysicalSize attribute which is directly linked to
+   * the NumberOfPixels, this attribute is not directly linked to the
+   * NumberOfPixelsOnBorder attribute. This attribute is particularly useful
+   * to remove the objects which are touching too much the border.
+   * Its type is double.*/
   static constexpr AttributeType PERIMETER_ON_BORDER = 107;
 
   /** FeretDiameter is the diameter in physical units of the sphere which
-    * include all the object. The feret diameter is not computed by default,
-    * because of its high computation. Its type is double.*/
+   * include all the object. The feret diameter is not computed by default,
+   * because of its high computation. Its type is double.*/
   static constexpr AttributeType FERET_DIAMETER = 108;
 
   /** PrincipalMoments contains the principal moments.*/
@@ -116,8 +116,8 @@ public:
   static constexpr AttributeType PRINCIPAL_AXES = 110;
 
   /** Elongation is the  ratio of the largest principal moment to the
-    * second largest principal moment. Its value is greater or equal to 1.
-    * Its type is double.*/
+   * second largest principal moment. Its value is greater or equal to 1.
+   * Its type is double.*/
   static constexpr AttributeType ELONGATION = 111;
 
   /** The perimeter of the object.*/
@@ -126,18 +126,18 @@ public:
   static constexpr AttributeType ROUNDNESS = 113;
 
   /** EquivalentRadius is the equivalent radius of the hypersphere of the
-    * same size than the label object. The value depends on the image spacing.
-    * Its type is double.*/
+   * same size than the label object. The value depends on the image spacing.
+   * Its type is double.*/
   static constexpr AttributeType EQUIVALENT_SPHERICAL_RADIUS = 114;
 
   /** EquivalentPerimeter is the equivalent perimeter of the hypersphere of
-    * the same size than the label object. The value depends on the image spacing.
-    * Its type is double.*/
+   * the same size than the label object. The value depends on the image spacing.
+   * Its type is double.*/
   static constexpr AttributeType EQUIVALENT_SPHERICAL_PERIMETER = 115;
 
   /** EquivalentEllipsoidPerimeter is the size of the ellipsoid of the same size
-    * and the same ratio on all the axes than the label object. The value depends
-    * on the image spacing.*/
+   * and the same ratio on all the axes than the label object. The value depends
+   * on the image spacing.*/
   static constexpr AttributeType EQUIVALENT_ELLIPSOID_DIAMETER = 116;
 
   static constexpr AttributeType FLATNESS = 117;
@@ -146,106 +146,108 @@ public:
 
 
   /** Origin of the oriented bounding box defined by the principle
-    * axes, and the oriented bounding box size */
+   * axes, and the oriented bounding box size */
   static constexpr AttributeType ORIENTED_BOUNDING_BOX_ORIGIN = 119;
 
 
   /** Size of the oriented bounding box defined by the principle axes,
-    * and the bounding box origin.
-    *
-    * The combination of the OBB origin, OBB size and OBB direction (
-    * principal axes ) defines a coordinate system suitable to use
-    * resample the OBB onto it's own image.
-    */
+   * and the bounding box origin.
+   *
+   * The combination of the OBB origin, OBB size and OBB direction (
+   * principal axes ) defines a coordinate system suitable to use
+   * resample the OBB onto it's own image.
+   */
   static constexpr AttributeType ORIENTED_BOUNDING_BOX_SIZE = 120;
 
-  static AttributeType GetAttributeFromName(const std::string & s)
+  static AttributeType
+  GetAttributeFromName(const std::string & s)
   {
-    if ( s == "NumberOfPixels" )
-      {
+    if (s == "NumberOfPixels")
+    {
       return NUMBER_OF_PIXELS;
-      }
-    else if ( s == "PhysicalSize" )
-      {
+    }
+    else if (s == "PhysicalSize")
+    {
       return PHYSICAL_SIZE;
-      }
-    else if ( s == "Centroid" )
-      {
+    }
+    else if (s == "Centroid")
+    {
       return CENTROID;
-      }
-    else if ( s == "BoundingBox" )
-      {
+    }
+    else if (s == "BoundingBox")
+    {
       return BOUNDING_BOX;
-      }
-    else if ( s == "NumberOfPixelsOnBorder" )
-      {
+    }
+    else if (s == "NumberOfPixelsOnBorder")
+    {
       return NUMBER_OF_PIXELS_ON_BORDER;
-      }
-    else if ( s == "PerimeterOnBorder" )
-      {
+    }
+    else if (s == "PerimeterOnBorder")
+    {
       return PERIMETER_ON_BORDER;
-      }
-    else if ( s == "FeretDiameter" )
-      {
+    }
+    else if (s == "FeretDiameter")
+    {
       return FERET_DIAMETER;
-      }
-    else if ( s == "PrincipalMoments" )
-      {
+    }
+    else if (s == "PrincipalMoments")
+    {
       return PRINCIPAL_MOMENTS;
-      }
-    else if ( s == "PrincipalAxes" )
-      {
+    }
+    else if (s == "PrincipalAxes")
+    {
       return PRINCIPAL_AXES;
-      }
-    else if ( s == "Elongation" )
-      {
+    }
+    else if (s == "Elongation")
+    {
       return ELONGATION;
-      }
-    else if ( s == "Perimeter" )
-      {
+    }
+    else if (s == "Perimeter")
+    {
       return PERIMETER;
-      }
-    else if ( s == "Roundness" )
-      {
+    }
+    else if (s == "Roundness")
+    {
       return ROUNDNESS;
-      }
-    else if ( s == "EquivalentSphericalRadius" )
-      {
+    }
+    else if (s == "EquivalentSphericalRadius")
+    {
       return EQUIVALENT_SPHERICAL_RADIUS;
-      }
-    else if ( s == "EquivalentSphericalPerimeter" )
-      {
+    }
+    else if (s == "EquivalentSphericalPerimeter")
+    {
       return EQUIVALENT_SPHERICAL_PERIMETER;
-      }
-    else if ( s == "EquivalentEllipsoidDiameter" )
-      {
+    }
+    else if (s == "EquivalentEllipsoidDiameter")
+    {
       return EQUIVALENT_ELLIPSOID_DIAMETER;
-      }
-    else if ( s == "Flatness" )
-      {
+    }
+    else if (s == "Flatness")
+    {
       return FLATNESS;
-      }
-    else if ( s == "PerimeterOnBorderRatio" )
-      {
+    }
+    else if (s == "PerimeterOnBorderRatio")
+    {
       return PERIMETER_ON_BORDER_RATIO;
-      }
-    else if ( s == "OrientedBoundingBoxOrigin")
-      {
+    }
+    else if (s == "OrientedBoundingBoxOrigin")
+    {
       return ORIENTED_BOUNDING_BOX_ORIGIN;
-      }
-    else if ( s == "OrientedBoundingBoxSize")
-      {
+    }
+    else if (s == "OrientedBoundingBoxSize")
+    {
       return ORIENTED_BOUNDING_BOX_SIZE;
-      }
+    }
     // can't recognize the name
     return Superclass::GetAttributeFromName(s);
   }
 
-  static std::string GetNameFromAttribute(const AttributeType & a)
+  static std::string
+  GetNameFromAttribute(const AttributeType & a)
   {
     std::string name;
-    switch ( a )
-      {
+    switch (a)
+    {
       case NUMBER_OF_PIXELS:
         name = "NumberOfPixels";
         break;
@@ -307,230 +309,267 @@ public:
         // can't recognize the name
         name = Superclass::GetNameFromAttribute(a);
         break;
-      }
+    }
     return name;
   }
 
-  using RegionType = ImageRegion< VImageDimension >;
+  using RegionType = ImageRegion<VImageDimension>;
 
-  using CentroidType = Point< double, VImageDimension >;
+  using CentroidType = Point<double, VImageDimension>;
 
-  using MatrixType = Matrix< double, VImageDimension, VImageDimension >;
+  using MatrixType = Matrix<double, VImageDimension, VImageDimension>;
 
-  using VectorType = Vector< double, VImageDimension >;
+  using VectorType = Vector<double, VImageDimension>;
 
 
 private:
-
   template <size_t VX, unsigned short VY>
-    struct IntegerPow
+  struct IntegerPow
   {
-    static const size_t Result = VX*IntegerPow<VX, VY-1>::Result;
+    static const size_t Result = VX * IntegerPow<VX, VY - 1>::Result;
   };
 
   template <size_t VX>
-    struct IntegerPow<VX,0>
+  struct IntegerPow<VX, 0>
   {
-    static constexpr size_t Result  = 1;
+    static constexpr size_t Result = 1;
   };
 
 public:
-
   using OrientedBoundingBoxDirectionType = MatrixType;
 
-  using OrientedBoundingBoxPointType = Point< double, VImageDimension >;
+  using OrientedBoundingBoxPointType = Point<double, VImageDimension>;
 
   using OrientedBoundingBoxSizeType = Vector<double, VImageDimension>;
 
-  using OrientedBoundingBoxVerticesType = FixedArray<OrientedBoundingBoxPointType, IntegerPow<2,ImageDimension>::Result>;
+  using OrientedBoundingBoxVerticesType =
+    FixedArray<OrientedBoundingBoxPointType, IntegerPow<2, ImageDimension>::Result>;
 
 
-  const RegionType & GetBoundingBox() const
+  const RegionType &
+  GetBoundingBox() const
   {
     return m_BoundingBox;
   }
 
-  void SetBoundingBox(const RegionType & v)
+  void
+  SetBoundingBox(const RegionType & v)
   {
     m_BoundingBox = v;
   }
 
-  const double & GetPhysicalSize() const
+  const double &
+  GetPhysicalSize() const
   {
     return m_PhysicalSize;
   }
 
-  void SetPhysicalSize(const double & v)
+  void
+  SetPhysicalSize(const double & v)
   {
     m_PhysicalSize = v;
   }
 
-  const SizeValueType & GetNumberOfPixels() const
+  const SizeValueType &
+  GetNumberOfPixels() const
   {
     return m_NumberOfPixels;
   }
 
-  void SetNumberOfPixels(const SizeValueType & v)
+  void
+  SetNumberOfPixels(const SizeValueType & v)
   {
     m_NumberOfPixels = v;
   }
 
-  const CentroidType & GetCentroid() const
+  const CentroidType &
+  GetCentroid() const
   {
     return m_Centroid;
   }
 
-  void SetCentroid(const CentroidType & centroid)
+  void
+  SetCentroid(const CentroidType & centroid)
   {
     m_Centroid = centroid;
   }
 
-  const SizeValueType & GetNumberOfPixelsOnBorder() const
+  const SizeValueType &
+  GetNumberOfPixelsOnBorder() const
   {
     return m_NumberOfPixelsOnBorder;
   }
 
-  void SetNumberOfPixelsOnBorder(const SizeValueType & v)
+  void
+  SetNumberOfPixelsOnBorder(const SizeValueType & v)
   {
     m_NumberOfPixelsOnBorder = v;
   }
 
-  const double & GetPerimeterOnBorder() const
+  const double &
+  GetPerimeterOnBorder() const
   {
     return m_PerimeterOnBorder;
   }
 
-  void SetPerimeterOnBorder(const double & v)
+  void
+  SetPerimeterOnBorder(const double & v)
   {
     m_PerimeterOnBorder = v;
   }
 
-  const double & GetFeretDiameter() const
+  const double &
+  GetFeretDiameter() const
   {
     return m_FeretDiameter;
   }
 
-  void SetFeretDiameter(const double & v)
+  void
+  SetFeretDiameter(const double & v)
   {
     m_FeretDiameter = v;
   }
 
-  const VectorType & GetPrincipalMoments() const
+  const VectorType &
+  GetPrincipalMoments() const
   {
     return m_PrincipalMoments;
   }
 
-  void SetPrincipalMoments(const VectorType & v)
+  void
+  SetPrincipalMoments(const VectorType & v)
   {
     m_PrincipalMoments = v;
   }
 
-  const MatrixType & GetPrincipalAxes() const
+  const MatrixType &
+  GetPrincipalAxes() const
   {
     return m_PrincipalAxes;
   }
 
-  void SetPrincipalAxes(const MatrixType & v)
+  void
+  SetPrincipalAxes(const MatrixType & v)
   {
     m_PrincipalAxes = v;
   }
 
-  const double & GetElongation() const
+  const double &
+  GetElongation() const
   {
     return m_Elongation;
   }
 
-  void SetElongation(const double & v)
+  void
+  SetElongation(const double & v)
   {
     m_Elongation = v;
   }
 
-  const double & GetPerimeter() const
+  const double &
+  GetPerimeter() const
   {
     return m_Perimeter;
   }
 
-  void SetPerimeter(const double & v)
+  void
+  SetPerimeter(const double & v)
   {
     m_Perimeter = v;
   }
 
-  const double & GetRoundness() const
+  const double &
+  GetRoundness() const
   {
     return m_Roundness;
   }
 
-  void SetRoundness(const double & v)
+  void
+  SetRoundness(const double & v)
   {
     m_Roundness = v;
   }
 
-  const double & GetEquivalentSphericalRadius() const
+  const double &
+  GetEquivalentSphericalRadius() const
   {
     return m_EquivalentSphericalRadius;
   }
 
-  void SetEquivalentSphericalRadius(const double & v)
+  void
+  SetEquivalentSphericalRadius(const double & v)
   {
     m_EquivalentSphericalRadius = v;
   }
 
-  const double & GetEquivalentSphericalPerimeter() const
+  const double &
+  GetEquivalentSphericalPerimeter() const
   {
     return m_EquivalentSphericalPerimeter;
   }
 
-  void SetEquivalentSphericalPerimeter(const double & v)
+  void
+  SetEquivalentSphericalPerimeter(const double & v)
   {
     m_EquivalentSphericalPerimeter = v;
   }
 
-  const VectorType & GetEquivalentEllipsoidDiameter() const
+  const VectorType &
+  GetEquivalentEllipsoidDiameter() const
   {
     return m_EquivalentEllipsoidDiameter;
   }
 
-  void SetEquivalentEllipsoidDiameter(const VectorType & v)
+  void
+  SetEquivalentEllipsoidDiameter(const VectorType & v)
   {
     m_EquivalentEllipsoidDiameter = v;
   }
 
-  const double & GetFlatness() const
+  const double &
+  GetFlatness() const
   {
     return m_Flatness;
   }
 
-  void SetFlatness(const double & v)
+  void
+  SetFlatness(const double & v)
   {
     m_Flatness = v;
   }
 
-  const double & GetPerimeterOnBorderRatio() const
+  const double &
+  GetPerimeterOnBorderRatio() const
   {
     return m_PerimeterOnBorderRatio;
   }
 
-  void SetPerimeterOnBorderRatio(const double & v)
+  void
+  SetPerimeterOnBorderRatio(const double & v)
   {
     m_PerimeterOnBorderRatio = v;
   }
 
-  const OrientedBoundingBoxPointType & GetOrientedBoundingBoxOrigin() const
+  const OrientedBoundingBoxPointType &
+  GetOrientedBoundingBoxOrigin() const
   {
     return m_OrientedBoundingBoxOrigin;
   }
 
-  void SetOrientedBoundingBoxOrigin(const OrientedBoundingBoxPointType & v)
+  void
+  SetOrientedBoundingBoxOrigin(const OrientedBoundingBoxPointType & v)
   {
     m_OrientedBoundingBoxOrigin = v;
   }
 
-  const OrientedBoundingBoxSizeType & GetOrientedBoundingBoxSize() const
+  const OrientedBoundingBoxSizeType &
+  GetOrientedBoundingBoxSize() const
   {
     return m_OrientedBoundingBoxSize;
   }
 
-  void SetOrientedBoundingBoxSize(const OrientedBoundingBoxSizeType & v)
+  void
+  SetOrientedBoundingBoxSize(const OrientedBoundingBoxSizeType & v)
   {
     m_OrientedBoundingBoxSize = v;
   }
@@ -539,39 +578,42 @@ public:
   // some helper methods - not really required, but really useful!
 
   /** Get the BoundingBox as an ImageRegion. */
-  const RegionType & GetRegion() const
+  const RegionType &
+  GetRegion() const
   {
     return m_BoundingBox;
   }
 
 
   /** Get the direction matrix for the oriented bounding box
-    * coordinates. This is an alias for the principal axes. */
-  const OrientedBoundingBoxDirectionType & GetOrientedBoundingBoxDirection() const
+   * coordinates. This is an alias for the principal axes. */
+  const OrientedBoundingBoxDirectionType &
+  GetOrientedBoundingBoxDirection() const
   {
     return this->GetPrincipalAxes();
   }
 
   /** Get an array of point verities which define the corners of the
-    * oriented bounding box.
-    *
-    * The first element in the array contains the minimum coordination
-    * values while the last contains the maximum. Use the index of the
-    * array in binary to determine min/max for the indexed vertex.
-    * For example, in 2D, binary  counting will give[0,0], [0,1],
-    * [1,0], [1,1], which corresponds to [minX,minY], [minX,maxY],
-    * [maxX,minY], [maxX,maxY].
-    */
-  OrientedBoundingBoxVerticesType GetOrientedBoundingBoxVertices() const
+   * oriented bounding box.
+   *
+   * The first element in the array contains the minimum coordination
+   * values while the last contains the maximum. Use the index of the
+   * array in binary to determine min/max for the indexed vertex.
+   * For example, in 2D, binary  counting will give[0,0], [0,1],
+   * [1,0], [1,1], which corresponds to [minX,minY], [minX,maxY],
+   * [maxX,minY], [maxX,maxY].
+   */
+  OrientedBoundingBoxVerticesType
+  GetOrientedBoundingBoxVertices() const
   {
 
     const OrientedBoundingBoxPointType min = this->GetOrientedBoundingBoxOrigin();
-    OrientedBoundingBoxPointType max = this->GetOrientedBoundingBoxOrigin();
+    OrientedBoundingBoxPointType       max = this->GetOrientedBoundingBoxOrigin();
 
-    for( unsigned int i = 0; i < ImageDimension; ++i)
-      {
+    for (unsigned int i = 0; i < ImageDimension; ++i)
+    {
       max[i] += m_OrientedBoundingBoxSize[i];
-      }
+    }
 
     OrientedBoundingBoxVerticesType vertices;
 
@@ -579,43 +621,44 @@ public:
     // example, in 2D, binary  counting will give[0,0], [0,1], [1,0],
     // [1,1], which corresponds to [minX,minY], [minX,maxY],
     // [maxX,minY], [maxX,maxY].
-    for (unsigned int i = 0; i <  OrientedBoundingBoxVerticesType::Length; ++i)
+    for (unsigned int i = 0; i < OrientedBoundingBoxVerticesType::Length; ++i)
+    {
+      const unsigned int msb = 1 << (ImageDimension - 1);
+      for (unsigned int j = 0; j < ImageDimension; j++)
       {
-      const unsigned int msb = 1 << (ImageDimension-1);
-      for ( unsigned int j = 0; j < ImageDimension; j++ )
+        if (i & msb >> j)
         {
-        if (i & msb>>j)
-          {
           vertices[i][j] = max[j];
-          }
+        }
         else
-          {
+        {
           vertices[i][j] = min[j];
-          }
         }
       }
+    }
     return vertices;
   }
 
   /** Affine transform for mapping to and from principal axis */
-  using AffineTransformType = AffineTransform< double, VImageDimension >;
+  using AffineTransformType = AffineTransform<double, VImageDimension>;
   using AffineTransformPointer = typename AffineTransformType::Pointer;
 
   /** Get the affine transform from principal axes to physical axes
    * This method returns an affine transform which transforms from
    * the principal axes coordinate system to physical coordinates. */
-  AffineTransformPointer GetPrincipalAxesToPhysicalAxesTransform() const
+  AffineTransformPointer
+  GetPrincipalAxesToPhysicalAxesTransform() const
   {
     typename AffineTransformType::MatrixType matrix;
     typename AffineTransformType::OffsetType offset;
-    for ( unsigned int i = 0; i < VImageDimension; i++ )
+    for (unsigned int i = 0; i < VImageDimension; i++)
+    {
+      offset[i] = m_Centroid[i];
+      for (unsigned int j = 0; j < VImageDimension; j++)
       {
-      offset[i]  = m_Centroid[i];
-      for ( unsigned int j = 0; j < VImageDimension; j++ )
-        {
-        matrix[j][i] = m_PrincipalAxes[i][j];    // Note the transposition
-        }
+        matrix[j][i] = m_PrincipalAxes[i][j]; // Note the transposition
       }
+    }
 
     AffineTransformPointer result = AffineTransformType::New();
 
@@ -629,18 +672,19 @@ public:
    * This method returns an affine transform which transforms from
    * the physical coordinate system to the principal axes coordinate
    * system. */
-  AffineTransformPointer GetPhysicalAxesToPrincipalAxesTransform() const
+  AffineTransformPointer
+  GetPhysicalAxesToPrincipalAxesTransform() const
   {
     typename AffineTransformType::MatrixType matrix;
     typename AffineTransformType::OffsetType offset;
-    for ( unsigned int i = 0; i < VImageDimension; i++ )
+    for (unsigned int i = 0; i < VImageDimension; i++)
+    {
+      offset[i] = m_Centroid[i];
+      for (unsigned int j = 0; j < VImageDimension; j++)
       {
-      offset[i]    = m_Centroid[i];
-      for ( unsigned int j = 0; j < VImageDimension; j++ )
-        {
-        matrix[j][i] = m_PrincipalAxes[i][j];    // Note the transposition
-        }
+        matrix[j][i] = m_PrincipalAxes[i][j]; // Note the transposition
       }
+    }
 
     AffineTransformPointer result = AffineTransformType::New();
     result->SetMatrix(matrix);
@@ -652,8 +696,9 @@ public:
     return inverse;
   }
 
-  template< typename TSourceLabelObject >
-  void CopyAttributesFrom( const TSourceLabelObject * src )
+  template <typename TSourceLabelObject>
+  void
+  CopyAttributesFrom(const TSourceLabelObject * src)
   {
     Superclass::template CopyAttributesFrom<TSourceLabelObject>(src);
 
@@ -674,16 +719,17 @@ public:
     m_EquivalentEllipsoidDiameter = src->GetEquivalentEllipsoidDiameter();
     m_Flatness = src->GetFlatness();
     m_PerimeterOnBorderRatio = src->GetPerimeterOnBorderRatio();
-    m_OrientedBoundingBoxOrigin  = src->GetOrientedBoundingBoxOrigin();
-    m_OrientedBoundingBoxSize  = src->GetOrientedBoundingBoxSize();
+    m_OrientedBoundingBoxOrigin = src->GetOrientedBoundingBoxOrigin();
+    m_OrientedBoundingBoxSize = src->GetOrientedBoundingBoxSize();
   }
 
-  template< typename TSourceLabelObject >
-  void CopyAllFrom(const TSourceLabelObject *src)
+  template <typename TSourceLabelObject>
+  void
+  CopyAllFrom(const TSourceLabelObject * src)
   {
-    itkAssertOrThrowMacro ( ( src != nullptr ), "Null Pointer" );
-    this->template CopyLinesFrom<TSourceLabelObject>( src );
-    this->template CopyAttributesFrom<TSourceLabelObject>( src );
+    itkAssertOrThrowMacro((src != nullptr), "Null Pointer");
+    this->template CopyLinesFrom<TSourceLabelObject>(src);
+    this->template CopyAttributesFrom<TSourceLabelObject>(src);
   }
 
 protected:
@@ -709,7 +755,8 @@ protected:
     m_OrientedBoundingBoxOrigin.Fill(0);
   }
 
-  void PrintSelf(std::ostream & os, Indent indent) const override
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
 

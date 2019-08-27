@@ -22,49 +22,46 @@
 #include "itkBinaryImageToLevelSetImageAdaptor.h"
 #include "itkTestingMacros.h"
 
-int itkLevelSetEquationPropagationTermTest( int argc, char* argv[] )
+int
+itkLevelSetEquationPropagationTermTest(int argc, char * argv[])
 {
-  if( argc < 2 )
-    {
+  if (argc < 2)
+  {
     std::cerr << "Missing Arguments" << std::endl;
     std::cerr << "Program " << itkNameOfTestExecutableMacro(argv) << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int Dimension = 2;
 
   using InputPixelType = unsigned short;
-  using InputImageType = itk::Image< InputPixelType, Dimension >;
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
   using IdentifierType = itk::IdentifierType;
 
   using InputPixelType = unsigned short;
-  using InputImageType = itk::Image< InputPixelType, Dimension >;
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
 
   using PixelType = float;
-  using SparseLevelSetType =
-      itk::WhitakerSparseLevelSetImage< PixelType, Dimension >;
+  using SparseLevelSetType = itk::WhitakerSparseLevelSetImage<PixelType, Dimension>;
 
-  using BinaryToSparseAdaptorType =
-      itk::BinaryImageToLevelSetImageAdaptor< InputImageType, SparseLevelSetType >;
+  using BinaryToSparseAdaptorType = itk::BinaryImageToLevelSetImageAdaptor<InputImageType, SparseLevelSetType>;
 
-  using LevelSetContainerType = itk::LevelSetContainer< IdentifierType, SparseLevelSetType >;
-  using PropagationTermType =
-      itk::LevelSetEquationPropagationTerm< InputImageType, LevelSetContainerType >;
+  using LevelSetContainerType = itk::LevelSetContainer<IdentifierType, SparseLevelSetType>;
+  using PropagationTermType = itk::LevelSetEquationPropagationTerm<InputImageType, LevelSetContainerType>;
 
-  using IdListType = std::list< IdentifierType >;
-  using IdListImageType = itk::Image< IdListType, Dimension >;
-  using CacheImageType = itk::Image< short, Dimension >;
-  using DomainMapImageFilterType =
-      itk::LevelSetDomainMapImageFilter< IdListImageType, CacheImageType >;
+  using IdListType = std::list<IdentifierType>;
+  using IdListImageType = itk::Image<IdListType, Dimension>;
+  using CacheImageType = itk::Image<short, Dimension>;
+  using DomainMapImageFilterType = itk::LevelSetDomainMapImageFilter<IdListImageType, CacheImageType>;
 
   using LevelSetOutputRealType = SparseLevelSetType::OutputRealType;
   using HeavisideFunctionBaseType =
-      itk::SinRegularizedHeavisideStepFunction< LevelSetOutputRealType, LevelSetOutputRealType >;
-  using InputImageIteratorType = itk::ImageRegionIteratorWithIndex< InputImageType >;
+    itk::SinRegularizedHeavisideStepFunction<LevelSetOutputRealType, LevelSetOutputRealType>;
+  using InputImageIteratorType = itk::ImageRegionIteratorWithIndex<InputImageType>;
 
   // load binary mask
   InputImageType::SizeType size;
-  size.Fill( 50 );
+  size.Fill(50);
 
   InputImageType::PointType origin;
   origin[0] = 0.0;
@@ -75,115 +72,115 @@ int itkLevelSetEquationPropagationTermTest( int argc, char* argv[] )
   spacing[1] = 1.0;
 
   InputImageType::IndexType index;
-  index.Fill( 0 );
+  index.Fill(0);
 
   InputImageType::RegionType region;
-  region.SetIndex( index );
-  region.SetSize( size );
+  region.SetIndex(index);
+  region.SetSize(size);
 
   // Binary initialization
   InputImageType::Pointer binary = InputImageType::New();
-  binary->SetRegions( region );
-  binary->SetSpacing( spacing );
-  binary->SetOrigin( origin );
+  binary->SetRegions(region);
+  binary->SetSpacing(spacing);
+  binary->SetOrigin(origin);
   binary->Allocate();
-  binary->FillBuffer( itk::NumericTraits<InputPixelType>::ZeroValue() );
+  binary->FillBuffer(itk::NumericTraits<InputPixelType>::ZeroValue());
 
-  index.Fill( 10 );
-  size.Fill( 30 );
+  index.Fill(10);
+  size.Fill(30);
 
-  region.SetIndex( index );
-  region.SetSize( size );
+  region.SetIndex(index);
+  region.SetSize(size);
 
-  InputImageIteratorType iIt( binary, region );
+  InputImageIteratorType iIt(binary, region);
   iIt.GoToBegin();
-  while( !iIt.IsAtEnd() )
-    {
-    iIt.Set( itk::NumericTraits<InputPixelType>::OneValue() );
+  while (!iIt.IsAtEnd())
+  {
+    iIt.Set(itk::NumericTraits<InputPixelType>::OneValue());
     ++iIt;
-    }
+  }
 
   // Convert binary mask to sparse level set
   BinaryToSparseAdaptorType::Pointer adaptor = BinaryToSparseAdaptorType::New();
-  adaptor->SetInputImage( binary );
+  adaptor->SetInputImage(binary);
   adaptor->Initialize();
   std::cout << "Finished converting to sparse format" << std::endl;
 
   SparseLevelSetType::Pointer level_set = adaptor->GetModifiableLevelSet();
 
   IdListType list_ids;
-  list_ids.push_back( 1 );
+  list_ids.push_back(1);
 
   IdListImageType::Pointer id_image = IdListImageType::New();
-  id_image->SetRegions( binary->GetLargestPossibleRegion() );
+  id_image->SetRegions(binary->GetLargestPossibleRegion());
   id_image->Allocate();
-  id_image->FillBuffer( list_ids );
+  id_image->FillBuffer(list_ids);
 
   DomainMapImageFilterType::Pointer domainMapFilter = DomainMapImageFilterType::New();
-  domainMapFilter->SetInput( id_image );
+  domainMapFilter->SetInput(id_image);
   domainMapFilter->Update();
   std::cout << "Domain map computed" << std::endl;
 
   // Define the Heaviside function
   HeavisideFunctionBaseType::Pointer heaviside = HeavisideFunctionBaseType::New();
-  heaviside->SetEpsilon( 1.0 );
+  heaviside->SetEpsilon(1.0);
 
   // Insert the levelsets in a levelset container
   LevelSetContainerType::Pointer lscontainer = LevelSetContainerType::New();
-  lscontainer->SetHeaviside( heaviside );
-  lscontainer->SetDomainMapFilter( domainMapFilter );
+  lscontainer->SetHeaviside(heaviside);
+  lscontainer->SetDomainMapFilter(domainMapFilter);
 
-  bool LevelSetNotYetAdded = lscontainer->AddLevelSet( 0, level_set, false );
-  if ( !LevelSetNotYetAdded )
-    {
+  bool LevelSetNotYetAdded = lscontainer->AddLevelSet(0, level_set, false);
+  if (!LevelSetNotYetAdded)
+  {
     return EXIT_FAILURE;
-    }
+  }
 
   // Create ChanAndVese External term for phi_{1}
   PropagationTermType::Pointer term = PropagationTermType::New();
-  term->SetInput( binary );
-  term->SetCoefficient( 1.0 );
-  term->SetCurrentLevelSetId( 0 );
-  term->SetLevelSetContainer( lscontainer );
+  term->SetInput(binary);
+  term->SetCoefficient(1.0);
+  term->SetCurrentLevelSetId(0);
+  term->SetLevelSetContainer(lscontainer);
   std::cout << "Propagation term created" << std::endl;
 
   // Initialize the ChanAndVese term here
   term->InitializeParameters();
 
-  iIt = InputImageIteratorType( binary, binary->GetLargestPossibleRegion() );
+  iIt = InputImageIteratorType(binary, binary->GetLargestPossibleRegion());
   iIt.GoToBegin();
 
-  while( !iIt.IsAtEnd() )
-    {
-    term->Initialize( iIt.GetIndex() );
+  while (!iIt.IsAtEnd())
+  {
+    term->Initialize(iIt.GetIndex());
     ++iIt;
-    }
+  }
 
   term->Update();
 
   index[0] = 10;
   index[1] = 20;
-  if( itk::Math::abs( term->Evaluate( index ) - 1 ) >  5e-2 )
-    {
+  if (itk::Math::abs(term->Evaluate(index) - 1) > 5e-2)
+  {
     return EXIT_FAILURE;
-    }
+  }
 
   iIt.GoToBegin();
 
-  itk::ImageRegionConstIteratorWithIndex< PropagationTermType::PropagationImageType > pIt(
-    term->GetPropagationImage(), term->GetPropagationImage()->GetLargestPossibleRegion() );
+  itk::ImageRegionConstIteratorWithIndex<PropagationTermType::PropagationImageType> pIt(
+    term->GetPropagationImage(), term->GetPropagationImage()->GetLargestPossibleRegion());
   pIt.GoToBegin();
 
-  while( !iIt.IsAtEnd() )
+  while (!iIt.IsAtEnd())
+  {
+    if (itk::Math::abs(static_cast<double>(iIt.Get()) - static_cast<double>(pIt.Get())) > 1e-2)
     {
-    if( itk::Math::abs( static_cast< double >( iIt.Get() ) - static_cast< double >( pIt.Get() ) ) > 1e-2 )
-      {
       std::cout << iIt.GetIndex() << " * " << pIt.GetIndex() << std::endl;
       std::cout << iIt.Get() << " * " << pIt.Get() << std::endl;
       return EXIT_FAILURE;
-      }
+    }
     ++iIt;
     ++pIt;
-    }
+  }
   return EXIT_SUCCESS;
 }

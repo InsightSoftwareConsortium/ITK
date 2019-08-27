@@ -27,9 +27,8 @@
 namespace itk
 {
 
-template< typename TImage >
-GPUScalarAnisotropicDiffusionFunction< TImage >
-::GPUScalarAnisotropicDiffusionFunction()
+template <typename TImage>
+GPUScalarAnisotropicDiffusionFunction<TImage>::GPUScalarAnisotropicDiffusionFunction()
 {
   this->m_AnisotropicDiffusionFunctionGPUBuffer = GPUDataManager::New();
   this->m_AnisotropicDiffusionFunctionGPUKernelManager = GPUKernelManager::New();
@@ -37,35 +36,34 @@ GPUScalarAnisotropicDiffusionFunction< TImage >
   // load GPU kernel
   std::ostringstream defines;
 
-  if(ImageDimension > 3 || ImageDimension < 1)
-    {
+  if (ImageDimension > 3 || ImageDimension < 1)
+  {
     itkExceptionMacro("GPUScalarAnisotropicDiffusionFunction supports 1/2/3D image.");
-    }
+  }
 
   defines << "#define DIM_" << ImageDimension << "\n";
 
   defines << "#define PIXELTYPE ";
-  GetTypenameInString( typeid ( typename TImage::PixelType ), defines );
+  GetTypenameInString(typeid(typename TImage::PixelType), defines);
   std::cout << "Defines: " << defines.str() << std::endl;
 
-  const char* GPUSource = GPUScalarAnisotropicDiffusionFunction::GetOpenCLSource();
+  const char * GPUSource = GPUScalarAnisotropicDiffusionFunction::GetOpenCLSource();
 
   // load and build program
-  this->m_AnisotropicDiffusionFunctionGPUKernelManager->LoadProgramFromString( GPUSource, defines.str().c_str() );
+  this->m_AnisotropicDiffusionFunctionGPUKernelManager->LoadProgramFromString(GPUSource, defines.str().c_str());
 
   // create kernel
   this->m_AverageGradientMagnitudeSquaredGPUKernelHandle =
     this->m_AnisotropicDiffusionFunctionGPUKernelManager->CreateKernel("AverageGradientMagnitudeSquared");
 }
 
-template< typename TImage >
+template <typename TImage>
 void
-GPUScalarAnisotropicDiffusionFunction< TImage >
-::GPUCalculateAverageGradientMagnitudeSquared(TImage *ip)
+GPUScalarAnisotropicDiffusionFunction<TImage>::GPUCalculateAverageGradientMagnitudeSquared(TImage * ip)
 {
   // GPU kernel to compute Average Squared Gradient Magnitude
-  using GPUImageType = typename itk::GPUTraits< TImage >::Type;
-  typename GPUImageType::Pointer  inPtr =  dynamic_cast< GPUImageType * >( ip );
+  using GPUImageType = typename itk::GPUTraits<TImage>::Type;
+  typename GPUImageType::Pointer  inPtr = dynamic_cast<GPUImageType *>(ip);
   typename GPUImageType::SizeType outSize = inPtr->GetLargestPossibleRegion().GetSize();
 
   int imgSize[3];
@@ -81,34 +79,34 @@ GPUScalarAnisotropicDiffusionFunction< TImage >
 
   unsigned int numPixel = 1;
   unsigned int bufferSize = 1;
-  for(int i=0; i<ImageDim; i++)
-    {
+  for (int i = 0; i < ImageDim; i++)
+  {
     imgSize[i] = outSize[i];
     imgScale[i] = this->m_ScaleCoefficients[i];
     localSize[i] = (blockSize <= outSize[i]) ? blockSize : 1;
-    globalSize[i] = localSize[i]*(unsigned int)ceil( (float)outSize[i]/(float)localSize[i]); //
-                                                                                             // total
-                                                                                             // #
-                                                                                             // of
-                                                                                             // threads
-    bufferSize *= globalSize[i]/localSize[i];
+    globalSize[i] = localSize[i] * (unsigned int)ceil((float)outSize[i] / (float)localSize[i]); //
+                                                                                                // total
+                                                                                                // #
+                                                                                                // of
+                                                                                                // threads
+    bufferSize *= globalSize[i] / localSize[i];
     numPixel *= imgSize[i];
-    }
+  }
 
   // Initialize & Allocate GPU Buffer
-  if(bufferSize != this->m_AnisotropicDiffusionFunctionGPUBuffer->GetBufferSize() )
-    {
+  if (bufferSize != this->m_AnisotropicDiffusionFunctionGPUBuffer->GetBufferSize())
+  {
     this->m_AnisotropicDiffusionFunctionGPUBuffer->Initialize();
-    this->m_AnisotropicDiffusionFunctionGPUBuffer->SetBufferSize( sizeof(float)*bufferSize );
+    this->m_AnisotropicDiffusionFunctionGPUBuffer->SetBufferSize(sizeof(float) * bufferSize);
     this->m_AnisotropicDiffusionFunctionGPUBuffer->Allocate();
-    }
+  }
 
   typename GPUKernelManager::Pointer kernelManager = this->m_AnisotropicDiffusionFunctionGPUKernelManager;
   int                                kernelHandle = this->m_AverageGradientMagnitudeSquaredGPUKernelHandle;
 
   // Set arguments
   int argidx = 0;
-  kernelManager->SetKernelArgWithImage(kernelHandle, argidx++, inPtr->GetGPUDataManager() );
+  kernelManager->SetKernelArgWithImage(kernelHandle, argidx++, inPtr->GetGPUDataManager());
   kernelManager->SetKernelArgWithImage(kernelHandle, argidx++, this->m_AnisotropicDiffusionFunctionGPUBuffer);
 
   // Set shared memory args
@@ -122,7 +120,8 @@ GPUScalarAnisotropicDiffusionFunction< TImage >
   }
   else if (ImageDim == 3)
   {
-    kernelManager->SetKernelArg(kernelHandle, argidx++, sizeof(float) * localSize[0] * localSize[1] * localSize[2], nullptr);
+    kernelManager->SetKernelArg(
+      kernelHandle, argidx++, sizeof(float) * localSize[0] * localSize[1] * localSize[2], nullptr);
     kernelManager->SetKernelArg(kernelHandle, argidx++, sizeof(float) * localSize[0] * localSize[1], nullptr);
     kernelManager->SetKernelArg(kernelHandle, argidx++, sizeof(float) * localSize[0] * localSize[1], nullptr);
     kernelManager->SetKernelArg(kernelHandle, argidx++, sizeof(float) * localSize[0] * localSize[2], nullptr);
@@ -136,40 +135,40 @@ GPUScalarAnisotropicDiffusionFunction< TImage >
   }
 
   // Set filter scale parameter
-  for(int i=0; i<ImageDim; i++)
-    {
-    kernelManager->SetKernelArg(kernelHandle, argidx++, sizeof(float), &(imgScale[i]) );
-    }
+  for (int i = 0; i < ImageDim; i++)
+  {
+    kernelManager->SetKernelArg(kernelHandle, argidx++, sizeof(float), &(imgScale[i]));
+  }
 
   // Set image size
-  for(int i=0; i<ImageDim; i++)
-    {
-    kernelManager->SetKernelArg(kernelHandle, argidx++, sizeof(int), &(imgSize[i]) );
-    }
+  for (int i = 0; i < ImageDim; i++)
+  {
+    kernelManager->SetKernelArg(kernelHandle, argidx++, sizeof(int), &(imgSize[i]));
+  }
 
   // launch kernel
-  kernelManager->LaunchKernel(kernelHandle, ImageDim, globalSize, localSize );
+  kernelManager->LaunchKernel(kernelHandle, ImageDim, globalSize, localSize);
 
   // Read back intermediate sums from GPU and compute final value
-  double sum = 0;
-  float *intermSum = new float[bufferSize];
+  double  sum = 0;
+  float * intermSum = new float[bufferSize];
 
-  this->m_AnisotropicDiffusionFunctionGPUBuffer->SetCPUBufferPointer( intermSum );
-  this->m_AnisotropicDiffusionFunctionGPUBuffer->SetCPUDirtyFlag( true );   //
-                                                                            // CPU
-                                                                            // is
-                                                                            // dirty
-  this->m_AnisotropicDiffusionFunctionGPUBuffer->SetGPUDirtyFlag( false );
-  this->m_AnisotropicDiffusionFunctionGPUBuffer->UpdateCPUBuffer();   //
-                                                                            // Copy
-                                                                            // GPU->CPU
+  this->m_AnisotropicDiffusionFunctionGPUBuffer->SetCPUBufferPointer(intermSum);
+  this->m_AnisotropicDiffusionFunctionGPUBuffer->SetCPUDirtyFlag(true); //
+                                                                        // CPU
+                                                                        // is
+                                                                        // dirty
+  this->m_AnisotropicDiffusionFunctionGPUBuffer->SetGPUDirtyFlag(false);
+  this->m_AnisotropicDiffusionFunctionGPUBuffer->UpdateCPUBuffer(); //
+                                                                    // Copy
+                                                                    // GPU->CPU
 
-  for(int i=0; i<(int)bufferSize; i++)
-    {
+  for (int i = 0; i < (int)bufferSize; i++)
+  {
     sum += (double)intermSum[i];
-    }
+  }
 
-  this->SetAverageGradientMagnitudeSquared( (double)( sum / (double)numPixel ) );
+  this->SetAverageGradientMagnitudeSquared((double)(sum / (double)numPixel));
 
   delete[] intermSum;
 }

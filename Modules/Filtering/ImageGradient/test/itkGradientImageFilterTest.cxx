@@ -24,16 +24,18 @@
 
 #include "itkPeriodicBoundaryCondition.h"
 
-inline std::ostream& operator<<(std::ostream &o, const itk::CovariantVector<float, 3> &v)
+inline std::ostream &
+operator<<(std::ostream & o, const itk::CovariantVector<float, 3> & v)
 {
-  o << "["<< v[0] << " " << v[1] << " " << v[2] << "]";
+  o << "[" << v[0] << " " << v[1] << " " << v[2] << "]";
   return o;
 }
 
-int itkGradientImageFilterTest(int , char * [] )
+int
+itkGradientImageFilterTest(int, char *[])
 {
   try
-    {
+  {
     using ImageType = itk::Image<unsigned short, 2>;
     using FilterType = itk::GradientImageFilter<ImageType, float, float>;
     using OutputImageType = FilterType::OutputImageType;
@@ -42,54 +44,54 @@ int itkGradientImageFilterTest(int , char * [] )
     // Set up filter
     FilterType::Pointer filter = FilterType::New();
 
-    ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, GradientImageFilter, ImageToImageFilter );
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, GradientImageFilter, ImageToImageFilter);
 
     // Run test
     itk::Size<2> sz;
     sz[0] = 100;
     sz[1] = 100;
-    itk::NullImageToImageFilterDriver< ImageType, OutputImageType > test1;
+    itk::NullImageToImageFilterDriver<ImageType, OutputImageType> test1;
     test1.SetImageSize(sz);
     test1.SetFilter(filter);
     test1.Execute();
-    }
-  catch(itk::ExceptionObject &err)
-    {
-      (&err)->Print(std::cerr);
-      return EXIT_FAILURE;
-    }
+  }
+  catch (itk::ExceptionObject & err)
+  {
+    (&err)->Print(std::cerr);
+    return EXIT_FAILURE;
+  }
 
   // Verify that we can run with VectorImages
   try
-    {
-    using InputImageType = itk::Image< float, 3 >;
+  {
+    using InputImageType = itk::Image<float, 3>;
     using OutputImageType = itk::VectorImage<float, 3>;
 
-    using FilterType = itk::GradientImageFilter< InputImageType, float, float, OutputImageType>;
+    using FilterType = itk::GradientImageFilter<InputImageType, float, float, OutputImageType>;
 
     FilterType::Pointer filter = FilterType::New();
 
     using PeriodicBoundaryType = itk::PeriodicBoundaryCondition<InputImageType>;
-    //Test the OverrideBoundaryCondition setting;
-    filter->OverrideBoundaryCondition( new PeriodicBoundaryType );
+    // Test the OverrideBoundaryCondition setting;
+    filter->OverrideBoundaryCondition(new PeriodicBoundaryType);
 
-    ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, GradientImageFilter, ImageToImageFilter );
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, GradientImageFilter, ImageToImageFilter);
 
     // Run test
     itk::Size<3> sz;
     sz[0] = 25;
     sz[1] = 25;
     sz[2] = 25;
-    itk::NullImageToImageFilterDriver< InputImageType, OutputImageType > test1;
+    itk::NullImageToImageFilterDriver<InputImageType, OutputImageType> test1;
     test1.SetImageSize(sz);
     test1.SetFilter(filter);
     test1.Execute();
-    }
-  catch(itk::ExceptionObject &err)
-    {
-      (&err)->Print(std::cerr);
-      return EXIT_FAILURE;
-    }
+  }
+  catch (itk::ExceptionObject & err)
+  {
+    (&err)->Print(std::cerr);
+    return EXIT_FAILURE;
+  }
 
   return EXIT_SUCCESS;
 }

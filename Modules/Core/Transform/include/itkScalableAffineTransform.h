@@ -30,11 +30,8 @@ namespace itk
  * \ingroup ITKTransform
  */
 
-template<
-  typename TParametersValueType=double,
-  unsigned int NDimensions = 3>
-class ITK_TEMPLATE_EXPORT ScalableAffineTransform:
-  public AffineTransform<TParametersValueType, NDimensions>
+template <typename TParametersValueType = double, unsigned int NDimensions = 3>
+class ITK_TEMPLATE_EXPORT ScalableAffineTransform : public AffineTransform<TParametersValueType, NDimensions>
 {
 public:
   /** Standard type alias   */
@@ -53,7 +50,7 @@ public:
   static constexpr unsigned int InputSpaceDimension = NDimensions;
   static constexpr unsigned int OutputSpaceDimension = NDimensions;
   static constexpr unsigned int SpaceDimension = NDimensions;
-  static constexpr unsigned int ParametersDimension = NDimensions * ( NDimensions + 1 );
+  static constexpr unsigned int ParametersDimension = NDimensions * (NDimensions + 1);
 
   /** Types taken from the Superclass */
   using ParametersType = typename Superclass::ParametersType;
@@ -87,31 +84,48 @@ public:
   /** Set the transformation to an Identity
    *
    * This sets the matrix to identity and the Offset to null. */
-  void SetIdentity() override;
+  void
+  SetIdentity() override;
 
   /** Set the scale of the transform */
-  virtual void SetScale(const InputVectorType & scale);
+  virtual void
+  SetScale(const InputVectorType & scale);
 
-  virtual void SetScaleComponent(const InputVectorType & scale)
-  { this->SetScale(scale); }
+  virtual void
+  SetScaleComponent(const InputVectorType & scale)
+  {
+    this->SetScale(scale);
+  }
 
   /** Set the scale of the transform */
-  virtual void SetScale(const double scale[NDimensions]);
+  virtual void
+  SetScale(const double scale[NDimensions]);
 
-  virtual void SetScaleComponent(const double scale[NDimensions])
-  { this->SetScale(scale); }
+  virtual void
+  SetScaleComponent(const double scale[NDimensions])
+  {
+    this->SetScale(scale);
+  }
 
   /** Get the scale of the transform */
-  virtual const double * GetScale() const
-  { return m_Scale; }
-  virtual const double * GetScaleComponent() const
-  { return m_Scale; }
+  virtual const double *
+  GetScale() const
+  {
+    return m_Scale;
+  }
+  virtual const double *
+  GetScaleComponent() const
+  {
+    return m_Scale;
+  }
 
   /** Get an inverse of this transform. */
-  bool GetInverse(Self *inverse) const;
+  bool
+  GetInverse(Self * inverse) const;
 
   /** Return an inverse of this transform. */
-  InverseTransformBasePointer GetInverseTransform() const override;
+  InverseTransformBasePointer
+  GetInverseTransform() const override;
 
 protected:
   /** Construct an ScalableAffineTransform object
@@ -121,36 +135,42 @@ protected:
    * to values specified by the caller.  If the arguments are
    * omitted, then the AffineTransform is initialized to an identity
    * transformation in the appropriate number of dimensions. */
-  ScalableAffineTransform(const MatrixType & matrix,
-                          const OutputVectorType & offset);
-  ScalableAffineTransform(unsigned int outputSpaceDimension,
-                          unsigned int parametersDimension);
+  ScalableAffineTransform(const MatrixType & matrix, const OutputVectorType & offset);
+  ScalableAffineTransform(unsigned int outputSpaceDimension, unsigned int parametersDimension);
   ScalableAffineTransform(unsigned int parametersDimension);
   ScalableAffineTransform();
 
-  void ComputeMatrix() override;
+  void
+  ComputeMatrix() override;
 
   /** Destroy an ScalableAffineTransform object   */
   ~ScalableAffineTransform() override = default;
 
   /** Print contents of an ScalableAffineTransform */
-  void PrintSelf(std::ostream & s, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & s, Indent indent) const override;
 
-  void SetVarScale(const double *scale)
-  { for ( int i = 0; i < InputSpaceDimension; i++ ) { m_Scale[i] = scale[i]; } }
+  void
+  SetVarScale(const double * scale)
+  {
+    for (int i = 0; i < InputSpaceDimension; i++)
+    {
+      m_Scale[i] = scale[i];
+    }
+  }
 
 private:
-
   ScalableAffineTransform(const Self & other) = delete;
-  const Self & operator=(const Self &) = delete;
+  const Self &
+  operator=(const Self &) = delete;
 
   double          m_Scale[NDimensions];
   InputVectorType m_MatrixScale;
-}; //class ScalableAffineTransform
-}  // namespace itk
+}; // class ScalableAffineTransform
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkScalableAffineTransform.hxx"
+#  include "itkScalableAffineTransform.hxx"
 #endif
 
 #endif /* itkScalableAffineTransform_h */

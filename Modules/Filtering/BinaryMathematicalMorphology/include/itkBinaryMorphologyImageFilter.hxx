@@ -29,36 +29,33 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage, typename TKernel >
-BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
-::BinaryMorphologyImageFilter()
+template <typename TInputImage, typename TOutputImage, typename TKernel>
+BinaryMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::BinaryMorphologyImageFilter()
 {
-  m_ForegroundValue = NumericTraits< InputPixelType >::max();
-  m_BackgroundValue = NumericTraits< OutputPixelType >::NonpositiveMin();
-  //this->SetNumberOfWorkUnits(1);
+  m_ForegroundValue = NumericTraits<InputPixelType>::max();
+  m_BackgroundValue = NumericTraits<OutputPixelType>::NonpositiveMin();
+  // this->SetNumberOfWorkUnits(1);
   this->AnalyzeKernel();
 }
 
-template< typename TInputImage, typename TOutputImage, typename TKernel >
+template <typename TInputImage, typename TOutputImage, typename TKernel>
 void
-BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
-::SetKernel(const KernelType & kernel)
+BinaryMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::SetKernel(const KernelType & kernel)
 {
   Superclass::SetKernel(kernel);
   // Analyse it: the following process depends only on kernel
   this->AnalyzeKernel();
 }
 
-template< typename TInputImage, typename TOutputImage, typename TKernel >
+template <typename TInputImage, typename TOutputImage, typename TKernel>
 void
-BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
-::AnalyzeKernel()
+BinaryMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::AnalyzeKernel()
 {
   // Sure clearing
   m_KernelDifferenceSets.clear();
   m_KernelCCVector.clear();
 
-  std::vector< unsigned int > kernelOnElements;
+  std::vector<unsigned int> kernelOnElements;
 
   IndexValueType i, k;
 
@@ -68,43 +65,43 @@ BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 
   // Get symmetrical structuring element in order to satisfy
   // our definition of binary dilation
-//   InputSizeValueType kernelSize      = this->GetKernel().Size();
-//   InputSizeValueType kernelCenter    = kernelSize / 2;
-//
-//   for( i = kernelCenter + 1, k = kernelCenter - 1; i < kernelSize; ++i, --k )
-//     {
-//     typename TKernel::PixelType px     =
-// this->GetKernel().GetBufferReference()[i];
-//     this->GetKernel().GetBufferReference()[i]  =
-// this->GetKernel().GetBufferReference()[k];
-//     this->GetKernel().GetBufferReference()[k]  = px;
-//     }
+  //   InputSizeValueType kernelSize      = this->GetKernel().Size();
+  //   InputSizeValueType kernelCenter    = kernelSize / 2;
+  //
+  //   for( i = kernelCenter + 1, k = kernelCenter - 1; i < kernelSize; ++i, --k )
+  //     {
+  //     typename TKernel::PixelType px     =
+  // this->GetKernel().GetBufferReference()[i];
+  //     this->GetKernel().GetBufferReference()[i]  =
+  // this->GetKernel().GetBufferReference()[k];
+  //     this->GetKernel().GetBufferReference()[k]  = px;
+  //     }
 
   // Store index of SE of ON elements
   // It allows us to have a fastest access to ON elements
   // of SE Kernel
-  KernelIteratorType KernelBegin  = this->GetKernel().Begin();
-  KernelIteratorType KernelEnd    = this->GetKernel().End();
+  KernelIteratorType KernelBegin = this->GetKernel().Begin();
+  KernelIteratorType KernelEnd = this->GetKernel().End();
   KernelIteratorType kernel_it;
 
-  for ( i = 0, kernel_it = KernelBegin; kernel_it != KernelEnd; ++kernel_it, ++i )
+  for (i = 0, kernel_it = KernelBegin; kernel_it != KernelEnd; ++kernel_it, ++i)
+  {
+    if (*kernel_it)
     {
-    if ( *kernel_it )
-      {
       kernelOnElements.push_back(i);
-      }
     }
+  }
 
   // Compute the Nd vector ( called index in case of images...do not
   // mistake with index in case of neighbourhood which is only a
   // position in a 1 dimensional buffer...! ) of the center element in
   // the SE neighbourhood
   IndexType centerElementPosition;
-  for ( unsigned int d = 0; d < TInputImage::ImageDimension; ++d )
-    {
+  for (unsigned int d = 0; d < TInputImage::ImageDimension; ++d)
+  {
     // position of center in a given direction is the middle of the direction
     centerElementPosition[d] = this->GetKernel().GetSize(d) / 2;
-    }
+  }
 
   // We have to detect the connected component of the structuring
   // element and compute the difference sets in each direction ( 26
@@ -113,49 +110,46 @@ BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
   // Detect all the connected components of the SE.
   // ----------------------------------------------
   // To do this we convert the SE into a temp image
-  using BoolImageType = Image< bool, TInputImage::ImageDimension >;
+  using BoolImageType = Image<bool, TInputImage::ImageDimension>;
   typename BoolImageType::Pointer tmpSEImage = BoolImageType::New();
-  tmpSEImage->SetRegions( this->GetKernel().GetSize() );
+  tmpSEImage->SetRegions(this->GetKernel().GetSize());
 
   // allocation
   tmpSEImage->Allocate();
 
   // copy
-  ImageRegionIterator< BoolImageType > kernelImageIt; // iterator on image
-  kernelImageIt = ImageRegionIterator< BoolImageType >( tmpSEImage,
-                                                        tmpSEImage->GetRequestedRegion() );
+  ImageRegionIterator<BoolImageType> kernelImageIt; // iterator on image
+  kernelImageIt = ImageRegionIterator<BoolImageType>(tmpSEImage, tmpSEImage->GetRequestedRegion());
 
   kernelImageIt.GoToBegin();
   kernel_it = KernelBegin;
 
-  while ( !kernelImageIt.IsAtEnd() )
-    {
+  while (!kernelImageIt.IsAtEnd())
+  {
     kernelImageIt.Set(*kernel_it ? true : false);
     ++kernelImageIt;
     ++kernel_it;
-    }
+  }
 
   // boundary conditions
   // Out boundary pixels are set to false
-  ConstantBoundaryCondition< BoolImageType > cbc;
+  ConstantBoundaryCondition<BoolImageType> cbc;
   cbc.SetConstant(false);
 
   // Now look for connected component and record one SE element
   // position for each CC.
-  ImageRegionIteratorWithIndex< BoolImageType >
-  kernelImageItIndex( tmpSEImage, tmpSEImage->GetRequestedRegion() );
+  ImageRegionIteratorWithIndex<BoolImageType> kernelImageItIndex(tmpSEImage, tmpSEImage->GetRequestedRegion());
 
   // Neighborhood iterator on SE element temp image
   InputSizeType padBy;
   padBy.Fill(1);
-  NeighborhoodIterator< BoolImageType >
-  SEoNeighbIt( padBy, tmpSEImage, tmpSEImage->GetRequestedRegion() );
+  NeighborhoodIterator<BoolImageType> SEoNeighbIt(padBy, tmpSEImage, tmpSEImage->GetRequestedRegion());
   SEoNeighbIt.OverrideBoundaryCondition(&cbc);
   SizeValueType neighborhoodSize = SEoNeighbIt.Size();
 
   // Use a FIFO queue in order to perform the burning process
   // which allows to identify the connected components of SE
-  std::queue< IndexType > propagQueue;
+  std::queue<IndexType> propagQueue;
 
   // Clear vector of recorded CCs
   m_KernelCCVector.clear();
@@ -165,16 +159,16 @@ BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
   // components. use the kernel iterator for quick access of offsets
   kernel_it = KernelBegin;
   kernelImageItIndex.GoToBegin();
-  while ( !kernelImageItIndex.IsAtEnd() )
-    {
+  while (!kernelImageItIndex.IsAtEnd())
+  {
     // If a ON element is found track the CC
-    if ( kernelImageItIndex.Get() )
-      {
+    if (kernelImageItIndex.Get())
+    {
       // Mark current element
       kernelImageItIndex.Set(false);
 
       // add it to queue
-      propagQueue.push( kernelImageItIndex.GetIndex() );
+      propagQueue.push(kernelImageItIndex.GetIndex());
 
       // We know also that we start a new CC, so we store the position of this
       // element relatively to center of kernel ( i.e a vector ).
@@ -182,8 +176,8 @@ BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
       m_KernelCCVector.push_back(offset);
 
       // Process while FIFO queue is not empty
-      while ( !propagQueue.empty() )
-        {
+      while (!propagQueue.empty())
+      {
         // Extract pixel index from queue
         IndexType currentIndex = propagQueue.front();
         propagQueue.pop();
@@ -192,25 +186,25 @@ BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
         SEoNeighbIt.GoToBegin();
         SEoNeighbIt.SetLocation(currentIndex);
 
-        for ( SizeValueType ii = 0; ii < neighborhoodSize; ++ii )
-          {
+        for (SizeValueType ii = 0; ii < neighborhoodSize; ++ii)
+        {
           // If current neighb pixel is ON, mark it and push it into queue
-          if ( SEoNeighbIt.GetPixel(ii) )
-            {
+          if (SEoNeighbIt.GetPixel(ii))
+          {
             // Mark it
             bool bIsBounds;
             SEoNeighbIt.SetPixel(ii, false, bIsBounds);
 
             // Push
-            propagQueue.push( SEoNeighbIt.GetIndex(ii) );
-            }
+            propagQueue.push(SEoNeighbIt.GetIndex(ii));
           }
-        } // while ( !propagQueue.empty() )
-      }   // if( kernelImageItIndex.Get() )
+        }
+      } // while ( !propagQueue.empty() )
+    }   // if( kernelImageItIndex.Get() )
 
     ++kernelImageItIndex;
     ++kernel_it;
-    }
+  }
 
   // Free memory of tmp image
   tmpSEImage->Initialize();
@@ -220,7 +214,7 @@ BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
   // Create a neighbourhood of radius m_Radius This neighbourhood is
   // called adj neighbourhood and is used in order to get the offset
   // in each direction.
-  Neighborhood< InputPixelType, InputImageDimension > adjNeigh;
+  Neighborhood<InputPixelType, InputImageDimension> adjNeigh;
   adjNeigh.SetRadius(padBy);
 
   // now we look for the difference sets in each directions: If you
@@ -231,19 +225,19 @@ BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
   // difference set.
 
   // Allocate difference sets container
-  m_KernelDifferenceSets.resize( adjNeigh.Size() );
+  m_KernelDifferenceSets.resize(adjNeigh.Size());
 
   // For each direction of the connectivity, look for difference set
   // in this direction
-  for ( SizeValueType ii = 0; ii < adjNeigh.Size(); ++ii )
-    {
+  for (SizeValueType ii = 0; ii < adjNeigh.Size(); ++ii)
+  {
     m_KernelDifferenceSets[ii].clear();
     // For each element of the kernel which index is k, see if they
     // belong to this difference set treat only "ON" elements of SE
-    std::vector< unsigned int >::const_iterator kernelOnElementsIt;
-    for ( kernelOnElementsIt = kernelOnElements.begin();
-          kernelOnElementsIt != kernelOnElements.end(); ++kernelOnElementsIt )
-      {
+    std::vector<unsigned int>::const_iterator kernelOnElementsIt;
+    for (kernelOnElementsIt = kernelOnElements.begin(); kernelOnElementsIt != kernelOnElements.end();
+         ++kernelOnElementsIt)
+    {
       // Get the index in the SE neighb
       k = *kernelOnElementsIt;
 
@@ -263,28 +257,26 @@ BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
       // is outside the structuring element. If it is the case, we
       // know that the current SE element is in the difference set of
       // the current direction ii (this works only for boundary pixels!).
-      bool bIsOutside   = false;
-      for ( unsigned int dimCount = 0;
-            dimCount < TInputImage::ImageDimension; ++dimCount )
+      bool bIsOutside = false;
+      for (unsigned int dimCount = 0; dimCount < TInputImage::ImageDimension; ++dimCount)
+      {
+        if (currentShiftedPosition[dimCount] < 0 ||
+            currentShiftedPosition[dimCount] >= (int)this->GetKernel().GetSize(dimCount))
         {
-        if ( currentShiftedPosition[dimCount] < 0
-             || currentShiftedPosition[dimCount] >=
-             (int)this->GetKernel().GetSize(dimCount) )
-          {
           bIsOutside = true;
           break;
-          }
         }
+      }
 
-      if ( bIsOutside )
-        {
+      if (bIsOutside)
+      {
         // The current SE element, which index is hence k, belongs to
         // the difference set in the direction ii.  Add it to
         // difference set in dir ii
         m_KernelDifferenceSets[ii].push_back(currentOffset);
-        }
+      }
       else
-        {
+      {
         // The current shifted SE element doesn't belong to SE
         // boundaries. In order to see if it belongs to difference set
         // in direction ii, the value of kernel at the position of the
@@ -294,55 +286,54 @@ BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 
         // retrieve the index offset relatively to the current NOT
         // shifted SE element
-        unsigned int currentRelativeIndexOffset =
-          this->GetKernel().GetNeighborhoodIndex( adjNeigh.GetOffset(ii) )
-          - this->GetKernel().GetCenterNeighborhoodIndex();
+        unsigned int currentRelativeIndexOffset = this->GetKernel().GetNeighborhoodIndex(adjNeigh.GetOffset(ii)) -
+                                                  this->GetKernel().GetCenterNeighborhoodIndex();
 
         // Now thanks to this relative offset, we can get the absolute
         // neigh index of the current shifted SE element.
-        unsigned int currentShiftedIndex =
-          k /*NOT shifted position*/ +  currentRelativeIndexOffset;
+        unsigned int currentShiftedIndex = k /*NOT shifted position*/ + currentRelativeIndexOffset;
 
         // Test if shifted element is OFF: in fact diff(dir) = all the
         // elements of SE + dir where elements of SE is ON and
         // elements of SE + dir is OFF.
-        if ( !this->GetKernel()[currentShiftedIndex] )
-          {
+        if (!this->GetKernel()[currentShiftedIndex])
+        {
           // Add it to difference set in dir ii
           m_KernelDifferenceSets[ii].push_back(currentOffset);
-          }
         }
-      } // for( kernelOnElementsIt = kernelOnElements.begin(); ...
-    }   // for( ii = 0; ii < adjNeigh.Size(); ++ii )
+      }
+    } // for( kernelOnElementsIt = kernelOnElements.begin(); ...
+  }   // for( ii = 0; ii < adjNeigh.Size(); ++ii )
 
   // For the particular case of the m_KernelDifferenceSets at the
   // center of the kernel ( the difference set is theoretically empty
   // in this case because there is no shift ) we put the kernel set
   // itself, useful for the rest of the process.
-  unsigned int centerKernelIndex  = adjNeigh.Size() / 2;
-  for ( k = 0, kernel_it = KernelBegin; kernel_it != KernelEnd; ++kernel_it, ++k )
+  unsigned int centerKernelIndex = adjNeigh.Size() / 2;
+  for (k = 0, kernel_it = KernelBegin; kernel_it != KernelEnd; ++kernel_it, ++k)
+  {
+    if (*kernel_it)
     {
-    if ( *kernel_it )
-      {
       OffsetType currentOffset = this->GetKernel().GetOffset(k);
       m_KernelDifferenceSets[centerKernelIndex].push_back(currentOffset);
-      }
     }
+  }
 }
 
 /**
  * Standard "PrintSelf" method
  */
-template< typename TInputImage, typename TOutput, typename TKernel >
+template <typename TInputImage, typename TOutput, typename TKernel>
 void
-BinaryMorphologyImageFilter< TInputImage, TOutput, TKernel >
-::PrintSelf(std::ostream & os, Indent indent) const
+BinaryMorphologyImageFilter<TInputImage, TOutput, TKernel>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Foreground Value: "
-     << static_cast< typename NumericTraits< InputPixelType >::PrintType >( m_ForegroundValue ) << std::endl;
-  os << indent << "Background Value: "
-     << static_cast< typename NumericTraits< OutputPixelType >::PrintType >( m_BackgroundValue ) << std::endl;
+  os << indent
+     << "Foreground Value: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_ForegroundValue)
+     << std::endl;
+  os << indent
+     << "Background Value: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_BackgroundValue)
+     << std::endl;
   os << indent << "BoundaryToForeground: " << m_BoundaryToForeground << std::endl;
 }
 } // end namespace itk

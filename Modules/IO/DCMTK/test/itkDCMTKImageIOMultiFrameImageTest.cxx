@@ -26,122 +26,122 @@
 #include "itkMath.h"
 
 using PixelType = short;
-using ImageType = itk::Image< PixelType, 3 >;
+using ImageType = itk::Image<PixelType, 3>;
 using DirectionType = ImageType::DirectionType;
 using SpacingType = ImageType::SpacingType;
 using PointType = ImageType::PointType;
-using ReaderType = itk::ImageFileReader< ImageType >;
+using ReaderType = itk::ImageFileReader<ImageType>;
 using ImageIOType = itk::DCMTKImageIO;
 
 namespace
 {
 //
 // if the difference is < average/10000, close enough
-bool CloseEnough(double a, double b)
+bool
+CloseEnough(double a, double b)
 {
   double diff = itk::Math::abs(a - b);
   double avg = (itk::Math::abs(a) + itk::Math::abs(b)) / 2.0;
-  if(diff == 0.0 || diff < avg/10000.00)
-    {
+  if (diff == 0.0 || diff < avg / 10000.00)
+  {
     return true;
-    }
+  }
   return false;
 }
 
 bool
-Equal(DirectionType dir1,DirectionType dir2)
+Equal(DirectionType dir1, DirectionType dir2)
 {
-  for(unsigned i = 0; i < 3; ++i)
+  for (unsigned i = 0; i < 3; ++i)
+  {
+    for (unsigned j = 0; j < 3; ++j)
     {
-    for(unsigned j = 0; j < 3; ++j)
+      if (!CloseEnough(dir1(i, j), dir2(i, j)))
       {
-      if(!CloseEnough(dir1(i,j),dir2(i,j)))
-        {
         return false;
-        }
       }
     }
+  }
   return true;
 }
 
 bool
-Equal(SpacingType spacing1,SpacingType spacing2)
+Equal(SpacingType spacing1, SpacingType spacing2)
 {
-  for(unsigned i = 0; i < 3; ++i)
+  for (unsigned i = 0; i < 3; ++i)
+  {
+    if (!CloseEnough(spacing1[i], spacing2[i]))
     {
-    if(!CloseEnough(spacing1[i],spacing2[i]))
-      {
       return false;
-      }
     }
+  }
   return true;
 }
-}
+} // namespace
 //
 // This tests a Philips Multiframe image orieintation/spacing
 // known to exist in the test file in order to ensure that
 // they're properly read out of the functional group.
-int itkDCMTKImageIOMultiFrameImageTest(int ac, char * av[])
+int
+itkDCMTKImageIOMultiFrameImageTest(int ac, char * av[])
 {
-  if(ac < 2)
-    {
-    std::cerr << "Usage: " << av[0]
-              << " <multiframe image>"
-              << std::endl;
+  if (ac < 2)
+  {
+    std::cerr << "Usage: " << av[0] << " <multiframe image>" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   ImageIOType::Pointer dcmImageIO = ImageIOType::New();
 
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( av[1] );
-  reader->SetImageIO( dcmImageIO );
+  reader->SetFileName(av[1]);
+  reader->SetImageIO(dcmImageIO);
 
   try
-    {
+  {
     reader->Update();
-    }
+  }
   catch (itk::ExceptionObject & e)
-    {
+  {
     std::cerr << "exception in file reader " << std::endl;
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   ImageType::Pointer im = reader->GetOutput();
-  DirectionType dir = im->GetDirection();
-  SpacingType spacing = im->GetSpacing();
-  PointType origin = im->GetOrigin();
+  DirectionType      dir = im->GetDirection();
+  SpacingType        spacing = im->GetSpacing();
+  PointType          origin = im->GetOrigin();
 
   std::cerr << "Direction " << dir << std::endl
             << "Spacing " << spacing << std::endl
             << "Origin " << origin << std::endl;
   DirectionType expectedDirection;
-  expectedDirection(0,0) = 0.0;
-  expectedDirection(0,1) = 0.0;
-  expectedDirection(0,2) = -1.0;
-  expectedDirection(1,0) = 1.0;
-  expectedDirection(1,1) = 0.0;
-  expectedDirection(1,2) = 0.0;
-  expectedDirection(2,0) = 0.0;
-  expectedDirection(2,1) = -1.0;
-  expectedDirection(2,2) = 0.0;
-  if(!Equal(dir,expectedDirection))
-    {
+  expectedDirection(0, 0) = 0.0;
+  expectedDirection(0, 1) = 0.0;
+  expectedDirection(0, 2) = -1.0;
+  expectedDirection(1, 0) = 1.0;
+  expectedDirection(1, 1) = 0.0;
+  expectedDirection(1, 2) = 0.0;
+  expectedDirection(2, 0) = 0.0;
+  expectedDirection(2, 1) = -1.0;
+  expectedDirection(2, 2) = 0.0;
+  if (!Equal(dir, expectedDirection))
+  {
     std::cerr << "Expected directions" << std::endl
               << expectedDirection << std::endl
               << "Actual directions" << std::endl
               << dir << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   SpacingType expectedSpacing;
   expectedSpacing[0] = expectedSpacing[1] = expectedSpacing[2] = 0.75;
-  if(!Equal(spacing,expectedSpacing))
-    {
+  if (!Equal(spacing, expectedSpacing))
+  {
     std::cerr << "Expected spacing" << std::endl
               << expectedSpacing << std::endl
               << "Actual spacing" << std::endl
               << spacing << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   return EXIT_SUCCESS;
 }

@@ -54,15 +54,14 @@
 #include "itkWeightedCovarianceSampleFilter.h"
 // Software Guide : EndCodeSnippet
 
-using MeasurementVectorType = itk::Vector< float, 3 >;
+using MeasurementVectorType = itk::Vector<float, 3>;
 
-class ExampleWeightFunction :
-  public itk::FunctionBase< MeasurementVectorType, double >
+class ExampleWeightFunction : public itk::FunctionBase<MeasurementVectorType, double>
 {
 public:
   /** Standard class type aliases. */
   using Self = ExampleWeightFunction;
-  using Superclass = itk::FunctionBase< MeasurementVectorType, double >;
+  using Superclass = itk::FunctionBase<MeasurementVectorType, double>;
   using Pointer = itk::SmartPointer<Self>;
   using ConstPointer = itk::SmartPointer<const Self>;
 
@@ -77,24 +76,26 @@ public:
   using OutputType = double;
 
   /**Evaluate at the specified input position */
-  OutputType Evaluate( const InputType& input ) const override
+  OutputType
+  Evaluate(const InputType & input) const override
+  {
+    if (input[0] < 3.0)
     {
-      if ( input[0] < 3.0 )
-        {
-        return 0.5;
-        }
-      else
-        {
-        return 0.01;
-        }
+      return 0.5;
     }
+    else
+    {
+      return 0.01;
+    }
+  }
 
 protected:
   ExampleWeightFunction() = default;
   ~ExampleWeightFunction() override = default;
 }; // end of class
 
-int main()
+int
+main()
 {
   // Software Guide : BeginLatex
   //
@@ -105,35 +106,35 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
+  using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
   SampleType::Pointer sample = SampleType::New();
-  sample->SetMeasurementVectorSize( 3 );
+  sample->SetMeasurementVectorSize(3);
   MeasurementVectorType mv;
   mv[0] = 1.0;
   mv[1] = 2.0;
   mv[2] = 4.0;
 
-  sample->PushBack( mv );
+  sample->PushBack(mv);
 
   mv[0] = 2.0;
   mv[1] = 4.0;
   mv[2] = 5.0;
-  sample->PushBack( mv );
+  sample->PushBack(mv);
 
   mv[0] = 3.0;
   mv[1] = 8.0;
   mv[2] = 6.0;
-  sample->PushBack( mv );
+  sample->PushBack(mv);
 
   mv[0] = 2.0;
   mv[1] = 7.0;
   mv[2] = 4.0;
-  sample->PushBack( mv );
+  sample->PushBack(mv);
 
   mv[0] = 3.0;
   mv[1] = 2.0;
   mv[2] = 7.0;
-  sample->PushBack( mv );
+  sample->PushBack(mv);
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -154,29 +155,29 @@ int main()
   using WeightedMeanAlgorithmType =
     itk::Statistics::WeightedMeanSampleFilter<SampleType>;
 
-  WeightedMeanAlgorithmType::WeightArrayType weightArray( sample->Size() );
-  weightArray.Fill( 0.5 );
+  WeightedMeanAlgorithmType::WeightArrayType weightArray(sample->Size());
+  weightArray.Fill(0.5);
   weightArray[2] = 0.01;
   weightArray[4] = 0.01;
 
   WeightedMeanAlgorithmType::Pointer weightedMeanAlgorithm =
-                                              WeightedMeanAlgorithmType::New();
+    WeightedMeanAlgorithmType::New();
 
-  weightedMeanAlgorithm->SetInput( sample );
-  weightedMeanAlgorithm->SetWeights( weightArray );
+  weightedMeanAlgorithm->SetInput(sample);
+  weightedMeanAlgorithm->SetWeights(weightArray);
   weightedMeanAlgorithm->Update();
 
-  std::cout << "Sample weighted mean = "
-            << weightedMeanAlgorithm->GetMean() << std::endl;
+  std::cout << "Sample weighted mean = " << weightedMeanAlgorithm->GetMean()
+            << std::endl;
 
   using WeightedCovarianceAlgorithmType =
     itk::Statistics::WeightedCovarianceSampleFilter<SampleType>;
 
   WeightedCovarianceAlgorithmType::Pointer weightedCovarianceAlgorithm =
-                                        WeightedCovarianceAlgorithmType::New();
+    WeightedCovarianceAlgorithmType::New();
 
-  weightedCovarianceAlgorithm->SetInput( sample );
-  weightedCovarianceAlgorithm->SetWeights( weightArray );
+  weightedCovarianceAlgorithm->SetInput(sample);
+  weightedCovarianceAlgorithm->SetWeights(weightArray);
   weightedCovarianceAlgorithm->Update();
 
   std::cout << "Sample weighted covariance = " << std::endl;
@@ -197,21 +198,21 @@ int main()
   // Software Guide : BeginCodeSnippet
   ExampleWeightFunction::Pointer weightFunction = ExampleWeightFunction::New();
 
-  weightedMeanAlgorithm->SetWeightingFunction( weightFunction );
+  weightedMeanAlgorithm->SetWeightingFunction(weightFunction);
   weightedMeanAlgorithm->Update();
 
-  std::cout << "Sample weighted mean = "
-            << weightedMeanAlgorithm->GetMean() << std::endl;
+  std::cout << "Sample weighted mean = " << weightedMeanAlgorithm->GetMean()
+            << std::endl;
 
-  weightedCovarianceAlgorithm->SetWeightingFunction( weightFunction );
+  weightedCovarianceAlgorithm->SetWeightingFunction(weightFunction);
   weightedCovarianceAlgorithm->Update();
 
   std::cout << "Sample weighted covariance = " << std::endl;
   std::cout << weightedCovarianceAlgorithm->GetCovarianceMatrix();
 
   std::cout << "Sample weighted mean (from WeightedCovarainceSampleFilter) = "
-            << std::endl << weightedCovarianceAlgorithm->GetMean()
-            << std::endl;
+            << std::endl
+            << weightedCovarianceAlgorithm->GetMean() << std::endl;
   // Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;

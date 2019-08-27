@@ -28,22 +28,20 @@ namespace itk
  * \brief Helper class used to partition domain and efficiently compute overlap.
  *  \ingroup ITKLevelSetsv4
  */
-template< typename TMesh >
-class ITK_TEMPLATE_EXPORT LevelSetDomainPartitionMesh :
-  public LevelSetDomainPartitionBase< TMesh >
+template <typename TMesh>
+class ITK_TEMPLATE_EXPORT LevelSetDomainPartitionMesh : public LevelSetDomainPartitionBase<TMesh>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetDomainPartitionMesh);
 
   using Self = LevelSetDomainPartitionMesh;
-  using Superclass = LevelSetDomainPartitionBase< TMesh >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = LevelSetDomainPartitionBase<TMesh>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   static constexpr unsigned int PointDimension = TMesh::PointDimension;
 
-  itkTypeMacro( LevelSetDomainPartitionMesh,
-                LevelSetDomainPartitionBase );
+  itkTypeMacro(LevelSetDomainPartitionMesh, LevelSetDomainPartitionBase);
 
   using MeshType = TMesh;
   using MeshPointer = typename MeshType::Pointer;
@@ -56,9 +54,9 @@ public:
 
   using IdentifierListType = typename Superclass::IdentifierListType;
 
-  using ListMeshType = std::map< PointIdentifierType, IdentifierListType >;
+  using ListMeshType = std::map<PointIdentifierType, IdentifierListType>;
 
-  itkSetObjectMacro( Mesh, MeshType );
+  itkSetObjectMacro(Mesh, MeshType);
 
 protected:
   LevelSetDomainPartitionMesh() = default;
@@ -66,21 +64,23 @@ protected:
 
   /** Populate a list mesh with each node being a list of overlapping
    *  level set support at that pixel */
-  virtual void PopulateListDomain();
+  virtual void
+  PopulateListDomain();
 
   /** Allocate a list mesh with each node being a list of overlapping
    *  level set support at that pixel */
-  void AllocateListDomain();
+  void
+  AllocateListDomain();
 
 private:
-  MeshPointer     m_Mesh;
-  ListMeshType    m_ListDomain;
+  MeshPointer  m_Mesh;
+  ListMeshType m_ListDomain;
 };
 
-} //end namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetDomainPartitionMesh.hxx"
+#  include "itkLevelSetDomainPartitionMesh.hxx"
 #endif
 
 #endif

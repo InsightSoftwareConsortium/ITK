@@ -38,20 +38,24 @@ namespace itk
 class ITKLabelMap_EXPORT GeometryUtilities
 {
 public:
+  static long
+  Factorial(const long n);
 
-  static long Factorial(const long n);
+  static long
+  DoubleFactorial(const long n);
 
-  static long DoubleFactorial(const long n);
+  static double
+  GammaN2p1(const long n);
 
-  static double GammaN2p1(const long n);
+  static double
+  HyperSphereVolume(const int dim, const double radius);
 
-  static double HyperSphereVolume(const int dim, const double radius);
+  static double
+  HyperSpherePerimeter(const int dim, const double radius);
 
-  static double HyperSpherePerimeter(const int dim, const double radius);
-
-  static double HyperSphereRadiusFromVolume(const int dim, const double volume);
-
+  static double
+  HyperSphereRadiusFromVolume(const int dim, const double volume);
 };
 
-}
+} // namespace itk
 #endif

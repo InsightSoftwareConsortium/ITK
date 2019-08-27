@@ -95,47 +95,49 @@ namespace Statistics
  * \ingroup Statistics
  * \ingroup ITKStatistics
  */
-class ITKStatistics_EXPORT NormalVariateGenerator:
-  public RandomVariateGeneratorBase
+class ITKStatistics_EXPORT NormalVariateGenerator : public RandomVariateGeneratorBase
 {
 public:
   /** Standard class type aliases. */
   using Self = NormalVariateGenerator;
   using Superclass = RandomVariateGeneratorBase;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(NormalVariateGenerator,
-               RandomVariateGeneratorBase);
+  itkTypeMacro(NormalVariateGenerator, RandomVariateGeneratorBase);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** generate random number table */
-  void Initialize(int randomSeed);
+  void
+  Initialize(int randomSeed);
 
   /** get a variate using FastNorm function */
-  double GetVariate() override;
+  double
+  GetVariate() override;
 
 protected:
   NormalVariateGenerator();
   ~NormalVariateGenerator() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** get a variate */
-  double FastNorm();
+  double
+  FastNorm();
 
 private:
-
-  static inline int SignedShiftXOR( int irs )
-    {
-      // shifting of signed integer gives undefined results, explicitly
-      // cast to unsigned to get expected ( if two complement
-      // representation ) results.
-      auto uirs = static_cast<unsigned int>(irs);
-      return static_cast<int>(( irs <= 0 ) ? ( (  uirs << 1 ) ^ 333556017 ) : ( uirs << 1 ));
-    }
+  static inline int
+  SignedShiftXOR(int irs)
+  {
+    // shifting of signed integer gives undefined results, explicitly
+    // cast to unsigned to get expected ( if two complement
+    // representation ) results.
+    auto uirs = static_cast<unsigned int>(irs);
+    return static_cast<int>((irs <= 0) ? ((uirs << 1) ^ 333556017) : (uirs << 1));
+  }
 
   double m_Scale;
   double m_Rscale;
@@ -145,8 +147,8 @@ private:
   int    m_LMASK;
   int    m_TLEN;
 
-  int  m_Gaussfaze;
-  int *m_Gausssave;
+  int   m_Gaussfaze;
+  int * m_Gausssave;
 
   double m_GScale;
 
@@ -157,7 +159,7 @@ private:
   double m_Chic1;
   double m_Chic2;
   double m_ActualRSD;
-};  // end of class
+}; // end of class
 } // end of namespace Statistics
 } // end of namespace itk
 #endif

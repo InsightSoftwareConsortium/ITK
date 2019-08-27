@@ -50,8 +50,8 @@ namespace itk
  * \sa VTKImageExportBase
  * \ingroup ITKVTK
  */
-template< typename TInputImage >
-class ITK_TEMPLATE_EXPORT VTKImageExport:public VTKImageExportBase
+template <typename TInputImage>
+class ITK_TEMPLATE_EXPORT VTKImageExport : public VTKImageExportBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VTKImageExport);
@@ -59,8 +59,8 @@ public:
   /** Standard class type aliases. */
   using Self = VTKImageExport;
   using Superclass = VTKImageExportBase;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
 
   /** Run-time type information (and related methods). */
@@ -73,46 +73,58 @@ public:
   using InputImageType = TInputImage;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  itkConceptMacro( ImageDimensionCheck,
-                   ( Concept::SameDimensionOrMinusOneOrTwo<
-                     3,Self::InputImageDimension > ) );
+  itkConceptMacro(ImageDimensionCheck, (Concept::SameDimensionOrMinusOneOrTwo<3, Self::InputImageDimension>));
 #endif
   /** Set the input image of this image exporter. */
   using Superclass::SetInput;
-  void SetInput(const InputImageType *);
-  InputImageType * GetInput();
+  void
+  SetInput(const InputImageType *);
+  InputImageType *
+  GetInput();
 
 protected:
   VTKImageExport();
   ~VTKImageExport() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   using InputImagePointer = typename InputImageType::Pointer;
   using InputRegionType = typename InputImageType::RegionType;
   using InputSizeType = typename InputRegionType::SizeType;
   using InputIndexType = typename InputRegionType::IndexType;
 
-  int * WholeExtentCallback() override;
+  int *
+  WholeExtentCallback() override;
 
-  double * SpacingCallback() override;
+  double *
+  SpacingCallback() override;
 
-  double * OriginCallback() override;
+  double *
+  OriginCallback() override;
 
-  double * DirectionCallback() override;
+  double *
+  DirectionCallback() override;
 
-  float * FloatSpacingCallback() override;
+  float *
+  FloatSpacingCallback() override;
 
-  float * FloatOriginCallback() override;
+  float *
+  FloatOriginCallback() override;
 
-  const char * ScalarTypeCallback() override;
+  const char *
+  ScalarTypeCallback() override;
 
-  int NumberOfComponentsCallback() override;
+  int
+  NumberOfComponentsCallback() override;
 
-  void PropagateUpdateExtentCallback(int *) override;
+  void
+  PropagateUpdateExtentCallback(int *) override;
 
-  int * DataExtentCallback() override;
+  int *
+  DataExtentCallback() override;
 
-  void * BufferPointerCallback() override;
+  void *
+  BufferPointerCallback() override;
 
 private:
   std::string m_ScalarTypeName;
@@ -127,7 +139,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVTKImageExport.hxx"
+#  include "itkVTKImageExport.hxx"
 #endif
 
 #endif

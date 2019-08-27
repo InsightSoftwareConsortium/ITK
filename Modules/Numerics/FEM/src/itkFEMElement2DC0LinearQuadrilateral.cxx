@@ -23,14 +23,16 @@ namespace itk
 namespace fem
 {
 void
-Element2DC0LinearQuadrilateral
-::GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order) const
+Element2DC0LinearQuadrilateral ::GetIntegrationPointAndWeight(unsigned int i,
+                                                              VectorType & pt,
+                                                              Float &      w,
+                                                              unsigned int order) const
 {
   // default integration order
-  if( ( order == 0 ) || (order >= Element::gaussMaxOrder) )
-    {
+  if ((order == 0) || (order >= Element::gaussMaxOrder))
+  {
     order = DefaultIntegrationOrder;
-    }
+  }
 
   pt.set_size(2);
 
@@ -41,21 +43,19 @@ Element2DC0LinearQuadrilateral
 }
 
 unsigned int
-Element2DC0LinearQuadrilateral
-::GetNumberOfIntegrationPoints(unsigned int order) const
+Element2DC0LinearQuadrilateral ::GetNumberOfIntegrationPoints(unsigned int order) const
 {
   // default integration order
-  if( ( order == 0 ) || (order >= Element::gaussMaxOrder) )
-    {
+  if ((order == 0) || (order >= Element::gaussMaxOrder))
+  {
     order = DefaultIntegrationOrder;
-    }
+  }
 
   return order * order;
 }
 
 Element2DC0LinearQuadrilateral::VectorType
-Element2DC0LinearQuadrilateral
-::ShapeFunctions(const VectorType & pt) const
+Element2DC0LinearQuadrilateral ::ShapeFunctions(const VectorType & pt) const
 {
   /* Linear quadrilateral element has four shape functions  */
   VectorType shapeF(4);
@@ -68,66 +68,67 @@ Element2DC0LinearQuadrilateral
   /* given local point x=(r,s), where -1 <= r,s <= 1 and */
 
   /* shape function 1: ((1 - r) * (1 - s)) / 4  (node 1) */
-  shapeF[0] = ( 1 - pt[0] ) * ( 1 - pt[1] ) * .25;
+  shapeF[0] = (1 - pt[0]) * (1 - pt[1]) * .25;
 
   /* shape function 2: ((1 + r) * (1 - s)) / 4  (node 2) */
-  shapeF[1] = ( 1 + pt[0] ) * ( 1 - pt[1] ) * .25;
+  shapeF[1] = (1 + pt[0]) * (1 - pt[1]) * .25;
 
   /* shape function 3: ((1 + r) * (1 + s)) / 4  (node 3) */
-  shapeF[2] = ( 1 + pt[0] ) * ( 1 + pt[1] ) * .25;
+  shapeF[2] = (1 + pt[0]) * (1 + pt[1]) * .25;
 
   /* shape function 1: ((1 - r) * (1 + s)) / 4  (node 4) */
-  shapeF[3] = ( 1 - pt[0] ) * ( 1 + pt[1] ) * .25;
+  shapeF[3] = (1 - pt[0]) * (1 + pt[1]) * .25;
 
   return shapeF;
 }
 
 void
-Element2DC0LinearQuadrilateral
-::ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const
+Element2DC0LinearQuadrilateral ::ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const
 {
   /** functions at directions r and s.  */
   shapeD.set_size(2, 4);
 
   /** Derivative w.r.t r for shape function 1 (node 1) */
-  shapeD[0][0] = -( 1 - pt[1] ) * .25;
+  shapeD[0][0] = -(1 - pt[1]) * .25;
 
   /** Derivative w.r.t s for shape function 1 (node 1) */
-  shapeD[1][0] = -( 1 - pt[0] ) * .25;
+  shapeD[1][0] = -(1 - pt[0]) * .25;
 
   /** Derivative w.r.t r for shape function 2 (node 2) */
-  shapeD[0][1] = +( 1 - pt[1] ) * .25;
+  shapeD[0][1] = +(1 - pt[1]) * .25;
 
   /** Derivative w.r.t s for shape function 2 (node 2) */
-  shapeD[1][1] = -( 1 + pt[0] ) * .25;
+  shapeD[1][1] = -(1 + pt[0]) * .25;
 
   /** Derivative w.r.t r for shape function 3 (node 3) */
-  shapeD[0][2] = +( 1 + pt[1] ) * .25;
+  shapeD[0][2] = +(1 + pt[1]) * .25;
 
   /** Derivative w.r.t s for shape function 3 (node 3) */
-  shapeD[1][2] = +( 1 + pt[0] ) * .25;
+  shapeD[1][2] = +(1 + pt[0]) * .25;
 
   /** Derivative w.r.t r for shape function 4 (node 4) */
-  shapeD[0][3] = -( 1 + pt[1] ) * .25;
+  shapeD[0][3] = -(1 + pt[1]) * .25;
 
   /** Derivative w.r.t s for shape function 4 (node 4) */
-  shapeD[1][3] = +( 1 - pt[0] ) * .25;
+  shapeD[1][3] = +(1 - pt[0]) * .25;
 }
 
 bool
-Element2DC0LinearQuadrilateral
-::GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const
+Element2DC0LinearQuadrilateral ::GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const
 {
-  Float x1, x2, x3, x4, y1, y2, y3, y4, xce, yce, xb, yb, xcn, ycn,
-        A, J1, J2, x0, y0, dx, dy, be, bn, ce, cn;
+  Float x1, x2, x3, x4, y1, y2, y3, y4, xce, yce, xb, yb, xcn, ycn, A, J1, J2, x0, y0, dx, dy, be, bn, ce, cn;
 
   localPt.set_size(2);
   localPt.fill(0.0);
 
-  x1 = this->m_node[0]->GetCoordinates()[0];   y1 = this->m_node[0]->GetCoordinates()[1];
-  x2 = this->m_node[1]->GetCoordinates()[0];   y2 = this->m_node[1]->GetCoordinates()[1];
-  x3 = this->m_node[2]->GetCoordinates()[0];   y3 = this->m_node[2]->GetCoordinates()[1];
-  x4 = this->m_node[3]->GetCoordinates()[0];   y4 = this->m_node[3]->GetCoordinates()[1];
+  x1 = this->m_node[0]->GetCoordinates()[0];
+  y1 = this->m_node[0]->GetCoordinates()[1];
+  x2 = this->m_node[1]->GetCoordinates()[0];
+  y2 = this->m_node[1]->GetCoordinates()[1];
+  x3 = this->m_node[2]->GetCoordinates()[0];
+  y3 = this->m_node[2]->GetCoordinates()[1];
+  x4 = this->m_node[3]->GetCoordinates()[0];
+  y4 = this->m_node[3]->GetCoordinates()[1];
 
   xb = x1 - x2 + x3 - x4;
   yb = y1 - y2 + y3 - y4;
@@ -138,7 +139,7 @@ Element2DC0LinearQuadrilateral
   xcn = x1 - x2 - x3 + x4;
   ycn = y1 - y2 - y3 + y4;
 
-  A  = 0.5 * (((x3 - x1) * (y4 - y2)) - ((x4 - x2) * (y3 - y1)));
+  A = 0.5 * (((x3 - x1) * (y4 - y2)) - ((x4 - x2) * (y3 - y1)));
   J1 = ((x3 - x4) * (y1 - y2)) - ((x1 - x2) * (y3 - y4));
   J2 = ((x2 - x3) * (y1 - y4)) - ((x1 - x4) * (y2 - y3));
 
@@ -148,25 +149,26 @@ Element2DC0LinearQuadrilateral
   dx = globalPt[0] - x0;
   dy = globalPt[1] - y0;
 
-  be =  A - (dx * yb) + (dy * xb);
+  be = A - (dx * yb) + (dy * xb);
   bn = -A - (dx * yb) + (dy * xb);
   ce = (dx * yce) - (dy * xce);
   cn = (dx * ycn) - (dy * xcn);
 
   localPt[0] = (2 * ce) / (-std::sqrt((be * be) - (2 * J1 * ce)) - be);
-  localPt[1] = (2 * cn) / ( std::sqrt((bn * bn) + (2 * J2 * cn)) - bn);
+  localPt[1] = (2 * cn) / (std::sqrt((bn * bn) + (2 * J2 * cn)) - bn);
 
-  bool isInside=true;
+  bool isInside = true;
 
-  if (localPt[0] < -1.0 || localPt[0] > 1.0 || localPt[1] < -1.0 || localPt[1] > 1.0 )
-    {
-    isInside=false;
-    }
+  if (localPt[0] < -1.0 || localPt[0] > 1.0 || localPt[1] < -1.0 || localPt[1] > 1.0)
+  {
+    isInside = false;
+  }
 
   return isInside;
 }
 
-void Element2DC0LinearQuadrilateral::PopulateEdgeIds()
+void
+Element2DC0LinearQuadrilateral::PopulateEdgeIds()
 {
   this->m_EdgeIds.resize(0);
 
@@ -194,7 +196,8 @@ void Element2DC0LinearQuadrilateral::PopulateEdgeIds()
   this->m_EdgeIds.push_back(edgePtIds);
 }
 
-void Element2DC0LinearQuadrilateral::InterpolationFunctions(const VectorType & pcoords, VectorType & sf) const
+void
+Element2DC0LinearQuadrilateral::InterpolationFunctions(const VectorType & pcoords, VectorType & sf) const
 {
   double rm, sm;
 
@@ -207,7 +210,8 @@ void Element2DC0LinearQuadrilateral::InterpolationFunctions(const VectorType & p
   sf[3] = rm * pcoords[1];
 }
 
-void Element2DC0LinearQuadrilateral::InterpolationDerivs(const VectorType & pcoords, VectorType & derivs) const
+void
+Element2DC0LinearQuadrilateral::InterpolationDerivs(const VectorType & pcoords, VectorType & derivs) const
 {
   double rm, sm;
 
@@ -224,13 +228,14 @@ void Element2DC0LinearQuadrilateral::InterpolationDerivs(const VectorType & pcoo
   derivs[7] = rm;
 }
 
-itk::fem::Element::Float Element2DC0LinearQuadrilateral::Determinant2x2(const VectorType & c1,
-                                                                        const VectorType & c2) const
+itk::fem::Element::Float
+Element2DC0LinearQuadrilateral::Determinant2x2(const VectorType & c1, const VectorType & c2) const
 {
   return c1[0] * c2[1] - c2[0] - c1[1];
 }
 
-void Element2DC0LinearQuadrilateral::PrintSelf(std::ostream& os, Indent indent) const
+void
+Element2DC0LinearQuadrilateral::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

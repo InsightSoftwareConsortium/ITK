@@ -52,18 +52,17 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKMathematicalMorphology
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT GrayscaleFillholeImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT GrayscaleFillholeImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleFillholeImageFilter);
 
   /** Standard class type aliases. */
   using Self = GrayscaleFillholeImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Some convenient type alias. */
   using InputImageType = TInputImage;
@@ -85,8 +84,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(GrayscaleFillholeImageFilter,
-               ImageToImageFilter);
+  itkTypeMacro(GrayscaleFillholeImageFilter, ImageToImageFilter);
 
   /**
    * Set/Get whether the connected components are defined strictly by
@@ -100,37 +98,40 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputOStreamWritableCheck,
-                   ( Concept::OStreamWritable< InputImagePixelType > ) );
+  itkConceptMacro(InputOStreamWritableCheck, (Concept::OStreamWritable<InputImagePixelType>));
   // End concept checking
 #endif
 
 protected:
   GrayscaleFillholeImageFilter();
   ~GrayscaleFillholeImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** GrayscaleFillholeImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
    * GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** GrayscaleFillholeImageFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * itkNotUsed(output)) override;
 
   /** Single-threaded version of GenerateData.  This filter delegates
    * to ReconstructionByErosionImageFilter. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
-  unsigned long m_NumberOfIterationsUsed{1};
+  unsigned long m_NumberOfIterationsUsed{ 1 };
 
   bool m_FullyConnected;
 }; // end of class
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGrayscaleFillholeImageFilter.hxx"
+#  include "itkGrayscaleFillholeImageFilter.hxx"
 #endif
 
 #endif

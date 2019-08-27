@@ -19,96 +19,98 @@
 #include "itkCentralDifferenceImageFunction.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
-int itkCentralDifferenceImageFunctionSpeedTest(int argc, char* argv[] )
+int
+itkCentralDifferenceImageFunctionSpeedTest(int argc, char * argv[])
 {
-  if( argc != 6 )
-    {
+  if (argc != 6)
+  {
     std::cerr << "usage: size reps doEAI doEACI doE" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  int imageSize = std::stoi( argv[1] );
-  int reps = std::stoi( argv[2] );
-  bool doEAI = std::stoi( argv[3] );
-  bool doEACI = std::stoi( argv[4] );
-  bool doE = std::stoi( argv[5] );
+  int  imageSize = std::stoi(argv[1]);
+  int  reps = std::stoi(argv[2]);
+  bool doEAI = std::stoi(argv[3]);
+  bool doEACI = std::stoi(argv[4]);
+  bool doE = std::stoi(argv[5]);
 
-  std::cout << "imageSize: " << imageSize << " reps: " << reps << " doEAI, doEACI, doE: " << doEAI << ", " << doEACI << ", " << doE << std::endl;
+  std::cout << "imageSize: " << imageSize << " reps: " << reps << " doEAI, doEACI, doE: " << doEAI << ", " << doEACI
+            << ", " << doE << std::endl;
 
   constexpr unsigned int ImageDimension = 2;
   using PixelType = unsigned int;
-  using ImageType = itk::Image<PixelType,ImageDimension>;
+  using ImageType = itk::Image<PixelType, ImageDimension>;
 
-  ImageType::Pointer image = ImageType::New();
+  ImageType::Pointer  image = ImageType::New();
   ImageType::SizeType size;
-  size.Fill( imageSize );
-  ImageType::RegionType region( size );
+  size.Fill(imageSize);
+  ImageType::RegionType region(size);
 
-  image->SetRegions( region );
+  image->SetRegions(region);
   image->Allocate();
 
   // make a test image
   using Iterator = itk::ImageRegionIteratorWithIndex<ImageType>;
-  Iterator iter( image, region );
+  Iterator iter(image, region);
   iter.GoToBegin();
   unsigned int counter = 0;
 
-  while ( !iter.IsAtEnd() )
-    {
-    iter.Set( counter );
+  while (!iter.IsAtEnd())
+  {
+    iter.Set(counter);
     ++counter;
     ++iter;
-    }
+  }
 
   // set up central difference calculator
   using CoordRepType = float;
-  using FunctionType = itk::CentralDifferenceImageFunction<ImageType,CoordRepType>;
+  using FunctionType = itk::CentralDifferenceImageFunction<ImageType, CoordRepType>;
   using OutputType = FunctionType::OutputType;
 
   FunctionType::Pointer function = FunctionType::New();
 
-  function->SetInputImage( image );
+  function->SetInputImage(image);
 
   ImageType::IndexType index;
 
   OutputType total;
-  total.Fill( 0 );
+  total.Fill(0);
 
   std::cout << "UseImageDirection: " << function->GetUseImageDirection() << std::endl;
 
-  ///loop
-  for( int l=0; l < reps; l++ )
-    {
+  /// loop
+  for (int l = 0; l < reps; l++)
+  {
     iter.GoToBegin();
-    while( !iter.IsAtEnd() )
-      {
+    while (!iter.IsAtEnd())
+    {
       index = iter.GetIndex();
-      if( doEAI )
-        {
-        OutputType indexOutput = function->EvaluateAtIndex( index );
+      if (doEAI)
+      {
+        OutputType indexOutput = function->EvaluateAtIndex(index);
         total += indexOutput;
-        }
+      }
 
-      if( doEACI )
-        {
+      if (doEACI)
+      {
         FunctionType::ContinuousIndexType cindex;
         cindex[0] = index[0] + 0.1;
         cindex[1] = index[1] + 0.1;
-        OutputType continuousIndexOutput = function->EvaluateAtContinuousIndex( cindex );
+        OutputType continuousIndexOutput = function->EvaluateAtContinuousIndex(cindex);
         total += continuousIndexOutput;
-        }
+      }
 
-      if( doE )
-        {
+      if (doE)
+      {
         FunctionType::PointType point;
-        image->TransformIndexToPhysicalPoint( index, point );
-        OutputType pointOutput = function->Evaluate( point );
+        image->TransformIndexToPhysicalPoint(index, point);
+        OutputType pointOutput = function->Evaluate(point);
         total += pointOutput;
-        }
+      }
 
       ++iter;
-      }
     }
+  }
   std::cout << "total: " << total << std::endl;
 
   return EXIT_SUCCESS;

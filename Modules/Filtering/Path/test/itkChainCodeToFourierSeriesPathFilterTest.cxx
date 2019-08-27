@@ -24,19 +24,18 @@
 #include "itkChainCodeToFourierSeriesPathFilter.h"
 #include "itkTestingMacros.h"
 
-int itkChainCodeToFourierSeriesPathFilterTest( int, char*[] )
+int
+itkChainCodeToFourierSeriesPathFilterTest(int, char *[])
 {
   constexpr unsigned int Dimension = 2;
-  using PolyLinePathType = itk::PolyLineParametricPath< Dimension >;
-  using ChainPathType = itk::ChainCodePath< Dimension >;
-  using FSPathType = itk::FourierSeriesPath< Dimension >;
+  using PolyLinePathType = itk::PolyLineParametricPath<Dimension>;
+  using ChainPathType = itk::ChainCodePath<Dimension>;
+  using FSPathType = itk::FourierSeriesPath<Dimension>;
 
   using VertexType = PolyLinePathType::VertexType;
 
-  using PathToChainCodePathFilterType =
-      itk::PathToChainCodePathFilter< PolyLinePathType, ChainPathType >;
-  using ChainCodeToFSPathFilterType =
-      itk::ChainCodeToFourierSeriesPathFilter< ChainPathType, FSPathType >;
+  using PathToChainCodePathFilterType = itk::PathToChainCodePathFilter<PolyLinePathType, ChainPathType>;
+  using ChainCodeToFSPathFilterType = itk::ChainCodeToFourierSeriesPathFilter<ChainPathType, FSPathType>;
 
   bool passed = true;
 
@@ -47,68 +46,59 @@ int itkChainCodeToFourierSeriesPathFilterTest( int, char*[] )
 
   PolyLinePathType::Pointer inputPath = PolyLinePathType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( inputPath, PolyLineParametricPath,
-    ParametricPath );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(inputPath, PolyLineParametricPath, ParametricPath);
 
-  v.Fill( 30 );
-  inputPath->AddVertex( v );
+  v.Fill(30);
+  inputPath->AddVertex(v);
   v[0] = 30;
   v[1] = 33;
-  inputPath->AddVertex( v );
-  v.Fill( 33 );
-  inputPath->AddVertex( v );
-  v.Fill( 30 );
-  inputPath->AddVertex( v );
+  inputPath->AddVertex(v);
+  v.Fill(33);
+  inputPath->AddVertex(v);
+  v.Fill(30);
+  inputPath->AddVertex(v);
 
   // Set up the first filter
-  PathToChainCodePathFilterType::Pointer pathToChainCodePathFilter =
-    PathToChainCodePathFilterType::New();
-  pathToChainCodePathFilter->SetInput( inputPath );
+  PathToChainCodePathFilterType::Pointer pathToChainCodePathFilter = PathToChainCodePathFilterType::New();
+  pathToChainCodePathFilter->SetInput(inputPath);
 
   ChainPathType::Pointer chainPath = pathToChainCodePathFilter->GetOutput();
 
   // Set up the second filter
-  ChainCodeToFSPathFilterType::Pointer chainCodeToFSPathFilter =
-    ChainCodeToFSPathFilterType::New();
+  ChainCodeToFSPathFilterType::Pointer chainCodeToFSPathFilter = ChainCodeToFSPathFilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( chainCodeToFSPathFilter, ChainCodeToFourierSeriesPathFilter,
-    PathToPathFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(chainCodeToFSPathFilter, ChainCodeToFourierSeriesPathFilter, PathToPathFilter);
 
-  chainCodeToFSPathFilter->SetInput( pathToChainCodePathFilter->GetOutput() );
+  chainCodeToFSPathFilter->SetInput(pathToChainCodePathFilter->GetOutput());
 
   FSPathType::Pointer outputPath = chainCodeToFSPathFilter->GetOutput();
 
   chainCodeToFSPathFilter->Update();
 
-  std::cout << "PathToChainCodePathFilter: open test path is "
-      << chainPath->NumberOfSteps() << " steps" << std::endl;
-  if( chainPath->NumberOfSteps() != 9 )
-    {
+  std::cout << "PathToChainCodePathFilter: open test path is " << chainPath->NumberOfSteps() << " steps" << std::endl;
+  if (chainPath->NumberOfSteps() != 9)
+  {
     passed = false;
-    }
-  std::cout << "ChainCodeToFourierSeriesPathFilter: smoothed path is from ["
-      << outputPath->Evaluate( 0.0 ) << "] to [" << outputPath->Evaluate( 1.0 )
-      << "] with a center at [" << outputPath->Evaluate( 0.5 ) << "]." << std::endl;
+  }
+  std::cout << "ChainCodeToFourierSeriesPathFilter: smoothed path is from [" << outputPath->Evaluate(0.0) << "] to ["
+            << outputPath->Evaluate(1.0) << "] with a center at [" << outputPath->Evaluate(0.5) << "]." << std::endl;
   // Floating point can be inprecise, so convert to rounded int for comparison:
-  if( int( 0.5 + 1000 * ( outputPath->Evaluate( 1.0 ) )[0] ) !=
-      int( 0.5 + 1000 * ( outputPath->Evaluate( 0.0 ) )[0] ) ||
-      int( 0.5 + 1000 * ( outputPath->Evaluate( 1.0 ) )[1] ) !=
-      int( 0.5 + 1000 * ( outputPath->Evaluate( 0.0 ) )[1] ) ||
-      int( 0.5 + ( outputPath->Evaluate( 0.5 ) )[0] ) < 31 ||
-      int( 0.5 + ( outputPath->Evaluate( 0.5 ) )[0] ) > 32 ||
-      int( 0.5 + ( outputPath->Evaluate( 0.5 ) )[1] ) != 33 )
-    {
+  if (int(0.5 + 1000 * (outputPath->Evaluate(1.0))[0]) != int(0.5 + 1000 * (outputPath->Evaluate(0.0))[0]) ||
+      int(0.5 + 1000 * (outputPath->Evaluate(1.0))[1]) != int(0.5 + 1000 * (outputPath->Evaluate(0.0))[1]) ||
+      int(0.5 + (outputPath->Evaluate(0.5))[0]) < 31 || int(0.5 + (outputPath->Evaluate(0.5))[0]) > 32 ||
+      int(0.5 + (outputPath->Evaluate(0.5))[1]) != 33)
+  {
     passed = false;
-    }
+  }
 
-  if( passed )
-    {
+  if (passed)
+  {
     std::cout << "Test passed" << std::endl;
     return EXIT_SUCCESS;
-    }
+  }
   else
-    {
+  {
     std::cout << "Test failed" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 }

@@ -164,7 +164,6 @@ public:
   itkGetMacro(UseInterpolationGrid, bool);
 
 protected:
-
   /**
    * Default constructor which sets the indices
    * for the matrix and vector storage.
@@ -174,13 +173,16 @@ protected:
 
   /** Method invoked by the pipeline in order to trigger the computation of
    * the registration. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /** Run the solver and produce a warped FEM object. */
-  void RunSolver() override;
+  void
+  RunSolver() override;
 
   /** Initialize matrix, vector, solution, interpolation grid, and landmark. */
-  void Initialization();
+  void
+  Initialization();
 
   /**
    * Initialize the interpolation grid, which will be used to accelerate the
@@ -188,75 +190,89 @@ protected:
    * will use the grid parameters provided in the SetOrigin, SetSpacing,
    * SetDirection and SetRegion methods.
    */
-  void InitializeInterpolationGrid();
+  void
+  InitializeInterpolationGrid();
 
   /**
    * For each one of the landmarks, it record the element in which the landmark
    * is located, and its local coordinates.
    */
-  void InitializeLandmarks();
+  void
+  InitializeLandmarks();
 
   /**
    * Assemble the global mechanical stiffness matrix from the mesh contained in
    * the FEMObject
    */
-  void AssembleMeshStiffnessMatrix();
+  void
+  AssembleMeshStiffnessMatrix();
 
   /**
    * Assemble element stiffness matrix, which will be used to assemble the
    * global stiffness matrix
    */
-  virtual void AssembleElementMatrixWithID(const Element::Pointer & e, unsigned int matrixIndex);
+  virtual void
+  AssembleElementMatrixWithID(const Element::Pointer & e, unsigned int matrixIndex);
 
   /**
    * Simulate the landmark as a physical point and
    * assemble its contribution matrix
    */
-  void AssembleLandmarkStiffnessMatrix();
+  void
+  AssembleLandmarkStiffnessMatrix();
 
   /** Add global stiffness matrix with landmark stiffness matrix. */
-  void AssembleGlobalMatrixFromLandmarksAndMeshMatrices();
+  void
+  AssembleGlobalMatrixFromLandmarksAndMeshMatrices();
 
   /** Assemble right side F vector based on the landmarks. */
-  void AssembleF();
+  void
+  AssembleF();
 
   /**
    * Solve iteratively, with outlier rejection,
    * from approximation to interpolation
    */
-  void IncrementalSolverWithOutlierRejection();
+  void
+  IncrementalSolverWithOutlierRejection();
 
   /**
    * Solve iteratively, without outlier rejection,
    * from approximation to interpolation
    */
-  void IncrementalSolverWithoutOutlierRejection();
+  void
+  IncrementalSolverWithoutOutlierRejection();
 
   /** Solve LS. */
-  void SolveSystem();
+  void
+  SolveSystem();
 
   /**
    * Compute the approximation error for each landmark for subsequent outlier
    * rejection, by taking into account the weight set in the
    * ToleranceToLargestDisplacement.
    */
-  void ComputeLandmarkSimulatedDisplacementAndWeightedError();
+  void
+  ComputeLandmarkSimulatedDisplacementAndWeightedError();
 
   /**
    * Compute the tensor associated with the landmark. The tensor is structural
    * weighted if a structural tensor point set is available
    */
-  void ComputeLandmarkTensor();
+  void
+  ComputeLandmarkTensor();
 
   /** Get scaling factor. */
-  float GetLandmarkTensorPonderation() const;
+  float
+  GetLandmarkTensorPonderation() const;
 
   /**
    * Sort the points in the decreasing order of error norm.  The argument
    * defines how many elements will be rejected at every step after they have
    * been sorted.
    */
-  void NthElementWRTDisplacementError(unsigned int numberOfRejectedBlocksPerStep);
+  void
+  NthElementWRTDisplacementError(unsigned int numberOfRejectedBlocksPerStep);
 
   /**
    * Unselect landmark from landmark array. The argument defines how many
@@ -264,22 +280,26 @@ protected:
    * This method must be called after NthElementWRTDisplacementError()
    * has been invoked to sort the landmarks.
    */
-  void UnselectLandmarks(unsigned int numberOfRejectedBlocksPerStep);
+  void
+  UnselectLandmarks(unsigned int numberOfRejectedBlocksPerStep);
 
   /**
    * Remove the contribution of the unselected landmarks
    * from the landmark stiffness matrix
    */
-  void RemoveUnselectedLandmarkContributionInPointStiffnessMatrix();
+  void
+  RemoveUnselectedLandmarkContributionInPointStiffnessMatrix();
 
   /**
    * Delete outliers. The argument define the number of outlier landmarks that
    * will be rejected at each one of the iterations.
    */
-  void DeleteFromLandmarkBeginning(unsigned int numberOfRejectedLandmarksPerStep);
+  void
+  DeleteFromLandmarkBeginning(unsigned int numberOfRejectedLandmarksPerStep);
 
   /** Delete landmarks whose coordinates land outside of the mesh. */
-  void DeleteLandmarksOutOfMesh();
+  void
+  DeleteLandmarksOutOfMesh();
 
   /**
    * Adjust the landmark stiffness matrix based on the change of the number of
@@ -288,22 +308,24 @@ protected:
    * based on a previous ponderation value and the computed Landmark Tensor
    * ponderation returned by the GetLandmarkTensorPonderation() method.
    */
-  void RescaleLandmarkStiffnessMatrix(double oldPointTensorPonderation);
+  void
+  RescaleLandmarkStiffnessMatrix(double oldPointTensorPonderation);
 
   /**
    * Calculate KU, which will  be added on the righ hand side to reach
    * the effect of zeroing mesh energy
    */
-  void CalculateExternalForces();
+  void
+  CalculateExternalForces();
 
   /**
    * Add exteranl force to set the mesh energy to be zero, which
    * is equivalent to starting FEM solver from the deformed mesh
    */
-  void AddExternalForcesToSetMeshZeroEnergy();
+  void
+  AddExternalForcesToSetMeshZeroEnergy();
 
 private:
-
   /**
    * The number of outlier rejection.
    * Note that outlier rejection is performed from approximation to interpolation
@@ -327,11 +349,11 @@ private:
   FEMIndexType m_LandmarkStiffnessMatrixIndex;
   FEMIndexType m_StiffnessMatrixIndex;
 
-  double    m_TradeOffImageMeshEnergy;
+  double m_TradeOffImageMeshEnergy;
 
-  double    m_ToleranceToLargestDisplacement;
-  double    m_ConjugateGradientPrecision;
-  double    m_FractionErrorRejected;
+  double m_ToleranceToLargestDisplacement;
+  double m_ConjugateGradientPrecision;
+  double m_FractionErrorRejected;
 
   /**
    * Use interpolation grid to initialize the landmarks or not.  If use the
@@ -349,24 +371,25 @@ private:
  *  Comparison function object for sorting landmarks.
  *
  * \ingroup ITKFEM
-*/
+ */
 class CompareLandmarkDisplacementError
 {
 public:
-    bool operator()(const Load::Pointer & L1 , const Load::Pointer & L2)
-    {
-    auto * l1 = dynamic_cast<LoadNoisyLandmark*>(L1.GetPointer());
-    auto * l2 = dynamic_cast<LoadNoisyLandmark*>(L2.GetPointer());
+  bool
+  operator()(const Load::Pointer & L1, const Load::Pointer & L2)
+  {
+    auto * l1 = dynamic_cast<LoadNoisyLandmark *>(L1.GetPointer());
+    auto * l2 = dynamic_cast<LoadNoisyLandmark *>(L2.GetPointer());
 
     return l1->GetErrorNorm() > l2->GetErrorNorm();
-    }
+  }
 };
 
-}  // end namespace fem
-}  // end namespace itk
+} // end namespace fem
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFEMRobustSolver.hxx"
+#  include "itkFEMRobustSolver.hxx"
 #endif
 
 #endif

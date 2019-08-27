@@ -22,30 +22,26 @@
 
 namespace itk
 {
-template< typename TImage >
-ImageScanlineIterator< TImage >
-::ImageScanlineIterator(ImageType *ptr, const RegionType & region):
-  ImageScanlineConstIterator< TImage >(ptr, region)
+template <typename TImage>
+ImageScanlineIterator<TImage>::ImageScanlineIterator(ImageType * ptr, const RegionType & region)
+  : ImageScanlineConstIterator<TImage>(ptr, region)
 {}
 
-template< typename TImage >
-ImageScanlineIterator< TImage >
-::ImageScanlineIterator(const ImageIterator< TImage > & it):
-  ImageScanlineConstIterator< TImage >(it)
+template <typename TImage>
+ImageScanlineIterator<TImage>::ImageScanlineIterator(const ImageIterator<TImage> & it)
+  : ImageScanlineConstIterator<TImage>(it)
 {}
 
-template< typename TImage >
-ImageScanlineIterator< TImage >
-::ImageScanlineIterator(const ImageScanlineConstIterator< TImage > & it):
-  ImageScanlineConstIterator< TImage >(it)
+template <typename TImage>
+ImageScanlineIterator<TImage>::ImageScanlineIterator(const ImageScanlineConstIterator<TImage> & it)
+  : ImageScanlineConstIterator<TImage>(it)
 {}
 
-template< typename TImage >
-ImageScanlineIterator< TImage > &
-ImageScanlineIterator< TImage >
-::operator=(const ImageScanlineConstIterator< TImage > & it)
+template <typename TImage>
+ImageScanlineIterator<TImage> &
+ImageScanlineIterator<TImage>::operator=(const ImageScanlineConstIterator<TImage> & it)
 {
-  this->ImageScanlineConstIterator< TImage >::operator=(it);
+  this->ImageScanlineConstIterator<TImage>::operator=(it);
   return *this;
 }
 

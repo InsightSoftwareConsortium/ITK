@@ -62,21 +62,21 @@ ected
  * \ingroup ITKDistanceMap
  *
  * \sphinx
- * \sphinxexample{Filtering/DistanceMap/MeanDistanceBetweenAllPointsOnTwoCurves,Mean Distance Between All Points On Two Curves}
+ * \sphinxexample{Filtering/DistanceMap/MeanDistanceBetweenAllPointsOnTwoCurves,Mean Distance Between All Points On Two
+Curves}
  * \endsphinx
  */
-template< typename TInputImage1, typename TInputImage2 >
-class ITK_TEMPLATE_EXPORT ContourMeanDistanceImageFilter:
-  public ImageToImageFilter< TInputImage1, TInputImage1 >
+template <typename TInputImage1, typename TInputImage2>
+class ITK_TEMPLATE_EXPORT ContourMeanDistanceImageFilter : public ImageToImageFilter<TInputImage1, TInputImage1>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ContourMeanDistanceImageFilter);
 
   /** Standard Self type alias */
   using Self = ContourMeanDistanceImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage1, TInputImage1 >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage1, TInputImage1>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -103,56 +103,63 @@ public:
   static constexpr unsigned int ImageDimension = TInputImage1::ImageDimension;
 
   /** Type to use form computations. */
-  using RealType = typename NumericTraits< InputImage1PixelType >::RealType;
+  using RealType = typename NumericTraits<InputImage1PixelType>::RealType;
 
   /** Set the first input. */
-  void SetInput1(const InputImage1Type *image);
+  void
+  SetInput1(const InputImage1Type * image);
 
   /** Set the second input. */
-  void SetInput2(const InputImage2Type *image);
+  void
+  SetInput2(const InputImage2Type * image);
 
   /** Get the first input. */
-  const InputImage1Type * GetInput1();
+  const InputImage1Type *
+  GetInput1();
 
   /** Get the second input. */
-  const InputImage2Type * GetInput2();
+  const InputImage2Type *
+  GetInput2();
 
   /** Return the computed Mean distance. */
   itkGetConstMacro(MeanDistance, RealType);
 
   /** Set if image spacing should be used in computing distances. */
-  itkSetMacro( UseImageSpacing, bool );
-  itkGetConstMacro( UseImageSpacing, bool );
+  itkSetMacro(UseImageSpacing, bool);
+  itkGetConstMacro(UseImageSpacing, bool);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< InputImage1PixelType > ) );
+  itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputImage1PixelType>));
   // End concept checking
 #endif
 
 protected:
   ContourMeanDistanceImageFilter();
   ~ContourMeanDistanceImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** GenerateData. */
-  void  GenerateData() override;
+  void
+  GenerateData() override;
 
   // Override since the filter needs all the data for the algorithm
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   // Override since the filter produces all of its output
-  void EnlargeOutputRequestedRegion(DataObject *data) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * data) override;
 
 private:
-  RealType  m_MeanDistance;
-  bool      m_UseImageSpacing;
+  RealType m_MeanDistance;
+  bool     m_UseImageSpacing;
 }; // end of class
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkContourMeanDistanceImageFilter.hxx"
+#  include "itkContourMeanDistanceImageFilter.hxx"
 #endif
 
 #endif

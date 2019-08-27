@@ -39,18 +39,17 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template< typename TImage >
-class ITK_TEMPLATE_EXPORT ShiftScaleLabelMapFilter:
-  public InPlaceLabelMapFilter< TImage >
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT ShiftScaleLabelMapFilter : public InPlaceLabelMapFilter<TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ShiftScaleLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = ShiftScaleLabelMapFilter;
-  using Superclass = InPlaceLabelMapFilter< TImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = InPlaceLabelMapFilter<TImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Some convenient type alias. */
   using ImageType = TImage;
@@ -94,19 +93,21 @@ protected:
   ShiftScaleLabelMapFilter();
   ~ShiftScaleLabelMapFilter() override = default;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   double m_Shift;
   double m_Scale;
 
   bool m_ChangeBackgroundValue;
-};                                        // end of class
+}; // end of class
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShiftScaleLabelMapFilter.hxx"
+#  include "itkShiftScaleLabelMapFilter.hxx"
 #endif
 
 #endif

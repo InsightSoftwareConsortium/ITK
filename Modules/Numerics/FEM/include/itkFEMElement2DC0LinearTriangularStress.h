@@ -54,11 +54,12 @@ public:
   itkSimpleNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Element2DC0LinearTriangularStress, Element2DStress<Element2DC0LinearTriangular> );
+  itkTypeMacro(Element2DC0LinearTriangularStress, Element2DStress<Element2DC0LinearTriangular>);
 
   /** CreateAnother method will clone the existing instance of this type,
    * including its internal member variables. */
-  ::itk::LightObject::Pointer CreateAnother() const override;
+  ::itk::LightObject::Pointer
+  CreateAnother() const override;
 
   /**
    * Default constructor only clears the internal storage
@@ -69,15 +70,13 @@ public:
    * Construct an element by specifying pointers to
    * 3 points and a material.
    */
-  Element2DC0LinearTriangularStress(NodeIDType n1_,
-                                    NodeIDType n2_,
-                                    NodeIDType n3_,
-                                    Material::ConstPointer p_);
+  Element2DC0LinearTriangularStress(NodeIDType n1_, NodeIDType n2_, NodeIDType n3_, Material::ConstPointer p_);
 
 protected:
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-};  // class Element2DC0LinearTriangularStress
+}; // class Element2DC0LinearTriangularStress
 } // end namespace fem
 } // end namespace itk
 

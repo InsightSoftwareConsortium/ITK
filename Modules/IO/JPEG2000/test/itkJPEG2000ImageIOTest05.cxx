@@ -22,47 +22,48 @@
 
 #include <fstream>
 
-int itkJPEG2000ImageIOTest05( int argc, char * argv[] )
+int
+itkJPEG2000ImageIOTest05(int argc, char * argv[])
 {
-  if( argc < 2 )
-    {
+  if (argc < 2)
+  {
     std::cerr << "Usage: " << argv[0] << " input outputdir extension" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   using PixelType = unsigned char;
-  using ImageType = itk::Image<PixelType,3>;
-  using OutputImageType = itk::Image<PixelType,2>;
+  using ImageType = itk::Image<PixelType, 3>;
+  using OutputImageType = itk::Image<PixelType, 2>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
-  //reader->SetUseStreaming( true );
+  reader->SetFileName(argv[1]);
+  // reader->SetUseStreaming( true );
 
   try
-    {
+  {
     reader->Update();
     reader->GetOutput()->Print(std::cout);
-    }
-  catch (itk::ExceptionObject &ex)
-    {
+  }
+  catch (itk::ExceptionObject & ex)
+  {
     std::cout << ex;
     return EXIT_FAILURE;
-    }
+  }
 
   //  Register the factory
   itk::JPEG2000ImageIOFactory::RegisterOneFactory();
 
   itk::NumericSeriesFileNames::Pointer fit = itk::NumericSeriesFileNames::New();
 
-  using WriterType = itk::ImageSeriesWriter<ImageType,OutputImageType>;
+  using WriterType = itk::ImageSeriesWriter<ImageType, OutputImageType>;
 
   WriterType::Pointer writer = WriterType::New();
 
 
   char format[4096];
-  sprintf (format, "%s/series.%%d.%s", argv[2], argv[3]);
+  sprintf(format, "%s/series.%%d.%s", argv[2], argv[3]);
 
   std::cout << "Format = " << format << std::endl;
 
@@ -70,23 +71,23 @@ int itkJPEG2000ImageIOTest05( int argc, char * argv[] )
   ImageType::SizeType   size = region.GetSize();
 
   fit->SetStartIndex(0);
-  fit->SetEndIndex(size[2]-1);  // The number of slices to write
+  fit->SetEndIndex(size[2] - 1); // The number of slices to write
   fit->SetIncrementIndex(1);
-  fit->SetSeriesFormat (format);
+  fit->SetSeriesFormat(format);
 
   writer->SetInput(reader->GetOutput());
-  writer->SetFileNames(  fit->GetFileNames() );
+  writer->SetFileNames(fit->GetFileNames());
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Error while writing the series with SeriesFileNames generator" << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

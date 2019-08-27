@@ -19,13 +19,14 @@
 
 namespace itk
 {
-void SingleValuedCostFunction::GetValueAndDerivative(const ParametersType & parameters,
-                                   MeasureType & value,
-                                   DerivativeType & derivative) const
+void
+SingleValuedCostFunction::GetValueAndDerivative(const ParametersType & parameters,
+                                                MeasureType &          value,
+                                                DerivativeType &       derivative) const
 {
-    value = this->GetValue(parameters);
-    this->GetDerivative(parameters, derivative);
+  value = this->GetValue(parameters);
+  this->GetDerivative(parameters, derivative);
 }
 
 SingleValuedCostFunction::~SingleValuedCostFunction() = default;
-}
+} // namespace itk

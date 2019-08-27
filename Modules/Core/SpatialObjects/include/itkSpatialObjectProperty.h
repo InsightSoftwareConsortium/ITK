@@ -38,83 +38,122 @@ namespace itk
 class ITKSpatialObjects_EXPORT SpatialObjectProperty
 {
 public:
-
   SpatialObjectProperty();
 
   virtual ~SpatialObjectProperty() = default;
 
   using Self = SpatialObjectProperty;
 
-  using ColorType = RGBAPixel< double >;
+  using ColorType = RGBAPixel<double>;
 
-  virtual void Clear( void );
+  virtual void
+  Clear(void);
 
-  void SetColor( const ColorType & color )
-  { m_Color = color; }
+  void
+  SetColor(const ColorType & color)
+  {
+    m_Color = color;
+  }
 
-  ColorType & GetColor()
-  { return m_Color; }
+  ColorType &
+  GetColor()
+  {
+    return m_Color;
+  }
 
-  const ColorType & GetColor() const
-  { return m_Color; }
+  const ColorType &
+  GetColor() const
+  {
+    return m_Color;
+  }
 
-  void SetColor(double r, double g, double b);
+  void
+  SetColor(double r, double g, double b);
 
-  void SetRed(double r);
-  double GetRed() const;
+  void
+  SetRed(double r);
+  double
+  GetRed() const;
 
-  void SetGreen(double g);
-  double GetGreen() const;
+  void
+  SetGreen(double g);
+  double
+  GetGreen() const;
 
-  void SetBlue(double b);
-  double GetBlue() const;
+  void
+  SetBlue(double b);
+  double
+  GetBlue() const;
 
-  void SetAlpha(double a);
-  double GetAlpha() const;
+  void
+  SetAlpha(double a);
+  double
+  GetAlpha() const;
 
-  void SetName( const std::string & name )
-  { m_Name = name; }
+  void
+  SetName(const std::string & name)
+  {
+    m_Name = name;
+  }
 
-  std::string & GetName()
-  { return m_Name; }
+  std::string &
+  GetName()
+  {
+    return m_Name;
+  }
 
-  const std::string & GetName() const
-  { return m_Name; }
+  const std::string &
+  GetName() const
+  {
+    return m_Name;
+  }
 
-  void SetTagScalarValue( const std::string & tag, double value );
-  void SetTagStringValue( const std::string & tag, const std::string & value );
+  void
+  SetTagScalarValue(const std::string & tag, double value);
+  void
+  SetTagStringValue(const std::string & tag, const std::string & value);
 
-  bool GetTagScalarValue( const std::string & tag, double & value ) const;
-  bool GetTagStringValue( const std::string & tag, std::string & value ) const;
+  bool
+  GetTagScalarValue(const std::string & tag, double & value) const;
+  bool
+  GetTagStringValue(const std::string & tag, std::string & value) const;
 
-  std::map< std::string, double > &            GetTagScalarDictionary();
-  const std::map< std::string, double > &      GetTagScalarDictionary() const;
-  std::map< std::string, std::string > &       GetTagStringDictionary();
-  const std::map< std::string, std::string > & GetTagStringDictionary() const;
+  std::map<std::string, double> &
+  GetTagScalarDictionary();
+  const std::map<std::string, double> &
+  GetTagScalarDictionary() const;
+  std::map<std::string, std::string> &
+  GetTagStringDictionary();
+  const std::map<std::string, std::string> &
+  GetTagStringDictionary() const;
 
-  void SetTagScalarDictionary( const std::map< std::string, double > & dict );
-  void SetTagStringDictionary( const std::map< std::string,
-    std::string > & dict );
+  void
+  SetTagScalarDictionary(const std::map<std::string, double> & dict);
+  void
+  SetTagStringDictionary(const std::map<std::string, std::string> & dict);
 
-  void Print(std::ostream & os) const
-  { this->PrintSelf( os, 3 ); }
+  void
+  Print(std::ostream & os) const
+  {
+    this->PrintSelf(os, 3);
+  }
 
-  Self & operator=(const SpatialObjectProperty & rhs );
+  Self &
+  operator=(const SpatialObjectProperty & rhs);
 
 protected:
-
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
+  ColorType m_Color;
 
-  ColorType        m_Color;
+  std::string m_Name;
 
-  std::string      m_Name;
-
-  std::map< std::string, double >      m_ScalarDictionary;
-  std::map< std::string, std::string > m_StringDictionary;
+  std::map<std::string, double>      m_ScalarDictionary;
+  std::map<std::string, std::string> m_StringDictionary;
 };
 
-}
+} // namespace itk
 
 #endif // __SpatialObjectProperty_h

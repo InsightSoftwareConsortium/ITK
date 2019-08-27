@@ -24,36 +24,36 @@
 /** This test uses two 2D-Gaussians (standard deviation RegionSize/2).
     This test computes the mutual information between the two images.
 */
-int itkMutualInformationHistogramImageToImageMetricTest(int , char* [])
+int
+itkMutualInformationHistogramImageToImageMetricTest(int, char *[])
 {
-  try {
+  try
+  {
     // Create two simple images.
     constexpr unsigned int ImageDimension = 2;
     using PixelType = double;
     using CoordinateRepresentationType = double;
 
-    //Allocate Images
-    using MovingImageType = itk::Image<PixelType,ImageDimension>;
-    using FixedImageType = itk::Image<PixelType,ImageDimension>;
+    // Allocate Images
+    using MovingImageType = itk::Image<PixelType, ImageDimension>;
+    using FixedImageType = itk::Image<PixelType, ImageDimension>;
 
     // Declare Gaussian Sources
     using MovingImageSourceType = itk::GaussianImageSource<MovingImageType>;
     using FixedImageSourceType = itk::GaussianImageSource<FixedImageType>;
 
     // Note: the following declarations are classical arrays
-    FixedImageType::SizeValueType fixedImageSize[] = {100,  100};
-    MovingImageType::SizeValueType movingImageSize[] = {100,  100};
+    FixedImageType::SizeValueType  fixedImageSize[] = { 100, 100 };
+    MovingImageType::SizeValueType movingImageSize[] = { 100, 100 };
 
-    FixedImageType::SpacingValueType fixedImageSpacing[]  = {1.0f, 1.0f};
-    MovingImageType::SpacingValueType movingImageSpacing[] = {1.0f, 1.0f};
+    FixedImageType::SpacingValueType  fixedImageSpacing[] = { 1.0f, 1.0f };
+    MovingImageType::SpacingValueType movingImageSpacing[] = { 1.0f, 1.0f };
 
-    FixedImageType::PointValueType fixedImageOrigin[] = {0.0f, 0.0f};
-    MovingImageType::PointValueType movingImageOrigin[] = {0.0f, 0.0f};
+    FixedImageType::PointValueType  fixedImageOrigin[] = { 0.0f, 0.0f };
+    MovingImageType::PointValueType movingImageOrigin[] = { 0.0f, 0.0f };
 
-    MovingImageSourceType::Pointer movingImageSource =
-      MovingImageSourceType::New();
-    FixedImageSourceType::Pointer  fixedImageSource  =
-      FixedImageSourceType::New();
+    MovingImageSourceType::Pointer movingImageSource = MovingImageSourceType::New();
+    FixedImageSourceType::Pointer  fixedImageSource = FixedImageSourceType::New();
 
     movingImageSource->SetSize(movingImageSize);
     movingImageSource->SetOrigin(movingImageOrigin);
@@ -71,18 +71,17 @@ int itkMutualInformationHistogramImageToImageMetricTest(int , char* [])
     fixedImageSource->Update();  // Force the filter to run
 
     MovingImageType::Pointer movingImage = movingImageSource->GetOutput();
-    FixedImageType::Pointer  fixedImage  = fixedImageSource->GetOutput();
+    FixedImageType::Pointer  fixedImage = fixedImageSource->GetOutput();
 
     // Set up the metric.
-    using MetricType = itk::MutualInformationHistogramImageToImageMetric<FixedImageType,
-      MovingImageType>;
+    using MetricType = itk::MutualInformationHistogramImageToImageMetric<FixedImageType, MovingImageType>;
     using TransformBaseType = MetricType::TransformType;
     using ScalesType = MetricType::ScalesType;
     using ParametersType = TransformBaseType::ParametersType;
 
     MetricType::Pointer metric = MetricType::New();
 
-    unsigned int nBins = 256;
+    unsigned int                        nBins = 256;
     MetricType::HistogramType::SizeType histSize;
     histSize.SetSize(2);
     histSize[0] = nBins;
@@ -94,15 +93,13 @@ int itkMutualInformationHistogramImageToImageMetricTest(int , char* [])
     metric->SetMovingImage(movingImage);
 
     // Set up a transform.
-    using TransformType = itk::TranslationTransform<CoordinateRepresentationType,
-      ImageDimension>;
+    using TransformType = itk::TranslationTransform<CoordinateRepresentationType, ImageDimension>;
 
     TransformType::Pointer transform = TransformType::New();
     metric->SetTransform(transform);
 
     // Set up an interpolator.
-    using InterpolatorType = itk::LinearInterpolateImageFunction<MovingImageType,
-      double>;
+    using InterpolatorType = itk::LinearInterpolateImageFunction<MovingImageType, double>;
 
     InterpolatorType::Pointer interpolator = InterpolatorType::New();
     interpolator->SetInputImage(movingImage);
@@ -114,20 +111,20 @@ int itkMutualInformationHistogramImageToImageMetricTest(int , char* [])
     // Set up transform parameters.
     const unsigned int numberOfParameters = transform->GetNumberOfParameters();
 
-    ParametersType parameters( numberOfParameters );
+    ParametersType parameters(numberOfParameters);
 
     for (unsigned int k = 0; k < numberOfParameters; k++)
-      {
+    {
       parameters[k] = 0.0f;
-      }
+    }
 
     // Set scales for derivative calculation.
-    ScalesType scales( numberOfParameters );
+    ScalesType scales(numberOfParameters);
 
     for (unsigned int k = 0; k < numberOfParameters; k++)
-      {
+    {
       scales[k] = 1;
-      }
+    }
 
     metric->SetDerivativeStepLengthScales(scales);
 
@@ -135,19 +132,18 @@ int itkMutualInformationHistogramImageToImageMetricTest(int , char* [])
     metric->Initialize();
 
     // Print out metric value and derivative.
-    MetricType::MeasureType measure = metric->GetValue(parameters);
+    MetricType::MeasureType    measure = metric->GetValue(parameters);
     MetricType::DerivativeType derivative;
     metric->GetDerivative(parameters, derivative);
 
-    std::cout << "Metric value = " << measure << std::endl
-              << "Derivative = " << derivative << std::endl;
+    std::cout << "Metric value = " << measure << std::endl << "Derivative = " << derivative << std::endl;
 
     // Exercise Print() method.
     metric->Print(std::cout);
 
     std::cout << "Test passed." << std::endl;
   }
-  catch (itk::ExceptionObject& ex)
+  catch (itk::ExceptionObject & ex)
   {
     std::cerr << "Exception caught!" << std::endl;
     std::cerr << ex << std::endl;

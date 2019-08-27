@@ -22,86 +22,83 @@
 #include "itkDeconvolutionIterationCommand.h"
 #include "itkTestingMacros.h"
 
-int itkProjectedLandweberDeconvolutionImageFilterTest(int argc, char* argv[])
+int
+itkProjectedLandweberDeconvolutionImageFilterTest(int argc, char * argv[])
 {
-  if ( argc < 5 )
-    {
+  if (argc < 5)
+  {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << " <input image> <kernel image> <output image> <iterations> [convolution image]"
-              << std::endl;
+              << " <input image> <kernel image> <output image> <iterations> [convolution image]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   using PixelType = float;
   constexpr unsigned int Dimension = 2;
-  using ImageType = itk::Image< PixelType, Dimension >;
-  using ReaderType = itk::ImageFileReader< ImageType >;
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  using WriterType = itk::ImageFileWriter<ImageType>;
 
   ReaderType::Pointer inputReader = ReaderType::New();
-  inputReader->SetFileName( argv[1] );
+  inputReader->SetFileName(argv[1]);
   inputReader->Update();
 
   ReaderType::Pointer kernelReader = ReaderType::New();
-  kernelReader->SetFileName( argv[2] );
+  kernelReader->SetFileName(argv[2]);
   kernelReader->Update();
 
   // Generate a convolution of the input image with the kernel image
-  using ConvolutionFilterType = itk::FFTConvolutionImageFilter< ImageType >;
+  using ConvolutionFilterType = itk::FFTConvolutionImageFilter<ImageType>;
   ConvolutionFilterType::Pointer convolutionFilter = ConvolutionFilterType::New();
-  convolutionFilter->SetInput( inputReader->GetOutput() );
+  convolutionFilter->SetInput(inputReader->GetOutput());
   convolutionFilter->NormalizeOn();
-  convolutionFilter->SetKernelImage( kernelReader->GetOutput() );
+  convolutionFilter->SetKernelImage(kernelReader->GetOutput());
 
   // Test the deconvolution algorithm
-  using DeconvolutionFilterType = itk::ProjectedLandweberDeconvolutionImageFilter< ImageType >;
+  using DeconvolutionFilterType = itk::ProjectedLandweberDeconvolutionImageFilter<ImageType>;
   DeconvolutionFilterType::Pointer deconvolutionFilter = DeconvolutionFilterType::New();
-  deconvolutionFilter->SetInput( convolutionFilter->GetOutput() );
-  deconvolutionFilter->SetKernelImage( kernelReader->GetOutput() );
+  deconvolutionFilter->SetInput(convolutionFilter->GetOutput());
+  deconvolutionFilter->SetKernelImage(kernelReader->GetOutput());
   deconvolutionFilter->NormalizeOn();
-  deconvolutionFilter->SetAlpha( std::stod( argv[5] ) );
-  auto iterations = static_cast< unsigned int >( std::stoi( argv[4] ) );
-  deconvolutionFilter->SetNumberOfIterations( iterations );
+  deconvolutionFilter->SetAlpha(std::stod(argv[5]));
+  auto iterations = static_cast<unsigned int>(std::stoi(argv[4]));
+  deconvolutionFilter->SetNumberOfIterations(iterations);
 
   // Add an observer to report on filter iteration progress
-  using IterationCommandType = itk::DeconvolutionIterationCommand< DeconvolutionFilterType >;
+  using IterationCommandType = itk::DeconvolutionIterationCommand<DeconvolutionFilterType>;
   IterationCommandType::Pointer observer = IterationCommandType::New();
-  deconvolutionFilter->AddObserver( itk::IterationEvent(), observer );
+  deconvolutionFilter->AddObserver(itk::IterationEvent(), observer);
 
   // Write the deconvolution result
   try
-    {
+  {
     WriterType::Pointer writer = WriterType::New();
-    writer->SetFileName( argv[3] );
-    writer->SetInput( deconvolutionFilter->GetOutput() );
+    writer->SetFileName(argv[3]);
+    writer->SetInput(deconvolutionFilter->GetOutput());
     writer->Update();
-    }
-  catch ( itk::ExceptionObject & e )
-    {
-    std::cerr << "Unexpected exception caught when writing deconvolution image: "
-              << e << std::endl;
+  }
+  catch (itk::ExceptionObject & e)
+  {
+    std::cerr << "Unexpected exception caught when writing deconvolution image: " << e << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  if ( !observer->GetInvoked() )
-    {
+  if (!observer->GetInvoked())
+  {
     std::cerr << "Iteration command observer was never invoked, but should have been." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  deconvolutionFilter->Print( std::cout );
+  deconvolutionFilter->Print(std::cout);
 
   // Instantiate types with non-default template parameters
-  using FloatImageType = itk::Image< float, Dimension >;
-  using DoubleImageType = itk::Image< double, Dimension >;
-  using IntImageType = itk::Image< int, Dimension >;
+  using FloatImageType = itk::Image<float, Dimension>;
+  using DoubleImageType = itk::Image<double, Dimension>;
+  using IntImageType = itk::Image<int, Dimension>;
 
-  using FilterType = itk::ProjectedLandweberDeconvolutionImageFilter< FloatImageType,
-                                                           DoubleImageType,
-                                                           IntImageType,
-                                                           float >;
+  using FilterType =
+    itk::ProjectedLandweberDeconvolutionImageFilter<FloatImageType, DoubleImageType, IntImageType, float>;
   FilterType::Pointer filter = FilterType::New();
-  filter->Print( std::cout );
+  filter->Print(std::cout);
 
   return EXIT_SUCCESS;
 }

@@ -24,9 +24,8 @@
 namespace itk
 {
 // ---------------------------------------------------------------------
-template< typename TCellInterface >
-QuadEdgeMeshLineCell< TCellInterface >
-::QuadEdgeMeshLineCell()
+template <typename TCellInterface>
+QuadEdgeMeshLineCell<TCellInterface>::QuadEdgeMeshLineCell()
 {
   m_Identifier = 0;
   m_QuadEdgeGeom = new QEType;
@@ -45,9 +44,8 @@ QuadEdgeMeshLineCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< typename TCellInterface >
-QuadEdgeMeshLineCell< TCellInterface >
-::~QuadEdgeMeshLineCell()
+template <typename TCellInterface>
+QuadEdgeMeshLineCell<TCellInterface>::~QuadEdgeMeshLineCell()
 {
   // ALEX: for performance issues,
   // we will assume the user calls Disconnect beforehand
@@ -59,103 +57,100 @@ QuadEdgeMeshLineCell< TCellInterface >
 
   bool FoundNullPointer = false;
 
-  if ( m_QuadEdgeGeom )
+  if (m_QuadEdgeGeom)
+  {
+    if (m_QuadEdgeGeom->GetRot())
     {
-    if ( m_QuadEdgeGeom->GetRot() )
+      if (m_QuadEdgeGeom->GetRot()->GetRot())
       {
-      if ( m_QuadEdgeGeom->GetRot()->GetRot() )
+        if (m_QuadEdgeGeom->GetRot()->GetRot()->GetRot())
         {
-        if ( m_QuadEdgeGeom->GetRot()->GetRot()->GetRot() )
-          {
-          delete m_QuadEdgeGeom->GetRot()->GetRot()->GetRot();    //e3
-          delete m_QuadEdgeGeom->GetRot()->GetRot();              //e2
-          delete m_QuadEdgeGeom->GetRot();                        //e1
+          delete m_QuadEdgeGeom->GetRot()->GetRot()->GetRot(); // e3
+          delete m_QuadEdgeGeom->GetRot()->GetRot();           // e2
+          delete m_QuadEdgeGeom->GetRot();                     // e1
           delete m_QuadEdgeGeom;
-          }
-        else
-          {
-          FoundNullPointer = true;
-          delete m_QuadEdgeGeom->GetRot()->GetRot();              //e2
-          delete m_QuadEdgeGeom->GetRot();                        //e1
-          delete m_QuadEdgeGeom;
-          }
         }
-      else
+        else
         {
-        FoundNullPointer = true;
-        delete m_QuadEdgeGeom->GetRot();                        //e1
-        delete m_QuadEdgeGeom;
+          FoundNullPointer = true;
+          delete m_QuadEdgeGeom->GetRot()->GetRot(); // e2
+          delete m_QuadEdgeGeom->GetRot();           // e1
+          delete m_QuadEdgeGeom;
         }
       }
-    else
+      else
       {
+        FoundNullPointer = true;
+        delete m_QuadEdgeGeom->GetRot(); // e1
+        delete m_QuadEdgeGeom;
+      }
+    }
+    else
+    {
       FoundNullPointer = true;
       delete m_QuadEdgeGeom;
-      }
     }
+  }
   else
-    {
+  {
     FoundNullPointer = true;
-    }
+  }
 
-  if ( FoundNullPointer )
-    {
-    //Throw exception here
-    }
+  if (FoundNullPointer)
+  {
+    // Throw exception here
+  }
 }
 
 // ---------------------------------------------------------------------
-template< typename TCellInterface >
+template <typename TCellInterface>
 void
-QuadEdgeMeshLineCell< TCellInterface >
-::Accept(CellIdentifier cellId, MultiVisitor *mv)
+QuadEdgeMeshLineCell<TCellInterface>::Accept(CellIdentifier cellId, MultiVisitor * mv)
 {
-  using IntVis = CellInterfaceVisitor< PixelType, CellTraits >;
-  typename IntVis::Pointer v = mv->GetVisitor( this->GetType() );
-  if ( v )
-    {
+  using IntVis = CellInterfaceVisitor<PixelType, CellTraits>;
+  typename IntVis::Pointer v = mv->GetVisitor(this->GetType());
+  if (v)
+  {
     v->VisitFromCell(cellId, this);
-    }
+  }
 }
 
 // ---------------------------------------------------------------------
-template< typename TCellInterface >
-typename QuadEdgeMeshLineCell< TCellInterface >::CellFeatureCount
-QuadEdgeMeshLineCell< TCellInterface >
-::GetNumberOfBoundaryFeatures(int dimension) const
+template <typename TCellInterface>
+typename QuadEdgeMeshLineCell<TCellInterface>::CellFeatureCount
+QuadEdgeMeshLineCell<TCellInterface>::GetNumberOfBoundaryFeatures(int dimension) const
 {
-  if ( dimension == 0 )
-    {
+  if (dimension == 0)
+  {
     return 2;
-    }
+  }
 
-  if ( dimension == 1 )
-    {
+  if (dimension == 1)
+  {
     return 1;
-    }
+  }
 
   return 0;
 }
 
 // ---------------------------------------------------------------------
-template< typename TCellInterface >
+template <typename TCellInterface>
 bool
-QuadEdgeMeshLineCell< TCellInterface >
-::GetBoundaryFeature(int dimension, CellFeatureIdentifier cellId,
-                     CellAutoPointer & cell)
+QuadEdgeMeshLineCell<TCellInterface>::GetBoundaryFeature(int                   dimension,
+                                                         CellFeatureIdentifier cellId,
+                                                         CellAutoPointer &     cell)
 {
   // TODO : FIXME
   (void)dimension;
   (void)cellId;
   (void)cell;
-  return ( false );
+  return (false);
 }
 
 // ---------------------------------------------------------------------
-template< typename TCellInterface >
+template <typename TCellInterface>
 void
-QuadEdgeMeshLineCell< TCellInterface >
-::SetPointIds(PointIdConstIterator first)
+QuadEdgeMeshLineCell<TCellInterface>::SetPointIds(PointIdConstIterator first)
 {
   PointIdConstIterator i = first;
 
@@ -165,10 +160,9 @@ QuadEdgeMeshLineCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< typename TCellInterface >
+template <typename TCellInterface>
 void
-QuadEdgeMeshLineCell< TCellInterface >
-::InternalSetPointIds(PointIdInternalConstIterator first)
+QuadEdgeMeshLineCell<TCellInterface>::InternalSetPointIds(PointIdInternalConstIterator first)
 {
   PointIdInternalConstIterator i = first;
 
@@ -178,11 +172,9 @@ QuadEdgeMeshLineCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< typename TCellInterface >
+template <typename TCellInterface>
 void
-QuadEdgeMeshLineCell< TCellInterface >
-::SetPointIds(PointIdConstIterator first,
-              PointIdConstIterator last)
+QuadEdgeMeshLineCell<TCellInterface>::SetPointIds(PointIdConstIterator first, PointIdConstIterator last)
 {
   (void)last;
   this->GetQEGeom()->SetOrigin(*first);
@@ -191,11 +183,10 @@ QuadEdgeMeshLineCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< typename TCellInterface >
+template <typename TCellInterface>
 void
-QuadEdgeMeshLineCell< TCellInterface >
-::InternalSetPointIds(PointIdInternalConstIterator first,
-                      PointIdInternalConstIterator last)
+QuadEdgeMeshLineCell<TCellInterface>::InternalSetPointIds(PointIdInternalConstIterator first,
+                                                          PointIdInternalConstIterator last)
 {
   (void)last;
   this->GetQEGeom()->SetOrigin(*first);
@@ -204,76 +195,64 @@ QuadEdgeMeshLineCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< typename TCellInterface >
+template <typename TCellInterface>
 void
-QuadEdgeMeshLineCell< TCellInterface >
-::SetPointId(int localId, PointIdentifier pId)
+QuadEdgeMeshLineCell<TCellInterface>::SetPointId(int localId, PointIdentifier pId)
 {
-  if ( localId == 0 )
-    {
+  if (localId == 0)
+  {
     this->GetQEGeom()->SetOrigin(pId);
-    }
-  else if ( localId == 1 )
-    {
+  }
+  else if (localId == 1)
+  {
     this->GetQEGeom()->SetDestination(pId);
-    }
+  }
 }
 
 // ---------------------------------------------------------------------
-template< typename TCellInterface >
-typename QuadEdgeMeshLineCell< TCellInterface >::PointIdInternalIterator
-QuadEdgeMeshLineCell< TCellInterface >
-::InternalPointIdsBegin()
+template <typename TCellInterface>
+typename QuadEdgeMeshLineCell<TCellInterface>::PointIdInternalIterator
+QuadEdgeMeshLineCell<TCellInterface>::InternalPointIdsBegin()
 {
-  return ( PointIdInternalIterator(this->m_QuadEdgeGeom,
-                                   PointIdInternalIterator::OperatorSym, true) );
+  return (PointIdInternalIterator(this->m_QuadEdgeGeom, PointIdInternalIterator::OperatorSym, true));
 }
 
 // ---------------------------------------------------------------------
-template< typename TCellInterface >
-typename QuadEdgeMeshLineCell< TCellInterface >::PointIdInternalIterator
-QuadEdgeMeshLineCell< TCellInterface >
-::InternalPointIdsEnd()
+template <typename TCellInterface>
+typename QuadEdgeMeshLineCell<TCellInterface>::PointIdInternalIterator
+QuadEdgeMeshLineCell<TCellInterface>::InternalPointIdsEnd()
 {
-  return ( PointIdInternalIterator(this->m_QuadEdgeGeom,
-                                   PointIdInternalIterator::OperatorSym, false) );
+  return (PointIdInternalIterator(this->m_QuadEdgeGeom, PointIdInternalIterator::OperatorSym, false));
 }
 
 // ---------------------------------------------------------------------
-template< typename TCellInterface >
-typename QuadEdgeMeshLineCell< TCellInterface >::PointIdInternalConstIterator
-QuadEdgeMeshLineCell< TCellInterface >
-::InternalGetPointIds() const
+template <typename TCellInterface>
+typename QuadEdgeMeshLineCell<TCellInterface>::PointIdInternalConstIterator
+QuadEdgeMeshLineCell<TCellInterface>::InternalGetPointIds() const
 {
-  return ( PointIdInternalConstIterator(this->m_QuadEdgeGeom,
-                                        PointIdInternalConstIterator::OperatorSym, true) );
+  return (PointIdInternalConstIterator(this->m_QuadEdgeGeom, PointIdInternalConstIterator::OperatorSym, true));
 }
 
 // ---------------------------------------------------------------------
-template< typename TCellInterface >
-typename QuadEdgeMeshLineCell< TCellInterface >::PointIdInternalConstIterator
-QuadEdgeMeshLineCell< TCellInterface >
-::InternalPointIdsBegin() const
+template <typename TCellInterface>
+typename QuadEdgeMeshLineCell<TCellInterface>::PointIdInternalConstIterator
+QuadEdgeMeshLineCell<TCellInterface>::InternalPointIdsBegin() const
 {
-  return ( PointIdInternalConstIterator(this->m_QuadEdgeGeom,
-                                        PointIdInternalConstIterator::OperatorSym, true) );
+  return (PointIdInternalConstIterator(this->m_QuadEdgeGeom, PointIdInternalConstIterator::OperatorSym, true));
 }
 
 // ---------------------------------------------------------------------
-template< typename TCellInterface >
-typename QuadEdgeMeshLineCell< TCellInterface >::PointIdInternalConstIterator
-QuadEdgeMeshLineCell< TCellInterface >
-::InternalPointIdsEnd() const
+template <typename TCellInterface>
+typename QuadEdgeMeshLineCell<TCellInterface>::PointIdInternalConstIterator
+QuadEdgeMeshLineCell<TCellInterface>::InternalPointIdsEnd() const
 {
-  return ( PointIdInternalConstIterator(this->m_QuadEdgeGeom,
-                                        PointIdInternalConstIterator::OperatorSym, false) );
+  return (PointIdInternalConstIterator(this->m_QuadEdgeGeom, PointIdInternalConstIterator::OperatorSym, false));
 }
 
 // ---------------------------------------------------------------------
-template< typename TCellInterface >
+template <typename TCellInterface>
 void
-QuadEdgeMeshLineCell< TCellInterface >
-::SetIdent(CellIdentifier cid)
+QuadEdgeMeshLineCell<TCellInterface>::SetIdent(CellIdentifier cid)
 {
   this->m_Identifier = cid;
   this->m_QuadEdgeGeom->SetIdent(cid);
@@ -281,46 +260,41 @@ QuadEdgeMeshLineCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< typename TCellInterface >
-typename QuadEdgeMeshLineCell< TCellInterface >::CellIdentifier
-QuadEdgeMeshLineCell< TCellInterface >
-::GetIdent()
+template <typename TCellInterface>
+typename QuadEdgeMeshLineCell<TCellInterface>::CellIdentifier
+QuadEdgeMeshLineCell<TCellInterface>::GetIdent()
 {
   return this->m_Identifier;
 }
 
 // ---------------------------------------------------------------------
-template< typename TCellInterface >
-typename QuadEdgeMeshLineCell< TCellInterface >::CellGeometry
-QuadEdgeMeshLineCell< TCellInterface >
-::GetType() const
+template <typename TCellInterface>
+typename QuadEdgeMeshLineCell<TCellInterface>::CellGeometry
+QuadEdgeMeshLineCell<TCellInterface>::GetType() const
 {
   return Superclass::LINE_CELL;
 }
 
 // ---------------------------------------------------------------------
-template< typename TCellInterface >
+template <typename TCellInterface>
 int
-QuadEdgeMeshLineCell< TCellInterface >
-::GetTopologyId()
+QuadEdgeMeshLineCell<TCellInterface>::GetTopologyId()
 {
   return Superclass::LINE_CELL;
 }
 
 // ---------------------------------------------------------------------
-template< typename TCellInterface >
+template <typename TCellInterface>
 unsigned int
-QuadEdgeMeshLineCell< TCellInterface >
-::GetDimension() const
+QuadEdgeMeshLineCell<TCellInterface>::GetDimension() const
 {
   return Self::CellDimension;
 }
 
 // ---------------------------------------------------------------------
-template< typename TCellInterface >
+template <typename TCellInterface>
 unsigned int
-QuadEdgeMeshLineCell< TCellInterface >
-::GetNumberOfPoints() const
+QuadEdgeMeshLineCell<TCellInterface>::GetNumberOfPoints() const
 {
   return 2;
 }

@@ -24,70 +24,70 @@
 #include "itkTIFFImageIO.h"
 
 
-int itkTIFFImageIOInfoTest( int argc, char * argv[] )
+int
+itkTIFFImageIOInfoTest(int argc, char * argv[])
 {
 
-  if( argc != 2 )
-    {
+  if (argc != 2)
+  {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " input" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   const std::string filename = argv[1];
 
   auto tiffImageIO = itk::TIFFImageIO::New();
-  tiffImageIO->SetFileName( filename );
+  tiffImageIO->SetFileName(filename);
   tiffImageIO->ReadImageInformation();
 
 
   std::cout << "Dimensions: ( ";
   for (unsigned int d = 0; d < tiffImageIO->GetNumberOfDimensions(); ++d)
-    {
+  {
     std::cout << tiffImageIO->GetDimensions(d) << " ";
-    }
+  }
   std::cout << ")" << std::endl;
 
   std::cout << "Origin: ( ";
   for (unsigned int d = 0; d < tiffImageIO->GetNumberOfDimensions(); ++d)
-    {
+  {
     std::cout << tiffImageIO->GetOrigin(d) << " ";
-    }
+  }
   std::cout << ")" << std::endl;
 
   std::cout << "Spacing: ( ";
   for (unsigned int d = 0; d < tiffImageIO->GetNumberOfDimensions(); ++d)
-    {
+  {
     std::cout << tiffImageIO->GetSpacing(d) << " ";
-    }
+  }
   std::cout << ")" << std::endl;
 
   using DictionaryType = itk::MetaDataDictionary;
-  using MetaDataStringType = itk::MetaDataObject< std::string >;
+  using MetaDataStringType = itk::MetaDataObject<std::string>;
 
   const DictionaryType & dictionary = tiffImageIO->GetMetaDataDictionary();
-  auto itr = dictionary.Begin();
-  auto end = dictionary.End();
+  auto                   itr = dictionary.Begin();
+  auto                   end = dictionary.End();
 
   std::cout << "MetaDataDictionary" << std::endl;
-  while( itr != end )
+  while (itr != end)
+  {
+    itk::MetaDataObjectBase::Pointer entry = itr->second;
+    const std::string                tagkey = itr->first;
+
+    MetaDataStringType::Pointer entryvalue = dynamic_cast<MetaDataStringType *>(entry.GetPointer());
+
+    if (entryvalue)
     {
-    itk::MetaDataObjectBase::Pointer  entry   = itr->second;
-    const std::string                 tagkey  = itr->first;
-
-    MetaDataStringType::Pointer entryvalue =
-      dynamic_cast<MetaDataStringType *>( entry.GetPointer() );
-
-    if( entryvalue )
-      {
       std::cout << tagkey << ": " << entryvalue->GetMetaDataObjectValue() << std::endl;
-      }
+    }
     else
-      {
+    {
       std::cout << tagkey << ": " << entry << std::endl;
-      }
+    }
 
     ++itr;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

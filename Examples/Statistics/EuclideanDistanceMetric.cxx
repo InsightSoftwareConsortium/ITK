@@ -54,10 +54,11 @@
 //
 // Software Guide : EndLatex
 
-int main(int, char*[])
+int
+main(int, char *[])
 {
   // Software Guide : BeginCodeSnippet
-  using MeasurementVectorType = itk::Array< float >;
+  using MeasurementVectorType = itk::Array<float>;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -91,12 +92,12 @@ int main(int, char*[])
   // \code{SetMeasurementVectorSize()} method.
   //
   // Software Guide : EndLatex
-  distanceMetric->SetMeasurementVectorSize( 2 );
+  distanceMetric->SetMeasurementVectorSize(2);
 
   // Software Guide : BeginCodeSnippet
-  DistanceMetricType::OriginType originPoint( 2 );
-  MeasurementVectorType queryPointA( 2 );
-  MeasurementVectorType queryPointB( 2 );
+  DistanceMetricType::OriginType originPoint(2);
+  MeasurementVectorType          queryPointA(2);
+  MeasurementVectorType          queryPointB(2);
 
   originPoint[0] = 0;
   originPoint[1] = 0;
@@ -117,19 +118,16 @@ int main(int, char*[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  distanceMetric->SetOrigin( originPoint );
+  distanceMetric->SetOrigin(originPoint);
   std::cout << "Euclidean distance between the origin and the query point A = "
-            << distanceMetric->Evaluate( queryPointA )
-            << std::endl;
+            << distanceMetric->Evaluate(queryPointA) << std::endl;
 
   std::cout << "Euclidean distance between the two query points (A and B) = "
-            << distanceMetric->Evaluate( queryPointA, queryPointB )
-            << std::endl;
+            << distanceMetric->Evaluate(queryPointA, queryPointB) << std::endl;
 
   std::cout << "Coordinate distance between "
             << "the first components of the two query points = "
-            << distanceMetric->Evaluate( queryPointA[0], queryPointB[0] )
-            << std::endl;
+            << distanceMetric->Evaluate(queryPointA[0], queryPointB[0]) << std::endl;
   // Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;

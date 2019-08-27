@@ -24,113 +24,104 @@ namespace itk
 {
 namespace Statistics
 {
-template< typename TImage >
-ImageToListSampleAdaptor< TImage >
-::ImageToListSampleAdaptor()
+template <typename TImage>
+ImageToListSampleAdaptor<TImage>::ImageToListSampleAdaptor()
 {
   m_Image = nullptr;
 }
 
-template< typename TImage >
-const typename ImageToListSampleAdaptor< TImage >::MeasurementVectorType &
-ImageToListSampleAdaptor< TImage >
-::GetMeasurementVector(InstanceIdentifier id) const
+template <typename TImage>
+const typename ImageToListSampleAdaptor<TImage>::MeasurementVectorType &
+ImageToListSampleAdaptor<TImage>::GetMeasurementVector(InstanceIdentifier id) const
 {
-  if ( m_Image.IsNull() )
-    {
+  if (m_Image.IsNull())
+  {
     itkExceptionMacro("Image has not been set yet");
-    }
-  MeasurementVectorTraits::Assign( m_MeasurementVectorInternal,
-                                   m_Image->GetPixel( m_Image->ComputeIndex(id) ) );
+  }
+  MeasurementVectorTraits::Assign(m_MeasurementVectorInternal, m_Image->GetPixel(m_Image->ComputeIndex(id)));
 
   return m_MeasurementVectorInternal;
 }
 
 /** returns the number of measurement vectors in this container*/
-template< typename TImage >
-typename ImageToListSampleAdaptor< TImage >::InstanceIdentifier
-ImageToListSampleAdaptor< TImage >
-::Size() const
+template <typename TImage>
+typename ImageToListSampleAdaptor<TImage>::InstanceIdentifier
+ImageToListSampleAdaptor<TImage>::Size() const
 {
-  if ( m_Image.IsNull() )
-    {
+  if (m_Image.IsNull())
+  {
     itkExceptionMacro("Image has not been set yet");
-    }
+  }
 
   return m_Image->GetLargestPossibleRegion().GetNumberOfPixels();
 }
 
-template< typename TImage >
-inline typename ImageToListSampleAdaptor< TImage >::AbsoluteFrequencyType
-ImageToListSampleAdaptor< TImage >
-::GetFrequency(InstanceIdentifier) const
+template <typename TImage>
+inline typename ImageToListSampleAdaptor<TImage>::AbsoluteFrequencyType ImageToListSampleAdaptor<TImage>::GetFrequency(
+  InstanceIdentifier) const
 {
-  if ( m_Image.IsNull() )
-    {
+  if (m_Image.IsNull())
+  {
     itkExceptionMacro("Image has not been set yet");
-    }
+  }
 
-  return NumericTraits< AbsoluteFrequencyType >::OneValue();
+  return NumericTraits<AbsoluteFrequencyType>::OneValue();
 }
 
-template< typename TImage >
+template <typename TImage>
 void
-ImageToListSampleAdaptor< TImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+ImageToListSampleAdaptor<TImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Image: ";
-  if ( m_Image.IsNotNull() )
-    {
+  if (m_Image.IsNotNull())
+  {
     os << m_Image << std::endl;
-    }
+  }
   else
-    {
+  {
     os << "not set." << std::endl;
-    }
+  }
   os << indent << "MeasurementVectorSize: ";
-  if ( m_Image.IsNotNull() )
-    {
+  if (m_Image.IsNotNull())
+  {
     os << this->GetMeasurementVectorSize() << std::endl;
-    }
+  }
   else
-    {
+  {
     os << "not set." << std::endl;
-    }
+  }
 }
 
-template< typename TImage >
+template <typename TImage>
 void
-ImageToListSampleAdaptor< TImage >
-::SetImage(const TImage *image)
+ImageToListSampleAdaptor<TImage>::SetImage(const TImage * image)
 {
   m_Image = image;
   this->Modified();
 }
 
-template< typename TImage >
+template <typename TImage>
 const TImage *
-ImageToListSampleAdaptor< TImage >
-::GetImage() const
+ImageToListSampleAdaptor<TImage>::GetImage() const
 {
-  if ( m_Image.IsNull() )
-    {
+  if (m_Image.IsNull())
+  {
     itkExceptionMacro("Image has not been set yet");
-    }
+  }
 
   return m_Image.GetPointer();
 }
 
-template< typename TImage >
-typename ImageToListSampleAdaptor< TImage >::TotalAbsoluteFrequencyType
-ImageToListSampleAdaptor< TImage >
-::GetTotalFrequency() const
+template <typename TImage>
+typename ImageToListSampleAdaptor<TImage>::TotalAbsoluteFrequencyType
+ImageToListSampleAdaptor<TImage>::GetTotalFrequency() const
 {
-  if ( m_Image.IsNull() )
-    {
+  if (m_Image.IsNull())
+  {
     itkExceptionMacro("Image has not been set yet");
-    }
+  }
 
   return this->Size();
 }

@@ -31,54 +31,53 @@
  * not within a certain tolerance of the expected results.
  *
  */
-int itkSphereSignedDistanceFunctionTest( int, char *[])
+int
+itkSphereSignedDistanceFunctionTest(int, char *[])
 {
   using CoordRep = double;
   constexpr unsigned int Dimension = 2;
 
-  using FunctionType =
-      itk::ShapeSignedDistanceFunction<CoordRep,Dimension>;
-  using SphereFunctionType =
-      itk::SphereSignedDistanceFunction<CoordRep,Dimension>;
+  using FunctionType = itk::ShapeSignedDistanceFunction<CoordRep, Dimension>;
+  using SphereFunctionType = itk::SphereSignedDistanceFunction<CoordRep, Dimension>;
   using PointType = FunctionType::PointType;
   using ParametersType = FunctionType::ParametersType;
 
   SphereFunctionType::Pointer sphere = SphereFunctionType::New();
 
   // cast it to a generic function
-  FunctionType::Pointer function = dynamic_cast<FunctionType *>( sphere.GetPointer() );
+  FunctionType::Pointer function = dynamic_cast<FunctionType *>(sphere.GetPointer());
   sphere = nullptr;
 
   // we must initialize the function before use
   function->Initialize();
 
-  ParametersType parameters( function->GetNumberOfParameters() );
-  parameters.Fill( 0.0 );
+  ParametersType parameters(function->GetNumberOfParameters());
+  parameters.Fill(0.0);
   parameters[0] = 5.0;
 
-  function->SetParameters( parameters );
+  function->SetParameters(parameters);
 
   std::cout << "Parameters: " << function->GetParameters() << std::endl;
 
   PointType point;
-  function->Print( std::cout );
+  function->Print(std::cout);
   std::cout << function->FunctionType::GetNameOfClass() << std::endl;
 
-  for ( double p = 0.0; p < 10.0; p += 1.0 )
-    {
-    point.Fill( p );
-    FunctionType::OutputType output = function->Evaluate( point );
+  for (double p = 0.0; p < 10.0; p += 1.0)
+  {
+    point.Fill(p);
+    FunctionType::OutputType output = function->Evaluate(point);
 
     std::cout << "f( " << point << ") = " << output << std::endl;
 
     // check results
-    CoordRep expected = p * std::sqrt( 2.0 ) - parameters[0];
-    if( itk::Math::abs( output - expected ) > 1e-9 )
-      {
+    CoordRep expected = p * std::sqrt(2.0) - parameters[0];
+    if (itk::Math::abs(output - expected) > 1e-9)
+    {
       std::cout << "But expected value is: " << expected << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;

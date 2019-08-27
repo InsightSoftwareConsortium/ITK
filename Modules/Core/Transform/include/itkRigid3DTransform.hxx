@@ -23,26 +23,25 @@
 namespace itk
 {
 // Constructor with default arguments
-template<typename TParametersValueType>
-Rigid3DTransform<TParametersValueType>::Rigid3DTransform():
-  Superclass(ParametersDimension)
+template <typename TParametersValueType>
+Rigid3DTransform<TParametersValueType>::Rigid3DTransform()
+  : Superclass(ParametersDimension)
 {}
 
 // Constructor with default arguments
-template<typename TParametersValueType>
-Rigid3DTransform<TParametersValueType>::Rigid3DTransform(unsigned int paramDim):
-  Superclass(paramDim)
+template <typename TParametersValueType>
+Rigid3DTransform<TParametersValueType>::Rigid3DTransform(unsigned int paramDim)
+  : Superclass(paramDim)
 {}
 
 // Constructor with default arguments
-template<typename TParametersValueType>
-Rigid3DTransform<TParametersValueType>::Rigid3DTransform(const MatrixType & matrix,
-                                                  const OutputVectorType & offset):
-  Superclass(matrix, offset)
+template <typename TParametersValueType>
+Rigid3DTransform<TParametersValueType>::Rigid3DTransform(const MatrixType & matrix, const OutputVectorType & offset)
+  : Superclass(matrix, offset)
 {}
 
 // Print self
-template<typename TParametersValueType>
+template <typename TParametersValueType>
 void
 Rigid3DTransform<TParametersValueType>::PrintSelf(std::ostream & os, Indent indent) const
 {
@@ -50,83 +49,77 @@ Rigid3DTransform<TParametersValueType>::PrintSelf(std::ostream & os, Indent inde
 }
 
 // Check if input matrix is orthogonal to within tolerance
-template<typename TParametersValueType>
+template <typename TParametersValueType>
 bool
-Rigid3DTransform<TParametersValueType>
-::MatrixIsOrthogonal(
-  const MatrixType & matrix,
-  const TParametersValueType tolerance)
+Rigid3DTransform<TParametersValueType>::MatrixIsOrthogonal(const MatrixType &         matrix,
+                                                           const TParametersValueType tolerance)
 {
-  typename MatrixType::InternalMatrixType test =
-    matrix.GetVnlMatrix() * matrix.GetTranspose();
+  typename MatrixType::InternalMatrixType test = matrix.GetVnlMatrix() * matrix.GetTranspose();
 
-  if ( !test.is_identity(tolerance) )
-    {
+  if (!test.is_identity(tolerance))
+  {
     return false;
-    }
+  }
 
   return true;
 }
 
 // Directly set the rotation matrix
-template<typename TParametersValueType>
+template <typename TParametersValueType>
 void
-Rigid3DTransform<TParametersValueType>
-::SetMatrix(const MatrixType & matrix)
+Rigid3DTransform<TParametersValueType>::SetMatrix(const MatrixType & matrix)
 {
   const TParametersValueType tolerance = MatrixOrthogonalityTolerance<TParametersValueType>::GetTolerance();
-  this->SetMatrix( matrix, tolerance );
+  this->SetMatrix(matrix, tolerance);
 }
 
-template<typename TParametersValueType>
+template <typename TParametersValueType>
 void
-Rigid3DTransform<TParametersValueType>
-::SetMatrix(const MatrixType & matrix, const TParametersValueType tolerance)
+Rigid3DTransform<TParametersValueType>::SetMatrix(const MatrixType & matrix, const TParametersValueType tolerance)
 {
-  if ( !this->MatrixIsOrthogonal(matrix, tolerance) )
-    {
+  if (!this->MatrixIsOrthogonal(matrix, tolerance))
+  {
     itkExceptionMacro(<< "Attempting to set a non-orthogonal rotation matrix");
-    }
+  }
 
   this->Superclass::SetMatrix(matrix);
 }
 
 // Set optimizable parameters from array
-template<typename TParametersValueType>
+template <typename TParametersValueType>
 void
-Rigid3DTransform<TParametersValueType>
-::SetParameters(const ParametersType & parameters)
+Rigid3DTransform<TParametersValueType>::SetParameters(const ParametersType & parameters)
 {
-  //Save parameters. Needed for proper operation of TransformUpdateParameters.
-  if( &parameters != &(this->m_Parameters) )
-    {
+  // Save parameters. Needed for proper operation of TransformUpdateParameters.
+  if (&parameters != &(this->m_Parameters))
+  {
     this->m_Parameters = parameters;
-    }
+  }
 
   unsigned int     par = 0;
   MatrixType       matrix;
   OutputVectorType translation;
 
-  for ( unsigned int row = 0; row < 3; row++ )
+  for (unsigned int row = 0; row < 3; row++)
+  {
+    for (unsigned int col = 0; col < 3; col++)
     {
-    for ( unsigned int col = 0; col < 3; col++ )
-      {
       matrix[row][col] = this->m_Parameters[par];
       ++par;
-      }
     }
+  }
 
-  for ( unsigned int dim = 0; dim < 3; dim++ )
-    {
+  for (unsigned int dim = 0; dim < 3; dim++)
+  {
     translation[dim] = this->m_Parameters[par];
     ++par;
-    }
+  }
 
   const TParametersValueType tolerance = MatrixOrthogonalityTolerance<TParametersValueType>::GetTolerance();
-  if ( !this->MatrixIsOrthogonal(matrix, tolerance) )
-    {
+  if (!this->MatrixIsOrthogonal(matrix, tolerance))
+  {
     itkExceptionMacro(<< "Attempting to set a non-orthogonal rotation matrix");
-    }
+  }
 
   this->SetVarMatrix(matrix);
   this->SetVarTranslation(translation);
@@ -141,7 +134,7 @@ Rigid3DTransform<TParametersValueType>
 }
 
 // Compose with a translation
-template<typename TParametersValueType>
+template <typename TParametersValueType>
 void
 Rigid3DTransform<TParametersValueType>::Translate(const OffsetType & offset, bool)
 {
@@ -153,6 +146,6 @@ Rigid3DTransform<TParametersValueType>::Translate(const OffsetType & offset, boo
 }
 
 
-} // namespace
+} // namespace itk
 
 #endif

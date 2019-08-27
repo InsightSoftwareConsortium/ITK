@@ -35,9 +35,8 @@ namespace itk
  * \ingroup IntensityImageFilters
  * \ingroup ITKLabelVoting
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT VotingBinaryImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT VotingBinaryImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VotingBinaryImageFilter);
@@ -52,9 +51,9 @@ public:
 
   /** Standard class type aliases. */
   using Self = VotingBinaryImageFilter;
-  using Superclass = ImageToImageFilter< InputImageType, OutputImageType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<InputImageType, OutputImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -103,27 +102,24 @@ public:
    * in order to inform the pipeline execution model.
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputEqualityComparableCheck,
-                   ( Concept::EqualityComparable< InputPixelType > ) );
-  itkConceptMacro( IntConvertibleToInputCheck,
-                   ( Concept::Convertible< int, InputPixelType > ) );
-  itkConceptMacro( InputConvertibleToOutputCheck,
-                   ( Concept::Convertible< InputPixelType, OutputPixelType > ) );
-  itkConceptMacro( SameDimensionCheck,
-                   ( Concept::SameDimension< InputImageDimension, OutputImageDimension > ) );
-  itkConceptMacro( InputOStreamWritableCheck,
-                   ( Concept::OStreamWritable< InputPixelType > ) );
+  itkConceptMacro(InputEqualityComparableCheck, (Concept::EqualityComparable<InputPixelType>));
+  itkConceptMacro(IntConvertibleToInputCheck, (Concept::Convertible<int, InputPixelType>));
+  itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputPixelType, OutputPixelType>));
+  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
+  itkConceptMacro(InputOStreamWritableCheck, (Concept::OStreamWritable<InputPixelType>));
   // End concept checking
 #endif
 
 protected:
   VotingBinaryImageFilter();
   ~VotingBinaryImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** VotingBinaryImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a DynamicThreadedGenerateData()
@@ -135,7 +131,8 @@ protected:
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 private:
   InputSizeType m_Radius;
@@ -149,7 +146,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVotingBinaryImageFilter.hxx"
+#  include "itkVotingBinaryImageFilter.hxx"
 #endif
 
 #endif

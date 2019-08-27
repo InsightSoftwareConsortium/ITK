@@ -21,4 +21,4 @@ namespace itk
 {
 LogOutput::LogOutput() = default;
 LogOutput::~LogOutput() = default;
-}
+} // namespace itk

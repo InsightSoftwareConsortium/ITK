@@ -20,17 +20,16 @@
 #include "itkQuadEdgeMeshEulerOperatorJoinFacetFunction.h"
 #include "itkQuadEdgeMeshEulerOperatorsTestHelper.h"
 
-int itkQuadEdgeMeshEulerOperatorSplitFaceTest( int, char * [] )
+int
+itkQuadEdgeMeshEulerOperatorSplitFaceTest(int, char *[])
 {
 
-  using MeshType = itk::QuadEdgeMesh< double, 3 >;
+  using MeshType = itk::QuadEdgeMesh<double, 3>;
   using MeshPointer = MeshType::Pointer;
   using QEType = MeshType::QEType;
 
-  using SplitFacet =
-      itk::QuadEdgeMeshEulerOperatorSplitFacetFunction< MeshType, QEType>;
-  using JoinFacet =
-      itk::QuadEdgeMeshEulerOperatorJoinFacetFunction< MeshType, QEType >;
+  using SplitFacet = itk::QuadEdgeMeshEulerOperatorSplitFacetFunction<MeshType, QEType>;
+  using JoinFacet = itk::QuadEdgeMeshEulerOperatorJoinFacetFunction<MeshType, QEType>;
 
   /////////////////////////////////////////
   //
@@ -41,112 +40,110 @@ int itkQuadEdgeMeshEulerOperatorSplitFaceTest( int, char * [] )
   // Split the facet again in order to restore the original situation:
   std::cout << "Checking SplitFacet." << std::endl;
 
-  SplitFacet::Pointer splitFacet = SplitFacet::New( );
-  std::cout << "     " << "Test No Mesh Input";
-  if( splitFacet->Evaluate( (QEType*)1, (QEType*)2 ) )
-    {
+  SplitFacet::Pointer splitFacet = SplitFacet::New();
+  std::cout << "     "
+            << "Test No Mesh Input";
+  if (splitFacet->Evaluate((QEType *)1, (QEType *)2))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "OK" << std::endl;
 
   (void)splitFacet->GetNameOfClass();
 
   MeshPointer mesh = MeshType::New();
-  CreateSquareTriangularMesh<MeshType>( mesh );
+  CreateSquareTriangularMesh<MeshType>(mesh);
 
-  splitFacet->SetInput( mesh );
+  splitFacet->SetInput(mesh);
 
-  std::cout << "     " << "Test No QE Input";
-  if( splitFacet->Evaluate( (QEType*)nullptr, (QEType*)nullptr ) )
-    {
+  std::cout << "     "
+            << "Test No QE Input";
+  if (splitFacet->Evaluate((QEType *)nullptr, (QEType *)nullptr))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "OK" << std::endl;
 
-  std::cout << "     " << "Test two QE Input not sharing the same left";
-  if( splitFacet->Evaluate( mesh->FindEdge( 10, 16 ),
-                            mesh->FindEdge( 13, 19 ) ) )
-    {
+  std::cout << "     "
+            << "Test two QE Input not sharing the same left";
+  if (splitFacet->Evaluate(mesh->FindEdge(10, 16), mesh->FindEdge(13, 19)))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "OK" << std::endl;
 
-  std::cout << "     " << "Test twice same non-null QE Input";
-  if( splitFacet->Evaluate( (QEType*)1, (QEType*)1 ) )
-    {
+  std::cout << "     "
+            << "Test twice same non-null QE Input";
+  if (splitFacet->Evaluate((QEType *)1, (QEType *)1))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "OK" << std::endl;
 
-  std::cout << "     " << "Test two consecutive QE Input";
-  if( splitFacet->Evaluate( mesh->FindEdge( 10, 16 ),
-                            mesh->FindEdge( 10, 16 )->GetLnext( ) ) )
-    {
+  std::cout << "     "
+            << "Test two consecutive QE Input";
+  if (splitFacet->Evaluate(mesh->FindEdge(10, 16), mesh->FindEdge(10, 16)->GetLnext()))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "OK" << std::endl;
 
   JoinFacet::Pointer joinFacet = JoinFacet::New();
-  QEType* DeletedEdge = mesh->FindEdge( 12, 7 );
-  QEType* G = DeletedEdge->GetSym( )->GetLprev( );
-  QEType* H = joinFacet->Evaluate( DeletedEdge );
+  QEType *           DeletedEdge = mesh->FindEdge(12, 7);
+  QEType *           G = DeletedEdge->GetSym()->GetLprev();
+  QEType *           H = joinFacet->Evaluate(DeletedEdge);
 
-  if( !splitFacet->Evaluate( H, G ) )
-    {
+  if (!splitFacet->Evaluate(H, G))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  std::cout << "     " << "Split a face (possible)";
+  std::cout << "     "
+            << "Split a face (possible)";
   // The number of edges and faces must be respectively identical to
   // the original number edges and faces:
-  if( ! AssertTopologicalInvariants< MeshType >
-          ( mesh, 25, 56, 32, 1, 0 ) )
-    {
+  if (!AssertTopologicalInvariants<MeshType>(mesh, 25, 56, 32, 1, 0))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
-  if ( mesh->GetPoint( 12 ).GetValence( ) != 6 )
-    {
-    std::cout << "FAILED [wrong valence of "
-              << mesh->GetPoint( 12 ).GetValence( )
-              << " ]." << std::endl;
+  }
+  if (mesh->GetPoint(12).GetValence() != 6)
+  {
+    std::cout << "FAILED [wrong valence of " << mesh->GetPoint(12).GetValence() << " ]." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "OK" << std::endl;
   std::cout << "Checking SplitFacet. OK" << std::endl << std::endl;
 
   std::cout << "Checking JoinFacet( SplitFacet( edge ) ) invariance.";
-  G = mesh->FindEdge( 12, 7 )->GetSym( )->GetLprev( );
-  H = joinFacet->Evaluate( mesh->FindEdge( 12, 7 ) );
-  if( !H )
-    {
+  G = mesh->FindEdge(12, 7)->GetSym()->GetLprev();
+  H = joinFacet->Evaluate(mesh->FindEdge(12, 7));
+  if (!H)
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
-  if( !joinFacet->Evaluate( splitFacet->Evaluate( H, G ) ) )
-    {
+  }
+  if (!joinFacet->Evaluate(splitFacet->Evaluate(H, G)))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
-  if( ! AssertTopologicalInvariants< MeshType >
-          ( mesh, 25, 55, 31, 1, 0 ) )
-    {
+  }
+  if (!AssertTopologicalInvariants<MeshType>(mesh, 25, 55, 31, 1, 0))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
-  if ( mesh->GetPoint( 12 ).GetValence( ) != 5 )
-    {
-    std::cout << "FAILED [wrong valence of "
-              << mesh->GetPoint( 12 ).GetValence( )
-              << " ]." << std::endl;
+  }
+  if (mesh->GetPoint(12).GetValence() != 5)
+  {
+    std::cout << "FAILED [wrong valence of " << mesh->GetPoint(12).GetValence() << " ]." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << ".OK" << std::endl << std::endl;
 
   return EXIT_SUCCESS;

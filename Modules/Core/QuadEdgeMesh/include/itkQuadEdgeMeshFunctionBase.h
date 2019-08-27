@@ -51,8 +51,8 @@ namespace itk
  *
  * \ingroup ITKQuadEdgeMesh
  */
-template< typename TMesh, typename TOutput >
-class QuadEdgeMeshFunctionBase:public Object
+template <typename TMesh, typename TOutput>
+class QuadEdgeMeshFunctionBase : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshFunctionBase);
@@ -60,8 +60,8 @@ public:
   /** Standard class type aliases. */
   using Self = QuadEdgeMeshFunctionBase;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(QuadEdgeMeshFunctionBase, Object);
@@ -74,29 +74,27 @@ public:
   using OutputType = TOutput;
 
   /** Set the mesh to be modified */
-  virtual void SetInput(MeshType *input)
+  virtual void
+  SetInput(MeshType * input)
   {
     this->m_Mesh = input;
   }
 
   /** Evaluate at the specified input position */
-  //virtual OutputType Evaluate( )
+  // virtual OutputType Evaluate( )
   //  {
   //  return( (OutputType) 0 );
   //  }
 
 protected:
-  QuadEdgeMeshFunctionBase()
-  {
-    m_Mesh = (MeshType *)nullptr;
-  }
+  QuadEdgeMeshFunctionBase() { m_Mesh = (MeshType *)nullptr; }
 
   ~QuadEdgeMeshFunctionBase() override = default;
 
 private:
 protected:
   /** Mesh on which to apply the modification */
-  MeshType *m_Mesh;
+  MeshType * m_Mesh;
 };
 } // end namespace itk
 

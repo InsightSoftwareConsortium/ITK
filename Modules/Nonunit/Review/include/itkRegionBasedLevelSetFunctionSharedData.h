@@ -64,16 +64,16 @@ namespace itk
  *
  * \ingroup ITKReview
  */
-template< typename TInputImage, typename TFeatureImage, typename TSingleData >
-class RegionBasedLevelSetFunctionSharedData:public LightObject
+template <typename TInputImage, typename TFeatureImage, typename TSingleData>
+class RegionBasedLevelSetFunctionSharedData : public LightObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(RegionBasedLevelSetFunctionSharedData);
 
   using Self = RegionBasedLevelSetFunctionSharedData;
   using Superclass = LightObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   static constexpr unsigned int ImageDimension = TFeatureImage::ImageDimension;
 
@@ -102,9 +102,8 @@ public:
   using FeatureIndexType = typename FeatureImageType::IndexType;
   using FeaturePointType = typename FeatureImageType::PointType;
 
-  using ListPixelType = std::list< unsigned int >;
-  using ListImageType =
-      Image< ListPixelType, Self::ImageDimension >;
+  using ListPixelType = std::list<unsigned int>;
+  using ListImageType = Image<ListPixelType, Self::ImageDimension>;
   using ListImagePointer = typename ListImageType::Pointer;
   using ListImageConstPointer = typename ListImageType::ConstPointer;
   using ListRegionType = typename ListImageType::RegionType;
@@ -114,59 +113,64 @@ public:
   using ListIndexType = typename ListImageType::IndexType;
   using ListIndexValueType = typename ListIndexType::IndexValueType;
   using ListPointType = typename ListImageType::PointType;
-  using ListIteratorType = ImageRegionIteratorWithIndex< ListImageType >;
+  using ListIteratorType = ImageRegionIteratorWithIndex<ListImageType>;
 
-  using CentroidVectorType =
-      Vector< float, Self::ImageDimension >;
-  using SampleType = itk::Statistics::ListSample< CentroidVectorType >;
-  using TreeGeneratorType = itk::Statistics::KdTreeGenerator< SampleType >;
+  using CentroidVectorType = Vector<float, Self::ImageDimension>;
+  using SampleType = itk::Statistics::ListSample<CentroidVectorType>;
+  using TreeGeneratorType = itk::Statistics::KdTreeGenerator<SampleType>;
   using TreePointer = typename TreeGeneratorType::Pointer;
   using TreeType = typename TreeGeneratorType::KdTreeType;
   using KdTreePointer = typename TreeType::Pointer;
 
   using LevelSetDataType = TSingleData;
   using LevelSetDataPointer = typename LevelSetDataType::Pointer;
-  using LevelSetDataPointerVector = std::vector< LevelSetDataPointer >;
+  using LevelSetDataPointerVector = std::vector<LevelSetDataPointer>;
   using LevelSetDataPointerVectorIterator = typename LevelSetDataPointerVector::iterator;
 
-  void SetFunctionCount(const unsigned int & n)
+  void
+  SetFunctionCount(const unsigned int & n)
   {
     this->m_FunctionCount = n;
     this->m_LevelSetDataPointerVector.resize(n, nullptr);
 
     auto it = m_LevelSetDataPointerVector.begin();
     auto end = m_LevelSetDataPointerVector.end();
-    while ( it != end )
-      {
-      ( *it ) = LevelSetDataType::New();
+    while (it != end)
+    {
+      (*it) = LevelSetDataType::New();
       it++;
-      }
+    }
   }
 
-  void SetNumberOfNeighbors(const unsigned int & n)
+  void
+  SetNumberOfNeighbors(const unsigned int & n)
   {
     this->m_NumberOfNeighbors = n;
   }
 
-  void CreateHeavisideFunctionOfLevelSetImage(const unsigned int & j, const InputImageType *image)
+  void
+  CreateHeavisideFunctionOfLevelSetImage(const unsigned int & j, const InputImageType * image)
   {
     m_LevelSetDataPointerVector[j]->CreateHeavisideFunctionOfLevelSetImage(image);
   }
 
-  void SetKdTree(KdTreePointer kdtree)
+  void
+  SetKdTree(KdTreePointer kdtree)
   {
     this->m_KdTree = kdtree;
   }
 
-  void AllocateListImage(const FeatureImageType *featureImage)
+  void
+  AllocateListImage(const FeatureImageType * featureImage)
   {
     this->m_NearestNeighborListImage = ListImageType::New();
     this->m_NearestNeighborListImage->CopyInformation(featureImage);
-    this->m_NearestNeighborListImage->SetRegions( featureImage->GetLargestPossibleRegion() );
+    this->m_NearestNeighborListImage->SetRegions(featureImage->GetLargestPossibleRegion());
     this->m_NearestNeighborListImage->Allocate();
   }
 
-  virtual void PopulateListImage() = 0;
+  virtual void
+  PopulateListImage() = 0;
 
   LevelSetDataPointerVector m_LevelSetDataPointerVector;
 
@@ -176,9 +180,12 @@ public:
   KdTreePointer    m_KdTree;
 
 protected:
-  RegionBasedLevelSetFunctionSharedData():m_NumberOfNeighbors(6), m_KdTree(nullptr){}
-  ~RegionBasedLevelSetFunctionSharedData() override{}
+  RegionBasedLevelSetFunctionSharedData()
+    : m_NumberOfNeighbors(6)
+    , m_KdTree(nullptr)
+  {}
+  ~RegionBasedLevelSetFunctionSharedData() override {}
 };
-} //end namespace itk
+} // end namespace itk
 
 #endif

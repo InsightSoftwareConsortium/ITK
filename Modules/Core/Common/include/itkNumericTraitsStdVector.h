@@ -52,39 +52,38 @@ namespace itk
  * \ingroup DataRepresentation
  * \ingroup ITKCommon
  */
-template< typename T >
-class NumericTraits< std::vector< T > >
+template <typename T>
+class NumericTraits<std::vector<T>>
 {
 public:
-
-  using ElementAbsType = typename NumericTraits< T >::AbsType;
-  using ElementAccumulateType = typename NumericTraits< T >::AccumulateType;
-  using ElementFloatType = typename NumericTraits< T >::FloatType;
-  using ElementPrintType = typename NumericTraits< T >::PrintType;
-  using ElementRealType = typename NumericTraits< T >::RealType;
+  using ElementAbsType = typename NumericTraits<T>::AbsType;
+  using ElementAccumulateType = typename NumericTraits<T>::AccumulateType;
+  using ElementFloatType = typename NumericTraits<T>::FloatType;
+  using ElementPrintType = typename NumericTraits<T>::PrintType;
+  using ElementRealType = typename NumericTraits<T>::RealType;
 
   /** Return the type of the native component type. */
   using ValueType = T;
 
-  using Self = std::vector< T >;
+  using Self = std::vector<T>;
 
   /** Unsigned component type */
-  using AbsType = std::vector< ElementAbsType >;
+  using AbsType = std::vector<ElementAbsType>;
 
   /** Accumulation of addition and multiplication. */
-  using AccumulateType = std::vector< ElementAccumulateType >;
+  using AccumulateType = std::vector<ElementAccumulateType>;
 
   /** Typedef for operations that use floating point instead of real precision
-    */
-  using FloatType = std::vector< ElementFloatType >;
+   */
+  using FloatType = std::vector<ElementFloatType>;
 
   // TODO: this won't really print well, at least not without defining an operator
   // to push to a stream.
   /** Return the type that can be printed. */
-  using PrintType = std::vector< ElementPrintType >;
+  using PrintType = std::vector<ElementPrintType>;
 
   /** Type for real-valued scalar operations. */
-  using RealType = std::vector< ElementRealType >;
+  using RealType = std::vector<ElementRealType>;
 
   /** Type for real-valued scalar operations. */
   using ScalarRealType = ElementRealType;
@@ -97,42 +96,48 @@ public:
    * \note minimum value for floating pointer types is defined as
    * minimum positive normalize value.
    */
-  static const Self max(const Self & a)
+  static const Self
+  max(const Self & a)
   {
-    Self b( a.Size(), NumericTraits< T >::max() );
+    Self b(a.Size(), NumericTraits<T>::max());
     return b;
   }
 
-  static const Self min(const Self & a)
+  static const Self
+  min(const Self & a)
   {
-    Self b( a.Size(), NumericTraits< T >::min() );
+    Self b(a.Size(), NumericTraits<T>::min());
     return b;
   }
 
-  static const Self ZeroValue(const Self  & a)
+  static const Self
+  ZeroValue(const Self & a)
   {
-    Self b( a.Size(), NumericTraits< T >::ZeroValue() );
+    Self b(a.Size(), NumericTraits<T>::ZeroValue());
     return b;
   }
 
-  static const Self OneValue(const Self & a)
+  static const Self
+  OneValue(const Self & a)
   {
-    Self b( a.Size(), NumericTraits< T >::OneValue() );
+    Self b(a.Size(), NumericTraits<T>::OneValue());
     return b;
   }
 
-  static const Self NonpositiveMin(const Self & a)
+  static const Self
+  NonpositiveMin(const Self & a)
   {
-    Self b( a.Size(), NumericTraits< T >::NonpositiveMin() );
+    Self b(a.Size(), NumericTraits<T>::NonpositiveMin());
     return b;
   }
 
-  static constexpr bool IsSigned = NumericTraits< ValueType >::IsSigned;
-  static constexpr bool IsInteger = NumericTraits< ValueType >::IsInteger;
-  static constexpr bool IsComplex = NumericTraits< ValueType >::IsComplex;
+  static constexpr bool IsSigned = NumericTraits<ValueType>::IsSigned;
+  static constexpr bool IsInteger = NumericTraits<ValueType>::IsInteger;
+  static constexpr bool IsComplex = NumericTraits<ValueType>::IsComplex;
 
   /** Resize the input vector to the specified size */
-  static void SetLength(std::vector< T > & m, const unsigned int s)
+  static void
+  SetLength(std::vector<T> & m, const unsigned int s)
   {
     // since std::vector often holds types that have no NumericTraits::ZeroValue(),
     // allow resize() to call the type's default constructor
@@ -141,25 +146,27 @@ public:
   }
 
   /** Return the size of the vector. */
-  static unsigned int GetLength(const std::vector< T > & m)
+  static unsigned int
+  GetLength(const std::vector<T> & m)
   {
-    return itk::Math::CastWithRangeCheck<unsigned int>( m.size() );
+    return itk::Math::CastWithRangeCheck<unsigned int>(m.size());
   }
 
-  static void AssignToArray( const Self & v, MeasurementVectorType & mv )
+  static void
+  AssignToArray(const Self & v, MeasurementVectorType & mv)
   {
     mv = v;
   }
 
-  template<typename TArray>
-  static void AssignToArray( const Self & v, TArray & mv )
+  template <typename TArray>
+  static void
+  AssignToArray(const Self & v, TArray & mv)
   {
-    for( unsigned int i=0; i<GetLength(v); i++ )
-      {
+    for (unsigned int i = 0; i < GetLength(v); i++)
+    {
       mv[i] = v[i];
-      }
+    }
   }
-
 };
 } // end namespace itk
 

@@ -24,8 +24,10 @@ namespace fem
 {
 
 void
-Element3DC0LinearTetrahedron
-::GetIntegrationPointAndWeight(unsigned int, VectorType & pt, Float & w, unsigned int) const
+Element3DC0LinearTetrahedron ::GetIntegrationPointAndWeight(unsigned int,
+                                                            VectorType & pt,
+                                                            Float &      w,
+                                                            unsigned int) const
 {
   // FIXME: Write rules for other integration orders
   // for tetrahedral elements a single point should suffice
@@ -42,15 +44,13 @@ Element3DC0LinearTetrahedron
 }
 
 unsigned int
-Element3DC0LinearTetrahedron
-::GetNumberOfIntegrationPoints(unsigned int) const
+Element3DC0LinearTetrahedron ::GetNumberOfIntegrationPoints(unsigned int) const
 {
   return 1;
 }
 
 Element3DC0LinearTetrahedron::VectorType
-Element3DC0LinearTetrahedron
-::ShapeFunctions(const VectorType & pt) const
+Element3DC0LinearTetrahedron ::ShapeFunctions(const VectorType & pt) const
 {
   /* Linear tetrahedral element has four shape functions  */
   VectorType shapeF(4);
@@ -78,27 +78,25 @@ Element3DC0LinearTetrahedron
 }
 
 void
-Element3DC0LinearTetrahedron
-::ShapeFunctionDerivatives(const VectorType &, MatrixType & shapeD) const
+Element3DC0LinearTetrahedron ::ShapeFunctionDerivatives(const VectorType &, MatrixType & shapeD) const
 {
   /** functions at directions r and s.  */
   shapeD.set_size(3, 4);
   shapeD.fill(0.0);
   /** d(N_1) / d(r,s,t) = -1 */
-  for( int j = 0; j < 3; j++ )
-    {
+  for (int j = 0; j < 3; j++)
+  {
     shapeD[j][0] = -1;
-    }
+  }
   /** d(N_2) / dr, d(N_3) / ds, d(N_4) / dt = 1 */
-  for( int j = 1; j < 4; j++ )
-    {
+  for (int j = 1; j < 4; j++)
+  {
     shapeD[j - 1][j] = 1;
-    }
+  }
 }
 
 bool
-Element3DC0LinearTetrahedron
-::GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const
+Element3DC0LinearTetrahedron ::GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const
 {
   Float x = globalPt[0];
   Float y = globalPt[1];
@@ -128,50 +126,42 @@ Element3DC0LinearTetrahedron
   y3 = this->m_node[3]->GetCoordinates()[1];
   z3 = this->m_node[3]->GetCoordinates()[2];
 
-  A = ( x1 - x0 ) * ( ( y2 - y0 ) * ( z3 - z0 ) - ( z2 - z0 ) * ( y3 - y0 ) )
-    - ( x2 - x0 ) * ( ( y1 - y0 ) * ( z3 - z0 ) - ( z1 - z0 ) * ( y3 - y0 ) )
-    + ( x3 - x0 ) * ( ( y1 - y0 ) * ( z2 - z0 ) - ( z1 - z0 ) * ( y2 - y0 ) );
+  A = (x1 - x0) * ((y2 - y0) * (z3 - z0) - (z2 - z0) * (y3 - y0)) -
+      (x2 - x0) * ((y1 - y0) * (z3 - z0) - (z1 - z0) * (y3 - y0)) +
+      (x3 - x0) * ((y1 - y0) * (z2 - z0) - (z1 - z0) * (y2 - y0));
 
-  localPt[0] = 1 / A
-    * (
-      ( x - x0 ) * ( ( y2 - y0 ) * ( z3 - z0 ) - ( z2 - z0 ) * ( y3 - y0 ) )
-      - ( y - y0 ) * ( ( x2 - x0 ) * ( z3 - z0 ) - ( z2 - z0 ) * ( x3 - x0 ) )
-      + ( z - z0 ) * ( ( x2 - x0 ) * ( y3 - y0 ) - ( y2 - y0 ) * ( x3 - x0 ) )
-      );
+  localPt[0] = 1 / A *
+               ((x - x0) * ((y2 - y0) * (z3 - z0) - (z2 - z0) * (y3 - y0)) -
+                (y - y0) * ((x2 - x0) * (z3 - z0) - (z2 - z0) * (x3 - x0)) +
+                (z - z0) * ((x2 - x0) * (y3 - y0) - (y2 - y0) * (x3 - x0)));
 
-  localPt[1] = 1 / A
-    * (
-      -( x - x0 ) * ( ( y1 - y0 ) * ( z3 - z0 ) - ( z1 - z0 ) * ( y3 - y0 ) )
-      + ( y - y0 ) * ( ( x1 - x0 ) * ( z3 - z0 ) - ( z1 - z0 ) * ( x3 - x0 ) )
-      - ( z - z0 ) * ( ( x1 - x0 ) * ( y3 - y0 ) - ( y1 - y0 ) * ( x3 - x0 ) )
-      );
+  localPt[1] = 1 / A *
+               (-(x - x0) * ((y1 - y0) * (z3 - z0) - (z1 - z0) * (y3 - y0)) +
+                (y - y0) * ((x1 - x0) * (z3 - z0) - (z1 - z0) * (x3 - x0)) -
+                (z - z0) * ((x1 - x0) * (y3 - y0) - (y1 - y0) * (x3 - x0)));
 
-  localPt[2] = 1 / A
-    * (
-      ( x - x0 ) * ( ( y1 - y0 ) * ( z2 - z0 ) - ( z1 - z0 ) * ( y2 - y0 ) )
-      - ( y - y0 ) * ( ( x1 - x0 ) * ( z2 - z0 ) - ( z1 - z0 ) * ( x2 - x0 ) )
-      + ( z - z0 ) * ( ( x1 - x0 ) * ( y2 - y0 ) - ( y1 - y0 ) * ( x2 - x0 ) )
-      );
+  localPt[2] = 1 / A *
+               ((x - x0) * ((y1 - y0) * (z2 - z0) - (z1 - z0) * (y2 - y0)) -
+                (y - y0) * ((x1 - x0) * (z2 - z0) - (z1 - z0) * (x2 - x0)) +
+                (z - z0) * ((x1 - x0) * (y2 - y0) - (y1 - y0) * (x2 - x0)));
 
   const double FEM_TETRA_EPSILON = 1e-5;
 
-  if( localPt[0] < ( 0.0 - FEM_TETRA_EPSILON )
-      || localPt[0] > ( 1.0 + FEM_TETRA_EPSILON )
-      || localPt[1] < ( 0.0 - FEM_TETRA_EPSILON )
-      || localPt[1] > ( 1.0 + FEM_TETRA_EPSILON )
-      || localPt[2] < ( 0.0 - FEM_TETRA_EPSILON )
-      || localPt[2] > ( 1.0 + FEM_TETRA_EPSILON )
-      || ( ( localPt[0] + localPt[1] + localPt[2] ) > ( 1.0 + FEM_TETRA_EPSILON ) ) )
-    {
+  if (localPt[0] < (0.0 - FEM_TETRA_EPSILON) || localPt[0] > (1.0 + FEM_TETRA_EPSILON) ||
+      localPt[1] < (0.0 - FEM_TETRA_EPSILON) || localPt[1] > (1.0 + FEM_TETRA_EPSILON) ||
+      localPt[2] < (0.0 - FEM_TETRA_EPSILON) || localPt[2] > (1.0 + FEM_TETRA_EPSILON) ||
+      ((localPt[0] + localPt[1] + localPt[2]) > (1.0 + FEM_TETRA_EPSILON)))
+  {
     return false;
-    }
+  }
   else
-    {
+  {
     return true;
-    }
+  }
 }
 
-void Element3DC0LinearTetrahedron::PopulateEdgeIds()
+void
+Element3DC0LinearTetrahedron::PopulateEdgeIds()
 {
   this->m_EdgeIds.resize(0);
 
@@ -210,7 +200,7 @@ void Element3DC0LinearTetrahedron::PopulateEdgeIds()
 }
 
 void
-Element3DC0LinearTetrahedron::PrintSelf(std::ostream& os, Indent indent) const
+Element3DC0LinearTetrahedron::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

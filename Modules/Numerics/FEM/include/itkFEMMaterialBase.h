@@ -61,9 +61,8 @@ public:
   using ArrayType = FEMPArray<Self>;
 
 protected:
-
-  void PrintSelf(std::ostream& os, Indent indent) const override;
-
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 };
 } // end namespace fem
 } // end namespace itk

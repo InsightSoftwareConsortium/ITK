@@ -69,18 +69,17 @@ namespace itk
  * \ingroup CannotBeStreamed
  * \ingroup ITKImageFunction
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT BSplineDecompositionImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT BSplineDecompositionImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BSplineDecompositionImageFilter);
 
   /** Standard class type aliases. */
   using Self = BSplineDecompositionImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(BSplineDecompositionImageFilter, ImageToImageFilter);
@@ -94,91 +93,101 @@ public:
   using InputImageConstPointer = typename Superclass::InputImageConstPointer;
   using OutputImagePointer = typename Superclass::OutputImagePointer;
 
-  using CoeffType = typename itk::NumericTraits< typename TOutputImage::PixelType >::RealType;
+  using CoeffType = typename itk::NumericTraits<typename TOutputImage::PixelType>::RealType;
 
   /** Dimension underlying input image. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
   /** Iterator type alias support */
-  using OutputLinearIterator = ImageLinearIteratorWithIndex< TOutputImage >;
+  using OutputLinearIterator = ImageLinearIteratorWithIndex<TOutputImage>;
 
-  using SplinePolesVectorType = std::vector< double >;
+  using SplinePolesVectorType = std::vector<double>;
 
   /** Get/Sets the Spline Order, supports 0th - 5th order splines. The default
    *  is a 3rd order spline. */
-  void SetSplineOrder(unsigned int SplineOrder);
+  void
+  SetSplineOrder(unsigned int SplineOrder);
 
   itkGetConstMacro(SplineOrder, int);
 
   /** Get the poles calculated for a given spline order. */
-  itkGetConstMacro( SplinePoles, SplinePolesVectorType );
+  itkGetConstMacro(SplinePoles, SplinePolesVectorType);
 
   /** Get the number of poles. */
-  itkGetConstMacro( NumberOfPoles, int );
+  itkGetConstMacro(NumberOfPoles, int);
 
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( DimensionCheck,
-                   ( Concept::SameDimension< ImageDimension, OutputImageDimension > ) );
-  itkConceptMacro( InputConvertibleToOutputCheck,
-                   ( Concept::Convertible< typename TInputImage::PixelType,
-                                           typename TOutputImage::PixelType > ) );
-  itkConceptMacro( DoubleConvertibleToOutputCheck,
-                   ( Concept::Convertible< double, typename TOutputImage::PixelType > ) );
+  itkConceptMacro(DimensionCheck, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
+  itkConceptMacro(InputConvertibleToOutputCheck,
+                  (Concept::Convertible<typename TInputImage::PixelType, typename TOutputImage::PixelType>));
+  itkConceptMacro(DoubleConvertibleToOutputCheck, (Concept::Convertible<double, typename TOutputImage::PixelType>));
   // End concept checking
 #endif
 
 protected:
   BSplineDecompositionImageFilter();
   ~BSplineDecompositionImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /** This filter requires all of the input image. */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** This filter must produce all of its output at once. */
-  void EnlargeOutputRequestedRegion(DataObject *output) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * output) override;
 
 private:
-  using CoefficientsVectorType = std::vector< CoeffType >;
+  using CoefficientsVectorType = std::vector<CoeffType>;
 
   /** Determines the poles given the Spline Order. */
-  virtual void SetPoles();
+  virtual void
+  SetPoles();
 
   /** Converts a vector of data to a vector of Spline coefficients. */
-  virtual bool DataToCoefficients1D();
+  virtual bool
+  DataToCoefficients1D();
 
   /** Converts an N-dimension image of data to an equivalent sized image
    *    of spline coefficients. */
-  void DataToCoefficientsND();
+  void
+  DataToCoefficientsND();
 
   /** Determines the first coefficient for the causal filtering of the data. */
-  virtual void SetInitialCausalCoefficient(double z);
+  virtual void
+  SetInitialCausalCoefficient(double z);
 
   /** Determines the first coefficient for the anti-causal filtering of the
     data. */
-  virtual void SetInitialAntiCausalCoefficient(double z);
+  virtual void
+  SetInitialAntiCausalCoefficient(double z);
 
   /** Copy the input image into the output image.
    *  Used to initialize the Coefficients image before calculation. */
-  void CopyImageToImage();
+  void
+  CopyImageToImage();
 
   /** Copies a vector of data from the Coefficients image (one line of the
    *  output image) to the scratch. */
-  void CopyCoefficientsToScratch(OutputLinearIterator &);
+  void
+  CopyCoefficientsToScratch(OutputLinearIterator &);
 
   /** Copies a vector of data from the scratch to the Coefficients image
    *  (one line of the output image). */
-  void CopyScratchToCoefficients(OutputLinearIterator &);
+  void
+  CopyScratchToCoefficients(OutputLinearIterator &);
 
   // Variables needed by the smoothing spline routine.
 
   /** Temporary storage for processing of Coefficients. */
-  CoefficientsVectorType           m_Scratch;
+  CoefficientsVectorType m_Scratch;
 
   /** Image size. */
   typename TInputImage::SizeType m_DataLength;
@@ -199,7 +208,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBSplineDecompositionImageFilter.hxx"
+#  include "itkBSplineDecompositionImageFilter.hxx"
 #endif
 
 #endif

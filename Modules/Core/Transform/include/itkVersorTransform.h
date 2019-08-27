@@ -43,7 +43,7 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template<typename TParametersValueType=double>
+template <typename TParametersValueType = double>
 class ITK_TEMPLATE_EXPORT VersorTransform : public Rigid3DTransform<TParametersValueType>
 {
 public:
@@ -105,30 +105,35 @@ public:
    * of the right part of the versor. This can be seen
    * as the components of the vector parallel to the rotation
    * axis and multiplied by std::sin( angle / 2 ). */
-  void SetParameters(const ParametersType & parameters) override;
+  void
+  SetParameters(const ParametersType & parameters) override;
 
   /** Get the Transformation Parameters. */
-  const ParametersType & GetParameters() const override;
+  const ParametersType &
+  GetParameters() const override;
 
   /** Set the rotational part of the transform */
-  void SetRotation(const VersorType & versor);
+  void
+  SetRotation(const VersorType & versor);
 
-  void SetRotation(const AxisType & axis, AngleType angle);
+  void
+  SetRotation(const AxisType & axis, AngleType angle);
 
   itkGetConstReferenceMacro(Versor, VersorType);
 
   /** Set the parameters to the IdentityTransform */
-  void SetIdentity() override;
+  void
+  SetIdentity() override;
 
   /** Compute the Jacobian of the transformation
    *  This method computes the Jacobian matrix of the transformation.
    *  given point or vector, returning the transformed point or
    *  vector. The rank of the Jacobian will also indicate if the
    *  transform is invertible at this point. */
-  void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const override;
+  void
+  ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const override;
 
 protected:
-
   /** Construct an VersorTransform object */
   VersorTransform(const MatrixType & matrix, const OutputVectorType & offset);
   VersorTransform(unsigned int paramDims);
@@ -137,28 +142,32 @@ protected:
   /** Destroy an VersorTransform object */
   ~VersorTransform() override = default;
 
-  void SetVarVersor(const VersorType & newVersor)
+  void
+  SetVarVersor(const VersorType & newVersor)
   {
     m_Versor = newVersor;
   }
 
   /** Print contents of a VersorTransform */
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Compute Matrix
    *  Compute the components of the rotation matrix in the superclass */
-  void ComputeMatrix() override;
+  void
+  ComputeMatrix() override;
 
-  void ComputeMatrixParameters() override;
+  void
+  ComputeMatrixParameters() override;
 
 private:
   /** Versor containing the rotation */
   VersorType m_Versor;
 }; // class VersorTransform
-}  // namespace itk
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVersorTransform.hxx"
+#  include "itkVersorTransform.hxx"
 #endif
 
 #endif /* itkVersorTransform_h */

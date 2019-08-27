@@ -39,7 +39,8 @@
 #include "itkSpatialObjectWriter.h"
 // Software Guide : EndCodeSnippet
 
-int main(int, char * [] )
+int
+main(int, char *[])
 {
   // Software Guide : BeginLatex
   //
@@ -49,11 +50,11 @@ int main(int, char * [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using MeshTrait = itk::DefaultDynamicMeshTraits< float, 3, 3 >;
-  using MeshType = itk::Mesh< float, 3, MeshTrait >;
+  using MeshTrait = itk::DefaultDynamicMeshTraits<float, 3, 3>;
+  using MeshType = itk::Mesh<float, 3, MeshTrait>;
   using CellTraits = MeshType::CellTraits;
-  using CellInterfaceType = itk::CellInterface< float, CellTraits >;
-  using TetraCellType = itk::TetrahedronCell< CellInterfaceType >;
+  using CellInterfaceType = itk::CellInterface<float, CellTraits>;
+  using TetraCellType = itk::TetrahedronCell<CellInterfaceType>;
   using PointType = MeshType::PointType;
   using CellType = MeshType::CellType;
   using CellAutoPointer = CellType::CellAutoPointer;
@@ -62,26 +63,27 @@ int main(int, char * [] )
   // Software Guide : BeginCodeSnippet
   MeshType::Pointer myMesh = MeshType::New();
 
-  MeshType::CoordRepType testPointCoords[4][3]
-    = { {0,0,0}, {9,0,0}, {9,9,0}, {0,0,9} };
+  MeshType::CoordRepType testPointCoords[4][3] = {
+    { 0, 0, 0 }, { 9, 0, 0 }, { 9, 9, 0 }, { 0, 0, 9 }
+  };
 
-  MeshType::PointIdentifier tetraPoints[4] = {0,1,2,4};
+  MeshType::PointIdentifier tetraPoints[4] = { 0, 1, 2, 4 };
 
   int i;
-  for(i=0; i < 4; ++i)
-    {
+  for (i = 0; i < 4; ++i)
+  {
     myMesh->SetPoint(i, PointType(testPointCoords[i]));
-    }
+  }
 
   myMesh->SetCellsAllocationMethod(
-          itk::MeshClassCellsAllocationMethodType::CellsAllocatedDynamicallyCellByCell );
+    itk::MeshClassCellsAllocationMethodType::CellsAllocatedDynamicallyCellByCell);
   CellAutoPointer testCell1;
-  testCell1.TakeOwnership(  new TetraCellType );
+  testCell1.TakeOwnership(new TetraCellType);
   testCell1->SetPointIds(tetraPoints);
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginCodeSnippet
-  myMesh->SetCell(0, testCell1 );
+  myMesh->SetCell(0, testCell1);
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -92,9 +94,8 @@ int main(int, char * [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using MeshSpatialObjectType = itk::MeshSpatialObject< MeshType >;
-  MeshSpatialObjectType::Pointer myMeshSpatialObject
-    = MeshSpatialObjectType::New();
+  using MeshSpatialObjectType = itk::MeshSpatialObject<MeshType>;
+  MeshSpatialObjectType::Pointer myMeshSpatialObject = MeshSpatialObjectType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -129,12 +130,12 @@ int main(int, char * [] )
 
   // Software Guide : BeginCodeSnippet
   std::cout << "Mesh bounds : "
-    << myMeshSpatialObject->GetMyBoundingBoxInWorldSpace()->GetBounds()
-    << std::endl;
+            << myMeshSpatialObject->GetMyBoundingBoxInWorldSpace()->GetBounds()
+            << std::endl;
   MeshSpatialObjectType::PointType myPhysicalPoint;
   myPhysicalPoint.Fill(1);
   std::cout << "Is my physical point inside? : "
-    << myMeshSpatialObject->IsInsideInWorldSpace(myPhysicalPoint) << std::endl;
+            << myMeshSpatialObject->IsInsideInWorldSpace(myPhysicalPoint) << std::endl;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -146,7 +147,7 @@ int main(int, char * [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using WriterType = itk::SpatialObjectWriter< 3, float, MeshTrait >;
+  using WriterType = itk::SpatialObjectWriter<3, float, MeshTrait>;
   WriterType::Pointer writer = WriterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -171,7 +172,7 @@ int main(int, char * [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using ReaderType = itk::SpatialObjectReader< 3, float, MeshTrait >;
+  using ReaderType = itk::SpatialObjectReader<3, float, MeshTrait>;
   ReaderType::Pointer reader = ReaderType::New();
   // Software Guide : EndCodeSnippet
 
@@ -196,10 +197,10 @@ int main(int, char * [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using ImageType = itk::Image< unsigned char, 3 >;
-  using GroupType = itk::GroupSpatialObject< 3 >;
+  using ImageType = itk::Image<unsigned char, 3>;
+  using GroupType = itk::GroupSpatialObject<3>;
   using SpatialObjectToImageFilterType =
-      itk::SpatialObjectToImageFilter< GroupType, ImageType >;
+    itk::SpatialObjectToImageFilter<GroupType, ImageType>;
   SpatialObjectToImageFilterType::Pointer imageFilter =
     SpatialObjectToImageFilterType::New();
   // Software Guide : EndCodeSnippet
@@ -212,7 +213,7 @@ int main(int, char * [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  imageFilter->SetInput(  reader->GetGroup()  );
+  imageFilter->SetInput(reader->GetGroup());
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex

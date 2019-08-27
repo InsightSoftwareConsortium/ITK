@@ -39,14 +39,13 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-class ITKCommon_EXPORT LoggerManager:public Object
+class ITKCommon_EXPORT LoggerManager : public Object
 {
 public:
-
   using Self = LoggerManager;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(LoggerManager, Object);
@@ -64,34 +63,40 @@ public:
   using NameType = std::string;
 
   /** create a logger and add it into LoggerManager */
-  LoggerPointer CreateLogger(
-    const NameType & name,
-    PriorityLevelType level,
-    PriorityLevelType levelForFlushing = LoggerBase::PriorityLevelType::MUSTFLUSH);
+  LoggerPointer
+  CreateLogger(const NameType &  name,
+               PriorityLevelType level,
+               PriorityLevelType levelForFlushing = LoggerBase::PriorityLevelType::MUSTFLUSH);
 
   /** create a thread logger and add it into LoggerManager */
-  ThreadLoggerPointer CreateThreadLogger(
-    const NameType & name,
-    PriorityLevelType level,
-    PriorityLevelType levelForFlushing = LoggerBase::PriorityLevelType::MUSTFLUSH);
+  ThreadLoggerPointer
+  CreateThreadLogger(const NameType &  name,
+                     PriorityLevelType level,
+                     PriorityLevelType levelForFlushing = LoggerBase::PriorityLevelType::MUSTFLUSH);
 
   /** Registers a logger */
-  void AddLogger(const NameType & name, Logger *logger);
+  void
+  AddLogger(const NameType & name, Logger * logger);
 
-  Logger * GetLogger(const NameType & name);
+  Logger *
+  GetLogger(const NameType & name);
 
-  void SetPriorityLevel(PriorityLevelType level);
+  void
+  SetPriorityLevel(PriorityLevelType level);
 
-  void SetLevelForFlushing(PriorityLevelType level);
+  void
+  SetLevelForFlushing(PriorityLevelType level);
 
-  void AddLogOutput(OutputType *output);
+  void
+  AddLogOutput(OutputType * output);
 
-  void Write(PriorityLevelType level, std::string const & content);
+  void
+  Write(PriorityLevelType level, std::string const & content);
 
-  void Flush();
+  void
+  Flush();
 
 protected:
-
   /** Constructor */
   LoggerManager() = default;
 
@@ -99,14 +104,14 @@ protected:
   ~LoggerManager() override = default;
 
   /** Print contents of a LoggerManager */
-  void PrintSelf(std::ostream & s, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & s, Indent indent) const override;
 
 private:
-
-  using ContainerType = std::map< NameType, LoggerPointer >;
+  using ContainerType = std::map<NameType, LoggerPointer>;
 
   ContainerType m_LoggerSet;
-};  // class Logger
+}; // class Logger
 } // namespace itk
 
-#endif  // itkLoggerManager_h
+#endif // itkLoggerManager_h

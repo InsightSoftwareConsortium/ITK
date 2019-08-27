@@ -23,51 +23,49 @@
 namespace itk
 {
 
-template< typename TInputImage, typename TOutputImage >
-GPUMeanImageFilter< TInputImage, TOutputImage >::GPUMeanImageFilter()
+template <typename TInputImage, typename TOutputImage>
+GPUMeanImageFilter<TInputImage, TOutputImage>::GPUMeanImageFilter()
 {
   std::ostringstream defines;
 
-  if(TInputImage::ImageDimension > 3)
-    {
+  if (TInputImage::ImageDimension > 3)
+  {
     itkExceptionMacro("GPUMeanImageFilter supports 1/2/3D image.");
-    }
+  }
 
   defines << "#define DIM_" << TInputImage::ImageDimension << "\n";
   defines << "#define PIXELTYPE ";
-  GetTypenameInString( typeid ( typename TInputImage::PixelType ), defines );
+  GetTypenameInString(typeid(typename TInputImage::PixelType), defines);
 
-  const char* GPUSource = GPUMeanImageFilter::GetOpenCLSource();
+  const char * GPUSource = GPUMeanImageFilter::GetOpenCLSource();
 
   // load and build program
-  this->m_GPUKernelManager->LoadProgramFromString( GPUSource, defines.str().c_str() );
+  this->m_GPUKernelManager->LoadProgramFromString(GPUSource, defines.str().c_str());
 
   // create kernel
   m_MeanFilterGPUKernelHandle = this->m_GPUKernelManager->CreateKernel("MeanFilter");
 }
 
-template< typename TInputImage, typename TOutputImage >
-GPUMeanImageFilter< TInputImage, TOutputImage >::~GPUMeanImageFilter()
-{
+template <typename TInputImage, typename TOutputImage>
+GPUMeanImageFilter<TInputImage, TOutputImage>::~GPUMeanImageFilter()
+{}
 
-}
-
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-GPUMeanImageFilter< TInputImage, TOutputImage >::PrintSelf(std::ostream & os, Indent indent) const
+GPUMeanImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-GPUMeanImageFilter< TInputImage, TOutputImage >::GPUGenerateData()
+GPUMeanImageFilter<TInputImage, TOutputImage>::GPUGenerateData()
 {
-  using GPUInputImage = typename itk::GPUTraits< TInputImage >::Type;
-  using GPUOutputImage = typename itk::GPUTraits< TOutputImage >::Type;
+  using GPUInputImage = typename itk::GPUTraits<TInputImage>::Type;
+  using GPUOutputImage = typename itk::GPUTraits<TOutputImage>::Type;
 
-  typename GPUInputImage::Pointer  inPtr =  dynamic_cast< GPUInputImage * >( this->ProcessObject::GetInput(0) );
-  typename GPUOutputImage::Pointer otPtr =  dynamic_cast< GPUOutputImage * >( this->ProcessObject::GetOutput(0) );
+  typename GPUInputImage::Pointer  inPtr = dynamic_cast<GPUInputImage *>(this->ProcessObject::GetInput(0));
+  typename GPUOutputImage::Pointer otPtr = dynamic_cast<GPUOutputImage *>(this->ProcessObject::GetOutput(0));
 
   typename GPUOutputImage::SizeType outSize = otPtr->GetLargestPossibleRegion().GetSize();
 
@@ -79,42 +77,42 @@ GPUMeanImageFilter< TInputImage, TOutputImage >::GPUGenerateData()
 
   int ImageDim = (int)TInputImage::ImageDimension;
 
-  for(int i=0; i<ImageDim; i++)
-    {
-    radius[i]  = (this->GetRadius() )[i];
+  for (int i = 0; i < ImageDim; i++)
+  {
+    radius[i] = (this->GetRadius())[i];
     imgSize[i] = outSize[i];
-    }
+  }
 
   size_t localSize[3], globalSize[3];
   localSize[0] = localSize[1] = localSize[2] = OpenCLGetLocalBlockSize(ImageDim);
-  for(int i=0; i<ImageDim; i++)
-    {
-    globalSize[i] = localSize[i]*(unsigned int)ceil( (float)outSize[i]/(float)localSize[i]); //
-                                                                                             // total
-                                                                                             // #
-                                                                                             // of
-                                                                                             // threads
-    }
+  for (int i = 0; i < ImageDim; i++)
+  {
+    globalSize[i] = localSize[i] * (unsigned int)ceil((float)outSize[i] / (float)localSize[i]); //
+                                                                                                // total
+                                                                                                // #
+                                                                                                // of
+                                                                                                // threads
+  }
 
 
   // arguments set up
   int argidx = 0;
-  this->m_GPUKernelManager->SetKernelArgWithImage(m_MeanFilterGPUKernelHandle, argidx++, inPtr->GetGPUDataManager() );
-  this->m_GPUKernelManager->SetKernelArgWithImage(m_MeanFilterGPUKernelHandle, argidx++, otPtr->GetGPUDataManager() );
+  this->m_GPUKernelManager->SetKernelArgWithImage(m_MeanFilterGPUKernelHandle, argidx++, inPtr->GetGPUDataManager());
+  this->m_GPUKernelManager->SetKernelArgWithImage(m_MeanFilterGPUKernelHandle, argidx++, otPtr->GetGPUDataManager());
 
-  for(int i=0; i<ImageDim; i++)
-    {
-    this->m_GPUKernelManager->SetKernelArg(m_MeanFilterGPUKernelHandle, argidx++, sizeof(int), &(radius[i]) );
-    }
+  for (int i = 0; i < ImageDim; i++)
+  {
+    this->m_GPUKernelManager->SetKernelArg(m_MeanFilterGPUKernelHandle, argidx++, sizeof(int), &(radius[i]));
+  }
 
-  for(int i=0; i<ImageDim; i++)
-    {
-    this->m_GPUKernelManager->SetKernelArg(m_MeanFilterGPUKernelHandle, argidx++, sizeof(int), &(imgSize[i]) );
-    }
+  for (int i = 0; i < ImageDim; i++)
+  {
+    this->m_GPUKernelManager->SetKernelArg(m_MeanFilterGPUKernelHandle, argidx++, sizeof(int), &(imgSize[i]));
+  }
 
   // launch kernel
-  this->m_GPUKernelManager->LaunchKernel( m_MeanFilterGPUKernelHandle, (int)TInputImage::ImageDimension, globalSize,
-                                          localSize );
+  this->m_GPUKernelManager->LaunchKernel(
+    m_MeanFilterGPUKernelHandle, (int)TInputImage::ImageDimension, globalSize, localSize);
 }
 
 } // end namespace itk

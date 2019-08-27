@@ -50,20 +50,20 @@ namespace itk
  * \ingroup ITKDeconvolution
  *
  */
-template< typename TInputImage, typename TKernelImage = TInputImage, typename TOutputImage = TInputImage, typename TInternalPrecision=double >
-class ITK_TEMPLATE_EXPORT InverseDeconvolutionImageFilter :
-  public FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
+template <typename TInputImage,
+          typename TKernelImage = TInputImage,
+          typename TOutputImage = TInputImage,
+          typename TInternalPrecision = double>
+class ITK_TEMPLATE_EXPORT InverseDeconvolutionImageFilter
+  : public FFTConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(InverseDeconvolutionImageFilter);
 
   using Self = InverseDeconvolutionImageFilter;
-  using Superclass = FFTConvolutionImageFilter< TInputImage,
-                                     TKernelImage,
-                                     TOutputImage,
-                                     TInternalPrecision >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = FFTConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -99,8 +99,8 @@ public:
   using InternalComplexImagePointerType = typename Superclass::InternalComplexImagePointerType;
 
   /** Set/get the threshold value uused to determine whether a
-  * frequency of the Fourier transform of the blurring kernel is
-  * considered to be zero. Default value is 1.0e-4. */
+   * frequency of the Fourier transform of the blurring kernel is
+   * considered to be zero. Default value is 1.0e-4. */
   itkSetMacro(KernelZeroMagnitudeThreshold, double);
   itkGetConstMacro(KernelZeroMagnitudeThreshold, double);
 
@@ -109,9 +109,11 @@ protected:
   ~InverseDeconvolutionImageFilter() override = default;
 
   /** This filter uses a minipipeline to compute the output. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   double m_KernelZeroMagnitudeThreshold;
@@ -119,52 +121,57 @@ private:
 
 namespace Functor
 {
-template< typename TInput1, typename TInput2, typename TOutput >
+template <typename TInput1, typename TInput2, typename TOutput>
 class ITK_TEMPLATE_EXPORT InverseDeconvolutionFunctor
 {
 public:
   InverseDeconvolutionFunctor() { m_KernelZeroMagnitudeThreshold = 0.0; }
   ~InverseDeconvolutionFunctor() = default;
 
-  bool operator!=( const InverseDeconvolutionFunctor & ) const
+  bool
+  operator!=(const InverseDeconvolutionFunctor &) const
   {
     return false;
   }
-  bool operator==( const InverseDeconvolutionFunctor & other) const
+  bool
+  operator==(const InverseDeconvolutionFunctor & other) const
   {
     return !(*this != other);
   }
-  inline TOutput operator()(const TInput1 & I, const TInput2 & H) const
+  inline TOutput
+  operator()(const TInput1 & I, const TInput2 & H) const
   {
-    const double absH = std::abs( H );
-    TOutput value = NumericTraits< TOutput >::ZeroValue();
-    if ( absH >= m_KernelZeroMagnitudeThreshold )
-      {
-      value = static_cast< TOutput >( I / H );
-      }
+    const double absH = std::abs(H);
+    TOutput      value = NumericTraits<TOutput>::ZeroValue();
+    if (absH >= m_KernelZeroMagnitudeThreshold)
+    {
+      value = static_cast<TOutput>(I / H);
+    }
     return value;
   }
 
   /** Set/get the threshold value below which complex magnitudes are considered
    * to be zero. */
-  void SetKernelZeroMagnitudeThreshold(double mu)
+  void
+  SetKernelZeroMagnitudeThreshold(double mu)
   {
     m_KernelZeroMagnitudeThreshold = mu;
   }
-  double GetKernelZeroMagnitudeThreshold() const
+  double
+  GetKernelZeroMagnitudeThreshold() const
   {
     return m_KernelZeroMagnitudeThreshold;
   }
 
 private:
-   double m_KernelZeroMagnitudeThreshold;
+  double m_KernelZeroMagnitudeThreshold;
 };
-} //namespace Functor
+} // namespace Functor
 
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkInverseDeconvolutionImageFilter.hxx"
+#  include "itkInverseDeconvolutionImageFilter.hxx"
 #endif
 
 #endif

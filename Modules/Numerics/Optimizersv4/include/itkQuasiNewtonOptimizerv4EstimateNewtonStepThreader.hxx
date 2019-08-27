@@ -22,13 +22,13 @@
 
 namespace itk
 {
-template<typename TInternalComputationValueType>
+template <typename TInternalComputationValueType>
 void
-QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate<TInternalComputationValueType>
-::ThreadedExecution( const IndexRangeType & subrange,
-                     const ThreadIdType itkNotUsed(threadId) )
+QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate<TInternalComputationValueType>::ThreadedExecution(
+  const IndexRangeType & subrange,
+  const ThreadIdType     itkNotUsed(threadId))
 {
-  this->m_Associate->EstimateNewtonStepOverSubRange( subrange );
+  this->m_Associate->EstimateNewtonStepOverSubRange(subrange);
 }
 
 } // end namespace itk

@@ -34,15 +34,14 @@ namespace itk
 {
 PhilipsRECImageIOFactory::PhilipsRECImageIOFactory()
 {
-  this->RegisterOverride( "itkImageIOBase",
-                          "itkPhilipsRECImageIO",
-                          "Philips REC Image IO",
-                          true,
-                          CreateObjectFunction< PhilipsRECImageIO >::New() );
+  this->RegisterOverride("itkImageIOBase",
+                         "itkPhilipsRECImageIO",
+                         "Philips REC Image IO",
+                         true,
+                         CreateObjectFunction<PhilipsRECImageIO>::New());
 }
 
-PhilipsRECImageIOFactory::~PhilipsRECImageIOFactory()
-{}
+PhilipsRECImageIOFactory::~PhilipsRECImageIOFactory() {}
 
 const char *
 PhilipsRECImageIOFactory::GetITKSourceVersion() const
@@ -62,13 +61,14 @@ PhilipsRECImageIOFactory::GetDescription() const
 
 static bool PhilipsRECImageIOFactoryHasBeenRegistered;
 
-void ITKIOPhilipsREC_EXPORT PhilipsRECImageIOFactoryRegister__Private()
+void ITKIOPhilipsREC_EXPORT
+     PhilipsRECImageIOFactoryRegister__Private()
 {
-  if( ! PhilipsRECImageIOFactoryHasBeenRegistered )
-    {
+  if (!PhilipsRECImageIOFactoryHasBeenRegistered)
+  {
     PhilipsRECImageIOFactoryHasBeenRegistered = true;
     PhilipsRECImageIOFactory::RegisterOneFactory();
-    }
+  }
 }
 
 } // end namespace itk

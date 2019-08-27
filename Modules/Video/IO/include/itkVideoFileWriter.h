@@ -35,14 +35,14 @@ namespace itk
  *
  * \ingroup ITKVideoIO
  */
-template< typename TInputVideoStream >
+template <typename TInputVideoStream>
 class ITK_TEMPLATE_EXPORT VideoFileWriter : public TemporalProcessObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VideoFileWriter);
 
   /** Standard class type aliases. */
-  using Self = VideoFileWriter< TInputVideoStream>;
+  using Self = VideoFileWriter<TInputVideoStream>;
   using Superclass = TemporalProcessObject;
   using Pointer = SmartPointer<Self>;
 
@@ -84,44 +84,54 @@ public:
 
   /** Set/Get the input video pointer */
   using Superclass::SetInput;
-  void SetInput( const VideoStreamType* input );
-  const VideoStreamType* GetInput();
+  void
+  SetInput(const VideoStreamType * input);
+  const VideoStreamType *
+  GetInput();
 
   /** Manually set the VideoIO to use */
-  void SetVideoIO( IOBasePointer videoIO );
+  void
+  SetVideoIO(IOBasePointer videoIO);
 
   /** Write the requested temporal region to a file. If no OutputTemporalRegion
    * has been set, the largest possible temporal region of the input will be
    * used. */
-  void Write();
+  void
+  Write();
 
   /** Finish writing the video and close the file */
-  void FinishWriting();
+  void
+  FinishWriting();
 
   /** Aliased to the Write() method to be consistent with the rest of the
    * pipeline. */
-  void Update() override;
+  void
+  Update() override;
 
   /** Write the entire video to a file, if possible. This is the same as
    * calling write or update without setting an output temporal region. */
-  void UpdateLargestPossibleRegion() override;
+  void
+  UpdateLargestPossibleRegion() override;
 
 protected:
-
   VideoFileWriter();
   ~VideoFileWriter() override;
-  void PrintSelf(std::ostream &os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Initialize output parameters. */
-  bool InitializeOutputParameters();
+  bool
+  InitializeOutputParameters();
 
   /** Set up the VideoIO using VideoIOFactory. Returns true if successful, false
    * otherwise.
    * Warning: this will overwrite any currently set VideoIO */
-  bool InitializeVideoIO();
+  bool
+  InitializeVideoIO();
 
   /** Override TemporalStreamingGenerateData to do the actual writing. */
-  void TemporalStreamingGenerateData() override;
+  void
+  TemporalStreamingGenerateData() override;
 
 private:
   /** The file to write. */
@@ -131,20 +141,20 @@ private:
   IOBasePointer m_VideoIO;
 
   /** TemporalRegion to write out. */
-  TemporalRegion     m_OutputTemporalRegion;
+  TemporalRegion m_OutputTemporalRegion;
 
   /** Parameters for writing. */
-  TemporalRatioType            m_FramesPerSecond{24};
+  TemporalRatioType            m_FramesPerSecond{ 24 };
   std::string                  m_FourCC;
   std::vector<SizeValueType>   m_Dimensions;
-  SizeValueType                m_NumberOfComponents{0};
+  SizeValueType                m_NumberOfComponents{ 0 };
   ImageIOBase::IOComponentType m_ComponentType;
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVideoFileWriter.hxx"
+#  include "itkVideoFileWriter.hxx"
 #endif
 
 #endif

@@ -23,9 +23,9 @@
 namespace itk
 {
 // Constructor with default arguments
-template<typename TParametersValueType>
-Rigid3DPerspectiveTransform<TParametersValueType>
-::Rigid3DPerspectiveTransform() : Superclass(ParametersDimension)
+template <typename TParametersValueType>
+Rigid3DPerspectiveTransform<TParametersValueType>::Rigid3DPerspectiveTransform()
+  : Superclass(ParametersDimension)
 {
   m_Offset.Fill(0);
   m_Versor.SetIdentity();
@@ -38,34 +38,33 @@ Rigid3DPerspectiveTransform<TParametersValueType>
 }
 
 // Print self
-template<typename TParametersValueType>
+template <typename TParametersValueType>
 void
 Rigid3DPerspectiveTransform<TParametersValueType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Parameters: "   << this->m_Parameters  << std::endl;
-  os << indent << "Offset: "       << m_Offset   << std::endl;
-  os << indent << "Rotation: "     << m_Versor << std::endl;
+  os << indent << "Parameters: " << this->m_Parameters << std::endl;
+  os << indent << "Offset: " << m_Offset << std::endl;
+  os << indent << "Rotation: " << m_Versor << std::endl;
   os << indent << "FocalDistance: " << m_FocalDistance << std::endl;
-  os << indent << "RotationMatrix: " << m_RotationMatrix   << std::endl;
-  os << indent << "FixedOffset: " << m_FixedOffset   << std::endl;
-  os << indent << "CenterOfRotation: " << m_CenterOfRotation   << std::endl;
+  os << indent << "RotationMatrix: " << m_RotationMatrix << std::endl;
+  os << indent << "FixedOffset: " << m_FixedOffset << std::endl;
+  os << indent << "CenterOfRotation: " << m_CenterOfRotation << std::endl;
 }
 
 // Set Parameters
-template<typename TParametersValueType>
+template <typename TParametersValueType>
 void
-Rigid3DPerspectiveTransform<TParametersValueType>
-::SetParameters(const ParametersType & parameters)
+Rigid3DPerspectiveTransform<TParametersValueType>::SetParameters(const ParametersType & parameters)
 {
   itkDebugMacro(<< "Setting parameters " << parameters);
 
   // Save parameters. Needed for proper operation of TransformUpdateParameters.
-  if( &parameters != &(this->m_Parameters) )
-    {
+  if (&parameters != &(this->m_Parameters))
+  {
     this->m_Parameters = parameters;
-    }
+  }
 
   // Transfer the versor part
 
@@ -77,27 +76,27 @@ Rigid3DPerspectiveTransform<TParametersValueType>
   axis[1] = parameters[1];
   norm += parameters[2] * parameters[2];
   axis[2] = parameters[2];
-  if( norm > NumericTraits<double>::ZeroValue() )
-    {
+  if (norm > NumericTraits<double>::ZeroValue())
+  {
     norm = std::sqrt(norm);
-    }
+  }
 
   double epsilon = 1e-10;
-  if( norm >= 1.0 - epsilon )
-    {
-    axis = axis / ( norm + epsilon * norm );
-    }
+  if (norm >= 1.0 - epsilon)
+  {
+    axis = axis / (norm + epsilon * norm);
+  }
 
   m_Versor.Set(axis);
 
-  itkDebugMacro( << "Versor is now " << this->GetRotation() );
+  itkDebugMacro(<< "Versor is now " << this->GetRotation());
 
   // Transfer the translation part
   OffsetType offset;
-  for( unsigned int i = 0; i < SpaceDimension; i++ )
-    {
+  for (unsigned int i = 0; i < SpaceDimension; i++)
+  {
     offset[i] = parameters[i + 3];
-    }
+  }
 
   this->SetOffset(offset);
 
@@ -109,11 +108,10 @@ Rigid3DPerspectiveTransform<TParametersValueType>
 }
 
 // Set Parameters
-template<typename TParametersValueType>
-const typename Rigid3DPerspectiveTransform<TParametersValueType>::ParametersType
-& Rigid3DPerspectiveTransform<TParametersValueType>
-::GetParameters() const
-  {
+template <typename TParametersValueType>
+const typename Rigid3DPerspectiveTransform<TParametersValueType>::ParametersType &
+Rigid3DPerspectiveTransform<TParametersValueType>::GetParameters() const
+{
   itkDebugMacro(<< "Getting parameters ");
 
   this->m_Parameters[0] = this->GetRotation().GetX();
@@ -128,23 +126,24 @@ const typename Rigid3DPerspectiveTransform<TParametersValueType>::ParametersType
   itkDebugMacro(<< "After getting parameters " << this->m_Parameters);
 
   return this->m_Parameters;
-  }
-
-// Set rotation
-template<typename TParametersValueType>
-void
-Rigid3DPerspectiveTransform<TParametersValueType>::SetRotation(const VersorType & rotation)
-{
-  m_Versor          = rotation;
-  m_RotationMatrix  = m_Versor.GetMatrix();
 }
 
 // Set rotation
-template<typename TParametersValueType>
+template <typename TParametersValueType>
 void
-Rigid3DPerspectiveTransform<TParametersValueType>::SetRotation(const Vector<TParametersValueType, 3> & axis, double angle)
+Rigid3DPerspectiveTransform<TParametersValueType>::SetRotation(const VersorType & rotation)
 {
-  const double sinus   = std::sin(angle / 2.0);
+  m_Versor = rotation;
+  m_RotationMatrix = m_Versor.GetMatrix();
+}
+
+// Set rotation
+template <typename TParametersValueType>
+void
+Rigid3DPerspectiveTransform<TParametersValueType>::SetRotation(const Vector<TParametersValueType, 3> & axis,
+                                                               double                                  angle)
+{
+  const double sinus = std::sin(angle / 2.0);
   const double cosinus = std::cos(angle / 2.0);
 
   Vector<TParametersValueType, 3> norm;
@@ -164,26 +163,25 @@ Rigid3DPerspectiveTransform<TParametersValueType>::SetRotation(const Vector<TPar
 }
 
 // Transform a point
-template<typename TParametersValueType>
+template <typename TParametersValueType>
 typename Rigid3DPerspectiveTransform<TParametersValueType>::OutputPointType
 Rigid3DPerspectiveTransform<TParametersValueType>::TransformPoint(const InputPointType & point) const
 {
   unsigned int   i;
   InputPointType centered;
 
-  for( i = 0; i < 3; i++ )
-    {
+  for (i = 0; i < 3; i++)
+  {
     centered[i] = point[i] - m_CenterOfRotation[i];
-    }
+  }
 
-  InputPointType rotated =  m_RotationMatrix * centered;
+  InputPointType rotated = m_RotationMatrix * centered;
 
   InputPointType rigided;
-  for( i = 0; i < 3; i++ )
-    {
-    rigided[i] = rotated[i] + m_Offset[i] + m_CenterOfRotation[i]
-      + m_FixedOffset[i];
-    }
+  for (i = 0; i < 3; i++)
+  {
+    rigided[i] = rotated[i] + m_Offset[i] + m_CenterOfRotation[i] + m_FixedOffset[i];
+  }
 
   OutputPointType result;
 
@@ -196,24 +194,23 @@ Rigid3DPerspectiveTransform<TParametersValueType>::TransformPoint(const InputPoi
 }
 
 // Transform a point
-template<typename TParametersValueType>
+template <typename TParametersValueType>
 void
 Rigid3DPerspectiveTransform<TParametersValueType>::ComputeMatrix()
 {
   m_RotationMatrix = m_Versor.GetMatrix();
 }
 
-template<typename TParametersValueType>
+template <typename TParametersValueType>
 void
-Rigid3DPerspectiveTransform<TParametersValueType>
-::ComputeJacobianWithRespectToParameters(const InputPointType &,
-                                         JacobianType & jacobian) const
+Rigid3DPerspectiveTransform<TParametersValueType>::ComputeJacobianWithRespectToParameters(const InputPointType &,
+                                                                                          JacobianType & jacobian) const
 {
-  jacobian.SetSize( 3, this->GetNumberOfLocalParameters() );
+  jacobian.SetSize(3, this->GetNumberOfLocalParameters());
   jacobian.Fill(0.0);
   // TODO
 }
 
-} // namespace
+} // namespace itk
 
 #endif

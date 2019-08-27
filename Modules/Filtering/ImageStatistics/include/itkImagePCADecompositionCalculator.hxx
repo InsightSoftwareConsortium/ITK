@@ -26,9 +26,8 @@ namespace itk
 /**
  * Constructor
  */
-template< typename TInputImage, typename TBasisImage >
-ImagePCADecompositionCalculator< TInputImage, TBasisImage >
-::ImagePCADecompositionCalculator()
+template <typename TInputImage, typename TBasisImage>
+ImagePCADecompositionCalculator<TInputImage, TBasisImage>::ImagePCADecompositionCalculator()
 {
   m_Image = nullptr;
   m_MeanImage = nullptr;
@@ -36,10 +35,9 @@ ImagePCADecompositionCalculator< TInputImage, TBasisImage >
   m_NumPixels = 0;
 }
 
-template< typename TInputImage, typename TBasisImage >
+template <typename TInputImage, typename TBasisImage>
 void
-ImagePCADecompositionCalculator< TInputImage, TBasisImage >
-::SetBasisImages(const BasisImagePointerVector & v)
+ImagePCADecompositionCalculator<TInputImage, TBasisImage>::SetBasisImages(const BasisImagePointerVector & v)
 {
   itkDebugMacro(<< "setting BasisImages");
   this->m_BasisMatrixCalculated = false;
@@ -56,54 +54,52 @@ ImagePCADecompositionCalculator< TInputImage, TBasisImage >
 /**
  * Compute the projection
  */
-template< typename TInputImage, typename TBasisImage >
+template <typename TInputImage, typename TBasisImage>
 void
-ImagePCADecompositionCalculator< TInputImage, TBasisImage >
-::Compute()
+ImagePCADecompositionCalculator<TInputImage, TBasisImage>::Compute()
 {
-  if ( !m_BasisMatrixCalculated )
-    {
+  if (!m_BasisMatrixCalculated)
+  {
     this->CalculateBasisMatrix();
-    }
+  }
   this->CalculateRecenteredImageAsVector();
   m_Projection = m_BasisMatrix * m_ImageAsVector;
 }
 
 /*
  * Convert a vector of basis images into a matrix. Each image is flattened into 1-D.
-  */
-template< typename TInputImage, typename TBasisImage >
+ */
+template <typename TInputImage, typename TBasisImage>
 void
-ImagePCADecompositionCalculator< TInputImage, TBasisImage >
-::CalculateBasisMatrix()
+ImagePCADecompositionCalculator<TInputImage, TBasisImage>::CalculateBasisMatrix()
 {
   m_Size = m_BasisImages[0]->GetRequestedRegion().GetSize();
   m_NumPixels = 1;
-  for ( unsigned int i = 0; i < BasisImageDimension; i++ )
-    {
+  for (unsigned int i = 0; i < BasisImageDimension; i++)
+  {
     m_NumPixels *= m_Size[i];
-    }
+  }
 
-  m_BasisMatrix = BasisMatrixType(static_cast<unsigned int>( m_BasisImages.size() ), m_NumPixels);
+  m_BasisMatrix = BasisMatrixType(static_cast<unsigned int>(m_BasisImages.size()), m_NumPixels);
 
   int i = 0;
-  for ( typename BasisImagePointerVector::const_iterator basis_it = m_BasisImages.begin();
-        basis_it != m_BasisImages.end(); ++basis_it )
+  for (typename BasisImagePointerVector::const_iterator basis_it = m_BasisImages.begin();
+       basis_it != m_BasisImages.end();
+       ++basis_it)
+  {
+    if ((*basis_it)->GetRequestedRegion().GetSize() != m_Size)
     {
-    if ( ( *basis_it )->GetRequestedRegion().GetSize() != m_Size )
-      {
       itkExceptionMacro("All basis images must be the same size!");
-      }
-
-    ImageRegionConstIterator< BasisImageType > image_it( *basis_it,
-                                                         ( *basis_it )->GetRequestedRegion() );
-    int j = 0;
-    for ( image_it.GoToBegin(); !image_it.IsAtEnd(); ++image_it )
-      {
-      m_BasisMatrix(i, j++) = image_it.Get();
-      }
-    i++;
     }
+
+    ImageRegionConstIterator<BasisImageType> image_it(*basis_it, (*basis_it)->GetRequestedRegion());
+    int                                      j = 0;
+    for (image_it.GoToBegin(); !image_it.IsAtEnd(); ++image_it)
+    {
+      m_BasisMatrix(i, j++) = image_it.Get();
+    }
+    i++;
+  }
   m_BasisMatrixCalculated = true;
   m_ImageAsVector.set_size(m_NumPixels);
 }
@@ -111,58 +107,51 @@ ImagePCADecompositionCalculator< TInputImage, TBasisImage >
 /**
  * Convert an image into a 1-D vector, changing the pixel type if necessary.
  */
-template< typename TInputImage, typename TBasisImage >
+template <typename TInputImage, typename TBasisImage>
 void
-ImagePCADecompositionCalculator< TInputImage, TBasisImage >
-::CalculateRecenteredImageAsVector()
+ImagePCADecompositionCalculator<TInputImage, TBasisImage>::CalculateRecenteredImageAsVector()
 {
-  if ( m_Image->GetRequestedRegion().GetSize() != m_Size )
-    {
+  if (m_Image->GetRequestedRegion().GetSize() != m_Size)
+  {
     itkExceptionMacro("Input image must be the same size as the basis images!");
-    }
+  }
 
-  ImageRegionConstIterator< InputImageType > image_it( m_Image,
-                                                       m_Image->GetRequestedRegion() );
-  typename BasisVectorType::iterator vector_it;
-  for ( image_it.GoToBegin(), vector_it = m_ImageAsVector.begin();
-        !image_it.IsAtEnd(); ++image_it, ++vector_it )
-    {
-    *vector_it = static_cast< BasisPixelType >( image_it.Get() );
-    }
+  ImageRegionConstIterator<InputImageType> image_it(m_Image, m_Image->GetRequestedRegion());
+  typename BasisVectorType::iterator       vector_it;
+  for (image_it.GoToBegin(), vector_it = m_ImageAsVector.begin(); !image_it.IsAtEnd(); ++image_it, ++vector_it)
+  {
+    *vector_it = static_cast<BasisPixelType>(image_it.Get());
+  }
 
-  if ( m_MeanImage )
+  if (m_MeanImage)
+  {
+    ImageRegionConstIterator<BasisImageType> mimage_it(m_MeanImage, m_MeanImage->GetRequestedRegion());
+    for (mimage_it.GoToBegin(), vector_it = m_ImageAsVector.begin(); !mimage_it.IsAtEnd(); ++mimage_it, ++vector_it)
     {
-    ImageRegionConstIterator< BasisImageType > mimage_it( m_MeanImage,
-                                                          m_MeanImage->GetRequestedRegion() );
-    for ( mimage_it.GoToBegin(), vector_it = m_ImageAsVector.begin();
-          !mimage_it.IsAtEnd(); ++mimage_it, ++vector_it )
-      {
-      *vector_it -= ( mimage_it.Get() );
-      }
+      *vector_it -= (mimage_it.Get());
     }
+  }
 }
 
-template< typename TInputImage, typename TBasisImage >
+template <typename TInputImage, typename TBasisImage>
 void
-ImagePCADecompositionCalculator< TInputImage, TBasisImage >
-::SetBasisFromModel(ModelPointerType model)
+ImagePCADecompositionCalculator<TInputImage, TBasisImage>::SetBasisFromModel(ModelPointerType model)
 {
   BasisImagePointerVector images;
   unsigned int            nImages = model->GetNumberOfPrincipalComponentsRequired();
 
   images.reserve(nImages);
-  for ( unsigned int i = 1; i <= nImages; i++ )
-    {
-    images.push_back( model->GetOutput(i) );
-    }
+  for (unsigned int i = 1; i <= nImages; i++)
+  {
+    images.push_back(model->GetOutput(i));
+  }
   this->SetBasisImages(images);
-  this->SetMeanImage( model->GetOutput(0) );
+  this->SetMeanImage(model->GetOutput(0));
 }
 
-template< typename TInputImage, typename TBasisImage >
+template <typename TInputImage, typename TBasisImage>
 void
-ImagePCADecompositionCalculator< TInputImage, TBasisImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+ImagePCADecompositionCalculator<TInputImage, TBasisImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Projection: " << m_Projection << std::endl;

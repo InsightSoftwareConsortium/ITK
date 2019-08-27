@@ -22,77 +22,74 @@
 
 namespace itk
 {
-template< typename TImageType >
-FiniteDifferenceFunction< TImageType >::
-FiniteDifferenceFunction()
+template <typename TImageType>
+FiniteDifferenceFunction<TImageType>::FiniteDifferenceFunction()
 {
   // initialize variables
   m_Radius.Fill(0);
-  for ( unsigned int i = 0; i < ImageDimension; i++ )
-    {
+  for (unsigned int i = 0; i < ImageDimension; i++)
+  {
     m_ScaleCoefficients[i] = 1.0;
-    }
+  }
 }
 
-template< typename TImageType >
+template <typename TImageType>
 void
-FiniteDifferenceFunction< TImageType >::SetRadius(const RadiusType & r)
+FiniteDifferenceFunction<TImageType>::SetRadius(const RadiusType & r)
 {
   m_Radius = r;
 }
 
-template< typename TImageType >
-const typename FiniteDifferenceFunction< TImageType >::RadiusType &
-FiniteDifferenceFunction< TImageType >::GetRadius() const
+template <typename TImageType>
+const typename FiniteDifferenceFunction<TImageType>::RadiusType &
+FiniteDifferenceFunction<TImageType>::GetRadius() const
 {
   return m_Radius;
 }
 
-template< typename TImageType >
+template <typename TImageType>
 void
-FiniteDifferenceFunction< TImageType >::
-SetScaleCoefficients(PixelRealType vals[ImageDimension])
+FiniteDifferenceFunction<TImageType>::SetScaleCoefficients(PixelRealType vals[ImageDimension])
 {
-  for ( unsigned int i = 0; i < ImageDimension; i++ )
-    {
+  for (unsigned int i = 0; i < ImageDimension; i++)
+  {
     m_ScaleCoefficients[i] = vals[i];
-    }
+  }
 }
 
-template< typename TImageType >
+template <typename TImageType>
 void
-FiniteDifferenceFunction< TImageType >::
-GetScaleCoefficients(PixelRealType vals[ImageDimension]) const
+FiniteDifferenceFunction<TImageType>::GetScaleCoefficients(PixelRealType vals[ImageDimension]) const
 {
-  for ( unsigned int i = 0; i < ImageDimension; i++ )
-    {
+  for (unsigned int i = 0; i < ImageDimension; i++)
+  {
     vals[i] = m_ScaleCoefficients[i];
-    }
+  }
 }
 
-template< typename TImageType >
+template <typename TImageType>
 void
-FiniteDifferenceFunction< TImageType >::PrintSelf(std::ostream & os, Indent indent) const
+FiniteDifferenceFunction<TImageType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Radius: " << m_Radius << std::endl;
   os << indent << "ScaleCoefficients: " << m_ScaleCoefficients;
 }
 
-template< typename TImageType >
-const typename FiniteDifferenceFunction< TImageType >::NeighborhoodScalesType
-FiniteDifferenceFunction< TImageType >::ComputeNeighborhoodScales() const
+template <typename TImageType>
+const typename FiniteDifferenceFunction<TImageType>::NeighborhoodScalesType
+FiniteDifferenceFunction<TImageType>::ComputeNeighborhoodScales() const
 {
   NeighborhoodScalesType neighborhoodScales;
 
   neighborhoodScales.Fill(0.0);
-  for ( unsigned int i = 0; i < ImageDimension; i++ )
+  for (unsigned int i = 0; i < ImageDimension; i++)
+  {
+    if (this->m_Radius[i] > 0)
     {
-    if ( this->m_Radius[i] > 0 )
-      {
       neighborhoodScales[i] = this->m_ScaleCoefficients[i] / this->m_Radius[i];
-      }
     }
+  }
   return neighborhoodScales;
 }
 } // end namespace itk

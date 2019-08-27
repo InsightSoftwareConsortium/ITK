@@ -49,17 +49,17 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-template< typename TInput = float, typename TOutput = double >
-class ITK_TEMPLATE_EXPORT AtanRegularizedHeavisideStepFunction:
-  public RegularizedHeavisideStepFunction< TInput, TOutput >
+template <typename TInput = float, typename TOutput = double>
+class ITK_TEMPLATE_EXPORT AtanRegularizedHeavisideStepFunction
+  : public RegularizedHeavisideStepFunction<TInput, TOutput>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(AtanRegularizedHeavisideStepFunction);
 
   using Self = AtanRegularizedHeavisideStepFunction;
-  using Superclass = RegularizedHeavisideStepFunction< TInput, TOutput >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = RegularizedHeavisideStepFunction<TInput, TOutput>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   itkNewMacro(Self);
 
@@ -70,20 +70,21 @@ public:
   using RealType = typename Superclass::RealType;
 
   /** Evaluate at the specified input position */
-  OutputType Evaluate(const InputType & input) const override;
+  OutputType
+  Evaluate(const InputType & input) const override;
 
   /** Evaluate the derivative at the specified input position */
-  OutputType EvaluateDerivative(const InputType & input) const override;
+  OutputType
+  EvaluateDerivative(const InputType & input) const override;
 
 protected:
-
   AtanRegularizedHeavisideStepFunction() = default;
   ~AtanRegularizedHeavisideStepFunction() override = default;
 };
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAtanRegularizedHeavisideStepFunction.hxx"
+#  include "itkAtanRegularizedHeavisideStepFunction.hxx"
 #endif
 
 #endif

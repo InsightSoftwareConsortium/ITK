@@ -38,24 +38,22 @@ namespace itk
  *
  * \ingroup ITKImageIntensity
  */
-template< typename  TInputImage1, typename TInputImage2 = TInputImage1, typename TOutputImage = TInputImage1 >
-class ITK_TEMPLATE_EXPORT ModulusImageFilter:
-  public
-  BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >
+template <typename TInputImage1, typename TInputImage2 = TInputImage1, typename TOutputImage = TInputImage1>
+class ITK_TEMPLATE_EXPORT ModulusImageFilter
+  : public BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ModulusImageFilter);
 
   /** Standard class type aliases. */
   using Self = ModulusImageFilter;
-  using Superclass = BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >;
+  using Superclass = BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>;
 
-  using FunctorType = Functor::Modulus< typename TInputImage1::PixelType,
-                                        typename TInputImage2::PixelType,
-                                        typename TOutputImage::PixelType >;
+  using FunctorType = Functor::
+    Modulus<typename TInputImage1::PixelType, typename TInputImage2::PixelType, typename TOutputImage::PixelType>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using OutputPixelType = typename TOutputImage::PixelType;
   using InputPixelType = typename TInputImage1::PixelType;
@@ -64,30 +62,35 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ModulusImageFilter,
-               BinaryGeneratorImageFilter);
+  itkTypeMacro(ModulusImageFilter, BinaryGeneratorImageFilter);
 
   /** Set/Get the dividend */
-  virtual void SetDividend( InputPixelType _arg ) { this->SetConstant2(_arg); }
-  virtual const InputPixelType &GetDividend () const { return this->GetConstant2(); }
+  virtual void
+  SetDividend(InputPixelType _arg)
+  {
+    this->SetConstant2(_arg);
+  }
+  virtual const InputPixelType &
+  GetDividend() const
+  {
+    return this->GetConstant2();
+  }
 
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< InputPixelType > ) );
+  itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputPixelType>));
   // End concept checking
 #endif
 
 protected:
   ModulusImageFilter();
   ~ModulusImageFilter() override = default;
-
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkModulusImageFilter.hxx"
+#  include "itkModulusImageFilter.hxx"
 #endif
 
 #endif

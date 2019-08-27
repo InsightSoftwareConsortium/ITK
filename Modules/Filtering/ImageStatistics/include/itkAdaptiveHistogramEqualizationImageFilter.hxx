@@ -33,13 +33,12 @@
 namespace itk
 {
 
-template< typename TImageType, typename TKernel >
+template <typename TImageType, typename TKernel>
 void
-AdaptiveHistogramEqualizationImageFilter< TImageType, TKernel >
-::BeforeThreadedGenerateData()
+AdaptiveHistogramEqualizationImageFilter<TImageType, TKernel>::BeforeThreadedGenerateData()
 {
   typename ImageType::Pointer input = ImageType::New();
-  input->Graft( const_cast<ImageType*>(this->GetInput()) );
+  input->Graft(const_cast<ImageType *>(this->GetInput()));
 
   // Calculate min and max gray level of an input image
   // NOTE: This computation of min/max means that this filter should
@@ -47,29 +46,27 @@ AdaptiveHistogramEqualizationImageFilter< TImageType, TKernel >
   using MinMaxFilter = MinimumMaximumImageFilter<ImageType>;
   typename MinMaxFilter::Pointer minmax = MinMaxFilter::New();
 
-  minmax->SetInput( input );
+  minmax->SetInput(input);
   minmax->Update();
 
   m_InputMinimum = minmax->GetMinimum();
   m_InputMaximum = minmax->GetMaximum();
-
 }
 
-template< typename TImageType, typename TKernel >
+template <typename TImageType, typename TKernel>
 void
-AdaptiveHistogramEqualizationImageFilter< TImageType, TKernel >
-::PrintSelf(std::ostream & os, Indent indent) const
+AdaptiveHistogramEqualizationImageFilter<TImageType, TKernel>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << "Alpha: " << m_Alpha << std::endl;
   os << "Beta: " << m_Beta << std::endl;
 
-  os << "InputMinimum: " << static_cast< typename NumericTraits< InputPixelType >::PrintType >( m_InputMinimum ) << std::endl;
-  os << "InputMaximum: " << static_cast< typename NumericTraits< InputPixelType >::PrintType >( m_InputMaximum ) << std::endl;
+  os << "InputMinimum: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_InputMinimum) << std::endl;
+  os << "InputMaximum: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_InputMaximum) << std::endl;
 
-  os << "UseLookupTable: " << ( m_UseLookupTable ? "On" : "Off" ) << std::endl;
+  os << "UseLookupTable: " << (m_UseLookupTable ? "On" : "Off") << std::endl;
 }
-} // end namespace
+} // namespace itk
 
 #endif

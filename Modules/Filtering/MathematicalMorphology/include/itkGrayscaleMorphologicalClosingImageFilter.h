@@ -48,36 +48,36 @@ namespace itk
  * \ingroup ITKMathematicalMorphology
  */
 
-template< typename TInputImage, typename TOutputImage, typename TKernel >
-class ITK_TEMPLATE_EXPORT GrayscaleMorphologicalClosingImageFilter:
-  public KernelImageFilter< TInputImage, TOutputImage, TKernel >
+template <typename TInputImage, typename TOutputImage, typename TKernel>
+class ITK_TEMPLATE_EXPORT GrayscaleMorphologicalClosingImageFilter
+  : public KernelImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleMorphologicalClosingImageFilter);
 
   /** Standard class type aliases. */
   using Self = GrayscaleMorphologicalClosingImageFilter;
-  using Superclass = KernelImageFilter< TInputImage, TOutputImage, TKernel >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = KernelImageFilter<TInputImage, TOutputImage, TKernel>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard New method. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(GrayscaleMorphologicalClosingImageFilter,
-               KernelImageFilter);
+  itkTypeMacro(GrayscaleMorphologicalClosingImageFilter, KernelImageFilter);
 
   /** Image related type alias. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** define values used to determine which algorithm to use */
-  enum AlgorithmType {
+  enum AlgorithmType
+  {
     BASIC = 0,
     HISTO = 1,
     ANCHOR = 2,
     VHGW = 3
-    };
+  };
 
   /** Image related type alias. */
   using InputImageType = TInputImage;
@@ -90,36 +90,33 @@ public:
   using OutputImageRegionType = typename Superclass::OutputImageRegionType;
 
   using FlatKernelType = FlatStructuringElement<(Self::ImageDimension)>;
-  using HistogramErodeFilterType =
-      MovingHistogramErodeImageFilter< TInputImage, TOutputImage, TKernel >;
-  using HistogramDilateFilterType =
-      MovingHistogramDilateImageFilter< TInputImage, TOutputImage, TKernel >;
-  using BasicDilateFilterType =
-      BasicDilateImageFilter< TInputImage, TInputImage, TKernel >;
-  using BasicErodeFilterType =
-      BasicErodeImageFilter< TInputImage, TOutputImage, TKernel >;
-  using AnchorFilterType = AnchorCloseImageFilter< TInputImage, FlatKernelType >;
-  using VanHerkGilWermanErodeFilterType =
-      VanHerkGilWermanErodeImageFilter< TInputImage, FlatKernelType >;
-  using VanHerkGilWermanDilateFilterType =
-      VanHerkGilWermanDilateImageFilter< TInputImage, FlatKernelType >;
-  using SubtractFilterType = CastImageFilter< TInputImage, TOutputImage >;
+  using HistogramErodeFilterType = MovingHistogramErodeImageFilter<TInputImage, TOutputImage, TKernel>;
+  using HistogramDilateFilterType = MovingHistogramDilateImageFilter<TInputImage, TOutputImage, TKernel>;
+  using BasicDilateFilterType = BasicDilateImageFilter<TInputImage, TInputImage, TKernel>;
+  using BasicErodeFilterType = BasicErodeImageFilter<TInputImage, TOutputImage, TKernel>;
+  using AnchorFilterType = AnchorCloseImageFilter<TInputImage, FlatKernelType>;
+  using VanHerkGilWermanErodeFilterType = VanHerkGilWermanErodeImageFilter<TInputImage, FlatKernelType>;
+  using VanHerkGilWermanDilateFilterType = VanHerkGilWermanDilateImageFilter<TInputImage, FlatKernelType>;
+  using SubtractFilterType = CastImageFilter<TInputImage, TOutputImage>;
 
   /** Kernel type alias. */
   using KernelType = TKernel;
-//   using KernelSuperclass = typename KernelType::Superclass;
-//   using KernelSuperclass = Neighborhood< typename KernelType::PixelType, ImageDimension >;
+  //   using KernelSuperclass = typename KernelType::Superclass;
+  //   using KernelSuperclass = Neighborhood< typename KernelType::PixelType, ImageDimension >;
 
   /** Set kernel (structuring element). */
-  void SetKernel(const KernelType & kernel) override;
+  void
+  SetKernel(const KernelType & kernel) override;
 
   /** Set/Get the backend filter class. */
-  void SetAlgorithm(int algo);
+  void
+  SetAlgorithm(int algo);
   itkGetConstMacro(Algorithm, int);
 
   /** GrayscaleMorphologicalClosingImageFilter need to set its internal filters
     as modified */
-  void Modified() const override;
+  void
+  Modified() const override;
 
   /** A safe border is added to input image to avoid borders effects
    * and remove it once the closing is done */
@@ -130,9 +127,11 @@ public:
 protected:
   GrayscaleMorphologicalClosingImageFilter();
   ~GrayscaleMorphologicalClosingImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   // the filters used internally
@@ -158,7 +157,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGrayscaleMorphologicalClosingImageFilter.hxx"
+#  include "itkGrayscaleMorphologicalClosingImageFilter.hxx"
 #endif
 
 #endif

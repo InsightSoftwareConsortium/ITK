@@ -59,24 +59,23 @@ namespace itk
  * \sphinxexample{Filtering/ImageFeature/FindZeroCrossings,Find Zero Crossings In Signed Image}
  * \endsphinx
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT ZeroCrossingImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT ZeroCrossingImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ZeroCrossingImageFilter);
 
   /** Standard "Self" & Superclass type alias. */
   using Self = ZeroCrossingImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
 
   /** Image type alias support   */
   using InputImageType = TInputImage;
   using OutputImageType = TOutputImage;
 
   /** SmartPointer type alias support  */
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Define pixel types  */
   using InputImagePixelType = typename TInputImage::PixelType;
@@ -103,7 +102,8 @@ public:
    * pipeline execution model.
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion()   */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** Set/Get the label value for zero-crossing pixels. */
   itkSetMacro(ForegroundValue, OutputImagePixelType);
@@ -115,21 +115,18 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( OutputEqualityComparableCheck,
-                   ( Concept::EqualityComparable< OutputImagePixelType > ) );
-  itkConceptMacro( SameDimensionCheck,
-                   ( Concept::SameDimension< ImageDimension, OutputImageDimension > ) );
-  itkConceptMacro( InputComparableCheck,
-                   ( Concept::Comparable< InputImagePixelType > ) );
-  itkConceptMacro( OutputOStreamWritableCheck,
-                   ( Concept::OStreamWritable< OutputImagePixelType > ) );
+  itkConceptMacro(OutputEqualityComparableCheck, (Concept::EqualityComparable<OutputImagePixelType>));
+  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
+  itkConceptMacro(InputComparableCheck, (Concept::Comparable<InputImagePixelType>));
+  itkConceptMacro(OutputOStreamWritableCheck, (Concept::OStreamWritable<OutputImagePixelType>));
   // End concept checking
 #endif
 
 protected:
   ZeroCrossingImageFilter();
   ~ZeroCrossingImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   OutputImagePixelType m_BackgroundValue;
   OutputImagePixelType m_ForegroundValue;
@@ -145,13 +142,13 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()
    */
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
-
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 };
-} //end of namespace itk
+} // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkZeroCrossingImageFilter.hxx"
+#  include "itkZeroCrossingImageFilter.hxx"
 #endif
 
 #endif

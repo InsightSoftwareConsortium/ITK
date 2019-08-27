@@ -78,13 +78,14 @@
 #include "itkImageFileWriter.h"
 
 
-int main( int argc, char *argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc != 2 )
-    {
+  if (argc != 2)
+  {
     std::cerr << "Usage: " << argv[0] << " outputimagefile " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   //  Software Guide : BeginLatex
@@ -98,7 +99,7 @@ int main( int argc, char *argv[] )
   using PixelType = signed short;
   constexpr unsigned int Dimension = 3;
 
-  using ImageType = itk::Image< PixelType, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
   // Software Guide : EndCodeSnippet
 
 
@@ -111,9 +112,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using EllipseType = itk::EllipseSpatialObject< Dimension >;
-  using TubeType = itk::TubeSpatialObject< Dimension >;
-  using GroupType = itk::GroupSpatialObject< Dimension >;
+  using EllipseType = itk::EllipseSpatialObject<Dimension>;
+  using TubeType = itk::TubeSpatialObject<Dimension>;
+  using GroupType = itk::GroupSpatialObject<Dimension>;
   // Software Guide : EndCodeSnippet
 
 
@@ -125,8 +126,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using SpatialObjectToImageFilterType = itk::SpatialObjectToImageFilter<
-    GroupType, ImageType >;
+  using SpatialObjectToImageFilterType =
+    itk::SpatialObjectToImageFilter<GroupType, ImageType>;
 
   SpatialObjectToImageFilterType::Pointer imageFilter =
     SpatialObjectToImageFilterType::New();
@@ -143,20 +144,20 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   ImageType::SizeType size;
-  size[ 0 ] =  50;
-  size[ 1 ] =  50;
-  size[ 2 ] = 150;
+  size[0] = 50;
+  size[1] = 50;
+  size[2] = 150;
 
-  imageFilter->SetSize( size );
+  imageFilter->SetSize(size);
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginCodeSnippet
   ImageType::SpacingType spacing;
-  spacing[0] =  100.0 / size[0];
-  spacing[1] =  100.0 / size[1];
-  spacing[2] =  300.0 / size[2];
+  spacing[0] = 100.0 / size[0];
+  spacing[1] = 100.0 / size[1];
+  spacing[2] = 300.0 / size[2];
 
-  imageFilter->SetSpacing( spacing );
+  imageFilter->SetSpacing(spacing);
   // Software Guide : EndCodeSnippet
 
 
@@ -168,9 +169,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  EllipseType::Pointer ellipse    = EllipseType::New();
-  TubeType::Pointer tube1 = TubeType::New();
-  TubeType::Pointer tube2 = TubeType::New();
+  EllipseType::Pointer ellipse = EllipseType::New();
+  TubeType::Pointer    tube1 = TubeType::New();
+  TubeType::Pointer    tube2 = TubeType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -183,41 +184,41 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ellipse->SetRadiusInObjectSpace(  size[0] * 0.2 * spacing[0] );
+  ellipse->SetRadiusInObjectSpace(size[0] * 0.2 * spacing[0]);
 
-  typename TubeType::PointType point;
-  typename TubeType::TubePointType tubePoint;
+  typename TubeType::PointType         point;
+  typename TubeType::TubePointType     tubePoint;
   typename TubeType::TubePointListType tubePointList;
   point[0] = size[0] * 0.2 * spacing[0];
   point[1] = size[1] * 0.2 * spacing[1];
   point[2] = size[2] * 0.2 * spacing[2];
-  tubePoint.SetPositionInObjectSpace( point );
-  tubePoint.SetRadiusInObjectSpace( size[0] * 0.05 * spacing[0] );
-  tubePointList.push_back( tubePoint );
+  tubePoint.SetPositionInObjectSpace(point);
+  tubePoint.SetRadiusInObjectSpace(size[0] * 0.05 * spacing[0]);
+  tubePointList.push_back(tubePoint);
 
-  point[0] =  size[0] * 0.8 * spacing[0];
-  point[1] =  size[1] * 0.2 * spacing[1];
-  point[2] =  size[2] * 0.2 * spacing[2];
-  tubePoint.SetPositionInObjectSpace( point );
-  tubePoint.SetRadiusInObjectSpace( size[0] * 0.05 * spacing[0] );
-  tubePointList.push_back( tubePoint );
-  tube1->SetPoints( tubePointList );
+  point[0] = size[0] * 0.8 * spacing[0];
+  point[1] = size[1] * 0.2 * spacing[1];
+  point[2] = size[2] * 0.2 * spacing[2];
+  tubePoint.SetPositionInObjectSpace(point);
+  tubePoint.SetRadiusInObjectSpace(size[0] * 0.05 * spacing[0]);
+  tubePointList.push_back(tubePoint);
+  tube1->SetPoints(tubePointList);
 
   tubePointList.clear();
-  point[0] =  size[0] * 0.2 * spacing[0];
-  point[1] =  size[1] * 0.8 * spacing[1];
-  point[2] =  size[2] * 0.2 * spacing[2];
-  tubePoint.SetPositionInObjectSpace( point );
-  tubePoint.SetRadiusInObjectSpace( size[0] * 0.05 * spacing[0] );
-  tubePointList.push_back( tubePoint );
+  point[0] = size[0] * 0.2 * spacing[0];
+  point[1] = size[1] * 0.8 * spacing[1];
+  point[2] = size[2] * 0.2 * spacing[2];
+  tubePoint.SetPositionInObjectSpace(point);
+  tubePoint.SetRadiusInObjectSpace(size[0] * 0.05 * spacing[0]);
+  tubePointList.push_back(tubePoint);
 
-  point[0] =  size[0] * 0.8 * spacing[0];
-  point[1] =  size[1] * 0.8 * spacing[1];
-  point[2] =  size[2] * 0.8 * spacing[1];
-  tubePoint.SetPositionInObjectSpace( point );
-  tubePoint.SetRadiusInObjectSpace( size[0] * 0.05 * spacing[0] );
-  tubePointList.push_back( tubePoint );
-  tube2->SetPoints( tubePointList );
+  point[0] = size[0] * 0.8 * spacing[0];
+  point[1] = size[1] * 0.8 * spacing[1];
+  point[2] = size[2] * 0.8 * spacing[1];
+  tubePoint.SetPositionInObjectSpace(point);
+  tubePoint.SetRadiusInObjectSpace(size[0] * 0.05 * spacing[0]);
+  tubePointList.push_back(tubePoint);
+  tube2->SetPoints(tubePointList);
 
   // Software Guide : EndCodeSnippet
 
@@ -251,25 +252,25 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  TransformType::OutputVectorType  translation;
+  TransformType::OutputVectorType translation;
 
-  translation[ 0 ] =  size[0] * spacing[0] / 2.0;
-  translation[ 1 ] =  size[1] * spacing[1] / 4.0;
-  translation[ 2 ] =  size[2] * spacing[2] / 2.0;
-  transform1->Translate( translation, false );
+  translation[0] = size[0] * spacing[0] / 2.0;
+  translation[1] = size[1] * spacing[1] / 4.0;
+  translation[2] = size[2] * spacing[2] / 2.0;
+  transform1->Translate(translation, false);
 
-  translation[ 1 ] =  size[1] * spacing[1] / 2.0;
-  translation[ 2 ] =  size[2] * spacing[2] * 0.22;
-  transform2->Rotate( 1, 2, itk::Math::pi / 2.0 );
-  transform2->Translate( translation, false );
+  translation[1] = size[1] * spacing[1] / 2.0;
+  translation[2] = size[2] * spacing[2] * 0.22;
+  transform2->Rotate(1, 2, itk::Math::pi / 2.0);
+  transform2->Translate(translation, false);
 
-  translation[ 2 ] = size[2] * spacing[2] * 0.78;
-  transform3->Rotate( 1, 2, itk::Math::pi / 2.0 );
-  transform3->Translate( translation, false );
+  translation[2] = size[2] * spacing[2] * 0.78;
+  transform3->Rotate(1, 2, itk::Math::pi / 2.0);
+  transform3->Translate(translation, false);
 
-  ellipse->SetObjectToParentTransform( transform1 );
-  tube1->SetObjectToParentTransform( transform2 );
-  tube2->SetObjectToParentTransform( transform3 );
+  ellipse->SetObjectToParentTransform(transform1);
+  tube1->SetObjectToParentTransform(transform2);
+  tube2->SetObjectToParentTransform(transform3);
 
   // Software Guide : EndCodeSnippet
 
@@ -283,16 +284,16 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   GroupType::Pointer group = GroupType::New();
-  group->AddChild( ellipse );
-  group->AddChild( tube1 );
-  group->AddChild( tube2 );
+  group->AddChild(ellipse);
+  group->AddChild(tube1);
+  group->AddChild(tube2);
 
   ellipse->Update();
 
   tube1->Update();
   tube2->Update();
 
-  imageFilter->SetInput(  group  );
+  imageFilter->SetInput(group);
   // Software Guide : EndCodeSnippet
 
 
@@ -309,20 +310,20 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const PixelType airHounsfieldUnits  = -1000;
-  constexpr PixelType boneHounsfieldUnits  = 800;
+  const PixelType     airHounsfieldUnits = -1000;
+  constexpr PixelType boneHounsfieldUnits = 800;
 
-  ellipse->SetDefaultInsideValue(   boneHounsfieldUnits );
-  tube1->SetDefaultInsideValue( boneHounsfieldUnits );
-  tube2->SetDefaultInsideValue( boneHounsfieldUnits );
+  ellipse->SetDefaultInsideValue(boneHounsfieldUnits);
+  tube1->SetDefaultInsideValue(boneHounsfieldUnits);
+  tube2->SetDefaultInsideValue(boneHounsfieldUnits);
 
-  ellipse->SetDefaultOutsideValue(   airHounsfieldUnits );
-  tube1->SetDefaultOutsideValue( airHounsfieldUnits );
-  tube2->SetDefaultOutsideValue( airHounsfieldUnits );
+  ellipse->SetDefaultOutsideValue(airHounsfieldUnits);
+  tube1->SetDefaultOutsideValue(airHounsfieldUnits);
+  tube2->SetDefaultOutsideValue(airHounsfieldUnits);
 
-  imageFilter->SetUseObjectValue( true );
+  imageFilter->SetUseObjectValue(true);
 
-  imageFilter->SetOutsideValue( airHounsfieldUnits );
+  imageFilter->SetOutsideValue(airHounsfieldUnits);
   // Software Guide : EndCodeSnippet
 
 
@@ -335,22 +336,22 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
 
-  writer->SetFileName( argv[1] );
-  writer->SetInput( imageFilter->GetOutput() );
+  writer->SetFileName(argv[1]);
+  writer->SetInput(imageFilter->GetOutput());
 
   try
-    {
+  {
     imageFilter->Update();
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
 

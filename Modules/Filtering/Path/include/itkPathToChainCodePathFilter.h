@@ -20,7 +20,7 @@
 
 #include "itkPathToPathFilter.h"
 #include "itkOffset.h"
-//Templates require interfaces conforming to itkPath.h and itkChainCodePath.h
+// Templates require interfaces conforming to itkPath.h and itkChainCodePath.h
 
 namespace itk
 {
@@ -34,18 +34,17 @@ namespace itk
  * \ingroup PathFilters
  * \ingroup ITKPath
  */
-template< typename TInputPath, typename TOutputChainCodePath >
-class ITK_TEMPLATE_EXPORT PathToChainCodePathFilter:public
-  PathToPathFilter< TInputPath, TOutputChainCodePath >
+template <typename TInputPath, typename TOutputChainCodePath>
+class ITK_TEMPLATE_EXPORT PathToChainCodePathFilter : public PathToPathFilter<TInputPath, TOutputChainCodePath>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PathToChainCodePathFilter);
 
   /** Standard class type aliases. */
   using Self = PathToChainCodePathFilter;
-  using Superclass = PathToPathFilter< TInputPath, TOutputChainCodePath >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = PathToPathFilter<TInputPath, TOutputChainCodePath>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -64,16 +63,15 @@ public:
   using OffsetType = typename InputPathType::OffsetType;
 
   /** Set/Get the direction in which to reflect the data. Default is "Off". */
-  itkSetMacro(MaximallyConnected, bool)
-  itkGetConstMacro(MaximallyConnected, bool)
-  itkBooleanMacro(MaximallyConnected)
+  itkSetMacro(MaximallyConnected, bool) itkGetConstMacro(MaximallyConnected, bool) itkBooleanMacro(MaximallyConnected)
 
-protected:
-  PathToChainCodePathFilter();
+    protected : PathToChainCodePathFilter();
   ~PathToChainCodePathFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   bool m_MaximallyConnected{ false };
@@ -81,7 +79,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPathToChainCodePathFilter.hxx"
+#  include "itkPathToChainCodePathFilter.hxx"
 #endif
 
 #endif

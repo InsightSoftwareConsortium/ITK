@@ -27,64 +27,60 @@
 
 namespace itk
 {
-template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType >
-HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >
-::HoughTransform2DCirclesImageFilter()
+template <typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType>
+HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPixelType>::
+  HoughTransform2DCirclesImageFilter()
 {
-  this->SetNumberOfRequiredInputs( 1 );
+  this->SetNumberOfRequiredInputs(1);
 }
 
-template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType >
+template <typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType>
 void
-HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >
-::SetRadius(double radius)
+HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPixelType>::SetRadius(double radius)
 {
   this->SetMinimumRadius(radius);
   this->SetMaximumRadius(radius);
 }
 
-template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType >
+template <typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType>
 void
-HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >
-::EnlargeOutputRequestedRegion(DataObject *output)
+HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPixelType>::EnlargeOutputRequestedRegion(
+  DataObject * output)
 {
   Superclass::EnlargeOutputRequestedRegion(output);
   output->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType >
+template <typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType>
 void
-HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >
-::GenerateInputRequestedRegion()
+HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPixelType>::GenerateInputRequestedRegion()
 {
   Superclass::GenerateInputRequestedRegion();
-  if ( this->GetInput() )
-    {
-    InputImagePointer image =
-      const_cast< InputImageType * >( this->GetInput() );
+  if (this->GetInput())
+  {
+    InputImagePointer image = const_cast<InputImageType *>(this->GetInput());
     image->SetRequestedRegionToLargestPossibleRegion();
-    }
+  }
 }
 
 
-template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType >
+template <typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType>
 void
-HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >
-::VerifyPreconditions() ITKv5_CONST
+HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPixelType>::VerifyPreconditions()
+  ITKv5_CONST
 {
   Superclass::VerifyPreconditions();
 
-  if ( ! (m_GradientNormThreshold >= 0.0) )
+  if (!(m_GradientNormThreshold >= 0.0))
   {
     itkExceptionMacro("Failed precondition: GradientNormThreshold >= 0.");
   }
 }
 
 
-template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType >
+template <typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType>
 void
-HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >
-::GenerateData()
+HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPixelType>::GenerateData()
 {
   // Get the input and output pointers
   const InputImageConstPointer inputImage = this->GetInput(0);
@@ -94,7 +90,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
   this->AllocateOutputs();
   outputImage->FillBuffer(0);
 
-  using DoGFunctionType = GaussianDerivativeImageFunction< InputImageType >;
+  using DoGFunctionType = GaussianDerivativeImageFunction<InputImageType>;
   const auto DoGFunction = DoGFunctionType::New();
   DoGFunction->SetSigma(m_SigmaGradient);
   DoGFunction->SetUseImageSpacing(m_UseImageSpacing);
@@ -104,25 +100,23 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
 
   m_RadiusImage = RadiusImageType::New();
 
-  m_RadiusImage->SetRegions( outputImage->GetLargestPossibleRegion() );
-  m_RadiusImage->SetOrigin( inputImage->GetOrigin() );
-  m_RadiusImage->SetSpacing( inputImage->GetSpacing() );
-  m_RadiusImage->SetDirection( inputImage->GetDirection() );
-  m_RadiusImage->Allocate( true ); // initialize buffer to zero
+  m_RadiusImage->SetRegions(outputImage->GetLargestPossibleRegion());
+  m_RadiusImage->SetOrigin(inputImage->GetOrigin());
+  m_RadiusImage->SetSpacing(inputImage->GetSpacing());
+  m_RadiusImage->SetDirection(inputImage->GetDirection());
+  m_RadiusImage->Allocate(true); // initialize buffer to zero
 
-  ImageRegionConstIteratorWithIndex< InputImageType > image_it( inputImage,
-    inputImage->GetRequestedRegion() );
+  ImageRegionConstIteratorWithIndex<InputImageType> image_it(inputImage, inputImage->GetRequestedRegion());
   image_it.GoToBegin();
 
-  const ImageRegion< 2 > & region = outputImage->GetRequestedRegion();
+  const ImageRegion<2> & region = outputImage->GetRequestedRegion();
 
-  while ( !image_it.IsAtEnd() )
+  while (!image_it.IsAtEnd())
+  {
+    if (image_it.Get() > m_Threshold)
     {
-    if ( image_it.Get() > m_Threshold )
-      {
-      const Index< 2 > inputIndex = image_it.GetIndex();
-      const typename DoGFunctionType::VectorType grad =
-        DoGFunction->DoGFunctionType::EvaluateAtIndex( inputIndex );
+      const Index<2>                             inputIndex = image_it.GetIndex();
+      const typename DoGFunctionType::VectorType grad = DoGFunction->DoGFunctionType::EvaluateAtIndex(inputIndex);
 
       double Vx = grad[0];
       double Vy = grad[1];
@@ -130,95 +124,91 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
       const double norm = std::sqrt(Vx * Vx + Vy * Vy);
 
       // if the gradient is not flat (using GradientNormThreshold to estimate flatness)
-      if ( norm > m_GradientNormThreshold )
-        {
+      if (norm > m_GradientNormThreshold)
+      {
         Vx /= norm;
         Vy /= norm;
 
-        for ( double angle = -m_SweepAngle; angle <= m_SweepAngle; angle += 0.05 )
-          {
+        for (double angle = -m_SweepAngle; angle <= m_SweepAngle; angle += 0.05)
+        {
           double i = m_MinimumRadius;
           double distance;
 
           do
-            {
-            const Index< 2 > outputIndex =
-              {{
-              Math::Round<IndexValueType>( inputIndex[0] - i * ( Vx * std::cos(angle) + Vy * std::sin(angle) ) ),
-              Math::Round<IndexValueType>( inputIndex[1] - i * ( Vx * std::sin(angle) + Vy * std::cos(angle) ) )
-              }};
+          {
+            const Index<2> outputIndex = {
+              { Math::Round<IndexValueType>(inputIndex[0] - i * (Vx * std::cos(angle) + Vy * std::sin(angle))),
+                Math::Round<IndexValueType>(inputIndex[1] - i * (Vx * std::sin(angle) + Vy * std::cos(angle))) }
+            };
 
-            if ( region.IsInside(outputIndex) )
-              {
-              distance = std::sqrt(static_cast<double>((outputIndex[0] - inputIndex[0]) * (outputIndex[0] - inputIndex[0])
-                                 + (outputIndex[1] - inputIndex[1]) * (outputIndex[1] - inputIndex[1])));
+            if (region.IsInside(outputIndex))
+            {
+              distance =
+                std::sqrt(static_cast<double>((outputIndex[0] - inputIndex[0]) * (outputIndex[0] - inputIndex[0]) +
+                                              (outputIndex[1] - inputIndex[1]) * (outputIndex[1] - inputIndex[1])));
 
               ++outputImage->GetPixel(outputIndex);
               m_RadiusImage->GetPixel(outputIndex) += distance;
-              }
-            else
-              {
-              break;
-              }
-            ++i;
             }
-          while ( distance < m_MaximumRadius );
-          }
+            else
+            {
+              break;
+            }
+            ++i;
+          } while (distance < m_MaximumRadius);
         }
       }
-    ++image_it;
     }
+    ++image_it;
+  }
 
   // Compute the average radius
-  ImageRegionConstIterator< OutputImageType > output_it( outputImage,
-    outputImage->GetLargestPossibleRegion() );
-  ImageRegionIterator< RadiusImageType > radius_it( m_RadiusImage,
-    m_RadiusImage->GetLargestPossibleRegion() );
+  ImageRegionConstIterator<OutputImageType> output_it(outputImage, outputImage->GetLargestPossibleRegion());
+  ImageRegionIterator<RadiusImageType>      radius_it(m_RadiusImage, m_RadiusImage->GetLargestPossibleRegion());
   output_it.GoToBegin();
   radius_it.GoToBegin();
-  while ( !output_it.IsAtEnd() )
+  while (!output_it.IsAtEnd())
+  {
+    if (output_it.Get() > 1)
     {
-    if ( output_it.Get() > 1 )
-      {
       radius_it.Value() /= output_it.Get();
-      }
+    }
     ++output_it;
     ++radius_it;
-    }
+  }
 }
 
-template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType >
-typename HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >::CirclesListType &
-HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >
-::GetCircles()
+template <typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType>
+typename HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPixelType>::CirclesListType &
+HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPixelType>::GetCircles()
 {
   // Make sure that all the required inputs exist and have a non-null value
   this->VerifyPreconditions();
 
-  if ( this->GetMTime() == m_OldModifiedTime )
-    {
+  if (this->GetMTime() == m_OldModifiedTime)
+  {
     // If the filter has not been updated
     return m_CirclesList;
-    }
+  }
 
-  if( m_RadiusImage.IsNull() )
-    {
-    itkExceptionMacro(<<"Update() must be called before GetCircles().");
-    }
+  if (m_RadiusImage.IsNull())
+  {
+    itkExceptionMacro(<< "Update() must be called before GetCircles().");
+  }
 
   m_CirclesList.clear();
 
-  if ( m_NumberOfCircles > 0 )
-    {
+  if (m_NumberOfCircles > 0)
+  {
     // Blur the accumulator in order to find the maximum
-    using InternalImageType = Image< float, 2 >;
+    using InternalImageType = Image<float, 2>;
 
     // The variable "outputImage" is only used as input to gaussianFilter.
     // It should not be modified, because GetOutput(0) should not be changed.
     const auto outputImage = OutputImageType::New();
     outputImage->Graft(this->GetOutput(0));
 
-    const auto gaussianFilter = DiscreteGaussianImageFilter< OutputImageType, InternalImageType >::New();
+    const auto gaussianFilter = DiscreteGaussianImageFilter<OutputImageType, InternalImageType>::New();
 
     gaussianFilter->SetInput(outputImage); // The output is the accumulator image
     gaussianFilter->SetVariance(m_Variance);
@@ -227,34 +217,33 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
     gaussianFilter->Update();
     const InternalImageType::Pointer postProcessImage = gaussianFilter->GetOutput();
 
-    const auto minMaxCalculator = MinimumMaximumImageCalculator< InternalImageType >::New();
-    ImageRegionIterator< InternalImageType > it_input( postProcessImage,
-      postProcessImage->GetLargestPossibleRegion() );
+    const auto                             minMaxCalculator = MinimumMaximumImageCalculator<InternalImageType>::New();
+    ImageRegionIterator<InternalImageType> it_input(postProcessImage, postProcessImage->GetLargestPossibleRegion());
 
     CirclesListSizeType circles = 0;
 
     // Find maxima
     // Break out of "forever loop" as soon as the requested number of circles is found.
-    for(;;)
-      {
+    for (;;)
+    {
       minMaxCalculator->SetImage(postProcessImage);
       minMaxCalculator->ComputeMaximum();
 
-      if ( minMaxCalculator->GetMaximum() <= 0 )
-        {
+      if (minMaxCalculator->GetMaximum() <= 0)
+      {
         // When all pixel values in 'postProcessImage' are zero or less, no more circles
         // should be found. Note that a zero in 'postProcessImage' might correspond to a
         // zero in the accumulator image, or it might be that the pixel is within a
         // removed disc around a previously found circle center.
         break;
-        }
+      }
 
       const InternalImageType::IndexType indexOfMaximum = minMaxCalculator->GetIndexOfMaximum();
 
       // Create a Circle Spatial Object
       const auto Circle = CircleType::New();
-      Circle->SetId(static_cast<int>( circles ));
-      Circle->SetRadiusInObjectSpace( m_RadiusImage->GetPixel( indexOfMaximum ) );
+      Circle->SetId(static_cast<int>(circles));
+      Circle->SetRadiusInObjectSpace(m_RadiusImage->GetPixel(indexOfMaximum));
 
       CircleType::PointType center;
       center[0] = indexOfMaximum[0];
@@ -265,40 +254,36 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
       m_CirclesList.push_back(Circle);
 
       circles++;
-      if ( circles >= m_NumberOfCircles )
-        {
+      if (circles >= m_NumberOfCircles)
+      {
         break;
-        }
+      }
 
       // Remove a black disc from the Hough space domain
-      for ( double angle = 0; angle <= 2 * itk::Math::pi; angle += itk::Math::pi / 1000 )
+      for (double angle = 0; angle <= 2 * itk::Math::pi; angle += itk::Math::pi / 1000)
+      {
+        for (double length = 0; length < m_DiscRadiusRatio * Circle->GetRadiusInObjectSpace()[0]; length += 1)
         {
-        for ( double length = 0; length < m_DiscRadiusRatio *
-          Circle->GetRadiusInObjectSpace()[0]; length += 1 )
-          {
-          const Index< 2 > index =
-            {{
-            Math::Round<IndexValueType>( indexOfMaximum[0] + length * std::cos(angle) ),
-            Math::Round<IndexValueType>( indexOfMaximum[1] + length * std::sin(angle) )
-            }};
+          const Index<2> index = { { Math::Round<IndexValueType>(indexOfMaximum[0] + length * std::cos(angle)),
+                                     Math::Round<IndexValueType>(indexOfMaximum[1] + length * std::sin(angle)) } };
 
-          if ( postProcessImage->GetLargestPossibleRegion().IsInside(index) )
-            {
+          if (postProcessImage->GetLargestPossibleRegion().IsInside(index))
+          {
             postProcessImage->SetPixel(index, 0);
-            }
           }
         }
       }
     }
+  }
 
   m_OldModifiedTime = this->GetMTime();
   return m_CirclesList;
 }
 
-template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType >
+template <typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType>
 void
-HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >
-::PrintSelf(std::ostream & os, Indent indent) const
+HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPixelType>::PrintSelf(std::ostream & os,
+                                                                                                   Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -313,22 +298,20 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
   os << indent << "Sweep angle : " << m_SweepAngle << std::endl;
   os << indent << "UseImageSpacing: " << m_UseImageSpacing << std::endl;
 
-  itkPrintSelfObjectMacro( RadiusImage );
+  itkPrintSelfObjectMacro(RadiusImage);
 
   os << indent << "CirclesList: " << std::endl;
   unsigned int i = 0;
-  auto it = m_CirclesList.begin();
-  while( it != m_CirclesList.end() )
-    {
+  auto         it = m_CirclesList.begin();
+  while (it != m_CirclesList.end())
+  {
     os << indent << "[" << i << "]: " << *it << std::endl;
     ++it;
     ++i;
-    }
+  }
 
-  os << indent << "OldModifiedTime: "
-    << NumericTraits< ModifiedTimeType >::PrintType( m_OldModifiedTime )
-    << std::endl;
+  os << indent << "OldModifiedTime: " << NumericTraits<ModifiedTimeType>::PrintType(m_OldModifiedTime) << std::endl;
 }
-} // end namespace
+} // namespace itk
 
 #endif

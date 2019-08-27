@@ -22,73 +22,74 @@
 #include "itkImageSeriesReader.h"
 #include "itkImageFileWriter.h"
 
-int main( int argc, char* argv[] )
+int
+main(int argc, char * argv[])
 {
 
-  if( argc < 4 )
-    {
+  if (argc < 4)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << " DicomDirectory  outputFileName sigma [seriesName] "
               << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   using PixelType = signed short;
   constexpr unsigned int Dimension = 3;
 
-  using ImageType = itk::Image< PixelType, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
-  using ReaderType = itk::ImageSeriesReader< ImageType >;
+  using ReaderType = itk::ImageSeriesReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
 
 
   using ImageIOType = itk::GDCMImageIO;
   ImageIOType::Pointer dicomIO = ImageIOType::New();
 
-  reader->SetImageIO( dicomIO );
+  reader->SetImageIO(dicomIO);
 
 
   using NamesGeneratorType = itk::GDCMSeriesFileNames;
   NamesGeneratorType::Pointer nameGenerator = NamesGeneratorType::New();
 
-  nameGenerator->SetUseSeriesDetails( true );
-  nameGenerator->AddSeriesRestriction("0008|0021" );
+  nameGenerator->SetUseSeriesDetails(true);
+  nameGenerator->AddSeriesRestriction("0008|0021");
 
-  nameGenerator->SetDirectory( argv[1] );
+  nameGenerator->SetDirectory(argv[1]);
 
 
   try
-    {
+  {
     std::cout << std::endl << "The directory: " << std::endl;
     std::cout << std::endl << argv[1] << std::endl << std::endl;
     std::cout << "Contains the following DICOM Series: ";
     std::cout << std::endl << std::endl;
 
 
-    using SeriesIdContainer = std::vector< std::string >;
+    using SeriesIdContainer = std::vector<std::string>;
 
     const SeriesIdContainer & seriesUID = nameGenerator->GetSeriesUIDs();
 
     auto seriesItr = seriesUID.begin();
     auto seriesEnd = seriesUID.end();
-    while( seriesItr != seriesEnd )
-      {
+    while (seriesItr != seriesEnd)
+    {
       std::cout << seriesItr->c_str() << std::endl;
       ++seriesItr;
-      }
+    }
 
 
     std::string seriesIdentifier;
 
-    if( argc > 4 ) // If no optional series identifier
-      {
+    if (argc > 4) // If no optional series identifier
+    {
       seriesIdentifier = argv[4];
-      }
+    }
     else
-      {
+    {
       seriesIdentifier = seriesUID.begin()->c_str();
-      }
+    }
 
 
     std::cout << std::endl << std::endl;
@@ -97,61 +98,61 @@ int main( int argc, char* argv[] )
     std::cout << std::endl << std::endl;
 
 
-    using FileNamesContainer = std::vector< std::string >;
+    using FileNamesContainer = std::vector<std::string>;
     FileNamesContainer fileNames;
 
-    fileNames = nameGenerator->GetFileNames( seriesIdentifier );
+    fileNames = nameGenerator->GetFileNames(seriesIdentifier);
 
 
-    reader->SetFileNames( fileNames );
+    reader->SetFileNames(fileNames);
 
 
     try
-      {
+    {
       reader->Update();
-      }
-    catch (itk::ExceptionObject &ex)
-      {
+    }
+    catch (itk::ExceptionObject & ex)
+    {
       std::cout << ex << std::endl;
       return EXIT_FAILURE;
-      }
+    }
 
 
-    using FilterType = itk::SmoothingRecursiveGaussianImageFilter< ImageType, ImageType >;
+    using FilterType = itk::SmoothingRecursiveGaussianImageFilter<ImageType, ImageType>;
 
     FilterType::Pointer filter = FilterType::New();
 
-    filter->SetInput( reader->GetOutput() );
+    filter->SetInput(reader->GetOutput());
 
-    const double sigma = std::stod( argv[3] );
-    filter->SetSigma( sigma );
+    const double sigma = std::stod(argv[3]);
+    filter->SetSigma(sigma);
 
-    using WriterType = itk::ImageFileWriter< ImageType >;
+    using WriterType = itk::ImageFileWriter<ImageType>;
     WriterType::Pointer writer = WriterType::New();
 
-    writer->SetFileName( argv[2] );
+    writer->SetFileName(argv[2]);
 
-    writer->SetInput( filter->GetOutput() );
+    writer->SetInput(filter->GetOutput());
 
-    std::cout  << "Writing the image as " << std::endl << std::endl;
-    std::cout  << argv[2] << std::endl << std::endl;
+    std::cout << "Writing the image as " << std::endl << std::endl;
+    std::cout << argv[2] << std::endl << std::endl;
 
 
     try
-      {
+    {
       writer->Update();
-      }
-    catch (itk::ExceptionObject &ex)
-      {
+    }
+    catch (itk::ExceptionObject & ex)
+    {
       std::cout << ex << std::endl;
       return EXIT_FAILURE;
-      }
     }
-  catch (itk::ExceptionObject &ex)
-    {
+  }
+  catch (itk::ExceptionObject & ex)
+  {
     std::cout << ex << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   return EXIT_SUCCESS;

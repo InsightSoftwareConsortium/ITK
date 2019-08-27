@@ -48,7 +48,8 @@
  *  0     1   2   3   4
  *
  */
-int itkFEMRobustSolverTest(int, char *[])
+int
+itkFEMRobustSolverTest(int, char *[])
 {
   constexpr unsigned int DataDimension = 2;
   constexpr unsigned int ParameterDimension = 2;
@@ -88,13 +89,13 @@ int itkFEMRobustSolverTest(int, char *[])
   FEMObjectType::Pointer femObject = FEMObjectType::New();
 
   /** initialize material */
-  MaterialContainerType *materialContainer = femObject->GetModifiableMaterialContainer();
+  MaterialContainerType * materialContainer = femObject->GetModifiableMaterialContainer();
 
-  if(!materialContainer)
-    {
+  if (!materialContainer)
+  {
     std::cerr << "Missing material container!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   materialContainer->Initialize();
 
@@ -108,13 +109,13 @@ int itkFEMRobustSolverTest(int, char *[])
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
 
   /** initialize nodes */
-  NodeContainerType *nodeContainer = femObject->GetModifiableNodeContainer();
+  NodeContainerType * nodeContainer = femObject->GetModifiableNodeContainer();
 
-  if(!nodeContainer)
-    {
+  if (!nodeContainer)
+  {
     std::cerr << "Missing node container!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   nodeContainer->Initialize();
 
@@ -122,46 +123,46 @@ int itkFEMRobustSolverTest(int, char *[])
   unsigned int elementDimensionY = 2;
 
   FEMVectorType point(ParameterDimension);
-  unsigned int globalNumbering = 0;
+  unsigned int  globalNumbering = 0;
 
-  for(unsigned int j = 0; j <= elementDimensionY; j++)
+  for (unsigned int j = 0; j <= elementDimensionY; j++)
+  {
+    for (unsigned int i = 0; i <= elementDimensionX; i++)
     {
-    for(unsigned int i = 0; i <= elementDimensionX; i++)
-      {
       point[0] = i;
       point[1] = j;
 
-      NodeType::Pointer n =  NodeType::New();
+      NodeType::Pointer n = NodeType::New();
       n->SetCoordinates(point);
       n->SetGlobalNumber(globalNumbering);
 
       femObject->AddNextNode(n);
 
       globalNumbering++;
-      }
     }
+  }
 
   /** initialize elements */
-  ElementContainerType *elementContainer = femObject->GetModifiableElementContainer();
+  ElementContainerType * elementContainer = femObject->GetModifiableElementContainer();
 
-  if(!elementContainer)
-    {
+  if (!elementContainer)
+  {
     std::cerr << "Missing element container!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   elementContainer->Initialize();
 
   globalNumbering = 0;
 
-  for( unsigned int j = 0; j < elementDimensionY; j++ )
+  for (unsigned int j = 0; j < elementDimensionY; j++)
+  {
+    for (unsigned int i = 0; i < elementDimensionX; i++)
     {
-    for( unsigned int i = 0; i < elementDimensionX; i++ )
-      {
-      unsigned int leftBottomNodeIndex = i + ( elementDimensionX + 1 ) * j;
-      unsigned int rightBottomNodeIndex = i + 1 + ( elementDimensionX + 1 ) * j;
-      unsigned int rigthUpperNodeIndex = i + 1 + ( elementDimensionX + 1 ) * ( j + 1 );
-      unsigned int leftUpperNodeIndex = i + ( elementDimensionX + 1 ) * ( j + 1 );
+      unsigned int leftBottomNodeIndex = i + (elementDimensionX + 1) * j;
+      unsigned int rightBottomNodeIndex = i + 1 + (elementDimensionX + 1) * j;
+      unsigned int rigthUpperNodeIndex = i + 1 + (elementDimensionX + 1) * (j + 1);
+      unsigned int leftUpperNodeIndex = i + (elementDimensionX + 1) * (j + 1);
 
       ElementType::Pointer quadrilateral = ElementType::New();
 
@@ -171,22 +172,22 @@ int itkFEMRobustSolverTest(int, char *[])
       quadrilateral->SetNode(3, femObject->GetNode(leftUpperNodeIndex));
 
       quadrilateral->SetGlobalNumber(globalNumbering);
-      quadrilateral->SetMaterial( static_cast<MaterialType *>( femObject->GetMaterial(0).GetPointer() ) );
+      quadrilateral->SetMaterial(static_cast<MaterialType *>(femObject->GetMaterial(0).GetPointer()));
 
       femObject->AddNextElement(quadrilateral);
 
       globalNumbering++;
-      }
     }
+  }
 
   /** initialize loads */
-  LoadContainerType *loadContainer = femObject->GetModifiableLoadContainer();
+  LoadContainerType * loadContainer = femObject->GetModifiableLoadContainer();
 
-  if(!loadContainer)
-    {
+  if (!loadContainer)
+  {
     std::cerr << "Missing load container!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   loadContainer->Initialize();
 
@@ -226,19 +227,19 @@ int itkFEMRobustSolverTest(int, char *[])
   displacement3[0] = 1.0;
   displacement3[1] = 1.0;
 
-  LoadType::Pointer load0 =  LoadType::New();
+  LoadType::Pointer load0 = LoadType::New();
   load0->SetSource(featurePoint0);
   load0->SetRealDisplacement(displacement0);
 
-  LoadType::Pointer load1 =  LoadType::New();
+  LoadType::Pointer load1 = LoadType::New();
   load1->SetSource(featurePoint1);
   load1->SetRealDisplacement(displacement1);
 
-  LoadType::Pointer load2 =  LoadType::New();
+  LoadType::Pointer load2 = LoadType::New();
   load2->SetSource(featurePoint2);
   load2->SetRealDisplacement(displacement2);
 
-  LoadType::Pointer load3 =  LoadType::New();
+  LoadType::Pointer load3 = LoadType::New();
   load3->SetSource(featurePoint3);
   load3->SetRealDisplacement(displacement3);
 
@@ -252,28 +253,28 @@ int itkFEMRobustSolverTest(int, char *[])
 
   /** set interpolation grid */
 
-  InterpolationGridType::PointType        origin;
+  InterpolationGridType::PointType origin;
   origin[0] = 0.0;
   origin[1] = 0.0;
   solver->SetOrigin(origin);
 
-  InterpolationGridType::SpacingType      spacing;
+  InterpolationGridType::SpacingType spacing;
   spacing[0] = 1.0;
   spacing[1] = 1.0;
   solver->SetSpacing(spacing);
 
-  InterpolationGridType::SizeType         size;
+  InterpolationGridType::SizeType size;
   size[0] = 5;
   size[1] = 5;
-  InterpolationGridType::IndexType        start;
+  InterpolationGridType::IndexType start;
   start[0] = 0;
   start[1] = 0;
-  InterpolationGridType::RegionType       region;
+  InterpolationGridType::RegionType region;
   region.SetSize(size);
   region.SetIndex(start);
   solver->SetRegion(region);
 
-  InterpolationGridType::DirectionType    direction;
+  InterpolationGridType::DirectionType direction;
   direction[0][0] = 1.0;
   direction[0][1] = 0.0;
   direction[1][0] = 0.0;
@@ -284,35 +285,35 @@ int itkFEMRobustSolverTest(int, char *[])
   // note that since feature points come from the image, this setting is always true.
   solver->SetUseInterpolationGrid(true);
 
-  solver->SetInput( femObject );
+  solver->SetInput(femObject);
   solver->Update();
 
-  int numOfDOF = femObject->GetNumberOfDegreesOfFreedom();
+  int           numOfDOF = femObject->GetNumberOfDegreesOfFreedom();
   FEMVectorType solution(numOfDOF);
 
   bool  hasError = false;
-  float groundTruthSolution[18] = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                                   1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-                                   1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
+  float groundTruthSolution[18] = { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+                                    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 };
 
-  for( int i = 0; i < numOfDOF; i++ )
-    {
+  for (int i = 0; i < numOfDOF; i++)
+  {
     solution[i] = solver->GetSolution(i);
 
     std::cout << "Solution[" << i << "]:" << solution[i] << std::endl;
 
-    if( std::fabs(groundTruthSolution[i] - solution[i]) > 0.0001 )
-      {
-      std::cerr << "ERROR: Index " << i << ". Groundtruth " << groundTruthSolution[i] << " Solution " << solution[i] << std::endl;
-      hasError = true;
-      }
-    }
-
-  if( hasError )
+    if (std::fabs(groundTruthSolution[i] - solution[i]) > 0.0001)
     {
+      std::cerr << "ERROR: Index " << i << ". Groundtruth " << groundTruthSolution[i] << " Solution " << solution[i]
+                << std::endl;
+      hasError = true;
+    }
+  }
+
+  if (hasError)
+  {
     std::cerr << "Test FAILED!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "Test PASSED!" << std::endl;
   return EXIT_SUCCESS;

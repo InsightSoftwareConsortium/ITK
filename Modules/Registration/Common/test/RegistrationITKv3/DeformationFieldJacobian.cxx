@@ -23,52 +23,53 @@
 #include "itkDisplacementFieldJacobianDeterminantFilter.h"
 
 #include "itkTestDriverIncludeRequiredIOFactories.h"
-int main( int argc, char * argv[] )
+int
+main(int argc, char * argv[])
 {
   RegisterRequiredFactories();
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  outputImageFile " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // For now, this program runs on 3D deformation fields
-  using InputPixelType = itk::Vector< float, 3 >;
+  using InputPixelType = itk::Vector<float, 3>;
   using OutputPixelType = float;
 
-  using InputImageType = itk::Image< InputPixelType,  3 >;
-  using OutputImageType = itk::Image< OutputPixelType, 3 >;
+  using InputImageType = itk::Image<InputPixelType, 3>;
+  using OutputImageType = itk::Image<OutputPixelType, 3>;
 
-  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
 
-  using FilterType = itk::DisplacementFieldJacobianDeterminantFilter< InputImageType >;
+  using FilterType = itk::DisplacementFieldJacobianDeterminantFilter<InputImageType>;
 
   // Set up deformation field reader
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
   // Connect deformation-to-Jacobian filter
   FilterType::Pointer filter = FilterType::New();
-  filter->SetInput( reader->GetOutput() );
+  filter->SetInput(reader->GetOutput());
   //  filter->SetUseImageSpacingOn();
   filter->Update();
 
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   // Write Jacobian determinant image.
   WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName( argv[2] );
-  writer->SetInput( filter->GetOutput() );
+  writer->SetFileName(argv[2]);
+  writer->SetInput(filter->GetOutput());
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << excp << std::endl;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

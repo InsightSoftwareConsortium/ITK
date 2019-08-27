@@ -22,7 +22,8 @@
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
-namespace ImageAdaptorInterpolate {
+namespace ImageAdaptorInterpolate
+{
 
 class RedChannelPixelAccessor
 {
@@ -30,26 +31,27 @@ public:
   using InternalType = itk::RGBPixel<float>;
   using ExternalType = float;
 
-  static ExternalType Get( const InternalType & input )
-    {
-      return static_cast<ExternalType>( input.GetRed() );
-    }
+  static ExternalType
+  Get(const InternalType & input)
+  {
+    return static_cast<ExternalType>(input.GetRed());
+  }
 };
 
 using InputPixelType = RedChannelPixelAccessor::InternalType;
 using PixelType = RedChannelPixelAccessor::ExternalType;
 
-enum{ ImageDimension = 3 };
+enum
+{
+  ImageDimension = 3
+};
 
-using ImageType = itk::Image<InputPixelType,ImageDimension>;
-using ImageAdaptorType = itk::ImageAdaptor<  ImageType,
-                            RedChannelPixelAccessor >;
+using ImageType = itk::Image<InputPixelType, ImageDimension>;
+using ImageAdaptorType = itk::ImageAdaptor<ImageType, RedChannelPixelAccessor>;
 
 using CoordRepType = double;
 
-using InterpolatorType = itk::LinearInterpolateImageFunction<
-                                  ImageAdaptorType,
-                                  CoordRepType  >;
+using InterpolatorType = itk::LinearInterpolateImageFunction<ImageAdaptorType, CoordRepType>;
 using IndexType = InterpolatorType::IndexType;
 using PointType = ImageType::PointType;
 using ContinuousIndexType = InterpolatorType::ContinuousIndexType;
@@ -60,39 +62,35 @@ using OutputType = InterpolatorType::OutputType;
  * Test a geometric point. Returns true if test has passed,
  * returns false otherwise
  */
-bool TestGeometricPoint(
-const InterpolatorType * interp,
-const PointType& point,
-bool isInside,
-OutputType trueValue )
+bool
+TestGeometricPoint(const InterpolatorType * interp, const PointType & point, bool isInside, OutputType trueValue)
 {
   std::cout << " Point: " << point;
 
-  const bool bvalue = interp->IsInsideBuffer( point );
+  const bool bvalue = interp->IsInsideBuffer(point);
   std::cout << " Inside: " << bvalue;
 
-  if( bvalue != isInside )
-    {
+  if (bvalue != isInside)
+  {
     std::cout << "*** Error: inside should be " << isInside << std::endl;
     return false;
-    }
+  }
 
-  if( isInside )
-    {
-    OutputType value = interp->Evaluate( point );
+  if (isInside)
+  {
+    OutputType value = interp->Evaluate(point);
     std::cout << " Value: " << value << std::endl;
 
-    if( itk::Math::abs( value - trueValue ) > 1e-9 )
-      {
+    if (itk::Math::abs(value - trueValue) > 1e-9)
+    {
       std::cout << " *** Error: Value should be: ";
       std::cout << trueValue << std::endl;
       return false;
-      }
     }
+  }
 
   std::cout << std::endl;
   return true;
-
 }
 
 
@@ -100,44 +98,44 @@ OutputType trueValue )
  * Test a continuous index. Returns true if test has passed,
  * returns false otherwise
  */
-bool TestContinuousIndex(
-const InterpolatorType * interp,
-const ContinuousIndexType& index,
-bool isInside,
-OutputType trueValue )
+bool
+TestContinuousIndex(const InterpolatorType *    interp,
+                    const ContinuousIndexType & index,
+                    bool                        isInside,
+                    OutputType                  trueValue)
 {
   std::cout << " Index: " << index;
 
-  const bool bvalue = interp->IsInsideBuffer( index );
+  const bool bvalue = interp->IsInsideBuffer(index);
   std::cout << " Inside: " << bvalue;
 
-  if( bvalue != isInside )
-    {
+  if (bvalue != isInside)
+  {
     std::cout << "*** Error: inside should be " << isInside << std::endl;
     return false;
-    }
+  }
 
-  if( isInside )
-    {
-    OutputType value = interp->EvaluateAtContinuousIndex( index );
+  if (isInside)
+  {
+    OutputType value = interp->EvaluateAtContinuousIndex(index);
     std::cout << " Value: " << value << std::endl;
 
-    if( itk::Math::abs( value - trueValue ) > 1e-9 )
-      {
+    if (itk::Math::abs(value - trueValue) > 1e-9)
+    {
       std::cout << " *** Error: Value should be: ";
       std::cout << trueValue << std::endl;
       return false;
-      }
     }
+  }
 
   std::cout << std::endl;
   return true;
-
 }
 
-} // ImageAdaptorInterpolate namespace
+} // namespace ImageAdaptorInterpolate
 
-int itkImageAdaptorInterpolateImageFunctionTest(int, char* [] )
+int
+itkImageAdaptorInterpolateImageFunctionTest(int, char *[])
 {
   int flag = 0;
 
@@ -155,190 +153,189 @@ int itkImageAdaptorInterpolateImageFunctionTest(int, char* [] )
   const unsigned int ImageDimension = ImageAdaptorInterpolate::ImageDimension;
 
   ImageType::SizeType size = { { 20, 40, 80 } };
-  double origin [3] = { 0.5,   0.5,   0.5};
-  double spacing[3] = { 0.1,   0.05 , 0.025};
+  double              origin[3] = { 0.5, 0.5, 0.5 };
+  double              spacing[3] = { 0.1, 0.05, 0.025 };
 
 
   // Create a test image
-  ImageType::Pointer image = ImageType::New();
+  ImageType::Pointer    image = ImageType::New();
   ImageType::RegionType region;
-  region.SetSize( size );
+  region.SetSize(size);
 
-  image->SetLargestPossibleRegion( region );
-  image->SetBufferedRegion( region );
+  image->SetLargestPossibleRegion(region);
+  image->SetBufferedRegion(region);
   image->Allocate();
 
-  image->SetOrigin( origin );
-  image->SetSpacing( spacing );
+  image->SetOrigin(origin);
+  image->SetSpacing(spacing);
 
   // Write in a simple linear pattern
   using Iterator = itk::ImageRegionIteratorWithIndex<ImageType>;
-  Iterator iter( image, region );
+  Iterator iter(image, region);
 
-  IndexType index;
+  IndexType      index;
   unsigned short value;
   InputPixelType pixel;
 
-  for(; !iter.IsAtEnd(); ++iter )
-    {
+  for (; !iter.IsAtEnd(); ++iter)
+  {
     index = iter.GetIndex();
     value = 0;
 
-    for( unsigned int j = 0; j < ImageDimension; j++ )
-      {
+    for (unsigned int j = 0; j < ImageDimension; j++)
+    {
       value += index[j];
-      }
-
-    for( unsigned int k = 0; k < ImageDimension; k++ )
-      {
-      pixel[k] = ( k + 1 ) * value;
-      }
-
-    iter.Set( pixel );
-
     }
+
+    for (unsigned int k = 0; k < ImageDimension; k++)
+    {
+      pixel[k] = (k + 1) * value;
+    }
+
+    iter.Set(pixel);
+  }
 
   // Create the image adaptor
   using ImageAdaptorType = ImageAdaptorInterpolate::ImageAdaptorType;
   ImageAdaptorType::Pointer adaptor = ImageAdaptorType::New();
 
-  adaptor->SetImage( image );
+  adaptor->SetImage(image);
 
   // Create the interpolator
   InterpolatorType::Pointer interp = InterpolatorType::New();
-  interp->SetInputImage( adaptor );
-  interp->Print( std::cout );
+  interp->SetInputImage(adaptor);
+  interp->Print(std::cout);
 
   /* Test evaluation at continuous indices and corresponding
      gemetric points */
   std::cout << "Evaluate at: " << std::endl;
-  OutputType output;
+  OutputType          output;
   ContinuousIndexType cindex;
-  PointType point;
-  bool passed;
+  PointType           point;
+  bool                passed;
 
   // an integer position inside the image
   {
-  itk::SpacePrecisionType darray[3] = {10, 20, 40};
-  double temp = 70.0;
-  output = OutputType( temp );
-  cindex = ContinuousIndexType(darray);
-  passed = ImageAdaptorInterpolate::TestContinuousIndex( interp, cindex, true, output );
+    itk::SpacePrecisionType darray[3] = { 10, 20, 40 };
+    double                  temp = 70.0;
+    output = OutputType(temp);
+    cindex = ContinuousIndexType(darray);
+    passed = ImageAdaptorInterpolate::TestContinuousIndex(interp, cindex, true, output);
   }
 
-  if( !passed )
-    {
+  if (!passed)
+  {
     flag = 1;
-    }
+  }
 
-  adaptor->TransformContinuousIndexToPhysicalPoint( cindex, point );
-  passed = ImageAdaptorInterpolate::TestGeometricPoint( interp, point, true, output );
+  adaptor->TransformContinuousIndexToPhysicalPoint(cindex, point);
+  passed = ImageAdaptorInterpolate::TestGeometricPoint(interp, point, true, output);
 
-  if( !passed )
-    {
+  if (!passed)
+  {
     flag = 1;
-    }
+  }
 
   // position at the image border
   {
-  itk::SpacePrecisionType darray[3] = {0, 20, 40};
-  double temp = 60.0;
-  output = OutputType( temp );
-  cindex = ContinuousIndexType(darray);
-  passed = ImageAdaptorInterpolate::TestContinuousIndex( interp, cindex, true, output );
+    itk::SpacePrecisionType darray[3] = { 0, 20, 40 };
+    double                  temp = 60.0;
+    output = OutputType(temp);
+    cindex = ContinuousIndexType(darray);
+    passed = ImageAdaptorInterpolate::TestContinuousIndex(interp, cindex, true, output);
   }
 
-  if( !passed )
-    {
+  if (!passed)
+  {
     flag = 1;
-    }
+  }
 
-  adaptor->TransformContinuousIndexToPhysicalPoint( cindex, point );
-  passed = ImageAdaptorInterpolate::TestGeometricPoint( interp, point, true, output );
+  adaptor->TransformContinuousIndexToPhysicalPoint(cindex, point);
+  passed = ImageAdaptorInterpolate::TestGeometricPoint(interp, point, true, output);
 
-  if( !passed )
-    {
+  if (!passed)
+  {
     flag = 1;
-    }
+  }
 
   // position near image border
   {
-  itk::SpacePrecisionType epsilon = 1.0e-10;
-  itk::SpacePrecisionType darray[3] = {19 - epsilon, 20, 40};
-  double temp = 79.0;
-  output = OutputType( temp );
-  cindex = ContinuousIndexType(darray);
-  passed = ImageAdaptorInterpolate::TestContinuousIndex( interp, cindex, true, output );
+    itk::SpacePrecisionType epsilon = 1.0e-10;
+    itk::SpacePrecisionType darray[3] = { 19 - epsilon, 20, 40 };
+    double                  temp = 79.0;
+    output = OutputType(temp);
+    cindex = ContinuousIndexType(darray);
+    passed = ImageAdaptorInterpolate::TestContinuousIndex(interp, cindex, true, output);
   }
 
-  if( !passed )
-    {
+  if (!passed)
+  {
     flag = 1;
-    }
+  }
 
-  adaptor->TransformContinuousIndexToPhysicalPoint( cindex, point );
-  passed = ImageAdaptorInterpolate::TestGeometricPoint( interp, point, true, output );
+  adaptor->TransformContinuousIndexToPhysicalPoint(cindex, point);
+  passed = ImageAdaptorInterpolate::TestGeometricPoint(interp, point, true, output);
 
-  if( !passed )
-    {
+  if (!passed)
+  {
     flag = 1;
-    }
+  }
 
   // position outside the image
   {
-  itk::SpacePrecisionType darray[3] = {20, 20, 40};
-  double temp = 1.0;
-  output = OutputType( temp );
-  cindex = ContinuousIndexType(darray);
-  passed = ImageAdaptorInterpolate::TestContinuousIndex( interp, cindex, false, output );
+    itk::SpacePrecisionType darray[3] = { 20, 20, 40 };
+    double                  temp = 1.0;
+    output = OutputType(temp);
+    cindex = ContinuousIndexType(darray);
+    passed = ImageAdaptorInterpolate::TestContinuousIndex(interp, cindex, false, output);
   }
 
-  if( !passed )
-    {
+  if (!passed)
+  {
     flag = 1;
-    }
+  }
 
-  adaptor->TransformContinuousIndexToPhysicalPoint( cindex, point );
-  passed = ImageAdaptorInterpolate::TestGeometricPoint( interp, point, false, output );
+  adaptor->TransformContinuousIndexToPhysicalPoint(cindex, point);
+  passed = ImageAdaptorInterpolate::TestGeometricPoint(interp, point, false, output);
 
-  if( !passed )
-    {
+  if (!passed)
+  {
     flag = 1;
-    }
+  }
 
   // at non-integer position
   {
-  itk::SpacePrecisionType darray[3] = {5.25, 12.5, 42.0};
-  double temp = 59.75;
-  output = OutputType( temp );
-  cindex = ContinuousIndexType(darray);
-  passed = ImageAdaptorInterpolate::TestContinuousIndex( interp, cindex, true, output );
+    itk::SpacePrecisionType darray[3] = { 5.25, 12.5, 42.0 };
+    double                  temp = 59.75;
+    output = OutputType(temp);
+    cindex = ContinuousIndexType(darray);
+    passed = ImageAdaptorInterpolate::TestContinuousIndex(interp, cindex, true, output);
   }
 
-  if( !passed )
-    {
+  if (!passed)
+  {
     flag = 1;
-    }
+  }
 
-  adaptor->TransformContinuousIndexToPhysicalPoint( cindex, point );
-  passed = ImageAdaptorInterpolate::TestGeometricPoint( interp, point, true, output );
+  adaptor->TransformContinuousIndexToPhysicalPoint(cindex, point);
+  passed = ImageAdaptorInterpolate::TestGeometricPoint(interp, point, true, output);
 
-  if( !passed )
-    {
+  if (!passed)
+  {
     flag = 1;
-    }
+  }
 
 
   /* Return results of test */
-  if( flag != 0 )
-    {
+  if (flag != 0)
+  {
     std::cout << "*** Some test failed" << std::endl;
     return flag;
-    }
+  }
   else
-    {
+  {
     std::cout << "All tests successfully passed" << std::endl;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

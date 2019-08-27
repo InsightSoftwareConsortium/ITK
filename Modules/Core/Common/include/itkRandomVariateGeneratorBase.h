@@ -30,27 +30,28 @@ namespace Statistics
  * \ingroup Common
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT RandomVariateGeneratorBase:public Object
+class ITKCommon_EXPORT RandomVariateGeneratorBase : public Object
 {
 public:
   /** Standard class type aliases. */
   using Self = RandomVariateGeneratorBase;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(RandomVariateGeneratorBase, Object);
 
   /** get a variate using FastNorm function */
-  virtual double GetVariate() = 0;
+  virtual double
+  GetVariate() = 0;
 
 protected:
   RandomVariateGeneratorBase();
   ~RandomVariateGeneratorBase() override;
 
 private:
-};  // end of class
+}; // end of class
 } // end of namespace Statistics
 } // end of namespace itk
 

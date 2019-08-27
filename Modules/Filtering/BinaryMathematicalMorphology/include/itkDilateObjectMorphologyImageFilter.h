@@ -42,19 +42,19 @@ namespace itk
  * \ingroup ImageEnhancement MathematicalMorphologyImageFilters
  * \ingroup ITKBinaryMathematicalMorphology
  */
-template< typename TInputImage, typename TOutputImage, typename TKernel >
-class ITK_TEMPLATE_EXPORT DilateObjectMorphologyImageFilter:
-  public ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
+template <typename TInputImage, typename TOutputImage, typename TKernel>
+class ITK_TEMPLATE_EXPORT DilateObjectMorphologyImageFilter
+  : public ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(DilateObjectMorphologyImageFilter);
 
   /** Standard class type aliases. */
   using Self = DilateObjectMorphologyImageFilter;
-  using Superclass = ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >;
+  using Superclass = ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard New method */
   itkNewMacro(Self);
@@ -72,7 +72,7 @@ public:
   using KernelIteratorType = typename KernelType::ConstIterator;
 
   /** duplicates from base class to avoid compiler warnings */
-  using OutputNeighborhoodIteratorType = NeighborhoodIterator< TOutputImage >;
+  using OutputNeighborhoodIteratorType = NeighborhoodIterator<TOutputImage>;
 
   using DefaultBoundaryConditionType = typename Superclass::DefaultBoundaryConditionType;
 
@@ -81,22 +81,22 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( KernelGreaterThanComparableCheck,
-                   ( Concept::GreaterThanComparable< KernelPixelType > ) );
+  itkConceptMacro(KernelGreaterThanComparableCheck, (Concept::GreaterThanComparable<KernelPixelType>));
   // End concept checking
 #endif
 
 protected:
   DilateObjectMorphologyImageFilter();
   ~DilateObjectMorphologyImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Apply the kernel to the neighborhood given.
    *
    * All values in neighborhood covered by the kernel will be set to the
    * object value.  */
-  void Evaluate(OutputNeighborhoodIteratorType & nit,
-                const KernelType & kernel) override;
+  void
+  Evaluate(OutputNeighborhoodIteratorType & nit, const KernelType & kernel) override;
 
 private:
   // Default boundary condition for dilation filter, defaults to
@@ -106,7 +106,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDilateObjectMorphologyImageFilter.hxx"
+#  include "itkDilateObjectMorphologyImageFilter.hxx"
 #endif
 
 #endif

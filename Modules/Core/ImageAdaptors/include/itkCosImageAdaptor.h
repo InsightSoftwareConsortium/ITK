@@ -36,7 +36,7 @@ namespace Accessor
  * \ingroup ImageAdaptors
  * \ingroup ITKImageAdaptors
  */
-template< typename TInternalType, typename TExternalType >
+template <typename TInternalType, typename TExternalType>
 class CosPixelAccessor
 {
 public:
@@ -48,11 +48,17 @@ public:
    * representation of data. */
   using InternalType = TInternalType;
 
-  static inline void Set(TInternalType & output, const TExternalType & input)
-  { output = (TInternalType)std::cos( (double)input ); }
+  static inline void
+  Set(TInternalType & output, const TExternalType & input)
+  {
+    output = (TInternalType)std::cos((double)input);
+  }
 
-  static inline TExternalType Get(const TInternalType & input)
-  { return (TExternalType)std::cos( (double)input ); }
+  static inline TExternalType
+  Get(const TInternalType & input)
+  {
+    return (TExternalType)std::cos((double)input);
+  }
 };
 } // end namespace Accessor
 
@@ -65,23 +71,19 @@ public:
  * \ingroup ImageAdaptors
  * \ingroup ITKImageAdaptors
  */
-template< typename TImage, typename TOutputPixelType >
-class CosImageAdaptor:public
-  ImageAdaptor< TImage, Accessor::CosPixelAccessor<
-                  typename TImage::PixelType,
-                  TOutputPixelType >   >
+template <typename TImage, typename TOutputPixelType>
+class CosImageAdaptor
+  : public ImageAdaptor<TImage, Accessor::CosPixelAccessor<typename TImage::PixelType, TOutputPixelType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(CosImageAdaptor);
 
   /** Standard class type aliases. */
   using Self = CosImageAdaptor;
-  using Superclass = ImageAdaptor< TImage, Accessor::CosPixelAccessor<
-                          typename TImage::PixelType,
-                          TOutputPixelType > >;
+  using Superclass = ImageAdaptor<TImage, Accessor::CosPixelAccessor<typename TImage::PixelType, TOutputPixelType>>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

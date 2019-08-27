@@ -21,7 +21,8 @@
 #include "itkImageToImageFilter.h"
 #include "itkAttributeLabelObject.h"
 
-namespace itk {
+namespace itk
+{
 
 /** \class LabelMapToAttributeImageFilter
  * \brief Convert a LabelMap to a labeled image
@@ -39,10 +40,11 @@ namespace itk {
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template<typename TInputImage, typename TOutputImage, typename TAttributeAccessor=
-    typename Functor::AttributeLabelObjectAccessor< typename TInputImage::LabelObjectType > >
-class ITK_TEMPLATE_EXPORT LabelMapToAttributeImageFilter :
-    public ImageToImageFilter<TInputImage, TOutputImage>
+template <typename TInputImage,
+          typename TOutputImage,
+          typename TAttributeAccessor =
+            typename Functor::AttributeLabelObjectAccessor<typename TInputImage::LabelObjectType>>
+class ITK_TEMPLATE_EXPORT LabelMapToAttributeImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LabelMapToAttributeImageFilter);
@@ -77,8 +79,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(LabelMapToAttributeImageFilter,
-               ImageToImageFilter);
+  itkTypeMacro(LabelMapToAttributeImageFilter, ImageToImageFilter);
 
   /**
    * Set/Get the value used as "background" in the output image, if the input
@@ -91,19 +92,23 @@ public:
 protected:
   LabelMapToAttributeImageFilter();
   ~LabelMapToAttributeImageFilter() override = default;
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** LabelMapToAttributeImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
    * GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** LabelMapToAttributeImageFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output)) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * itkNotUsed(output)) override;
 
   /** Single-threaded version of GenerateData.  This filter delegates
    * to GrayscaleGeodesicErodeImageFilter. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   OutputImagePixelType m_BackgroundValue;
@@ -113,7 +118,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLabelMapToAttributeImageFilter.hxx"
+#  include "itkLabelMapToAttributeImageFilter.hxx"
 #endif
 
 #endif

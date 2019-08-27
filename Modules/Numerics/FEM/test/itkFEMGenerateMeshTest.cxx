@@ -22,12 +22,13 @@
 #include "itkFEMElement3DC0LinearHexahedronStrain.h"
 
 //
-int itkFEMGenerateMeshTest(int, char *[])
+int
+itkFEMGenerateMeshTest(int, char *[])
 {
-  //Need to register default FEM object types,
-  //and setup SpatialReader to recognize FEM types
-  //which is all currently done as a HACK in
-  //the initializaiton of the itk::FEMFactoryBase::GetFactory()
+  // Need to register default FEM object types,
+  // and setup SpatialReader to recognize FEM types
+  // which is all currently done as a HACK in
+  // the initializaiton of the itk::FEMFactoryBase::GetFactory()
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
 
   //
@@ -49,12 +50,12 @@ int itkFEMGenerateMeshTest(int, char *[])
   MeshOriginV.set_size(2);
   MeshSizeV.set_size(2);
   ElementsPerDim.set_size(2);
-  for( unsigned int j = 0; j < 2; j++ )
-    {
+  for (unsigned int j = 0; j < 2; j++)
+  {
     MeshOriginV[j] = 0.0;
     MeshSizeV[j] = 10;
     ElementsPerDim[j] = 5.0;
-    }
+  }
 
   using ElasticityType = itk::fem::MaterialLinearElasticity;
   // Create the material
@@ -72,45 +73,45 @@ int itkFEMGenerateMeshTest(int, char *[])
   using StrainType = itk::fem::Element2DC0LinearQuadrilateralStrain;
   StrainType::Pointer e1 = StrainType::New();
 
-  e1->SetMaterial( dynamic_cast<ElasticityType *>( m ) );
+  e1->SetMaterial(dynamic_cast<ElasticityType *>(m));
 
   try
-    {
+  {
     itk::fem::Generate2DRectilinearMesh(e1, S, MeshOriginV, MeshSizeV, ElementsPerDim);
     std::cout << "Generated 2D rectilinear mesh" << std::endl;
-    }
-  catch( itk::ExceptionObject & )
-    {
+  }
+  catch (itk::ExceptionObject &)
+  {
     std::cerr << "Could not generate 2D mesh - test FAILED" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   MeshOriginV.set_size(3);
   MeshSizeV.set_size(3);
   ElementsPerDim.set_size(3);
-  for( unsigned int j = 0; j < 3; j++ )
-    {
+  for (unsigned int j = 0; j < 3; j++)
+  {
     MeshOriginV[j] = 0.;
     MeshSizeV[j] = 10;
     ElementsPerDim[j] = 5.;
-    }
+  }
 
   itk::fem::Element3DC0LinearHexahedronStrain::Pointer e2 = itk::fem::Element3DC0LinearHexahedronStrain::New();
-  if (  dynamic_cast<itk::fem::MaterialLinearElasticity *>( m ))
-    {
-    e2->SetMaterial( dynamic_cast<itk::fem::MaterialLinearElasticity *>( m ) );
-    }
+  if (dynamic_cast<itk::fem::MaterialLinearElasticity *>(m))
+  {
+    e2->SetMaterial(dynamic_cast<itk::fem::MaterialLinearElasticity *>(m));
+  }
 
   try
-    {
+  {
     itk::fem::Generate3DRectilinearMesh(e2, S, MeshOriginV, MeshSizeV, ElementsPerDim);
     std::cout << "Generated 3D rectilinear mesh" << std::endl;
-    }
-  catch( itk::ExceptionObject & )
-    {
+  }
+  catch (itk::ExceptionObject &)
+  {
     std::cerr << "Could not create 3D mesh - test FAILED" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   delete e1;
   delete m;

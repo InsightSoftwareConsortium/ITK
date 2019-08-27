@@ -57,7 +57,7 @@ class ITK_FORWARD_EXPORT Command;
  * \sphinxexample{Core/Common/CreateAnother,Copy Another}
  * \endsphinx
  */
-class ITKCommon_EXPORT Object:public LightObject
+class ITKCommon_EXPORT Object : public LightObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(Object);
@@ -65,63 +65,83 @@ public:
   /** Smart pointer type alias support */
   using Self = Object;
   using Superclass = LightObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
-  static Pointer New();
+  static Pointer
+  New();
 
   /** Create an object from an instance, potentially deferring to a
    * factory.  This method allows you to create an instance of an
    * object that is exactly the same type as the referring object.
    * This is useful in cases where an object has been cast back to a
    * base class. */
-  LightObject::Pointer CreateAnother() const override;
+  LightObject::Pointer
+  CreateAnother() const override;
 
   /** Standard part of all itk objects. */
   itkTypeMacro(Object, LightObject);
 
   /** Turn debugging output on.  */
-  virtual void DebugOn() const;
+  virtual void
+  DebugOn() const;
 
   /** Turn debugging output off.  */
-  virtual void DebugOff() const;
+  virtual void
+  DebugOff() const;
 
   /** Get the value of the debug flag.  */
-  bool GetDebug() const;
+  bool
+  GetDebug() const;
 
   /** Set the value of the debug flag. A non-zero value turns debugging on. */
-  void SetDebug(bool debugFlag) const;
+  void
+  SetDebug(bool debugFlag) const;
 
   /** Return this object's modified time.  */
-  virtual ModifiedTimeType GetMTime() const;
+  virtual ModifiedTimeType
+  GetMTime() const;
 
   /** Return this object's time stamp.  */
-  virtual const TimeStamp & GetTimeStamp() const;
+  virtual const TimeStamp &
+  GetTimeStamp() const;
 
   /** Update the modification time for this object. Many filters rely on the
    * modification time to determine if they need to recompute their data.  */
-  virtual void Modified() const;
+  virtual void
+  Modified() const;
 
   /** Increase the reference count (mark as used by another object).  */
-  void Register() const override;
+  void
+  Register() const override;
 
   /** Decrease the reference count (release by another object).  */
-  void UnRegister() const noexcept override;
+  void
+  UnRegister() const noexcept override;
 
   /** Sets the reference count (use with care)  */
-  void SetReferenceCount(int) override;
+  void
+  SetReferenceCount(int) override;
 
   /** This is a global flag that controls whether any debug, warning
    *  or error messages are displayed.  */
-  static void SetGlobalWarningDisplay(bool flag);
+  static void
+  SetGlobalWarningDisplay(bool flag);
 
-  static bool GetGlobalWarningDisplay();
+  static bool
+  GetGlobalWarningDisplay();
 
-  static void GlobalWarningDisplayOn()
-  { SetGlobalWarningDisplay(true); }
-  static void GlobalWarningDisplayOff()
-  { SetGlobalWarningDisplay(false); }
+  static void
+  GlobalWarningDisplayOn()
+  {
+    SetGlobalWarningDisplay(true);
+  }
+  static void
+  GlobalWarningDisplayOff()
+  {
+    SetGlobalWarningDisplay(false);
+  }
 
   /** Allow people to add/remove/invoke observers (callbacks) to any ITK
    * object. This is an implementation of the subject/observer design
@@ -131,49 +151,61 @@ public:
    * command.  The memory for the Command becomes the responsibility of
    * this object, so don't pass the same instance of a command to two
    * different objects  */
-  unsigned long AddObserver(const EventObject & event, Command *);
+  unsigned long
+  AddObserver(const EventObject & event, Command *);
 
-  unsigned long AddObserver(const EventObject & event, Command *) const;
+  unsigned long
+  AddObserver(const EventObject & event, Command *) const;
 
   /** Get the command associated with the given tag.  NOTE: This returns
    * a pointer to a Command, but it is safe to assign this to a
    * Command::Pointer.  Since Command inherits from LightObject, at this
    * point in the code, only a pointer or a reference to the Command can
    * be used.   */
-  Command * GetCommand(unsigned long tag);
+  Command *
+  GetCommand(unsigned long tag);
 
   /** Call Execute on all the Commands observing this event id. */
-  void InvokeEvent(const EventObject &);
+  void
+  InvokeEvent(const EventObject &);
 
   /** Call Execute on all the Commands observing this event id.
    * The actions triggered by this call doesn't modify this object. */
-  void InvokeEvent(const EventObject &) const;
+  void
+  InvokeEvent(const EventObject &) const;
 
   /** Remove the observer with this tag value. */
-  void RemoveObserver(unsigned long tag);
+  void
+  RemoveObserver(unsigned long tag);
 
   /** Remove all observers . */
-  void RemoveAllObservers();
+  void
+  RemoveAllObservers();
 
   /** Return true if an observer is registered for this event. */
-  bool HasObserver(const EventObject & event) const;
+  bool
+  HasObserver(const EventObject & event) const;
 
   /**
    * \return A reference to this objects MetaDataDictionary.
    * \warning This reference may be changed.
    */
-  MetaDataDictionary & GetMetaDataDictionary();
+  MetaDataDictionary &
+  GetMetaDataDictionary();
 
   /**
    * \return A constant reference to this objects MetaDataDictionary.
    */
-  const MetaDataDictionary & GetMetaDataDictionary() const;
+  const MetaDataDictionary &
+  GetMetaDataDictionary() const;
 
   /**
    * Set the MetaDataDictionary
    */
-  void SetMetaDataDictionary(const MetaDataDictionary & rhs);
-  void SetMetaDataDictionary( MetaDataDictionary && rrhs);
+  void
+  SetMetaDataDictionary(const MetaDataDictionary & rhs);
+  void
+  SetMetaDataDictionary(MetaDataDictionary && rrhs);
 
   /**
    * A facility to help application programmers set a
@@ -193,31 +225,34 @@ protected:
    * including superclasses. Typically not called by the user (use Print()
    * instead) but used in the hierarchical print process to combine the
    * output of several classes.  */
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  bool PrintObservers(std::ostream & os, Indent indent) const;
+  bool
+  PrintObservers(std::ostream & os, Indent indent) const;
 
   /** Set the time stamp of this object.
    * This method must be used very carefully !!!.
    * Most mortals will never need to call this method. */
-  virtual void SetTimeStamp( const TimeStamp & time );
+  virtual void
+  SetTimeStamp(const TimeStamp & time);
 
 private:
   /** Only used to synchronize the global variable across static libraries.*/
   itkGetGlobalDeclarationMacro(bool, GlobalWarningDisplay);
 
   /** Enable/Disable debug messages. */
-  mutable bool m_Debug{false};
+  mutable bool m_Debug{ false };
 
   /** Keep track of modification time. */
   mutable TimeStamp m_MTime;
 
   /** Global object debug flag. */
-  static bool *m_GlobalWarningDisplay;
+  static bool * m_GlobalWarningDisplay;
 
   /** Implementation class for Subject/Observer Pattern.
    * This is only allocated if used. */
-  SubjectImplementation *m_SubjectImplementation{nullptr};
+  SubjectImplementation * m_SubjectImplementation{ nullptr };
   /**
    * Implementation for holding Object MetaData
    * @see itk::MetaDataDictionary
@@ -225,7 +260,7 @@ private:
    * @see itk::MetaDataObject
    * This is only allocated if used.
    */
-  mutable MetaDataDictionary *m_MetaDataDictionary{nullptr};
+  mutable MetaDataDictionary * m_MetaDataDictionary{ nullptr };
 
   std::string m_ObjectName;
 };

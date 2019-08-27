@@ -55,21 +55,17 @@ namespace itk
  *
  * \ingroup ITKReview
  */
-template<
-  typename TDisplacementField,
-  typename TOutputImage
-  >
-class ITK_TEMPLATE_EXPORT GridForwardWarpImageFilter:
-  public ImageToImageFilter< TDisplacementField, TOutputImage >
+template <typename TDisplacementField, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT GridForwardWarpImageFilter : public ImageToImageFilter<TDisplacementField, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GridForwardWarpImageFilter);
 
   /** Standard class type aliases. */
   using Self = GridForwardWarpImageFilter;
-  using Superclass = ImageToImageFilter< TDisplacementField, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TDisplacementField, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -111,10 +107,9 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( SameDimensionCheck,
-                   ( Concept::SameDimension< ImageDimension, DisplacementFieldDimension > ) );
-  itkConceptMacro( DisplacementFieldHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< typename TDisplacementField::PixelType::ValueType > ) );
+  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, DisplacementFieldDimension>));
+  itkConceptMacro(DisplacementFieldHasNumericTraitsCheck,
+                  (Concept::HasNumericTraits<typename TDisplacementField::PixelType::ValueType>));
   // End concept checking
 #endif
 
@@ -122,9 +117,11 @@ protected:
   GridForwardWarpImageFilter();
   ~GridForwardWarpImageFilter() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   PixelType    m_BackgroundValue;
@@ -134,7 +131,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGridForwardWarpImageFilter.hxx"
+#  include "itkGridForwardWarpImageFilter.hxx"
 #endif
 
 #endif

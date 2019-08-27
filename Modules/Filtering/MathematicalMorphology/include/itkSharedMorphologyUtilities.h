@@ -23,38 +23,40 @@
 
 namespace itk
 {
-template< typename TRegion, typename TLine >
-bool NeedToDoFace(const TRegion AllImage,
-                  const TRegion face,
-                  const TLine line);
+template <typename TRegion, typename TLine>
+bool
+NeedToDoFace(const TRegion AllImage, const TRegion face, const TLine line);
 
-template< typename TImage, typename TBres, typename TLine >
-int ComputeStartEnd(const typename TImage::IndexType StartIndex,
-                    const TLine line,
-                    const float tol,
-                    const typename TBres::OffsetArray LineOffsets,
-                    const typename TImage::RegionType AllImage,
-                    unsigned & start,
-                    unsigned & end);
+template <typename TImage, typename TBres, typename TLine>
+int
+ComputeStartEnd(const typename TImage::IndexType  StartIndex,
+                const TLine                       line,
+                const float                       tol,
+                const typename TBres::OffsetArray LineOffsets,
+                const typename TImage::RegionType AllImage,
+                unsigned &                        start,
+                unsigned &                        end);
 
-template< typename TImage, typename TBres, typename TLine >
-int FillLineBuffer(typename TImage::ConstPointer input,
-                   const typename TImage::IndexType StartIndex,
-                   const TLine line,
-                   const float tol,
-                   const typename TBres::OffsetArray LineOffsets,
-                   const typename TImage::RegionType AllImage,
-                   std::vector<typename TImage::PixelType> & inbuffer,
-                   unsigned int &start,
-                   unsigned int &end);
+template <typename TImage, typename TBres, typename TLine>
+int
+FillLineBuffer(typename TImage::ConstPointer             input,
+               const typename TImage::IndexType          StartIndex,
+               const TLine                               line,
+               const float                               tol,
+               const typename TBres::OffsetArray         LineOffsets,
+               const typename TImage::RegionType         AllImage,
+               std::vector<typename TImage::PixelType> & inbuffer,
+               unsigned int &                            start,
+               unsigned int &                            end);
 
-template< typename TImage, typename TBres >
-void CopyLineToImage(const typename TImage::Pointer output,
-                     const typename TImage::IndexType StartIndex,
-                     const typename TBres::OffsetArray LineOffsets,
-                     std::vector<typename TImage::PixelType> & outbuffer,
-                     const unsigned start,
-                     const unsigned end);
+template <typename TImage, typename TBres>
+void
+CopyLineToImage(const typename TImage::Pointer            output,
+                const typename TImage::IndexType          StartIndex,
+                const typename TBres::OffsetArray         LineOffsets,
+                std::vector<typename TImage::PixelType> & outbuffer,
+                const unsigned                            start,
+                const unsigned                            end);
 
 // This returns a face with a normal between +/- 45 degrees of the
 // line. The face is enlarged so that AllImage is entirely filled by
@@ -62,21 +64,20 @@ void CopyLineToImage(const typename TImage::Pointer output,
 // of the region will not touch the image. This approach is necessary
 // because we want to be able to sweep the lines in a fashion that
 // does not have overlap between them.
-template< typename TInputImage, typename TLine >
+template <typename TInputImage, typename TLine>
 typename TInputImage::RegionType
-MakeEnlargedFace(const TInputImage *input,
-                 const typename TInputImage::RegionType AllImage,
-                 const TLine line);
+MakeEnlargedFace(const TInputImage * input, const typename TInputImage::RegionType AllImage, const TLine line);
 
 // figure out the correction factor for length->pixel count based on
 // line angle
-template< typename TLine >
-unsigned int GetLinePixels(const TLine line);
+template <typename TLine>
+unsigned int
+GetLinePixels(const TLine line);
 
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSharedMorphologyUtilities.hxx"
+#  include "itkSharedMorphologyUtilities.hxx"
 #endif
 
 #endif

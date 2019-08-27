@@ -44,20 +44,18 @@ namespace itk
  * \sphinxexample{Filtering/LabelMap/ConvertImageToLabelMap,Convert itk::Image With Labels To Label Map}
  * \endsphinx
  */
-template< typename TInputImage, typename TOutputImage =
-            LabelMap< LabelObject< typename TInputImage::PixelType,
-                                   TInputImage::ImageDimension > > >
-class ITK_TEMPLATE_EXPORT LabelImageToLabelMapFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage,
+          typename TOutputImage = LabelMap<LabelObject<typename TInputImage::PixelType, TInputImage::ImageDimension>>>
+class ITK_TEMPLATE_EXPORT LabelImageToLabelMapFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LabelImageToLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = LabelImageToLabelMapFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Some convenient type alias. */
   using InputImageType = TInputImage;
@@ -83,8 +81,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(LabelImageToLabelMapFilter,
-               ImageToImageFilter);
+  itkTypeMacro(LabelImageToLabelMapFilter, ImageToImageFilter);
 
   /**
    * Set/Get the value used as "background" in the output image.
@@ -94,43 +91,49 @@ public:
   itkGetConstMacro(BackgroundValue, OutputImagePixelType);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  itkConceptMacro( SameDimensionCheck,
-                   ( Concept::SameDimension< InputImageDimension, OutputImageDimension > ) );
+  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
 #endif
 
 protected:
   LabelImageToLabelMapFilter();
   ~LabelImageToLabelMapFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** LabelImageToLabelMapFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
    * GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** LabelImageToLabelMapFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * itkNotUsed(output)) override;
 
-  void BeforeThreadedGenerateData() override;
+  void
+  BeforeThreadedGenerateData() override;
 
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
+  void
+  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
 
-  void DynamicThreadedGenerateData( const OutputImageRegionType & ) override
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType &) override
   {
     itkExceptionMacro("This class requires threadId so it must use classic multi-threading model");
   }
 
-  void AfterThreadedGenerateData() override;
+  void
+  AfterThreadedGenerateData() override;
 
 private:
   OutputImagePixelType m_BackgroundValue;
 
-  typename std::vector< OutputImagePointer > m_TemporaryImages;
+  typename std::vector<OutputImagePointer> m_TemporaryImages;
 }; // end of class
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLabelImageToLabelMapFilter.hxx"
+#  include "itkLabelImageToLabelMapFilter.hxx"
 #endif
 
 #endif

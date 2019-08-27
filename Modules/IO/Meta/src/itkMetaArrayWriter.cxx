@@ -19,39 +19,34 @@
 
 namespace itk
 {
-MetaArrayWriter
-::MetaArrayWriter() :
-  m_FileName( "" ),
-  m_DataFileName( "" )
+MetaArrayWriter ::MetaArrayWriter()
+  : m_FileName("")
+  , m_DataFileName("")
 
+{}
+
+MetaArrayWriter ::~MetaArrayWriter() = default;
+
+void
+MetaArrayWriter ::ConvertTo(MET_ValueEnumType _metaElementType)
 {
-}
-
-MetaArrayWriter
-::~MetaArrayWriter() = default;
-
-void MetaArrayWriter
-::ConvertTo(MET_ValueEnumType _metaElementType)
-{
-  if ( m_Buffer != nullptr )
-    {
-    m_MetaArray.ImportBufferToElementData( m_Buffer,
-                                           m_MetaArray.ElementType() );
-    }
+  if (m_Buffer != nullptr)
+  {
+    m_MetaArray.ImportBufferToElementData(m_Buffer, m_MetaArray.ElementType());
+  }
   m_MetaArray.ConvertElementDataTo(_metaElementType);
 }
 
-void MetaArrayWriter
-::Update()
+void
+MetaArrayWriter ::Update()
 {
   m_MetaArray.SetDoublePrecision(m_Precision);
 
   m_MetaArray.BinaryData(m_Binary);
-  if ( m_Buffer != nullptr )
-    {
-    m_MetaArray.Write(m_FileName.c_str(), m_DataFileName.c_str(),
-                      true, m_Buffer);
-    }
+  if (m_Buffer != nullptr)
+  {
+    m_MetaArray.Write(m_FileName.c_str(), m_DataFileName.c_str(), true, m_Buffer);
+  }
 
   m_DataFileName.erase();
 }
@@ -65,7 +60,6 @@ MetaArrayWriter::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "DataFileName: " << m_DataFileName << std::endl;
   os << indent << "Precision: " << m_Precision << std::endl;
   os << indent << "Binary: " << m_Binary << std::endl;
-
 }
 
 } // namespace itk

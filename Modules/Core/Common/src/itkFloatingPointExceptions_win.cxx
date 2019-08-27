@@ -27,10 +27,10 @@ namespace itk
 {
 
 #if defined(_MSC_VER)
-#include <cfloat>
+#  include <cfloat>
 
-void FloatingPointExceptions
-::Enable()
+void
+FloatingPointExceptions ::Enable()
 {
   itkInitGlobalsMacro(PimplGlobals);
   // enable floating point exceptions on MSVC
@@ -38,18 +38,17 @@ void FloatingPointExceptions
   FloatingPointExceptions::m_PimplGlobals->m_Enabled = true;
 }
 
-void FloatingPointExceptions
-::Disable()
+void
+FloatingPointExceptions ::Disable()
 {
   itkInitGlobalsMacro(PimplGlobals);
   // disable floating point exceptions on MSVC
-  _controlfp(_EM_INVALID | _EM_DENORMAL | _EM_ZERODIVIDE | _EM_OVERFLOW |
-             _EM_UNDERFLOW | _EM_INEXACT, _MCW_EM);
+  _controlfp(_EM_INVALID | _EM_DENORMAL | _EM_ZERODIVIDE | _EM_OVERFLOW | _EM_UNDERFLOW | _EM_INEXACT, _MCW_EM);
   FloatingPointExceptions::m_PimplGlobals->m_Enabled = false;
 }
 
-bool FloatingPointExceptions
-::HasFloatingPointExceptionsSupport()
+bool
+FloatingPointExceptions ::HasFloatingPointExceptionsSupport()
 {
   itkInitGlobalsMacro(PimplGlobals);
   return true;
@@ -59,22 +58,22 @@ bool FloatingPointExceptions
 
 // MinGW has troubles include'ing float.h.
 
-void FloatingPointExceptions
-::Enable()
+void
+FloatingPointExceptions ::Enable()
 {
   itkInitGlobalsMacro(PimplGlobals);
   itkFloatingPointExceptionsNotSupported();
 }
 
-void FloatingPointExceptions
-::Disable()
+void
+FloatingPointExceptions ::Disable()
 {
   itkInitGlobalsMacro(PimplGlobals);
   itkFloatingPointExceptionsNotSupported();
 }
 
-bool FloatingPointExceptions
-::HasFloatingPointExceptionsSupport()
+bool
+FloatingPointExceptions ::HasFloatingPointExceptionsSupport()
 {
   itkInitGlobalsMacro(PimplGlobals);
   return false;
@@ -82,4 +81,4 @@ bool FloatingPointExceptions
 
 #endif // defined(_MSC_VER)
 
-} // end of itk namespace
+} // namespace itk

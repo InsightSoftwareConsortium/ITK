@@ -41,18 +41,17 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template< typename TImage >
-class ITK_TEMPLATE_EXPORT StatisticsOpeningLabelMapFilter:
-  public ShapeOpeningLabelMapFilter< TImage >
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT StatisticsOpeningLabelMapFilter : public ShapeOpeningLabelMapFilter<TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsOpeningLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = StatisticsOpeningLabelMapFilter;
-  using Superclass = ShapeOpeningLabelMapFilter< TImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ShapeOpeningLabelMapFilter<TImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Some convenient type alias. */
   using ImageType = TImage;
@@ -71,8 +70,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(StatisticsOpeningLabelMapFilter,
-               ShapeOpeningLabelMapFilter);
+  itkTypeMacro(StatisticsOpeningLabelMapFilter, ShapeOpeningLabelMapFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -89,12 +87,13 @@ protected:
   StatisticsOpeningLabelMapFilter();
   ~StatisticsOpeningLabelMapFilter() override = default;
 
-  void GenerateData() override;
-};                                               // end of class
+  void
+  GenerateData() override;
+}; // end of class
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkStatisticsOpeningLabelMapFilter.hxx"
+#  include "itkStatisticsOpeningLabelMapFilter.hxx"
 #endif
 
 #endif

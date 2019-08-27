@@ -57,16 +57,15 @@ namespace itk
  * \ingroup ITKThresholding
  */
 
-template<typename TInputImage, typename TOutputImage, typename TMaskImage=TOutputImage>
-class ITK_TEMPLATE_EXPORT HistogramThresholdImageFilter :
-    public ImageToImageFilter<TInputImage, TOutputImage>
+template <typename TInputImage, typename TOutputImage, typename TMaskImage = TOutputImage>
+class ITK_TEMPLATE_EXPORT HistogramThresholdImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(HistogramThresholdImageFilter);
 
   /** Standard Self type alias */
   using Self = HistogramThresholdImageFilter;
-  using Superclass = ImageToImageFilter<TInputImage,TOutputImage>;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -100,17 +99,16 @@ public:
   using MaskIndexType = typename MaskImageType::IndexType;
   using MaskImageRegionType = typename MaskImageType::RegionType;
 
-   using ValueType = typename NumericTraits< InputPixelType >::ValueType;
-   using ValueRealType = typename NumericTraits< ValueType >::RealType;
-   using HistogramType = Statistics::Histogram< ValueRealType >;
-   using HistogramPointer = typename HistogramType::Pointer;
-   using HistogramConstPointer = typename HistogramType::ConstPointer;
-   using HistogramSizeType = typename HistogramType::SizeType;
-   using HistogramMeasurementType = typename HistogramType::MeasurementType;
-   using HistogramMeasurementVectorType = typename HistogramType::MeasurementVectorType;
-   using CalculatorType =
-       HistogramThresholdCalculator<HistogramType, InputPixelType>;
-   using CalculatorPointer = typename CalculatorType::Pointer;
+  using ValueType = typename NumericTraits<InputPixelType>::ValueType;
+  using ValueRealType = typename NumericTraits<ValueType>::RealType;
+  using HistogramType = Statistics::Histogram<ValueRealType>;
+  using HistogramPointer = typename HistogramType::Pointer;
+  using HistogramConstPointer = typename HistogramType::ConstPointer;
+  using HistogramSizeType = typename HistogramType::SizeType;
+  using HistogramMeasurementType = typename HistogramType::MeasurementType;
+  using HistogramMeasurementVectorType = typename HistogramType::MeasurementVectorType;
+  using CalculatorType = HistogramThresholdCalculator<HistogramType, InputPixelType>;
+  using CalculatorPointer = typename CalculatorType::Pointer;
 
   /** Image related type alias. */
   static constexpr unsigned int InputImageDimension = InputImageType::ImageDimension;
@@ -122,13 +120,15 @@ public:
   itkGetInputMacro(MaskImage, TMaskImage);
 
   /** Set the input image */
-  void SetInput1(const TInputImage *input)
+  void
+  SetInput1(const TInputImage * input)
   {
     this->SetInput(input);
   }
 
   /** Set the marker image */
-  void SetInput2(const TMaskImage *input)
+  void
+  SetInput2(const TMaskImage * input)
   {
     this->SetMaskImage(input);
   }
@@ -152,14 +152,14 @@ public:
   itkGetConstMacro(NumberOfHistogramBins, unsigned int);
 
   /** Does histogram generator compute min and max from data?
-    * Default is true for all but char types */
+   * Default is true for all but char types */
   itkSetMacro(AutoMinimumMaximum, bool);
   itkGetConstMacro(AutoMinimumMaximum, bool);
   itkBooleanMacro(AutoMinimumMaximum);
 
   /** Do you want the output to be masked by the mask used in
-    * histogram construction. Only relevant if masking is in
-    * use. Default is true. */
+   * histogram construction. Only relevant if masking is in
+   * use. Default is true. */
   itkSetMacro(MaskOutput, bool);
   itkGetConstMacro(MaskOutput, bool);
   itkBooleanMacro(MaskOutput);
@@ -179,38 +179,38 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro(OutputEqualityComparableCheck,
-    (Concept::EqualityComparable<OutputPixelType>));
-  itkConceptMacro(InputOStreamWritableCheck,
-    (Concept::OStreamWritable<InputPixelType>));
-  itkConceptMacro(OutputOStreamWritableCheck,
-    (Concept::OStreamWritable<OutputPixelType>));
+  itkConceptMacro(OutputEqualityComparableCheck, (Concept::EqualityComparable<OutputPixelType>));
+  itkConceptMacro(InputOStreamWritableCheck, (Concept::OStreamWritable<InputPixelType>));
+  itkConceptMacro(OutputOStreamWritableCheck, (Concept::OStreamWritable<OutputPixelType>));
   // End concept checking
 #endif
 
 protected:
   HistogramThresholdImageFilter();
   ~HistogramThresholdImageFilter() override = default;
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateInputRequestedRegion() override;
-  void GenerateData () override;
+  void
+  GenerateInputRequestedRegion() override;
+  void
+  GenerateData() override;
 
 private:
-  OutputPixelType     m_InsideValue;
-  OutputPixelType     m_OutsideValue;
-  InputPixelType      m_Threshold;
-  MaskPixelType       m_MaskValue;
-  CalculatorPointer   m_Calculator;
-  unsigned            m_NumberOfHistogramBins{ 256 };
-  bool                m_AutoMinimumMaximum;
-  bool                m_MaskOutput{ true };
+  OutputPixelType   m_InsideValue;
+  OutputPixelType   m_OutsideValue;
+  InputPixelType    m_Threshold;
+  MaskPixelType     m_MaskValue;
+  CalculatorPointer m_Calculator;
+  unsigned          m_NumberOfHistogramBins{ 256 };
+  bool              m_AutoMinimumMaximum;
+  bool              m_MaskOutput{ true };
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkHistogramThresholdImageFilter.hxx"
+#  include "itkHistogramThresholdImageFilter.hxx"
 #endif
 
 #endif

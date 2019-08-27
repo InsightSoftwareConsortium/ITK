@@ -27,71 +27,72 @@
 #include "itkImageFileReader.h"
 #include "itkMetaDataObject.h"
 
-std::string FindDicomTag( const std::string & entryId, const itk::GDCMImageIO::Pointer dicomIO )
+std::string
+FindDicomTag(const std::string & entryId, const itk::GDCMImageIO::Pointer dicomIO)
 {
   std::string tagvalue;
-  bool found = dicomIO->GetValueFromTag(entryId, tagvalue);
-  if ( !found )
-    {
+  bool        found = dicomIO->GetValueFromTag(entryId, tagvalue);
+  if (!found)
+  {
     tagvalue = "NOT FOUND";
-    }
+  }
   return tagvalue;
 }
 
 
-int main( int argc, char* argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 2 )
-    {
+  if (argc < 2)
+  {
     std::cerr << "Usage: " << argv[0] << " DicomFile " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   using PixelType = signed short;
   constexpr unsigned int Dimension = 2;
 
-  using ImageType = itk::Image< PixelType, Dimension >;
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using ReaderType = itk::ImageFileReader<ImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
 
   itk::GDCMImageIO::Pointer dicomIO = itk::GDCMImageIO::New();
 
-  reader->SetFileName( argv[1] );
-  reader->SetImageIO( dicomIO );
+  reader->SetFileName(argv[1]);
+  reader->SetImageIO(dicomIO);
 
   try
-    {
+  {
     reader->Update();
-    }
-  catch (itk::ExceptionObject &ex)
-    {
+  }
+  catch (itk::ExceptionObject & ex)
+  {
     std::cout << ex << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
-  std::string patientName  = FindDicomTag("0010|0010", dicomIO);
-  std::string patientID    = FindDicomTag("0010|0020", dicomIO);
-  std::string patientSex   = FindDicomTag("0010|0040", dicomIO);
-  std::string patientAge   = FindDicomTag("0010|1010", dicomIO);
-  std::string studyDate    = FindDicomTag("0008|0020", dicomIO);
-  std::string modality     = FindDicomTag("0008|0060", dicomIO);
+  std::string patientName = FindDicomTag("0010|0010", dicomIO);
+  std::string patientID = FindDicomTag("0010|0020", dicomIO);
+  std::string patientSex = FindDicomTag("0010|0040", dicomIO);
+  std::string patientAge = FindDicomTag("0010|1010", dicomIO);
+  std::string studyDate = FindDicomTag("0008|0020", dicomIO);
+  std::string modality = FindDicomTag("0008|0060", dicomIO);
   std::string manufacturer = FindDicomTag("0008|0070", dicomIO);
-  std::string institution  = FindDicomTag("0008|0080", dicomIO);
-  std::string model        = FindDicomTag("0008|1090", dicomIO);
+  std::string institution = FindDicomTag("0008|0080", dicomIO);
+  std::string model = FindDicomTag("0008|1090", dicomIO);
 
 
-  std::cout << "Patient Name : " << patientName  << std::endl;
-  std::cout << "Patient ID   : " << patientID    << std::endl;
-  std::cout << "Patient Sex  : " << patientSex   << std::endl;
-  std::cout << "Patient Age  : " << patientAge   << std::endl;
-  std::cout << "Study Date   : " << studyDate    << std::endl;
-  std::cout << "Modality     : " << modality     << std::endl;
+  std::cout << "Patient Name : " << patientName << std::endl;
+  std::cout << "Patient ID   : " << patientID << std::endl;
+  std::cout << "Patient Sex  : " << patientSex << std::endl;
+  std::cout << "Patient Age  : " << patientAge << std::endl;
+  std::cout << "Study Date   : " << studyDate << std::endl;
+  std::cout << "Modality     : " << modality << std::endl;
   std::cout << "Manufacturer : " << manufacturer << std::endl;
-  std::cout << "Institution  : " << institution  << std::endl;
-  std::cout << "Model        : " << model        << std::endl;
+  std::cout << "Institution  : " << institution << std::endl;
+  std::cout << "Model        : " << model << std::endl;
 
   return EXIT_SUCCESS;
-
 }

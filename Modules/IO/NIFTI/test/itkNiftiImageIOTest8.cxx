@@ -18,29 +18,37 @@
 
 #include "itkNiftiImageIOTest.h"
 
-int itkNiftiImageIOTest8(int ac, char *av[])
+int
+itkNiftiImageIOTest8(int ac, char * av[])
 {
-  if(ac > 1)
-    {
-    char *testdir = *++av;
+  if (ac > 1)
+  {
+    char * testdir = *++av;
     itksys::SystemTools::ChangeDirectory(testdir);
-    }
+  }
   else
-    {
+  {
     return EXIT_FAILURE;
-    }
+  }
   int success(0);
 
-  //only 3,4,5,6 as supported in itkImageIOBase
-  success |= TestImageOfSymMats<itk::SymmetricSecondRankTensor<float,3>,1>(std::string("testSymImage_float_2_1.nii.gz"));
-  success |= TestImageOfSymMats<itk::SymmetricSecondRankTensor<float,3>,2>(std::string("testSymImage_float_2_2.nii.gz"));
-  success |= TestImageOfSymMats<itk::SymmetricSecondRankTensor<float,3>,3>(std::string("testSymImage_float_2_3.nii.gz"));
-  success |= TestImageOfSymMats<itk::SymmetricSecondRankTensor<float,3>,4>(std::string("testSymImage_float_2_4.nii.gz"));
+  // only 3,4,5,6 as supported in itkImageIOBase
+  success |=
+    TestImageOfSymMats<itk::SymmetricSecondRankTensor<float, 3>, 1>(std::string("testSymImage_float_2_1.nii.gz"));
+  success |=
+    TestImageOfSymMats<itk::SymmetricSecondRankTensor<float, 3>, 2>(std::string("testSymImage_float_2_2.nii.gz"));
+  success |=
+    TestImageOfSymMats<itk::SymmetricSecondRankTensor<float, 3>, 3>(std::string("testSymImage_float_2_3.nii.gz"));
+  success |=
+    TestImageOfSymMats<itk::SymmetricSecondRankTensor<float, 3>, 4>(std::string("testSymImage_float_2_4.nii.gz"));
 
-//only test some of the others
-  success |= TestImageOfSymMats<itk::SymmetricSecondRankTensor<float,4>,3>(std::string("testSymImage_float_3_3.nii.gz"));
-  success |= TestImageOfSymMats<itk::SymmetricSecondRankTensor<float,5>,3>(std::string("testSymImage_float_3_3.nii.gz"));
-  success |= TestImageOfSymMats<itk::SymmetricSecondRankTensor<float,6>,3>(std::string("testSymImage_float_3_3.nii.gz"));
+  // only test some of the others
+  success |=
+    TestImageOfSymMats<itk::SymmetricSecondRankTensor<float, 4>, 3>(std::string("testSymImage_float_3_3.nii.gz"));
+  success |=
+    TestImageOfSymMats<itk::SymmetricSecondRankTensor<float, 5>, 3>(std::string("testSymImage_float_3_3.nii.gz"));
+  success |=
+    TestImageOfSymMats<itk::SymmetricSecondRankTensor<float, 6>, 3>(std::string("testSymImage_float_3_3.nii.gz"));
 
   return success;
 }

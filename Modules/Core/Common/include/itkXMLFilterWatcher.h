@@ -28,23 +28,25 @@ namespace itk
  * with xml.
  * \ingroup ITKCommon
  */
-class  ITKCommon_EXPORT XMLFilterWatcher
-  : public SimpleFilterWatcher
+class ITKCommon_EXPORT XMLFilterWatcher : public SimpleFilterWatcher
 {
 public:
-  XMLFilterWatcher(ProcessObject *o, const char *comment = ""):
-    SimpleFilterWatcher(o, comment) {}
+  XMLFilterWatcher(ProcessObject * o, const char * comment = "")
+    : SimpleFilterWatcher(o, comment)
+  {}
 
 protected:
-
   /** Callback method to show the ProgressEvent */
-  void ShowProgress() override;
+  void
+  ShowProgress() override;
 
   /** Callback method to show the StartEvent */
-  void StartFilter() override;
+  void
+  StartFilter() override;
 
   /** Callback method to show the EndEvent */
-  void EndFilter() override;
+  void
+  EndFilter() override;
 };
 } // end namespace itk
 

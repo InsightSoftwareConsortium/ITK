@@ -20,24 +20,25 @@
 
 #include "itkMeshFileTestHelper.h"
 
-int itkPolylineReadWriteTest(int argc, char * argv[])
+int
+itkPolylineReadWriteTest(int argc, char * argv[])
 {
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Invalid commands, You need input and output mesh file name " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  bool IsBinary = ( argc > 3 );
+  bool IsBinary = (argc > 3);
 
   constexpr unsigned int dimension = 3;
-  using PixelType = itk::VariableLengthVector< float >;
-  using MeshType = itk::Mesh< PixelType, dimension >;
+  using PixelType = itk::VariableLengthVector<float>;
+  using MeshType = itk::Mesh<PixelType, dimension>;
 
-  if( test< MeshType >( argv[1], argv[2], IsBinary ) )
-    {
+  if (test<MeshType>(argv[1], argv[2], IsBinary))
+  {
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

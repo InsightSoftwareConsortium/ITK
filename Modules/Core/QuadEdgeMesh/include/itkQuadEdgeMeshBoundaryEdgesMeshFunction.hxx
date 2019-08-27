@@ -19,54 +19,53 @@
 #define itkQuadEdgeMeshBoundaryEdgesMeshFunction_hxx
 
 #include "itkQuadEdgeMeshBoundaryEdgesMeshFunction.h"
-#include "itkQuadEdgeMesh.h"  // Just to mark the dependence towards this class.
+#include "itkQuadEdgeMesh.h" // Just to mark the dependence towards this class.
 
 namespace itk
 {
-template< typename TMesh >
-typename QuadEdgeMeshBoundaryEdgesMeshFunction< TMesh >::OutputType
-QuadEdgeMeshBoundaryEdgesMeshFunction< TMesh >::Evaluate(const InputType & mesh)
-const
+template <typename TMesh>
+typename QuadEdgeMeshBoundaryEdgesMeshFunction<TMesh>::OutputType
+QuadEdgeMeshBoundaryEdgesMeshFunction<TMesh>::Evaluate(const InputType & mesh) const
 {
   // Push on a list all the non internal edges:
   using CellsContainerConstIterator = typename MeshType::CellsContainerConstIterator;
-  std::set< QEPrimal* > boundaryList;
+  std::set<QEPrimal *> boundaryList;
 
   CellsContainerConstIterator cellIterator = mesh.GetEdgeCells()->Begin();
-  CellsContainerConstIterator cellEnd      = mesh.GetEdgeCells()->End();
+  CellsContainerConstIterator cellEnd = mesh.GetEdgeCells()->End();
 
-  while( cellIterator != cellEnd )
+  while (cellIterator != cellEnd)
+  {
+    if (auto * cell = dynamic_cast<EdgeCellType *>(cellIterator.Value()))
     {
-    if ( auto * cell = dynamic_cast< EdgeCellType * >( cellIterator.Value() ) )
+      QEPrimal * edge = cell->GetQEGeom();
+      if (!edge->IsInternal())
       {
-      QEPrimal *edge = cell->GetQEGeom();
-      if ( !edge->IsInternal() )
-        {
         boundaryList.insert(edge);
-        }
       }
-    ++cellIterator;
     }
+    ++cellIterator;
+  }
 
   auto ResultList = new EdgeListType;
-  while ( !boundaryList.empty() )
-    {
+  while (!boundaryList.empty())
+  {
     // Pop the first edge of list and make sure it has no face
     // on it's left [because we want to follow the boundary with
     // GeometricalQuadEdge::Lnext()]:
-    auto b = boundaryList.begin();
-    QEPrimal *bdryEdge = *b;
-    boundaryList.erase( b );
-    if ( bdryEdge->IsLeftSet() )
-      {
+    auto       b = boundaryList.begin();
+    QEPrimal * bdryEdge = *b;
+    boundaryList.erase(b);
+    if (bdryEdge->IsLeftSet())
+    {
       bdryEdge = bdryEdge->GetSym();
-      }
-    if ( bdryEdge->IsLeftSet() )
-      {
+    }
+    if (bdryEdge->IsLeftSet())
+    {
       itkWarningMacro("Entry edge has not face adjacency.");
       delete ResultList;
-      return ( (OutputType)nullptr );
-      }
+      return ((OutputType) nullptr);
+    }
 
     // Store this edge as representative of it's Lnext() ring i.e.
     // representative of the boundary:
@@ -74,33 +73,33 @@ const
 
     // Follow, with Lnext(), the boundary while removing edges
     // from boundary list:
-    typename QEPrimal::IteratorGeom bIt   = bdryEdge->BeginGeomLnext();
-    typename QEPrimal::IteratorGeom bEnd  = bdryEdge->EndGeomLnext();
+    typename QEPrimal::IteratorGeom bIt = bdryEdge->BeginGeomLnext();
+    typename QEPrimal::IteratorGeom bEnd = bdryEdge->EndGeomLnext();
 
-    while( bIt != bEnd )
-      {
+    while (bIt != bEnd)
+    {
       // Only one of the following will be effective (but we have
       // no way to know which one):
-      b = boundaryList.find( bIt.Value() );
+      b = boundaryList.find(bIt.Value());
 
-      if( b != boundaryList.end() )
-        {
-        boundaryList.erase( b );
-        }
+      if (b != boundaryList.end())
+      {
+        boundaryList.erase(b);
+      }
 
-      b = boundaryList.find( bIt.Value()->GetSym() );
+      b = boundaryList.find(bIt.Value()->GetSym());
 
-      if( b != boundaryList.end() )
-        {
-        boundaryList.erase( b );
-        }
+      if (b != boundaryList.end())
+      {
+        boundaryList.erase(b);
+      }
 
       ++bIt;
-      }
     }
+  }
 
   return ResultList;
 }
-}
+} // namespace itk
 
 #endif

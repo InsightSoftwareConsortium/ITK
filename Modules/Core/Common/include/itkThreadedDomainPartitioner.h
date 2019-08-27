@@ -43,7 +43,7 @@ namespace itk
  * \ingroup DataProcessing
  * \ingroup ITKCommon
  */
-template <typename TDomain >
+template <typename TDomain>
 class ITK_TEMPLATE_EXPORT ThreadedDomainPartitioner : public Object
 {
 public:
@@ -72,14 +72,14 @@ public:
    * This method should be called repeatedly for each value of \c threadId, from 0 up
    * to the return value (which is always less than or equal to \c requestedTotal).
    */
-  virtual
-  ThreadIdType PartitionDomain(const ThreadIdType threadId,
-                           const ThreadIdType requestedTotal,
-                           const DomainType& completeDomain,
-                           DomainType& subDomain) const = 0;
+  virtual ThreadIdType
+  PartitionDomain(const ThreadIdType threadId,
+                  const ThreadIdType requestedTotal,
+                  const DomainType & completeDomain,
+                  DomainType &       subDomain) const = 0;
 
 protected:
-  ThreadedDomainPartitioner()= default;
+  ThreadedDomainPartitioner() = default;
   ~ThreadedDomainPartitioner() override = default;
 };
 

@@ -22,7 +22,8 @@
 #include <iostream>
 #include <string>
 
-int itkPolygonCellTest(int, char* [] )
+int
+itkPolygonCellTest(int, char *[])
 {
   /**
    * Define a mesh type that stores a PixelType of "int".  Use the defaults for
@@ -36,7 +37,7 @@ int itkPolygonCellTest(int, char* [] )
    * use the defaults for the other parameters.  Note that a cell's template
    * parameters must match those of the mesh into which it is inserted.
    */
-  using CellInterfaceType = itk::CellInterface< int, CellTraits >;
+  using CellInterfaceType = itk::CellInterface<int, CellTraits>;
   using PolygonCellType = itk::PolygonCell<CellInterfaceType>;
 
 
@@ -64,9 +65,8 @@ int itkPolygonCellTest(int, char* [] )
   /**
    * Define the 3d geometric positions for 8 points in a cube.
    */
-  MeshType::CoordRepType testPointCoords[8][3]
-    = { {0,0,0}, {9,0,0}, {9,0,9}, {0,0,9},
-        {0,9,0}, {9,9,0}, {9,9,9}, {0,9,9} };
+  MeshType::CoordRepType testPointCoords[8][3] = { { 0, 0, 0 }, { 9, 0, 0 }, { 9, 0, 9 }, { 0, 0, 9 },
+                                                   { 0, 9, 0 }, { 9, 9, 0 }, { 9, 9, 9 }, { 0, 9, 9 } };
 
   /**
    * Add our test points to the mesh.
@@ -74,29 +74,29 @@ int itkPolygonCellTest(int, char* [] )
    * Note that the constructor for Point is public, and takes an array
    * of coordinates for the point.
    */
-  for(int i=0; i < 8; ++i)
-    {
+  for (int i = 0; i < 8; ++i)
+  {
     mesh->SetPoint(i, PointType(testPointCoords[i]));
-    }
+  }
 
   /**
    * Specify the method used for allocating cells
    */
-   mesh->SetCellsAllocationMethod( MeshType::CellsAllocatedDynamicallyCellByCell );
+  mesh->SetCellsAllocationMethod(MeshType::CellsAllocatedDynamicallyCellByCell);
 
   /**
    * Create the test cell. Note that testCell is a generic auto
    * pointer to a cell; in this example it ends up pointing to
    * different types of cells.
    */
-  CellAutoPointer testCell;
+  CellAutoPointer   testCell;
   PolygonCellType * newcell = new PolygonCellType;
-  testCell.TakeOwnership( newcell ); // polymorphism
+  testCell.TakeOwnership(newcell); // polymorphism
 
   /**
    * List the points that the polygon will use from the mesh.
    */
-  MeshType::PointIdentifier polygon1Points[4] = {0,1,2,3};
+  MeshType::PointIdentifier polygon1Points[4] = { 0, 1, 2, 3 };
 
   /**
    * Assign the points to the tetrahedron through their identifiers.
@@ -107,21 +107,21 @@ int itkPolygonCellTest(int, char* [] )
    * Add the test cell to the mesh.
    * mesh->SetCell(cellId, cell)
    */
-  mesh->SetCell(0, testCell ); // Transfer ownership to the mesh
+  mesh->SetCell(0, testCell); // Transfer ownership to the mesh
   std::cout << "PolygonCell pointer = " << (void const *)testCell.GetPointer() << std::endl;
   std::cout << "PolygonCell Owner   = " << testCell.IsOwner() << std::endl;
 
   {
-  std::cout << "Test MakeCopy" << std::endl;
+    std::cout << "Test MakeCopy" << std::endl;
 
-  CellAutoPointer anotherCell;
+    CellAutoPointer anotherCell;
 
-  testCell->MakeCopy( anotherCell );
+    testCell->MakeCopy(anotherCell);
 
-  if( anotherCell->GetNumberOfPoints() != testCell->GetNumberOfPoints() )
+    if (anotherCell->GetNumberOfPoints() != testCell->GetNumberOfPoints())
     {
-    std::cerr << "Make Copy failed !" << std::endl;
-    return EXIT_FAILURE;
+      std::cerr << "Make Copy failed !" << std::endl;
+      return EXIT_FAILURE;
     }
   }
 
@@ -131,19 +131,19 @@ int itkPolygonCellTest(int, char* [] )
   {
     unsigned int np = newcell->GetNumberOfPoints();
 
-    newcell->AddPointId( 100 );
-    if( newcell->GetNumberOfPoints() != np+1 )
-      {
+    newcell->AddPointId(100);
+    if (newcell->GetNumberOfPoints() != np + 1)
+    {
       std::cerr << "AddPointId failed !" << std::endl;
       return EXIT_FAILURE;
-      }
+    }
 
-    newcell->RemovePointId( 100 );
-    if( newcell->GetNumberOfPoints() != np )
-      {
+    newcell->RemovePointId(100);
+    if (newcell->GetNumberOfPoints() != np)
+    {
       std::cerr << "RemovePointId failed !" << std::endl;
       return EXIT_FAILURE;
-      }
+    }
   }
 
   return EXIT_SUCCESS;

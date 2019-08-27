@@ -26,29 +26,31 @@
 namespace
 {
 
-itk::MetaDataDictionary createMetaDataDictionary( void )
+itk::MetaDataDictionary
+createMetaDataDictionary(void)
 {
   itk::MetaDataDictionary metaDataDictionary;
 
-  itk::EncapsulateMetaData<float>( metaDataDictionary, "one", static_cast<float>(1));
-  itk::EncapsulateMetaData<float>( metaDataDictionary, "two", static_cast<float>(2));
+  itk::EncapsulateMetaData<float>(metaDataDictionary, "one", static_cast<float>(1));
+  itk::EncapsulateMetaData<float>(metaDataDictionary, "two", static_cast<float>(2));
 
   using ObjectType = itk::LightObject;
   using PointerType = typename ObjectType::Pointer;
   PointerType obj = ObjectType::New();
-  itk::EncapsulateMetaData<PointerType>( metaDataDictionary, "object", obj);
+  itk::EncapsulateMetaData<PointerType>(metaDataDictionary, "object", obj);
 
   return metaDataDictionary;
 }
 
-template<typename T>
-itk::MetaDataObjectBase::Pointer createMetaDataObject(const T &invalue)
+template <typename T>
+itk::MetaDataObjectBase::Pointer
+createMetaDataObject(const T & invalue)
 {
-  typename itk::MetaDataObject< T >::Pointer temp = itk::MetaDataObject< T >::New();
+  typename itk::MetaDataObject<T>::Pointer temp = itk::MetaDataObject<T>::New();
   temp->SetMetaDataObjectValue(invalue);
   return temp;
 }
-}
+} // namespace
 
 TEST(MetaDataDictionary, Basic)
 {
@@ -74,9 +76,9 @@ TEST(MetaDataDictionary, Basic)
   EXPECT_THROW(dic.Get(""), itk::ExceptionObject);
   EXPECT_THROW(dic.Get("ONE"), itk::ExceptionObject);
 
-  EXPECT_EQ( dic.GetKeys().size(), 3u);
+  EXPECT_EQ(dic.GetKeys().size(), 3u);
 
-  EXPECT_EQ( std::distance(dic.Begin(), dic.End()), 3u);
+  EXPECT_EQ(std::distance(dic.Begin(), dic.End()), 3u);
 
 
   auto iter = dic.Find("object");
@@ -90,7 +92,7 @@ TEST(MetaDataDictionary, Basic)
   EXPECT_FALSE(dic.Erase("One"));
   EXPECT_EQ(std::distance(dic.Begin(), dic.End()), 3u);
   EXPECT_EQ(dic.GetKeys().size(), 3u);
-  EXPECT_TRUE(dic.HasKey("one") );
+  EXPECT_TRUE(dic.HasKey("one"));
 
 
   EXPECT_TRUE(dic.Erase("two"));
@@ -118,14 +120,12 @@ TEST(MetaDataDictionary, Basic)
   EXPECT_EQ(dic.GetKeys().size(), 4u);
   EXPECT_EQ(std::distance(dic.Begin(), dic.End()), 4u);
   EXPECT_TRUE(dic.HasKey("nothing"));
-
-
 }
 
 TEST(MetaDataDictionary, ConstBasic)
 {
   // This test exercises and checks the constant interface
-  const  itk::MetaDataDictionary cdic = createMetaDataDictionary();
+  const itk::MetaDataDictionary cdic = createMetaDataDictionary();
 
   EXPECT_TRUE(cdic.HasKey("one"));
   EXPECT_TRUE(cdic.HasKey("two"));
@@ -136,7 +136,7 @@ TEST(MetaDataDictionary, ConstBasic)
   EXPECT_FALSE(cdic.HasKey("ONE"));
   EXPECT_FALSE(cdic.HasKey("SomethingElseThatDoesNotExist"));
 
-  EXPECT_EQ( cdic.GetKeys().size(), 3u);
+  EXPECT_EQ(cdic.GetKeys().size(), 3u);
 
   EXPECT_NE(cdic.Get("one"), nullptr);
   EXPECT_NE(cdic.Get("two"), nullptr);
@@ -164,9 +164,9 @@ TEST(MetaDataDictionary, ConstBasic)
 
 
   float f = -99;
-  itk::ExposeMetaData<float>(cdic,"one",f);
+  itk::ExposeMetaData<float>(cdic, "one", f);
   EXPECT_EQ(f, 1.0);
-  itk::ExposeMetaData<float>(cdic,"two",f);
+  itk::ExposeMetaData<float>(cdic, "two", f);
   EXPECT_EQ(f, 2.0);
 
   itk::LightObject::Pointer objPtr;
@@ -179,81 +179,76 @@ TEST(MetaDataDictionary, CopyOnWrite)
 {
 
   {
-  itk::MetaDataDictionary dic = createMetaDataDictionary();
-  const  itk::MetaDataDictionary dic_copy = dic;
+    itk::MetaDataDictionary       dic = createMetaDataDictionary();
+    const itk::MetaDataDictionary dic_copy = dic;
 
-  // The use_count is not exposed in the interface, but it is in the
-  // print method.
-  std::cout << "The use_count for the std::map in the dictionary should be 2." << std::endl;
-  dic.Print(std::cout);
+    // The use_count is not exposed in the interface, but it is in the
+    // print method.
+    std::cout << "The use_count for the std::map in the dictionary should be 2." << std::endl;
+    dic.Print(std::cout);
 
-  dic["one"] = createMetaDataObject(11.0f);
+    dic["one"] = createMetaDataObject(11.0f);
 
-  float f = -99;
-  itk::ExposeMetaData<float>(dic,"one",f);
-  EXPECT_EQ(f, 11.0f);
-  itk::ExposeMetaData<float>(dic_copy,"one",f);
-  EXPECT_EQ(f, 1.0f);
-
+    float f = -99;
+    itk::ExposeMetaData<float>(dic, "one", f);
+    EXPECT_EQ(f, 11.0f);
+    itk::ExposeMetaData<float>(dic_copy, "one", f);
+    EXPECT_EQ(f, 1.0f);
   }
 
   {
-  itk::MetaDataDictionary dic = createMetaDataDictionary();
-  const  itk::MetaDataDictionary dic_copy = dic;
+    itk::MetaDataDictionary       dic = createMetaDataDictionary();
+    const itk::MetaDataDictionary dic_copy = dic;
 
-  dic.Set("two",createMetaDataObject(22.0f));
+    dic.Set("two", createMetaDataObject(22.0f));
 
-  float f = -99;
-  itk::ExposeMetaData<float>(dic,"two",f);
-  EXPECT_EQ(f, 22.0f);
-  itk::ExposeMetaData<float>(dic_copy,"two",f);
-  EXPECT_EQ(f, 2.0f);
-
+    float f = -99;
+    itk::ExposeMetaData<float>(dic, "two", f);
+    EXPECT_EQ(f, 22.0f);
+    itk::ExposeMetaData<float>(dic_copy, "two", f);
+    EXPECT_EQ(f, 2.0f);
   }
 
   {
-  itk::MetaDataDictionary dic = createMetaDataDictionary();
-  const  itk::MetaDataDictionary dic_copy = dic;
+    itk::MetaDataDictionary       dic = createMetaDataDictionary();
+    const itk::MetaDataDictionary dic_copy = dic;
 
-  dic.Set("three",createMetaDataObject(3.0f));
+    dic.Set("three", createMetaDataObject(3.0f));
 
-  float f = -99;
-  itk::ExposeMetaData<float>(dic,"three",f);
-  EXPECT_EQ(f, 3.0f);
-  EXPECT_FALSE(dic_copy.HasKey("three"));
+    float f = -99;
+    itk::ExposeMetaData<float>(dic, "three", f);
+    EXPECT_EQ(f, 3.0f);
+    EXPECT_FALSE(dic_copy.HasKey("three"));
   }
 
   {
-  itk::MetaDataDictionary dic = createMetaDataDictionary();
-  const  itk::MetaDataDictionary dic_copy = dic;
+    itk::MetaDataDictionary       dic = createMetaDataDictionary();
+    const itk::MetaDataDictionary dic_copy = dic;
 
-  dic.Erase("two");
+    dic.Erase("two");
 
-  EXPECT_FALSE(dic.HasKey("two"));
-  EXPECT_TRUE(dic_copy.HasKey("two"));
+    EXPECT_FALSE(dic.HasKey("two"));
+    EXPECT_TRUE(dic_copy.HasKey("two"));
   }
 
   {
-  itk::MetaDataDictionary dic = createMetaDataDictionary();
-  const  itk::MetaDataDictionary dic_copy = dic;
+    itk::MetaDataDictionary       dic = createMetaDataDictionary();
+    const itk::MetaDataDictionary dic_copy = dic;
 
-  dic.Clear();
+    dic.Clear();
 
-  EXPECT_FALSE(dic.HasKey("one"));
-  EXPECT_FALSE(dic.HasKey("two"));
-  EXPECT_FALSE(dic.HasKey("object"));
-  EXPECT_EQ(dic.GetKeys().size(), 0u);
+    EXPECT_FALSE(dic.HasKey("one"));
+    EXPECT_FALSE(dic.HasKey("two"));
+    EXPECT_FALSE(dic.HasKey("object"));
+    EXPECT_EQ(dic.GetKeys().size(), 0u);
 
-  EXPECT_TRUE(dic_copy.HasKey("one"));
-  EXPECT_TRUE(dic_copy.HasKey("two"));
-  EXPECT_TRUE(dic_copy.HasKey("object"));
-  EXPECT_EQ(dic_copy.GetKeys().size(), 3u);
+    EXPECT_TRUE(dic_copy.HasKey("one"));
+    EXPECT_TRUE(dic_copy.HasKey("two"));
+    EXPECT_TRUE(dic_copy.HasKey("object"));
+    EXPECT_EQ(dic_copy.GetKeys().size(), 3u);
 
-  float f = -99;
-  itk::ExposeMetaData<float>(dic_copy,"one",f);
-  EXPECT_EQ(f, 1.0f);
-
+    float f = -99;
+    itk::ExposeMetaData<float>(dic_copy, "one", f);
+    EXPECT_EQ(f, 1.0f);
   }
-
-
 }

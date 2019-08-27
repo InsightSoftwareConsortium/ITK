@@ -130,20 +130,23 @@ public:
    * If a degree of freedom is assigned this value, this means that
    * that no specific value was (yet) assigned to this DOF.
    */
-  enum { InvalidDegreeOfFreedomID = 0xffffffff };
+  enum
+  {
+    InvalidDegreeOfFreedomID = 0xffffffff
+  };
 
 
-/**
- * \class Node
- * \brief Class that stores information required to define a node.
- *
- * A node can define a point in space and can hold an arbitrary number
- * of coordinates and the DOFs. Since the only classes that use nodes
- * are the elements, the node class is defined within an element base class.
- *
- * \note Possibly move this class to its own file
- * \ingroup ITKFEM
- */
+  /**
+   * \class Node
+   * \brief Class that stores information required to define a node.
+   *
+   * A node can define a point in space and can hold an arbitrary number
+   * of coordinates and the DOFs. Since the only classes that use nodes
+   * are the elements, the node class is defined within an element base class.
+   *
+   * \note Possibly move this class to its own file
+   * \ingroup ITKFEM
+   */
   class ITKFEM_EXPORT Node : public FEMLightObject
   {
   public:
@@ -155,24 +158,26 @@ public:
 
     /** Method for creation through the object factory. */
     // itkNewMacro(Self);
-    static Pointer New()
-      {
-        Pointer smartPtr = ::itk::ObjectFactory<Self>::Create();
+    static Pointer
+    New()
+    {
+      Pointer smartPtr = ::itk::ObjectFactory<Self>::Create();
 
-        if( smartPtr.IsNull() )
-          {
-          smartPtr = static_cast<Pointer>(new Self);
-          }
-        smartPtr->UnRegister();
-        return smartPtr;
+      if (smartPtr.IsNull())
+      {
+        smartPtr = static_cast<Pointer>(new Self);
       }
+      smartPtr->UnRegister();
+      return smartPtr;
+    }
 
     /** Run-time type information (and related methods). */
     itkTypeMacro(Node, FEMLightObject);
 
     /** CreateAnother method will clone the existing instance of this type,
      * including its internal member variables. */
-    ::itk::LightObject::Pointer CreateAnother() const override;
+    ::itk::LightObject::Pointer
+    CreateAnother() const override;
 
     /**
      * Floating point precision type.
@@ -187,60 +192,63 @@ public:
     /**
      * Default constructor
      */
-    Node()
-      {
-      }
+    Node() {}
     /**
      * Destructor
      */
     ~Node() override
-      {
-        this->ClearDegreesOfFreedom();
-        this->m_elements.clear();
-      }
+    {
+      this->ClearDegreesOfFreedom();
+      this->m_elements.clear();
+    }
 
     /**
      * Return a reference to a vector that contains coordinates
      * of this node.
      */
-    const VectorType & GetCoordinates() const
-      {
-        return m_coordinates;
-      }
+    const VectorType &
+    GetCoordinates() const
+    {
+      return m_coordinates;
+    }
 
     /**
      * Set coordinates of a node.
      */
-    void SetCoordinates(const VectorType & coords)
-      {
-        m_coordinates = coords;
-      }
+    void
+    SetCoordinates(const VectorType & coords)
+    {
+      m_coordinates = coords;
+    }
 
     /**
      * Get DOF IDs associated with this node.
      */
-    DegreeOfFreedomIDType GetDegreeOfFreedom(unsigned int i) const
+    DegreeOfFreedomIDType
+    GetDegreeOfFreedom(unsigned int i) const
+    {
+      if (i >= m_dof.size())
       {
-        if( i >= m_dof.size() )
-          {
-          return InvalidDegreeOfFreedomID;
-          }
-        return m_dof[i];
+        return InvalidDegreeOfFreedomID;
       }
+      return m_dof[i];
+    }
 
     /**
      * Set DOF IDs associated with this node.
      */
-    void SetDegreeOfFreedom(unsigned int i, DegreeOfFreedomIDType dof) const
+    void
+    SetDegreeOfFreedom(unsigned int i, DegreeOfFreedomIDType dof) const
+    {
+      if (i >= m_dof.size())
       {
-        if( i >= m_dof.size() )
-          {
-          m_dof.resize(i + 1, InvalidDegreeOfFreedomID);
-          }
-        m_dof[i] = dof;
+        m_dof.resize(i + 1, InvalidDegreeOfFreedomID);
       }
+      m_dof[i] = dof;
+    }
 
-    virtual void ClearDegreesOfFreedom() const;
+    virtual void
+    ClearDegreesOfFreedom() const;
 
   public:
     /**
@@ -249,8 +257,11 @@ public:
      */
     using SetOfElements = std::set<Element *>;
     mutable SetOfElements m_elements;
+
   protected:
-    void PrintSelf(std::ostream& os, Indent indent) const override;
+    void
+    PrintSelf(std::ostream & os, Indent indent) const override;
+
   private:
     /**
      * Vector object that holds node coordinates.
@@ -262,17 +273,18 @@ public:
      * defined at this node.
      */
     mutable std::vector<DegreeOfFreedomIDType> m_dof;
-  };  // end class Node
+  }; // end class Node
 
-// ////////////////////////////////////////////////////////////////////////
-/*
- * Methods related to the physics of the problem.
- */
+  // ////////////////////////////////////////////////////////////////////////
+  /*
+   * Methods related to the physics of the problem.
+   */
 
-  virtual VectorType GetStrainsAtPoint(const VectorType & pt, const Solution & sol, unsigned int index) const;
+  virtual VectorType
+  GetStrainsAtPoint(const VectorType & pt, const Solution & sol, unsigned int index) const;
 
-  virtual VectorType GetStressesAtPoint(const VectorType & pt, const VectorType & e, const Solution & sol,
-                                        unsigned int index) const;
+  virtual VectorType
+  GetStressesAtPoint(const VectorType & pt, const VectorType & e, const Solution & sol, unsigned int index) const;
 
   /**
    * Compute and return element stiffnes matrix (Ke) in global coordinate
@@ -294,7 +306,8 @@ public:
    *       that is suitable for any problem/element definition. A specifc
    *       element may override this implementation with its own simple one.
    */
-  virtual void GetStiffnessMatrix(MatrixType & Ke) const;
+  virtual void
+  GetStiffnessMatrix(MatrixType & Ke) const;
 
   /**
    * Compute the physical energy, U, of the deformation (e.g. stress / strain ).
@@ -305,7 +318,8 @@ public:
    * The matrix LocalSolution contains the solution to use in the energy
    * computation.  Usually, this is the solution at the nodes.
    */
-  virtual Float GetElementDeformationEnergy(MatrixType & LocalSolution) const;
+  virtual Float
+  GetElementDeformationEnergy(MatrixType & LocalSolution) const;
 
   /**
    * Compute and return element mass matrix (Me) in global coordinate system.
@@ -318,7 +332,8 @@ public:
    * equal to one. If this is not the case, this function must be overriden in
    * a derived class. Implementation is similar to GetStiffnessMatrix.
    */
-  virtual void GetMassMatrix(MatrixType & Me) const;
+  virtual void
+  GetMassMatrix(MatrixType & Me) const;
 
   /**
    * Compute and return landmark contribution to element stiffness
@@ -331,7 +346,8 @@ public:
    * where (eta ) is the landmark weight.  Implementation is similar
    * to GetMassMatrix.
    */
-  virtual void GetLandmarkContributionMatrix(float eta, MatrixType & Le) const;
+  virtual void
+  GetLandmarkContributionMatrix(float eta, MatrixType & Le) const;
 
   /**
    * Compute the strain displacement matrix at local point.
@@ -340,14 +356,16 @@ public:
    * \param shapeDgl Matrix that contains derivatives of shape functions
    *                 w.r.t. global coordinates.
    */
-  virtual void GetStrainDisplacementMatrix(MatrixType & B, const MatrixType & shapeDgl) const = 0;
+  virtual void
+  GetStrainDisplacementMatrix(MatrixType & B, const MatrixType & shapeDgl) const = 0;
 
   /**
    * Compute the element material matrix.
    *
    * \param D Reference to a matrix object
    */
-  virtual void GetMaterialMatrix(MatrixType & D) const = 0;
+  virtual void
+  GetMaterialMatrix(MatrixType & D) const = 0;
 
   /**
    * Return interpolated value of all unknown functions at
@@ -358,11 +376,11 @@ public:
    *            is created by the Solver object when the whole FEM problem
    *            is solved and contains the values of unknown functions
    *            at nodes (degrees of freedom).
-   * \param solutionIndex We allow more than one solution vector to be stored - this selects which to use in interpolation.
+   * \param solutionIndex We allow more than one solution vector to be stored - this selects which to use in
+   * interpolation.
    */
-  virtual VectorType InterpolateSolution(const VectorType & pt,
-                                         const Solution & sol,
-                                         unsigned int solutionIndex = 0) const;
+  virtual VectorType
+  InterpolateSolution(const VectorType & pt, const Solution & sol, unsigned int solutionIndex = 0) const;
 
   /**
    * Return interpolated value of f-th unknown function at
@@ -375,10 +393,14 @@ public:
    *            at nodes (degrees of freedom).
    * \param f Number of unknown function to interpolate.
    *          Must be 0 <= f < GetNumberOfDegreesOfFreedomPerNode().
-   * \param solutionIndex We allow more than one solution vector to be stored - this selects which to use in interpolation.
+   * \param solutionIndex We allow more than one solution vector to be stored - this selects which to use in
+   * interpolation.
    */
-  virtual Float InterpolateSolutionN(const VectorType & pt, const Solution & sol, unsigned int f,
-                                     unsigned int solutionIndex = 0) const;
+  virtual Float
+  InterpolateSolutionN(const VectorType & pt,
+                       const Solution &   sol,
+                       unsigned int       f,
+                       unsigned int       solutionIndex = 0) const;
 
   /**
    * Convenient way to access IDs of degrees of freedom
@@ -386,16 +408,16 @@ public:
    *
    * \param local_dof Local number of degree of freedom within an element.
    */
-  DegreeOfFreedomIDType GetDegreeOfFreedom(unsigned int local_dof) const
+  DegreeOfFreedomIDType
+  GetDegreeOfFreedom(unsigned int local_dof) const
+  {
+    if (local_dof > this->GetNumberOfDegreesOfFreedom())
     {
-      if( local_dof > this->GetNumberOfDegreesOfFreedom() )
-        {
-        return InvalidDegreeOfFreedomID;
-        }
-      return this->GetNode(local_dof /
-                           this->GetNumberOfDegreesOfFreedomPerNode() )
-        ->GetDegreeOfFreedom(local_dof % this->GetNumberOfDegreesOfFreedomPerNode() );
+      return InvalidDegreeOfFreedomID;
     }
+    return this->GetNode(local_dof / this->GetNumberOfDegreesOfFreedomPerNode())
+      ->GetDegreeOfFreedom(local_dof % this->GetNumberOfDegreesOfFreedomPerNode());
+  }
 
   /**
    * Return the pointer to the Material object used by the element.
@@ -413,7 +435,8 @@ public:
    *
    * \sa SetMaterial
    */
-  virtual Material::ConstPointer GetMaterial() const;
+  virtual Material::ConstPointer
+  GetMaterial() const;
 
   /**
    * Set the pointer to the Material object used by the element.
@@ -452,10 +475,8 @@ public:
    *
    * \sa GetNumberOfIntegrationPoints()
    */
-  virtual void GetIntegrationPointAndWeight(unsigned int i,
-                                            VectorType & pt,
-                                            Float & w,
-                                            unsigned int order = 0) const = 0;
+  virtual void
+  GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order = 0) const = 0;
 
   /**
    * Returns total number of integration points, for given order
@@ -467,7 +488,8 @@ public:
    *
    * \sa GetIntegrationPointAndWeight()
    */
-  virtual unsigned int GetNumberOfIntegrationPoints(unsigned int order = 0) const = 0;
+  virtual unsigned int
+  GetNumberOfIntegrationPoints(unsigned int order = 0) const = 0;
 
   /**
    * Maximum supported order of 1D Gauss-Legendre integration.
@@ -499,10 +521,10 @@ public:
    */
   static const Float gaussWeight[gaussMaxOrder + 1][gaussMaxOrder];
 
-// ////////////////////////////////////////////////////////////////////////
-/*
- * Methods related to the geometry of an element
- */
+  // ////////////////////////////////////////////////////////////////////////
+  /*
+   * Methods related to the geometry of an element
+   */
 
   /**
    * Type that is used to store IDs of a node. It is a
@@ -513,31 +535,37 @@ public:
   /**
    * Return the total number of nodes in an elememnt.
    */
-  virtual unsigned int GetNumberOfNodes() const = 0;
+  virtual unsigned int
+  GetNumberOfNodes() const = 0;
 
   /**
    * Returns the ID (pointer) of n-th node in an element.
    */
-  virtual NodeIDType GetNode(unsigned int n) const = 0;
+  virtual NodeIDType
+  GetNode(unsigned int n) const = 0;
 
   /**
    * Sets the pointe of n-th node in an element to node.
    */
-  virtual void SetNode(unsigned int n, NodeIDType node) = 0;
-  virtual void SetNode(unsigned int n, Node::Pointer node);
+  virtual void
+  SetNode(unsigned int n, NodeIDType node) = 0;
+  virtual void
+  SetNode(unsigned int n, Node::Pointer node);
   /**
    * Return a vector of global coordinates of n-th node in an element.
    *
    * \param n Local number of node. Must be 0 <= n < this->GetNumberOfNodes().
    */
-  virtual const VectorType & GetNodeCoordinates(unsigned int n) const = 0;
+  virtual const VectorType &
+  GetNodeCoordinates(unsigned int n) const = 0;
 
   /**
    * Transforms the given local element coordinates into global.
    *
    * \param pt Point in local element coordinates.
    */
-  virtual VectorType GetGlobalFromLocalCoordinates(const VectorType & pt) const;
+  virtual VectorType
+  GetGlobalFromLocalCoordinates(const VectorType & pt) const;
 
   /**
    * Transforms the given global element coordinates into local.  Returns false if the point is outside.
@@ -545,14 +573,16 @@ public:
    * \param globalPt Reference to vector containing a point in global (world) coordinates.
    * \param localPt Reference to the vector that will store the local coordinate.
    */
-  virtual bool GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const = 0;
+  virtual bool
+  GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const = 0;
 
   /**
    * Returns the number of dimensions of space in which the element is
    * defined. e.g. 2 for 2D elements, 3 for 3D... This is also equal
    * to the size vector containing nodal coordinates.
    */
-  virtual unsigned int GetNumberOfSpatialDimensions() const = 0;
+  virtual unsigned int
+  GetNumberOfSpatialDimensions() const = 0;
 
   /**
    * Returns a vector containing the values of all shape functions
@@ -561,7 +591,8 @@ public:
    *
    * \param pt Point in local element coordinates.
    */
-  virtual VectorType ShapeFunctions(const VectorType & pt) const = 0;
+  virtual VectorType
+  ShapeFunctions(const VectorType & pt) const = 0;
 
   /**
    * Compute the matrix of values of the shape functions derivatives with
@@ -578,7 +609,8 @@ public:
    *
    * \sa ShapeFunctionGlobalDerivatives
    */
-  virtual void ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const = 0;
+  virtual void
+  ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const = 0;
 
   /**
    * Compute matrix of shape function derivatives with respect to
@@ -599,8 +631,11 @@ public:
    *
    * \sa ShapeFunctionDerivatives
    */
-  virtual void ShapeFunctionGlobalDerivatives(const VectorType & pt, MatrixType & shapeDgl, const MatrixType *pJ = nullptr,
-                                              const MatrixType *pshapeD = nullptr) const;
+  virtual void
+  ShapeFunctionGlobalDerivatives(const VectorType & pt,
+                                 MatrixType &       shapeDgl,
+                                 const MatrixType * pJ = nullptr,
+                                 const MatrixType * pshapeD = nullptr) const;
 
   /**
    * Compute the Jacobian matrix of the transformation from local
@@ -623,7 +658,8 @@ public:
    *                If this pointer is 0, derivatives will be computed as
    *                necessary.
    */
-  virtual void Jacobian(const VectorType & pt, MatrixType & J, const MatrixType *pshapeD = nullptr) const;
+  virtual void
+  Jacobian(const VectorType & pt, MatrixType & J, const MatrixType * pshapeD = nullptr) const;
 
   /**
    * Compute the determinant of the Jacobian matrix
@@ -634,7 +670,8 @@ public:
    * \param pJ Optional pointer to Jacobian matrix computed at point pt. If this
    *           is set to 0, the Jacobian will be computed as necessary.
    */
-  virtual Float JacobianDeterminant(const VectorType & pt, const MatrixType *pJ = nullptr) const;
+  virtual Float
+  JacobianDeterminant(const VectorType & pt, const MatrixType * pJ = nullptr) const;
 
   /**
    * Compute the inverse of the Jacobian matrix
@@ -647,19 +684,22 @@ public:
    * \param pJ Optional pointer to Jacobian matrix computed at point pt. If this
    *           is set to 0, the Jacobian will be computed as necessary.
    */
-  virtual void JacobianInverse(const VectorType & pt, MatrixType & invJ, const MatrixType *pJ = nullptr) const;
+  virtual void
+  JacobianInverse(const VectorType & pt, MatrixType & invJ, const MatrixType * pJ = nullptr) const;
 
   /**
    * Return the total number of degrees of freedom defined in a derived
    * element class. By default this is equal to number of points in a cell
    * multiplied by number of degrees of freedom at each point.
    */
-  virtual unsigned int GetNumberOfDegreesOfFreedom() const;
+  virtual unsigned int
+  GetNumberOfDegreesOfFreedom() const;
 
   /**
    * Access the edge ids vector. The vector in turn contains a list of edge ids.
    */
-  virtual std::vector<std::vector<int> > GetEdgeIds() const;
+  virtual std::vector<std::vector<int>>
+  GetEdgeIds() const;
 
   /**
    * Return the number of degrees of freedom at each node. This is also
@@ -668,18 +708,19 @@ public:
    *
    * \note This function must be overriden in all derived classes.
    */
-  virtual unsigned int GetNumberOfDegreesOfFreedomPerNode() const = 0;
+  virtual unsigned int
+  GetNumberOfDegreesOfFreedomPerNode() const = 0;
 
   /** Set the edge order and the points defining each edge */
-  virtual void PopulateEdgeIds() = 0;
+  virtual void
+  PopulateEdgeIds() = 0;
 
 protected:
-
   // to store edge connectivity data
-  std::vector<std::vector<int> > m_EdgeIds;
+  std::vector<std::vector<int>> m_EdgeIds;
 
-  void PrintSelf(std::ostream& os, Indent indent) const override;
-
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 };
 
 } // end namespace fem

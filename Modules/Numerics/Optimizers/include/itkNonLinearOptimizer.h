@@ -32,7 +32,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers
  */
-class ITKOptimizers_EXPORT NonLinearOptimizer:public Optimizer
+class ITKOptimizers_EXPORT NonLinearOptimizer : public Optimizer
 
 {
 public:
@@ -41,8 +41,8 @@ public:
   /** Standard class type aliases. */
   using Self = NonLinearOptimizer;
   using Superclass = Optimizer;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

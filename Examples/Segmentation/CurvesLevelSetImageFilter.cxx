@@ -92,18 +92,19 @@
 #include "itkImageFileWriter.h"
 
 
-int main( int argc, char *argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 10 )
-    {
+  if (argc < 10)
+  {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " inputImage  outputImage";
     std::cerr << " seedX seedY InitialDistance";
     std::cerr << " Sigma SigmoidAlpha SigmoidBeta";
-    std::cerr << " PropagationScaling"  << std::endl;
+    std::cerr << " PropagationScaling" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   //  Software Guide : BeginLatex
@@ -117,7 +118,7 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   using InternalPixelType = float;
   constexpr unsigned int Dimension = 2;
-  using InternalImageType = itk::Image< InternalPixelType, Dimension >;
+  using InternalImageType = itk::Image<InternalPixelType, Dimension>;
   // Software Guide : EndCodeSnippet
 
 
@@ -126,46 +127,43 @@ int main( int argc, char *argv[] )
   //  CurvesLevelSetImageFilter.
   //
   using OutputPixelType = unsigned char;
-  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
-  using ThresholdingFilterType = itk::BinaryThresholdImageFilter<
-                        InternalImageType,
-                        OutputImageType    >;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
+  using ThresholdingFilterType =
+    itk::BinaryThresholdImageFilter<InternalImageType, OutputImageType>;
 
   ThresholdingFilterType::Pointer thresholder = ThresholdingFilterType::New();
 
-  thresholder->SetLowerThreshold( -1000.0 );
-  thresholder->SetUpperThreshold(     0.0 );
+  thresholder->SetLowerThreshold(-1000.0);
+  thresholder->SetUpperThreshold(0.0);
 
-  thresholder->SetOutsideValue(  0  );
-  thresholder->SetInsideValue(  255 );
+  thresholder->SetOutsideValue(0);
+  thresholder->SetInsideValue(255);
 
 
   // We instantiate reader and writer types in the following lines.
   //
-  using ReaderType = itk::ImageFileReader< InternalImageType >;
-  using WriterType = itk::ImageFileWriter<  OutputImageType  >;
+  using ReaderType = itk::ImageFileReader<InternalImageType>;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
 
-  reader->SetFileName( argv[1] );
-  writer->SetFileName( argv[2] );
+  reader->SetFileName(argv[1]);
+  writer->SetFileName(argv[2]);
 
 
   //  The RescaleIntensityImageFilter type is declared below. This filter will
   //  renormalize image before sending them to writers.
   //
-  using CastFilterType = itk::RescaleIntensityImageFilter<
-                               InternalImageType,
-                               OutputImageType >;
+  using CastFilterType =
+    itk::RescaleIntensityImageFilter<InternalImageType, OutputImageType>;
 
 
   //  The \doxygen{CurvatureAnisotropicDiffusionImageFilter} type is
   //  instantiated using the internal image type.
   //
-  using SmoothingFilterType = itk::CurvatureAnisotropicDiffusionImageFilter<
-                               InternalImageType,
-                               InternalImageType >;
+  using SmoothingFilterType =
+    itk::CurvatureAnisotropicDiffusionImageFilter<InternalImageType, InternalImageType>;
 
   SmoothingFilterType::Pointer smoothing = SmoothingFilterType::New();
 
@@ -175,15 +173,14 @@ int main( int argc, char *argv[] )
   //  SigmoidImageFilter are instantiated using the internal image
   //  type.
   //
-  using GradientFilterType = itk::GradientMagnitudeRecursiveGaussianImageFilter<
-                               InternalImageType,
-                               InternalImageType >;
+  using GradientFilterType =
+    itk::GradientMagnitudeRecursiveGaussianImageFilter<InternalImageType,
+                                                       InternalImageType>;
 
-  using SigmoidFilterType = itk::SigmoidImageFilter<
-                               InternalImageType,
-                               InternalImageType >;
+  using SigmoidFilterType =
+    itk::SigmoidImageFilter<InternalImageType, InternalImageType>;
 
-  GradientFilterType::Pointer  gradientMagnitude = GradientFilterType::New();
+  GradientFilterType::Pointer gradientMagnitude = GradientFilterType::New();
 
   SigmoidFilterType::Pointer sigmoid = SigmoidFilterType::New();
 
@@ -196,23 +193,22 @@ int main( int argc, char *argv[] )
   //  \doxygen{SigmoidImageFilter} are presented in
   //  section~\ref{sec:IntensityNonLinearMapping}.
 
-  sigmoid->SetOutputMinimum(  0.0  );
-  sigmoid->SetOutputMaximum(  1.0  );
+  sigmoid->SetOutputMinimum(0.0);
+  sigmoid->SetOutputMaximum(1.0);
 
 
   //  We declare now the type of the FastMarchingImageFilter that
   //  will be used to generate the initial level set in the form of a distance
   //  map.
   //
-  using FastMarchingFilterType = itk::FastMarchingImageFilter<
-                              InternalImageType,
-                              InternalImageType >;
+  using FastMarchingFilterType =
+    itk::FastMarchingImageFilter<InternalImageType, InternalImageType>;
 
 
   //  Next we construct one filter of this class using the \code{New()}
   //  method.
   //
-  FastMarchingFilterType::Pointer  fastMarching = FastMarchingFilterType::New();
+  FastMarchingFilterType::Pointer fastMarching = FastMarchingFilterType::New();
 
   //  Software Guide : BeginLatex
   //
@@ -223,10 +219,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using CurvesFilterType = itk::CurvesLevelSetImageFilter< InternalImageType,
-                InternalImageType >;
-  CurvesFilterType::Pointer geodesicActiveContour =
-                                     CurvesFilterType::New();
+  using CurvesFilterType =
+    itk::CurvesLevelSetImageFilter<InternalImageType, InternalImageType>;
+  CurvesFilterType::Pointer geodesicActiveContour = CurvesFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -249,12 +244,12 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-  const double propagationScaling = std::stod( argv[9] );
+  const double propagationScaling = std::stod(argv[9]);
 
   //  Software Guide : BeginCodeSnippet
-  geodesicActiveContour->SetPropagationScaling( propagationScaling );
-  geodesicActiveContour->SetCurvatureScaling( 1.0 );
-  geodesicActiveContour->SetAdvectionScaling( 1.0 );
+  geodesicActiveContour->SetPropagationScaling(propagationScaling);
+  geodesicActiveContour->SetCurvatureScaling(1.0);
+  geodesicActiveContour->SetAdvectionScaling(1.0);
   //  Software Guide : EndCodeSnippet
 
   //  Once activiated the level set evolution will stop if the convergence
@@ -268,8 +263,8 @@ int main( int argc, char *argv[] )
   //  algorithm before the zero set leaks through the regions of low gradient
   //  in the contour of the anatomical structure to be segmented.
 
-  geodesicActiveContour->SetMaximumRMSError( 0.02 );
-  geodesicActiveContour->SetNumberOfIterations( 800 );
+  geodesicActiveContour->SetMaximumRMSError(0.02);
+  geodesicActiveContour->SetNumberOfIterations(800);
 
 
   //  Software Guide : BeginLatex
@@ -281,15 +276,15 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  smoothing->SetInput( reader->GetOutput() );
-  gradientMagnitude->SetInput( smoothing->GetOutput() );
-  sigmoid->SetInput( gradientMagnitude->GetOutput() );
+  smoothing->SetInput(reader->GetOutput());
+  gradientMagnitude->SetInput(smoothing->GetOutput());
+  sigmoid->SetInput(gradientMagnitude->GetOutput());
 
-  geodesicActiveContour->SetInput(  fastMarching->GetOutput() );
-  geodesicActiveContour->SetFeatureImage( sigmoid->GetOutput() );
+  geodesicActiveContour->SetInput(fastMarching->GetOutput());
+  geodesicActiveContour->SetFeatureImage(sigmoid->GetOutput());
 
-  thresholder->SetInput( geodesicActiveContour->GetOutput() );
-  writer->SetInput( thresholder->GetOutput() );
+  thresholder->SetInput(geodesicActiveContour->GetOutput());
+  writer->SetInput(thresholder->GetOutput());
   // Software Guide : EndCodeSnippet
 
 
@@ -299,9 +294,9 @@ int main( int argc, char *argv[] )
   //  noise present in the input image. This filter has been discussed in
   //  section~\ref{sec:GradientAnisotropicDiffusionImageFilter}.
 
-  smoothing->SetTimeStep( 0.125 );
-  smoothing->SetNumberOfIterations(  5 );
-  smoothing->SetConductanceParameter( 9.0 );
+  smoothing->SetTimeStep(0.125);
+  smoothing->SetNumberOfIterations(5);
+  smoothing->SetConductanceParameter(9.0);
 
 
   //  The GradientMagnitudeRecursiveGaussianImageFilter performs the
@@ -310,8 +305,8 @@ int main( int argc, char *argv[] )
   //  the range of influence of the image edges. This filter has been discussed
   //  in Section~\ref{sec:GradientMagnitudeRecursiveGaussianImageFilter}.
 
-  const double sigma = std::stod( argv[6] );
-  gradientMagnitude->SetSigma(  sigma  );
+  const double sigma = std::stod(argv[6]);
+  gradientMagnitude->SetSigma(sigma);
 
 
   //  The SigmoidImageFilter requires two parameters that define the linear
@@ -319,11 +314,11 @@ int main( int argc, char *argv[] )
   //  have been discussed in Sections~\ref{sec:IntensityNonLinearMapping} and
   //  \ref{sec:FastMarchingImageFilter}.
 
-  const double alpha =  std::stod( argv[7] );
-  const double beta  =  std::stod( argv[8] );
+  const double alpha = std::stod(argv[7]);
+  const double beta = std::stod(argv[8]);
 
-  sigmoid->SetAlpha( alpha );
-  sigmoid->SetBeta(  beta  );
+  sigmoid->SetAlpha(alpha);
+  sigmoid->SetBeta(beta);
 
 
   //  The FastMarchingImageFilter requires the user to provide a seed
@@ -342,10 +337,10 @@ int main( int argc, char *argv[] )
 
   NodeContainer::Pointer seeds = NodeContainer::New();
 
-  InternalImageType::IndexType  seedPosition;
+  InternalImageType::IndexType seedPosition;
 
-  seedPosition[0] = std::stoi( argv[3] );
-  seedPosition[1] = std::stoi( argv[4] );
+  seedPosition[0] = std::stoi(argv[3]);
+  seedPosition[1] = std::stoi(argv[4]);
 
 
   //  Nodes are created as stack variables and initialized with a value and an
@@ -358,28 +353,28 @@ int main( int argc, char *argv[] )
   //  command line arguments. The rule of thumb for the user is to select this
   //  value as the distance from the seed points at which she want the initial
   //  contour to be.
-  const double initialDistance = std::stod( argv[5] );
+  const double initialDistance = std::stod(argv[5]);
 
   NodeType node;
 
-  const double seedValue = - initialDistance;
+  const double seedValue = -initialDistance;
 
-  node.SetValue( seedValue );
-  node.SetIndex( seedPosition );
+  node.SetValue(seedValue);
+  node.SetIndex(seedPosition);
 
 
   //  The list of nodes is initialized and then every node is inserted using
   //  the \code{InsertElement()}.
 
   seeds->Initialize();
-  seeds->InsertElement( 0, node );
+  seeds->InsertElement(0, node);
 
 
   //  The set of seed nodes is passed now to the
   //  FastMarchingImageFilter with the method
   //  \code{SetTrialPoints()}.
   //
-  fastMarching->SetTrialPoints(  seeds  );
+  fastMarching->SetTrialPoints(seeds);
 
 
   //  Since the FastMarchingImageFilter is used here just as a
@@ -387,7 +382,7 @@ int main( int argc, char *argv[] )
   //  Instead the constant value $1.0$ is passed using the
   //  \code{SetSpeedConstant()} method.
   //
-  fastMarching->SetSpeedConstant( 1.0 );
+  fastMarching->SetSpeedConstant(1.0);
 
 
   //  Here we configure all the writers required to see the intermediate
@@ -407,32 +402,32 @@ int main( int argc, char *argv[] )
   WriterType::Pointer writer3 = WriterType::New();
   WriterType::Pointer writer4 = WriterType::New();
 
-  caster1->SetInput( smoothing->GetOutput() );
-  writer1->SetInput( caster1->GetOutput() );
+  caster1->SetInput(smoothing->GetOutput());
+  writer1->SetInput(caster1->GetOutput());
   writer1->SetFileName("CurvesImageFilterOutput1.png");
-  caster1->SetOutputMinimum(   0 );
-  caster1->SetOutputMaximum( 255 );
+  caster1->SetOutputMinimum(0);
+  caster1->SetOutputMaximum(255);
   writer1->Update();
 
-  caster2->SetInput( gradientMagnitude->GetOutput() );
-  writer2->SetInput( caster2->GetOutput() );
+  caster2->SetInput(gradientMagnitude->GetOutput());
+  writer2->SetInput(caster2->GetOutput());
   writer2->SetFileName("CurvesImageFilterOutput2.png");
-  caster2->SetOutputMinimum(   0 );
-  caster2->SetOutputMaximum( 255 );
+  caster2->SetOutputMinimum(0);
+  caster2->SetOutputMaximum(255);
   writer2->Update();
 
-  caster3->SetInput( sigmoid->GetOutput() );
-  writer3->SetInput( caster3->GetOutput() );
+  caster3->SetInput(sigmoid->GetOutput());
+  writer3->SetInput(caster3->GetOutput());
   writer3->SetFileName("CurvesImageFilterOutput3.png");
-  caster3->SetOutputMinimum(   0 );
-  caster3->SetOutputMaximum( 255 );
+  caster3->SetOutputMinimum(0);
+  caster3->SetOutputMaximum(255);
   writer3->Update();
 
-  caster4->SetInput( fastMarching->GetOutput() );
-  writer4->SetInput( caster4->GetOutput() );
+  caster4->SetInput(fastMarching->GetOutput());
+  writer4->SetInput(caster4->GetOutput());
   writer4->SetFileName("CurvesImageFilterOutput4.png");
-  caster4->SetOutputMinimum(   0 );
-  caster4->SetOutputMaximum( 255 );
+  caster4->SetOutputMinimum(0);
+  caster4->SetOutputMaximum(255);
 
 
   //  The FastMarchingImageFilter requires the user to specify the
@@ -442,8 +437,7 @@ int main( int argc, char *argv[] )
   //  only after the \code{Update()} methods of this filter has been called
   //  directly or indirectly.
   //
-  fastMarching->SetOutputSize(
-           reader->GetOutput()->GetBufferedRegion().GetSize() );
+  fastMarching->SetOutputSize(reader->GetOutput()->GetBufferedRegion().GetSize());
 
 
   //  Software Guide : BeginLatex
@@ -456,23 +450,26 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excep )
-    {
+  }
+  catch (itk::ExceptionObject & excep)
+  {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
   // Print out some useful information
   std::cout << std::endl;
-  std::cout << "Max. no. iterations: " << geodesicActiveContour->GetNumberOfIterations() << std::endl;
-  std::cout << "Max. RMS error: " << geodesicActiveContour->GetMaximumRMSError() << std::endl;
+  std::cout << "Max. no. iterations: " << geodesicActiveContour->GetNumberOfIterations()
+            << std::endl;
+  std::cout << "Max. RMS error: " << geodesicActiveContour->GetMaximumRMSError()
+            << std::endl;
   std::cout << std::endl;
-  std::cout << "No. elpased iterations: " << geodesicActiveContour->GetElapsedIterations() << std::endl;
+  std::cout << "No. elpased iterations: "
+            << geodesicActiveContour->GetElapsedIterations() << std::endl;
   std::cout << "RMS change: " << geodesicActiveContour->GetRMSChange() << std::endl;
 
   writer4->Update();
@@ -484,20 +481,20 @@ int main( int argc, char *argv[] )
   // determine an appropriate threshold to be used on the output of the
   // fastmarching filter.
   //
-  using InternalWriterType = itk::ImageFileWriter< InternalImageType >;
+  using InternalWriterType = itk::ImageFileWriter<InternalImageType>;
 
   InternalWriterType::Pointer mapWriter = InternalWriterType::New();
-  mapWriter->SetInput( fastMarching->GetOutput() );
+  mapWriter->SetInput(fastMarching->GetOutput());
   mapWriter->SetFileName("CurvesImageFilterOutput4.mha");
   mapWriter->Update();
 
   InternalWriterType::Pointer speedWriter = InternalWriterType::New();
-  speedWriter->SetInput( sigmoid->GetOutput() );
+  speedWriter->SetInput(sigmoid->GetOutput());
   speedWriter->SetFileName("CurvesImageFilterOutput3.mha");
   speedWriter->Update();
 
   InternalWriterType::Pointer gradientWriter = InternalWriterType::New();
-  gradientWriter->SetInput( gradientMagnitude->GetOutput() );
+  gradientWriter->SetInput(gradientMagnitude->GetOutput());
   gradientWriter->SetFileName("CurvesImageFilterOutput2.mha");
   gradientWriter->Update();
 

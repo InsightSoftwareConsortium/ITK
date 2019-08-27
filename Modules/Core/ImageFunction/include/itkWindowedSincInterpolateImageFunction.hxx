@@ -27,211 +27,209 @@ namespace itk
 /* Constant definitions for functions */
 namespace Function
 {
-template< unsigned int VRadius, typename TInput, typename TOutput >
-const double
-CosineWindowFunction< VRadius, TInput, TOutput >
-::m_Factor = itk::Math::pi / ( 2 * VRadius );
+template <unsigned int VRadius, typename TInput, typename TOutput>
+const double CosineWindowFunction<VRadius, TInput, TOutput>::m_Factor = itk::Math::pi / (2 * VRadius);
 
-template< unsigned int VRadius, typename TInput, typename TOutput >
-const double
-HammingWindowFunction< VRadius, TInput, TOutput >
-::m_Factor = itk::Math::pi / VRadius;
+template <unsigned int VRadius, typename TInput, typename TOutput>
+const double HammingWindowFunction<VRadius, TInput, TOutput>::m_Factor = itk::Math::pi / VRadius;
 
-template< unsigned int VRadius, typename TInput, typename TOutput >
-const double
-WelchWindowFunction< VRadius, TInput, TOutput >
-::m_Factor = 1.0 / ( VRadius * VRadius );
+template <unsigned int VRadius, typename TInput, typename TOutput>
+const double WelchWindowFunction<VRadius, TInput, TOutput>::m_Factor = 1.0 / (VRadius * VRadius);
 
-template< unsigned int VRadius, typename TInput, typename TOutput >
-const double
-LanczosWindowFunction< VRadius, TInput, TOutput >
-::m_Factor = itk::Math::pi / VRadius;
+template <unsigned int VRadius, typename TInput, typename TOutput>
+const double LanczosWindowFunction<VRadius, TInput, TOutput>::m_Factor = itk::Math::pi / VRadius;
 
-template< unsigned int VRadius, typename TInput, typename TOutput >
-const double
-BlackmanWindowFunction< VRadius, TInput, TOutput >
-::m_Factor1 = itk::Math::pi / VRadius;
+template <unsigned int VRadius, typename TInput, typename TOutput>
+const double BlackmanWindowFunction<VRadius, TInput, TOutput>::m_Factor1 = itk::Math::pi / VRadius;
 
-template< unsigned int VRadius, typename TInput, typename TOutput >
-const double
-BlackmanWindowFunction< VRadius, TInput, TOutput >
-::m_Factor2 = 2.0 * itk::Math::pi / VRadius;
+template <unsigned int VRadius, typename TInput, typename TOutput>
+const double BlackmanWindowFunction<VRadius, TInput, TOutput>::m_Factor2 = 2.0 * itk::Math::pi / VRadius;
 } // end namespace Function
 
 /** Window size constant */
-template< typename TInputImage, unsigned int VRadius,
-          typename TWindowFunction, typename TBoundaryCondition, typename TCoordRep >
+template <typename TInputImage,
+          unsigned int VRadius,
+          typename TWindowFunction,
+          typename TBoundaryCondition,
+          typename TCoordRep>
 const unsigned int
-WindowedSincInterpolateImageFunction< TInputImage, VRadius,
-                                      TWindowFunction, TBoundaryCondition, TCoordRep >
-::m_WindowSize = VRadius << 1;
+  WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunction, TBoundaryCondition, TCoordRep>::
+    m_WindowSize = VRadius << 1;
 
 /** Constructor */
-template< typename TInputImage, unsigned int VRadius,
-          typename TWindowFunction, typename TBoundaryCondition, typename TCoordRep >
-WindowedSincInterpolateImageFunction< TInputImage, VRadius,
-                                      TWindowFunction, TBoundaryCondition, TCoordRep >
-::WindowedSincInterpolateImageFunction()
+template <typename TInputImage,
+          unsigned int VRadius,
+          typename TWindowFunction,
+          typename TBoundaryCondition,
+          typename TCoordRep>
+WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunction, TBoundaryCondition, TCoordRep>::
+  WindowedSincInterpolateImageFunction()
 {
   // Compute the offset table size
   m_OffsetTableSize = 1;
-  for(unsigned int dim = 0; dim < ImageDimension; ++dim)
-    {
+  for (unsigned int dim = 0; dim < ImageDimension; ++dim)
+  {
     m_OffsetTableSize *= m_WindowSize;
-    }
+  }
 
   // Allocate the offset table
   m_OffsetTable = new unsigned int[m_OffsetTableSize];
 
   // Allocate the weights tables
   m_WeightOffsetTable = new unsigned int *[m_OffsetTableSize];
-  for ( unsigned int i = 0; i < m_OffsetTableSize; i++ )
-    {
+  for (unsigned int i = 0; i < m_OffsetTableSize; i++)
+  {
     m_WeightOffsetTable[i] = new unsigned int[ImageDimension];
-    }
+  }
 }
 
 /** Destructor */
-template< typename TInputImage, unsigned int VRadius,
-          typename TWindowFunction, typename TBoundaryCondition, typename TCoordRep >
-WindowedSincInterpolateImageFunction< TInputImage, VRadius,
-                                      TWindowFunction, TBoundaryCondition, TCoordRep >
-::~WindowedSincInterpolateImageFunction()
+template <typename TInputImage,
+          unsigned int VRadius,
+          typename TWindowFunction,
+          typename TBoundaryCondition,
+          typename TCoordRep>
+WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunction, TBoundaryCondition, TCoordRep>::
+  ~WindowedSincInterpolateImageFunction()
 {
   // Clear the offset table
   delete[] m_OffsetTable;
 
   // Clear the weights tables
-  for ( unsigned int i = 0; i < m_OffsetTableSize; i++ )
-    {
+  for (unsigned int i = 0; i < m_OffsetTableSize; i++)
+  {
     delete[] m_WeightOffsetTable[i];
-    }
+  }
   delete[] m_WeightOffsetTable;
 }
 
-template< typename TInputImage, unsigned int VRadius,
-          typename TWindowFunction, typename TBoundaryCondition, typename TCoordRep >
+template <typename TInputImage,
+          unsigned int VRadius,
+          typename TWindowFunction,
+          typename TBoundaryCondition,
+          typename TCoordRep>
 void
-WindowedSincInterpolateImageFunction< TInputImage, VRadius,
-                                      TWindowFunction, TBoundaryCondition, TCoordRep >
-::SetInputImage(const ImageType *image)
+WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunction, TBoundaryCondition, TCoordRep>::
+  SetInputImage(const ImageType * image)
 {
   // Call the parent implementation
   Superclass::SetInputImage(image);
 
-  if ( image == nullptr )
-    {
+  if (image == nullptr)
+  {
     return;
-    }
+  }
 
   // Set the radius for the neighborhood
-  Size< ImageDimension > radius;
+  Size<ImageDimension> radius;
   radius.Fill(VRadius);
 
   // Initialize the neighborhood
-  IteratorType it = IteratorType( radius, image, image->GetBufferedRegion() );
+  IteratorType it = IteratorType(radius, image, image->GetBufferedRegion());
 
   // Compute the offset tables (we ignore all the zero indices
   // in the neighborhood)
   unsigned int iOffset = 0;
   int          empty = VRadius;
-  for ( unsigned int iPos = 0; iPos < it.Size(); iPos++ )
-    {
+  for (unsigned int iPos = 0; iPos < it.Size(); iPos++)
+  {
     // Get the offset (index)
     typename IteratorType::OffsetType off = it.GetOffset(iPos);
 
     // Check if the offset has zero weights
     bool nonzero = true;
-    for( unsigned int dim = 0; dim < ImageDimension; ++dim )
+    for (unsigned int dim = 0; dim < ImageDimension; ++dim)
+    {
+      if (off[dim] == -empty)
       {
-      if ( off[dim] == -empty )
-        {
         nonzero = false;
         break;
-        }
       }
+    }
 
     // Only use offsets with non-zero indices
-    if ( nonzero )
-      {
+    if (nonzero)
+    {
       // Set the offset index
       m_OffsetTable[iOffset] = iPos;
 
       // Set the weight table indices
-      for( unsigned int dim = 0; dim < ImageDimension; ++dim )
-        {
+      for (unsigned int dim = 0; dim < ImageDimension; ++dim)
+      {
         m_WeightOffsetTable[iOffset][dim] = off[dim] + VRadius - 1;
-        }
+      }
 
       // Increment the index
       iOffset++;
-      }
     }
+  }
 }
 
 /** PrintSelf */
-template< typename TInputImage, unsigned int VRadius,
-          typename TWindowFunction, typename TBoundaryCondition, typename TCoordRep >
+template <typename TInputImage,
+          unsigned int VRadius,
+          typename TWindowFunction,
+          typename TBoundaryCondition,
+          typename TCoordRep>
 void
-WindowedSincInterpolateImageFunction< TInputImage, VRadius,
-                                      TWindowFunction, TBoundaryCondition, TCoordRep >
-::PrintSelf(std::ostream & os, Indent indent) const
+WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunction, TBoundaryCondition, TCoordRep>::PrintSelf(
+  std::ostream & os,
+  Indent         indent) const
 {
   this->Superclass::PrintSelf(os, indent);
 }
 
 /** Evaluate at image index position */
-template< typename TInputImage, unsigned int VRadius,
-          typename TWindowFunction, typename TBoundaryCondition, typename TCoordRep >
-typename WindowedSincInterpolateImageFunction< TInputImage, VRadius,
-                                               TWindowFunction, TBoundaryCondition, TCoordRep >
-::OutputType
-WindowedSincInterpolateImageFunction< TInputImage, VRadius,
-                                      TWindowFunction, TBoundaryCondition, TCoordRep >
-::EvaluateAtContinuousIndex(
-  const ContinuousIndexType & index) const
+template <typename TInputImage,
+          unsigned int VRadius,
+          typename TWindowFunction,
+          typename TBoundaryCondition,
+          typename TCoordRep>
+typename WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunction, TBoundaryCondition, TCoordRep>::
+  OutputType
+  WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunction, TBoundaryCondition, TCoordRep>::
+    EvaluateAtContinuousIndex(const ContinuousIndexType & index) const
 {
-  IndexType    baseIndex;
-  double       distance[ImageDimension];
+  IndexType baseIndex;
+  double    distance[ImageDimension];
 
   // Compute the integer index based on the continuous one by
   // 'flooring' the index
-  for( unsigned dim = 0; dim < ImageDimension; ++dim )
-    {
-    baseIndex[dim] = Math::Floor< IndexValueType >(index[dim]);
-    distance[dim] = index[dim] - static_cast< double >( baseIndex[dim] );
-    }
+  for (unsigned dim = 0; dim < ImageDimension; ++dim)
+  {
+    baseIndex[dim] = Math::Floor<IndexValueType>(index[dim]);
+    distance[dim] = index[dim] - static_cast<double>(baseIndex[dim]);
+  }
 
   // cout << "Sampling at index " << index << " discrete " << baseIndex << endl;
 
   // Position the neighborhood at the index of interest
-  Size< ImageDimension > radius;
+  Size<ImageDimension> radius;
   radius.Fill(VRadius);
-  IteratorType nit = IteratorType( radius, this->GetInputImage(),
-                                   this->GetInputImage()->GetBufferedRegion() );
+  IteratorType nit = IteratorType(radius, this->GetInputImage(), this->GetInputImage()->GetBufferedRegion());
   nit.SetLocation(baseIndex);
 
   // Compute the sinc function for each dimension
   double xWeight[ImageDimension][2 * VRadius];
-  for( unsigned int dim = 0; dim < ImageDimension; ++dim )
-    {
+  for (unsigned int dim = 0; dim < ImageDimension; ++dim)
+  {
     // x is the offset, hence the parameter of the kernel
     double x = distance[dim] + VRadius;
 
     // If distance is zero, i.e. the index falls precisely on the
     // pixel boundary, the weights form a delta function.
-    if ( distance[dim] == 0.0 )
+    if (distance[dim] == 0.0)
+    {
+      for (unsigned int i = 0; i < m_WindowSize; i++)
       {
-      for ( unsigned int i = 0; i < m_WindowSize; i++ )
-        {
-        xWeight[dim][i] = static_cast< int >( i ) == VRadius - 1 ? 1 : 0;
-        }
+        xWeight[dim][i] = static_cast<int>(i) == VRadius - 1 ? 1 : 0;
       }
+    }
     else
-      {
+    {
       // i is the relative offset in dimension dim.
-      for ( unsigned int i = 0; i < m_WindowSize; i++ )
-        {
+      for (unsigned int i = 0; i < m_WindowSize; i++)
+      {
         // Increment the offset, taking it through the range
         // (dist + rad - 1, ..., dist - rad), i.e. all x
         // such that std::abs(x) <= rad
@@ -239,35 +237,35 @@ WindowedSincInterpolateImageFunction< TInputImage, VRadius,
 
         // Compute the weight for this m
         xWeight[dim][i] = m_WindowFunction(x) * Sinc(x);
-        }
       }
     }
+  }
 
   // Iterate over the neighborhood, taking the correct set
   // of weights in each dimension
-  using PixelType = typename NumericTraits< typename TInputImage::PixelType >::RealType;
-  PixelType xPixelValue = NumericTraits< PixelType >::ZeroValue();
-  for ( unsigned int j = 0; j < m_OffsetTableSize; j++ )
-    {
+  using PixelType = typename NumericTraits<typename TInputImage::PixelType>::RealType;
+  PixelType xPixelValue = NumericTraits<PixelType>::ZeroValue();
+  for (unsigned int j = 0; j < m_OffsetTableSize; j++)
+  {
     // Get the offset for this neighbor
     unsigned int off = m_OffsetTable[j];
 
     // Get the intensity value at the pixel
-    PixelType xVal = nit.GetPixel( off );
+    PixelType xVal = nit.GetPixel(off);
 
     // Multiply the intensity by each of the weights. Gotta hope
     // that the compiler will unwrap this loop and pipeline this!
-    for( unsigned int dim = 0; dim < ImageDimension; ++dim )
-      {
+    for (unsigned int dim = 0; dim < ImageDimension; ++dim)
+    {
       xVal *= xWeight[dim][m_WeightOffsetTable[j][dim]];
-      }
+    }
 
     // Increment the pixel value
     xPixelValue += xVal;
-    }
+  }
 
   // Return the interpolated value
-  return static_cast< OutputType >( xPixelValue );
+  return static_cast<OutputType>(xPixelValue);
 }
 } // namespace itk
 

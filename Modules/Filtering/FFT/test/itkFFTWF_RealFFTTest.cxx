@@ -25,16 +25,17 @@
 // different dimensions in the test function based on the second
 // template argument and the size of these dimensions are taken from
 // the array.The data types used are float and double.
-int itkFFTWF_RealFFTTest(int argc, char *argv[])
+int
+itkFFTWF_RealFFTTest(int argc, char * argv[])
 {
-  using ImageF1 = itk::Image< float, 1>;
-  using ImageCF1 = itk::Image< std::complex<float>, 1>;
-  using ImageF2 = itk::Image< float, 2>;
-  using ImageCF2 = itk::Image< std::complex<float>, 2>;
-  using ImageF3 = itk::Image< float, 3>;
-  using ImageCF3 = itk::Image< std::complex<float>, 3>;
+  using ImageF1 = itk::Image<float, 1>;
+  using ImageCF1 = itk::Image<std::complex<float>, 1>;
+  using ImageF2 = itk::Image<float, 2>;
+  using ImageCF2 = itk::Image<std::complex<float>, 2>;
+  using ImageF3 = itk::Image<float, 3>;
+  using ImageCF3 = itk::Image<std::complex<float>, 3>;
 
-#ifndef ITK_USE_CUFFTW
+#  ifndef ITK_USE_CUFFTW
   // exercise the name-value conversion methods
   itk::FFTWGlobalConfiguration::GetPlanRigorValue("FFTW_EXHAUSTIVE");
   itk::FFTWGlobalConfiguration::GetPlanRigorName(FFTW_EXHAUSTIVE);
@@ -42,74 +43,80 @@ int itkFFTWF_RealFFTTest(int argc, char *argv[])
   itk::FFTWGlobalConfiguration::SetPlanRigor(FFTW_EXHAUSTIVE);
   itk::FFTWGlobalConfiguration::SetReadWisdomCache(true);
   itk::FFTWGlobalConfiguration::SetWriteWisdomCache(true);
-  if(argc>1)
-    {
+  if (argc > 1)
+  {
     itk::FFTWGlobalConfiguration::SetWisdomCacheBase(argv[1]);
-    }
+  }
   std::cout << "WriteWisdomCache  " << itk::FFTWGlobalConfiguration::GetWriteWisdomCache() << std::endl;
   std::cout << "ReadWisdomCache  " << itk::FFTWGlobalConfiguration::GetReadWisdomCache() << std::endl;
   std::cout << "PlanRigor  " << itk::FFTWGlobalConfiguration::GetPlanRigor() << std::endl;
-  std::cout << "WisdomCacheBase " << itk::FFTWGlobalConfiguration::GetWisdomCacheBase()  << std::endl;
+  std::cout << "WisdomCacheBase " << itk::FFTWGlobalConfiguration::GetWisdomCacheBase() << std::endl;
   std::cout << "WisdomeFile     " << itk::FFTWGlobalConfiguration::GetWisdomFileDefaultBaseName() << std::endl;
-#endif
+#  endif
   // Avoid unused parameter warnings.
   (void)argc;
   (void)argv;
 
-  unsigned int SizeOfDimensions1[] = { 4,4,4 };
-  unsigned int SizeOfDimensions2[] = { 3,5,4 };
-  int rval = 0;
+  unsigned int SizeOfDimensions1[] = { 4, 4, 4 };
+  unsigned int SizeOfDimensions2[] = { 3, 5, 4 };
+  int          rval = 0;
   std::cerr << "FFTWF:float,1 (4,4,4)" << std::endl;
-  if((test_fft<float,1,
-      itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageF1> ,
-      itk::FFTWHalfHermitianToRealInverseFFTImageFilter<ImageCF1> >(SizeOfDimensions1)) != 0)
+  if ((test_fft<float,
+                1,
+                itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageF1>,
+                itk::FFTWHalfHermitianToRealInverseFFTImageFilter<ImageCF1>>(SizeOfDimensions1)) != 0)
     rval++;
   std::cerr << "FFTWF:float,2 (4,4,4)" << std::endl;
-  if((test_fft<float,2,
-      itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageF2> ,
-      itk::FFTWHalfHermitianToRealInverseFFTImageFilter<ImageCF2> >(SizeOfDimensions1)) != 0)
+  if ((test_fft<float,
+                2,
+                itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageF2>,
+                itk::FFTWHalfHermitianToRealInverseFFTImageFilter<ImageCF2>>(SizeOfDimensions1)) != 0)
     rval++;
   std::cerr << "FFTWF:float,3 (4,4,4)" << std::endl;
-  if((test_fft<float,3,
-      itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageF3> ,
-      itk::FFTWHalfHermitianToRealInverseFFTImageFilter<ImageCF3> >(SizeOfDimensions1)) != 0)
+  if ((test_fft<float,
+                3,
+                itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageF3>,
+                itk::FFTWHalfHermitianToRealInverseFFTImageFilter<ImageCF3>>(SizeOfDimensions1)) != 0)
     rval++;
   std::cerr << "FFTWF:float,1 (3,5,4)" << std::endl;
-  if((test_fft<float,1,
-      itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageF1> ,
-      itk::FFTWHalfHermitianToRealInverseFFTImageFilter<ImageCF1> >(SizeOfDimensions2)) != 0)
+  if ((test_fft<float,
+                1,
+                itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageF1>,
+                itk::FFTWHalfHermitianToRealInverseFFTImageFilter<ImageCF1>>(SizeOfDimensions2)) != 0)
     rval++;
   std::cerr << "FFTWF:float,2 (3,5,4)" << std::endl;
-  if((test_fft<float,2,
-      itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageF2> ,
-      itk::FFTWHalfHermitianToRealInverseFFTImageFilter<ImageCF2> >(SizeOfDimensions2)) != 0)
+  if ((test_fft<float,
+                2,
+                itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageF2>,
+                itk::FFTWHalfHermitianToRealInverseFFTImageFilter<ImageCF2>>(SizeOfDimensions2)) != 0)
     rval++;
   std::cerr << "FFTWF:float,3 (3,5,4)" << std::endl;
-  if((test_fft<float,3,
-      itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageF3> ,
-      itk::FFTWHalfHermitianToRealInverseFFTImageFilter<ImageCF3> >(SizeOfDimensions2)) != 0)
+  if ((test_fft<float,
+                3,
+                itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageF3>,
+                itk::FFTWHalfHermitianToRealInverseFFTImageFilter<ImageCF3>>(SizeOfDimensions2)) != 0)
     rval++;
 
   // Exercise the plan rigor methods
-  itk::FFTWRealToHalfHermitianForwardFFTImageFilter< ImageF3 >::Pointer fft =
-    itk::FFTWRealToHalfHermitianForwardFFTImageFilter< ImageF3 >::New();
-  fft->SetPlanRigor( FFTW_ESTIMATE );
-  if ( fft->GetPlanRigor() != FFTW_ESTIMATE )
-    {
+  itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageF3>::Pointer fft =
+    itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageF3>::New();
+  fft->SetPlanRigor(FFTW_ESTIMATE);
+  if (fft->GetPlanRigor() != FFTW_ESTIMATE)
+  {
     std::cerr << "Plan rigor read from FFT filter is not FFTW_ESTIMATE." << std::endl;
     return 0;
-    }
-  fft->SetPlanRigor( FFTW_MEASURE );
+  }
+  fft->SetPlanRigor(FFTW_MEASURE);
 
-  itk::FFTWHalfHermitianToRealInverseFFTImageFilter< ImageCF3 >::Pointer ifft =
-    itk::FFTWHalfHermitianToRealInverseFFTImageFilter< ImageCF3 >::New();
-  ifft->SetPlanRigor( FFTW_ESTIMATE );
-  if ( ifft->GetPlanRigor() != FFTW_ESTIMATE )
-    {
+  itk::FFTWHalfHermitianToRealInverseFFTImageFilter<ImageCF3>::Pointer ifft =
+    itk::FFTWHalfHermitianToRealInverseFFTImageFilter<ImageCF3>::New();
+  ifft->SetPlanRigor(FFTW_ESTIMATE);
+  if (ifft->GetPlanRigor() != FFTW_ESTIMATE)
+  {
     std::cerr << "Plan rigor read from FFT filter is not FFTW_ESTIMATE." << std::endl;
     return 0;
-    }
-  ifft->SetPlanRigor( FFTW_MEASURE );
+  }
+  ifft->SetPlanRigor(FFTW_MEASURE);
 
   fft->Print(std::cout);
   ifft->Print(std::cout);

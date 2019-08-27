@@ -82,50 +82,50 @@
 #include "itkNearestNeighborInterpolateImageFunction.h"
 
 
-int main( int argc, char * argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 4 )
-    {
+  if (argc < 4)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  outputImageFile";
     std::cerr << "  [exampleAction={0,1}]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   int exampleAction = 0;
 
-  if( argc >= 4 )
-    {
-    exampleAction = std::stoi( argv[3] );
-    }
+  if (argc >= 4)
+  {
+    exampleAction = std::stoi(argv[3]);
+  }
 
   constexpr unsigned int Dimension = 2;
   using InputPixelType = unsigned char;
   using OutputPixelType = unsigned char;
 
-  using InputImageType = itk::Image< InputPixelType,  Dimension >;
-  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
 
-  using ReaderType = itk::ImageFileReader< InputImageType  >;
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
 
-  reader->SetFileName( argv[1] );
-  writer->SetFileName( argv[2] );
+  reader->SetFileName(argv[1]);
+  writer->SetFileName(argv[2]);
 
-  using FilterType = itk::ResampleImageFilter<
-                  InputImageType, OutputImageType >;
+  using FilterType = itk::ResampleImageFilter<InputImageType, OutputImageType>;
   FilterType::Pointer filter = FilterType::New();
-  using TransformType = itk::AffineTransform< double, Dimension >;
+  using TransformType = itk::AffineTransform<double, Dimension>;
   TransformType::Pointer transform = TransformType::New();
 
-  using InterpolatorType = itk::NearestNeighborInterpolateImageFunction<
-                       InputImageType, double >;
+  using InterpolatorType =
+    itk::NearestNeighborInterpolateImageFunction<InputImageType, double>;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
-  filter->SetInterpolator( interpolator );
+  filter->SetInterpolator(interpolator);
 
 
   //  Software Guide : BeginLatex
@@ -138,7 +138,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  filter->SetDefaultPixelValue( 100 );
+  filter->SetDefaultPixelValue(100);
   // Software Guide : EndCodeSnippet
 
 
@@ -152,10 +152,10 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  double spacing[ Dimension ];
+  double spacing[Dimension];
   spacing[0] = 40.0 / 40.0; // pixel spacing in millimeters along X
   spacing[1] = 30.0 / 40.0; // pixel spacing in millimeters along Y
-  filter->SetOutputSpacing( spacing );
+  filter->SetOutputSpacing(spacing);
   // Software Guide : EndCodeSnippet
 
 
@@ -168,7 +168,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  filter->SetOutputDirection( reader->GetOutput()->GetDirection() );
+  filter->SetOutputDirection(reader->GetOutput()->GetDirection());
   // Software Guide : EndCodeSnippet
 
 
@@ -183,10 +183,10 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  double origin[ Dimension ];
-  origin[0] =  50.0;  // X space coordinate of origin
-  origin[1] = 130.0;  // Y space coordinate of origin
-  filter->SetOutputOrigin( origin );
+  double origin[Dimension];
+  origin[0] = 50.0;  // X space coordinate of origin
+  origin[1] = 130.0; // Y space coordinate of origin
+  filter->SetOutputOrigin(origin);
   // Software Guide : EndCodeSnippet
 
 
@@ -200,15 +200,15 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  InputImageType::SizeType   size;
-  size[0] = 5 * 40;  // number of pixels along X
-  size[1] = 4 * 40;  // number of pixels along Y
-  filter->SetSize( size );
+  InputImageType::SizeType size;
+  size[0] = 5 * 40; // number of pixels along X
+  size[1] = 4 * 40; // number of pixels along Y
+  filter->SetSize(size);
   // Software Guide : EndCodeSnippet
 
 
-  filter->SetInput( reader->GetOutput() );
-  writer->SetInput( filter->GetOutput() );
+  filter->SetInput(reader->GetOutput());
+  writer->SetInput(filter->GetOutput());
 
 
   //  Software Guide : BeginLatex
@@ -227,9 +227,9 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginCodeSnippet
   TransformType::OutputVectorType translation1;
-  translation1[0] =   -origin[0];
-  translation1[1] =   -origin[1];
-  transform->Translate( translation1 );
+  translation1[0] = -origin[0];
+  translation1[1] = -origin[1];
+  transform->Translate(translation1);
   // Software Guide : EndCodeSnippet
 
 
@@ -250,7 +250,7 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginCodeSnippet
   const double degreesToRadians = std::atan(1.0) / 45.0;
-  transform->Rotate2D( -30.0 * degreesToRadians, false );
+  transform->Rotate2D(-30.0 * degreesToRadians, false);
   // Software Guide : EndCodeSnippet
 
 
@@ -266,25 +266,25 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginCodeSnippet
   TransformType::OutputVectorType translation2;
-  translation2[0] =   origin[0];
-  translation2[1] =   origin[1];
-  transform->Translate( translation2, false );
-  filter->SetTransform( transform );
+  translation2[0] = origin[0];
+  translation2[1] = origin[1];
+  transform->Translate(translation2, false);
+  filter->SetTransform(transform);
   // Software Guide : EndCodeSnippet
 
 
-  if( exampleAction == 0 )
-    {
+  if (exampleAction == 0)
+  {
     try
-      {
+    {
       writer->Update();
-      }
-    catch( itk::ExceptionObject & excep )
-      {
+    }
+    catch (itk::ExceptionObject & excep)
+    {
       std::cerr << "Exception catched !" << std::endl;
       std::cerr << excep << std::endl;
-      }
     }
+  }
 
 
   //  Software Guide : BeginLatex

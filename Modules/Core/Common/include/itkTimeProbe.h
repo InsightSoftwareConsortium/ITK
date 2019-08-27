@@ -41,13 +41,11 @@ namespace itk
  * \sphinxexample{Core/Common/ComputeTimeBetweenPoints,Compute Time Between Points}
  * \endsphinx
  */
-class ITKCommon_EXPORT TimeProbe:public
-  ResourceProbe< RealTimeClock::TimeStampType, RealTimeClock::TimeStampType >
+class ITKCommon_EXPORT TimeProbe : public ResourceProbe<RealTimeClock::TimeStampType, RealTimeClock::TimeStampType>
 {
 public:
-
   /** Type for counting how many times the probe has been started and stopped.
-    */
+   */
   using CountType = unsigned long;
 
   /** Type for measuring time. See the RealTimeClock class for details on the
@@ -55,7 +53,6 @@ public:
   using TimeStampType = RealTimeClock::TimeStampType;
 
 public:
-
   /** Constructor */
   TimeProbe();
 
@@ -65,14 +62,15 @@ public:
   /** Get the current time.
    *  Warning: the returned value is not the elapsed time since the last Start() call.
    */
-  TimeStampType GetInstantValue() const override;
+  TimeStampType
+  GetInstantValue() const override;
 
   /** Get a handle to m_RealTimeClock. */
-  itkGetConstObjectMacro( RealTimeClock, RealTimeClock );
+  itkGetConstObjectMacro(RealTimeClock, RealTimeClock);
 
 private:
   RealTimeClock::Pointer m_RealTimeClock;
 };
 } // end namespace itk
 
-#endif //itkTimeProbe_h
+#endif // itkTimeProbe_h

@@ -23,10 +23,9 @@
 
 namespace itk
 {
-template< unsigned int VDimension >
-typename ChainCodePath< VDimension >::IndexType
-ChainCodePath< VDimension >
-::EvaluateToIndex(const InputType & input) const
+template <unsigned int VDimension>
+typename ChainCodePath<VDimension>::IndexType
+ChainCodePath<VDimension>::EvaluateToIndex(const InputType & input) const
 {
   /* We could do something fancy here, such as "secretly" store the input and
    * total offset from the last time this function was called, and use such
@@ -64,42 +63,39 @@ ChainCodePath< VDimension >
   IndexType index = m_Start;
 
   // Iterate through the chaincode, summing the offsets as we go.
-  for ( InputType i = 0; i < input; i++ )
-    {
+  for (InputType i = 0; i < input; i++)
+  {
     index += m_Chain[i];
-    }
+  }
 
   return index;
 }
 
-template< unsigned int VDimension >
-typename ChainCodePath< VDimension >::OffsetType
-ChainCodePath< VDimension >
-::IncrementInput(InputType & input) const
+template <unsigned int VDimension>
+typename ChainCodePath<VDimension>::OffsetType
+ChainCodePath<VDimension>::IncrementInput(InputType & input) const
 {
-  if ( input < NumberOfSteps() )
-    {
+  if (input < NumberOfSteps())
+  {
     return m_Chain[input++];
-    }
+  }
   else
-    {
+  {
     return this->GetZeroOffset();
-    }
+  }
 }
 
 /** Constructor */
-template< unsigned int VDimension >
-ChainCodePath< VDimension >
-::ChainCodePath()
+template <unsigned int VDimension>
+ChainCodePath<VDimension>::ChainCodePath()
 {
   m_Start = this->GetZeroIndex();
 }
 
 /** Standard "PrintSelf" method */
-template< unsigned int VDimension >
+template <unsigned int VDimension>
 void
-ChainCodePath< VDimension >
-::PrintSelf(std::ostream & os, Indent indent) const
+ChainCodePath<VDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Start index:  " << m_Start << std::endl;

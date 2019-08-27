@@ -18,27 +18,28 @@
 #include "itkVectorImage.h"
 #include "itkMultiplyImageFilter.h"
 
-int itkVectorMultiplyTest(int , char * [])
+int
+itkVectorMultiplyTest(int, char *[])
 {
-  using VecImageType = itk::VectorImage<double,3>;
-  using MultFilterType = itk::MultiplyImageFilter<VecImageType,VecImageType,VecImageType>;
+  using VecImageType = itk::VectorImage<double, 3>;
+  using MultFilterType = itk::MultiplyImageFilter<VecImageType, VecImageType, VecImageType>;
 
   VecImageType::SizeType size;
   size[0] = size[1] = size[2] = 2;
 
-  VecImageType::Pointer images[2];
+  VecImageType::Pointer   images[2];
   MultFilterType::Pointer mult = MultFilterType::New();
-  for(unsigned int i = 0; i < 2; ++i)
-    {
+  for (unsigned int i = 0; i < 2; ++i)
+  {
     images[i] = VecImageType::New();
     images[i]->SetRegions(size);
     images[i]->SetVectorLength(3);
     images[i]->Allocate();
     VecImageType::PixelType pix;
-    pix[0] = pix[1] = pix[2]= i+1;
+    pix[0] = pix[1] = pix[2] = i + 1;
     images[i]->FillBuffer(pix);
-    mult->SetInput(i,images[i]);
-    }
+    mult->SetInput(i, images[i]);
+  }
   mult->Update();
   VecImageType::Pointer result = mult->GetOutput();
 }

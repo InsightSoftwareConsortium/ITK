@@ -35,67 +35,68 @@ namespace itk
  */
 namespace Functor
 {
-template< typename TInput, typename TOutput >
+template <typename TInput, typename TOutput>
 class RGBToLuminance
 {
 public:
   using ComponentType = typename TInput::ComponentType;
-  using RealType = typename itk::NumericTraits< ComponentType >::RealType;
+  using RealType = typename itk::NumericTraits<ComponentType>::RealType;
 
   RGBToLuminance() = default;
   ~RGBToLuminance() = default;
-  bool operator!=(const RGBToLuminance &) const
+  bool
+  operator!=(const RGBToLuminance &) const
   {
     return false;
   }
 
-  bool operator==(const RGBToLuminance & other) const
+  bool
+  operator==(const RGBToLuminance & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 
-  inline TOutput operator()(const TInput & A) const
-  { return static_cast< TOutput >( A.GetLuminance() ); }
+  inline TOutput
+  operator()(const TInput & A) const
+  {
+    return static_cast<TOutput>(A.GetLuminance());
+  }
 };
-}
+} // namespace Functor
 
-template< typename TInputImage, typename TOutputImage >
-class RGBToLuminanceImageFilter:
-  public
-  UnaryGeneratorImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class RGBToLuminanceImageFilter : public UnaryGeneratorImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(RGBToLuminanceImageFilter);
 
   /** Standard class type aliases. */
   using Self = RGBToLuminanceImageFilter;
-  using Superclass = UnaryGeneratorImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using FunctorType = Functor::RGBToLuminance< typename TInputImage::PixelType,
-                                               typename TOutputImage::PixelType >;
+  using Superclass = UnaryGeneratorImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using FunctorType = Functor::RGBToLuminance<typename TInputImage::PixelType, typename TOutputImage::PixelType>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(RGBToLuminanceImageFilter,
-               UnaryGeneratorImageFilter);
+  itkTypeMacro(RGBToLuminanceImageFilter, UnaryGeneratorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< typename TInputImage::PixelType::ComponentType > ) );
+  itkConceptMacro(InputHasNumericTraitsCheck,
+                  (Concept::HasNumericTraits<typename TInputImage::PixelType::ComponentType>));
   // End concept checking
 #endif
 
 protected:
   RGBToLuminanceImageFilter()
-    {
-#if !defined( ITK_WRAPPING_PARSER )
-      Superclass::SetFunctor(FunctorType());
+  {
+#if !defined(ITK_WRAPPING_PARSER)
+    Superclass::SetFunctor(FunctorType());
 #endif
-    }
+  }
   ~RGBToLuminanceImageFilter() override = default;
 };
 } // end namespace itk

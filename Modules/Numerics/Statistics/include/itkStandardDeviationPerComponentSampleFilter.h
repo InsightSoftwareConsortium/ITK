@@ -45,9 +45,8 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 
-template< typename TSample >
-class ITK_TEMPLATE_EXPORT StandardDeviationPerComponentSampleFilter:
-  public ProcessObject
+template <typename TSample>
+class ITK_TEMPLATE_EXPORT StandardDeviationPerComponentSampleFilter : public ProcessObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(StandardDeviationPerComponentSampleFilter);
@@ -55,8 +54,8 @@ public:
   /** Standard class type aliases. */
   using Self = StandardDeviationPerComponentSampleFilter;
   using Superclass = ProcessObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
   using SampleType = TSample;
 
   /** Standard Macros */
@@ -68,53 +67,63 @@ public:
 
   /** Measurement vector type */
   using MeasurementVectorType = typename TSample::MeasurementVectorType;
-  using MeasurementVectorRealType = typename NumericTraits< MeasurementVectorType >::RealType;
+  using MeasurementVectorRealType = typename NumericTraits<MeasurementVectorType>::RealType;
 
   /** Method to set/get the sample */
   using Superclass::SetInput;
-  void SetInput(const SampleType *sample);
+  void
+  SetInput(const SampleType * sample);
 
-  const SampleType *  GetInput() const;
+  const SampleType *
+  GetInput() const;
 
   /** MeasurementVector is not a DataObject, we need to decorate it to push it down
    * a ProcessObject's pipeline */
-  using MeasurementVectorRealDecoratedType = SimpleDataObjectDecorator< MeasurementVectorRealType >;
+  using MeasurementVectorRealDecoratedType = SimpleDataObjectDecorator<MeasurementVectorRealType>;
 
   using OutputType = MeasurementVectorRealDecoratedType;
 
   /** Return the standard deviation vector */
-  const MeasurementVectorRealType GetStandardDeviationPerComponent() const;
+  const MeasurementVectorRealType
+  GetStandardDeviationPerComponent() const;
 
-  const MeasurementVectorRealDecoratedType * GetStandardDeviationPerComponentOutput() const;
+  const MeasurementVectorRealDecoratedType *
+  GetStandardDeviationPerComponentOutput() const;
 
   /** Return the mean vector */
-  const MeasurementVectorRealType GetMeanPerComponent() const;
+  const MeasurementVectorRealType
+  GetMeanPerComponent() const;
 
-  const MeasurementVectorRealDecoratedType * GetMeanPerComponentOutput() const;
+  const MeasurementVectorRealDecoratedType *
+  GetMeanPerComponentOutput() const;
 
 protected:
   StandardDeviationPerComponentSampleFilter();
   ~StandardDeviationPerComponentSampleFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** DataObject pointer */
   using DataObjectPointer = DataObject::Pointer;
 
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
+  DataObjectPointer
+  MakeOutput(DataObjectPointerArraySizeType idx) override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  MeasurementVectorSizeType GetMeasurementVectorSize() const;
+  MeasurementVectorSizeType
+  GetMeasurementVectorSize() const;
 
 private:
-};  // end of class
+}; // end of class
 } // end of namespace Statistics
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkStandardDeviationPerComponentSampleFilter.hxx"
+#  include "itkStandardDeviationPerComponentSampleFilter.hxx"
 #endif
 
 #endif

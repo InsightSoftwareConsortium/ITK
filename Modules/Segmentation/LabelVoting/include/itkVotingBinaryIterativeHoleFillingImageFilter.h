@@ -51,9 +51,8 @@ namespace itk
  * \ingroup IntensityImageFilters
  * \ingroup ITKLabelVoting
  */
-template< typename TImage >
-class ITK_TEMPLATE_EXPORT VotingBinaryIterativeHoleFillingImageFilter:
-  public ImageToImageFilter< TImage, TImage >
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT VotingBinaryIterativeHoleFillingImageFilter : public ImageToImageFilter<TImage, TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VotingBinaryIterativeHoleFillingImageFilter);
@@ -64,9 +63,9 @@ public:
 
   /** Standard class type aliases. */
   using Self = VotingBinaryIterativeHoleFillingImageFilter;
-  using Superclass = ImageToImageFilter< InputImageType, OutputImageType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<InputImageType, OutputImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -76,8 +75,7 @@ public:
 
   /** Type of the internal Voting filter that is going to be executed
     iteratively */
-  using VotingFilterType = VotingBinaryHoleFillingImageFilter<
-    InputImageType, OutputImageType >;
+  using VotingFilterType = VotingBinaryHoleFillingImageFilter<InputImageType, OutputImageType>;
 
   /** Image type alias support */
   using InputPixelType = typename InputImageType::PixelType;
@@ -130,22 +128,22 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputEqualityComparableCheck,
-                   ( Concept::EqualityComparable< InputPixelType > ) );
-  itkConceptMacro( InputOStreamWritableeCheck,
-                   ( Concept::OStreamWritable< InputPixelType > ) );
+  itkConceptMacro(InputEqualityComparableCheck, (Concept::EqualityComparable<InputPixelType>));
+  itkConceptMacro(InputOStreamWritableeCheck, (Concept::OStreamWritable<InputPixelType>));
   // End concept checking
 #endif
 
 protected:
   VotingBinaryIterativeHoleFillingImageFilter();
   ~VotingBinaryIterativeHoleFillingImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   InputSizeType m_Radius;
@@ -161,7 +159,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVotingBinaryIterativeHoleFillingImageFilter.hxx"
+#  include "itkVotingBinaryIterativeHoleFillingImageFilter.hxx"
 #endif
 
 #endif

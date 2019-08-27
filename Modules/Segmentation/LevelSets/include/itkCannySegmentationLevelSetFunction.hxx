@@ -26,55 +26,53 @@
 
 namespace itk
 {
-template< typename TImageType, typename TFeatureImageType >
-void CannySegmentationLevelSetFunction< TImageType, TFeatureImageType >
-::CalculateSpeedImage()
+template <typename TImageType, typename TFeatureImageType>
+void
+CannySegmentationLevelSetFunction<TImageType, TFeatureImageType>::CalculateSpeedImage()
 {
   // Create a distance transform to the canny edges
   this->CalculateDistanceImage();
 
   // Graft the distance transform into the Speed Image
-  this->GetSpeedImage()->Graft( m_Distance->GetOutput() );
+  this->GetSpeedImage()->Graft(m_Distance->GetOutput());
 }
 
-template< typename TImageType, typename TFeatureImageType >
-void CannySegmentationLevelSetFunction< TImageType, TFeatureImageType >
-::CalculateAdvectionImage()
+template <typename TImageType, typename TFeatureImageType>
+void
+CannySegmentationLevelSetFunction<TImageType, TFeatureImageType>::CalculateAdvectionImage()
 {
-  typename GradientImageFilter< ImageType, ScalarValueType, ScalarValueType >::Pointer
-  gradient = GradientImageFilter< ImageType, ScalarValueType, ScalarValueType >::New();
+  typename GradientImageFilter<ImageType, ScalarValueType, ScalarValueType>::Pointer gradient =
+    GradientImageFilter<ImageType, ScalarValueType, ScalarValueType>::New();
 
-  using CovariantVectorImageType = typename GradientImageFilter< ImageType, ScalarValueType,
-                                        ScalarValueType >::OutputImageType;
+  using CovariantVectorImageType =
+    typename GradientImageFilter<ImageType, ScalarValueType, ScalarValueType>::OutputImageType;
 
-  typename MultiplyImageFilter< CovariantVectorImageType, ImageType,
-                                CovariantVectorImageType >::Pointer multiply =
-    MultiplyImageFilter< CovariantVectorImageType, ImageType, CovariantVectorImageType >::New();
+  typename MultiplyImageFilter<CovariantVectorImageType, ImageType, CovariantVectorImageType>::Pointer multiply =
+    MultiplyImageFilter<CovariantVectorImageType, ImageType, CovariantVectorImageType>::New();
 
   // Create a distance transform to the canny edges
   this->CalculateDistanceImage();
 
-  gradient->SetInput( m_Distance->GetOutput() );
+  gradient->SetInput(m_Distance->GetOutput());
   gradient->Update();
 
-  multiply->SetInput1( gradient->GetOutput() );
-  multiply->SetInput2( m_Distance->GetOutput() );
+  multiply->SetInput1(gradient->GetOutput());
+  multiply->SetInput2(m_Distance->GetOutput());
 
   //  multiply->GraftOutput(dynamic_cast<CovariantVectorImageType
   // *>(this->GetAdvectionImage()));
   multiply->Update();
 
-// Copy output to Advection Image
-  ImageAlgorithm::Copy( multiply->GetOutput(),
-                        this->GetAdvectionImage(),
-                        this->GetAdvectionImage()->GetRequestedRegion(),
-                        this->GetAdvectionImage()->GetRequestedRegion() );
-
+  // Copy output to Advection Image
+  ImageAlgorithm::Copy(multiply->GetOutput(),
+                       this->GetAdvectionImage(),
+                       this->GetAdvectionImage()->GetRequestedRegion(),
+                       this->GetAdvectionImage()->GetRequestedRegion());
 }
 
-template< typename TImageType, typename TFeatureImageType >
-void CannySegmentationLevelSetFunction< TImageType, TFeatureImageType >
-::CalculateDistanceImage()
+template <typename TImageType, typename TFeatureImageType>
+void
+CannySegmentationLevelSetFunction<TImageType, TFeatureImageType>::CalculateDistanceImage()
 {
   typename TFeatureImageType::Pointer tempFeature = TFeatureImageType::New();
 
@@ -83,20 +81,20 @@ void CannySegmentationLevelSetFunction< TImageType, TFeatureImageType >
   // region as specified by the original level set
   // filter. We make a temporary shallow copy of feature image to
   // build the distance image.
-  tempFeature->Graft( this->GetFeatureImage() );
+  tempFeature->Graft(this->GetFeatureImage());
 
   // AssignCannyInput either sets up a pipeline through the
   // CastImageFilter if TImageType != TFeatureImageType
   // or bypasses the Cast operation if TImageType == TFeatureType
   typename TImageType::Pointer junk;
-  this->AssignCannyInput(tempFeature,junk);
+  this->AssignCannyInput(tempFeature, junk);
 
   m_Canny->SetUpperThreshold(m_Threshold);
   m_Canny->SetVariance(m_Variance);
   m_Canny->SetMaximumError(0.01);
 
-  m_Distance->SetInput( m_Canny->GetOutput() );
-  m_Distance->GetOutput()->SetRequestedRegion( this->GetSpeedImage()->GetRequestedRegion() );
+  m_Distance->SetInput(m_Canny->GetOutput());
+  m_Distance->GetOutput()->SetRequestedRegion(this->GetSpeedImage()->GetRequestedRegion());
   m_Distance->Update();
 }
 } // end namespace itk

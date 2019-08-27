@@ -49,26 +49,24 @@ namespace itk
  * \ingroup HybridSegmentation
  * \ingroup ITKVoronoi
  */
-template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage = Image< unsigned char, 2 > >
-class ITK_TEMPLATE_EXPORT VoronoiSegmentationImageFilter:
-  public VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
+template <typename TInputImage, typename TOutputImage, typename TBinaryPriorImage = Image<unsigned char, 2>>
+class ITK_TEMPLATE_EXPORT VoronoiSegmentationImageFilter
+  : public VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VoronoiSegmentationImageFilter);
 
   /** Standard class type aliases. */
   using Self = VoronoiSegmentationImageFilter;
-  using Superclass = VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage,
-                                              TBinaryPriorImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VoronoiSegmentationImageFilter,
-               VoronoiSegmentationImageFilterBase);
+  itkTypeMacro(VoronoiSegmentationImageFilter, VoronoiSegmentationImageFilterBase);
 
   /** Convenient type alias. */
   using BinaryObjectImage = typename Superclass::BinaryObjectImage;
@@ -97,17 +95,20 @@ public:
   itkGetConstMacro(STDTolerance, double);
 
   /** Set/Get the mean percent error. */
-  void SetMeanPercentError(double x);
+  void
+  SetMeanPercentError(double x);
 
   itkGetConstMacro(MeanPercentError, double);
 
   /** Set/Get the STD percent error. */
   itkGetConstMacro(STDPercentError, double);
-  void SetSTDPercentError(double x);
+  void
+  SetSTDPercentError(double x);
 
   /** Take a prior from other segmentation node, should be an
    * binary object. */
-  void TakeAPrior(const BinaryObjectImage *aprior) override;
+  void
+  TakeAPrior(const BinaryObjectImage * aprior) override;
 
   /** ImageDimension enumeration   */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
@@ -115,17 +116,16 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( SameDimensionCheck,
-                   ( Concept::SameDimension< InputImageDimension, OutputImageDimension > ) );
-  itkConceptMacro( IntConvertibleToOutputCheck,
-                   ( Concept::Convertible< int, typename TOutputImage::PixelType > ) );
+  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
+  itkConceptMacro(IntConvertibleToOutputCheck, (Concept::Convertible<int, typename TOutputImage::PixelType>));
   // End concept checking
 #endif
 
 protected:
   VoronoiSegmentationImageFilter() = default;
   ~VoronoiSegmentationImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   double m_Mean{ 0.0 };
@@ -135,12 +135,13 @@ private:
   double m_MeanPercentError{ 0.10 };
   double m_STDPercentError{ 1.5 };
 
-  bool TestHomogeneity(IndexList & Plist) override;
+  bool
+  TestHomogeneity(IndexList & Plist) override;
 };
-} //end namespace
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVoronoiSegmentationImageFilter.hxx"
+#  include "itkVoronoiSegmentationImageFilter.hxx"
 #endif
 
 #endif

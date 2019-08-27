@@ -23,21 +23,20 @@
 #include "itkMath.h"
 
 
-int itkSampleToHistogramFilterTest( int , char * [] )
+int
+itkSampleToHistogramFilterTest(int, char *[])
 {
 
   constexpr unsigned int numberOfComponents = 3;
   using MeasurementType = float;
 
-  using MeasurementVectorType = itk::Array< MeasurementType >;
+  using MeasurementVectorType = itk::Array<MeasurementType>;
 
-  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
+  using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
 
-  using HistogramType = itk::Statistics::Histogram< MeasurementType,
-          itk::Statistics::DenseFrequencyContainer2 >;
+  using HistogramType = itk::Statistics::Histogram<MeasurementType, itk::Statistics::DenseFrequencyContainer2>;
 
-  using FilterType = itk::Statistics::SampleToHistogramFilter<
-    SampleType, HistogramType >;
+  using FilterType = itk::Statistics::SampleToHistogramFilter<SampleType, HistogramType>;
 
   using InputHistogramSizeObjectType = FilterType::InputHistogramSizeObjectType;
   using HistogramSizeType = FilterType::HistogramSizeType;
@@ -51,697 +50,688 @@ int itkSampleToHistogramFilterTest( int , char * [] )
   SampleType::Pointer sample = SampleType::New();
 
   // Test GetInput() before setting the input
-  if( filter->GetInput() != nullptr )
-    {
+  if (filter->GetInput() != nullptr)
+  {
     std::cerr << "GetInput() should have returned nullptr" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Test GetOutput() before creating the output
-  if( filter->GetOutput() == nullptr )
-    {
+  if (filter->GetOutput() == nullptr)
+  {
     std::cerr << "GetOutput() should have returned NON-nullptr" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  filter->SetInput( sample );
+  filter->SetInput(sample);
 
-  if( filter->GetInput() != sample.GetPointer() )
-    {
+  if (filter->GetInput() != sample.GetPointer())
+  {
     std::cerr << "GetInput() didn't matched SetInput()" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Exercise the Print method.
-  filter->Print( std::cout );
+  filter->Print(std::cout);
 
 
   // Test exception when calling Update() without having
   // defined the size of the histogram in the filter.
   try
-    {
+  {
     filter->Update();
     std::cerr << "Failure to throw expected exception due to lack";
     std::cerr << " of calling SetHistogramSize() in the filter ";
     return EXIT_FAILURE;
-    }
-  catch( itk::MissingHistogramSizeInput &e )
-    {
+  }
+  catch (itk::MissingHistogramSizeInput & e)
+  {
     std::cout << "Exception received:" << std::endl;
     std::cout << e << std::endl;
-    }
-  catch( ... )
-    {
+  }
+  catch (...)
+  {
     std::cerr << "Histogram Size input exception not received.\n";
     return EXIT_FAILURE;
-    }
+  }
 
-  HistogramSizeType histogramSize0( numberOfComponents );
+  HistogramSizeType histogramSize0(numberOfComponents);
   histogramSize0.Fill(1);
-  filter->SetHistogramSize( histogramSize0 );
+  filter->SetHistogramSize(histogramSize0);
 
   // Test exception when calling Update() without having
   // defined the number of components in the sample
   try
-    {
+  {
     filter->Update();
     std::cerr << "Failure to throw expected exception due to lack";
     std::cerr << " of calling SetMeasurementVectorSize() in the sample";
     return EXIT_FAILURE;
-    }
-  catch( itk::NullSizeHistogramInputMeasurementVectorSize &e )
-    {
+  }
+  catch (itk::NullSizeHistogramInputMeasurementVectorSize & e)
+  {
     std::cout << "Exception received:" << std::endl;
     std::cout << e << std::endl;
-    }
-  catch( ... )
-    {
+  }
+  catch (...)
+  {
     std::cerr << "MeasurementVectorSize exception not received.\n";
     return EXIT_FAILURE;
-    }
+  }
 
-  sample->SetMeasurementVectorSize( numberOfComponents );
+  sample->SetMeasurementVectorSize(numberOfComponents);
 
   try
-    {
+  {
     filter->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  HistogramSizeType histogramSize1( numberOfComponents );
+  HistogramSizeType histogramSize1(numberOfComponents);
   histogramSize1[0] = 256;
   histogramSize1[1] = 256;
   histogramSize1[2] = 256;
 
-  HistogramSizeType histogramSize2( numberOfComponents );
+  HistogramSizeType histogramSize2(numberOfComponents);
   histogramSize2[0] = 128;
   histogramSize2[1] = 128;
   histogramSize2[2] = 128;
 
 
-  filter->SetHistogramSize( histogramSize1 );
+  filter->SetHistogramSize(histogramSize1);
 
-  const InputHistogramSizeObjectType * returnedHistogramSizeObject =
-    filter->GetHistogramSizeInput();
+  const InputHistogramSizeObjectType * returnedHistogramSizeObject = filter->GetHistogramSizeInput();
 
-  if( returnedHistogramSizeObject == nullptr )
-    {
+  if (returnedHistogramSizeObject == nullptr)
+  {
     std::cerr << "SetHistogramSize() failed pointer consistency test" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   HistogramSizeType returnedHistogramSize = returnedHistogramSizeObject->Get();
 
-  for( unsigned int k1 = 0; k1 < numberOfComponents; k1++ )
+  for (unsigned int k1 = 0; k1 < numberOfComponents; k1++)
+  {
+    if (returnedHistogramSize[k1] != histogramSize1[k1])
     {
-    if( returnedHistogramSize[k1] != histogramSize1[k1] )
-      {
       std::cerr << "Get/Set HistogramSize() failed value consistency test" << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
 
-  filter->SetHistogramSize( histogramSize2 );
-
-  returnedHistogramSizeObject =
-      filter->GetHistogramSizeInput();
-
-  returnedHistogramSize = returnedHistogramSizeObject->Get();
-
-  for( unsigned int k2 = 0; k2 < numberOfComponents; k2++ )
-    {
-    if( returnedHistogramSize[k2] != histogramSize2[k2] )
-      {
-      std::cerr << "Get/Set HistogramSize() failed value consistency test" << std::endl;
-      return EXIT_FAILURE;
-      }
-    }
-
-
-  InputHistogramSizeObjectType::Pointer histogramSizeObject =
-    InputHistogramSizeObjectType::New();
-
-  histogramSizeObject->Set( histogramSize1 );
-
-  filter->SetHistogramSizeInput( histogramSizeObject );
+  filter->SetHistogramSize(histogramSize2);
 
   returnedHistogramSizeObject = filter->GetHistogramSizeInput();
 
-  if( returnedHistogramSizeObject != histogramSizeObject )
-    {
-    std::cerr << "Get/Set HistogramSizeInput() failed pointer consistency test" << std::endl;
-    return EXIT_FAILURE;
-    }
-
   returnedHistogramSize = returnedHistogramSizeObject->Get();
 
-  for( unsigned int k3 = 0; k3 < numberOfComponents; k3++ )
+  for (unsigned int k2 = 0; k2 < numberOfComponents; k2++)
+  {
+    if (returnedHistogramSize[k2] != histogramSize2[k2])
     {
-    if( returnedHistogramSize[k3] != histogramSize1[k3] )
-      {
-      std::cerr << "Get/Set HistogramSizeInput() failed value consistency test" << std::endl;
+      std::cerr << "Get/Set HistogramSize() failed value consistency test" << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
 
-  histogramSizeObject->Set( histogramSize2 );
 
-  filter->SetHistogramSizeInput( histogramSizeObject );
+  InputHistogramSizeObjectType::Pointer histogramSizeObject = InputHistogramSizeObjectType::New();
+
+  histogramSizeObject->Set(histogramSize1);
+
+  filter->SetHistogramSizeInput(histogramSizeObject);
 
   returnedHistogramSizeObject = filter->GetHistogramSizeInput();
 
-  if( returnedHistogramSizeObject != histogramSizeObject )
-    {
+  if (returnedHistogramSizeObject != histogramSizeObject)
+  {
     std::cerr << "Get/Set HistogramSizeInput() failed pointer consistency test" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   returnedHistogramSize = returnedHistogramSizeObject->Get();
 
-  for( unsigned int k4 = 0; k4 < numberOfComponents; k4++ )
+  for (unsigned int k3 = 0; k3 < numberOfComponents; k3++)
+  {
+    if (returnedHistogramSize[k3] != histogramSize1[k3])
     {
-    if( returnedHistogramSize[k4] != histogramSize2[k4] )
-      {
       std::cerr << "Get/Set HistogramSizeInput() failed value consistency test" << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
+
+  histogramSizeObject->Set(histogramSize2);
+
+  filter->SetHistogramSizeInput(histogramSizeObject);
+
+  returnedHistogramSizeObject = filter->GetHistogramSizeInput();
+
+  if (returnedHistogramSizeObject != histogramSizeObject)
+  {
+    std::cerr << "Get/Set HistogramSizeInput() failed pointer consistency test" << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  returnedHistogramSize = returnedHistogramSizeObject->Get();
+
+  for (unsigned int k4 = 0; k4 < numberOfComponents; k4++)
+  {
+    if (returnedHistogramSize[k4] != histogramSize2[k4])
+    {
+      std::cerr << "Get/Set HistogramSizeInput() failed value consistency test" << std::endl;
+      return EXIT_FAILURE;
+    }
+  }
 
 
-  filter->SetHistogramSize( histogramSize1 );
+  filter->SetHistogramSize(histogramSize1);
   filter->Update();
   itk::ModifiedTimeType modifiedTime = filter->GetMTime();
-  filter->SetHistogramSize( histogramSize1 );
+  filter->SetHistogramSize(histogramSize1);
 
-  if( filter->GetMTime() != modifiedTime )
-    {
+  if (filter->GetMTime() != modifiedTime)
+  {
     std::cerr << "SetHistogramSize() failed modified Test 1" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  filter->SetHistogramSize( histogramSize2 );
+  filter->SetHistogramSize(histogramSize2);
 
-  if( filter->GetMTime() == modifiedTime )
-    {
+  if (filter->GetMTime() == modifiedTime)
+  {
     std::cerr << "SetHistogramSize() failed modified Test 2" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   // Testing the settings of the MarginalScale.
-  constexpr HistogramMeasurementType marginalScale1  = 237;
-  constexpr HistogramMeasurementType marginalScale2  = 179;
+  constexpr HistogramMeasurementType marginalScale1 = 237;
+  constexpr HistogramMeasurementType marginalScale2 = 179;
 
-  filter->SetMarginalScale( marginalScale1 );
+  filter->SetMarginalScale(marginalScale1);
 
-  const InputHistogramMeasurementObjectType * recoveredMarginalScaleObject =
-    filter->GetMarginalScaleInput();
+  const InputHistogramMeasurementObjectType * recoveredMarginalScaleObject = filter->GetMarginalScaleInput();
 
-  if( recoveredMarginalScaleObject == nullptr )
-    {
+  if (recoveredMarginalScaleObject == nullptr)
+  {
     std::cerr << "GetMarginalScaleInput() returned nullptr object." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  if( itk::Math::NotExactlyEquals(recoveredMarginalScaleObject->Get(), marginalScale1) )
-    {
+  if (itk::Math::NotExactlyEquals(recoveredMarginalScaleObject->Get(), marginalScale1))
+  {
     std::cerr << "GetMarginalScaleInput() test for value consistency 1 failed." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  filter->SetMarginalScale( marginalScale2 );
+  filter->SetMarginalScale(marginalScale2);
 
   recoveredMarginalScaleObject = filter->GetMarginalScaleInput();
 
-  if( recoveredMarginalScaleObject == nullptr )
-    {
+  if (recoveredMarginalScaleObject == nullptr)
+  {
     std::cerr << "GetMarginalScaleInput() returned nullptr object." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  if( itk::Math::NotExactlyEquals(recoveredMarginalScaleObject->Get(), marginalScale2) )
-    {
+  if (itk::Math::NotExactlyEquals(recoveredMarginalScaleObject->Get(), marginalScale2))
+  {
     std::cerr << "GetMarginalScaleInput() test for value consistency 2 failed." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
-  InputHistogramMeasurementObjectType::Pointer marginalScaleObject1 =
-    InputHistogramMeasurementObjectType::New();
+  InputHistogramMeasurementObjectType::Pointer marginalScaleObject1 = InputHistogramMeasurementObjectType::New();
 
-  marginalScaleObject1->Set( marginalScale1 );
+  marginalScaleObject1->Set(marginalScale1);
 
-  filter->SetMarginalScaleInput( marginalScaleObject1 );
+  filter->SetMarginalScaleInput(marginalScaleObject1);
 
   recoveredMarginalScaleObject = filter->GetMarginalScaleInput();
 
-  if( recoveredMarginalScaleObject != marginalScaleObject1 )
-    {
+  if (recoveredMarginalScaleObject != marginalScaleObject1)
+  {
     std::cerr << "GetMarginalScaleInput() test for pointer consistency 1 failed." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  if( itk::Math::NotExactlyEquals(recoveredMarginalScaleObject->Get(), marginalScale1) )
-    {
+  if (itk::Math::NotExactlyEquals(recoveredMarginalScaleObject->Get(), marginalScale1))
+  {
     std::cerr << "GetMarginalScaleInput() test for value consistency 3 failed." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  InputHistogramMeasurementObjectType::Pointer marginalScaleObject2 =
-    InputHistogramMeasurementObjectType::New();
+  InputHistogramMeasurementObjectType::Pointer marginalScaleObject2 = InputHistogramMeasurementObjectType::New();
 
-  marginalScaleObject2->Set( marginalScale2 );
+  marginalScaleObject2->Set(marginalScale2);
 
-  filter->SetMarginalScaleInput( marginalScaleObject2 );
+  filter->SetMarginalScaleInput(marginalScaleObject2);
 
   recoveredMarginalScaleObject = filter->GetMarginalScaleInput();
 
-  if( recoveredMarginalScaleObject != marginalScaleObject2 )
-    {
+  if (recoveredMarginalScaleObject != marginalScaleObject2)
+  {
     std::cerr << "GetMarginalScaleInput() test for pointer consistency 2 failed." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  if( itk::Math::NotExactlyEquals(recoveredMarginalScaleObject->Get(), marginalScale2) )
-    {
+  if (itk::Math::NotExactlyEquals(recoveredMarginalScaleObject->Get(), marginalScale2))
+  {
     std::cerr << "GetMarginalScaleInput() test for value consistency 4 failed." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  filter->SetMarginalScaleInput( marginalScaleObject1 );
+  filter->SetMarginalScaleInput(marginalScaleObject1);
 
   recoveredMarginalScaleObject = filter->GetMarginalScaleInput();
 
-  if( recoveredMarginalScaleObject != marginalScaleObject1 )
-    {
+  if (recoveredMarginalScaleObject != marginalScaleObject1)
+  {
     std::cerr << "GetMarginalScaleInput() test for pointer consistency 3 failed." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  if( itk::Math::NotExactlyEquals(recoveredMarginalScaleObject->Get(), marginalScale1) )
-    {
+  if (itk::Math::NotExactlyEquals(recoveredMarginalScaleObject->Get(), marginalScale1))
+  {
     std::cerr << "GetMarginalScaleInput() test for value consistency 5 failed." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   // Testing the settings of the BinMaximum and BinMinimum methods.
-  HistogramMeasurementVectorType histogramBinMinimum1( numberOfComponents );
+  HistogramMeasurementVectorType histogramBinMinimum1(numberOfComponents);
   histogramBinMinimum1[0] = 0;
   histogramBinMinimum1[1] = 0;
   histogramBinMinimum1[2] = 0;
 
-  HistogramMeasurementVectorType histogramBinMinimum2( numberOfComponents );
+  HistogramMeasurementVectorType histogramBinMinimum2(numberOfComponents);
   histogramBinMinimum2[0] = 17;
   histogramBinMinimum2[1] = 17;
   histogramBinMinimum2[2] = 17;
 
 
-  filter->SetHistogramBinMinimum( histogramBinMinimum1 );
+  filter->SetHistogramBinMinimum(histogramBinMinimum1);
 
   const InputHistogramMeasurementVectorObjectType * returnedHistogramBinMinimumObject =
     filter->GetHistogramBinMinimumInput();
 
-  if( returnedHistogramBinMinimumObject == nullptr )
-    {
+  if (returnedHistogramBinMinimumObject == nullptr)
+  {
     std::cerr << "SetHistogramSize() failed pointer consistency test" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  HistogramMeasurementVectorType returnedHistogramBinMinimum =
-    returnedHistogramBinMinimumObject->Get();
+  HistogramMeasurementVectorType returnedHistogramBinMinimum = returnedHistogramBinMinimumObject->Get();
 
-  for( unsigned int k1 = 0; k1 < numberOfComponents; k1++ )
+  for (unsigned int k1 = 0; k1 < numberOfComponents; k1++)
+  {
+    if (itk::Math::NotExactlyEquals(returnedHistogramBinMinimum[k1], histogramBinMinimum1[k1]))
     {
-    if( itk::Math::NotExactlyEquals(returnedHistogramBinMinimum[k1], histogramBinMinimum1[k1]) )
-      {
       std::cerr << "Get/Set HistogramBinMinimum() failed value consistency test" << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
 
 
-  filter->SetHistogramBinMinimum( histogramBinMinimum2 );
+  filter->SetHistogramBinMinimum(histogramBinMinimum2);
 
   returnedHistogramBinMinimumObject = filter->GetHistogramBinMinimumInput();
 
   returnedHistogramBinMinimum = returnedHistogramBinMinimumObject->Get();
 
-  for( unsigned int k2 = 0; k2 < numberOfComponents; k2++ )
+  for (unsigned int k2 = 0; k2 < numberOfComponents; k2++)
+  {
+    if (itk::Math::NotExactlyEquals(returnedHistogramBinMinimum[k2], histogramBinMinimum2[k2]))
     {
-    if( itk::Math::NotExactlyEquals(returnedHistogramBinMinimum[k2], histogramBinMinimum2[k2]) )
-      {
       std::cerr << "Get/Set HistogramSize() failed value consistency test" << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
 
 
   InputHistogramMeasurementVectorObjectType::Pointer histogramBinMinimumObject =
     InputHistogramMeasurementVectorObjectType::New();
 
-  histogramBinMinimumObject->Set( histogramBinMinimum1 );
+  histogramBinMinimumObject->Set(histogramBinMinimum1);
 
-  filter->SetHistogramBinMinimumInput( histogramBinMinimumObject );
-
-  returnedHistogramBinMinimumObject = filter->GetHistogramBinMinimumInput();
-
-  if( returnedHistogramBinMinimumObject != histogramBinMinimumObject )
-    {
-    std::cerr << "Get/Set HistogramBinMinimum() failed pointer consistency test" << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  returnedHistogramBinMinimum = returnedHistogramBinMinimumObject->Get();
-
-  for( unsigned int k3 = 0; k3 < numberOfComponents; k3++ )
-    {
-    if( itk::Math::NotExactlyEquals(returnedHistogramBinMinimum[k3], histogramBinMinimum1[k3]) )
-      {
-      std::cerr << "Get/Set HistogramBinMinimum() failed value consistency test" << std::endl;
-      return EXIT_FAILURE;
-      }
-    }
-
-  histogramBinMinimumObject->Set( histogramBinMinimum2 );
-
-  filter->SetHistogramBinMinimumInput( histogramBinMinimumObject );
+  filter->SetHistogramBinMinimumInput(histogramBinMinimumObject);
 
   returnedHistogramBinMinimumObject = filter->GetHistogramBinMinimumInput();
 
-  if( returnedHistogramBinMinimumObject != histogramBinMinimumObject )
-    {
+  if (returnedHistogramBinMinimumObject != histogramBinMinimumObject)
+  {
     std::cerr << "Get/Set HistogramBinMinimum() failed pointer consistency test" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   returnedHistogramBinMinimum = returnedHistogramBinMinimumObject->Get();
 
-  for( unsigned int k4 = 0; k4 < numberOfComponents; k4++ )
+  for (unsigned int k3 = 0; k3 < numberOfComponents; k3++)
+  {
+    if (itk::Math::NotExactlyEquals(returnedHistogramBinMinimum[k3], histogramBinMinimum1[k3]))
     {
-    if( itk::Math::NotExactlyEquals(returnedHistogramBinMinimum[k4], histogramBinMinimum2[k4]) )
-      {
       std::cerr << "Get/Set HistogramBinMinimum() failed value consistency test" << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
+
+  histogramBinMinimumObject->Set(histogramBinMinimum2);
+
+  filter->SetHistogramBinMinimumInput(histogramBinMinimumObject);
+
+  returnedHistogramBinMinimumObject = filter->GetHistogramBinMinimumInput();
+
+  if (returnedHistogramBinMinimumObject != histogramBinMinimumObject)
+  {
+    std::cerr << "Get/Set HistogramBinMinimum() failed pointer consistency test" << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  returnedHistogramBinMinimum = returnedHistogramBinMinimumObject->Get();
+
+  for (unsigned int k4 = 0; k4 < numberOfComponents; k4++)
+  {
+    if (itk::Math::NotExactlyEquals(returnedHistogramBinMinimum[k4], histogramBinMinimum2[k4]))
+    {
+      std::cerr << "Get/Set HistogramBinMinimum() failed value consistency test" << std::endl;
+      return EXIT_FAILURE;
+    }
+  }
 
 
-  filter->SetHistogramBinMinimum( histogramBinMinimum1 );
+  filter->SetHistogramBinMinimum(histogramBinMinimum1);
   filter->Update();
   modifiedTime = filter->GetMTime();
-  filter->SetHistogramBinMinimum( histogramBinMinimum1 );
+  filter->SetHistogramBinMinimum(histogramBinMinimum1);
 
-  if( filter->GetMTime() != modifiedTime )
-    {
+  if (filter->GetMTime() != modifiedTime)
+  {
     std::cerr << "SetHistogramBinMinimum() failed modified Test 1" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  filter->SetHistogramBinMinimum( histogramBinMinimum2 );
+  filter->SetHistogramBinMinimum(histogramBinMinimum2);
 
-  if( filter->GetMTime() == modifiedTime )
-    {
+  if (filter->GetMTime() == modifiedTime)
+  {
     std::cerr << "SetHistogramBinMinimum() failed modified Test 2" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
-  HistogramMeasurementVectorType histogramBinMaximum1( numberOfComponents );
+  HistogramMeasurementVectorType histogramBinMaximum1(numberOfComponents);
   histogramBinMaximum1[0] = 0;
   histogramBinMaximum1[1] = 0;
   histogramBinMaximum1[2] = 0;
 
-  HistogramMeasurementVectorType histogramBinMaximum2( numberOfComponents );
+  HistogramMeasurementVectorType histogramBinMaximum2(numberOfComponents);
   histogramBinMaximum2[0] = 17;
   histogramBinMaximum2[1] = 17;
   histogramBinMaximum2[2] = 17;
 
 
-  filter->SetHistogramBinMaximum( histogramBinMaximum1 );
+  filter->SetHistogramBinMaximum(histogramBinMaximum1);
 
   const InputHistogramMeasurementVectorObjectType * returnedHistogramBinMaximumObject =
     filter->GetHistogramBinMaximumInput();
 
-  if( returnedHistogramBinMaximumObject == nullptr )
-    {
+  if (returnedHistogramBinMaximumObject == nullptr)
+  {
     std::cerr << "SetHistogramSize() failed pointer consistency test" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  HistogramMeasurementVectorType returnedHistogramBinMaximum =
-    returnedHistogramBinMaximumObject->Get();
+  HistogramMeasurementVectorType returnedHistogramBinMaximum = returnedHistogramBinMaximumObject->Get();
 
-  for( unsigned int k1 = 0; k1 < numberOfComponents; k1++ )
+  for (unsigned int k1 = 0; k1 < numberOfComponents; k1++)
+  {
+    if (itk::Math::NotExactlyEquals(returnedHistogramBinMaximum[k1], histogramBinMaximum1[k1]))
     {
-    if( itk::Math::NotExactlyEquals(returnedHistogramBinMaximum[k1], histogramBinMaximum1[k1]) )
-      {
       std::cerr << "Get/Set HistogramBinMaximum() failed value consistency test" << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
 
 
-  filter->SetHistogramBinMaximum( histogramBinMaximum2 );
+  filter->SetHistogramBinMaximum(histogramBinMaximum2);
 
   returnedHistogramBinMaximumObject = filter->GetHistogramBinMaximumInput();
 
   returnedHistogramBinMaximum = returnedHistogramBinMaximumObject->Get();
 
-  for( unsigned int k2 = 0; k2 < numberOfComponents; k2++ )
+  for (unsigned int k2 = 0; k2 < numberOfComponents; k2++)
+  {
+    if (itk::Math::NotExactlyEquals(returnedHistogramBinMaximum[k2], histogramBinMaximum2[k2]))
     {
-    if( itk::Math::NotExactlyEquals(returnedHistogramBinMaximum[k2], histogramBinMaximum2[k2]) )
-      {
       std::cerr << "Get/Set HistogramSize() failed value consistency test" << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
 
 
   InputHistogramMeasurementVectorObjectType::Pointer histogramBinMaximumObject =
     InputHistogramMeasurementVectorObjectType::New();
 
-  histogramBinMaximumObject->Set( histogramBinMaximum1 );
+  histogramBinMaximumObject->Set(histogramBinMaximum1);
 
-  filter->SetHistogramBinMaximumInput( histogramBinMaximumObject );
+  filter->SetHistogramBinMaximumInput(histogramBinMaximumObject);
 
   returnedHistogramBinMaximumObject = filter->GetHistogramBinMaximumInput();
 
-  if( returnedHistogramBinMaximumObject != histogramBinMaximumObject )
-    {
+  if (returnedHistogramBinMaximumObject != histogramBinMaximumObject)
+  {
     std::cerr << "Get/Set HistogramBinMaximum() failed pointer consistency test" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   returnedHistogramBinMaximum = returnedHistogramBinMaximumObject->Get();
 
-  for( unsigned int k3 = 0; k3 < numberOfComponents; k3++ )
+  for (unsigned int k3 = 0; k3 < numberOfComponents; k3++)
+  {
+    if (itk::Math::NotExactlyEquals(returnedHistogramBinMaximum[k3], histogramBinMaximum1[k3]))
     {
-    if( itk::Math::NotExactlyEquals(returnedHistogramBinMaximum[k3], histogramBinMaximum1[k3]) )
-      {
       std::cerr << "Get/Set HistogramBinMaximum() failed value consistency test" << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
 
-  histogramBinMaximumObject->Set( histogramBinMaximum2 );
+  histogramBinMaximumObject->Set(histogramBinMaximum2);
 
-  filter->SetHistogramBinMinimumInput( histogramBinMaximumObject );
+  filter->SetHistogramBinMinimumInput(histogramBinMaximumObject);
 
   returnedHistogramBinMaximumObject = filter->GetHistogramBinMinimumInput();
 
-  if( returnedHistogramBinMaximumObject != histogramBinMaximumObject )
-    {
+  if (returnedHistogramBinMaximumObject != histogramBinMaximumObject)
+  {
     std::cerr << "Get/Set HistogramBinMaximum() failed pointer consistency test" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   returnedHistogramBinMaximum = returnedHistogramBinMaximumObject->Get();
 
-  for( unsigned int k4 = 0; k4 < numberOfComponents; k4++ )
+  for (unsigned int k4 = 0; k4 < numberOfComponents; k4++)
+  {
+    if (itk::Math::NotExactlyEquals(returnedHistogramBinMaximum[k4], histogramBinMaximum2[k4]))
     {
-    if( itk::Math::NotExactlyEquals(returnedHistogramBinMaximum[k4], histogramBinMaximum2[k4]) )
-      {
       std::cerr << "Get/Set HistogramBinMaximum() failed value consistency test" << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
 
 
-  filter->SetHistogramBinMaximum( histogramBinMaximum1 );
+  filter->SetHistogramBinMaximum(histogramBinMaximum1);
   filter->Update();
   modifiedTime = filter->GetMTime();
-  filter->SetHistogramBinMaximum( histogramBinMaximum1 );
+  filter->SetHistogramBinMaximum(histogramBinMaximum1);
 
-  if( filter->GetMTime() != modifiedTime )
-    {
+  if (filter->GetMTime() != modifiedTime)
+  {
     std::cerr << "SetHistogramBinMaximum() failed modified Test 1" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  filter->SetHistogramBinMaximum( histogramBinMaximum2 );
+  filter->SetHistogramBinMaximum(histogramBinMaximum2);
 
-  if( filter->GetMTime() == modifiedTime )
-    {
+  if (filter->GetMTime() == modifiedTime)
+  {
     std::cerr << "SetHistogramBinMaximum() failed modified Test 2" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Testing the settings of the AutoMinimumMaximum Flag.
   const bool autoMinimumMaximum1 = true;
   const bool autoMinimumMaximum2 = false;
 
-  filter->SetAutoMinimumMaximum( autoMinimumMaximum1 );
+  filter->SetAutoMinimumMaximum(autoMinimumMaximum1);
 
   using InputBooleanObjectType = FilterType::InputBooleanObjectType;
 
-  const InputBooleanObjectType * recoveredAutoMinimumMaximumObject =
-    filter->GetAutoMinimumMaximumInput();
+  const InputBooleanObjectType * recoveredAutoMinimumMaximumObject = filter->GetAutoMinimumMaximumInput();
 
-  if( recoveredAutoMinimumMaximumObject == nullptr )
-    {
+  if (recoveredAutoMinimumMaximumObject == nullptr)
+  {
     std::cerr << "GetAutoMinimumMaximumInput() returned nullptr object." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  if( recoveredAutoMinimumMaximumObject->Get() != autoMinimumMaximum1 )
-    {
+  if (recoveredAutoMinimumMaximumObject->Get() != autoMinimumMaximum1)
+  {
     std::cerr << "GetAutoMinimumMaximumInput() test for value consistency 1 failed." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  filter->SetAutoMinimumMaximum( autoMinimumMaximum2 );
+  filter->SetAutoMinimumMaximum(autoMinimumMaximum2);
 
   recoveredAutoMinimumMaximumObject = filter->GetAutoMinimumMaximumInput();
 
-  if( recoveredAutoMinimumMaximumObject == nullptr )
-    {
+  if (recoveredAutoMinimumMaximumObject == nullptr)
+  {
     std::cerr << "GetAutoMinimumMaximumInput() returned nullptr object." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  if( recoveredAutoMinimumMaximumObject->Get() != autoMinimumMaximum2 )
-    {
+  if (recoveredAutoMinimumMaximumObject->Get() != autoMinimumMaximum2)
+  {
     std::cerr << "GetAutoMinimumMaximumInput() test for value consistency 2 failed." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   InputBooleanObjectType::Pointer autoMinimumMaximumObject1 = InputBooleanObjectType::New();
 
-  autoMinimumMaximumObject1->Set( autoMinimumMaximum1 );
+  autoMinimumMaximumObject1->Set(autoMinimumMaximum1);
 
-  filter->SetAutoMinimumMaximumInput( autoMinimumMaximumObject1 );
+  filter->SetAutoMinimumMaximumInput(autoMinimumMaximumObject1);
 
   recoveredAutoMinimumMaximumObject = filter->GetAutoMinimumMaximumInput();
 
-  if( recoveredAutoMinimumMaximumObject != autoMinimumMaximumObject1 )
-    {
+  if (recoveredAutoMinimumMaximumObject != autoMinimumMaximumObject1)
+  {
     std::cerr << "GetAutoMinimumMaximumInput() test for pointer consistency 1 failed." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  if( recoveredAutoMinimumMaximumObject->Get() != autoMinimumMaximum1 )
-    {
+  if (recoveredAutoMinimumMaximumObject->Get() != autoMinimumMaximum1)
+  {
     std::cerr << "GetAutoMinimumMaximumInput() test for value consistency 3 failed." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   InputBooleanObjectType::Pointer autoMinimumMaximumObject2 = InputBooleanObjectType::New();
 
-  autoMinimumMaximumObject2->Set( autoMinimumMaximum2 );
+  autoMinimumMaximumObject2->Set(autoMinimumMaximum2);
 
-  filter->SetAutoMinimumMaximumInput( autoMinimumMaximumObject2 );
+  filter->SetAutoMinimumMaximumInput(autoMinimumMaximumObject2);
 
   recoveredAutoMinimumMaximumObject = filter->GetAutoMinimumMaximumInput();
 
-  if( recoveredAutoMinimumMaximumObject != autoMinimumMaximumObject2 )
-    {
+  if (recoveredAutoMinimumMaximumObject != autoMinimumMaximumObject2)
+  {
     std::cerr << "GetAutoMinimumMaximumInput() test for pointer consistency 2 failed." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  if( recoveredAutoMinimumMaximumObject->Get() != autoMinimumMaximum2 )
-    {
+  if (recoveredAutoMinimumMaximumObject->Get() != autoMinimumMaximum2)
+  {
     std::cerr << "GetAutoMinimumMaximumInput() test for value consistency 4 failed." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  filter->SetAutoMinimumMaximumInput( autoMinimumMaximumObject1 );
+  filter->SetAutoMinimumMaximumInput(autoMinimumMaximumObject1);
 
   recoveredAutoMinimumMaximumObject = filter->GetAutoMinimumMaximumInput();
 
-  if( recoveredAutoMinimumMaximumObject != autoMinimumMaximumObject1 )
-    {
+  if (recoveredAutoMinimumMaximumObject != autoMinimumMaximumObject1)
+  {
     std::cerr << "GetAutoMinimumMaximumInput() test for pointer consistency 3 failed." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  if( recoveredAutoMinimumMaximumObject->Get() != autoMinimumMaximum1 )
-    {
+  if (recoveredAutoMinimumMaximumObject->Get() != autoMinimumMaximum1)
+  {
     std::cerr << "GetAutoMinimumMaximumInput() test for value consistency 5 failed." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   //
   // Testing exception cases in the GenerateData() method.
   //
-  filter->SetHistogramSizeInput( nullptr );
+  filter->SetHistogramSizeInput(nullptr);
 
-  std::cout << "GetHistogramSizeInput() =  " <<  filter->GetHistogramSizeInput() << std::endl;
+  std::cout << "GetHistogramSizeInput() =  " << filter->GetHistogramSizeInput() << std::endl;
 
   try
-    {
+  {
     filter->Update();
     std::cerr << "Failure to throw expected exception ";
     std::cerr << " due to nullptr SetHistogramSizeInput()";
     return EXIT_FAILURE;
-    }
-  catch( itk::MissingHistogramSizeInput &e )
-    {
+  }
+  catch (itk::MissingHistogramSizeInput & e)
+  {
     std::cout << "Exception received:" << std::endl;
     std::cout << e << std::endl;
-    }
-  catch(...)
-    {
+  }
+  catch (...)
+  {
     std::cerr << "Histogram Size input exception not received.\n";
     return EXIT_FAILURE;
-    }
+  }
 
-  filter->SetHistogramSizeInput( histogramSizeObject );
+  filter->SetHistogramSizeInput(histogramSizeObject);
 
   //
   // Testing exception cases in the GenerateData() method.
   //
-  filter->SetMarginalScaleInput( nullptr );
+  filter->SetMarginalScaleInput(nullptr);
 
-  std::cout << "GetMarginalScaleInput() =  " <<  filter->GetMarginalScaleInput() << std::endl;
+  std::cout << "GetMarginalScaleInput() =  " << filter->GetMarginalScaleInput() << std::endl;
 
   try
-    {
+  {
     filter->Update();
     std::cerr << "Failure to throw expected exception ";
     std::cerr << " due to nullptr SetMarginalScaleInput()";
     return EXIT_FAILURE;
-    }
-  catch( itk::MissingHistogramMarginalScaleInput &e )
-    {
+  }
+  catch (itk::MissingHistogramMarginalScaleInput & e)
+  {
     std::cout << "Exception received:" << std::endl;
     std::cout << e << std::endl;
-    }
-  catch(...)
-    {
+  }
+  catch (...)
+  {
     std::cerr << "Marginal scale input exception not received.\n";
     return EXIT_FAILURE;
-    }
+  }
 
-  marginalScaleObject1->Set( 100 );
-  filter->SetMarginalScaleInput( marginalScaleObject1 );
+  marginalScaleObject1->Set(100);
+  filter->SetMarginalScaleInput(marginalScaleObject1);
 
 
   //
@@ -749,79 +739,79 @@ int itkSampleToHistogramFilterTest( int , char * [] )
   //
 
   // First, force to use the minimum and maximum provided by the user.
-  filter->SetAutoMinimumMaximum( false );
+  filter->SetAutoMinimumMaximum(false);
 
-  filter->SetHistogramBinMinimumInput( nullptr );
+  filter->SetHistogramBinMinimumInput(nullptr);
 
-  std::cout << "GetHistogramBinMinimumInput() =  " <<  filter->GetHistogramBinMinimumInput() << std::endl;
+  std::cout << "GetHistogramBinMinimumInput() =  " << filter->GetHistogramBinMinimumInput() << std::endl;
 
   try
-    {
+  {
     filter->Update();
     std::cerr << "Failure to throw expected exception ";
     std::cerr << " due to nullptr SetHistogramBinMinimumInput()";
     return EXIT_FAILURE;
-    }
-  catch( itk::MissingHistogramBinMinimumInput &e )
-    {
+  }
+  catch (itk::MissingHistogramBinMinimumInput & e)
+  {
     std::cout << "Exception received:" << std::endl;
     std::cout << e << std::endl;
-    }
-  catch(...)
-    {
+  }
+  catch (...)
+  {
     std::cerr << "Histogram Bin Minimum input exception not received.\n";
     return EXIT_FAILURE;
-    }
+  }
 
-  histogramBinMinimumObject->Set( histogramBinMinimum1 );
-  filter->SetHistogramBinMinimumInput( histogramBinMinimumObject );
+  histogramBinMinimumObject->Set(histogramBinMinimum1);
+  filter->SetHistogramBinMinimumInput(histogramBinMinimumObject);
 
   //
   // Testing exception cases in the GenerateData() method.
   //
-  filter->SetHistogramBinMaximumInput( nullptr );
+  filter->SetHistogramBinMaximumInput(nullptr);
 
-  std::cout << "GetHistogramBinMaximumInput() =  " <<  filter->GetHistogramBinMaximumInput() << std::endl;
+  std::cout << "GetHistogramBinMaximumInput() =  " << filter->GetHistogramBinMaximumInput() << std::endl;
 
   try
-    {
+  {
     filter->Update();
     std::cerr << "Failure to throw expected exception ";
     std::cerr << " due to nullptr SetHistogramBinMaximumInput()";
     return EXIT_FAILURE;
-    }
-  catch( itk::MissingHistogramBinMaximumInput &e )
-    {
+  }
+  catch (itk::MissingHistogramBinMaximumInput & e)
+  {
     std::cout << "Exception received:" << std::endl;
     std::cout << e << std::endl;
-    }
-  catch(...)
-    {
+  }
+  catch (...)
+  {
     std::cerr << "Histogram Bin Maximum input exception not received.\n";
     return EXIT_FAILURE;
-    }
+  }
 
-  histogramBinMaximumObject->Set( histogramBinMaximum1 );
-  filter->SetHistogramBinMaximumInput( histogramBinMaximumObject );
+  histogramBinMaximumObject->Set(histogramBinMaximum1);
+  filter->SetHistogramBinMaximumInput(histogramBinMaximumObject);
 
 
   try
-    {
+  {
     filter->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   // Test GetOutput() after creating the output
-  if( filter->GetOutput() == nullptr )
-    {
+  if (filter->GetOutput() == nullptr)
+  {
     std::cerr << "GetOutput() should have returned NON-nullptr" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;

@@ -42,24 +42,24 @@ namespace itk
  *
  *  \ingroup ITKLevelSetsv4
  */
-template< typename TInput, // Input image or mesh
-          typename TLevelSetContainer >
-class ITK_TEMPLATE_EXPORT LevelSetEquationOverlapPenaltyTerm :
-    public LevelSetEquationTermBase< TInput, TLevelSetContainer >
+template <typename TInput, // Input image or mesh
+          typename TLevelSetContainer>
+class ITK_TEMPLATE_EXPORT LevelSetEquationOverlapPenaltyTerm
+  : public LevelSetEquationTermBase<TInput, TLevelSetContainer>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationOverlapPenaltyTerm);
 
   using Self = LevelSetEquationOverlapPenaltyTerm;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using Superclass = LevelSetEquationTermBase< TInput, TLevelSetContainer >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using Superclass = LevelSetEquationTermBase<TInput, TLevelSetContainer>;
 
   /** Method for creation through object factory */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information */
-  itkTypeMacro( LevelSetEquationOverlapPenaltyTerm, LevelSetEquationTermBase );
+  itkTypeMacro(LevelSetEquationOverlapPenaltyTerm, LevelSetEquationTermBase);
 
   using InputImageType = typename Superclass::InputImageType;
   using InputImagePointer = typename Superclass::InputImagePointer;
@@ -93,23 +93,27 @@ public:
 
 
   /** Update the term parameter values at end of iteration */
-  void Update() override;
+  void
+  Update() override;
 
   /** Initialize parameters in the terms prior to an iteration */
-  void InitializeParameters() override;
+  void
+  InitializeParameters() override;
 
   /** Initialize term parameters in the dense case by computing for each pixel location */
-  void Initialize( const LevelSetInputIndexType& index ) override;
+  void
+  Initialize(const LevelSetInputIndexType & index) override;
 
   /** Compute the sum of Heaviside functions in the multi-levelset cases
    *  except the current levelset */
-  virtual void ComputeSumTerm( const LevelSetInputIndexType& index,
-                                  LevelSetOutputRealType& sum );
+  virtual void
+  ComputeSumTerm(const LevelSetInputIndexType & index, LevelSetOutputRealType & sum);
 
   /** Supply updates at pixels to keep the term parameters always updated */
-  void UpdatePixel( const LevelSetInputIndexType& index,
-                            const LevelSetOutputRealType& oldValue,
-                            const LevelSetOutputRealType& newValue ) override;
+  void
+  UpdatePixel(const LevelSetInputIndexType & index,
+              const LevelSetOutputRealType & oldValue,
+              const LevelSetOutputRealType & newValue) override;
 
 
 protected:
@@ -118,20 +122,21 @@ protected:
   ~LevelSetEquationOverlapPenaltyTerm() override = default;
 
   /** Returns the term contribution for a given location index */
-  LevelSetOutputRealType Value( const LevelSetInputIndexType& index ) override;
+  LevelSetOutputRealType
+  Value(const LevelSetInputIndexType & index) override;
 
   /** Returns the term contribution for a given location index */
-  LevelSetOutputRealType Value( const LevelSetInputIndexType& index,
-                                        const LevelSetDataType& data ) override;
+  LevelSetOutputRealType
+  Value(const LevelSetInputIndexType & index, const LevelSetDataType & data) override;
 
 private:
-  DomainMapImageFilterType *m_DomainMapImageFilter;
-  CacheImageType           *m_CacheImage;
+  DomainMapImageFilterType * m_DomainMapImageFilter;
+  CacheImageType *           m_CacheImage;
 };
 
-}
+} // namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetEquationOverlapPenaltyTerm.hxx"
+#  include "itkLevelSetEquationOverlapPenaltyTerm.hxx"
 #endif
 
 #endif

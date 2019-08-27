@@ -52,22 +52,21 @@ namespace itk
  *  \ingroup RegistrationMetrics
  * \ingroup ITKRegistrationCommon
  */
-template< typename TFixedImage, typename TMovingImage >
-class ITK_TEMPLATE_EXPORT CompareHistogramImageToImageMetric:
-  public HistogramImageToImageMetric< TFixedImage, TMovingImage >
+template <typename TFixedImage, typename TMovingImage>
+class ITK_TEMPLATE_EXPORT CompareHistogramImageToImageMetric
+  : public HistogramImageToImageMetric<TFixedImage, TMovingImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(CompareHistogramImageToImageMetric);
 
   /** Standard class type aliases. */
   using Self = CompareHistogramImageToImageMetric;
-  using Superclass = HistogramImageToImageMetric< TFixedImage, TMovingImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = HistogramImageToImageMetric<TFixedImage, TMovingImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(CompareHistogramImageToImageMetric,
-               HistogramImageToImageMetric);
+  itkTypeMacro(CompareHistogramImageToImageMetric, HistogramImageToImageMetric);
 
   /** Types transferred from the base class */
   using RealType = typename Superclass::RealType;
@@ -124,26 +123,33 @@ public:
   itkGetConstReferenceMacro(TrainingFixedImageRegion, FixedImageRegionType);
 
   /** Return the number of parameters required by the Transform */
-  unsigned int GetNumberOfParameters() const override
-  { return this->GetTransform()->GetNumberOfParameters(); }
+  unsigned int
+  GetNumberOfParameters() const override
+  {
+    return this->GetTransform()->GetNumberOfParameters();
+  }
 
   /** Forms the histogram of the training images to prepare to evaluate the
    * metric. Must set all parameters first. */
-  void Initialize() override;
+  void
+  Initialize() override;
 
 protected:
   /** Constructor is protected to ensure that \c New() function is used to
       create instances. */
   CompareHistogramImageToImageMetric();
   ~CompareHistogramImageToImageMetric() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Form the Histogram for the Training data */
-  void FormTrainingHistogram();
+  void
+  FormTrainingHistogram();
 
   /** Evaluates the comparison histogram metric. All sub-classes must
       re-implement method. */
-  MeasureType EvaluateMeasure(HistogramType & histogram) const override = 0;
+  MeasureType
+  EvaluateMeasure(HistogramType & histogram) const override = 0;
 
 private:
   FixedImageConstPointer  m_TrainingFixedImage;
@@ -156,7 +162,7 @@ private:
 } // End namespace itk.
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCompareHistogramImageToImageMetric.hxx"
+#  include "itkCompareHistogramImageToImageMetric.hxx"
 #endif
 
 #endif // itkCompareHistogramImageToImageMetric_h

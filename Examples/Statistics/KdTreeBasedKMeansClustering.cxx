@@ -128,7 +128,8 @@
 #include "itkNormalVariateGenerator.h"
 // Software Guide : EndCodeSnippet
 
-int main()
+int
+main()
 {
   // Software Guide : BeginLatex
   //
@@ -141,10 +142,10 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using MeasurementVectorType = itk::Vector< double, 1 >;
-  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
+  using MeasurementVectorType = itk::Vector<double, 1>;
+  using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
   SampleType::Pointer sample = SampleType::New();
-  sample->SetMeasurementVectorSize( 1 );
+  sample->SetMeasurementVectorSize(1);
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -167,7 +168,8 @@ int main()
   // \begin{figure}
   //   \center
   //   \includegraphics[width=0.8\textwidth]{TwoNormalDensityFunctionPlot}
-  //   \itkcaption[Two normal distributions plot]{Two normal distributions' probability density plot
+  //   \itkcaption[Two normal distributions plot]{Two normal distributions' probability
+  //   density plot
   // (The means are 100 and 200, and the standard deviation is 30 )}
   //  \protect\label{fig:TwoNormalDensityFunctionPlot}
   // \end{figure}
@@ -178,25 +180,25 @@ int main()
   using NormalGeneratorType = itk::Statistics::NormalVariateGenerator;
   NormalGeneratorType::Pointer normalGenerator = NormalGeneratorType::New();
 
-  normalGenerator->Initialize( 101 );
+  normalGenerator->Initialize(101);
 
   MeasurementVectorType mv;
-  double mean = 100;
-  double standardDeviation = 30;
+  double                mean = 100;
+  double                standardDeviation = 30;
   for (unsigned int i = 0; i < 100; ++i)
-    {
-    mv[0] = ( normalGenerator->GetVariate() * standardDeviation ) + mean;
-    sample->PushBack( mv );
-    }
+  {
+    mv[0] = (normalGenerator->GetVariate() * standardDeviation) + mean;
+    sample->PushBack(mv);
+  }
 
-  normalGenerator->Initialize( 3024 );
+  normalGenerator->Initialize(3024);
   mean = 200;
   standardDeviation = 30;
   for (unsigned int i = 0; i < 100; ++i)
-    {
-    mv[0] = ( normalGenerator->GetVariate() * standardDeviation ) + mean;
-    sample->PushBack( mv );
-    }
+  {
+    mv[0] = (normalGenerator->GetVariate() * standardDeviation) + mean;
+    sample->PushBack(mv);
+  }
   // Software Guide : EndCodeSnippet
 
 
@@ -212,8 +214,8 @@ int main()
     itk::Statistics::WeightedCentroidKdTreeGenerator<SampleType>;
   TreeGeneratorType::Pointer treeGenerator = TreeGeneratorType::New();
 
-  treeGenerator->SetSample( sample );
-  treeGenerator->SetBucketSize( 16 );
+  treeGenerator->SetSample(sample);
+  treeGenerator->SetBucketSize(16);
   treeGenerator->Update();
   // Software Guide : EndCodeSnippet
 
@@ -254,19 +256,19 @@ int main()
   initialMeans[0] = 0.0;
   initialMeans[1] = 0.0;
 
-  estimator->SetParameters( initialMeans );
-  estimator->SetKdTree( treeGenerator->GetOutput() );
-  estimator->SetMaximumIteration( 200 );
+  estimator->SetParameters(initialMeans);
+  estimator->SetKdTree(treeGenerator->GetOutput());
+  estimator->SetMaximumIteration(200);
   estimator->SetCentroidPositionChangesThreshold(0.0);
   estimator->StartOptimization();
 
   EstimatorType::ParametersType estimatedMeans = estimator->GetParameters();
 
   for (unsigned int i = 0; i < 2; ++i)
-    {
+  {
     std::cout << "cluster[" << i << "] " << std::endl;
     std::cout << "    estimated mean : " << estimatedMeans[i] << std::endl;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
 
@@ -301,35 +303,31 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   using MembershipFunctionType =
-    itk::Statistics::DistanceToCentroidMembershipFunction
-      <MeasurementVectorType>;
+    itk::Statistics::DistanceToCentroidMembershipFunction<MeasurementVectorType>;
   using DecisionRuleType = itk::Statistics::MinimumDecisionRule;
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
 
-  using ClassifierType = itk::Statistics::SampleClassifierFilter< SampleType >;
+  using ClassifierType = itk::Statistics::SampleClassifierFilter<SampleType>;
   ClassifierType::Pointer classifier = ClassifierType::New();
 
-  classifier->SetDecisionRule( decisionRule );
-  classifier->SetInput( sample );
-  classifier->SetNumberOfClasses( 2 );
+  classifier->SetDecisionRule(decisionRule);
+  classifier->SetInput(sample);
+  classifier->SetNumberOfClasses(2);
 
-  using ClassLabelVectorObjectType =
-    ClassifierType::ClassLabelVectorObjectType;
-  using ClassLabelVectorType =
-    ClassifierType::ClassLabelVectorType;
-  using ClassLabelType =
-    ClassifierType::ClassLabelType;
+  using ClassLabelVectorObjectType = ClassifierType::ClassLabelVectorObjectType;
+  using ClassLabelVectorType = ClassifierType::ClassLabelVectorType;
+  using ClassLabelType = ClassifierType::ClassLabelType;
 
   ClassLabelVectorObjectType::Pointer classLabelsObject =
     ClassLabelVectorObjectType::New();
-  ClassLabelVectorType& classLabelsVector = classLabelsObject->Get();
+  ClassLabelVectorType & classLabelsVector = classLabelsObject->Get();
 
   ClassLabelType class1 = 200;
-  classLabelsVector.push_back( class1 );
+  classLabelsVector.push_back(class1);
   ClassLabelType class2 = 100;
-  classLabelsVector.push_back( class2 );
+  classLabelsVector.push_back(class2);
 
-  classifier->SetClassLabels( classLabelsObject );
+  classifier->SetClassLabels(classLabelsObject);
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -352,29 +350,26 @@ int main()
 
   using MembershipFunctionVectorObjectType =
     ClassifierType::MembershipFunctionVectorObjectType;
-  using MembershipFunctionVectorType =
-    ClassifierType::MembershipFunctionVectorType;
+  using MembershipFunctionVectorType = ClassifierType::MembershipFunctionVectorType;
 
   MembershipFunctionVectorObjectType::Pointer membershipFunctionVectorObject =
     MembershipFunctionVectorObjectType::New();
-  MembershipFunctionVectorType& membershipFunctionVector =
+  MembershipFunctionVectorType & membershipFunctionVector =
     membershipFunctionVectorObject->Get();
 
   int index = 0;
   for (unsigned int i = 0; i < 2; i++)
+  {
+    MembershipFunctionType::Pointer membershipFunction = MembershipFunctionType::New();
+    MembershipFunctionType::CentroidType centroid(sample->GetMeasurementVectorSize());
+    for (unsigned int j = 0; j < sample->GetMeasurementVectorSize(); j++)
     {
-    MembershipFunctionType::Pointer membershipFunction
-                                               = MembershipFunctionType::New();
-    MembershipFunctionType::CentroidType centroid(
-                                          sample->GetMeasurementVectorSize() );
-    for ( unsigned int j = 0; j < sample->GetMeasurementVectorSize(); j++ )
-      {
       centroid[j] = estimatedMeans[index++];
-      }
-    membershipFunction->SetCentroid( centroid );
-    membershipFunctionVector.push_back( membershipFunction );
     }
-  classifier->SetMembershipFunctions( membershipFunctionVectorObject );
+    membershipFunction->SetCentroid(centroid);
+    membershipFunctionVector.push_back(membershipFunction);
+  }
+  classifier->SetMembershipFunctions(membershipFunctionVectorObject);
 
   classifier->Update();
   // Software Guide : EndCodeSnippet
@@ -387,18 +382,16 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const ClassifierType::MembershipSampleType* membershipSample =
+  const ClassifierType::MembershipSampleType * membershipSample =
     classifier->GetOutput();
-  ClassifierType::MembershipSampleType::ConstIterator iter
-                                                   = membershipSample->Begin();
+  ClassifierType::MembershipSampleType::ConstIterator iter = membershipSample->Begin();
 
-  while ( iter != membershipSample->End() )
-    {
+  while (iter != membershipSample->End())
+  {
     std::cout << "measurement vector = " << iter.GetMeasurementVector()
-              << " class label = " << iter.GetClassLabel()
-              << std::endl;
+              << " class label = " << iter.GetClassLabel() << std::endl;
     ++iter;
-    }
+  }
   // Software Guide : EndCodeSnippet
   return EXIT_SUCCESS;
 }

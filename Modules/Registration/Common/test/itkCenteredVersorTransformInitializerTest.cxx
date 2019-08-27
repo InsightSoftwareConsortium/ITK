@@ -27,7 +27,8 @@
  *
  */
 
-int itkCenteredVersorTransformInitializerTest(int , char* [] )
+int
+itkCenteredVersorTransformInitializerTest(int, char *[])
 {
 
   bool pass = true;
@@ -49,7 +50,7 @@ int itkCenteredVersorTransformInitializerTest(int , char* [] )
 
 
   // Transform Type
-  using TransformType = itk::VersorRigid3DTransform< double >;
+  using TransformType = itk::VersorRigid3DTransform<double>;
 
   SizeType size;
   size[0] = 100;
@@ -77,163 +78,159 @@ int itkCenteredVersorTransformInitializerTest(int , char* [] )
   index[2] = 0;
 
   RegionType region;
-  region.SetSize( size );
-  region.SetIndex( index );
+  region.SetSize(size);
+  region.SetIndex(index);
 
 
-  FixedImageType::Pointer     fixedImage    = FixedImageType::New();
-  MovingImageType::Pointer    movingImage   = MovingImageType::New();
+  FixedImageType::Pointer  fixedImage = FixedImageType::New();
+  MovingImageType::Pointer movingImage = MovingImageType::New();
 
-  fixedImage->SetRegions( region );
-  fixedImage->SetSpacing( spacing );
-  fixedImage->SetOrigin(  fixedOrigin );
+  fixedImage->SetRegions(region);
+  fixedImage->SetSpacing(spacing);
+  fixedImage->SetOrigin(fixedOrigin);
   fixedImage->Allocate();
-  fixedImage->FillBuffer( 0 );
+  fixedImage->FillBuffer(0);
 
-  movingImage->SetRegions( region );
-  movingImage->SetSpacing( spacing );
-  movingImage->SetOrigin(  movingOrigin );
+  movingImage->SetRegions(region);
+  movingImage->SetSpacing(spacing);
+  movingImage->SetOrigin(movingOrigin);
   movingImage->Allocate();
-  movingImage->FillBuffer( 0 );
+  movingImage->FillBuffer(0);
 
   RegionType internalRegion;
-  SizeType  internalSize;
-  IndexType internalIndex;
+  SizeType   internalSize;
+  IndexType  internalIndex;
 
   internalIndex[0] = index[0] + 20;
   internalIndex[1] = index[1] + 30;
   internalIndex[2] = index[2] + 10;
 
-  internalSize[0]  = size[0] - 2 * 20;
-  internalSize[1]  = size[1] - 2 * 30;
-  internalSize[2]  = size[2] - 2 * 10;
+  internalSize[0] = size[0] - 2 * 20;
+  internalSize[1] = size[1] - 2 * 30;
+  internalSize[2] = size[2] - 2 * 10;
 
 
-  internalRegion.SetSize(  internalSize  );
-  internalRegion.SetIndex( internalIndex );
+  internalRegion.SetSize(internalSize);
+  internalRegion.SetIndex(internalIndex);
 
-  using FixedIterator = itk::ImageRegionIterator< FixedImageType >;
-  FixedIterator fi( fixedImage, internalRegion );
+  using FixedIterator = itk::ImageRegionIterator<FixedImageType>;
+  FixedIterator fi(fixedImage, internalRegion);
 
   fi.GoToBegin();
-  while( !fi.IsAtEnd() )
-    {
-    fi.Set( 200 );
+  while (!fi.IsAtEnd())
+  {
+    fi.Set(200);
     ++fi;
-    }
+  }
 
 
   internalIndex[0] = index[0] + 10;
   internalIndex[1] = index[1] + 20;
   internalIndex[2] = index[2] + 30;
 
-  internalSize[0]  = size[0] - 2 * 10;
-  internalSize[1]  = size[1] - 2 * 20;
-  internalSize[2]  = size[2] - 2 * 30;
+  internalSize[0] = size[0] - 2 * 10;
+  internalSize[1] = size[1] - 2 * 20;
+  internalSize[2] = size[2] - 2 * 30;
 
 
-  internalRegion.SetSize(  internalSize  );
-  internalRegion.SetIndex( internalIndex );
+  internalRegion.SetSize(internalSize);
+  internalRegion.SetIndex(internalIndex);
 
 
-  using MovingIterator = itk::ImageRegionIterator< MovingImageType >;
-  MovingIterator mi( movingImage, internalRegion );
+  using MovingIterator = itk::ImageRegionIterator<MovingImageType>;
+  MovingIterator mi(movingImage, internalRegion);
 
   mi.GoToBegin();
-  while( !mi.IsAtEnd() )
-    {
-    mi.Set( 200 );
+  while (!mi.IsAtEnd())
+  {
+    mi.Set(200);
     ++mi;
-    }
+  }
 
   TransformType::Pointer transform = TransformType::New();
   transform->SetIdentity();
 
 
-  using InitializerType = itk::CenteredVersorTransformInitializer<
-                                  FixedImageType,
-                                  MovingImageType >;
+  using InitializerType = itk::CenteredVersorTransformInitializer<FixedImageType, MovingImageType>;
 
   InitializerType::Pointer initializer = InitializerType::New();
 
-  initializer->SetFixedImage( fixedImage );
-  initializer->SetMovingImage( movingImage );
-  initializer->SetTransform( transform );
+  initializer->SetFixedImage(fixedImage);
+  initializer->SetMovingImage(movingImage);
+  initializer->SetTransform(transform);
 
   initializer->InitializeTransform();
 
   TransformType::OutputVectorType translation2 = transform->GetTranslation();
-  TransformType::OffsetType       offset2      = transform->GetOffset();
+  TransformType::OffsetType       offset2 = transform->GetOffset();
 
   { // Verfications
-  TransformType::InputPointType   fixedCenter;
-  TransformType::InputPointType   movingCenter;
+    TransformType::InputPointType fixedCenter;
+    TransformType::InputPointType movingCenter;
 
-  for(unsigned int j=0; j < Dimension; j++ )
+    for (unsigned int j = 0; j < Dimension; j++)
     {
-    fixedCenter[j]  = fixedOrigin[j]  + size[j] * spacing[j] / 2.0;
-    movingCenter[j] = movingOrigin[j] + size[j] * spacing[j] / 2.0;
+      fixedCenter[j] = fixedOrigin[j] + size[j] * spacing[j] / 2.0;
+      movingCenter[j] = movingOrigin[j] + size[j] * spacing[j] / 2.0;
     }
 
-  TransformType::InputVectorType relativeCenter = movingCenter - fixedCenter;
+    TransformType::InputVectorType relativeCenter = movingCenter - fixedCenter;
 
 
-  const double tolerance = 1e-3;
+    const double tolerance = 1e-3;
 
-  for(unsigned int k=0; k < Dimension; k++ )
+    for (unsigned int k = 0; k < Dimension; k++)
     {
-    if( std::fabs( translation2[k] - relativeCenter[k] ) > tolerance )
+      if (std::fabs(translation2[k] - relativeCenter[k]) > tolerance)
       {
-      std::cerr << "Translation differs from expected value" << std::endl;
-      std::cerr << "It should be " << relativeCenter << std::endl;
-      std::cerr << "but it is    " << translation2 << std::endl;
-      pass = false;
-      break;
+        std::cerr << "Translation differs from expected value" << std::endl;
+        std::cerr << "It should be " << relativeCenter << std::endl;
+        std::cerr << "but it is    " << translation2 << std::endl;
+        pass = false;
+        break;
       }
-    if( std::fabs( offset2[k] - relativeCenter[k] ) > tolerance )
+      if (std::fabs(offset2[k] - relativeCenter[k]) > tolerance)
       {
-      std::cerr << "Offset differs from expected value" << std::endl;
-      std::cerr << "It should be " << relativeCenter << std::endl;
-      std::cerr << "but it is    " << offset2 << std::endl;
-      pass = false;
-      break;
+        std::cerr << "Offset differs from expected value" << std::endl;
+        std::cerr << "It should be " << relativeCenter << std::endl;
+        std::cerr << "but it is    " << offset2 << std::endl;
+        pass = false;
+        break;
       }
     }
 
-  initializer->ComputeRotationOn();
-  initializer->InitializeTransform();
+    initializer->ComputeRotationOn();
+    initializer->InitializeTransform();
 
-  std::cout << "Initialized Transform is" << std::endl;
+    std::cout << "Initialized Transform is" << std::endl;
 
-  transform->Print( std::cout );
+    transform->Print(std::cout);
 
-  TransformType::InputPointType mappedOrigin = transform->TransformPoint( fixedOrigin );
-  TransformType::InputPointType expectedPoint;
-  expectedPoint[0] = 29.0;
-  expectedPoint[1] = 165.75;
-  expectedPoint[2] = 13.25;
+    TransformType::InputPointType mappedOrigin = transform->TransformPoint(fixedOrigin);
+    TransformType::InputPointType expectedPoint;
+    expectedPoint[0] = 29.0;
+    expectedPoint[1] = 165.75;
+    expectedPoint[2] = 13.25;
 
-  for(unsigned int j=0; j < Dimension; j++ )
+    for (unsigned int j = 0; j < Dimension; j++)
     {
-    if( std::fabs( expectedPoint[j] - mappedOrigin[j] ) > tolerance )
+      if (std::fabs(expectedPoint[j] - mappedOrigin[j]) > tolerance)
       {
-      std::cerr << "Mapped point differs from expected point" << std::endl;
-      std::cerr << "It should be " << expectedPoint << std::endl;
-      std::cerr << "but it is    " << mappedOrigin << std::endl;
-      pass = false;
-      break;
+        std::cerr << "Mapped point differs from expected point" << std::endl;
+        std::cerr << "It should be " << expectedPoint << std::endl;
+        std::cerr << "but it is    " << mappedOrigin << std::endl;
+        pass = false;
+        break;
       }
     }
   }
 
-  if( !pass )
-    {
+  if (!pass)
+  {
     std::cout << "Test FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "Test PASSED." << std::endl;
   return EXIT_SUCCESS;
-
-
 }

@@ -20,7 +20,8 @@
 #include "itkBinaryBallStructuringElement.h"
 #include "itkSimpleFilterWatcher.h"
 
-int itkBinaryErodeImageFilterTest(int, char* [] )
+int
+itkBinaryErodeImageFilterTest(int, char *[])
 {
   unsigned int i;
 
@@ -44,7 +45,7 @@ int itkBinaryErodeImageFilterTest(int, char* [] )
   using myRegionType = itk::ImageRegion<myDimension>;
 
   // Create an image
-  myImageType::Pointer inputImage  = myImageType::New();
+  myImageType::Pointer inputImage = myImageType::New();
 
   // Define their size, and start index
   mySizeType size;
@@ -56,18 +57,18 @@ int itkBinaryErodeImageFilterTest(int, char* [] )
   start[1] = 0;
 
   myRegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
+  region.SetIndex(start);
+  region.SetSize(size);
 
   // Initialize Image
-  inputImage->SetRegions( region );
+  inputImage->SetRegions(region);
   inputImage->Allocate();
 
   // Declare Iterator types apropriated for each image
   using myIteratorType = itk::ImageRegionIterator<myImageType>;
 
   // Create one iterator for image (this is a light object)
-  myIteratorType it( inputImage, inputImage->GetBufferedRegion() );
+  myIteratorType it(inputImage, inputImage->GetBufferedRegion());
 
   // Initialize the content of Image
   std::cout << "Input image " << std::endl;
@@ -99,31 +100,29 @@ int itkBinaryErodeImageFilterTest(int, char* [] )
 
   i = 0;
   it.GoToBegin();
-  while ( !it.IsAtEnd() )
-    {
+  while (!it.IsAtEnd())
+  {
     std::cout << it.Get() << "  ";
     ++it;
 
     if (++i % 20 == 0)
-      {
+    {
       std::cout << std::endl;
-      }
     }
+  }
 
   // Declare the type for the structuring element
-  using myKernelType =
-      itk::BinaryBallStructuringElement<unsigned short, myDimension>;
+  using myKernelType = itk::BinaryBallStructuringElement<unsigned short, myDimension>;
 
   // Declare the type for the morphology Filter
-  using myFilterType =
-      itk::BinaryErodeImageFilter<myImageType, myImageType, myKernelType>;
+  using myFilterType = itk::BinaryErodeImageFilter<myImageType, myImageType, myKernelType>;
 
   // Create the filter
-  myFilterType::Pointer filter = myFilterType::New();
+  myFilterType::Pointer    filter = myFilterType::New();
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
   // Create the structuring element
-  myKernelType ball;
+  myKernelType           ball;
   myKernelType::SizeType ballSize;
   ballSize[0] = 1;
   ballSize[1] = 4;
@@ -131,9 +130,9 @@ int itkBinaryErodeImageFilterTest(int, char* [] )
   ball.CreateStructuringElement();
 
   // Connect the input image
-  filter->SetInput( inputImage );
-  filter->SetKernel( ball );
-  filter->SetErodeValue( fgValue );
+  filter->SetInput(inputImage);
+  filter->SetKernel(ball);
+  filter->SetErodeValue(fgValue);
 
   // Get the Smart Pointer to the Filter Output
   myImageType::Pointer outputImage = filter->GetOutput();
@@ -145,7 +144,7 @@ int itkBinaryErodeImageFilterTest(int, char* [] )
 
   // Execute the filter
   try
-    {
+  {
 
     filter->Update();
     // Create an iterator for going through the image output
@@ -153,27 +152,26 @@ int itkBinaryErodeImageFilterTest(int, char* [] )
 
     //  Print the content of the result image
     std::cout << "Result " << std::endl;
-    i=0;
-    while( !it2.IsAtEnd() )
-      {
+    i = 0;
+    while (!it2.IsAtEnd())
+    {
       std::cout << it2.Get() << "  ";
       ++it2;
 
       if (++i % 20 == 0)
-        {
+      {
         std::cout << std::endl;
-        }
       }
-   }
-
-  catch (itk::ExceptionObject& e)
-    {
-    std::cerr << "Exception caught during filter Update\n"  << e;
-    return -1;
     }
+  }
+
+  catch (itk::ExceptionObject & e)
+  {
+    std::cerr << "Exception caught during filter Update\n" << e;
+    return -1;
+  }
 
   // All objects should be automatically destroyed at this point
 
   return EXIT_SUCCESS;
-
 }

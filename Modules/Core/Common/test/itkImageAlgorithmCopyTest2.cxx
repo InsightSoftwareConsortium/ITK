@@ -27,35 +27,37 @@
 #include "itkAbsImageAdaptor.h"
 #include "itkMath.h"
 
-namespace {
+namespace
+{
 
-template < typename TImageType >
-bool CheckBuffer( const TImageType* image, typename TImageType::PixelType p )
+template <typename TImageType>
+bool
+CheckBuffer(const TImageType * image, typename TImageType::PixelType p)
 {
   using ImageIterator = itk::ImageRegionConstIterator<TImageType>;
 
-  ImageIterator iter( image, image->GetBufferedRegion() );
+  ImageIterator iter(image, image->GetBufferedRegion());
 
-  while( !iter.IsAtEnd() )
-    {
+  while (!iter.IsAtEnd())
+  {
     if (itk::Math::NotExactlyEquals(iter.Get(), p))
       return false;
     ++iter;
-    }
+  }
   return true;
-
 }
 
-}
+} // namespace
 
-int itkImageAlgorithmCopyTest2( int, char *[] )
+int
+itkImageAlgorithmCopyTest2(int, char *[])
 {
 
   using Float3DImageType = itk::Image<float, 3>;
   using Short3DImageType = itk::Image<short, 3>;
 
   using STDVectorImageType = itk::Image<std::vector<float>, 3>;
-  using AbsImageType = itk::AbsImageAdaptor< Float3DImageType, short >;
+  using AbsImageType = itk::AbsImageAdaptor<Float3DImageType, short>;
 
   using RegionType = itk::ImageRegion<3>;
 
@@ -71,59 +73,59 @@ int itkImageAlgorithmCopyTest2( int, char *[] )
 
 
   Short3DImageType::Pointer image1 = Short3DImageType::New();
-  image1->SetRegions( region );
+  image1->SetRegions(region);
   image1->Allocate();
-  image1->FillBuffer( 13 );
+  image1->FillBuffer(13);
 
   Short3DImageType::Pointer image2 = Short3DImageType::New();
-  image2->SetRegions( region );
+  image2->SetRegions(region);
   image2->Allocate(true); // initialize buffer to zero
 
 
   Float3DImageType::Pointer image3 = Float3DImageType::New();
-  image3->SetRegions( region );
+  image3->SetRegions(region);
   image3->Allocate(true); // initialize buffer to zero
 
-  std::cout << "Copying two images of same type"  << std::endl;
-  itk::ImageAlgorithm::Copy( image1.GetPointer(), image2.GetPointer(), region, region );
+  std::cout << "Copying two images of same type" << std::endl;
+  itk::ImageAlgorithm::Copy(image1.GetPointer(), image2.GetPointer(), region, region);
 
-  ITK_TEST_EXPECT_TRUE( CheckBuffer( image2.GetPointer(), 13 ) );
+  ITK_TEST_EXPECT_TRUE(CheckBuffer(image2.GetPointer(), 13));
 
   std::cout << "Copying images of different types" << std::endl;
-  itk::ImageAlgorithm::Copy( image1.GetPointer(), image3.GetPointer(), region, region );
+  itk::ImageAlgorithm::Copy(image1.GetPointer(), image3.GetPointer(), region, region);
 
-  ITK_TEST_EXPECT_TRUE( CheckBuffer( image3.GetPointer(), 13 ) );
+  ITK_TEST_EXPECT_TRUE(CheckBuffer(image3.GetPointer(), 13));
 
   image1->FillBuffer(0);
 
-  itk::ImageAlgorithm::Copy( image3.GetPointer(), image1.GetPointer(), region, region );
+  itk::ImageAlgorithm::Copy(image3.GetPointer(), image1.GetPointer(), region, region);
 
-  ITK_TEST_EXPECT_TRUE( CheckBuffer( image1.GetPointer(), 13 ) );
+  ITK_TEST_EXPECT_TRUE(CheckBuffer(image1.GetPointer(), 13));
 
 
   AbsImageType::Pointer absimage = AbsImageType::New();
-  absimage->SetImage( image3 );
-  image2->FillBuffer( 0 );
+  absimage->SetImage(image3);
+  image2->FillBuffer(0);
 
   std::cout << "Copying from adaptor" << std::endl;
-  itk::ImageAlgorithm::Copy( absimage.GetPointer(), image2.GetPointer(), region, region );
+  itk::ImageAlgorithm::Copy(absimage.GetPointer(), image2.GetPointer(), region, region);
 
-  ITK_TEST_EXPECT_TRUE( CheckBuffer( image2.GetPointer(), 13 ) );
+  ITK_TEST_EXPECT_TRUE(CheckBuffer(image2.GetPointer(), 13));
 
 
   STDVectorImageType::Pointer image4 = STDVectorImageType::New();
-  image4->SetRegions( region );
+  image4->SetRegions(region);
   image4->Allocate();
-  image4->FillBuffer( std::vector<float>( 10, 3.14) );
+  image4->FillBuffer(std::vector<float>(10, 3.14));
 
   STDVectorImageType::Pointer image5 = STDVectorImageType::New();
-  image5->SetRegions( region );
+  image5->SetRegions(region);
   image5->Allocate();
 
   std::cout << "Copying Non-POD pixels" << std::endl;
-  itk::ImageAlgorithm::Copy( image4.GetPointer(), image5.GetPointer(), region, region );
+  itk::ImageAlgorithm::Copy(image4.GetPointer(), image5.GetPointer(), region, region);
 
-  ITK_TEST_EXPECT_TRUE( CheckBuffer( image5.GetPointer(), std::vector<float>( 10, 3.14) ) );
+  ITK_TEST_EXPECT_TRUE(CheckBuffer(image5.GetPointer(), std::vector<float>(10, 3.14)));
 
   return EXIT_SUCCESS;
 }

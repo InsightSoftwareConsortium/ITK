@@ -19,7 +19,8 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkTimeProbesCollectorBase.h"
 
-int itkOrientedImageProfileTest2( int, char *[] )
+int
+itkOrientedImageProfileTest2(int, char *[])
 {
 
   constexpr unsigned int Dimension = 3;
@@ -40,54 +41,54 @@ int itkOrientedImageProfileTest2( int, char *[] )
   IndexType start;
   SizeType  size;
 
-  start.Fill( 0 );
-  size.Fill( 300 );
+  start.Fill(0);
+  size.Fill(300);
 
   RegionType region;
 
-  region.SetIndex( start );
-  region.SetSize( size );
+  region.SetIndex(start);
+  region.SetSize(size);
 
   ImageType::Pointer image = ImageType::New();
 
-  image->SetRegions( region );
+  image->SetRegions(region);
   image->Allocate();
 
   SpacingType spacing;
 
-  spacing.Fill( 1.5 );
+  spacing.Fill(1.5);
 
-  image->SetSpacing( spacing );
+  image->SetSpacing(spacing);
 
   PointType origin;
 
-  origin.Fill( 1.3 );
+  origin.Fill(1.3);
 
-  image->SetOrigin( origin );
+  image->SetOrigin(origin);
 
-  using IteratorType = itk::ImageRegionConstIteratorWithIndex< ImageType >;
+  using IteratorType = itk::ImageRegionConstIteratorWithIndex<ImageType>;
 
-  IteratorType itr( image, region );
+  IteratorType itr(image, region);
 
   itr.GoToBegin();
 
-  itk::TimeProbesCollectorBase  chronometer;
+  itk::TimeProbesCollectorBase chronometer;
 
   chronometer.Start("Transform");
 
   IndexType index;
   PointType point;
 
-  while( !itr.IsAtEnd() )
-    {
-    image->TransformIndexToPhysicalPoint( itr.GetIndex(), point );
-    image->TransformPhysicalPointToIndex( point, index );
+  while (!itr.IsAtEnd())
+  {
+    image->TransformIndexToPhysicalPoint(itr.GetIndex(), point);
+    image->TransformPhysicalPointToIndex(point, index);
     ++itr;
-    }
+  }
 
   chronometer.Stop("Transform");
 
-  chronometer.Report( std::cout );
+  chronometer.Report(std::cout);
 
   return EXIT_SUCCESS;
 }

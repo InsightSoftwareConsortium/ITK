@@ -76,36 +76,37 @@ public:
   using Self = CommandIterationUpdate;
   using Superclass = itk::Command;
   using Pointer = itk::SmartPointer<Self>;
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
 protected:
-  CommandIterationUpdate() {};
+  CommandIterationUpdate(){};
 
 public:
   using OptimizerType = itk::RegularStepGradientDescentOptimizer;
   using OptimizerPointer = const OptimizerType *;
 
-  void Execute(itk::Object *caller, const itk::EventObject & event) override
-    {
-    Execute( (const itk::Object *)caller, event);
-    }
+  void
+  Execute(itk::Object * caller, const itk::EventObject & event) override
+  {
+    Execute((const itk::Object *)caller, event);
+  }
 
-  void Execute(const itk::Object * object,
-               const itk::EventObject & event) override
+  void
+  Execute(const itk::Object * object, const itk::EventObject & event) override
+  {
+    auto optimizer = static_cast<OptimizerPointer>(object);
+    if (!(itk::IterationEvent().CheckEvent(&event)))
     {
-    auto optimizer = static_cast< OptimizerPointer >( object );
-    if( !(itk::IterationEvent().CheckEvent( &event )) )
-      {
       return;
-      }
+    }
     std::cout << optimizer->GetCurrentIteration() << "   ";
     std::cout << optimizer->GetValue() << "   ";
-    std::cout << optimizer->GetCurrentPosition() << "  " <<
-      m_CumulativeIterationIndex++ << std::endl;
-    }
+    std::cout << optimizer->GetCurrentPosition() << "  " << m_CumulativeIterationIndex++
+              << std::endl;
+  }
 
 private:
-  unsigned int m_CumulativeIterationIndex{0};
+  unsigned int m_CumulativeIterationIndex{ 0 };
 };
 
 //  The following section of code implements a Command observer
@@ -119,7 +120,7 @@ public:
   using Self = RegistrationInterfaceCommand;
   using Superclass = itk::Command;
   using Pointer = itk::SmartPointer<Self>;
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
 protected:
   RegistrationInterfaceCommand() = default;
@@ -129,40 +130,45 @@ public:
   using RegistrationPointer = RegistrationType *;
   using OptimizerType = itk::RegularStepGradientDescentOptimizer;
   using OptimizerPointer = OptimizerType *;
-  void Execute(itk::Object * object, const itk::EventObject & event) override
+  void
+  Execute(itk::Object * object, const itk::EventObject & event) override
   {
-    if( !(itk::IterationEvent().CheckEvent( &event )) )
-      {
+    if (!(itk::IterationEvent().CheckEvent(&event)))
+    {
       return;
-      }
-    auto registration = static_cast<RegistrationPointer>( object );
+    }
+    auto registration = static_cast<RegistrationPointer>(object);
     auto optimizer =
-      static_cast< OptimizerPointer >( registration->GetModifiableOptimizer() );
+      static_cast<OptimizerPointer>(registration->GetModifiableOptimizer());
 
     std::cout << "-------------------------------------" << std::endl;
-    std::cout << "MultiResolution Level : "
-              << registration->GetCurrentLevel()  << std::endl;
+    std::cout << "MultiResolution Level : " << registration->GetCurrentLevel()
+              << std::endl;
     std::cout << std::endl;
 
-    if ( registration->GetCurrentLevel() == 0 )
-      {
-      optimizer->SetMaximumStepLength( 16.00 );
-      optimizer->SetMinimumStepLength(  0.01 );
-      }
+    if (registration->GetCurrentLevel() == 0)
+    {
+      optimizer->SetMaximumStepLength(16.00);
+      optimizer->SetMinimumStepLength(0.01);
+    }
     else
-      {
-      optimizer->SetMaximumStepLength( optimizer->GetMaximumStepLength() / 4.0 );
-      optimizer->SetMinimumStepLength( optimizer->GetMinimumStepLength() / 10.0 );
-      }
+    {
+      optimizer->SetMaximumStepLength(optimizer->GetMaximumStepLength() / 4.0);
+      optimizer->SetMinimumStepLength(optimizer->GetMinimumStepLength() / 10.0);
+    }
   }
-  void Execute(const itk::Object * , const itk::EventObject & ) override
-    { return; }
+  void
+  Execute(const itk::Object *, const itk::EventObject &) override
+  {
+    return;
+  }
 };
 
-int main( int argc, char *argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 4 )
-    {
+  if (argc < 4)
+  {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
@@ -171,16 +177,16 @@ int main( int argc, char *argv[] )
     std::cerr << " [useExplicitPDFderivatives ] " << std::endl;
     std::cerr << " [numberOfBins] [numberOfSamples ] " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int Dimension = 2;
   using PixelType = unsigned short;
 
-  using FixedImageType = itk::Image< PixelType, Dimension >;
-  using MovingImageType = itk::Image< PixelType, Dimension >;
+  using FixedImageType = itk::Image<PixelType, Dimension>;
+  using MovingImageType = itk::Image<PixelType, Dimension>;
 
   using InternalPixelType = float;
-  using InternalImageType = itk::Image< InternalPixelType, Dimension >;
+  using InternalImageType = itk::Image<InternalPixelType, Dimension>;
 
   //  Software Guide : BeginLatex
   //
@@ -195,31 +201,28 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using TransformType = itk::AffineTransform< double, Dimension >;
+  using TransformType = itk::AffineTransform<double, Dimension>;
   // Software Guide : EndCodeSnippet
 
   using OptimizerType = itk::RegularStepGradientDescentOptimizer;
-  using InterpolatorType = itk::LinearInterpolateImageFunction<
-                                    InternalImageType,
-                                    double             >;
-  using MetricType = itk::MattesMutualInformationImageToImageMetric<
-                                          InternalImageType,
-                                          InternalImageType >;
+  using InterpolatorType =
+    itk::LinearInterpolateImageFunction<InternalImageType, double>;
+  using MetricType = itk::MattesMutualInformationImageToImageMetric<InternalImageType,
+                                                                    InternalImageType>;
 
   using OptimizerScalesType = OptimizerType::ScalesType;
 
-  using RegistrationType = itk::MultiResolutionImageRegistrationMethod<
-                                    InternalImageType,
-                                    InternalImageType    >;
+  using RegistrationType =
+    itk::MultiResolutionImageRegistrationMethod<InternalImageType, InternalImageType>;
 
-  OptimizerType::Pointer      optimizer     = OptimizerType::New();
-  InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
-  RegistrationType::Pointer   registration  = RegistrationType::New();
-  MetricType::Pointer         metric        = MetricType::New();
+  OptimizerType::Pointer    optimizer = OptimizerType::New();
+  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  RegistrationType::Pointer registration = RegistrationType::New();
+  MetricType::Pointer       metric = MetricType::New();
 
-  registration->SetOptimizer(     optimizer     );
-  registration->SetInterpolator(  interpolator  );
-  registration->SetMetric( metric  );
+  registration->SetOptimizer(optimizer);
+  registration->SetInterpolator(interpolator);
+  registration->SetMetric(metric);
 
   //  Software Guide : BeginLatex
   //
@@ -233,36 +236,33 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  TransformType::Pointer   transform  = TransformType::New();
-  registration->SetTransform( transform );
+  TransformType::Pointer transform = TransformType::New();
+  registration->SetTransform(transform);
   // Software Guide : EndCodeSnippet
 
-  using FixedImageReaderType = itk::ImageFileReader< FixedImageType  >;
-  using MovingImageReaderType = itk::ImageFileReader< MovingImageType >;
+  using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
+  using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer  fixedImageReader  = FixedImageReaderType::New();
+  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
   MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
 
-  fixedImageReader->SetFileName(  argv[1] );
-  movingImageReader->SetFileName( argv[2] );
+  fixedImageReader->SetFileName(argv[1]);
+  movingImageReader->SetFileName(argv[2]);
 
-  using FixedCastFilterType = itk::CastImageFilter<
-                        FixedImageType, InternalImageType >;
-  using MovingCastFilterType = itk::CastImageFilter<
-                        MovingImageType, InternalImageType >;
-  FixedCastFilterType::Pointer fixedCaster   = FixedCastFilterType::New();
+  using FixedCastFilterType = itk::CastImageFilter<FixedImageType, InternalImageType>;
+  using MovingCastFilterType = itk::CastImageFilter<MovingImageType, InternalImageType>;
+  FixedCastFilterType::Pointer  fixedCaster = FixedCastFilterType::New();
   MovingCastFilterType::Pointer movingCaster = MovingCastFilterType::New();
 
-  fixedCaster->SetInput(  fixedImageReader->GetOutput() );
-  movingCaster->SetInput( movingImageReader->GetOutput() );
+  fixedCaster->SetInput(fixedImageReader->GetOutput());
+  movingCaster->SetInput(movingImageReader->GetOutput());
 
-  registration->SetFixedImage(    fixedCaster->GetOutput()    );
-  registration->SetMovingImage(   movingCaster->GetOutput()   );
+  registration->SetFixedImage(fixedCaster->GetOutput());
+  registration->SetMovingImage(movingCaster->GetOutput());
 
   fixedCaster->Update();
 
-  registration->SetFixedImageRegion(
-       fixedCaster->GetOutput()->GetBufferedRegion() );
+  registration->SetFixedImageRegion(fixedCaster->GetOutput()->GetBufferedRegion());
 
   //  Software Guide : BeginLatex
   //
@@ -276,17 +276,15 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using TransformInitializerType = itk::CenteredTransformInitializer<
-            TransformType, FixedImageType,
-            MovingImageType >;
-  TransformInitializerType::Pointer initializer
-                                            = TransformInitializerType::New();
-  initializer->SetTransform(   transform );
-  initializer->SetFixedImage(  fixedImageReader->GetOutput() );
-  initializer->SetMovingImage( movingImageReader->GetOutput() );
+  using TransformInitializerType =
+    itk::CenteredTransformInitializer<TransformType, FixedImageType, MovingImageType>;
+  TransformInitializerType::Pointer initializer = TransformInitializerType::New();
+  initializer->SetTransform(transform);
+  initializer->SetFixedImage(fixedImageReader->GetOutput());
+  initializer->SetMovingImage(movingImageReader->GetOutput());
   initializer->MomentsOn();
   initializer->InitializeTransform();
-  registration->SetInitialTransformParameters( transform->GetParameters() );
+  registration->SetInitialTransformParameters(transform->GetParameters());
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -311,7 +309,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
+  OptimizerScalesType optimizerScales(transform->GetNumberOfParameters());
 
   optimizerScales[0] = 1.0; // scale for M11
   optimizerScales[1] = 1.0; // scale for M12
@@ -363,25 +361,27 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  optimizer->SetScales( optimizerScales );
+  optimizer->SetScales(optimizerScales);
   // Software Guide : EndCodeSnippet
 
-  metric->SetNumberOfHistogramBins( 128 );
-  metric->SetNumberOfSpatialSamples( 50000 );
+  metric->SetNumberOfHistogramBins(128);
+  metric->SetNumberOfSpatialSamples(50000);
 
-  if( argc > 8 )
-    {
-    // optionally, override the values with numbers taken from the command line arguments.
-    metric->SetNumberOfHistogramBins( std::stoi( argv[8] ) );
-    }
+  if (argc > 8)
+  {
+    // optionally, override the values with numbers taken from the command line
+    // arguments.
+    metric->SetNumberOfHistogramBins(std::stoi(argv[8]));
+  }
 
-  if( argc > 9 )
-    {
-    // optionally, override the values with numbers taken from the command line arguments.
-    metric->SetNumberOfSpatialSamples( std::stoi( argv[9] ) );
-    }
+  if (argc > 9)
+  {
+    // optionally, override the values with numbers taken from the command line
+    // arguments.
+    metric->SetNumberOfSpatialSamples(std::stoi(argv[9]));
+  }
 
- //  Software Guide : BeginLatex
+  //  Software Guide : BeginLatex
   //
   //  Given that the Mattes Mutual Information metric uses a random iterator in
   //  order to collect the samples from the images, it is usually convenient to
@@ -392,17 +392,17 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  metric->ReinitializeSeed( 76926294 );
+  metric->ReinitializeSeed(76926294);
   // Software Guide : EndCodeSnippet
 
-  if( argc > 7 )
-    {
+  if (argc > 7)
+  {
     // Define whether to calculate the metric derivative by explicitly
     // computing the derivatives of the joint PDF with respect to the Transform
     // parameters, or doing it by progressively accumulating contributions from
     // each bin in the joint PDF.
-    metric->SetUseExplicitPDFDerivatives( std::stoi( argv[7] ) );
-    }
+    metric->SetUseExplicitPDFDerivatives(std::stoi(argv[7]));
+  }
 
   //  Software Guide : BeginLatex
   //
@@ -420,37 +420,37 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-  optimizer->SetNumberOfIterations(  200  );
-  optimizer->SetRelaxationFactor( 0.8 );
+  optimizer->SetNumberOfIterations(200);
+  optimizer->SetRelaxationFactor(0.8);
 
   // Create the Command observer and register it with the optimizer.
   //
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
-  optimizer->AddObserver( itk::IterationEvent(), observer );
+  optimizer->AddObserver(itk::IterationEvent(), observer);
 
   // Create the Command interface observer and register it with the optimizer.
   //
   using CommandType = RegistrationInterfaceCommand<RegistrationType>;
   CommandType::Pointer command = CommandType::New();
-  registration->AddObserver( itk::IterationEvent(), command );
-  registration->SetNumberOfLevels( 3 );
+  registration->AddObserver(itk::IterationEvent(), command);
+  registration->SetNumberOfLevels(3);
 
   try
-    {
+  {
     registration->Update();
     std::cout << "Optimizer stop condition: "
               << registration->GetOptimizer()->GetStopConditionDescription()
               << std::endl;
-    }
-  catch( itk::ExceptionObject & err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cout << "ExceptionObject caught !" << std::endl;
     std::cout << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  std::cout << "Optimizer Stopping Condition = "
-            << optimizer->GetStopCondition() << std::endl;
+  std::cout << "Optimizer Stopping Condition = " << optimizer->GetStopCondition()
+            << std::endl;
 
   using ParametersType = RegistrationType::ParametersType;
   ParametersType finalParameters = registration->GetLastTransformParameters();
@@ -465,10 +465,10 @@ int main( int argc, char *argv[] )
   // Print out results
   //
   std::cout << "Result = " << std::endl;
-  std::cout << " Translation X = " << TranslationAlongX  << std::endl;
-  std::cout << " Translation Y = " << TranslationAlongY  << std::endl;
+  std::cout << " Translation X = " << TranslationAlongX << std::endl;
+  std::cout << " Translation Y = " << TranslationAlongY << std::endl;
   std::cout << " Iterations    = " << numberOfIterations << std::endl;
-  std::cout << " Metric value  = " << bestValue          << std::endl;
+  std::cout << " Metric value  = " << bestValue << std::endl;
 
   //  Software Guide : BeginLatex
   //
@@ -513,48 +513,44 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-  using ResampleFilterType = itk::ResampleImageFilter<
-                            MovingImageType,
-                            FixedImageType >;
+  using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
   TransformType::Pointer finalTransform = TransformType::New();
 
-  finalTransform->SetParameters( finalParameters );
-  finalTransform->SetFixedParameters( transform->GetFixedParameters() );
+  finalTransform->SetParameters(finalParameters);
+  finalTransform->SetFixedParameters(transform->GetFixedParameters());
 
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
-  resample->SetTransform( finalTransform );
-  resample->SetInput( movingImageReader->GetOutput() );
+  resample->SetTransform(finalTransform);
+  resample->SetInput(movingImageReader->GetOutput());
 
   FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
   PixelType backgroundGrayLevel = 100;
-  if( argc > 4 )
-    {
-    backgroundGrayLevel = std::stoi( argv[4] );
-    }
+  if (argc > 4)
+  {
+    backgroundGrayLevel = std::stoi(argv[4]);
+  }
 
-  resample->SetSize(    fixedImage->GetLargestPossibleRegion().GetSize() );
-  resample->SetOutputOrigin(  fixedImage->GetOrigin() );
-  resample->SetOutputSpacing( fixedImage->GetSpacing() );
-  resample->SetOutputDirection( fixedImage->GetDirection() );
-  resample->SetDefaultPixelValue( backgroundGrayLevel );
+  resample->SetSize(fixedImage->GetLargestPossibleRegion().GetSize());
+  resample->SetOutputOrigin(fixedImage->GetOrigin());
+  resample->SetOutputSpacing(fixedImage->GetSpacing());
+  resample->SetOutputDirection(fixedImage->GetDirection());
+  resample->SetDefaultPixelValue(backgroundGrayLevel);
 
   using OutputPixelType = unsigned char;
-  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
-  using CastFilterType = itk::CastImageFilter<
-                        FixedImageType,
-                        OutputImageType >;
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
+  using CastFilterType = itk::CastImageFilter<FixedImageType, OutputImageType>;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  WriterType::Pointer      writer =  WriterType::New();
-  CastFilterType::Pointer  caster =  CastFilterType::New();
+  WriterType::Pointer     writer = WriterType::New();
+  CastFilterType::Pointer caster = CastFilterType::New();
 
-  writer->SetFileName( argv[3] );
+  writer->SetFileName(argv[3]);
 
-  caster->SetInput( resample->GetOutput() );
-  writer->SetInput( caster->GetOutput()   );
+  caster->SetInput(resample->GetOutput());
+  writer->SetInput(caster->GetOutput());
   writer->Update();
 
   //  Software Guide : BeginLatex
@@ -599,37 +595,37 @@ int main( int argc, char *argv[] )
   //
   // Generate checkerboards before and after registration
   //
-  using CheckerBoardFilterType = itk::CheckerBoardImageFilter< FixedImageType >;
+  using CheckerBoardFilterType = itk::CheckerBoardImageFilter<FixedImageType>;
 
   CheckerBoardFilterType::Pointer checker = CheckerBoardFilterType::New();
 
-  checker->SetInput1( fixedImage );
-  checker->SetInput2( resample->GetOutput() );
+  checker->SetInput1(fixedImage);
+  checker->SetInput2(resample->GetOutput());
 
-  caster->SetInput( checker->GetOutput() );
-  writer->SetInput( caster->GetOutput()   );
+  caster->SetInput(checker->GetOutput());
+  writer->SetInput(caster->GetOutput());
 
-  resample->SetDefaultPixelValue( 0 );
+  resample->SetDefaultPixelValue(0);
 
   // Write out checkerboard outputs
   // Before registration
   TransformType::Pointer identityTransform = TransformType::New();
   identityTransform->SetIdentity();
-  resample->SetTransform( identityTransform );
+  resample->SetTransform(identityTransform);
 
-  if( argc > 5 )
-    {
-    writer->SetFileName( argv[5] );
+  if (argc > 5)
+  {
+    writer->SetFileName(argv[5]);
     writer->Update();
-    }
+  }
 
   // After registration
-  resample->SetTransform( finalTransform );
-  if( argc > 6 )
-    {
-    writer->SetFileName( argv[6] );
+  resample->SetTransform(finalTransform);
+  if (argc > 6)
+  {
+    writer->SetFileName(argv[6]);
     writer->Update();
-    }
+  }
 
   return EXIT_SUCCESS;
 }

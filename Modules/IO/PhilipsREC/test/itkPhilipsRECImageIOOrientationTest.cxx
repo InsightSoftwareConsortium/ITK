@@ -26,68 +26,66 @@
 
 #include "itkPhilipsRECImageIO.h"
 
-int itkPhilipsRECImageIOOrientationTest( int argc, char * argv [] )
+int
+itkPhilipsRECImageIOOrientationTest(int argc, char * argv[])
 {
 
-  if( argc < 4 )
-    {
+  if (argc < 4)
+  {
     std::cerr << "Usage: " << argv[0] << " ReferenceImage TargetImage ";
     std::cerr << "OutputImage" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   using PixelType = short;
   using ScalarType = double;
-  using ImageType = itk::Image< PixelType, 3 >;
+  using ImageType = itk::Image<PixelType, 3>;
   using PhilipsRECImageIOType = itk::PhilipsRECImageIO;
 
-  using ReaderType = itk::ImageFileReader< ImageType >;
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  using WriterType = itk::ImageFileWriter<ImageType>;
 
-  using AffineTransformType = itk::AffineTransform< ScalarType, 3 >;
-  using ResampleImageFilterType =
-      itk::ResampleImageFilter< ImageType, ImageType, ScalarType >;
-  using SubtractImageFilterType =
-      itk::SubtractImageFilter< ImageType, ImageType, ImageType >;
-  using NearestInterpType =
-      itk::NearestNeighborInterpolateImageFunction< ImageType, ScalarType >;
+  using AffineTransformType = itk::AffineTransform<ScalarType, 3>;
+  using ResampleImageFilterType = itk::ResampleImageFilter<ImageType, ImageType, ScalarType>;
+  using SubtractImageFilterType = itk::SubtractImageFilter<ImageType, ImageType, ImageType>;
+  using NearestInterpType = itk::NearestNeighborInterpolateImageFunction<ImageType, ScalarType>;
 
   ReaderType::Pointer referenceReader = ReaderType::New();
   referenceReader->SetImageIO(PhilipsRECImageIOType::New());
-  referenceReader->SetFileName( argv[1] );
+  referenceReader->SetFileName(argv[1]);
 
   ReaderType::Pointer targetReader = ReaderType::New();
   targetReader->SetImageIO(PhilipsRECImageIOType::New());
-  targetReader->SetFileName( argv[2] );
+  targetReader->SetFileName(argv[2]);
 
   AffineTransformType::Pointer transform = AffineTransformType::New();
   transform->SetIdentity();
 
   ResampleImageFilterType::Pointer resample = ResampleImageFilterType::New();
-  resample->SetInput( referenceReader->GetOutput() );
-  resample->SetTransform( transform );
-  resample->SetInterpolator( NearestInterpType::New() );
+  resample->SetInput(referenceReader->GetOutput());
+  resample->SetTransform(transform);
+  resample->SetInterpolator(NearestInterpType::New());
   resample->UseReferenceImageOn();
-  resample->SetReferenceImage( targetReader->GetOutput() );
+  resample->SetReferenceImage(targetReader->GetOutput());
 
   SubtractImageFilterType::Pointer subtract = SubtractImageFilterType::New();
-  subtract->SetInput1( targetReader->GetOutput() );
-  subtract->SetInput2( resample->GetOutput() );
+  subtract->SetInput1(targetReader->GetOutput());
+  subtract->SetInput2(resample->GetOutput());
 
   WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName( argv[3] );
-  writer->SetInput( subtract->GetOutput() );
+  writer->SetFileName(argv[3]);
+  writer->SetInput(subtract->GetOutput());
   writer->UseCompressionOn();
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

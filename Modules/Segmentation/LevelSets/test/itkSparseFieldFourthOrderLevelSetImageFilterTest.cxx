@@ -37,63 +37,64 @@
  *
  */
 
-namespace SFFOLSIFT {  // local namespace for helper functions
+namespace SFFOLSIFT
+{ // local namespace for helper functions
 
 const unsigned int HEIGHT = (128);
-const unsigned int WIDTH  = (128);
+const unsigned int WIDTH = (128);
 
-#define RADIUS (std::min(HEIGHT, WIDTH)/4)
+#define RADIUS (std::min(HEIGHT, WIDTH) / 4)
 
 // Distance transform function for square
-float square(unsigned x, unsigned y)
+float
+square(unsigned x, unsigned y)
 {
-    float X, Y;
-    X = std::fabs(x - (float)WIDTH/2.0);
-    Y = std::fabs(y - (float)HEIGHT/2.0);
-    float dis;
-    if (!((X > RADIUS)&&(Y > RADIUS)))
-      dis = RADIUS - std::max(X, Y);
-    else
-      dis = -std::sqrt((X - RADIUS)*(X - RADIUS) +  (Y - RADIUS)*(Y - RADIUS));
-    return(dis);
+  float X, Y;
+  X = std::fabs(x - (float)WIDTH / 2.0);
+  Y = std::fabs(y - (float)HEIGHT / 2.0);
+  float dis;
+  if (!((X > RADIUS) && (Y > RADIUS)))
+    dis = RADIUS - std::max(X, Y);
+  else
+    dis = -std::sqrt((X - RADIUS) * (X - RADIUS) + (Y - RADIUS) * (Y - RADIUS));
+  return (dis);
 }
 
 // Evaluates a function at each pixel in the itk image
-void evaluate_function(itk::Image<float, 2> *im,
-                       float (*f)(unsigned int, unsigned int) )
+void
+evaluate_function(itk::Image<float, 2> * im, float (*f)(unsigned int, unsigned int))
 
 {
   itk::Image<float, 2>::IndexType idx;
   for (unsigned int x = 0; x < WIDTH; ++x)
+  {
+    idx[0] = x;
+    for (unsigned int y = 0; y < HEIGHT; ++y)
     {
-      idx[0] = x;
-      for (unsigned int y = 0; y < HEIGHT; ++y)
-        {
-          idx[1] = y;
-          im->SetPixel(idx, f(x, y) );
-        }
+      idx[1] = y;
+      im->SetPixel(idx, f(x, y));
     }
+  }
 }
 
-} // end namespace
+} // namespace SFFOLSIFT
 
-namespace itk {
+namespace itk
+{
 template <typename TInputImage, typename TOutputImage>
-class IsotropicDiffusionLevelSetFilter
-  : public SparseFieldFourthOrderLevelSetImageFilter <TInputImage, TOutputImage>
+class IsotropicDiffusionLevelSetFilter : public SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>
 {
 public:
   using Self = IsotropicDiffusionLevelSetFilter;
-  using Superclass = SparseFieldFourthOrderLevelSetImageFilter <TInputImage,
-                                                     TOutputImage>;
+  using Superclass = SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  itkTypeMacro(IsotropicDiffusionLevelSetFilter,SparseFieldFourthOrderLevelSetImageFilter);
-  itkNewMacro (Self);
+  itkTypeMacro(IsotropicDiffusionLevelSetFilter, SparseFieldFourthOrderLevelSetImageFilter);
+  itkNewMacro(Self);
 
   using SparseImageType = typename Superclass::SparseImageType;
-  using FunctionType = LevelSetFunctionWithRefitTerm <TOutputImage,SparseImageType>;
+  using FunctionType = LevelSetFunctionWithRefitTerm<TOutputImage, SparseImageType>;
   using RadiusType = typename FunctionType::RadiusType;
 
 protected:
@@ -101,47 +102,49 @@ protected:
   IsotropicDiffusionLevelSetFilter()
   {
     RadiusType radius;
-    for (unsigned int j=0; j<TInputImage::ImageDimension;j++)
-      {
+    for (unsigned int j = 0; j < TInputImage::ImageDimension; j++)
+    {
       radius[j] = 1;
-      }
+    }
 
-    m_Function=FunctionType::New();
+    m_Function = FunctionType::New();
     this->SetLevelSetFunction(m_Function);
     this->SetNumberOfLayers(this->GetMinimumNumberOfLayers());
 
     this->SetMaxNormalIteration(10);
     this->SetMaxRefitIteration(40);
     m_Function->Initialize(radius);
-    this->SetNormalProcessType (0);
+    this->SetNormalProcessType(0);
 
     m_Function->Print(std::cout);
   }
 
-  bool Halt () override
+  bool
+  Halt() override
   {
     if (this->GetElapsedIterations() == 50)
-      {
+    {
       return true;
-      }
+    }
     else
-      {
+    {
       return false;
-      }
+    }
   }
 };
 
 } // end namespace itk
 
-int itkSparseFieldFourthOrderLevelSetImageFilterTest(int, char* [] )
+int
+itkSparseFieldFourthOrderLevelSetImageFilterTest(int, char *[])
 {
   using ImageType = itk::Image<float, 2>;
 
   ImageType::Pointer im_init = ImageType::New();
 
   ImageType::RegionType r;
-  ImageType::SizeType   sz = {{SFFOLSIFT::HEIGHT, SFFOLSIFT::WIDTH}};
-  ImageType::IndexType  idx = {{0,0}};
+  ImageType::SizeType   sz = { { SFFOLSIFT::HEIGHT, SFFOLSIFT::WIDTH } };
+  ImageType::IndexType  idx = { { 0, 0 } };
   r.SetSize(sz);
   r.SetIndex(idx);
 
@@ -155,21 +158,19 @@ int itkSparseFieldFourthOrderLevelSetImageFilterTest(int, char* [] )
   FilterType::Pointer filter = FilterType::New();
 
   filter->SetInput(im_init);
-  std::cout<<"MaxRefitIteration = "<<(filter->GetMaxRefitIteration())<<"\n";
-  std::cout<<"MaxNormalIteration = "<<(filter->GetMaxNormalIteration())<<"\n";
-  filter->SetCurvatureBandWidth (4);
-  std::cout<<"CurvatureBandWidth= "<<(filter->GetCurvatureBandWidth())<<"\n";
+  std::cout << "MaxRefitIteration = " << (filter->GetMaxRefitIteration()) << "\n";
+  std::cout << "MaxNormalIteration = " << (filter->GetMaxNormalIteration()) << "\n";
+  filter->SetCurvatureBandWidth(4);
+  std::cout << "CurvatureBandWidth= " << (filter->GetCurvatureBandWidth()) << "\n";
   filter->SetRMSChangeNormalProcessTrigger(0.001);
-  std::cout<<"RMS change trigger = "
-           <<(filter->GetRMSChangeNormalProcessTrigger())<<"\n";
-  std::cout<<"Normal process type = "<<(filter->GetNormalProcessType())<<"\n";
-  std::cout<<"Conductance = "<<(filter->GetNormalProcessConductance())<<"\n";
-  std::cout<<"Unsharp flag = "<<(filter->GetNormalProcessUnsharpFlag())<<"\n";
-  std::cout<<"Unsharp weight = "
-           <<(filter->GetNormalProcessUnsharpWeight())<<"\n";
+  std::cout << "RMS change trigger = " << (filter->GetRMSChangeNormalProcessTrigger()) << "\n";
+  std::cout << "Normal process type = " << (filter->GetNormalProcessType()) << "\n";
+  std::cout << "Conductance = " << (filter->GetNormalProcessConductance()) << "\n";
+  std::cout << "Unsharp flag = " << (filter->GetNormalProcessUnsharpFlag()) << "\n";
+  std::cout << "Unsharp weight = " << (filter->GetNormalProcessUnsharpWeight()) << "\n";
 
   filter->Update();
   filter->Print(std::cout);
-  std::cout<<"Passed.\n";
+  std::cout << "Passed.\n";
   return EXIT_SUCCESS;
 }

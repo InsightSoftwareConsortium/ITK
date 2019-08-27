@@ -47,19 +47,19 @@ namespace itk
  * \endsphinx
  */
 
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT GPUDiscreteGaussianImageFilter :
-  public GPUImageToImageFilter< TInputImage, TOutputImage, DiscreteGaussianImageFilter< TInputImage, TOutputImage > >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT GPUDiscreteGaussianImageFilter
+  : public GPUImageToImageFilter<TInputImage, TOutputImage, DiscreteGaussianImageFilter<TInputImage, TOutputImage>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GPUDiscreteGaussianImageFilter);
 
   /** Standard class type aliases. */
   using Self = GPUDiscreteGaussianImageFilter;
-  using CPUSuperclass = DiscreteGaussianImageFilter< TInputImage, TOutputImage >;
-  using GPUSuperclass = GPUImageToImageFilter< TInputImage, TOutputImage, CPUSuperclass >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using CPUSuperclass = DiscreteGaussianImageFilter<TInputImage, TOutputImage>;
+  using GPUSuperclass = GPUImageToImageFilter<TInputImage, TOutputImage, CPUSuperclass>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -87,39 +87,42 @@ public:
   using OutputPixelValueType = typename NumericTraits<OutputPixelType>::ValueType;
 
   using RealOutputPixelType = OutputPixelType;
-  using RealOutputImageType = GPUImage< OutputPixelType, ImageDimension >;
+  using RealOutputImageType = GPUImage<OutputPixelType, ImageDimension>;
   using RealOutputPixelValueType = typename NumericTraits<RealOutputPixelType>::ValueType;
-  using FirstFilterType = GPUNeighborhoodOperatorImageFilter< InputImageType, RealOutputImageType,
-                                              RealOutputPixelValueType >;
-  using IntermediateFilterType = GPUNeighborhoodOperatorImageFilter< RealOutputImageType, RealOutputImageType,
-                                              RealOutputPixelValueType >;
-  using LastFilterType = GPUNeighborhoodOperatorImageFilter< RealOutputImageType, OutputImageType,
-                                              RealOutputPixelValueType >;
-  using SingleFilterType = GPUNeighborhoodOperatorImageFilter< InputImageType, OutputImageType,
-                                              RealOutputPixelValueType >;
+  using FirstFilterType =
+    GPUNeighborhoodOperatorImageFilter<InputImageType, RealOutputImageType, RealOutputPixelValueType>;
+  using IntermediateFilterType =
+    GPUNeighborhoodOperatorImageFilter<RealOutputImageType, RealOutputImageType, RealOutputPixelValueType>;
+  using LastFilterType =
+    GPUNeighborhoodOperatorImageFilter<RealOutputImageType, OutputImageType, RealOutputPixelValueType>;
+  using SingleFilterType =
+    GPUNeighborhoodOperatorImageFilter<InputImageType, OutputImageType, RealOutputPixelValueType>;
 
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
 protected:
   GPUDiscreteGaussianImageFilter();
   ~GPUDiscreteGaussianImageFilter() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Standard GPU pipeline method. */
-  void GPUGenerateData() override;
+  void
+  GPUGenerateData() override;
 
 private:
   /** Intermediate 1D Gaussian filters */
-  typename FirstFilterType::Pointer                       m_FirstFilter;
-  typename LastFilterType::Pointer                        m_LastFilter;
-  std::vector< typename IntermediateFilterType::Pointer > m_IntermediateFilters;
-  typename SingleFilterType::Pointer                      m_SingleFilter;
+  typename FirstFilterType::Pointer                     m_FirstFilter;
+  typename LastFilterType::Pointer                      m_LastFilter;
+  std::vector<typename IntermediateFilterType::Pointer> m_IntermediateFilters;
+  typename SingleFilterType::Pointer                    m_SingleFilter;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGPUDiscreteGaussianImageFilter.hxx"
+#  include "itkGPUDiscreteGaussianImageFilter.hxx"
 #endif
 
 #endif

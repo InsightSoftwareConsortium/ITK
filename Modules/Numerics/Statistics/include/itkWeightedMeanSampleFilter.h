@@ -38,17 +38,17 @@ namespace Statistics
  *
  * \ingroup ITKStatistics
  */
-template< typename TSample >
-class ITK_TEMPLATE_EXPORT WeightedMeanSampleFilter : public MeanSampleFilter< TSample >
+template <typename TSample>
+class ITK_TEMPLATE_EXPORT WeightedMeanSampleFilter : public MeanSampleFilter<TSample>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(WeightedMeanSampleFilter);
 
   /**Standard class type aliases. */
   using Self = WeightedMeanSampleFilter;
-  using Superclass = MeanSampleFilter< TSample >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = MeanSampleFilter<TSample>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /**Standard Macros */
   itkTypeMacro(WeightedMeanSampleFilter, MeanSampleFilter);
@@ -70,20 +70,20 @@ public:
 
 
   /** Array type for weights */
-  using WeightArrayType = Array< WeightValueType >;
+  using WeightArrayType = Array<WeightValueType>;
 
   /** Type of DataObjects to use for the weight array type */
-  using InputWeightArrayObjectType = SimpleDataObjectDecorator< WeightArrayType >;
+  using InputWeightArrayObjectType = SimpleDataObjectDecorator<WeightArrayType>;
 
   /** Method to set/get the input value of the weight array */
   itkSetGetDecoratedInputMacro(Weights, WeightArrayType);
 
 
   /** Weight calculation function type */
-  using WeightingFunctionType = FunctionBase< MeasurementVectorType, WeightValueType >;
+  using WeightingFunctionType = FunctionBase<MeasurementVectorType, WeightValueType>;
 
   /** Type of DataObjects to use for Weight function */
-  using InputWeightingFunctionObjectType = DataObjectDecorator< WeightingFunctionType >;
+  using InputWeightingFunctionObjectType = DataObjectDecorator<WeightingFunctionType>;
 
   /** Method to set/get the weighting function */
   itkSetGetDecoratedObjectInputMacro(WeightingFunction, WeightingFunctionType);
@@ -96,21 +96,25 @@ public:
 protected:
   WeightedMeanSampleFilter();
   ~WeightedMeanSampleFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   // compute mean with weight array
-  void ComputeMeanWithWeights();
+  void
+  ComputeMeanWithWeights();
 
   // compute mean using a weighting function
-  void ComputeMeanWithWeightingFunction();
-};                                        // end of class
+  void
+  ComputeMeanWithWeightingFunction();
+}; // end of class
 } // end of namespace Statistics
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkWeightedMeanSampleFilter.hxx"
+#  include "itkWeightedMeanSampleFilter.hxx"
 #endif
 
 #endif

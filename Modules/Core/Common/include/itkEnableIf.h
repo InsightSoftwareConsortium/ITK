@@ -1,20 +1,20 @@
 /*=========================================================================
-*
-*  Copyright Insight Software Consortium
-*
-*  Licensed under the Apache License, Version 2.0 (the "License");
-*  you may not use this file except in compliance with the License.
-*  You may obtain a copy of the License at
-*
-*         http://www.apache.org/licenses/LICENSE-2.0.txt
-*
-*  Unless required by applicable law or agreed to in writing, software
-*  distributed under the License is distributed on an "AS IS" BASIS,
-*  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-*  See the License for the specific language governing permissions and
-*  limitations under the License.
-*
-*=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef itkEnableIf_h
 #define itkEnableIf_h
 
@@ -55,9 +55,15 @@ namespace mpl
  *
  * \sa \c EnableIf
  */
-template <bool V, typename TType = void> struct EnableIfC {};
+template <bool V, typename TType = void>
+struct EnableIfC
+{};
 /// \cond SPECIALIZATION_IMPLEMENTATION
-template <typename TType> struct EnableIfC<true, TType> { using Type = TType; };
+template <typename TType>
+struct EnableIfC<true, TType>
+{
+  using Type = TType;
+};
 /// \endcond
 
 
@@ -68,9 +74,15 @@ template <typename TType> struct EnableIfC<true, TType> { using Type = TType; };
  * \sa \c EnableIfC
  * \sa \c DisableIf
  */
-template <bool V, typename TType = void> struct DisableIfC {};
+template <bool V, typename TType = void>
+struct DisableIfC
+{};
 /// \cond SPECIALIZATION_IMPLEMENTATION
-template <typename TType> struct DisableIfC<false, TType> { using Type = TType; };
+template <typename TType>
+struct DisableIfC<false, TType>
+{
+  using Type = TType;
+};
 /// \endcond
 
 /** \brief simplified way to dispose of \c enable_if.
@@ -101,7 +113,8 @@ template <typename TType> struct DisableIfC<false, TType> { using Type = TType; 
  * \sa \c DisableIf
  */
 template <class TCondition, class TType = void>
-struct EnableIf : public EnableIfC<TCondition::Value, TType> {};
+struct EnableIf : public EnableIfC<TCondition::Value, TType>
+{};
 
 /** \brief simplified way to dispose of \c disable_if.
  * \ingroup MetaProgrammingLibrary
@@ -131,9 +144,10 @@ struct EnableIf : public EnableIfC<TCondition::Value, TType> {};
  * \sa \c DisableIf
  */
 template <class TCondition, class TType = void>
-struct DisableIf : public DisableIfC<TCondition::Value, TType> {};
+struct DisableIf : public DisableIfC<TCondition::Value, TType>
+{};
 
-} // namespace itk::mpl
+} // namespace mpl
 
 // itk::EnableIf(C), DisableIf(C) have move to itk::mpl
 // Expect them to be deprecated.

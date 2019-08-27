@@ -21,16 +21,14 @@
 
 namespace itk
 {
-void GEAdwImageIOFactory::PrintSelf(std::ostream &, Indent) const
+void
+GEAdwImageIOFactory::PrintSelf(std::ostream &, Indent) const
 {}
 
 GEAdwImageIOFactory::GEAdwImageIOFactory()
 {
-  this->RegisterOverride( "itkImageIOBase",
-                          "itkGEAdwImageIO",
-                          "GEAdw Image IO",
-                          true,
-                          CreateObjectFunction< GEAdwImageIO >::New() );
+  this->RegisterOverride(
+    "itkImageIOBase", "itkGEAdwImageIO", "GEAdw Image IO", true, CreateObjectFunction<GEAdwImageIO>::New());
 }
 
 GEAdwImageIOFactory::~GEAdwImageIOFactory() = default;
@@ -52,13 +50,14 @@ GEAdwImageIOFactory::GetDescription() const
 
 static bool GEAdwImageIOFactoryHasBeenRegistered;
 
-void ITKIOGE_EXPORT GEAdwImageIOFactoryRegister__Private()
+void ITKIOGE_EXPORT
+     GEAdwImageIOFactoryRegister__Private()
 {
-  if( ! GEAdwImageIOFactoryHasBeenRegistered )
-    {
+  if (!GEAdwImageIOFactoryHasBeenRegistered)
+  {
     GEAdwImageIOFactoryHasBeenRegistered = true;
     GEAdwImageIOFactory::RegisterOneFactory();
-    }
+  }
 }
 
 } // end namespace itk

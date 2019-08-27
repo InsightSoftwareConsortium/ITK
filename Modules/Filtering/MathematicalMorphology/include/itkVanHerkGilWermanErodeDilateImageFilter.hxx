@@ -25,25 +25,24 @@
 
 namespace itk
 {
-template< typename TImage, typename TKernel, typename TFunction1 >
-VanHerkGilWermanErodeDilateImageFilter< TImage, TKernel, TFunction1 >
-::VanHerkGilWermanErodeDilateImageFilter():
-  m_Boundary( NumericTraits< InputImagePixelType >::ZeroValue() )
+template <typename TImage, typename TKernel, typename TFunction1>
+VanHerkGilWermanErodeDilateImageFilter<TImage, TKernel, TFunction1>::VanHerkGilWermanErodeDilateImageFilter()
+  : m_Boundary(NumericTraits<InputImagePixelType>::ZeroValue())
 {
   this->DynamicMultiThreadingOn();
 }
 
-template< typename TImage, typename TKernel, typename TFunction1 >
+template <typename TImage, typename TKernel, typename TFunction1>
 void
-VanHerkGilWermanErodeDilateImageFilter< TImage, TKernel, TFunction1 >
-::DynamicThreadedGenerateData(const InputImageRegionType & outputRegionForThread)
+VanHerkGilWermanErodeDilateImageFilter<TImage, TKernel, TFunction1>::DynamicThreadedGenerateData(
+  const InputImageRegionType & outputRegionForThread)
 {
   // check that we are using a decomposable kernel
-  if ( !this->GetKernel().GetDecomposable() )
-    {
+  if (!this->GetKernel().GetDecomposable())
+  {
     itkExceptionMacro("VanHerkGilWerman morphology only works with decomposable structuring elements");
     return;
-    }
+  }
 
   // TFunction1 will be < for erosions
 
@@ -56,9 +55,9 @@ VanHerkGilWermanErodeDilateImageFilter< TImage, TKernel, TFunction1 >
   InputImageConstPointer input = this->GetInput();
 
   InputImageRegionType IReg = outputRegionForThread;
-  IReg.PadByRadius( this->GetKernel().GetRadius() );
+  IReg.PadByRadius(this->GetKernel().GetRadius());
   // IReg.PadByRadius( this->GetKernel().GetRadius() );
-  IReg.Crop( this->GetInput()->GetRequestedRegion() );
+  IReg.Crop(this->GetInput()->GetRequestedRegion());
 
   // allocate an internal buffer
   typename InputImageType::Pointer internalbuffer = InputImageType::New();
@@ -70,10 +69,10 @@ VanHerkGilWermanErodeDilateImageFilter< TImage, TKernel, TFunction1 >
   InputImageRegionType OReg = outputRegionForThread;
   // maximum buffer length is sum of dimensions
   unsigned int bufflength = 0;
-  for ( unsigned i = 0; i < TImage::ImageDimension; i++ )
-    {
+  for (unsigned i = 0; i < TImage::ImageDimension; i++)
+  {
     bufflength += IReg.GetSize()[i];
-    }
+  }
 
   // compat
   bufflength += 2;
@@ -83,46 +82,43 @@ VanHerkGilWermanErodeDilateImageFilter< TImage, TKernel, TFunction1 >
   std::vector<InputImagePixelType> reverse(bufflength);
   // iterate over all the structuring elements
   typename KernelType::DecompType decomposition = this->GetKernel().GetLines();
-  BresType BresLine;
+  BresType                        BresLine;
 
   using KernelLType = typename KernelType::LType;
 
-  for ( unsigned i = 0; i < decomposition.size(); i++ )
-    {
-    typename KernelType::LType ThisLine = decomposition[i];
+  for (unsigned i = 0; i < decomposition.size(); i++)
+  {
+    typename KernelType::LType     ThisLine = decomposition[i];
     typename BresType::OffsetArray TheseOffsets = BresLine.BuildLine(ThisLine, bufflength);
-    unsigned int SELength = GetLinePixels< KernelLType >(ThisLine);
+    unsigned int                   SELength = GetLinePixels<KernelLType>(ThisLine);
     // want lines to be odd
-    if ( !( SELength % 2 ) )
-      {
+    if (!(SELength % 2))
+    {
       ++SELength;
-      }
+    }
 
-    InputImageRegionType BigFace = MakeEnlargedFace< InputImageType, KernelLType >(input, IReg, ThisLine);
+    InputImageRegionType BigFace = MakeEnlargedFace<InputImageType, KernelLType>(input, IReg, ThisLine);
 
-    DoFace< TImage, BresType, TFunction1, KernelLType >(input, output, m_Boundary, ThisLine,
-                                                        TheseOffsets, SELength,
-                                                        buffer, forward,
-                                                        reverse, IReg, BigFace);
+    DoFace<TImage, BresType, TFunction1, KernelLType>(
+      input, output, m_Boundary, ThisLine, TheseOffsets, SELength, buffer, forward, reverse, IReg, BigFace);
 
     // after the first pass the input will be taken from the output
     input = internalbuffer;
-    }
+  }
 
   // copy internal buffer to output
-  using IterType = ImageRegionIterator< InputImageType >;
+  using IterType = ImageRegionIterator<InputImageType>;
   IterType oit(this->GetOutput(), OReg);
   IterType iit(internalbuffer, OReg);
-  for ( oit.GoToBegin(), iit.GoToBegin(); !oit.IsAtEnd(); ++oit, ++iit )
-    {
-    oit.Set( iit.Get() );
-    }
+  for (oit.GoToBegin(), iit.GoToBegin(); !oit.IsAtEnd(); ++oit, ++iit)
+  {
+    oit.Set(iit.Get());
+  }
 }
 
-template< typename TImage, typename TKernel, typename TFunction1 >
+template <typename TImage, typename TKernel, typename TFunction1>
 void
-VanHerkGilWermanErodeDilateImageFilter< TImage, TKernel, TFunction1 >
-::PrintSelf(std::ostream & os, Indent indent) const
+VanHerkGilWermanErodeDilateImageFilter<TImage, TKernel, TFunction1>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Boundary: " << m_Boundary << std::endl;

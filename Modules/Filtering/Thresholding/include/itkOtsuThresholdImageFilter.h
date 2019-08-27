@@ -51,17 +51,15 @@ namespace itk
  * \endsphinx
  */
 
-template<typename TInputImage, typename TOutputImage, typename TMaskImage=TOutputImage>
-class OtsuThresholdImageFilter :
-    public HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
+template <typename TInputImage, typename TOutputImage, typename TMaskImage = TOutputImage>
+class OtsuThresholdImageFilter : public HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(OtsuThresholdImageFilter);
 
   /** Standard Self type alias */
   using Self = OtsuThresholdImageFilter;
-  using Superclass = HistogramThresholdImageFilter<TInputImage,TOutputImage,
-                                        TMaskImage>;
+  using Superclass = HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -95,7 +93,7 @@ public:
   using MaskImageRegionType = typename MaskImageType::RegionType;
 
   using HistogramType = typename Superclass::HistogramType;
-  using CalculatorType = OtsuThresholdCalculator< HistogramType, InputPixelType >;
+  using CalculatorType = OtsuThresholdCalculator<HistogramType, InputPixelType>;
 
   /** Image related type alias. */
   static constexpr unsigned int InputImageDimension = InputImageType::ImageDimension;
@@ -108,25 +106,22 @@ public:
   itkBooleanMacro(ReturnBinMidpoint);
 
 protected:
-  OtsuThresholdImageFilter()
-
-  {
-    this->SetCalculator( CalculatorType::New() );
-  }
+  OtsuThresholdImageFilter() { this->SetCalculator(CalculatorType::New()); }
   ~OtsuThresholdImageFilter() override = default;
 
-  void GenerateData() override
+  void
+  GenerateData() override
   {
     auto calc = static_cast<CalculatorType *>(this->GetModifiableCalculator());
     calc->SetReturnBinMidpoint(m_ReturnBinMidpoint);
     this->Superclass::GenerateData();
   }
-private:
 
+private:
 #if defined(ITKV4_COMPATIBILITY)
-  bool                m_ReturnBinMidpoint{ true };
+  bool m_ReturnBinMidpoint{ true };
 #else
-  bool                m_ReturnBinMidpoint{ false };
+  bool m_ReturnBinMidpoint{ false };
 #endif
 };
 

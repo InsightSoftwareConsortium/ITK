@@ -49,15 +49,15 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-template< typename TElementIdentifier, typename TElement >
-class IndexedContainerInterface:public Object
+template <typename TElementIdentifier, typename TElement>
+class IndexedContainerInterface : public Object
 {
 public:
   /** Standard class type aliases. */
   using Self = IndexedContainerInterface;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard part of every itk Object. */
   itkTypeMacro(IndexedContainerInterface, Object);
@@ -104,7 +104,8 @@ public:
    * If true is returned, then the identifier was found.  In this case,
    * if the element pointer given as input is not null, the element is filled
    * in with the value of the element found. */
-  bool GetElementIfIndexExists(ElementIdentifier, Element *) const;
+  bool
+  GetElementIfIndexExists(ElementIdentifier, Element *) const;
 
   /** Create an entry in the container corresponding to the given index.
    * The entry will be initialized with the default element.
@@ -128,7 +129,8 @@ public:
    *   Element&          Value();
    * \ingroup ITKCommon
    */
-  class Iterator {};
+  class Iterator
+  {};
 
   /** \class ConstIterator
    * \brief Support const iteration operations through a container.
@@ -138,22 +140,28 @@ public:
    *   const Element&    Value() const;
    * \ingroup ITKCommon
    */
-  class ConstIterator {};
+  class ConstIterator
+  {};
 
   /** Get a begin iterator for the container. */
-  Iterator Begin();
+  Iterator
+  Begin();
 
   /** Get an end iterator for the container. */
-  Iterator End();
+  Iterator
+  End();
 
   /** Get a begin const iterator for the container. */
-  ConstIterator Begin() const;
+  ConstIterator
+  Begin() const;
 
   /** Get an end const iterator for the container. */
-  ConstIterator End() const;
+  ConstIterator
+  End() const;
 
   /** Get the number of elements currently stored in the container. */
-  ElementIdentifier Size() const;
+  ElementIdentifier
+  Size() const;
 
   /** Tell the container to allocate enough memory to allow at least
    * as many elements as the size given to be stored.  This is NOT
@@ -164,11 +172,13 @@ public:
   /** Tell the container to try to minimize its memory usage for storage of
    * the current number of elements.  This is NOT guaranteed to decrease
    * memory usage. */
-  void Squeeze();
+  void
+  Squeeze();
 
   /** Tell the container to release any memory it may have allocated and
    * return itself to its initial state. */
-  void Initialize();
+  void
+  Initialize();
 };
 } // end namespace itk
 

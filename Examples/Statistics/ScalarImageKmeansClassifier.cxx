@@ -43,16 +43,17 @@
 #include "itkScalarImageKmeansImageFilter.h"
 // Software Guide : EndCodeSnippet
 
-int main( int argc, char * argv [] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 5 )
-    {
+  if (argc < 5)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0];
     std::cerr << " inputScalarImage outputLabeledImage nonContiguousLabels";
     std::cerr << " numberOfClasses mean1 mean2... meanN " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   const char * inputImageFileName = argv[1];
 
@@ -70,11 +71,11 @@ int main( int argc, char * argv [] )
   using PixelType = signed short;
   constexpr unsigned int Dimension = 2;
 
-  using ImageType = itk::Image<PixelType, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( inputImageFileName );
+  reader->SetFileName(inputImageFileName);
   // Software Guide : EndCodeSnippet
 
 
@@ -87,13 +88,13 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using KMeansFilterType = itk::ScalarImageKmeansImageFilter< ImageType >;
+  using KMeansFilterType = itk::ScalarImageKmeansImageFilter<ImageType>;
 
   KMeansFilterType::Pointer kmeansFilter = KMeansFilterType::New();
 
-  kmeansFilter->SetInput( reader->GetOutput() );
+  kmeansFilter->SetInput(reader->GetOutput());
 
-  const unsigned int numberOfInitialClasses = std::stoi( argv[4] );
+  const unsigned int numberOfInitialClasses = std::stoi(argv[4]);
   // Software Guide : EndCodeSnippet
 
 
@@ -114,23 +115,22 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const unsigned int useNonContiguousLabels = std::stoi( argv[3] );
+  const unsigned int useNonContiguousLabels = std::stoi(argv[3]);
 
-  kmeansFilter->SetUseNonContiguousLabels( useNonContiguousLabels );
+  kmeansFilter->SetUseNonContiguousLabels(useNonContiguousLabels);
   // Software Guide : EndCodeSnippet
 
 
   constexpr unsigned int argoffset = 5;
 
-  if( static_cast<unsigned int>(argc) <
-      numberOfInitialClasses + argoffset )
-    {
+  if (static_cast<unsigned int>(argc) < numberOfInitialClasses + argoffset)
+  {
     std::cerr << "Error: " << std::endl;
     std::cerr << numberOfInitialClasses << " classes has been specified ";
     std::cerr << "but no enough means have been provided in the command ";
     std::cerr << "line arguments " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   // Software Guide : BeginLatex
@@ -145,11 +145,11 @@ int main( int argc, char * argv [] )
 
 
   // Software Guide : BeginCodeSnippet
-  for( unsigned k=0; k < numberOfInitialClasses; k++ )
-    {
-    const double userProvidedInitialMean = std::stod( argv[k+argoffset] );
-    kmeansFilter->AddClassWithInitialMean( userProvidedInitialMean );
-    }
+  for (unsigned k = 0; k < numberOfInitialClasses; k++)
+  {
+    const double userProvidedInitialMean = std::stod(argv[k + argoffset]);
+    kmeansFilter->AddClassWithInitialMean(userProvidedInitialMean);
+  }
   // Software Guide : EndCodeSnippet
 
 
@@ -170,13 +170,13 @@ int main( int argc, char * argv [] )
   // Software Guide : BeginCodeSnippet
   using OutputImageType = KMeansFilterType::OutputImageType;
 
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   WriterType::Pointer writer = WriterType::New();
 
-  writer->SetInput( kmeansFilter->GetOutput() );
+  writer->SetInput(kmeansFilter->GetOutput());
 
-  writer->SetFileName( outputImageFileName );
+  writer->SetFileName(outputImageFileName);
   // Software Guide : EndCodeSnippet
 
 
@@ -191,16 +191,16 @@ int main( int argc, char * argv [] )
 
   // Software Guide : BeginCodeSnippet
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Problem encountered while writing ";
     std::cerr << " image file : " << argv[2] << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
 
@@ -213,16 +213,15 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  KMeansFilterType::ParametersType estimatedMeans =
-                                            kmeansFilter->GetFinalMeans();
+  KMeansFilterType::ParametersType estimatedMeans = kmeansFilter->GetFinalMeans();
 
   const unsigned int numberOfClasses = estimatedMeans.Size();
 
-  for ( unsigned int i = 0; i < numberOfClasses; ++i )
-    {
+  for (unsigned int i = 0; i < numberOfClasses; ++i)
+  {
     std::cout << "cluster[" << i << "] ";
     std::cout << "    estimated mean : " << estimatedMeans[i] << std::endl;
-    }
+  }
 
   // Software Guide : EndCodeSnippet
 
@@ -242,5 +241,4 @@ int main( int argc, char * argv [] )
   //  Software Guide : EndLatex
 
   return EXIT_SUCCESS;
-
 }

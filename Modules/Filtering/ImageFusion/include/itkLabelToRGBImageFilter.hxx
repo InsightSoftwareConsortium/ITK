@@ -35,64 +35,58 @@ namespace itk
 /**
  *
  */
-template< typename TLabelImage, typename TOutputImage >
-LabelToRGBImageFilter< TLabelImage, TOutputImage >
-::LabelToRGBImageFilter()
+template <typename TLabelImage, typename TOutputImage>
+LabelToRGBImageFilter<TLabelImage, TOutputImage>::LabelToRGBImageFilter()
 {
-  m_BackgroundValue = NumericTraits< LabelPixelType >::ZeroValue();
-  NumericTraits< OutputPixelType>::SetLength( m_BackgroundColor, 3);
-  m_BackgroundColor.Fill(NumericTraits< OutputPixelValueType >::ZeroValue());
+  m_BackgroundValue = NumericTraits<LabelPixelType>::ZeroValue();
+  NumericTraits<OutputPixelType>::SetLength(m_BackgroundColor, 3);
+  m_BackgroundColor.Fill(NumericTraits<OutputPixelValueType>::ZeroValue());
 }
 
-template< typename TLabelImage, typename TOutputImage >
+template <typename TLabelImage, typename TOutputImage>
 unsigned int
-LabelToRGBImageFilter< TLabelImage, TOutputImage >
-::GetNumberOfColors() const
+LabelToRGBImageFilter<TLabelImage, TOutputImage>::GetNumberOfColors() const
 {
   return this->GetFunctor().GetNumberOfColors();
 }
 
-template< typename TLabelImage, typename TOutputImage >
+template <typename TLabelImage, typename TOutputImage>
 void
-LabelToRGBImageFilter< TLabelImage, TOutputImage >
-::ResetColors()
+LabelToRGBImageFilter<TLabelImage, TOutputImage>::ResetColors()
 {
   this->GetFunctor().ResetColors();
 }
 
-template< typename TLabelImage, typename TOutputImage >
+template <typename TLabelImage, typename TOutputImage>
 void
-LabelToRGBImageFilter< TLabelImage, TOutputImage >
-::AddColor(ComponentType r, ComponentType g, ComponentType b)
+LabelToRGBImageFilter<TLabelImage, TOutputImage>::AddColor(ComponentType r, ComponentType g, ComponentType b)
 {
   this->GetFunctor().AddColor(r, g, b);
 }
 
-template< typename TLabelImage, typename TOutputImage >
+template <typename TLabelImage, typename TOutputImage>
 void
-LabelToRGBImageFilter< TLabelImage, TOutputImage >
-::GenerateOutputInformation()
+LabelToRGBImageFilter<TLabelImage, TOutputImage>::GenerateOutputInformation()
 {
   // this methods is overloaded so that if the output image is a
   // VectorImage then the correct number of components are set.
 
   Superclass::GenerateOutputInformation();
-  OutputImageType* output = this->GetOutput();
+  OutputImageType * output = this->GetOutput();
 
-  if ( !output )
-    {
+  if (!output)
+  {
     return;
-    }
-  if ( output->GetNumberOfComponentsPerPixel() != 3 )
-    {
-    output->SetNumberOfComponentsPerPixel( 3 );
-    }
+  }
+  if (output->GetNumberOfComponentsPerPixel() != 3)
+  {
+    output->SetNumberOfComponentsPerPixel(3);
+  }
 }
 
-template< typename TLabelImage, typename TOutputImage >
+template <typename TLabelImage, typename TOutputImage>
 void
-LabelToRGBImageFilter< TLabelImage, TOutputImage >
-::BeforeThreadedGenerateData()
+LabelToRGBImageFilter<TLabelImage, TOutputImage>::BeforeThreadedGenerateData()
 {
   this->GetFunctor().SetBackgroundValue(m_BackgroundValue);
   this->GetFunctor().SetBackgroundColor(m_BackgroundColor);
@@ -101,18 +95,17 @@ LabelToRGBImageFilter< TLabelImage, TOutputImage >
 /**
  *
  */
-template< typename TLabelImage, typename TOutputImage >
+template <typename TLabelImage, typename TOutputImage>
 void
-LabelToRGBImageFilter< TLabelImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+LabelToRGBImageFilter<TLabelImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "BackgroundValue: "
-     << static_cast< typename NumericTraits< LabelPixelType >::PrintType >( m_BackgroundValue )
+  os << indent
+     << "BackgroundValue: " << static_cast<typename NumericTraits<LabelPixelType>::PrintType>(m_BackgroundValue)
      << std::endl
-     << indent << "ColorBackground: "
-     << static_cast< typename NumericTraits< OutputPixelType >::PrintType >( m_BackgroundColor )
+     << indent
+     << "ColorBackground: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_BackgroundColor)
      << std::endl;
 }
 } // end namespace itk

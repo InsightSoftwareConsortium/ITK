@@ -21,7 +21,7 @@
 #include "itkImageToImageFilter.h"
 #include "itkVectorLinearInterpolateImageFunction.h"
 
-#if !defined ( ITK_LEGACY_REMOVE )
+#if !defined(ITK_LEGACY_REMOVE)
 namespace itk
 {
 /** \class VectorExpandImageFilter
@@ -70,18 +70,17 @@ namespace itk
  * \ingroup GeometricTransform
  * \ingroup ITKImageIntensity
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT VectorExpandImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT VectorExpandImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorExpandImageFilter);
 
   /** Standard class type aliases. */
   using Self = VectorExpandImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -108,17 +107,20 @@ public:
   using InputValueType = typename InputPixelType::ValueType;
 
   /** Determine the vector dimension. */
-  enum { VectorDimension = InputPixelType::Dimension };
+  enum
+  {
+    VectorDimension = InputPixelType::Dimension
+  };
 
   /** The type of the expand factors representation */
   using ExpandFactorsType = float;
-  using ExpandFactorsArrayType = FixedArray< ExpandFactorsType, ImageDimension >;
+  using ExpandFactorsArrayType = FixedArray<ExpandFactorsType, ImageDimension>;
 
   /** Typedef support for the interpolation function */
   using CoordRepType = double;
-  using InterpolatorType = VectorInterpolateImageFunction< InputImageType, CoordRepType >;
+  using InterpolatorType = VectorInterpolateImageFunction<InputImageType, CoordRepType>;
   using InterpolatorPointer = typename InterpolatorType::Pointer;
-  using DefaultInterpolatorType = VectorLinearInterpolateImageFunction< InputImageType, CoordRepType >;
+  using DefaultInterpolatorType = VectorLinearInterpolateImageFunction<InputImageType, CoordRepType>;
 
   /** Get/Set the interpolator function. */
   itkSetObjectMacro(Interpolator, InterpolatorType);
@@ -127,7 +129,8 @@ public:
   /** Set the expand factors. Values are clamped to
    * a minimum value of 1. Default is 1 for all dimensions. */
   itkSetMacro(ExpandFactors, ExpandFactorsArrayType);
-  virtual void SetExpandFactors(const float factor);
+  virtual void
+  SetExpandFactors(const float factor);
   itkSetVectorMacro(ExpandFactors, const unsigned int, ImageDimension);
 
   /** Get the expand factors. */
@@ -139,29 +142,29 @@ public:
    * UpdateOutputInformation() in order to inform the pipeline execution
    * model.  The original documentation of this method is below.  \sa
    * ProcessObject::GenerateOutputInformaton() */
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
   /** VectorExpandImageFilter needs a smaller input requested region than the
    * output requested region.  As such, ShrinkImageFilter needs to provide an
    * implementation for GenerateInputRequestedRegion() in order to inform the
    * pipeline execution model.  \sa
    * ProcessObject::GenerateInputRequestedRegion() */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
+#  ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< InputValueType > ) );
-  itkConceptMacro( OutputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< OutputValueType > ) );
+  itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputValueType>));
+  itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<OutputValueType>));
   // End concept checking
-#endif
+#  endif
 
 protected:
-
   VectorExpandImageFilter();
   ~VectorExpandImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** VectorExpandImageFilter is implemented as a multithreaded filter.
    * Therefore, this implementation provides a DynamicThreadedGenerateData() routine
@@ -171,21 +174,23 @@ protected:
    * portion of the output image specified by the parameter
    * "outputRegionForThread" \sa ImageToImageFilter::ThreadedGenerateData(),
    * ImageToImageFilter::GenerateData() */
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 
   /** This method is used to set the state of the filter before multi-threading. */
-  void BeforeThreadedGenerateData() override;
+  void
+  BeforeThreadedGenerateData() override;
 
 private:
-  ExpandFactorsArrayType   m_ExpandFactors;
-  InterpolatorPointer      m_Interpolator;
+  ExpandFactorsArrayType m_ExpandFactors;
+  InterpolatorPointer    m_Interpolator;
 };
 } // end namespace itk
-#endif //ITK_LEGACY_REMOVE
+#endif // ITK_LEGACY_REMOVE
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVectorExpandImageFilter.hxx"
+#  include "itkVectorExpandImageFilter.hxx"
 #endif
 
 #endif

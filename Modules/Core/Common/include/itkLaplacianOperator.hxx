@@ -21,22 +21,20 @@
 
 namespace itk
 {
-template< typename TPixel, unsigned int VDimension, typename TAllocator >
+template <typename TPixel, unsigned int VDimension, typename TAllocator>
 void
-LaplacianOperator< TPixel, VDimension, TAllocator >
-::SetDerivativeScalings(const double *s)
+LaplacianOperator<TPixel, VDimension, TAllocator>::SetDerivativeScalings(const double * s)
 {
-  for ( unsigned int i = 0; i < VDimension; ++i )
-    {
+  for (unsigned int i = 0; i < VDimension; ++i)
+  {
     m_DerivativeScalings[i] = s[i];
-    }
+  }
 }
 
-//Create the operator
-template< typename TPixel, unsigned int VDimension, typename TAllocator >
+// Create the operator
+template <typename TPixel, unsigned int VDimension, typename TAllocator>
 void
-LaplacianOperator< TPixel, VDimension, TAllocator >
-::CreateOperator()
+LaplacianOperator<TPixel, VDimension, TAllocator>::CreateOperator()
 {
   CoefficientVector coefficients;
 
@@ -45,15 +43,14 @@ LaplacianOperator< TPixel, VDimension, TAllocator >
   this->Fill(coefficients);
 }
 
-//This function fills the coefficients into the corresponding neighborhodd.
-template< typename TPixel, unsigned int VDimension, typename TAllocator >
+// This function fills the coefficients into the corresponding neighborhodd.
+template <typename TPixel, unsigned int VDimension, typename TAllocator>
 void
-LaplacianOperator< TPixel, VDimension, TAllocator >
-::Fill(const CoefficientVector & coeff)
+LaplacianOperator<TPixel, VDimension, TAllocator>::Fill(const CoefficientVector & coeff)
 {
   typename Superclass::CoefficientVector::const_iterator it;
 
-  std::slice *temp_slice;
+  std::slice * temp_slice;
   temp_slice = new std::slice(0, coeff.size(), 1);
 
   typename Self::SliceIteratorType data(this, *temp_slice);
@@ -62,17 +59,15 @@ LaplacianOperator< TPixel, VDimension, TAllocator >
   it = coeff.begin();
 
   // Copy the coefficients into the neighborhood
-  for ( data = data.Begin(); data < data.End(); ++data, ++it )
-    {
+  for (data = data.Begin(); data < data.End(); ++data, ++it)
+  {
     *data = *it;
-    }
+  }
 }
 
-template< typename TPixel, unsigned int VDimension, typename TAllocator >
-typename LaplacianOperator< TPixel, VDimension, TAllocator >
-::CoefficientVector
-LaplacianOperator< TPixel, VDimension, TAllocator >
-::GenerateCoefficients()
+template <typename TPixel, unsigned int VDimension, typename TAllocator>
+typename LaplacianOperator<TPixel, VDimension, TAllocator>::CoefficientVector
+LaplacianOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients()
 {
   unsigned int i, w;
 
@@ -87,16 +82,16 @@ LaplacianOperator< TPixel, VDimension, TAllocator >
   w = this->Size();
   CoefficientVector coeffP(w);
 
-  //Set the coefficients
-  double   sum = 0.0;
-  for ( i = 0; i < 2 * VDimension; i += 2 )
-    {
+  // Set the coefficients
+  double sum = 0.0;
+  for (i = 0; i < 2 * VDimension; i += 2)
+  {
     OffsetValueType stride = this->GetStride(i / 2);
 
-    const double   hsq = m_DerivativeScalings[i / 2] * m_DerivativeScalings[i / 2];
-    coeffP[w / 2 - stride] =  coeffP[w / 2 + stride] = hsq;
+    const double hsq = m_DerivativeScalings[i / 2] * m_DerivativeScalings[i / 2];
+    coeffP[w / 2 - stride] = coeffP[w / 2 + stride] = hsq;
     sum += 2.0 * hsq;
-    }
+  }
   coeffP[w / 2] = -sum;
 
   return coeffP;

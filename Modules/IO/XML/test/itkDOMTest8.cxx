@@ -26,36 +26,37 @@ This program tests operations of itk::FileTools.
 #include <string>
 #include "itkMacro.h"
 
-int itkDOMTest8( int argc, char* argv[] )
+int
+itkDOMTest8(int argc, char * argv[])
 {
-  if ( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "arguments expected: <OutputFolder> <OutputFile>" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   try
-    {
+  {
     // create the directory
-    itk::FileTools::CreateDirectory( argv[1] );
+    itk::FileTools::CreateDirectory(argv[1]);
 
     // create the file in the directory
-    std::string fn( argv[1] );
-    fn.append( argv[2] );
-    itk::FileTools::CreateFile( fn.c_str() );
+    std::string fn(argv[1]);
+    fn.append(argv[2]);
+    itk::FileTools::CreateFile(fn.c_str());
 
     // the testings are successful if reached here
-    }
-  catch ( const itk::ExceptionObject& eo )
-    {
-    eo.Print( std::cerr );
+  }
+  catch (const itk::ExceptionObject & eo)
+  {
+    eo.Print(std::cerr);
     return EXIT_FAILURE;
-    }
-  catch ( ... )
-    {
+  }
+  catch (...)
+  {
     std::cerr << "Unknown exception caught!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

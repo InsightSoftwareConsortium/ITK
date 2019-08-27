@@ -1,4 +1,4 @@
- /*=========================================================================
+/*=========================================================================
  *
  *  Copyright Insight Software Consortium
  *
@@ -20,10 +20,10 @@
 namespace itk
 {
 std::ostream &
-operator<<( std::ostream & out, const LoggerThreadWrapperOperationType value )
+operator<<(std::ostream & out, const LoggerThreadWrapperOperationType value)
 {
   const char * s = nullptr;
-  switch ( value )
+  switch (value)
   {
     case LoggerThreadWrapperOperationType::SET_PRIORITY_LEVEL:
       s = "LoggerThreadWrapperOperationType::SET_PRIORITY_LEVEL";

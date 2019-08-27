@@ -48,25 +48,24 @@ namespace itk
  * \ingroup RegistrationMetrics
  * \ingroup ITKRegistrationCommon
  */
-template< typename TFixedImage, typename TMovingImage >
-class ITK_TEMPLATE_EXPORT NormalizedMutualInformationHistogramImageToImageMetric:
-  public HistogramImageToImageMetric< TFixedImage, TMovingImage >
+template <typename TFixedImage, typename TMovingImage>
+class ITK_TEMPLATE_EXPORT NormalizedMutualInformationHistogramImageToImageMetric
+  : public HistogramImageToImageMetric<TFixedImage, TMovingImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(NormalizedMutualInformationHistogramImageToImageMetric);
 
   /** Standard class type aliases. */
   using Self = NormalizedMutualInformationHistogramImageToImageMetric;
-  using Superclass = HistogramImageToImageMetric< TFixedImage, TMovingImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = HistogramImageToImageMetric<TFixedImage, TMovingImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(NormalizedMutualInformationHistogramImageToImageMetric,
-               HistogramImageToImageMetric);
+  itkTypeMacro(NormalizedMutualInformationHistogramImageToImageMetric, HistogramImageToImageMetric);
 
   /** Types transferred from the base class */
   using RealType = typename Superclass::RealType;
@@ -91,16 +90,17 @@ public:
 protected:
   /** Constructor is protected to ensure that \c New() function is used to
       create instances. */
-  NormalizedMutualInformationHistogramImageToImageMetric()= default;
+  NormalizedMutualInformationHistogramImageToImageMetric() = default;
   ~NormalizedMutualInformationHistogramImageToImageMetric() override = default;
 
   /** Evaluates the normalized mutual information from the histogram. */
-  MeasureType EvaluateMeasure(HistogramType & histogram) const override;
+  MeasureType
+  EvaluateMeasure(HistogramType & histogram) const override;
 };
 } // End namespace itk.
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNormalizedMutualInformationHistogramImageToImageMetric.hxx"
+#  include "itkNormalizedMutualInformationHistogramImageToImageMetric.hxx"
 #endif
 
 #endif // itkNormalizedMutualInformationHistogramImageToImageMetric_h

@@ -23,26 +23,27 @@
 namespace itk
 {
 
-template< typename TMetric >
+template <typename TMetric>
 void
-RegistrationParameterScalesFromPhysicalShift< TMetric >
-::ComputeSampleShifts(const ParametersType &deltaParameters, ScalesType &sampleShifts)
+RegistrationParameterScalesFromPhysicalShift<TMetric>::ComputeSampleShifts(const ParametersType & deltaParameters,
+                                                                           ScalesType &           sampleShifts)
 {
   if (this->GetTransformForward())
-    {
+  {
     this->ComputeSampleShiftsInternal<MovingTransformType>(deltaParameters, sampleShifts);
-    }
+  }
   else
-    {
+  {
     this->ComputeSampleShiftsInternal<FixedTransformType>(deltaParameters, sampleShifts);
-    }
+  }
 }
 
-template< typename TMetric >
-template< typename TTransform >
+template <typename TMetric>
+template <typename TTransform>
 void
-RegistrationParameterScalesFromPhysicalShift< TMetric >
-::ComputeSampleShiftsInternal(const ParametersType &deltaParameters, ScalesType &sampleShifts)
+RegistrationParameterScalesFromPhysicalShift<TMetric>::ComputeSampleShiftsInternal(
+  const ParametersType & deltaParameters,
+  ScalesType &           sampleShifts)
 {
   using TransformOutputType = typename TTransform::OutputPointType;
 
@@ -51,9 +52,9 @@ RegistrationParameterScalesFromPhysicalShift< TMetric >
   auto * transform = const_cast<TransformBaseTemplate<typename TMetric::MeasureType> *>(this->GetTransform());
   const ParametersType oldParameters = transform->GetParameters();
 
-  const auto numSamples = static_cast<const SizeValueType>( this->m_SamplePoints.size() );
+  const auto numSamples = static_cast<const SizeValueType>(this->m_SamplePoints.size());
 
-  VirtualPointType point;
+  VirtualPointType    point;
   TransformOutputType newMappedVoxel;
 
   // store the old mapped indices to reduce calls to Transform::SetParameters()
@@ -61,18 +62,18 @@ RegistrationParameterScalesFromPhysicalShift< TMetric >
   sampleShifts.SetSize(numSamples);
 
   // compute the indices mapped by the old transform
-  for (SizeValueType c=0; c<numSamples; c++)
-    {
+  for (SizeValueType c = 0; c < numSamples; c++)
+  {
     point = this->m_SamplePoints[c];
     this->template TransformPoint<TransformOutputType>(point, oldMappedVoxels[c]);
-    }
+  }
 
   // Apply the delta parameters to the transform
   this->UpdateTransformParameters(deltaParameters);
 
   // compute the indices mapped by the new transform
-  for (SizeValueType c=0; c<numSamples; c++)
-    {
+  for (SizeValueType c = 0; c < numSamples; c++)
+  {
     point = this->m_SamplePoints[c];
     this->template TransformPoint<TransformOutputType>(point, newMappedVoxel);
 
@@ -85,12 +86,11 @@ RegistrationParameterScalesFromPhysicalShift< TMetric >
 }
 
 /** Print the information about this class */
-template< typename TMetric >
+template <typename TMetric>
 void
-RegistrationParameterScalesFromPhysicalShift< TMetric >
-::PrintSelf(std::ostream& os, Indent indent) const
+RegistrationParameterScalesFromPhysicalShift<TMetric>::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 }
 
 } // namespace itk

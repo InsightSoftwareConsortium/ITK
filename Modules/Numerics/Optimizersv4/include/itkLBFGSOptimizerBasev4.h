@@ -36,8 +36,8 @@ namespace itk
  * \ingroup ITKOptimizersv4
  */
 // Forward reference because of circular dependencies
-template< typename TInternalVnlOptimizerType >
-class  ITK_TEMPLATE_EXPORT LBFGSOptimizerBaseHelperv4;
+template <typename TInternalVnlOptimizerType>
+class ITK_TEMPLATE_EXPORT LBFGSOptimizerBaseHelperv4;
 
 /** \class LBFGSOptimizerBasev4
  * \brief Abstract base for vnl lbfgs algorithm optimizers in ITKv4 registration framework.
@@ -70,9 +70,8 @@ class  ITK_TEMPLATE_EXPORT LBFGSOptimizerBaseHelperv4;
  *
  * \ingroup ITKOptimizersv4
  */
-template< typename TInternalVnlOptimizerType >
-class ITK_TEMPLATE_EXPORT  LBFGSOptimizerBasev4:
-    public SingleValuedNonLinearVnlOptimizerv4
+template <typename TInternalVnlOptimizerType>
+class ITK_TEMPLATE_EXPORT LBFGSOptimizerBasev4 : public SingleValuedNonLinearVnlOptimizerv4
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LBFGSOptimizerBasev4);
@@ -80,8 +79,8 @@ public:
   /** Standard "Self" type alias. */
   using Self = LBFGSOptimizerBasev4;
   using Superclass = SingleValuedNonLinearVnlOptimizerv4;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(LBFGSOptimizerBasev4, SingleValuedNonLinearVnlOptimizerv4);
@@ -100,24 +99,29 @@ public:
   using InternalOptimizerType = LBFGSOptimizerBaseHelperv4<TInternalVnlOptimizerType>;
 
   /** Method for getting access to the internal optimizer. */
-  InternalOptimizerType * GetOptimizer();
+  InternalOptimizerType *
+  GetOptimizer();
 
   /** Start optimization with an initial value. */
-  void StartOptimization(bool doOnlyInitialization = false) override;
+  void
+  StartOptimization(bool doOnlyInitialization = false) override;
 
   /** Plug in a Cost Function into the optimizer  */
-  void SetMetric(MetricType *metric) override;
+  void
+  SetMetric(MetricType * metric) override;
 
   /** Set/Get the optimizer trace flag. If set to true, the optimizer
    * prints out information every iteration.
    */
-  virtual void SetTrace(bool flag);
+  virtual void
+  SetTrace(bool flag);
 
   itkGetConstMacro(Trace, bool);
   itkBooleanMacro(Trace);
 
   /** Set/Get the maximum number of function evaluations allowed. */
-  virtual void SetMaximumNumberOfFunctionEvaluations(unsigned int n);
+  virtual void
+  SetMaximumNumberOfFunctionEvaluations(unsigned int n);
 
   itkGetConstMacro(MaximumNumberOfFunctionEvaluations, unsigned int);
 
@@ -126,32 +130,35 @@ public:
    * be found. The optimization terminates when:
    * ||G|| < gtol max(1,||X||) where ||.|| denotes the Euclidean norm.
    */
-  virtual void SetGradientConvergenceTolerance(double gtol);
+  virtual void
+  SetGradientConvergenceTolerance(double gtol);
 
   itkGetConstMacro(GradientConvergenceTolerance, double);
 
   /** Get the reason for termination */
-  const StopConditionReturnStringType GetStopConditionDescription() const override;
+  const StopConditionReturnStringType
+  GetStopConditionDescription() const override;
 
 protected:
   LBFGSOptimizerBasev4();
   ~LBFGSOptimizerBasev4() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   using CostFunctionAdaptorType = Superclass::CostFunctionAdaptorType;
 
-  bool                         m_OptimizerInitialized{false};
+  bool m_OptimizerInitialized{ false };
 
   using InternalOptimizerAutoPointer = std::unique_ptr<InternalOptimizerType>;
-  InternalOptimizerAutoPointer  m_VnlOptimizer;
+  InternalOptimizerAutoPointer m_VnlOptimizer;
 
-  mutable std::ostringstream    m_StopConditionDescription;
+  mutable std::ostringstream m_StopConditionDescription;
 
-  bool         m_Trace{false};
-  unsigned int m_MaximumNumberOfFunctionEvaluations{2000};
-  double       m_GradientConvergenceTolerance{1e-5};
-  double       m_InfinityNormOfProjectedGradient{0.0};
-  double       m_CostFunctionConvergenceFactor{1e+7};
+  bool         m_Trace{ false };
+  unsigned int m_MaximumNumberOfFunctionEvaluations{ 2000 };
+  double       m_GradientConvergenceTolerance{ 1e-5 };
+  double       m_InfinityNormOfProjectedGradient{ 0.0 };
+  double       m_CostFunctionConvergenceFactor{ 1e+7 };
 
   // give the helper access to member variables, to update iteration
   // counts, etc.
@@ -161,7 +168,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLBFGSOptimizerBasev4.hxx"
+#  include "itkLBFGSOptimizerBasev4.hxx"
 #endif
 
 #endif

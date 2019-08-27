@@ -41,18 +41,17 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template< typename TInputImage, typename TFeatureImage >
-class ITK_TEMPLATE_EXPORT StatisticsRelabelImageFilter:
-  public ImageToImageFilter< TInputImage, TInputImage >
+template <typename TInputImage, typename TFeatureImage>
+class ITK_TEMPLATE_EXPORT StatisticsRelabelImageFilter : public ImageToImageFilter<TInputImage, TInputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsRelabelImageFilter);
 
   /** Standard class type aliases. */
   using Self = StatisticsRelabelImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TInputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TInputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Some convenient type alias. */
   using InputImageType = TInputImage;
@@ -76,29 +75,25 @@ public:
   static constexpr unsigned int OutputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
-  using LabelObjectType = StatisticsLabelObject< InputImagePixelType, Self::ImageDimension >;
-  using LabelMapType = LabelMap< LabelObjectType >;
-  using LabelizerType = LabelImageToLabelMapFilter< InputImageType, LabelMapType >;
-  using LabelObjectValuatorType = StatisticsLabelMapFilter< LabelMapType, TFeatureImage >;
+  using LabelObjectType = StatisticsLabelObject<InputImagePixelType, Self::ImageDimension>;
+  using LabelMapType = LabelMap<LabelObjectType>;
+  using LabelizerType = LabelImageToLabelMapFilter<InputImageType, LabelMapType>;
+  using LabelObjectValuatorType = StatisticsLabelMapFilter<LabelMapType, TFeatureImage>;
   using AttributeType = typename LabelObjectType::AttributeType;
-  using RelabelType = StatisticsRelabelLabelMapFilter< LabelMapType >;
-  using BinarizerType = LabelMapToLabelImageFilter< LabelMapType, OutputImageType >;
+  using RelabelType = StatisticsRelabelLabelMapFilter<LabelMapType>;
+  using BinarizerType = LabelMapToLabelImageFilter<LabelMapType, OutputImageType>;
 
   /** Standard New method. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(StatisticsRelabelImageFilter,
-               ImageToImageFilter);
+  itkTypeMacro(StatisticsRelabelImageFilter, ImageToImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputEqualityComparableCheck,
-                   ( Concept::EqualityComparable< InputImagePixelType > ) );
-  itkConceptMacro( IntConvertibleToInputCheck,
-                   ( Concept::Convertible< int, InputImagePixelType > ) );
-  itkConceptMacro( InputOStreamWritableCheck,
-                   ( Concept::OStreamWritable< InputImagePixelType > ) );
+  itkConceptMacro(InputEqualityComparableCheck, (Concept::EqualityComparable<InputImagePixelType>));
+  itkConceptMacro(IntConvertibleToInputCheck, (Concept::Convertible<int, InputImagePixelType>));
+  itkConceptMacro(InputOStreamWritableCheck, (Concept::OStreamWritable<InputImagePixelType>));
   // End concept checking
 #endif
 
@@ -123,32 +118,37 @@ public:
    */
   itkGetConstMacro(Attribute, AttributeType);
   itkSetMacro(Attribute, AttributeType);
-  void SetAttribute(const std::string & s)
+  void
+  SetAttribute(const std::string & s)
   {
-    this->SetAttribute( LabelObjectType::GetAttributeFromName(s) );
+    this->SetAttribute(LabelObjectType::GetAttributeFromName(s));
   }
 
   /** Set the feature image */
-  void SetFeatureImage(TFeatureImage *input)
+  void
+  SetFeatureImage(TFeatureImage * input)
   {
     // Process object is not const-correct so the const casting is required.
-    this->SetNthInput( 1, const_cast< TFeatureImage * >( input ) );
+    this->SetNthInput(1, const_cast<TFeatureImage *>(input));
   }
 
   /** Get the feature image */
-  FeatureImageType * GetFeatureImage()
+  FeatureImageType *
+  GetFeatureImage()
   {
-    return static_cast< FeatureImageType * >( const_cast< DataObject * >( this->ProcessObject::GetInput(1) ) );
+    return static_cast<FeatureImageType *>(const_cast<DataObject *>(this->ProcessObject::GetInput(1)));
   }
 
   /** Set the input image */
-  void SetInput1(InputImageType *input)
+  void
+  SetInput1(InputImageType * input)
   {
     this->SetInput(input);
   }
 
   /** Set the feature image */
-  void SetInput2(FeatureImageType *input)
+  void
+  SetInput2(FeatureImageType * input)
   {
     this->SetFeatureImage(input);
   }
@@ -156,19 +156,23 @@ public:
 protected:
   StatisticsRelabelImageFilter();
   ~StatisticsRelabelImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** StatisticsRelabelImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
    * GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** StatisticsRelabelImageFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * itkNotUsed(output)) override;
 
   /** Single-threaded version of GenerateData.  This filter delegates
    * to GrayscaleGeodesicErodeImageFilter. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   OutputImagePixelType m_BackgroundValue;
@@ -178,7 +182,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkStatisticsRelabelImageFilter.hxx"
+#  include "itkStatisticsRelabelImageFilter.hxx"
 #endif
 
 #endif

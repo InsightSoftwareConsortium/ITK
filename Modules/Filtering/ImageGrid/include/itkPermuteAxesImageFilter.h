@@ -47,18 +47,17 @@ namespace itk
  * \sphinxexample{Filtering/ImageGrid/PermuteAxesOfAnImage,Permute Axes Of An Image}
  * \endsphinx
  */
-template< typename TImage >
-class ITK_TEMPLATE_EXPORT PermuteAxesImageFilter:
-  public ImageToImageFilter< TImage, TImage >
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT PermuteAxesImageFilter : public ImageToImageFilter<TImage, TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PermuteAxesImageFilter);
 
   /** Standard class type aliases. */
   using Self = PermuteAxesImageFilter;
-  using Superclass = ImageToImageFilter< TImage, TImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TImage, TImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -75,11 +74,12 @@ public:
   using OutputImageRegionType = typename Superclass::OutputImageRegionType;
 
   /** PermuteOrderArray type. */
-  using PermuteOrderArrayType = FixedArray< unsigned int, Self::ImageDimension >;
+  using PermuteOrderArrayType = FixedArray<unsigned int, Self::ImageDimension>;
 
   /** Set the permutation order.  The elements of order must be
    * a rearrangement of the numbers from 0 to ImageDimension - 1. */
-  void SetOrder(const PermuteOrderArrayType & order);
+  void
+  SetOrder(const PermuteOrderArrayType & order);
 
   /** Get the permutation order. */
   itkGetConstReferenceMacro(Order, PermuteOrderArrayType);
@@ -95,18 +95,21 @@ protected:
    * the pipeline execution model.  The original documentation of this
    * method is below.
    * \sa ProcessObject::GenerateOutputInformaton() */
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
   /** PermuteAxesImageFilter needs different input requested region than the output
    * requested region.  As such, PermuteAxesImageFilter needs to provide an
    * implementation for GenerateInputRequestedRegion() in order to inform the
    * pipeline execution model.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   PermuteAxesImageFilter();
   ~PermuteAxesImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** PermuteAxesImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a DynamicThreadedGenerateData() routine
@@ -118,7 +121,8 @@ protected:
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 
 private:
@@ -128,7 +132,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPermuteAxesImageFilter.hxx"
+#  include "itkPermuteAxesImageFilter.hxx"
 #endif
 
 #endif

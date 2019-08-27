@@ -38,23 +38,23 @@
 #include "itkTestingComparisonImageFilter.h"
 #include "itkTestingHashImageFilter.h"
 
-RegressionTestParameters regressionTestParameters;
-std::vector< HashPairType > hashTestList;
-RedirectOutputParameters redirectOutputParameters;
+RegressionTestParameters  regressionTestParameters;
+std::vector<HashPairType> hashTestList;
+RedirectOutputParameters  redirectOutputParameters;
 
-RegressionTestParameters&
+RegressionTestParameters &
 GetRegressionTestParameters()
 {
   return regressionTestParameters;
 }
 
-std::vector< HashPairType >&
+std::vector<HashPairType> &
 GetHashTestList()
 {
   return hashTestList;
 }
 
-RedirectOutputParameters&
+RedirectOutputParameters &
 GetRedirectOutputParameters()
 {
   return redirectOutputParameters;
@@ -62,13 +62,15 @@ GetRedirectOutputParameters()
 
 namespace
 {
-char my_to_lower(const char c)
+char
+my_to_lower(const char c)
 {
-  return static_cast<char>( ::tolower(c));
+  return static_cast<char>(::tolower(c));
 }
-}
+} // namespace
 
-void usage()
+void
+usage()
 {
   std::cerr << "usage: itkTestDriver [options] prg [args]" << std::endl;
   std::cerr << "       itkTestDriver --no-process [options]" << std::endl;
@@ -102,7 +104,8 @@ void usage()
   std::cerr << "  --compare-MD5 TEST md5hash0 [ md5hash1 ... ]" << std::endl;
   std::cerr << "      Compare the TEST image file's md5 hash to the provided hash." << std::endl;
   std::cerr << "      md5hash0 is required and assumed to be a hash." << std::endl;
-  std::cerr << "      Additional arguments are considered hashes when the string is 32 hexi-decimal characters. " << std::endl;
+  std::cerr << "      Additional arguments are considered hashes when the string is 32 hexi-decimal characters. "
+            << std::endl;
   std::cerr << "      This option can be used several times for multiple comparisons." << std::endl;
   std::cerr << std::endl;
   std::cerr << "  --with-threads THREADS" << std::endl;
@@ -148,12 +151,13 @@ void usage()
 }
 
 
-int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * processedOutput )
+int
+ProcessArguments(int * ac, ArgumentStringType * av, ProcessedOutputType * processedOutput)
 {
 #if defined(LINUX) && !defined(__MINGW32__) && defined(ITK_HAS_FEENABLEEXCEPT)
   itk::FloatingPointExceptions::Enable();
 #endif
-  regressionTestParameters.intensityTolerance  = 2.0;
+  regressionTestParameters.intensityTolerance = 2.0;
   regressionTestParameters.numberOfPixelsTolerance = 0;
   regressionTestParameters.radiusTolerance = 0;
   regressionTestParameters.verifyInputInformation = true;
@@ -161,270 +165,268 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
   regressionTestParameters.directionTolerance = 1.0e-6;
   redirectOutputParameters.redirect = false;
 
-  if( processedOutput )
-    {
+  if (processedOutput)
+  {
     processedOutput->externalProcessMustBeCalled = true;
-    }
+  }
 
   // parse the command line
   int  i = 1;
   bool skip = false;
-  while ( i < *ac )
+  while (i < *ac)
   {
-     if ( !skip && strcmp((*av)[i], "--compare") == 0 )
+    if (!skip && strcmp((*av)[i], "--compare") == 0)
+    {
+      if (i + 2 >= *ac)
       {
-      if ( i + 2 >= *ac )
-        {
         usage();
         return 1;
-        }
-      regressionTestParameters.compareList.emplace_back((*av)[i + 1], (*av)[i + 2] );
+      }
+      regressionTestParameters.compareList.emplace_back((*av)[i + 1], (*av)[i + 2]);
       (*av) += 3;
       *ac -= 3;
-      }
-     else if ( !skip && strcmp((*av)[i], "--compare-MD5") == 0 )
+    }
+    else if (!skip && strcmp((*av)[i], "--compare-MD5") == 0)
+    {
+      if (i + 2 >= *ac)
       {
-      if ( i + 2 >= *ac )
-        {
         usage();
         return 1;
-        }
-      const char *filename = (*av)[i + 1];
-      std::string md5hash0 =  (*av)[i + 2];
-
-     // convert hash to all lowercase letters
-     std::transform(md5hash0.begin(), md5hash0.end(), md5hash0.begin(), my_to_lower );
-
-     // chech that the hash is of expected format
-     if ( md5hash0.size() != 32 ||
-          md5hash0.find_first_not_of( "0123456789abcdef" ) != std::string::npos )
-       {
-       std::cerr << "Warning: argument does not appear to be a valid md5 hash \"" << md5hash0 << "\"." << std::endl;
-       }
-
-     std::vector< std::string > hashVector;
-     hashVector.push_back( md5hash0 );
-
-     (*av) += 3;
-     (*ac) -= 3;
-
-     // continue eating hash values
-     while ( *ac - i > 0 )
-       {
-       std::string md5hashN = (*av)[i];
-
-       // convert hash to all lowercase letters
-       std::transform(md5hashN.begin(), md5hashN.end(), md5hashN.begin(), my_to_lower );
-
-       // check if the next argument is a hash
-       if ( md5hashN.size() != 32 ||
-            md5hashN.find_first_not_of( "0123456789abcdef" ) != std::string::npos )
-         {
-         break;
-         }
-
-       // add the hash
-       hashVector.push_back( md5hashN );
-
-       // successful hash,
-       // move the arguments along
-       ++(*av);
-       --(*ac);
-       }
-
-      hashTestList.emplace_back( filename, hashVector  );
       }
-    else if ( !skip && strcmp((*av)[i], "--") == 0 )
+      const char * filename = (*av)[i + 1];
+      std::string  md5hash0 = (*av)[i + 2];
+
+      // convert hash to all lowercase letters
+      std::transform(md5hash0.begin(), md5hash0.end(), md5hash0.begin(), my_to_lower);
+
+      // chech that the hash is of expected format
+      if (md5hash0.size() != 32 || md5hash0.find_first_not_of("0123456789abcdef") != std::string::npos)
       {
+        std::cerr << "Warning: argument does not appear to be a valid md5 hash \"" << md5hash0 << "\"." << std::endl;
+      }
+
+      std::vector<std::string> hashVector;
+      hashVector.push_back(md5hash0);
+
+      (*av) += 3;
+      (*ac) -= 3;
+
+      // continue eating hash values
+      while (*ac - i > 0)
+      {
+        std::string md5hashN = (*av)[i];
+
+        // convert hash to all lowercase letters
+        std::transform(md5hashN.begin(), md5hashN.end(), md5hashN.begin(), my_to_lower);
+
+        // check if the next argument is a hash
+        if (md5hashN.size() != 32 || md5hashN.find_first_not_of("0123456789abcdef") != std::string::npos)
+        {
+          break;
+        }
+
+        // add the hash
+        hashVector.push_back(md5hashN);
+
+        // successful hash,
+        // move the arguments along
+        ++(*av);
+        --(*ac);
+      }
+
+      hashTestList.emplace_back(filename, hashVector);
+    }
+    else if (!skip && strcmp((*av)[i], "--") == 0)
+    {
       skip = true;
       i += 1;
-      }
-    else if ( !skip && strcmp((*av)[i], "--help") == 0 )
-      {
+    }
+    else if (!skip && strcmp((*av)[i], "--help") == 0)
+    {
       usage();
       return 1;
-      }
-    else if ( !skip && strcmp((*av)[i], "--with-threads") == 0 )
+    }
+    else if (!skip && strcmp((*av)[i], "--with-threads") == 0)
+    {
+      if (i + 2 >= *ac)
       {
-      if ( i + 2 >= *ac )
-        {
         usage();
         return 1;
-        }
+      }
       // set the environment which will be read by the subprocess
       std::string threadEnv = "ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=";
       threadEnv += (*av)[i + 1];
-      itksys::SystemTools::PutEnv( threadEnv.c_str() );
+      itksys::SystemTools::PutEnv(threadEnv.c_str());
       // and set the number of threads locally for the comparison
       itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(std::stoi((*av)[i + 1]));
       *av += 2;
       *ac -= 2;
-      }
-    else if ( !skip && strcmp((*av)[i], "--without-threads") == 0 )
-      {
-      itksys::SystemTools::PutEnv( "ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1" );
+    }
+    else if (!skip && strcmp((*av)[i], "--without-threads") == 0)
+    {
+      itksys::SystemTools::PutEnv("ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1");
       itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(1);
       *av += 1;
       *ac -= 1;
-      }
-    else if ( !skip && strcmp((*av)[i], "--compareNumberOfPixelsTolerance") == 0 )
+    }
+    else if (!skip && strcmp((*av)[i], "--compareNumberOfPixelsTolerance") == 0)
+    {
+      if (i + 2 >= *ac)
       {
-      if ( i + 2 >= *ac )
-        {
         usage();
         return 1;
-        }
+      }
       regressionTestParameters.numberOfPixelsTolerance = std::stoi((*av)[i + 1]);
       *av += 2;
       *ac -= 2;
-      }
-    else if ( !skip && strcmp((*av)[i], "--compareRadiusTolerance") == 0 )
+    }
+    else if (!skip && strcmp((*av)[i], "--compareRadiusTolerance") == 0)
+    {
+      if (i + 1 >= *ac)
       {
-      if ( i + 1 >= *ac )
-        {
         usage();
         return 1;
-        }
-     regressionTestParameters.radiusTolerance = std::stoi((*av)[i + 1]);
+      }
+      regressionTestParameters.radiusTolerance = std::stoi((*av)[i + 1]);
       (*av) += 2;
       *ac -= 2;
-      }
-    else if ( !skip && strcmp((*av)[i], "--compareIntensityTolerance") == 0 )
+    }
+    else if (!skip && strcmp((*av)[i], "--compareIntensityTolerance") == 0)
+    {
+      if (i + 2 >= *ac)
       {
-      if ( i + 2 >= *ac )
-        {
         usage();
         return 1;
-        }
+      }
       regressionTestParameters.intensityTolerance = std::stod((*av)[i + 1]);
       (*av) += 2;
       *ac -= 2;
-      }
-    else if ( !skip && strcmp((*av)[i], "--compareCoordinateTolerance") == 0 )
+    }
+    else if (!skip && strcmp((*av)[i], "--compareCoordinateTolerance") == 0)
+    {
+      if (i + 2 >= *ac)
       {
-      if ( i + 2 >= *ac )
-        {
         usage();
         return 1;
-        }
+      }
       regressionTestParameters.coordinateTolerance = std::stod((*av)[i + 1]);
       (*av) += 2;
       *ac -= 2;
-      }
-    else if ( !skip && strcmp((*av)[i], "--compareDirectionTolerance") == 0 )
+    }
+    else if (!skip && strcmp((*av)[i], "--compareDirectionTolerance") == 0)
+    {
+      if (i + 2 >= *ac)
       {
-      if ( i + 2 >= *ac )
-        {
         usage();
         return 1;
-        }
+      }
       regressionTestParameters.directionTolerance = std::stod((*av)[i + 1]);
       (*av) += 2;
       *ac -= 2;
-      }
-    else if ( !skip && strcmp((*av)[i], "--ignoreInputInformation") == 0 )
-      {
+    }
+    else if (!skip && strcmp((*av)[i], "--ignoreInputInformation") == 0)
+    {
       regressionTestParameters.verifyInputInformation = false;
       (*av) += 1;
       *ac -= 1;
-      }
-    else if ( !skip && strcmp((*av)[i], "--add-before-libpath") == 0 )
+    }
+    else if (!skip && strcmp((*av)[i], "--add-before-libpath") == 0)
+    {
+      if (i + 2 >= *ac)
       {
-      if ( i + 2 >= *ac )
-        {
         usage();
         return 1;
-        }
-      if( processedOutput )
-        {
-        processedOutput->add_before_libpath.push_back( (*av)[i+1] );
-        }
+      }
+      if (processedOutput)
+      {
+        processedOutput->add_before_libpath.push_back((*av)[i + 1]);
+      }
       (*av) += 2;
       *ac -= 2;
-      }
-    else if ( !skip && strcmp((*av)[i], "--add-before-env") == 0 )
+    }
+    else if (!skip && strcmp((*av)[i], "--add-before-env") == 0)
+    {
+      if (i + 3 >= *ac)
       {
-      if ( i + 3 >= *ac )
-        {
         usage();
         return 1;
-        }
-      if( processedOutput )
-        {
-        processedOutput->add_before_env.push_back( (*av)[i+1] );
-        processedOutput->add_before_env.push_back( (*av)[i+2] );
-        }
+      }
+      if (processedOutput)
+      {
+        processedOutput->add_before_env.push_back((*av)[i + 1]);
+        processedOutput->add_before_env.push_back((*av)[i + 2]);
+      }
       (*av) += 3;
       *ac -= 3;
-      }
-    else if ( !skip && strcmp((*av)[i], "--add-before-env-with-sep") == 0 )
+    }
+    else if (!skip && strcmp((*av)[i], "--add-before-env-with-sep") == 0)
+    {
+      if (i + 4 >= *ac)
       {
-      if ( i + 4 >= *ac )
-        {
         usage();
         return 1;
-        }
-      if( processedOutput )
-        {
-        processedOutput->add_before_env_with_sep.push_back( (*av)[i+1] );
-        processedOutput->add_before_env_with_sep.push_back( (*av)[i+2] );
-        processedOutput->add_before_env_with_sep.push_back( (*av)[i+3] );
-        }
+      }
+      if (processedOutput)
+      {
+        processedOutput->add_before_env_with_sep.push_back((*av)[i + 1]);
+        processedOutput->add_before_env_with_sep.push_back((*av)[i + 2]);
+        processedOutput->add_before_env_with_sep.push_back((*av)[i + 3]);
+      }
       (*av) += 4;
       *ac -= 4;
-      }
-    else if ( !skip && strcmp((*av)[i], "--remove-env") == 0 )
+    }
+    else if (!skip && strcmp((*av)[i], "--remove-env") == 0)
+    {
+      if (i + 2 >= *ac)
       {
-      if ( i + 2 >= *ac )
-        {
         usage();
         return 1;
-        }
+      }
 
-      itksys::SystemTools::UnPutEnv( (*av)[i+1] );
+      itksys::SystemTools::UnPutEnv((*av)[i + 1]);
 
       (*av) += 2;
       *ac -= 2;
-      }
-    else if ( !skip && strcmp((*av)[i], "--full-output") == 0 )
-      {
+    }
+    else if (!skip && strcmp((*av)[i], "--full-output") == 0)
+    {
       // emit the string to tell ctest that the full output should be
       // passed to cdash.
       std::cout << "CTEST_FULL_OUTPUT" << std::endl;
       (*av) += 1;
       *ac -= 1;
-      }
-    else if ( !skip && strcmp((*av)[i], "--no-process") == 0 )
-      {
+    }
+    else if (!skip && strcmp((*av)[i], "--no-process") == 0)
+    {
       // The test driver needs to invoke another executable
       // For example, the python interpreter to run Wrapping tests.
-      if( processedOutput )
-        {
+      if (processedOutput)
+      {
         processedOutput->externalProcessMustBeCalled = false;
-        }
+      }
       (*av) += 1;
       *ac -= 1;
-      }
-    else if ( !skip && strcmp((*av)[i], "--redirectOutput") == 0 )
+    }
+    else if (!skip && strcmp((*av)[i], "--redirectOutput") == 0)
+    {
+      if (i + 1 >= *ac)
       {
-      if ( i + 1 >= *ac )
-        {
         usage();
         return 1;
-        }
+      }
       redirectOutputParameters.redirect = true;
       redirectOutputParameters.fileName = (*av)[i + 1];
       *av += 2;
       *ac -= 2;
-      }
+    }
     else
+    {
+      if (processedOutput)
       {
-      if( processedOutput )
-        {
         processedOutput->args.push_back((*av)[i]);
-        }
-      i += 1;
       }
+      i += 1;
+    }
   }
 
   return 0;
@@ -432,9 +434,10 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
 
 
 /// Get the PixelType and ComponentType from fileName
-void GetImageType( const char * fileName,
-                   itk::ImageIOBase::IOPixelType &pixelType,
-                   itk::ImageIOBase::IOComponentType &componentType )
+void
+GetImageType(const char *                        fileName,
+             itk::ImageIOBase::IOPixelType &     pixelType,
+             itk::ImageIOBase::IOComponentType & componentType)
 {
   using ImageType = itk::Image<unsigned char, 3>;
   itk::ImageFileReader<ImageType>::Pointer imageReader = itk::ImageFileReader<ImageType>::New();
@@ -454,48 +457,49 @@ void GetImageType( const char * fileName,
 //  the number of pixel beyond the tolerance
 //  otherwise zero is returned if the difference is with in tolerances
 template <typename PixelType>
-int RegressionTestHelper(const char *testImageFilename,
-                         const char *baselineImageFilename,
-                         int reportErrors,
-                         double intensityTolerance,
-                         ::itk::SizeValueType numberOfPixelsTolerance,
-                         unsigned int radiusTolerance,
-                         bool verifyInputInformation,
-                         double coordinateTolerance,
-                         double directionTolerance)
+int
+RegressionTestHelper(const char *         testImageFilename,
+                     const char *         baselineImageFilename,
+                     int                  reportErrors,
+                     double               intensityTolerance,
+                     ::itk::SizeValueType numberOfPixelsTolerance,
+                     unsigned int         radiusTolerance,
+                     bool                 verifyInputInformation,
+                     double               coordinateTolerance,
+                     double               directionTolerance)
 {
   // Use the factory mechanism to read the test and baseline files and convert
   // them to double
-  using ImageType = itk::Image< PixelType, ITK_TEST_DIMENSION_MAX >;
-  using OutputType = itk::Image< unsigned char, ITK_TEST_DIMENSION_MAX >;
-  using DiffOutputType = itk::Image< unsigned char, 2 >;
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ImageType = itk::Image<PixelType, ITK_TEST_DIMENSION_MAX>;
+  using OutputType = itk::Image<unsigned char, ITK_TEST_DIMENSION_MAX>;
+  using DiffOutputType = itk::Image<unsigned char, 2>;
+  using ReaderType = itk::ImageFileReader<ImageType>;
 
   // Read the baseline file
   typename ReaderType::Pointer baselineReader = ReaderType::New();
   baselineReader->SetFileName(baselineImageFilename);
   try
-    {
+  {
     baselineReader->UpdateLargestPossibleRegion();
-    }
-  catch ( itk::ExceptionObject & e )
-    {
-    std::cerr << "Exception detected while reading " << baselineImageFilename << " : "  << e.GetDescription();
-    return itk::NumericTraits< int >::max();
-    }
+  }
+  catch (itk::ExceptionObject & e)
+  {
+    std::cerr << "Exception detected while reading " << baselineImageFilename << " : " << e.GetDescription();
+    return itk::NumericTraits<int>::max();
+  }
 
   // Read the file generated by the test
   typename ReaderType::Pointer testReader = ReaderType::New();
   testReader->SetFileName(testImageFilename);
   try
-    {
+  {
     testReader->UpdateLargestPossibleRegion();
-    }
-  catch ( itk::ExceptionObject & e )
-    {
-    std::cerr << "Exception detected while reading " << testImageFilename << " : "  << e.GetDescription() << std::endl;
-    return itk::NumericTraits< int >::max();
-    }
+  }
+  catch (itk::ExceptionObject & e)
+  {
+    std::cerr << "Exception detected while reading " << testImageFilename << " : " << e.GetDescription() << std::endl;
+    return itk::NumericTraits<int>::max();
+  }
 
   // The sizes of the baseline and test image must match
   typename ImageType::SizeType baselineSize;
@@ -503,21 +507,19 @@ int RegressionTestHelper(const char *testImageFilename,
   typename ImageType::SizeType testSize;
   testSize = testReader->GetOutput()->GetLargestPossibleRegion().GetSize();
 
-  if ( baselineSize != testSize )
-    {
+  if (baselineSize != testSize)
+  {
     std::cerr << "The size of the Baseline image and Test image do not match!" << std::endl;
-    std::cerr << "Baseline image: " << baselineImageFilename
-              << " has size " << baselineSize << std::endl;
-    std::cerr << "Test image:     " << testImageFilename
-              << " has size " << testSize << std::endl;
-    return itk::NumericTraits< int >::max()-1;
-    }
+    std::cerr << "Baseline image: " << baselineImageFilename << " has size " << baselineSize << std::endl;
+    std::cerr << "Test image:     " << testImageFilename << " has size " << testSize << std::endl;
+    return itk::NumericTraits<int>::max() - 1;
+  }
 
   // Now compare the two images
-  using DiffType = itk::Testing::ComparisonImageFilter< ImageType, ImageType >;
+  using DiffType = itk::Testing::ComparisonImageFilter<ImageType, ImageType>;
   typename DiffType::Pointer diff = DiffType::New();
-  diff->SetValidInput( baselineReader->GetOutput() );
-  diff->SetTestInput( testReader->GetOutput() );
+  diff->SetValidInput(baselineReader->GetOutput());
+  diff->SetTestInput(testReader->GetOutput());
   diff->SetDifferenceThreshold(intensityTolerance);
   diff->SetToleranceRadius(radiusTolerance);
   diff->SetVerifyInputInformation(verifyInputInformation);
@@ -527,26 +529,25 @@ int RegressionTestHelper(const char *testImageFilename,
 
   itk::SizeValueType status = diff->GetNumberOfPixelsWithDifferences();
 
-  if ( ! reportErrors )
-    {
-    //The measurement errors should be reported for both success and errors
-    //to facilitate setting tight tolerances of tests.
-    std::string shortFilename = itksys::SystemTools::GetFilenameName( baselineImageFilename );
+  if (!reportErrors)
+  {
+    // The measurement errors should be reported for both success and errors
+    // to facilitate setting tight tolerances of tests.
+    std::string shortFilename = itksys::SystemTools::GetFilenameName(baselineImageFilename);
 
-    std::cout << "<DartMeasurement name=\"ImageError " << shortFilename
-              << "\" type=\"numeric/double\">";
+    std::cout << "<DartMeasurement name=\"ImageError " << shortFilename << "\" type=\"numeric/double\">";
     std::cout << status;
-    std::cout <<  "</DartMeasurement>" << std::endl;
-    }
+    std::cout << "</DartMeasurement>" << std::endl;
+  }
 
   // if there are discrepencies, create an diff image
-  if ( ( status > numberOfPixelsTolerance ) && reportErrors )
-    {
+  if ((status > numberOfPixelsTolerance) && reportErrors)
+  {
 
     // Report actuall image error to best baseline
     std::cout << "<DartMeasurement name=\"ImageError\" type=\"numeric/double\">";
     std::cout << status;
-    std::cout <<  "</DartMeasurement>" << std::endl;
+    std::cout << "</DartMeasurement>" << std::endl;
 
 
     // Report statistics for pixels which exceed tolerances
@@ -560,28 +561,30 @@ int RegressionTestHelper(const char *testImageFilename,
     std::cout << diff->GetMeanDifference() << "</DartMeasurement>" << std::endl;
 
 
-    using RescaleType = itk::Testing::StretchIntensityImageFilter< ImageType, OutputType >;
-    using ExtractType = itk::Testing::ExtractSliceImageFilter< OutputType, DiffOutputType >;
-    using WriterType = itk::ImageFileWriter< DiffOutputType >;
-    using RegionType = itk::ImageRegion< ITK_TEST_DIMENSION_MAX >;
-    OutputType::SizeType size; size.Fill(0);
+    using RescaleType = itk::Testing::StretchIntensityImageFilter<ImageType, OutputType>;
+    using ExtractType = itk::Testing::ExtractSliceImageFilter<OutputType, DiffOutputType>;
+    using WriterType = itk::ImageFileWriter<DiffOutputType>;
+    using RegionType = itk::ImageRegion<ITK_TEST_DIMENSION_MAX>;
+    OutputType::SizeType size;
+    size.Fill(0);
 
     typename RescaleType::Pointer rescale = RescaleType::New();
-    rescale->SetOutputMinimum( itk::NumericTraits< unsigned char >::NonpositiveMin() );
-    rescale->SetOutputMaximum( itk::NumericTraits< unsigned char >::max() );
-    rescale->SetInput( diff->GetOutput() );
+    rescale->SetOutputMinimum(itk::NumericTraits<unsigned char>::NonpositiveMin());
+    rescale->SetOutputMaximum(itk::NumericTraits<unsigned char>::max());
+    rescale->SetInput(diff->GetOutput());
     rescale->UpdateLargestPossibleRegion();
     size = rescale->GetOutput()->GetLargestPossibleRegion().GetSize();
 
-    //Get the center slice of the image,  In 3D, the first slice
-    //is often a black slice with little debugging information.
-    OutputType::IndexType index; index.Fill(0);
-    for ( unsigned int i = 2; i < ITK_TEST_DIMENSION_MAX; i++ )
-      {
-      index[i] = size[i] / 2; //NOTE: Integer Divide used to get approximately
+    // Get the center slice of the image,  In 3D, the first slice
+    // is often a black slice with little debugging information.
+    OutputType::IndexType index;
+    index.Fill(0);
+    for (unsigned int i = 2; i < ITK_TEST_DIMENSION_MAX; i++)
+    {
+      index[i] = size[i] / 2; // NOTE: Integer Divide used to get approximately
                               // the center slice
       size[i] = 0;
-      }
+    }
 
     RegionType region;
     region.SetIndex(index);
@@ -590,42 +593,42 @@ int RegressionTestHelper(const char *testImageFilename,
 
     ExtractType::Pointer extract = ExtractType::New();
     extract->SetDirectionCollapseToIdentity();
-    extract->SetInput( rescale->GetOutput() );
+    extract->SetInput(rescale->GetOutput());
     extract->SetExtractionRegion(region);
 
     WriterType::Pointer writer = WriterType::New();
-    writer->SetInput( extract->GetOutput() );
+    writer->SetInput(extract->GetOutput());
 
     std::ostringstream diffName;
     diffName << testImageFilename << ".diff.png";
     try
-      {
-      rescale->SetInput( diff->GetOutput() );
+    {
+      rescale->SetInput(diff->GetOutput());
       rescale->Update();
-      }
-    catch ( const std::exception & e )
-      {
+    }
+    catch (const std::exception & e)
+    {
       std::cerr << "Error during rescale of " << diffName.str() << std::endl;
       std::cerr << e.what() << "\n";
-      }
-    catch ( ... )
-      {
+    }
+    catch (...)
+    {
       std::cerr << "Error during rescale of " << diffName.str() << std::endl;
-      }
-    writer->SetFileName( diffName.str().c_str() );
+    }
+    writer->SetFileName(diffName.str().c_str());
     try
-      {
+    {
       writer->Update();
-      }
-    catch ( const std::exception & e )
-      {
+    }
+    catch (const std::exception & e)
+    {
       std::cerr << "Error during write of " << diffName.str() << std::endl;
       std::cerr << e.what() << "\n";
-      }
-    catch ( ... )
-      {
+    }
+    catch (...)
+    {
       std::cerr << "Error during write of " << diffName.str() << std::endl;
-      }
+    }
 
     std::cout << "<DartMeasurementFile name=\"DifferenceImage\" type=\"image/png\">";
     std::cout << diffName.str();
@@ -634,33 +637,33 @@ int RegressionTestHelper(const char *testImageFilename,
     std::ostringstream baseName;
     baseName << testImageFilename << ".base.png";
     try
-      {
-      rescale->SetInput( baselineReader->GetOutput() );
+    {
+      rescale->SetInput(baselineReader->GetOutput());
       rescale->Update();
-      }
-    catch ( const std::exception & e )
-      {
+    }
+    catch (const std::exception & e)
+    {
       std::cerr << "Error during rescale of " << baseName.str() << std::endl;
       std::cerr << e.what() << "\n";
-      }
-    catch ( ... )
-      {
+    }
+    catch (...)
+    {
       std::cerr << "Error during rescale of " << baseName.str() << std::endl;
-      }
+    }
     try
-      {
-      writer->SetFileName( baseName.str().c_str() );
+    {
+      writer->SetFileName(baseName.str().c_str());
       writer->Update();
-      }
-    catch ( const std::exception & e )
-      {
+    }
+    catch (const std::exception & e)
+    {
       std::cerr << "Error during write of " << baseName.str() << std::endl;
       std::cerr << e.what() << "\n";
-      }
-    catch ( ... )
-      {
+    }
+    catch (...)
+    {
       std::cerr << "Error during write of " << baseName.str() << std::endl;
-      }
+    }
 
     std::cout << "<DartMeasurementFile name=\"BaselineImage\" type=\"image/png\">";
     std::cout << baseName.str();
@@ -669,253 +672,256 @@ int RegressionTestHelper(const char *testImageFilename,
     std::ostringstream testName;
     testName << testImageFilename << ".test.png";
     try
-      {
-      rescale->SetInput( testReader->GetOutput() );
+    {
+      rescale->SetInput(testReader->GetOutput());
       rescale->Update();
-      }
-    catch ( const std::exception & e )
-      {
+    }
+    catch (const std::exception & e)
+    {
       std::cerr << "Error during rescale of " << testName.str() << std::endl;
       std::cerr << e.what() << "\n";
-      }
-    catch ( ... )
-      {
+    }
+    catch (...)
+    {
       std::cerr << "Error during rescale of " << testName.str() << std::endl;
-      }
+    }
     try
-      {
-      writer->SetFileName( testName.str().c_str() );
+    {
+      writer->SetFileName(testName.str().c_str());
       writer->Update();
-      }
-    catch ( const std::exception & e )
-      {
+    }
+    catch (const std::exception & e)
+    {
       std::cerr << "Error during write of " << testName.str() << std::endl;
       std::cerr << e.what() << "\n";
-      }
-    catch ( ... )
-      {
+    }
+    catch (...)
+    {
       std::cerr << "Error during write of " << testName.str() << std::endl;
-      }
+    }
 
     std::cout << "<DartMeasurementFile name=\"TestImage\" type=\"image/png\">";
     std::cout << testName.str();
     std::cout << "</DartMeasurementFile>" << std::endl;
-    }
-  return ( status > numberOfPixelsTolerance ) ? static_cast<int>(status) : 0;
+  }
+  return (status > numberOfPixelsTolerance) ? static_cast<int>(status) : 0;
 }
 
-int RegressionTestImage(const char *testImageFilename,
-                        const char *baselineImageFilename,
-                        int reportErrors,
-                        double intensityTolerance,
-                        ::itk::SizeValueType numberOfPixelsTolerance,
-                        unsigned int radiusTolerance,
-                        bool verifyInputInformation,
-                        double coordinateTolerance,
-                        double directionTolerance)
+int
+RegressionTestImage(const char *         testImageFilename,
+                    const char *         baselineImageFilename,
+                    int                  reportErrors,
+                    double               intensityTolerance,
+                    ::itk::SizeValueType numberOfPixelsTolerance,
+                    unsigned int         radiusTolerance,
+                    bool                 verifyInputInformation,
+                    double               coordinateTolerance,
+                    double               directionTolerance)
 {
-  itk::ImageIOBase::IOPixelType pixelType;
+  itk::ImageIOBase::IOPixelType     pixelType;
   itk::ImageIOBase::IOComponentType componentType;
   try
-    {
+  {
     GetImageType(testImageFilename, pixelType, componentType);
 
     switch (componentType)
-      {
+    {
       case itk::ImageIOBase::UCHAR:
       case itk::ImageIOBase::USHORT:
       case itk::ImageIOBase::UINT:
       case itk::ImageIOBase::ULONG:
       case itk::ImageIOBase::ULONGLONG:
         return RegressionTestHelper<unsigned long long>(testImageFilename,
-          baselineImageFilename,
-          reportErrors,
-          intensityTolerance,
-          numberOfPixelsTolerance,
-          radiusTolerance,
-          verifyInputInformation,
-          coordinateTolerance,
-          directionTolerance);
+                                                        baselineImageFilename,
+                                                        reportErrors,
+                                                        intensityTolerance,
+                                                        numberOfPixelsTolerance,
+                                                        radiusTolerance,
+                                                        verifyInputInformation,
+                                                        coordinateTolerance,
+                                                        directionTolerance);
       case itk::ImageIOBase::CHAR:
       case itk::ImageIOBase::SHORT:
       case itk::ImageIOBase::INT:
       case itk::ImageIOBase::LONG:
       case itk::ImageIOBase::LONGLONG:
         return RegressionTestHelper<long long>(testImageFilename,
-          baselineImageFilename,
-          reportErrors,
-          intensityTolerance,
-          numberOfPixelsTolerance,
-          radiusTolerance,
-          verifyInputInformation,
-          coordinateTolerance,
-          directionTolerance);
+                                               baselineImageFilename,
+                                               reportErrors,
+                                               intensityTolerance,
+                                               numberOfPixelsTolerance,
+                                               radiusTolerance,
+                                               verifyInputInformation,
+                                               coordinateTolerance,
+                                               directionTolerance);
       case itk::ImageIOBase::FLOAT:
       case itk::ImageIOBase::DOUBLE:
         return RegressionTestHelper<double>(testImageFilename,
-          baselineImageFilename,
-          reportErrors,
-          intensityTolerance,
-          numberOfPixelsTolerance,
-          radiusTolerance,
-          verifyInputInformation,
-          coordinateTolerance,
-          directionTolerance);
+                                            baselineImageFilename,
+                                            reportErrors,
+                                            intensityTolerance,
+                                            numberOfPixelsTolerance,
+                                            radiusTolerance,
+                                            verifyInputInformation,
+                                            coordinateTolerance,
+                                            directionTolerance);
       case itk::ImageIOBase::UNKNOWNCOMPONENTTYPE:
       default:
-          std::cerr << "Exception detected while reading " << baselineImageFilename << " : " << "Unknown component type";
-          return itk::NumericTraits< int >::max();
-      }
+        std::cerr << "Exception detected while reading " << baselineImageFilename << " : "
+                  << "Unknown component type";
+        return itk::NumericTraits<int>::max();
     }
-  catch ( itk::ExceptionObject & e )
-    {
-    std::cerr << "Exception detected while reading " << baselineImageFilename << " : "  << e.GetDescription();
-    return itk::NumericTraits< int >::max();
-    }
+  }
+  catch (itk::ExceptionObject & e)
+  {
+    std::cerr << "Exception detected while reading " << baselineImageFilename << " : " << e.GetDescription();
+    return itk::NumericTraits<int>::max();
+  }
 }
 
-template< typename TImageType >
-std::string ComputeHash( const char *testImageFilename )
+template <typename TImageType>
+std::string
+ComputeHash(const char * testImageFilename)
 {
   using ImageType = TImageType;
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
 
 
   // Read the file generated by the test
   typename ReaderType::Pointer testReader = ReaderType::New();
   testReader->SetFileName(testImageFilename);
   try
-    {
+  {
     testReader->UpdateLargestPossibleRegion();
-    }
-  catch ( itk::ExceptionObject & e )
-    {
-    std::cerr << "Exception detected while reading " << testImageFilename << " : "  << e.GetDescription() << std::endl;
+  }
+  catch (itk::ExceptionObject & e)
+  {
+    std::cerr << "Exception detected while reading " << testImageFilename << " : " << e.GetDescription() << std::endl;
     throw; // re-throw
-    }
+  }
 
   using HashFilterType = itk::Testing::HashImageFilter<ImageType>;
 
   typename HashFilterType::Pointer hasher = HashFilterType::New();
-  hasher->SetInput( testReader->GetOutput() );
+  hasher->SetInput(testReader->GetOutput());
   hasher->Update();
 
   return hasher->GetHash();
 }
 
-int HashTestImage( const char *testImageFilename,
-                   const std::vector<std::string> &baselineMD5Vector )
+int
+HashTestImage(const char * testImageFilename, const std::vector<std::string> & baselineMD5Vector)
 {
   itk::ImageIOBase::Pointer iobase =
-    itk::ImageIOFactory::CreateImageIO( testImageFilename, itk::ImageIOFactory::FileModeType::ReadMode);
+    itk::ImageIOFactory::CreateImageIO(testImageFilename, itk::ImageIOFactory::FileModeType::ReadMode);
 
-  if ( iobase.IsNull() )
-    {
-    itkGenericExceptionMacro( "Unable to determine ImageIO reader for \"" << testImageFilename << "\"" );
-    }
+  if (iobase.IsNull())
+  {
+    itkGenericExceptionMacro("Unable to determine ImageIO reader for \"" << testImageFilename << "\"");
+  }
 
   // Read the image information
-  iobase->SetFileName( testImageFilename );
+  iobase->SetFileName(testImageFilename);
   iobase->ReadImageInformation();
 
   // get output information about input image
   itk::ImageIOBase::IOComponentType componentType = iobase->GetComponentType();
 
   std::string testMD5 = "";
-  switch(componentType)
-    {
+  switch (componentType)
+  {
     case itk::ImageIOBase::CHAR:
-      testMD5 = ComputeHash< itk::VectorImage<char, ITK_TEST_DIMENSION_MAX> >( testImageFilename );
+      testMD5 = ComputeHash<itk::VectorImage<char, ITK_TEST_DIMENSION_MAX>>(testImageFilename);
       break;
     case itk::ImageIOBase::UCHAR:
-      testMD5 = ComputeHash< itk::VectorImage<unsigned char, ITK_TEST_DIMENSION_MAX> >( testImageFilename );
+      testMD5 = ComputeHash<itk::VectorImage<unsigned char, ITK_TEST_DIMENSION_MAX>>(testImageFilename);
       break;
     case itk::ImageIOBase::SHORT:
-      testMD5 = ComputeHash< itk::VectorImage<short, ITK_TEST_DIMENSION_MAX> >( testImageFilename );
+      testMD5 = ComputeHash<itk::VectorImage<short, ITK_TEST_DIMENSION_MAX>>(testImageFilename);
       break;
     case itk::ImageIOBase::USHORT:
-      testMD5 = ComputeHash< itk::VectorImage<unsigned short, ITK_TEST_DIMENSION_MAX> >( testImageFilename );
+      testMD5 = ComputeHash<itk::VectorImage<unsigned short, ITK_TEST_DIMENSION_MAX>>(testImageFilename);
       break;
     case itk::ImageIOBase::INT:
-      testMD5 = ComputeHash< itk::VectorImage<int, ITK_TEST_DIMENSION_MAX> >( testImageFilename );
+      testMD5 = ComputeHash<itk::VectorImage<int, ITK_TEST_DIMENSION_MAX>>(testImageFilename);
       break;
     case itk::ImageIOBase::UINT:
-      testMD5 = ComputeHash< itk::VectorImage<unsigned int, ITK_TEST_DIMENSION_MAX> >( testImageFilename );
+      testMD5 = ComputeHash<itk::VectorImage<unsigned int, ITK_TEST_DIMENSION_MAX>>(testImageFilename);
       break;
     case itk::ImageIOBase::LONG:
-      testMD5 = ComputeHash< itk::VectorImage<long, ITK_TEST_DIMENSION_MAX> >( testImageFilename );
+      testMD5 = ComputeHash<itk::VectorImage<long, ITK_TEST_DIMENSION_MAX>>(testImageFilename);
       break;
     case itk::ImageIOBase::ULONG:
-      testMD5 = ComputeHash< itk::VectorImage<unsigned long, ITK_TEST_DIMENSION_MAX> >( testImageFilename );
+      testMD5 = ComputeHash<itk::VectorImage<unsigned long, ITK_TEST_DIMENSION_MAX>>(testImageFilename);
       break;
     case itk::ImageIOBase::LONGLONG:
-      testMD5 = ComputeHash< itk::VectorImage<long long, ITK_TEST_DIMENSION_MAX> >( testImageFilename );
+      testMD5 = ComputeHash<itk::VectorImage<long long, ITK_TEST_DIMENSION_MAX>>(testImageFilename);
       break;
     case itk::ImageIOBase::ULONGLONG:
-      testMD5 = ComputeHash< itk::VectorImage<unsigned long long, ITK_TEST_DIMENSION_MAX> >( testImageFilename );
+      testMD5 = ComputeHash<itk::VectorImage<unsigned long long, ITK_TEST_DIMENSION_MAX>>(testImageFilename);
       break;
     case itk::ImageIOBase::FLOAT:
     case itk::ImageIOBase::DOUBLE:
       std::cerr << "Hashing is not supporting for float and double images." << std::endl;
-      itkGenericExceptionMacro( "Hashing is not supported for images of float or doubles." );
+      itkGenericExceptionMacro("Hashing is not supported for images of float or doubles.");
 
     case itk::ImageIOBase::UNKNOWNCOMPONENTTYPE:
     default:
-      assert( false ); // should never get here unless we forgot a type
-      itkGenericExceptionMacro( "Logic error!" );
-    }
+      assert(false); // should never get here unless we forgot a type
+      itkGenericExceptionMacro("Logic error!");
+  }
 
   auto iter = baselineMD5Vector.begin();
-  assert( baselineMD5Vector.size() );
+  assert(baselineMD5Vector.size());
   do
+  {
+    if (*iter == testMD5)
     {
-    if ( *iter == testMD5 )
-      {
       // success, let's get out of here
       return 0;
-      }
     }
-  while (++iter != baselineMD5Vector.end() );
+  } while (++iter != baselineMD5Vector.end());
 
   // failed to match print the different md5s
   std::cout << "<DartMeasurement name=\"TestMD5\" type=\"text/string\">";
   std::cout << testMD5;
-  std::cout <<  "</DartMeasurement>" << std::endl;
+  std::cout << "</DartMeasurement>" << std::endl;
 
 
   // print out all md5 baselines
-  for ( iter = baselineMD5Vector.begin(); iter != baselineMD5Vector.end(); ++iter )
-    {
+  for (iter = baselineMD5Vector.begin(); iter != baselineMD5Vector.end(); ++iter)
+  {
     std::cout << "<DartMeasurement name=\"BaselineMD5\" type=\"text/string\">";
     std::cout << *iter;
-    std::cout <<  "</DartMeasurement>" << std::endl;
-    }
+    std::cout << "</DartMeasurement>" << std::endl;
+  }
 
-  using ImageType = itk::Image< double, ITK_TEST_DIMENSION_MAX >;
-  using SliceImageType = itk::Image< double, 2 >;
-  using OutputType = itk::Image< unsigned char, 2 >;
-  using ReaderType = itk::ImageFileReader< ImageType >;
-  using RescaleType = itk::Testing::StretchIntensityImageFilter< SliceImageType, OutputType >;
-  using ExtractType = itk::Testing::ExtractSliceImageFilter< ImageType, SliceImageType >;
-  using WriterType = itk::ImageFileWriter< OutputType >;
+  using ImageType = itk::Image<double, ITK_TEST_DIMENSION_MAX>;
+  using SliceImageType = itk::Image<double, 2>;
+  using OutputType = itk::Image<unsigned char, 2>;
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  using RescaleType = itk::Testing::StretchIntensityImageFilter<SliceImageType, OutputType>;
+  using ExtractType = itk::Testing::ExtractSliceImageFilter<ImageType, SliceImageType>;
+  using WriterType = itk::ImageFileWriter<OutputType>;
 
   // setup reader
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( testImageFilename );
+  reader->SetFileName(testImageFilename);
   reader->UpdateLargestPossibleRegion();
 
   ImageType::SizeType size;
   size = reader->GetOutput()->GetLargestPossibleRegion().GetSize();
 
-  //Get the center slice of the image,  In 3D, the first slice
-  //is often a black slice with little debugging information.
-  ImageType::IndexType index; index.Fill(0);
-  for ( unsigned int i = 2; i < ITK_TEST_DIMENSION_MAX; i++ )
-    {
-    index[i] = size[i] / 2; //NOTE: Integer Divide used to get approximately
+  // Get the center slice of the image,  In 3D, the first slice
+  // is often a black slice with little debugging information.
+  ImageType::IndexType index;
+  index.Fill(0);
+  for (unsigned int i = 2; i < ITK_TEST_DIMENSION_MAX; i++)
+  {
+    index[i] = size[i] / 2; // NOTE: Integer Divide used to get approximately
     // the center slice
     size[i] = 0;
-    }
+  }
 
 
   ImageType::RegionType region;
@@ -925,37 +931,37 @@ int HashTestImage( const char *testImageFilename,
 
   ExtractType::Pointer extract = ExtractType::New();
   extract->SetDirectionCollapseToIdentity();
-  extract->SetInput( reader->GetOutput() );
+  extract->SetInput(reader->GetOutput());
   extract->SetExtractionRegion(region);
 
   RescaleType::Pointer rescale = RescaleType::New();
-  rescale->SetOutputMinimum( itk::NumericTraits< unsigned char >::NonpositiveMin() );
-  rescale->SetOutputMaximum( itk::NumericTraits< unsigned char >::max() );
-  rescale->SetInput( extract->GetOutput() );
+  rescale->SetOutputMinimum(itk::NumericTraits<unsigned char>::NonpositiveMin());
+  rescale->SetOutputMaximum(itk::NumericTraits<unsigned char>::max());
+  rescale->SetInput(extract->GetOutput());
 
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( rescale->GetOutput() );
+  writer->SetInput(rescale->GetOutput());
 
 
   std::ostringstream testName;
   testName << testImageFilename << ".test.png";
 
-  writer->SetFileName( testName.str().c_str() );
+  writer->SetFileName(testName.str().c_str());
 
   try
-    {
+  {
     rescale->UpdateLargestPossibleRegion();
     writer->Update();
-    }
-  catch ( const std::exception & e )
-    {
-    std::cerr << "Error during rescale and writing of " <<  testName.str()<< std::endl;
+  }
+  catch (const std::exception & e)
+  {
+    std::cerr << "Error during rescale and writing of " << testName.str() << std::endl;
     std::cerr << e.what() << "\n";
-    }
-  catch ( ... )
-    {
+  }
+  catch (...)
+  {
     std::cerr << "Unknow error during rescale and writing of " << testName.str() << std::endl;
-    }
+  }
 
   std::cout << "<DartMeasurementFile name=\"TestImage\" type=\"image/png\">";
   std::cout << testName.str();
@@ -964,9 +970,10 @@ int HashTestImage( const char *testImageFilename,
   return 1;
 }
 
-std::map< std::string, int > RegressionTestBaselines(char *baselineFilename)
+std::map<std::string, int>
+RegressionTestBaselines(char * baselineFilename)
 {
-  std::map< std::string, int > baselines;
+  std::map<std::string, int> baselines;
   baselines[std::string(baselineFilename)] = 0;
 
   std::string originalBaseline(baselineFilename);
@@ -974,22 +981,22 @@ std::map< std::string, int > RegressionTestBaselines(char *baselineFilename)
   int                    x = 0;
   std::string::size_type suffixPos = originalBaseline.rfind(".");
   std::string            suffix;
-  if ( suffixPos != std::string::npos )
-    {
-    suffix = originalBaseline.substr( suffixPos, originalBaseline.length() );
-    originalBaseline.erase( suffixPos, originalBaseline.length() );
-    }
-  while ( ++x )
-    {
+  if (suffixPos != std::string::npos)
+  {
+    suffix = originalBaseline.substr(suffixPos, originalBaseline.length());
+    originalBaseline.erase(suffixPos, originalBaseline.length());
+  }
+  while (++x)
+  {
     std::ostringstream filename;
     filename << originalBaseline << "." << x << suffix;
-    std::ifstream filestream( filename.str().c_str() );
-    if ( !filestream )
-      {
+    std::ifstream filestream(filename.str().c_str());
+    if (!filestream)
+    {
       break;
-      }
+    }
     baselines[filename.str()] = 0;
     filestream.close();
-    }
+  }
   return baselines;
 }

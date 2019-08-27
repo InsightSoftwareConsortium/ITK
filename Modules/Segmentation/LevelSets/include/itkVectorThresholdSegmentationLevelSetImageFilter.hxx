@@ -22,9 +22,9 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TFeatureImage, typename TOutputType >
-VectorThresholdSegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
-::VectorThresholdSegmentationLevelSetImageFilter()
+template <typename TInputImage, typename TFeatureImage, typename TOutputType>
+VectorThresholdSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>::
+  VectorThresholdSegmentationLevelSetImageFilter()
 {
   m_ThresholdFunction = ThresholdFunctionType::New();
   m_ThresholdFunction->SetThreshold(0);
@@ -32,10 +32,10 @@ VectorThresholdSegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOut
   this->SetSegmentationFunction(m_ThresholdFunction);
 }
 
-template< typename TInputImage, typename TFeatureImage, typename TOutputType >
+template <typename TInputImage, typename TFeatureImage, typename TOutputType>
 void
-VectorThresholdSegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
-::PrintSelf(std::ostream & os, Indent indent) const
+VectorThresholdSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>::PrintSelf(std::ostream & os,
+                                                                                                   Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << "ThresholdFunction: " << m_ThresholdFunction;

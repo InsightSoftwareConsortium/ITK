@@ -63,18 +63,18 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-template< typename TNode, unsigned int VImageDimension = 2 >
-class ITK_TEMPLATE_EXPORT SparseImage:public Image< TNode *, VImageDimension >
+template <typename TNode, unsigned int VImageDimension = 2>
+class ITK_TEMPLATE_EXPORT SparseImage : public Image<TNode *, VImageDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SparseImage);
 
   /** Standard type alias. */
   using Self = SparseImage;
-  using Superclass = Image< TNode *, VImageDimension >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using ConstWeakPointer = WeakPointer< const Self >;
+  using Superclass = Image<TNode *, VImageDimension>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using ConstWeakPointer = WeakPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -98,25 +98,32 @@ public:
   using IOPixelType = typename Superclass::IOPixelType;
 
   /** The list types for storing the active pixels. */
-  using NodeListType = SparseFieldLayer< NodeType >;
-  using NodeStoreType = ObjectStore< NodeType >;
+  using NodeListType = SparseFieldLayer<NodeType>;
+  using NodeStoreType = ObjectStore<NodeType>;
 
   /** Return the NeighborhoodAccessor functor. This method is called by the
    * neighborhood iterators. */
-  NeighborhoodAccessorFunctorType GetNeighborhoodAccessor()
-  { return NeighborhoodAccessorFunctorType(); }
+  NeighborhoodAccessorFunctorType
+  GetNeighborhoodAccessor()
+  {
+    return NeighborhoodAccessorFunctorType();
+  }
 
   /** Return the NeighborhoodAccessor functor. This method is called by the
    * neighborhood iterators. */
-  const NeighborhoodAccessorFunctorType GetNeighborhoodAccessor() const
-  { return NeighborhoodAccessorFunctorType(); }
+  const NeighborhoodAccessorFunctorType
+  GetNeighborhoodAccessor() const
+  {
+    return NeighborhoodAccessorFunctorType();
+  }
 
   /** This function should be used to allocate memory for a variable at the
       desired pixel location. */
-  NodeType * AddNode(const IndexType & index)
+  NodeType *
+  AddNode(const IndexType & index)
   {
-    m_NodeList->PushFront( m_NodeStore->Borrow() );
-    NodeType *node = m_NodeList->Front();
+    m_NodeList->PushFront(m_NodeStore->Borrow());
+    NodeType * node = m_NodeList->Front();
     node->m_Index = index;
     this->SetPixel(index, node);
     return node;
@@ -124,32 +131,34 @@ public:
 
   /** This function returns the allocated node list which can be used to
       iterate through the valid nodes. */
-  NodeListType * GetNodeList()
+  NodeListType *
+  GetNodeList()
   {
     return m_NodeList;
   }
 
   /** This function initializes the m_NodeList and m_NodeStore variables, and
       calls the superclass Initialize method. */
-  void Initialize() override;
+  void
+  Initialize() override;
 
 protected:
   SparseImage();
   ~SparseImage() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /** The variables for storing the node variables. */
   typename NodeListType::Pointer m_NodeList;
 
   typename NodeStoreType::Pointer m_NodeStore;
-
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSparseImage.hxx"
+#  include "itkSparseImage.hxx"
 #endif
 
 #endif

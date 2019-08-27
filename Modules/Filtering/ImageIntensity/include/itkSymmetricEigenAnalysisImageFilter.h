@@ -41,31 +41,35 @@ namespace Functor
  * OrderByMagnitude:  |lambda_1| < |lambda_2| < .....
  * DoNotOrder:        Default order of eigen values obtained after QL method
  */
-    enum class OrderTypeOfEigenValue : uint8_t {
-        OrderByValue = 1,
-        OrderByMagnitude,
-        DoNotOrder
-    };
+enum class OrderTypeOfEigenValue : uint8_t
+{
+  OrderByValue = 1,
+  OrderByMagnitude,
+  DoNotOrder
+};
 
-template< typename TInput, typename TOutput >
+template <typename TInput, typename TOutput>
 class SymmetricEigenAnalysisFunction
 {
 public:
   using RealValueType = typename TInput::RealValueType;
   SymmetricEigenAnalysisFunction() = default;
   ~SymmetricEigenAnalysisFunction() = default;
-  using CalculatorType = SymmetricEigenAnalysis< TInput, TOutput >;
-  bool operator!=(const SymmetricEigenAnalysisFunction &) const
+  using CalculatorType = SymmetricEigenAnalysis<TInput, TOutput>;
+  bool
+  operator!=(const SymmetricEigenAnalysisFunction &) const
   {
     return false;
   }
 
-  bool operator==(const SymmetricEigenAnalysisFunction & other) const
+  bool
+  operator==(const SymmetricEigenAnalysisFunction & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 
-  inline TOutput operator()(const TInput & x) const
+  inline TOutput
+  operator()(const TInput & x) const
   {
     TOutput eigenValues;
 
@@ -74,61 +78,67 @@ public:
   }
 
   /** Method to explicitly set the dimension of the matrix */
-  void SetDimension(unsigned int n)
+  void
+  SetDimension(unsigned int n)
   {
     m_Calculator.SetDimension(n);
   }
-  unsigned int GetDimension() const
+  unsigned int
+  GetDimension() const
   {
     return m_Calculator.GetDimension();
   }
 
   using EigenValueOrderType = OrderTypeOfEigenValue;
 #if !defined(ITK_LEGACY_REMOVE)
-    //We need to expose the enum values at the class level
-    // for backwards compatibility
-    static constexpr EigenValueOrderType OrderByValue = EigenValueOrderType::OrderByValue;
-    static constexpr EigenValueOrderType OrderByMagnitude = EigenValueOrderType::OrderByMagnitude;
-    static constexpr EigenValueOrderType DoNotOrder = EigenValueOrderType::DoNotOrder;
+  // We need to expose the enum values at the class level
+  // for backwards compatibility
+  static constexpr EigenValueOrderType OrderByValue = EigenValueOrderType::OrderByValue;
+  static constexpr EigenValueOrderType OrderByMagnitude = EigenValueOrderType::OrderByMagnitude;
+  static constexpr EigenValueOrderType DoNotOrder = EigenValueOrderType::DoNotOrder;
 #endif
 
   /** Order eigen values. Default is to OrderByValue:  lambda_1 <
    * lambda_2 < .... */
-  void OrderEigenValuesBy(EigenValueOrderType order)
+  void
+  OrderEigenValuesBy(EigenValueOrderType order)
   {
-    if ( order == OrderTypeOfEigenValue::OrderByMagnitude )
-      {
+    if (order == OrderTypeOfEigenValue::OrderByMagnitude)
+    {
       m_Calculator.SetOrderEigenMagnitudes(true);
-      }
-    else if ( order == OrderTypeOfEigenValue::DoNotOrder )
-      {
+    }
+    else if (order == OrderTypeOfEigenValue::DoNotOrder)
+    {
       m_Calculator.SetOrderEigenValues(false);
-      }
+    }
   }
 
 private:
   CalculatorType m_Calculator;
 };
 
-template< unsigned int TMatrixDimension, typename TInput, typename TOutput >
+template <unsigned int TMatrixDimension, typename TInput, typename TOutput>
 class SymmetricEigenAnalysisFixedDimensionFunction
 {
 public:
   using RealValueType = typename TInput::RealValueType;
   SymmetricEigenAnalysisFixedDimensionFunction() = default;
   ~SymmetricEigenAnalysisFixedDimensionFunction() = default;
-  using CalculatorType = SymmetricEigenAnalysisFixedDimension< TMatrixDimension, TInput, TOutput >;
-  bool operator!=(const SymmetricEigenAnalysisFixedDimensionFunction &) const
+  using CalculatorType = SymmetricEigenAnalysisFixedDimension<TMatrixDimension, TInput, TOutput>;
+  bool
+  operator!=(const SymmetricEigenAnalysisFixedDimensionFunction &) const
   {
     return false;
   }
 
-  bool operator==(const SymmetricEigenAnalysisFixedDimensionFunction & other) const
+  bool
+  operator==(const SymmetricEigenAnalysisFixedDimensionFunction & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 
-  inline TOutput operator()(const TInput & x) const
+  inline TOutput
+  operator()(const TInput & x) const
   {
     TOutput eigenValues;
 
@@ -137,7 +147,8 @@ public:
   }
 
   /** Method to get the dimension of the matrix. Dimension is fixed, no SetDimension is provided */
-  unsigned int GetDimension() const
+  unsigned int
+  GetDimension() const
   {
     return m_Calculator.GetDimension();
   }
@@ -145,25 +156,26 @@ public:
   /** Reverse compatibility for enum values */
   using EigenValueOrderType = OrderTypeOfEigenValue;
 #if !defined(ITK_LEGACY_REMOVE)
-    //We need to expose the enum values at the class level
-    // for backwards compatibility
-    static constexpr EigenValueOrderType OrderByValue = EigenValueOrderType::OrderByValue;
-    static constexpr EigenValueOrderType OrderByMagnitude = EigenValueOrderType::OrderByMagnitude;
-    static constexpr EigenValueOrderType DoNotOrder = EigenValueOrderType::DoNotOrder;
+  // We need to expose the enum values at the class level
+  // for backwards compatibility
+  static constexpr EigenValueOrderType OrderByValue = EigenValueOrderType::OrderByValue;
+  static constexpr EigenValueOrderType OrderByMagnitude = EigenValueOrderType::OrderByMagnitude;
+  static constexpr EigenValueOrderType DoNotOrder = EigenValueOrderType::DoNotOrder;
 #endif
 
   /** Order eigen values. Default is to OrderByValue:  lambda_1 <
    * lambda_2 < .... */
-  void OrderEigenValuesBy(EigenValueOrderType order)
+  void
+  OrderEigenValuesBy(EigenValueOrderType order)
   {
-    if ( order == OrderTypeOfEigenValue::OrderByMagnitude )
-      {
+    if (order == OrderTypeOfEigenValue::OrderByMagnitude)
+    {
       m_Calculator.SetOrderEigenMagnitudes(true);
-      }
-    else if ( order == OrderTypeOfEigenValue::DoNotOrder )
-      {
+    }
+    else if (order == OrderTypeOfEigenValue::DoNotOrder)
+    {
       m_Calculator.SetOrderEigenValues(false);
-      }
+    }
   }
 
 private:
@@ -171,9 +183,10 @@ private:
 };
 
 /** Define how to print enumerations */
-extern ITKImageIntensity_EXPORT std::ostream& operator<<(std::ostream& out, const OrderTypeOfEigenValue value);
+extern ITKImageIntensity_EXPORT std::ostream &
+                                operator<<(std::ostream & out, const OrderTypeOfEigenValue value);
 
-}  // end namespace Functor
+} // end namespace Functor
 
 /** \class SymmetricEigenAnalysisImageFilter
  * \brief Computes the eigen-values of every input symmetric matrix pixel.
@@ -195,13 +208,12 @@ extern ITKImageIntensity_EXPORT std::ostream& operator<<(std::ostream& out, cons
  *
  * \ingroup ITKImageIntensity
  */
-template< typename  TInputImage, typename  TOutputImage = TInputImage >
-class SymmetricEigenAnalysisImageFilter:
-  public
-  UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                           Functor::SymmetricEigenAnalysisFunction<
-                             typename TInputImage::PixelType,
-                             typename TOutputImage::PixelType > >
+template <typename TInputImage, typename TOutputImage = TInputImage>
+class SymmetricEigenAnalysisImageFilter
+  : public UnaryFunctorImageFilter<
+      TInputImage,
+      TOutputImage,
+      Functor::SymmetricEigenAnalysisFunction<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SymmetricEigenAnalysisImageFilter);
@@ -209,13 +221,12 @@ public:
   /** Standard class type aliases. */
   using Self = SymmetricEigenAnalysisImageFilter;
   using Superclass = UnaryFunctorImageFilter<
-    TInputImage, TOutputImage,
-    Functor::SymmetricEigenAnalysisFunction<
-      typename TInputImage::PixelType,
-      typename TOutputImage::PixelType > >;
+    TInputImage,
+    TOutputImage,
+    Functor::SymmetricEigenAnalysisFunction<typename TInputImage::PixelType, typename TOutputImage::PixelType>>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using OutputImageType = typename Superclass::OutputImageType;
   using OutputPixelType = typename TOutputImage::PixelType;
@@ -232,7 +243,8 @@ public:
 
   /** Order eigen values. Default is to OrderByValue:  lambda_1 <
    * lambda_2 < .... */
-  void OrderEigenValuesBy(EigenValueOrderType order)
+  void
+  OrderEigenValuesBy(EigenValueOrderType order)
   {
     this->GetFunctor().OrderEigenValuesBy(order);
   }
@@ -244,24 +256,28 @@ public:
   itkNewMacro(Self);
 
   /** Print internal ivars */
-  void PrintSelf(std::ostream & os, Indent indent) const override
-  { this->Superclass::PrintSelf(os, indent); }
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override
+  {
+    this->Superclass::PrintSelf(os, indent);
+  }
 
   /** Set the dimension of the tensor. (For example the SymmetricSecondRankTensor
    * is a pxp matrix) */
-  void SetDimension(unsigned int p)
+  void
+  SetDimension(unsigned int p)
   {
     this->GetFunctor().SetDimension(p);
   }
-  unsigned int GetDimension() const
+  unsigned int
+  GetDimension() const
   {
     return this->GetFunctor().GetDimension();
   }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< InputValueType > ) );
+  itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputValueType>));
   // End concept checking
 #endif
 
@@ -287,29 +303,29 @@ protected:
  *
  * \ingroup ITKImageIntensity
  */
-template< unsigned int TMatrixDimension, typename  TInputImage, typename  TOutputImage = TInputImage >
-class SymmetricEigenAnalysisFixedDimensionImageFilter:
-  public
-  UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                           Functor::SymmetricEigenAnalysisFixedDimensionFunction<
-                             TMatrixDimension,
-                             typename TInputImage::PixelType,
-                             typename TOutputImage::PixelType > >
+template <unsigned int TMatrixDimension, typename TInputImage, typename TOutputImage = TInputImage>
+class SymmetricEigenAnalysisFixedDimensionImageFilter
+  : public UnaryFunctorImageFilter<
+      TInputImage,
+      TOutputImage,
+      Functor::SymmetricEigenAnalysisFixedDimensionFunction<TMatrixDimension,
+                                                            typename TInputImage::PixelType,
+                                                            typename TOutputImage::PixelType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SymmetricEigenAnalysisFixedDimensionImageFilter);
 
   /** Standard class type aliases. */
   using Self = SymmetricEigenAnalysisFixedDimensionImageFilter;
-  using Superclass = UnaryFunctorImageFilter<
-    TInputImage, TOutputImage,
-    Functor::SymmetricEigenAnalysisFixedDimensionFunction<
-      TMatrixDimension,
-      typename TInputImage::PixelType,
-      typename TOutputImage::PixelType > >;
+  using Superclass =
+    UnaryFunctorImageFilter<TInputImage,
+                            TOutputImage,
+                            Functor::SymmetricEigenAnalysisFixedDimensionFunction<TMatrixDimension,
+                                                                                  typename TInputImage::PixelType,
+                                                                                  typename TOutputImage::PixelType>>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using OutputImageType = typename Superclass::OutputImageType;
   using OutputPixelType = typename TOutputImage::PixelType;
@@ -326,7 +342,8 @@ public:
 
   /** Order eigen values. Default is to OrderByValue:  lambda_1 <
    * lambda_2 < .... */
-  void OrderEigenValuesBy(EigenValueOrderType order)
+  void
+  OrderEigenValuesBy(EigenValueOrderType order)
   {
     this->GetFunctor().OrderEigenValuesBy(order);
   }
@@ -338,19 +355,22 @@ public:
   itkNewMacro(Self);
 
   /** Print internal ivars */
-  void PrintSelf(std::ostream & os, Indent indent) const override
-  { this->Superclass::PrintSelf(os, indent); }
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override
+  {
+    this->Superclass::PrintSelf(os, indent);
+  }
 
   /** GetDimension of the matrix. Dimension is fixed by template parameter, no SetDimension. */
-  unsigned int GetDimension() const
+  unsigned int
+  GetDimension() const
   {
     return this->GetFunctor().GetDimension();
   }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< InputValueType > ) );
+  itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputValueType>));
   // End concept checking
 #endif
 

@@ -18,18 +18,18 @@
 #include <iostream>
 #include "itkDCMTKImageIO.h"
 
-static
-int TestLogLevel(itk::DCMTKImageIO::Pointer &io, itk::DCMTKImageIO::LogLevel ll)
+static int
+TestLogLevel(itk::DCMTKImageIO::Pointer & io, itk::DCMTKImageIO::LogLevel ll)
 {
   io->SetLogLevel(ll);
   itk::DCMTKImageIO::LogLevel llOut = io->GetLogLevel();
-  if(llOut != ll)
-    {
+  if (llOut != ll)
+  {
     std::cerr << "Setting log level failed "
               << "tried setting " << ll << std::endl
               << "GetLogLevel returned " << llOut << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   return EXIT_SUCCESS;
 }
 
@@ -37,39 +37,37 @@ int TestLogLevel(itk::DCMTKImageIO::Pointer &io, itk::DCMTKImageIO::LogLevel ll)
 // this test only verifies basic functionality;
 // it doesn't verify that the DCMTK logger is functioning properly.
 int
-itkDCMTKLoggerTest(int , char *[])
+itkDCMTKLoggerTest(int, char *[])
 {
-  itk::DCMTKImageIO::Pointer io = itk::DCMTKImageIO::New();
+  itk::DCMTKImageIO::Pointer  io = itk::DCMTKImageIO::New();
   itk::DCMTKImageIO::LogLevel logLevel = io->GetLogLevel();
-  if(logLevel != itk::DCMTKImageIO::FATAL_LOG_LEVEL)
-    {
+  if (logLevel != itk::DCMTKImageIO::FATAL_LOG_LEVEL)
+  {
     std::cerr << "Expected default log level is wrong" << std::endl;
     return EXIT_FAILURE;
-    }
-  if(TestLogLevel(io,itk::DCMTKImageIO::TRACE_LOG_LEVEL) == EXIT_FAILURE ||
-     TestLogLevel(io,itk::DCMTKImageIO::DEBUG_LOG_LEVEL) == EXIT_FAILURE ||
-     TestLogLevel(io,itk::DCMTKImageIO::INFO_LOG_LEVEL) == EXIT_FAILURE ||
-     TestLogLevel(io,itk::DCMTKImageIO::WARN_LOG_LEVEL) == EXIT_FAILURE ||
-     TestLogLevel(io,itk::DCMTKImageIO::ERROR_LOG_LEVEL) == EXIT_FAILURE ||
-     TestLogLevel(io,itk::DCMTKImageIO::FATAL_LOG_LEVEL) == EXIT_FAILURE ||
-     TestLogLevel(io,itk::DCMTKImageIO::OFF_LOG_LEVEL) == EXIT_FAILURE)
-    {
+  }
+  if (TestLogLevel(io, itk::DCMTKImageIO::TRACE_LOG_LEVEL) == EXIT_FAILURE ||
+      TestLogLevel(io, itk::DCMTKImageIO::DEBUG_LOG_LEVEL) == EXIT_FAILURE ||
+      TestLogLevel(io, itk::DCMTKImageIO::INFO_LOG_LEVEL) == EXIT_FAILURE ||
+      TestLogLevel(io, itk::DCMTKImageIO::WARN_LOG_LEVEL) == EXIT_FAILURE ||
+      TestLogLevel(io, itk::DCMTKImageIO::ERROR_LOG_LEVEL) == EXIT_FAILURE ||
+      TestLogLevel(io, itk::DCMTKImageIO::FATAL_LOG_LEVEL) == EXIT_FAILURE ||
+      TestLogLevel(io, itk::DCMTKImageIO::OFF_LOG_LEVEL) == EXIT_FAILURE)
+  {
     return EXIT_FAILURE;
-    }
+  }
   try
-    {
+  {
     // use C-style cast because C++ casts complain.
-    auto illegalVal = (itk::DCMTKImageIO::LogLevel) ( (unsigned)itk::DCMTKImageIO::OFF_LOG_LEVEL + 99 );
-    TestLogLevel(io,illegalVal);
+    auto illegalVal = (itk::DCMTKImageIO::LogLevel)((unsigned)itk::DCMTKImageIO::OFF_LOG_LEVEL + 99);
+    TestLogLevel(io, illegalVal);
     //
     // expected exception
-    std::cerr << "Failed to detect invalid assignment of " << illegalVal
-              << " to LogLevel" << std::endl;
-    }
-  catch(itk::ExceptionObject &e)
-    {
-    std::cerr << "Expected exception (illegal log level assignement)" << std::endl
-              << e << std::endl;
-    }
+    std::cerr << "Failed to detect invalid assignment of " << illegalVal << " to LogLevel" << std::endl;
+  }
+  catch (itk::ExceptionObject & e)
+  {
+    std::cerr << "Expected exception (illegal log level assignement)" << std::endl << e << std::endl;
+  }
   return EXIT_SUCCESS;
 }

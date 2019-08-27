@@ -20,7 +20,8 @@
 
 #include "itkLaplacianDeformationQuadEdgeMeshFilter.h"
 
-namespace itk {
+namespace itk
+{
 /** \class LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints
  *
  *  \brief Laplacian deformation with soft constraints (approximating
@@ -38,20 +39,18 @@ namespace itk {
  *
  *  \ingroup ITKQuadEdgeMeshFiltering
  */
-template< class TInputMesh, class TOutputMesh, class TSolverTraits >
-class ITK_TEMPLATE_EXPORT LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints:
-  public LaplacianDeformationQuadEdgeMeshFilter< TInputMesh, TOutputMesh, TSolverTraits >
+template <class TInputMesh, class TOutputMesh, class TSolverTraits>
+class ITK_TEMPLATE_EXPORT LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints
+  : public LaplacianDeformationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints);
 
   /** Basic types. */
   using Self = LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints;
-  using Superclass = LaplacianDeformationQuadEdgeMeshFilter< TInputMesh,
-                                                  TOutputMesh,
-                                                  TSolverTraits >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = LaplacianDeformationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Input types. */
   using InputMeshType = TInputMesh;
@@ -74,24 +73,27 @@ public:
   itkNewMacro(Self);
   itkTypeMacro(LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints, LaplacianDeformationQuadEdgeMeshFilter);
 
-  itkSetMacro(Lambda,OutputCoordRepType);
-  itkGetMacro(Lambda,OutputCoordRepType);
+  itkSetMacro(Lambda, OutputCoordRepType);
+  itkGetMacro(Lambda, OutputCoordRepType);
 
-  void SetLocalLambda( OutputPointIdentifier vId, OutputCoordRepType iL );
+  void
+  SetLocalLambda(OutputPointIdentifier vId, OutputCoordRepType iL);
 
 protected:
-
   LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints();
   ~LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**
    *  \brief Fill matrix iM and vectors Bx and m_By depending on if one
    *  vertex is on the border or not.
    */
-  void FillMatrix(MatrixType & iM, VectorType & iBx, VectorType & iBy, VectorType & iBz);
+  void
+  FillMatrix(MatrixType & iM, VectorType & iBx, VectorType & iBy, VectorType & iBz);
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   using ConstraintMapType = typename Superclass::ConstraintMapType;
   using ConstraintMapConstIterator = typename Superclass::ConstraintMapConstIterator;
@@ -105,13 +107,13 @@ protected:
   using RowConstIterator = typename Superclass::RowConstIterator;
   using RowIterator = typename Superclass::RowIterator;
 
-  void ComputeVertexIdMapping() override;
+  void
+  ComputeVertexIdMapping() override;
 
   OutputCoordRepType m_Lambda;
   OutputCoordRepType m_LambdaSquare;
 
-  std::unordered_map< OutputPointIdentifier, OutputCoordRepType > m_LocalLambdaSquare;
-
+  std::unordered_map<OutputPointIdentifier, OutputCoordRepType> m_LocalLambdaSquare;
 };
 } // end namespace itk
 

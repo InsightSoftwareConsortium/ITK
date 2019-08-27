@@ -19,39 +19,40 @@
 #include "itkDirectory.h"
 #include "itkTestingMacros.h"
 
-int itkDirectoryTest(int argc, char *argv[])
+int
+itkDirectoryTest(int argc, char * argv[])
 {
   itk::Directory::Pointer directory = itk::Directory::New();
 
   if (argc < 2)
-    {
+  {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " directory" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   if (directory->Load("qwerty"))
-    {
+  {
     std::cerr << "directory->Load(\"qwerty\")"
               << " should have failed." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   directory->Load(argv[1]);
   directory->Print(std::cout);
 
   // Test GetFile with a success and failure
   if (directory->GetNumberOfFiles() > 0)
-    {
+  {
     std::cout << "File 0 is " << directory->GetFile(0) << std::endl;
-    }
+  }
 
   // This should fail
-  auto fileOutOfRange = static_cast<unsigned int>( directory->GetNumberOfFiles());
-  if (directory->GetFile( fileOutOfRange) )
-    {
+  auto fileOutOfRange = static_cast<unsigned int>(directory->GetNumberOfFiles());
+  if (directory->GetFile(fileOutOfRange))
+  {
     std::cerr << "directory->GetFile(directory->GetNumberOfFiles())"
               << " should have failed." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

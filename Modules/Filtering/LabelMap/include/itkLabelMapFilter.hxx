@@ -32,93 +32,89 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage >
-LabelMapFilter< TInputImage, TOutputImage >
-::LabelMapFilter()
+template <typename TInputImage, typename TOutputImage>
+LabelMapFilter<TInputImage, TOutputImage>::LabelMapFilter()
 
 {
   this->DynamicMultiThreadingOn();
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-LabelMapFilter< TInputImage, TOutputImage >
-::GenerateInputRequestedRegion()
+LabelMapFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the input.
-  InputImagePointer input = const_cast< InputImageType * >( this->GetInput() );
+  InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
 
-  if ( !input )
-        { return; }
+  if (!input)
+  {
+    return;
+  }
 
-  input->SetRequestedRegion( input->GetLargestPossibleRegion() );
+  input->SetRequestedRegion(input->GetLargestPossibleRegion());
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-LabelMapFilter< TInputImage, TOutputImage >
-::EnlargeOutputRequestedRegion(DataObject *)
+LabelMapFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject *)
 {
-  this->GetOutput()->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
+  this->GetOutput()->SetRequestedRegion(this->GetOutput()->GetLargestPossibleRegion());
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-LabelMapFilter< TInputImage, TOutputImage >
-::BeforeThreadedGenerateData()
+LabelMapFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
-  m_LabelObjectIterator =  typename InputImageType::Iterator(this->GetLabelMap());
+  m_LabelObjectIterator = typename InputImageType::Iterator(this->GetLabelMap());
 
-  if(Math::ExactlyEquals(this->GetLabelMap()->GetNumberOfLabelObjects(), 0.0))
-    {
+  if (Math::ExactlyEquals(this->GetLabelMap()->GetNumberOfLabelObjects(), 0.0))
+  {
     m_InverseNumberOfLabelObjects = NumericTraits<float>::max();
-    }
+  }
   else
-    {
-    m_InverseNumberOfLabelObjects = 1.0f/this->GetLabelMap()->GetNumberOfLabelObjects();
-    }
-  //TODO: set number of work units to be equal to GetNumberOfLabelObjects()
+  {
+    m_InverseNumberOfLabelObjects = 1.0f / this->GetLabelMap()->GetNumberOfLabelObjects();
+  }
+  // TODO: set number of work units to be equal to GetNumberOfLabelObjects()
   m_NumberOfLabelObjectsProcessed = 0;
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-LabelMapFilter< TInputImage, TOutputImage >
-::AfterThreadedGenerateData()
+LabelMapFilter<TInputImage, TOutputImage>::AfterThreadedGenerateData()
 {
   this->UpdateProgress(1.0);
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-LabelMapFilter< TInputImage, TOutputImage >
-::DynamicThreadedGenerateData( const OutputImageRegionType & )
+LabelMapFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(const OutputImageRegionType &)
 {
-  while ( true )
-    {
-    LabelObjectType *labelObject;
+  while (true)
+  {
+    LabelObjectType * labelObject;
     // begin mutex lock
     {
-    std::lock_guard< std::mutex > lock( m_LabelObjectContainerLock );
+      std::lock_guard<std::mutex> lock(m_LabelObjectContainerLock);
 
-    if ( m_LabelObjectIterator.IsAtEnd() )
+      if (m_LabelObjectIterator.IsAtEnd())
       {
-      // mutex lock holder deleted
-      return;
+        // mutex lock holder deleted
+        return;
       }
 
-    // get the label object
-    labelObject = m_LabelObjectIterator.GetLabelObject();
+      // get the label object
+      labelObject = m_LabelObjectIterator.GetLabelObject();
 
-    // increment the iterator now, so it will not be invalidated if the object
-    // is destroyed
-    ++m_LabelObjectIterator;
-    ++m_NumberOfLabelObjectsProcessed;
+      // increment the iterator now, so it will not be invalidated if the object
+      // is destroyed
+      ++m_LabelObjectIterator;
+      ++m_NumberOfLabelObjectsProcessed;
 
-    // unlock the mutex, so the other threads can get an object
+      // unlock the mutex, so the other threads can get an object
     }
     // end mutex lock
 
@@ -127,22 +123,20 @@ LabelMapFilter< TInputImage, TOutputImage >
     this->ThreadedProcessLabelObject(labelObject);
 
     // all threads needs to check the abort flag
-    if ( this->GetAbortGenerateData() )
-      {
+    if (this->GetAbortGenerateData())
+    {
       std::string    msg;
       ProcessAborted e(__FILE__, __LINE__);
-      msg += "Object " + std::string(this->GetNameOfClass() ) + ": AbortGenerateDataOn";
+      msg += "Object " + std::string(this->GetNameOfClass()) + ": AbortGenerateDataOn";
       e.SetDescription(msg);
       throw e;
-      }
-
     }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-LabelMapFilter< TInputImage, TOutputImage >
-::ThreadedProcessLabelObject( LabelObjectType *itkNotUsed(labelObject) )
+LabelMapFilter<TInputImage, TOutputImage>::ThreadedProcessLabelObject(LabelObjectType * itkNotUsed(labelObject))
 {
   // the subclass should override this method
 }

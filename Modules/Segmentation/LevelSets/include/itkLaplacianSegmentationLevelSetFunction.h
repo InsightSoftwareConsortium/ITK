@@ -30,19 +30,18 @@ namespace itk
  * Assumes a strictly POSITIVE feature image
  * \ingroup ITKLevelSets
  */
-template< typename TImageType, typename TFeatureImageType = TImageType >
-class ITK_TEMPLATE_EXPORT LaplacianSegmentationLevelSetFunction:
-  public SegmentationLevelSetFunction< TImageType, TFeatureImageType >
+template <typename TImageType, typename TFeatureImageType = TImageType>
+class ITK_TEMPLATE_EXPORT LaplacianSegmentationLevelSetFunction
+  : public SegmentationLevelSetFunction<TImageType, TFeatureImageType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LaplacianSegmentationLevelSetFunction);
 
   /** Standard class type aliases. */
   using Self = LaplacianSegmentationLevelSetFunction;
-  using Superclass =
-      SegmentationLevelSetFunction< TImageType, TFeatureImageType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = SegmentationLevelSetFunction<TImageType, TFeatureImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
   using FeatureImageType = TFeatureImageType;
 
   /** Method for creation through the object factory. */
@@ -60,15 +59,17 @@ public:
   /** Extract some parameters from the superclass. */
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
-  void CalculateSpeedImage() override;
+  void
+  CalculateSpeedImage() override;
 
-  void Initialize(const RadiusType & r) override
+  void
+  Initialize(const RadiusType & r) override
   {
     Superclass::Initialize(r);
 
-    this->SetAdvectionWeight(NumericTraits< ScalarValueType >::ZeroValue());
-    this->SetPropagationWeight(-1.0 * NumericTraits< ScalarValueType >::OneValue());
-    this->SetCurvatureWeight(NumericTraits< ScalarValueType >::OneValue());
+    this->SetAdvectionWeight(NumericTraits<ScalarValueType>::ZeroValue());
+    this->SetPropagationWeight(-1.0 * NumericTraits<ScalarValueType>::OneValue());
+    this->SetCurvatureWeight(NumericTraits<ScalarValueType>::OneValue());
   }
 
   /**
@@ -77,16 +78,16 @@ public:
    * otherwise. in fact, SegmentationLevelSetImageFilter tries to set
    * it when SetFeatureScaling is called.
    */
-  void SetAdvectionWeight(const ScalarValueType value) override
+  void
+  SetAdvectionWeight(const ScalarValueType value) override
   {
-    if ( Math::ExactlyEquals(value, NumericTraits< ScalarValueType >::ZeroValue()) )
-      {
+    if (Math::ExactlyEquals(value, NumericTraits<ScalarValueType>::ZeroValue()))
+    {
       Superclass::SetAdvectionWeight(value);
-      }
+    }
   }
 
 protected:
-
   LaplacianSegmentationLevelSetFunction()
   {
     this->SetAdvectionWeight(0.0);
@@ -95,13 +96,12 @@ protected:
   }
 
   ~LaplacianSegmentationLevelSetFunction() override = default;
-
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLaplacianSegmentationLevelSetFunction.hxx"
-#include "itkMath.h"
+#  include "itkLaplacianSegmentationLevelSetFunction.hxx"
+#  include "itkMath.h"
 #endif
 
 #endif

@@ -20,12 +20,15 @@
 #include "itkListSample.h"
 #include "itkSampleToSubsampleFilter.h"
 
-namespace itk {
-namespace Statistics {
-namespace itkSampleToSubsampleFilter1Namespace {
+namespace itk
+{
+namespace Statistics
+{
+namespace itkSampleToSubsampleFilter1Namespace
+{
 
-template<typename TSample >
-class SubsamplerTester : public SampleToSubsampleFilter< TSample >
+template <typename TSample>
+class SubsamplerTester : public SampleToSubsampleFilter<TSample>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SubsamplerTester);
@@ -33,46 +36,46 @@ public:
   /** Standard class type aliases. */
   using Self = SubsamplerTester;
   using Superclass = SampleToSubsampleFilter<TSample>;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard macros */
-  itkTypeMacro(SubsamplerTester,SampleToSubsampleFilter);
+  itkTypeMacro(SubsamplerTester, SampleToSubsampleFilter);
   itkNewMacro(Self);
 
 protected:
   SubsamplerTester() = default;
   ~SubsamplerTester() override = default;
-  void PrintSelf(std::ostream& os, Indent indent) const override
-    {
-    this->Superclass::PrintSelf(os,indent);
-    os << "Superclass = " <<  this->Superclass::GetNameOfClass() << std::endl;
-    }
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override
+  {
+    this->Superclass::PrintSelf(os, indent);
+    os << "Superclass = " << this->Superclass::GetNameOfClass() << std::endl;
+  }
 
-  void GenerateData() override
-    {
-    }
+  void
+  GenerateData() override
+  {}
 
 private:
-
 };
 
-} // end of itkSampleToSubsampleFilter1Namespace
-} // end of Standard namespace
-} // end of itk namespace
+} // namespace itkSampleToSubsampleFilter1Namespace
+} // namespace Statistics
+} // namespace itk
 
 
-int itkSampleToSubsampleFilterTest1(int, char* [] )
+int
+itkSampleToSubsampleFilterTest1(int, char *[])
 {
 
   constexpr unsigned int MeasurementVectorSize = 17;
 
-  using MeasurementVectorType = itk::FixedArray<
-    float, MeasurementVectorSize >;
+  using MeasurementVectorType = itk::FixedArray<float, MeasurementVectorSize>;
 
-  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
+  using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
 
-  using FilterType = itk::Statistics::itkSampleToSubsampleFilter1Namespace::SubsamplerTester< SampleType >;
+  using FilterType = itk::Statistics::itkSampleToSubsampleFilter1Namespace::SubsamplerTester<SampleType>;
 
 
   SampleType::Pointer sample = SampleType::New();
@@ -80,32 +83,32 @@ int itkSampleToSubsampleFilterTest1(int, char* [] )
   FilterType::Pointer filter = FilterType::New();
 
   // Test GetInput() before setting the input
-  if( filter->GetInput() != nullptr )
-    {
+  if (filter->GetInput() != nullptr)
+  {
     std::cerr << "GetInput() should have returned nullptr" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Test GetOutput() before creating the output
-  if( filter->GetOutput() == nullptr )
-    {
+  if (filter->GetOutput() == nullptr)
+  {
     std::cerr << "GetOutput() should have returned NON-nullptr" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  filter->SetInput( sample );
+  filter->SetInput(sample);
 
-  if( filter->GetInput() != sample.GetPointer() )
-    {
+  if (filter->GetInput() != sample.GetPointer())
+  {
     std::cerr << "GetInput() didn't matched SetInput()" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   //
   // Exercise the Print() method
   //
-  filter->Print( std::cout );
+  filter->Print(std::cout);
 
 
   filter->Update();

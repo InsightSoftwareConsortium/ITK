@@ -38,69 +38,55 @@
 #include <map>
 #include "QuickView.h"
 
-int itkVtkConnectedComponentImageFilterTest (int argc, char* argv[] )
+int
+itkVtkConnectedComponentImageFilterTest(int argc, char * argv[])
 {
-  if( argc < 2 )
-    {
+  if (argc < 2)
+  {
     std::cout << "Usage: " << argv[0];
     std::cout << " inputImageFile";
     std::cerr << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   using InputPixelType = short;
   using OutputPixelType = int;
   using RGBPixelType = itk::RGBPixel<unsigned char>;
 
-  using InputImageType = itk::Image< InputPixelType,  2 >;
-  using OutputImageType = itk::Image< OutputPixelType, 2 >;
+  using InputImageType = itk::Image<InputPixelType, 2>;
+  using OutputImageType = itk::Image<OutputPixelType, 2>;
   using RGBImageType = itk::Image<RGBPixelType, 2>;
 
-  using LiFilterType =
-      itk::LiThresholdImageFilter<InputImageType, OutputImageType >;
-  using HuangFilterType =
-      itk::HuangThresholdImageFilter<InputImageType, OutputImageType >;
-  using IntermodesFilterType =
-      itk::IntermodesThresholdImageFilter<InputImageType, OutputImageType >;
-  using IsoDataFilterType =
-      itk::IsoDataThresholdImageFilter<InputImageType, OutputImageType >;
-  using KittlerIllingworthFilterType =
-      itk::KittlerIllingworthThresholdImageFilter<InputImageType, OutputImageType >;
-  using LiFilterType =
-      itk::LiThresholdImageFilter<InputImageType, OutputImageType >;
-  using MaximumEntropyFilterType =
-      itk::MaximumEntropyThresholdImageFilter<InputImageType, OutputImageType >;
-  using MomentsFilterType =
-      itk::MomentsThresholdImageFilter<InputImageType, OutputImageType >;
-  using OtsuFilterType =
-      itk::OtsuThresholdImageFilter<InputImageType, OutputImageType >;
-  using RenyiEntropyFilterType =
-      itk::RenyiEntropyThresholdImageFilter<InputImageType, OutputImageType >;
-  using ShanbhagFilterType =
-      itk::ShanbhagThresholdImageFilter<InputImageType, OutputImageType >;
-  using TriangleFilterType =
-      itk::TriangleThresholdImageFilter<InputImageType, OutputImageType >;
-  using YenFilterType =
-      itk::YenThresholdImageFilter<InputImageType, OutputImageType >;
+  using LiFilterType = itk::LiThresholdImageFilter<InputImageType, OutputImageType>;
+  using HuangFilterType = itk::HuangThresholdImageFilter<InputImageType, OutputImageType>;
+  using IntermodesFilterType = itk::IntermodesThresholdImageFilter<InputImageType, OutputImageType>;
+  using IsoDataFilterType = itk::IsoDataThresholdImageFilter<InputImageType, OutputImageType>;
+  using KittlerIllingworthFilterType = itk::KittlerIllingworthThresholdImageFilter<InputImageType, OutputImageType>;
+  using LiFilterType = itk::LiThresholdImageFilter<InputImageType, OutputImageType>;
+  using MaximumEntropyFilterType = itk::MaximumEntropyThresholdImageFilter<InputImageType, OutputImageType>;
+  using MomentsFilterType = itk::MomentsThresholdImageFilter<InputImageType, OutputImageType>;
+  using OtsuFilterType = itk::OtsuThresholdImageFilter<InputImageType, OutputImageType>;
+  using RenyiEntropyFilterType = itk::RenyiEntropyThresholdImageFilter<InputImageType, OutputImageType>;
+  using ShanbhagFilterType = itk::ShanbhagThresholdImageFilter<InputImageType, OutputImageType>;
+  using TriangleFilterType = itk::TriangleThresholdImageFilter<InputImageType, OutputImageType>;
+  using YenFilterType = itk::YenThresholdImageFilter<InputImageType, OutputImageType>;
 
-  using ConnectedComponentImageFilterType =
-      itk::ConnectedComponentImageFilter <OutputImageType, OutputImageType >;
+  using ConnectedComponentImageFilterType = itk::ConnectedComponentImageFilter<OutputImageType, OutputImageType>;
   using RGBFilterType = itk::LabelToRGBImageFilter<OutputImageType, RGBImageType>;
 
-  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
   QuickView viewer;
   viewer.SetViewPortSize(200);
   viewer.SetNumberOfColumns(6);
 
-  viewer.AddImage(
-    reader->GetOutput(),true,
-    itksys::SystemTools::GetFilenameName(argv[1]));
+  viewer.AddImage(reader->GetOutput(), true, itksys::SystemTools::GetFilenameName(argv[1]));
 
-  using FilterContainerType = std::map<std::string, itk::HistogramThresholdImageFilter<InputImageType, OutputImageType>::Pointer>;
+  using FilterContainerType =
+    std::map<std::string, itk::HistogramThresholdImageFilter<InputImageType, OutputImageType>::Pointer>;
   FilterContainerType filterContainer;
 
   filterContainer["Huang"] = HuangFilterType::New();
@@ -118,27 +104,22 @@ int itkVtkConnectedComponentImageFilterTest (int argc, char* argv[] )
 
   auto it = filterContainer.begin();
   for (it = filterContainer.begin(); it != filterContainer.end(); ++it)
-    {
-    (*it).second->SetInsideValue( 255 );
-    (*it).second->SetOutsideValue( 0 );
-    (*it).second->SetNumberOfHistogramBins( 256 );
-    (*it).second->SetInput( reader->GetOutput() );
+  {
+    (*it).second->SetInsideValue(255);
+    (*it).second->SetOutsideValue(0);
+    (*it).second->SetNumberOfHistogramBins(256);
+    (*it).second->SetInput(reader->GetOutput());
     (*it).second->Update();
 
-    ConnectedComponentImageFilterType::Pointer connected =
-      ConnectedComponentImageFilterType::New ();
+    ConnectedComponentImageFilterType::Pointer connected = ConnectedComponentImageFilterType::New();
     connected->SetInput((*it).second->GetOutput());
 
     RGBFilterType::Pointer rgbFilter = RGBFilterType::New();
-    rgbFilter->SetInput( connected->GetOutput() );
+    rgbFilter->SetInput(connected->GetOutput());
     std::stringstream desc;
-    desc << (*it).first << " threshold = "
-         << (*it).second->GetThreshold();
-    viewer.AddRGBImage(
-      rgbFilter->GetOutput(),
-      true,
-      desc.str());
-    }
+    desc << (*it).first << " threshold = " << (*it).second->GetThreshold();
+    viewer.AddRGBImage(rgbFilter->GetOutput(), true, desc.str());
+  }
 
 
   // For testing, turn off interaction

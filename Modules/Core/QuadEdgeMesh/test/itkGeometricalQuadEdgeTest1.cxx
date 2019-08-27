@@ -26,37 +26,37 @@ public:
   using PointData = float;
   using FaceData = std::string;
 
-  using PrimalQuadEdgeType = itk::GeometricalQuadEdge<
-     PointIdentifier, FaceIdentifier,
-     PointData, FaceData, true >;
+  using PrimalQuadEdgeType = itk::GeometricalQuadEdge<PointIdentifier, FaceIdentifier, PointData, FaceData, true>;
 
 
   using DualQuadEdgeType = PrimalQuadEdgeType::DualType;
 
 
-  static PrimalQuadEdgeType * MakeQuadEdges()
-    {
+  static PrimalQuadEdgeType *
+  MakeQuadEdges()
+  {
     auto * e1 = new PrimalQuadEdgeType();
     auto * e2 = new DualQuadEdgeType();
     auto * e3 = new PrimalQuadEdgeType();
     auto * e4 = new DualQuadEdgeType();
 
-    e1->SetRot( e2 );
-    e2->SetRot( e3 );
-    e3->SetRot( e4 );
-    e4->SetRot( e1 );
+    e1->SetRot(e2);
+    e2->SetRot(e3);
+    e3->SetRot(e4);
+    e4->SetRot(e1);
 
-    e1->SetOnext( e1 );
-    e2->SetOnext( e4 );
-    e3->SetOnext( e3 );
-    e4->SetOnext( e4 );
+    e1->SetOnext(e1);
+    e2->SetOnext(e4);
+    e3->SetOnext(e3);
+    e4->SetOnext(e4);
 
     return e1;
-    }
+  }
 };
 
 
-int itkGeometricalQuadEdgeTest1( int , char* [] )
+int
+itkGeometricalQuadEdgeTest1(int, char *[])
 {
 
   using HelperType = itkGeometricalQuadEdgeTest1Helper;
@@ -65,18 +65,18 @@ int itkGeometricalQuadEdgeTest1( int , char* [] )
   using DualQuadEdgeType = HelperType::DualQuadEdgeType;
 
 
-    { // Define a local scope for testing constructors
+  { // Define a local scope for testing constructors
 
-    DualQuadEdgeType     dummyQuadEdge1;  // test constructor
-    PrimalQuadEdgeType   dummyQuadEdge2;  // test constructor
+    DualQuadEdgeType   dummyQuadEdge1; // test constructor
+    PrimalQuadEdgeType dummyQuadEdge2; // test constructor
 
-    dummyQuadEdge1.SetRot( &dummyQuadEdge2 );  // Test SetRot()
-    }
+    dummyQuadEdge1.SetRot(&dummyQuadEdge2); // Test SetRot()
+  }
 
   PrimalQuadEdgeType * qe = HelperType::MakeQuadEdges();
   // this will only call the method
   // a more rigorous test woul dbe needed
-  qe->SetRight( 1 );
+  qe->SetRight(1);
   qe->GetSym();
   qe->GetOprev();
   qe->GetLprev();
@@ -86,7 +86,7 @@ int itkGeometricalQuadEdgeTest1( int , char* [] )
   qe->GetInvLnext();
   qe->GetInvRnext();
   qe->GetInvDnext();
-  qe->IsInLnextRing( nullptr );
+  qe->IsInLnextRing(nullptr);
 
   delete qe->GetRot()->GetRot()->GetRot();
   delete qe->GetRot()->GetRot();

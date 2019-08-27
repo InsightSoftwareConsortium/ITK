@@ -32,33 +32,41 @@
  * error if \c expr is \c false.
  * \ingroup ITKCommon
  */
-#   define itkStaticAssert(expr, str) static_assert(expr, str)
-#elif defined(__GNUC__) && !defined( __INTEL_COMPILER )
+#  define itkStaticAssert(expr, str) static_assert(expr, str)
+#elif defined(__GNUC__) && !defined(__INTEL_COMPILER)
 //  This trick restricts the static assertion to non global contexts (-> functions)
-#   define itkStaticAssert(expr,str)                                  \
-      ({extern int __attribute__((error(str))) StaticAssertFailure(); \
-       ((void)((expr) ? 0: StaticAssertFailure()), 0);                \
-       })
+#  define itkStaticAssert(expr, str)                                                                                   \
+    ({                                                                                                                 \
+      extern int __attribute__((error(str))) StaticAssertFailure();                                                    \
+      ((void)((expr) ? 0 : StaticAssertFailure()), 0);                                                                 \
+    })
 #else
 //  Usual trick (boost, clang, ...), but it will loose the error message on the
 //  way
-#   define ITK_JOIN(X,Y)     ITK_DO_JOIN(X,Y)
-#   define ITK_DO_JOIN(X,Y)  ITK_DO_JOIN2(X,Y)
-#   define ITK_DO_JOIN2(X,Y) X##Y
+#  define ITK_JOIN(X, Y) ITK_DO_JOIN(X, Y)
+#  define ITK_DO_JOIN(X, Y) ITK_DO_JOIN2(X, Y)
+#  define ITK_DO_JOIN2(X, Y) X##Y
 
-namespace itk {
+namespace itk
+{
 /// \cond HIDE_META_PROGRAMMING
 /** Internal class to emulate static assertions of pre-C++11 compilers.
  * \sa \c itkStaticAssert
  * \ingroup ITKCommon
  */
-template <bool V> struct StaticAssertFailure;
-template <> struct StaticAssertFailure<true>{};
+template <bool V>
+struct StaticAssertFailure;
+template <>
+struct StaticAssertFailure<true>
+{};
 /// \endcond
-} // itk namespace
+} // namespace itk
 
-#   define itkStaticAssert(expr,str) \
-      enum { ITK_JOIN(static_assert_typedef, __LINE__) = sizeof(itk::StaticAssertFailure<((expr) == 0 ? false : true)>) };
+#  define itkStaticAssert(expr, str)                                                                                   \
+    enum                                                                                                               \
+    {                                                                                                                  \
+      ITK_JOIN(static_assert_typedef, __LINE__) = sizeof(itk::StaticAssertFailure<((expr) == 0 ? false : true)>)       \
+    };
 #endif
 
 #endif // itkStaticAssert_h

@@ -67,17 +67,17 @@ namespace itk
  *
  * \ingroup ITKMesh
  */
-template< typename TInputImage, typename TOutputMesh >
-class ITK_TEMPLATE_EXPORT BinaryMask3DMeshSource:public ImageToMeshFilter< TInputImage, TOutputMesh >
+template <typename TInputImage, typename TOutputMesh>
+class ITK_TEMPLATE_EXPORT BinaryMask3DMeshSource : public ImageToMeshFilter<TInputImage, TOutputMesh>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryMask3DMeshSource);
 
   /** Standard "Self" type alias. */
   using Self = BinaryMask3DMeshSource;
-  using Superclass = ImageToMeshFilter< TInputImage, TOutputMesh >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToMeshFilter<TInputImage, TOutputMesh>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -98,13 +98,13 @@ public:
   using PointsContainer = typename OutputMeshType::PointsContainer;
   using CellsContainerPointer = typename OutputMeshType::CellsContainerPointer;
   using CellsContainer = typename OutputMeshType::CellsContainer;
-  using doubleVector = CovariantVector< double, 2 >;
-  using intVector = CovariantVector< int, 2 >;
+  using doubleVector = CovariantVector<double, 2>;
+  using intVector = CovariantVector<int, 2>;
 
   /** Define the triangular cell types which forms the surface of the model
    * and will be used in FEM application. */
-  using TCellInterface = CellInterface< OPixelType, CellTraits >;
-  using TriCell = TriangleCell< TCellInterface >;
+  using TCellInterface = CellInterface<OPixelType, CellTraits>;
+  using TriCell = TriangleCell<TCellInterface>;
   using TriCellAutoPointer = typename TriCell::SelfAutoPointer;
 
   /** Input Image Type Definition. */
@@ -120,7 +120,7 @@ public:
   /** Type definition for the classified image index type. */
   using InputImageIndexType = typename InputImageType::IndexType;
 
-  using InputImageIterator = ImageRegionConstIterator< InputImageType >;
+  using InputImageIterator = ImageRegionConstIterator<InputImageType>;
 
   using IdentifierType = itk::IdentifierType;
   using SizeValueType = itk::SizeValueType;
@@ -132,117 +132,137 @@ public:
 
   /** accept the input image */
   using Superclass::SetInput;
-  virtual void SetInput(const InputImageType *inputImage);
+  virtual void
+  SetInput(const InputImageType * inputImage);
 
-  void SetRegionOfInterest( const RegionType & iRegion )
+  void
+  SetRegionOfInterest(const RegionType & iRegion)
+  {
+    if (iRegion != m_RegionOfInterest)
     {
-    if( iRegion != m_RegionOfInterest )
-      {
       this->m_RegionOfInterest = iRegion;
       this->m_RegionOfInterestProvidedByUser = true;
       this->Modified();
-      }
     }
+  }
 
   itkGetConstReferenceMacro(RegionOfInterest, RegionType);
 
 protected:
   BinaryMask3DMeshSource();
   ~BinaryMask3DMeshSource() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 
-  bool       m_RegionOfInterestProvidedByUser{false};
+  bool       m_RegionOfInterestProvidedByUser{ false };
   RegionType m_RegionOfInterest;
 
-  void GenerateOutputInformation() override {}  // do nothing override
+  void
+  GenerateOutputInformation() override
+  {} // do nothing override
 
 private:
   using InputImageSizeType = typename InputImageType::SizeType;
 
-  void CreateMesh();
+  void
+  CreateMesh();
 
-  void XFlip(unsigned char *tp);     // 7 kinds of transformation
+  void
+  XFlip(unsigned char * tp); // 7 kinds of transformation
 
-  void YFlip(unsigned char *tp);
+  void
+  YFlip(unsigned char * tp);
 
-  void ZFlip(unsigned char *tp);
+  void
+  ZFlip(unsigned char * tp);
 
-  void XRotation(unsigned char *tp);
+  void
+  XRotation(unsigned char * tp);
 
-  void YRotation(unsigned char *tp);
+  void
+  YRotation(unsigned char * tp);
 
-  void ZRotation(unsigned char *tp);
+  void
+  ZRotation(unsigned char * tp);
 
-  void inverse(unsigned char *tp);
+  void
+  inverse(unsigned char * tp);
 
-  void InitializeLUT(); // initialize the look up table before the mesh
-                        // construction
+  void
+  InitializeLUT(); // initialize the look up table before the mesh
+                   // construction
 
-  void AddCells(unsigned char celltype, unsigned char celltran, int index);
+  void
+  AddCells(unsigned char celltype, unsigned char celltran, int index);
 
-  void AddNodes(int index,
-                unsigned char *nodesid,
-                IdentifierType *globalnodesid,
-                IdentifierType **currentrowtmp,
-                IdentifierType **currentframetmp);
+  void
+  AddNodes(int               index,
+           unsigned char *   nodesid,
+           IdentifierType *  globalnodesid,
+           IdentifierType ** currentrowtmp,
+           IdentifierType ** currentframetmp);
 
-  void CellTransfer(unsigned char *nodesid, unsigned char celltran);
+  void
+  CellTransfer(unsigned char * nodesid, unsigned char celltran);
 
-  IdentifierType SearchThroughLastRow(int index, int start, int end);
+  IdentifierType
+  SearchThroughLastRow(int index, int start, int end);
 
-  IdentifierType SearchThroughLastFrame(int index, int start, int end);
+  IdentifierType
+  SearchThroughLastFrame(int index, int start, int end);
 
   unsigned char m_LUT[256][2]; // the two lookup tables
 
   IdentifierType m_LastVoxel[14];
   IdentifierType m_CurrentVoxel[14];
 
-  IdentifierType **m_LastRow{nullptr};
-  IdentifierType **m_LastFrame{nullptr};
-  IdentifierType **m_CurrentRow{nullptr};
-  IdentifierType **m_CurrentFrame{nullptr};
+  IdentifierType ** m_LastRow{ nullptr };
+  IdentifierType ** m_LastFrame{ nullptr };
+  IdentifierType ** m_CurrentRow{ nullptr };
+  IdentifierType ** m_CurrentFrame{ nullptr };
 
-  int m_CurrentRowIndex{0};
-  int m_CurrentFrameIndex{0};
-  int m_LastRowNum{0};
-  int m_LastFrameNum{0};
-  int m_CurrentRowNum{200};
-  int m_CurrentFrameNum{2000};
-  unsigned char  m_AvailableNodes[14];
+  int           m_CurrentRowIndex{ 0 };
+  int           m_CurrentFrameIndex{ 0 };
+  int           m_LastRowNum{ 0 };
+  int           m_LastFrameNum{ 0 };
+  int           m_CurrentRowNum{ 200 };
+  int           m_CurrentFrameNum{ 2000 };
+  unsigned char m_AvailableNodes[14];
 
   double m_LocationOffset[14][3];
 
-  SizeValueType m_NumberOfNodes{0};
-  SizeValueType m_NumberOfCells{0};
+  SizeValueType m_NumberOfNodes{ 0 };
+  SizeValueType m_NumberOfCells{ 0 };
 
-  int m_NodeLimit{2000};
-  int m_CellLimit{4000};
-  int m_ImageWidth{0};
-  int m_ImageHeight{0};
-  int m_ImageDepth{0};
-  int m_ColFlag{0};
-  int m_RowFlag{0};
-  int m_FrameFlag{0};
-  int m_LastRowIndex{0};
-  int m_LastVoxelIndex{0};
-  int m_LastFrameIndex{0};
+  int m_NodeLimit{ 2000 };
+  int m_CellLimit{ 4000 };
+  int m_ImageWidth{ 0 };
+  int m_ImageHeight{ 0 };
+  int m_ImageDepth{ 0 };
+  int m_ColFlag{ 0 };
+  int m_RowFlag{ 0 };
+  int m_FrameFlag{ 0 };
+  int m_LastRowIndex{ 0 };
+  int m_LastVoxelIndex{ 0 };
+  int m_LastFrameIndex{ 0 };
 
-  unsigned char  m_PointFound{0};
+  unsigned char  m_PointFound{ 0 };
   InputPixelType m_ObjectValue;
 
   /** temporary variables used in CreateMesh to avoid thousands of
    *  calls to GetInput() and GetOutput()
    */
-  OutputMeshType       *m_OutputMesh;
-  const InputImageType *m_InputImage;
+  OutputMeshType *       m_OutputMesh;
+  const InputImageType * m_InputImage;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryMask3DMeshSource.hxx"
+#  include "itkBinaryMask3DMeshSource.hxx"
 #endif
 
 #endif

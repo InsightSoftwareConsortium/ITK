@@ -44,30 +44,29 @@ namespace itk
  *
  *   \ingroup ITKLevelSetsv4
  */
-template< typename TEquationContainer, typename TLevelSet >
+template <typename TEquationContainer, typename TLevelSet>
 class ITK_TEMPLATE_EXPORT LevelSetEvolution
 {};
 
-template< typename TEquationContainer, typename TImage >
-class ITK_TEMPLATE_EXPORT LevelSetEvolution<  TEquationContainer,
-                          LevelSetDenseImage< TImage > > :
-  public LevelSetEvolutionBase< TEquationContainer, LevelSetDenseImage< TImage > >
+template <typename TEquationContainer, typename TImage>
+class ITK_TEMPLATE_EXPORT LevelSetEvolution<TEquationContainer, LevelSetDenseImage<TImage>>
+  : public LevelSetEvolutionBase<TEquationContainer, LevelSetDenseImage<TImage>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolution);
 
-  using LevelSetType = LevelSetDenseImage< TImage >;
+  using LevelSetType = LevelSetDenseImage<TImage>;
 
   using Self = LevelSetEvolution;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using Superclass = LevelSetEvolutionBase< TEquationContainer, LevelSetType >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using Superclass = LevelSetEvolutionBase<TEquationContainer, LevelSetType>;
 
   /** Method for creation through object factory */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information */
-  itkTypeMacro( LevelSetEvolution, LevelSetEvolutionBase );
+  itkTypeMacro(LevelSetEvolution, LevelSetEvolutionBase);
 
   using EquationContainerType = typename Superclass::EquationContainerType;
   using EquationContainerPointer = typename Superclass::EquationContainerPointer;
@@ -105,22 +104,24 @@ public:
   using StoppingCriterionType = typename Superclass::StoppingCriterionType;
   using StoppingCriterionPointer = typename Superclass::StoppingCriterionPointer;
 
-  using ThresholdFilterType = BinaryThresholdImageFilter< LevelSetImageType, LevelSetImageType >;
+  using ThresholdFilterType = BinaryThresholdImageFilter<LevelSetImageType, LevelSetImageType>;
   using ThresholdFilterPointer = typename ThresholdFilterType::Pointer;
 
-  using MaurerType = SignedMaurerDistanceMapImageFilter< LevelSetImageType, LevelSetImageType >;
+  using MaurerType = SignedMaurerDistanceMapImageFilter<LevelSetImageType, LevelSetImageType>;
   using MaurerPointer = typename MaurerType::Pointer;
 
-  using LevelSetImageIteratorType = ImageRegionIteratorWithIndex< LevelSetImageType >;
+  using LevelSetImageIteratorType = ImageRegionIteratorWithIndex<LevelSetImageType>;
 
-  using LevelSetImageConstIteratorType = ImageRegionConstIteratorWithIndex< LevelSetImageType >;
+  using LevelSetImageConstIteratorType = ImageRegionConstIteratorWithIndex<LevelSetImageType>;
 
-  using InputImageConstIteratorType = ImageRegionConstIteratorWithIndex< InputImageType >;
+  using InputImageConstIteratorType = ImageRegionConstIteratorWithIndex<InputImageType>;
 
   /** Set the maximum number of threads to be used. */
-  void SetNumberOfWorkUnits( const ThreadIdType threads );
+  void
+  SetNumberOfWorkUnits(const ThreadIdType threads);
   /** Set the maximum number of threads to be used. */
-  ThreadIdType GetNumberOfWorkUnits() const;
+  ThreadIdType
+  GetNumberOfWorkUnits() const;
 
   ~LevelSetEvolution() override = default;
 
@@ -129,37 +130,54 @@ protected:
 
   /** Initialize the update buffers for all level sets to hold the updates of
    *  equations in each iteration */
-  void AllocateUpdateBuffer() override;
+  void
+  AllocateUpdateBuffer() override;
 
   /** Computer the update at each pixel and store in the update buffer */
-  void ComputeIteration() override;
+  void
+  ComputeIteration() override;
 
   /** Compute the time-step for the next iteration */
-  void ComputeTimeStepForNextIteration() override;
+  void
+  ComputeTimeStepForNextIteration() override;
 
   /** Update the levelset by 1 iteration from the computed updates */
-  void UpdateLevelSets() override;
+  void
+  UpdateLevelSets() override;
 
   /** Update the equations at the end of 1 iteration */
-  void UpdateEquations() override;
+  void
+  UpdateEquations() override;
 
   /** Reinitialize the level set functions to a signed distance function */
-  void ReinitializeToSignedDistance();
+  void
+  ReinitializeToSignedDistance();
 
-  typename LevelSetContainerType::Pointer    m_UpdateBuffer;
+  typename LevelSetContainerType::Pointer m_UpdateBuffer;
 
-  friend class LevelSetEvolutionComputeIterationThreader< LevelSetType, ThreadedImageRegionPartitioner< TImage::ImageDimension >, Self >;
-  using SplitLevelSetComputeIterationThreaderType = LevelSetEvolutionComputeIterationThreader< LevelSetType, ThreadedImageRegionPartitioner< TImage::ImageDimension >, Self >;
+  friend class LevelSetEvolutionComputeIterationThreader<LevelSetType,
+                                                         ThreadedImageRegionPartitioner<TImage::ImageDimension>,
+                                                         Self>;
+  using SplitLevelSetComputeIterationThreaderType =
+    LevelSetEvolutionComputeIterationThreader<LevelSetType,
+                                              ThreadedImageRegionPartitioner<TImage::ImageDimension>,
+                                              Self>;
   typename SplitLevelSetComputeIterationThreaderType::Pointer m_SplitLevelSetComputeIterationThreader;
 
   using DomainMapConstIteratorType = typename DomainMapImageFilterType::DomainMapType::const_iterator;
-  using ThreadedDomainMapPartitionerType = ThreadedIteratorRangePartitioner< DomainMapConstIteratorType >;
-  friend class LevelSetEvolutionComputeIterationThreader< LevelSetType, ThreadedDomainMapPartitionerType, Self >;
-  using SplitDomainMapComputeIterationThreaderType = LevelSetEvolutionComputeIterationThreader< LevelSetType, ThreadedDomainMapPartitionerType, Self >;
+  using ThreadedDomainMapPartitionerType = ThreadedIteratorRangePartitioner<DomainMapConstIteratorType>;
+  friend class LevelSetEvolutionComputeIterationThreader<LevelSetType, ThreadedDomainMapPartitionerType, Self>;
+  using SplitDomainMapComputeIterationThreaderType =
+    LevelSetEvolutionComputeIterationThreader<LevelSetType, ThreadedDomainMapPartitionerType, Self>;
   typename SplitDomainMapComputeIterationThreaderType::Pointer m_SplitDomainMapComputeIterationThreader;
 
-  friend class LevelSetEvolutionUpdateLevelSetsThreader< LevelSetType, ThreadedImageRegionPartitioner< TImage::ImageDimension >, Self >;
-  using SplitLevelSetUpdateLevelSetsThreaderType = LevelSetEvolutionUpdateLevelSetsThreader< LevelSetType, ThreadedImageRegionPartitioner< TImage::ImageDimension >, Self >;
+  friend class LevelSetEvolutionUpdateLevelSetsThreader<LevelSetType,
+                                                        ThreadedImageRegionPartitioner<TImage::ImageDimension>,
+                                                        Self>;
+  using SplitLevelSetUpdateLevelSetsThreaderType =
+    LevelSetEvolutionUpdateLevelSetsThreader<LevelSetType,
+                                             ThreadedImageRegionPartitioner<TImage::ImageDimension>,
+                                             Self>;
   typename SplitLevelSetUpdateLevelSetsThreaderType::Pointer m_SplitLevelSetUpdateLevelSetsThreader;
 
   /** Helper variable for threading. */
@@ -167,25 +185,25 @@ protected:
 };
 
 
-template< typename TEquationContainer, typename TOutput, unsigned int VDimension >
-class ITK_TEMPLATE_EXPORT LevelSetEvolution< TEquationContainer, WhitakerSparseLevelSetImage< TOutput, VDimension > > :
-  public LevelSetEvolutionBase< TEquationContainer, WhitakerSparseLevelSetImage< TOutput, VDimension > >
+template <typename TEquationContainer, typename TOutput, unsigned int VDimension>
+class ITK_TEMPLATE_EXPORT LevelSetEvolution<TEquationContainer, WhitakerSparseLevelSetImage<TOutput, VDimension>>
+  : public LevelSetEvolutionBase<TEquationContainer, WhitakerSparseLevelSetImage<TOutput, VDimension>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolution);
 
-  using LevelSetType = WhitakerSparseLevelSetImage< TOutput, VDimension >;
+  using LevelSetType = WhitakerSparseLevelSetImage<TOutput, VDimension>;
 
   using Self = LevelSetEvolution;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using Superclass = LevelSetEvolutionBase< TEquationContainer, LevelSetType >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using Superclass = LevelSetEvolutionBase<TEquationContainer, LevelSetType>;
 
   /** Method for creation through object factory */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information */
-  itkTypeMacro( LevelSetEvolution, LevelSetEvolutionBase );
+  itkTypeMacro(LevelSetEvolution, LevelSetEvolutionBase);
 
   using EquationContainerType = typename Superclass::EquationContainerType;
   using EquationContainerPointer = typename Superclass::EquationContainerPointer;
@@ -226,70 +244,77 @@ public:
   using StoppingCriterionType = typename Superclass::StoppingCriterionType;
   using StoppingCriterionPointer = typename Superclass::StoppingCriterionPointer;
 
-  using InputImageConstIteratorType = ImageRegionConstIteratorWithIndex< InputImageType >;
+  using InputImageConstIteratorType = ImageRegionConstIteratorWithIndex<InputImageType>;
 
-  using UpdateLevelSetFilterType = UpdateWhitakerSparseLevelSet< ImageDimension, LevelSetOutputType, EquationContainerType >;
+  using UpdateLevelSetFilterType =
+    UpdateWhitakerSparseLevelSet<ImageDimension, LevelSetOutputType, EquationContainerType>;
   using UpdateLevelSetFilterPointer = typename UpdateLevelSetFilterType::Pointer;
 
   /** Set the maximum number of threads to be used. */
-  void SetNumberOfWorkUnits( const ThreadIdType threads );
+  void
+  SetNumberOfWorkUnits(const ThreadIdType threads);
   /** Set the maximum number of threads to be used. */
-  ThreadIdType GetNumberOfWorkUnits() const;
+  ThreadIdType
+  GetNumberOfWorkUnits() const;
 
 protected:
   LevelSetEvolution();
   ~LevelSetEvolution() override;
 
-  using NodePairType = std::pair< LevelSetInputType, LevelSetOutputType >;
+  using NodePairType = std::pair<LevelSetInputType, LevelSetOutputType>;
 
   // For sparse case, the update buffer needs to be the size of the active layer
-  std::map< IdentifierType, LevelSetLayerType* >  m_UpdateBuffer;
+  std::map<IdentifierType, LevelSetLayerType *> m_UpdateBuffer;
 
   /** Initialize the update buffers for all level sets to hold the updates of
    *  equations in each iteration */
-  void AllocateUpdateBuffer() override;
+  void
+  AllocateUpdateBuffer() override;
 
   /** Compute the update at each pixel and store in the update buffer */
-  void ComputeIteration() override;
+  void
+  ComputeIteration() override;
 
   /** Compute the time-step for the next iteration */
-  void ComputeTimeStepForNextIteration() override;
+  void
+  ComputeTimeStepForNextIteration() override;
 
   /** Update the levelset by 1 iteration from the computed updates */
-  void UpdateLevelSets() override;
+  void
+  UpdateLevelSets() override;
 
   /** Update the equations at the end of 1 iteration */
-  void UpdateEquations() override;
+  void
+  UpdateEquations() override;
 
-  using SplitLevelSetPartitionerType = ThreadedIteratorRangePartitioner< typename LevelSetType::LayerConstIterator >;
-  friend class LevelSetEvolutionComputeIterationThreader< LevelSetType, SplitLevelSetPartitionerType, Self >;
-  using SplitLevelSetComputeIterationThreaderType = LevelSetEvolutionComputeIterationThreader< LevelSetType, SplitLevelSetPartitionerType, Self >;
+  using SplitLevelSetPartitionerType = ThreadedIteratorRangePartitioner<typename LevelSetType::LayerConstIterator>;
+  friend class LevelSetEvolutionComputeIterationThreader<LevelSetType, SplitLevelSetPartitionerType, Self>;
+  using SplitLevelSetComputeIterationThreaderType =
+    LevelSetEvolutionComputeIterationThreader<LevelSetType, SplitLevelSetPartitionerType, Self>;
   typename SplitLevelSetComputeIterationThreaderType::Pointer m_SplitLevelSetComputeIterationThreader;
 };
 
 
 // Shi
-template< typename TEquationContainer, unsigned int VDimension >
-class ITK_TEMPLATE_EXPORT LevelSetEvolution<
-    TEquationContainer,
-    ShiSparseLevelSetImage< VDimension > > :
-public LevelSetEvolutionBase< TEquationContainer, ShiSparseLevelSetImage< VDimension > >
+template <typename TEquationContainer, unsigned int VDimension>
+class ITK_TEMPLATE_EXPORT LevelSetEvolution<TEquationContainer, ShiSparseLevelSetImage<VDimension>>
+  : public LevelSetEvolutionBase<TEquationContainer, ShiSparseLevelSetImage<VDimension>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolution);
 
-  using LevelSetType = ShiSparseLevelSetImage< VDimension >;
+  using LevelSetType = ShiSparseLevelSetImage<VDimension>;
 
   using Self = LevelSetEvolution;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using Superclass = LevelSetEvolutionBase< TEquationContainer, LevelSetType >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using Superclass = LevelSetEvolutionBase<TEquationContainer, LevelSetType>;
 
   /** Method for creation through object factory */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information */
-  itkTypeMacro( LevelSetEvolution, LevelSetEvolutionBase );
+  itkTypeMacro(LevelSetEvolution, LevelSetEvolutionBase);
 
   using EquationContainerType = typename Superclass::EquationContainerType;
   using EquationContainerPointer = typename Superclass::EquationContainerPointer;
@@ -330,44 +355,44 @@ public:
   using StoppingCriterionType = typename Superclass::StoppingCriterionType;
   using StoppingCriterionPointer = typename Superclass::StoppingCriterionPointer;
 
-  using InputImageConstIteratorType = ImageRegionConstIteratorWithIndex< InputImageType >;
+  using InputImageConstIteratorType = ImageRegionConstIteratorWithIndex<InputImageType>;
 
-  using UpdateLevelSetFilterType = UpdateShiSparseLevelSet< ImageDimension, EquationContainerType >;
+  using UpdateLevelSetFilterType = UpdateShiSparseLevelSet<ImageDimension, EquationContainerType>;
   using UpdateLevelSetFilterPointer = typename UpdateLevelSetFilterType::Pointer;
 
   LevelSetEvolution() = default;
   ~LevelSetEvolution() override = default;
 
 protected:
-
   /** Update the levelset by 1 iteration from the computed updates */
-  void UpdateLevelSets() override;
+  void
+  UpdateLevelSets() override;
 
   /** Update the equations at the end of 1 iteration */
-  void UpdateEquations() override;
+  void
+  UpdateEquations() override;
 };
 
 // Malcolm
-template< typename TEquationContainer, unsigned int VDimension >
-class ITK_TEMPLATE_EXPORT LevelSetEvolution< TEquationContainer,
-    MalcolmSparseLevelSetImage< VDimension > > :
-public LevelSetEvolutionBase< TEquationContainer, MalcolmSparseLevelSetImage< VDimension > >
+template <typename TEquationContainer, unsigned int VDimension>
+class ITK_TEMPLATE_EXPORT LevelSetEvolution<TEquationContainer, MalcolmSparseLevelSetImage<VDimension>>
+  : public LevelSetEvolutionBase<TEquationContainer, MalcolmSparseLevelSetImage<VDimension>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolution);
 
-  using LevelSetType = MalcolmSparseLevelSetImage< VDimension >;
+  using LevelSetType = MalcolmSparseLevelSetImage<VDimension>;
 
   using Self = LevelSetEvolution;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using Superclass = LevelSetEvolutionBase< TEquationContainer, LevelSetType >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using Superclass = LevelSetEvolutionBase<TEquationContainer, LevelSetType>;
 
   /** Method for creation through object factory */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information */
-  itkTypeMacro( LevelSetEvolution, LevelSetEvolutionBase );
+  itkTypeMacro(LevelSetEvolution, LevelSetEvolutionBase);
 
   using EquationContainerType = typename Superclass::EquationContainerType;
   using EquationContainerPointer = typename Superclass::EquationContainerPointer;
@@ -409,22 +434,24 @@ public:
   using StoppingCriterionType = typename Superclass::StoppingCriterionType;
   using StoppingCriterionPointer = typename Superclass::StoppingCriterionPointer;
 
-  using InputImageConstIteratorType = ImageRegionConstIteratorWithIndex< InputImageType >;
+  using InputImageConstIteratorType = ImageRegionConstIteratorWithIndex<InputImageType>;
 
-  using UpdateLevelSetFilterType = UpdateMalcolmSparseLevelSet< ImageDimension, EquationContainerType >;
+  using UpdateLevelSetFilterType = UpdateMalcolmSparseLevelSet<ImageDimension, EquationContainerType>;
   using UpdateLevelSetFilterPointer = typename UpdateLevelSetFilterType::Pointer;
 
   LevelSetEvolution() = default;
   ~LevelSetEvolution() override = default;
 
 protected:
-  void UpdateLevelSets() override;
-  void UpdateEquations() override;
+  void
+  UpdateLevelSets() override;
+  void
+  UpdateEquations() override;
 };
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetEvolution.hxx"
+#  include "itkLevelSetEvolution.hxx"
 #endif
 
 #endif // itkLevelSetEvolution_h

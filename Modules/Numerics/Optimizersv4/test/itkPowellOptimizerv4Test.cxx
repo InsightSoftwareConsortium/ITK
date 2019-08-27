@@ -39,26 +39,26 @@ int POWELL_CALLS_TO_GET_VALUE = 0;
 class PowellBoundedMetric : public itk::ObjectToObjectMetricBase
 {
 public:
-
   using Self = PowellBoundedMetric;
   using Superclass = itk::ObjectToObjectMetricBase;
   using Pointer = itk::SmartPointer<Self>;
   using ConstPointer = itk::SmartPointer<const Self>;
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
-  enum { SpaceDimension=2 };
+  enum
+  {
+    SpaceDimension = 2
+  };
 
   using ParametersType = Superclass::ParametersType;
   using DerivativeType = Superclass::DerivativeType;
   using MeasureType = Superclass::MeasureType;
 
 
-  PowellBoundedMetric()
-  {
-    m_HasLocalSupport = false;
-  }
+  PowellBoundedMetric() { m_HasLocalSupport = false; }
 
-  MeasureType  GetValue() const override
+  MeasureType
+  GetValue() const override
   {
     ++POWELL_CALLS_TO_GET_VALUE;
 
@@ -69,70 +69,78 @@ public:
     std::cout << x << " ";
     std::cout << y << ") = ";
 
-    MeasureType measure = 0.5*(3*x*x+4*x*y+6*y*y) - 2*x + 8*y;
+    MeasureType measure = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
 
     std::cout << measure << std::endl;
 
     return measure;
   }
 
-  void GetDerivative( DerivativeType & ) const override
-  {
-  }
+  void
+  GetDerivative(DerivativeType &) const override
+  {}
 
-  void GetValueAndDerivative( MeasureType & value,
-                             DerivativeType & derivative ) const override
+  void
+  GetValueAndDerivative(MeasureType & value, DerivativeType & derivative) const override
   {
     value = GetValue();
-    GetDerivative( derivative );
+    GetDerivative(derivative);
   }
 
-  void Initialize() throw ( itk::ExceptionObject ) override
+  void
+  Initialize() throw(itk::ExceptionObject) override
   {
-    m_Parameters.SetSize( SpaceDimension );
+    m_Parameters.SetSize(SpaceDimension);
   }
 
-  unsigned int GetNumberOfLocalParameters() const override
-  {
-    return SpaceDimension;
-  }
-
-  unsigned int GetNumberOfParameters() const override
+  unsigned int
+  GetNumberOfLocalParameters() const override
   {
     return SpaceDimension;
   }
 
-  void SetParameters( ParametersType & parameters ) override
+  unsigned int
+  GetNumberOfParameters() const override
+  {
+    return SpaceDimension;
+  }
+
+  void
+  SetParameters(ParametersType & parameters) override
   {
     m_Parameters = parameters;
   }
 
-  const ParametersType & GetParameters() const override
+  const ParametersType &
+  GetParameters() const override
   {
     return m_Parameters;
   }
 
-  bool HasLocalSupport() const override
+  bool
+  HasLocalSupport() const override
   {
     return m_HasLocalSupport;
   }
 
-  void SetHasLocalSupport(bool hls)
+  void
+  SetHasLocalSupport(bool hls)
   {
     m_HasLocalSupport = hls;
   }
 
-  void UpdateTransformParameters( const DerivativeType &, ParametersValueType ) override
-  {
-  }
+  void
+  UpdateTransformParameters(const DerivativeType &, ParametersValueType) override
+  {}
 
 private:
-  ParametersType  m_Parameters;
-  bool            m_HasLocalSupport;
+  ParametersType m_Parameters;
+  bool           m_HasLocalSupport;
 };
 
 
-int itkPowellOptimizerv4Test(int, char* [] )
+int
+itkPowellOptimizerv4Test(int, char *[])
 {
   std::cout << "PowellOptimizerv4 Test ";
   std::cout << std::endl << std::endl;
@@ -140,67 +148,65 @@ int itkPowellOptimizerv4Test(int, char* [] )
   using OptimizerType = itk::PowellOptimizerv4<double>;
 
   // Declaration of a itkOptimizer
-  OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
+  OptimizerType::Pointer itkOptimizer = OptimizerType::New();
 
 
   // Declaration of the CostFunction
   PowellBoundedMetric::Pointer metric = PowellBoundedMetric::New();
 
 
-  itkOptimizer->SetMetric( metric );
+  itkOptimizer->SetMetric(metric);
 
 
   using ParametersType = PowellBoundedMetric::ParametersType;
 
-  const unsigned int spaceDimension =
-                      metric->GetNumberOfParameters();
+  const unsigned int spaceDimension = metric->GetNumberOfParameters();
 
   // We start not so far from  | 2 -2 |
-  ParametersType  initialPosition( spaceDimension );
+  ParametersType initialPosition(spaceDimension);
 
-  initialPosition[0] =  100;
+  initialPosition[0] = 100;
   initialPosition[1] = -100;
 
   // Set the initial position by setting the metric
   // parameters.
   std::cout << "Set metric parameters." << std::endl;
-  metric->SetParameters( initialPosition );
+  metric->SetParameters(initialPosition);
 
-  itkOptimizer->SetStepLength( 10 );
-  itkOptimizer->SetStepTolerance( 0.01 );
-  itkOptimizer->SetValueTolerance( 0.1 );
-  itkOptimizer->SetMaximumIteration( 100 );
+  itkOptimizer->SetStepLength(10);
+  itkOptimizer->SetStepTolerance(0.01);
+  itkOptimizer->SetValueTolerance(0.1);
+  itkOptimizer->SetMaximumIteration(100);
 
   try
-    {
+  {
     itkOptimizer->StartOptimization();
-    }
-  catch( itk::ExceptionObject & e )
-    {
+  }
+  catch (itk::ExceptionObject & e)
+  {
     std::cout << "Exception thrown ! " << std::endl;
     std::cout << "An error occurred during Optimization" << std::endl;
-    std::cout << "Location    = " << e.GetLocation()    << std::endl;
+    std::cout << "Location    = " << e.GetLocation() << std::endl;
     std::cout << "Description = " << e.GetDescription() << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   ParametersType finalPosition = itkOptimizer->GetCurrentPosition();
   std::cout << "Solution        = (";
   std::cout << finalPosition[0] << ",";
   std::cout << finalPosition[1] << ")" << std::endl;
-  std::cout << "StopConditionDescription: "
-            << itkOptimizer->GetStopConditionDescription() << std::endl;
+  std::cout << "StopConditionDescription: " << itkOptimizer->GetStopConditionDescription() << std::endl;
 
   //
   // check results to see if it is within range
   //
-  bool pass = true;
+  bool   pass = true;
   double trueParameters[2] = { 2, -2 };
-  for( unsigned int j = 0; j < 2; j++ )
-    {
-    if( itk::Math::abs( finalPosition[j] - trueParameters[j] ) > 0.01 )
+  for (unsigned int j = 0; j < 2; j++)
+  {
+    if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)
       pass = false;
-    }
+  }
 
   // Exercise various member functions.
   std::cout << "StepLength: " << itkOptimizer->GetStepLength();
@@ -208,18 +214,16 @@ int itkPowellOptimizerv4Test(int, char* [] )
   std::cout << "CurrentIteration: " << itkOptimizer->GetCurrentIteration();
   std::cout << std::endl;
 
-  itkOptimizer->Print( std::cout );
+  itkOptimizer->Print(std::cout);
 
   std::cout << "Calls to GetValue = " << POWELL_CALLS_TO_GET_VALUE << std::endl;
 
-  if( !pass )
-    {
+  if (!pass)
+  {
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
-
-
 }

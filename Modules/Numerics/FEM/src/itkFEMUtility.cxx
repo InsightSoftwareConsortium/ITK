@@ -40,7 +40,8 @@ constexpr double GaussIntegrate::w[110];
  * Numerical integration (Gauss-Legendre formula).
  * Integrates function f(x) from x=a to x=b in n points.
  */
-double GaussIntegrate::Integrate(double ( *f )(double), double a, double b, int n)
+double
+GaussIntegrate::Integrate(double (*f)(double), double a, double b, int n)
 {
   /**
    * This subprogram produces the gauss-legendre numerical
@@ -61,26 +62,26 @@ double GaussIntegrate::Integrate(double ( *f )(double), double a, double b, int 
 
   /*  Begin integration  */
 
-  scale = ( b - a ) / two;
-  if( ( n & 1 ) == 0 )
-    {
+  scale = (b - a) / two;
+  if ((n & 1) == 0)
+  {
     m = n / 2;
     ibase = m * m;
     sum = zero;
-    }
+  }
   else
-    {
-    m = ( n - 1 ) / 2;
-    ibase = ( n * n - 1 ) / 4;
-    sum = w[ibase + m] * ( *f )( ( a + b ) / two );
-    }
-  for( i = 1; i <= m; i++ )
-    {
+  {
+    m = (n - 1) / 2;
+    ibase = (n * n - 1) / 4;
+    sum = w[ibase + m] * (*f)((a + b) / two);
+  }
+  for (i = 1; i <= m; i++)
+  {
     t = z[ibase + i - 1];
-    tl = ( a * ( one + t ) + ( one - t ) * b ) / two;
-    tu = ( a * ( one - t ) + ( one + t ) * b ) / two;
-    sum = sum + w[ibase + i - 1] * ( ( *f )( tl )  + ( *f )( tu ) );
-    }
+    tl = (a * (one + t) + (one - t) * b) / two;
+    tu = (a * (one - t) + (one + t) * b) / two;
+    sum = sum + w[ibase + i - 1] * ((*f)(tl) + (*f)(tu));
+  }
 
   return scale * sum;
 }

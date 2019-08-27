@@ -23,48 +23,49 @@
 #include "itkShapePositionLabelMapFilter.h"
 
 
-int itkShapePositionLabelMapFilterTest1(int argc, char * argv[])
+int
+itkShapePositionLabelMapFilterTest1(int argc, char * argv[])
 {
 
-  if( argc != 4 )
-    {
+  if (argc != 4)
+  {
     std::cerr << "usage: " << argv[0] << " input output attribute" << std::endl;
     // std::cerr << "  : " << std::endl;
     exit(1);
-    }
+  }
 
   // declare the dimension used, and the type of the input image
   constexpr int dim = 3;
   using PType = unsigned char;
-  using IType = itk::Image< PType, dim >;
+  using IType = itk::Image<PType, dim>;
 
   // We read the input image.
-  using ReaderType = itk::ImageFileReader< IType >;
+  using ReaderType = itk::ImageFileReader<IType>;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
   // And convert it to a LabelMap, with the shape attribute computed.
   // We use the default label object type.
-  using I2LType = itk::LabelImageToShapeLabelMapFilter< IType >;
+  using I2LType = itk::LabelImageToShapeLabelMapFilter<IType>;
   I2LType::Pointer i2l = I2LType::New();
-  i2l->SetInput( reader->GetOutput() );
+  i2l->SetInput(reader->GetOutput());
 
-  using OpeningType = itk::ShapePositionLabelMapFilter< I2LType::OutputImageType >;
+  using OpeningType = itk::ShapePositionLabelMapFilter<I2LType::OutputImageType>;
   OpeningType::Pointer opening = OpeningType::New();
-  opening->SetInput( i2l->GetOutput() );
-  opening->SetAttribute( argv[3] );
+  opening->SetInput(i2l->GetOutput());
+  opening->SetAttribute(argv[3]);
   itk::SimpleFilterWatcher watcher(opening, "filter");
 
   // the label map is then converted back to an label image.
-  using L2IType = itk::LabelMapToLabelImageFilter< I2LType::OutputImageType, IType >;
+  using L2IType = itk::LabelMapToLabelImageFilter<I2LType::OutputImageType, IType>;
   L2IType::Pointer l2i = L2IType::New();
-  l2i->SetInput( opening->GetOutput() );
+  l2i->SetInput(opening->GetOutput());
 
   // write the result
-  using WriterType = itk::ImageFileWriter< IType >;
+  using WriterType = itk::ImageFileWriter<IType>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( l2i->GetOutput() );
-  writer->SetFileName( argv[2] );
+  writer->SetInput(l2i->GetOutput());
+  writer->SetFileName(argv[2]);
   writer->Update();
 
   return 0;

@@ -45,10 +45,11 @@
 
 #include "itkRescaleIntensityImageFilter.h"
 
-int main( int argc, char * argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 4 )
-    {
+  if (argc < 4)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  ";
     std::cerr << " outputImageFile radius " << std::endl;
@@ -64,93 +65,95 @@ int main( int argc, char * argv[] )
   using PixelType = unsigned char;
   using WritePixelType = unsigned char;
 
-  using ImageType = itk::Image< PixelType,  Dimension >;
-    using WriteImageType = itk::Image< WritePixelType, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using WriteImageType = itk::Image<WritePixelType, Dimension>;
   // readers/writers
-  using ReaderType = itk::ImageFileReader< ImageType  >;
-  using WriterType = itk::ImageFileWriter< WriteImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  using WriterType = itk::ImageFileWriter<WriteImageType>;
 
   // structuring element
-  using StructuringElementType = itk::BinaryBallStructuringElement<
-            PixelType, Dimension  >;
+  using StructuringElementType =
+    itk::BinaryBallStructuringElement<PixelType, Dimension>;
   // define the opening and closing types
-  using OpeningFilterType = itk::GrayscaleMorphologicalOpeningImageFilter<
-            ImageType, ImageType, StructuringElementType >;
-  using ClosingFilterType = itk::GrayscaleMorphologicalClosingImageFilter<
-            ImageType, ImageType, StructuringElementType >;
+  using OpeningFilterType =
+    itk::GrayscaleMorphologicalOpeningImageFilter<ImageType,
+                                                  ImageType,
+                                                  StructuringElementType>;
+  using ClosingFilterType =
+    itk::GrayscaleMorphologicalClosingImageFilter<ImageType,
+                                                  ImageType,
+                                                  StructuringElementType>;
   // define arithmetic operation filters
-  using AdditionFilterType = itk::ConstrainedValueAdditionImageFilter<
-            ImageType, ImageType, ImageType >;
-  using SubtractionFilterType = itk::ConstrainedValueDifferenceImageFilter<
-            ImageType, ImageType, ImageType >;
+  using AdditionFilterType =
+    itk::ConstrainedValueAdditionImageFilter<ImageType, ImageType, ImageType>;
+  using SubtractionFilterType =
+    itk::ConstrainedValueDifferenceImageFilter<ImageType, ImageType, ImageType>;
   // define rescaling filter
-  using RescaleFilterType = itk::RescaleIntensityImageFilter<
-            ImageType, WriteImageType>;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter<ImageType, WriteImageType>;
 
   // Create structuring element
-  StructuringElementType  structuringElement;
+  StructuringElementType structuringElement;
   // (argv[3]+1) x (argv[3]+1) structuring element
-  structuringElement.SetRadius( std::stoi(argv[3]) );
+  structuringElement.SetRadius(std::stoi(argv[3]));
   structuringElement.CreateStructuringElement();
 
   // Setup the input and output files
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
-  WriterType::Pointer writer  = WriterType::New();
-  writer->SetFileName( argv[2] );
+  reader->SetFileName(argv[1]);
+  WriterType::Pointer writer = WriterType::New();
+  writer->SetFileName(argv[2]);
 
   // reading input image
   try
-    {
+  {
     reader->Update();
-    }
-  catch ( itk::ExceptionObject &err)
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cout << "Problems reading input image" << std::endl;
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Create the opening closing filters
-  OpeningFilterType::Pointer  opening  = OpeningFilterType::New();
-  ClosingFilterType::Pointer  closing  = ClosingFilterType::New();
+  OpeningFilterType::Pointer opening = OpeningFilterType::New();
+  ClosingFilterType::Pointer closing = ClosingFilterType::New();
   // Setup the opening and closing methods
-  opening->SetKernel(  structuringElement );
-  closing->SetKernel(  structuringElement );
+  opening->SetKernel(structuringElement);
+  closing->SetKernel(structuringElement);
   // Setup minnimum and maximum of rescale filter
   RescaleFilterType::Pointer rescaleFilter = RescaleFilterType::New();
-  rescaleFilter->SetOutputMinimum( 0 );
-  rescaleFilter->SetOutputMaximum( 255 );
+  rescaleFilter->SetOutputMinimum(0);
+  rescaleFilter->SetOutputMaximum(255);
   // creation of the pipeline. The enhancement operation is given by:
   // Original Image + Top Hat Image - Bottom Hat Image
-  opening->SetInput(           reader->GetOutput()           );
-  closing->SetInput(           reader->GetOutput()           );
-  SubtractionFilterType::Pointer topHat    = SubtractionFilterType::New();
-  topHat->SetInput1(           reader->GetOutput()           );
-  topHat->SetInput2(           opening->GetOutput()          );
+  opening->SetInput(reader->GetOutput());
+  closing->SetInput(reader->GetOutput());
+  SubtractionFilterType::Pointer topHat = SubtractionFilterType::New();
+  topHat->SetInput1(reader->GetOutput());
+  topHat->SetInput2(opening->GetOutput());
   SubtractionFilterType::Pointer bottomHat = SubtractionFilterType::New();
-  bottomHat->SetInput1(        closing->GetOutput()          );
-  bottomHat->SetInput2(        reader->GetOutput()           );
-  AdditionFilterType::Pointer    internalAddition = AdditionFilterType::New();
-  internalAddition->SetInput1( reader->GetOutput()           );
-  internalAddition->SetInput2( topHat->GetOutput()           );
+  bottomHat->SetInput1(closing->GetOutput());
+  bottomHat->SetInput2(reader->GetOutput());
+  AdditionFilterType::Pointer internalAddition = AdditionFilterType::New();
+  internalAddition->SetInput1(reader->GetOutput());
+  internalAddition->SetInput2(topHat->GetOutput());
 
-  SubtractionFilterType::Pointer imageEnhancement =
-                                                 SubtractionFilterType::New();
-  imageEnhancement->SetInput1( internalAddition->GetOutput() );
-  imageEnhancement->SetInput2( bottomHat->GetOutput()        );
-  rescaleFilter->SetInput(     imageEnhancement->GetOutput() );
-  writer->SetInput(            rescaleFilter->GetOutput()    );
+  SubtractionFilterType::Pointer imageEnhancement = SubtractionFilterType::New();
+  imageEnhancement->SetInput1(internalAddition->GetOutput());
+  imageEnhancement->SetInput2(bottomHat->GetOutput());
+  rescaleFilter->SetInput(imageEnhancement->GetOutput());
+  writer->SetInput(rescaleFilter->GetOutput());
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err <<std::endl;
+    std::cout << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   return EXIT_SUCCESS;
 }

@@ -23,62 +23,60 @@
 namespace itk
 {
 
-template< typename TFixedPointSet, typename TMovingPointSet >
-PointSetToPointSetRegistrationMethod< TFixedPointSet, TMovingPointSet >
-::PointSetToPointSetRegistrationMethod()
+template <typename TFixedPointSet, typename TMovingPointSet>
+PointSetToPointSetRegistrationMethod<TFixedPointSet, TMovingPointSet>::PointSetToPointSetRegistrationMethod()
 {
   this->SetNumberOfRequiredOutputs(1);
 
-  m_InitialTransformParameters = ParametersType( FixedPointSetType::PointDimension );
-  m_LastTransformParameters = ParametersType( FixedPointSetType::PointDimension );
+  m_InitialTransformParameters = ParametersType(FixedPointSetType::PointDimension);
+  m_LastTransformParameters = ParametersType(FixedPointSetType::PointDimension);
 
-  m_InitialTransformParameters.Fill( 0 );
-  m_LastTransformParameters.Fill( 0 );
+  m_InitialTransformParameters.Fill(0);
+  m_LastTransformParameters.Fill(0);
 
   TransformOutputPointer transformDecorator =
-    itkDynamicCastInDebugMode< TransformOutputType * >(this->MakeOutput(0).GetPointer() );
+    itkDynamicCastInDebugMode<TransformOutputType *>(this->MakeOutput(0).GetPointer());
 
-  this->ProcessObject::SetNthOutput( 0, transformDecorator.GetPointer() );
+  this->ProcessObject::SetNthOutput(0, transformDecorator.GetPointer());
 }
 
-template< typename TFixedPointSet, typename TMovingPointSet >
+template <typename TFixedPointSet, typename TMovingPointSet>
 void
-PointSetToPointSetRegistrationMethod< TFixedPointSet, TMovingPointSet >
-::SetInitialTransformParameters(const ParametersType & param)
+PointSetToPointSetRegistrationMethod<TFixedPointSet, TMovingPointSet>::SetInitialTransformParameters(
+  const ParametersType & param)
 {
   m_InitialTransformParameters = param;
   this->Modified();
 }
 
-template< typename TFixedPointSet, typename TMovingPointSet >
+template <typename TFixedPointSet, typename TMovingPointSet>
 void
-PointSetToPointSetRegistrationMethod< TFixedPointSet, TMovingPointSet >
-::Initialize()
+PointSetToPointSetRegistrationMethod<TFixedPointSet, TMovingPointSet>::Initialize()
 {
-  if ( !m_FixedPointSet )
-    {
+  if (!m_FixedPointSet)
+  {
     itkExceptionMacro(<< "FixedPointSet is not present");
-    }
+  }
 
-  if ( !m_MovingPointSet )
-    {
+  if (!m_MovingPointSet)
+  {
     itkExceptionMacro(<< "MovingPointSet is not present");
-    }
+  }
 
-  if ( !m_Metric )
-    {
+  if (!m_Metric)
+  {
     itkExceptionMacro(<< "Metric is not present");
-    }
+  }
 
-  if ( !m_Optimizer )
-    {
+  if (!m_Optimizer)
+  {
     itkExceptionMacro(<< "Optimizer is not present");
-    }
+  }
 
-  if ( !m_Transform )
-    {
+  if (!m_Transform)
+  {
     itkExceptionMacro(<< "Transform is not present");
-    }
+  }
 
   // Set up the metric
   m_Metric->SetMovingPointSet(m_MovingPointSet);
@@ -91,53 +89,51 @@ PointSetToPointSetRegistrationMethod< TFixedPointSet, TMovingPointSet >
   m_Optimizer->SetCostFunction(m_Metric);
 
   // Validate initial transform parameters
-  if ( m_InitialTransformParameters.Size() !=
-       m_Transform->GetNumberOfParameters() )
-    {
+  if (m_InitialTransformParameters.Size() != m_Transform->GetNumberOfParameters())
+  {
     itkExceptionMacro(<< "Size mismatch between initial parameter and transform");
-    }
+  }
 
   m_Optimizer->SetInitialPosition(m_InitialTransformParameters);
 
   // Connect the transform to the Decorator
-  auto * transformOutput = static_cast< TransformOutputType * >( this->ProcessObject::GetOutput(0) );
+  auto * transformOutput = static_cast<TransformOutputType *>(this->ProcessObject::GetOutput(0));
 
-  transformOutput->Set( m_Transform );
+  transformOutput->Set(m_Transform);
 }
 
-template< typename TFixedPointSet, typename TMovingPointSet >
+template <typename TFixedPointSet, typename TMovingPointSet>
 void
-PointSetToPointSetRegistrationMethod< TFixedPointSet, TMovingPointSet >
-::GenerateData()
+PointSetToPointSetRegistrationMethod<TFixedPointSet, TMovingPointSet>::GenerateData()
 {
   // Initialize the interconnects between components
   try
-    {
+  {
     this->Initialize();
-    }
-  catch ( ExceptionObject & err )
-    {
+  }
+  catch (ExceptionObject & err)
+  {
     m_LastTransformParameters = ParametersType(1);
     m_LastTransformParameters.Fill(0.0f);
 
     // Pass the  exception to the caller
     throw err;
-    }
+  }
 
   // Do the optimization
   try
-    {
+  {
     m_Optimizer->StartOptimization();
-    }
-  catch ( ExceptionObject & err )
-    {
+  }
+  catch (ExceptionObject & err)
+  {
     // An error has occurred in the optimization.
     // Update the parameters
     m_LastTransformParameters = m_Optimizer->GetCurrentPosition();
 
     // Pass the exception to the caller
     throw err;
-    }
+  }
 
   // Get the results
   m_LastTransformParameters = m_Optimizer->GetCurrentPosition();
@@ -145,18 +141,16 @@ PointSetToPointSetRegistrationMethod< TFixedPointSet, TMovingPointSet >
   m_Transform->SetParameters(m_LastTransformParameters);
 }
 
-template< typename TFixedPointSet, typename TMovingPointSet >
-const typename PointSetToPointSetRegistrationMethod< TFixedPointSet, TMovingPointSet >::TransformOutputType *
-PointSetToPointSetRegistrationMethod< TFixedPointSet, TMovingPointSet >
-::GetOutput() const
+template <typename TFixedPointSet, typename TMovingPointSet>
+const typename PointSetToPointSetRegistrationMethod<TFixedPointSet, TMovingPointSet>::TransformOutputType *
+PointSetToPointSetRegistrationMethod<TFixedPointSet, TMovingPointSet>::GetOutput() const
 {
-  return static_cast< const TransformOutputType * >( this->ProcessObject::GetOutput(0) );
+  return static_cast<const TransformOutputType *>(this->ProcessObject::GetOutput(0));
 }
 
-template< typename TFixedPointSet, typename TMovingPointSet >
+template <typename TFixedPointSet, typename TMovingPointSet>
 DataObject::Pointer
-PointSetToPointSetRegistrationMethod< TFixedPointSet, TMovingPointSet >
-::MakeOutput(DataObjectPointerArraySizeType output)
+PointSetToPointSetRegistrationMethod<TFixedPointSet, TMovingPointSet>::MakeOutput(DataObjectPointerArraySizeType output)
 {
   if (output > 0)
   {
@@ -165,10 +159,9 @@ PointSetToPointSetRegistrationMethod< TFixedPointSet, TMovingPointSet >
   return TransformOutputType::New().GetPointer();
 }
 
-template< typename TFixedPointSet, typename TMovingPointSet >
+template <typename TFixedPointSet, typename TMovingPointSet>
 ModifiedTimeType
-PointSetToPointSetRegistrationMethod< TFixedPointSet, TMovingPointSet >
-::GetMTime() const
+PointSetToPointSetRegistrationMethod<TFixedPointSet, TMovingPointSet>::GetMTime() const
 {
   ModifiedTimeType mtime = Superclass::GetMTime();
   ModifiedTimeType m;
@@ -176,51 +169,50 @@ PointSetToPointSetRegistrationMethod< TFixedPointSet, TMovingPointSet >
   // Some of the following should be removed once ivars are put in the
   // input and output lists
 
-  if ( m_Transform )
-    {
+  if (m_Transform)
+  {
     m = m_Transform->GetMTime();
-    mtime = ( m > mtime ? m : mtime );
-    }
+    mtime = (m > mtime ? m : mtime);
+  }
 
-  if ( m_Metric )
-    {
+  if (m_Metric)
+  {
     m = m_Metric->GetMTime();
-    mtime = ( m > mtime ? m : mtime );
-    }
+    mtime = (m > mtime ? m : mtime);
+  }
 
-  if ( m_Optimizer )
-    {
+  if (m_Optimizer)
+  {
     m = m_Optimizer->GetMTime();
-    mtime = ( m > mtime ? m : mtime );
-    }
+    mtime = (m > mtime ? m : mtime);
+  }
 
-  if ( m_FixedPointSet )
-    {
+  if (m_FixedPointSet)
+  {
     m = m_FixedPointSet->GetMTime();
-    mtime = ( m > mtime ? m : mtime );
-    }
+    mtime = (m > mtime ? m : mtime);
+  }
 
-  if ( m_MovingPointSet )
-    {
+  if (m_MovingPointSet)
+  {
     m = m_MovingPointSet->GetMTime();
-    mtime = ( m > mtime ? m : mtime );
-    }
+    mtime = (m > mtime ? m : mtime);
+  }
 
   return mtime;
 }
 
-template< typename TFixedPointSet, typename TMovingPointSet >
+template <typename TFixedPointSet, typename TMovingPointSet>
 void
-PointSetToPointSetRegistrationMethod< TFixedPointSet, TMovingPointSet >
-::PrintSelf(std::ostream & os, Indent indent) const
+PointSetToPointSetRegistrationMethod<TFixedPointSet, TMovingPointSet>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  itkPrintSelfObjectMacro( Metric );
-  itkPrintSelfObjectMacro( Optimizer );
-  itkPrintSelfObjectMacro( Transform );
-  itkPrintSelfObjectMacro( FixedPointSet );
-  itkPrintSelfObjectMacro( MovingPointSet );
+  itkPrintSelfObjectMacro(Metric);
+  itkPrintSelfObjectMacro(Optimizer);
+  itkPrintSelfObjectMacro(Transform);
+  itkPrintSelfObjectMacro(FixedPointSet);
+  itkPrintSelfObjectMacro(MovingPointSet);
 
   os << indent << "Initial Transform Parameters: " << m_InitialTransformParameters << std::endl;
   os << indent << "Last    Transform Parameters: " << m_LastTransformParameters << std::endl;

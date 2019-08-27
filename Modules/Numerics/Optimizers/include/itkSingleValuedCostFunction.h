@@ -31,8 +31,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers
  */
-class ITKOptimizers_EXPORT SingleValuedCostFunction:
-  public CostFunction
+class ITKOptimizers_EXPORT SingleValuedCostFunction : public CostFunction
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SingleValuedCostFunction);
@@ -40,8 +39,8 @@ public:
   /** Standard class type aliases. */
   using Self = SingleValuedCostFunction;
   using Superclass = CostFunction;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(SingleValuedCostFunction, CostFunction);
@@ -57,22 +56,22 @@ public:
 
   /** DerivativeType type alias.
    *  It defines a type used to return the cost function derivative.  */
-  using DerivativeType = Array< ParametersValueType >;
+  using DerivativeType = Array<ParametersValueType>;
 
   /** This method returns the value of the cost function corresponding
-    * to the specified parameters.    */
-  virtual MeasureType GetValue(const ParametersType & parameters) const = 0;
+   * to the specified parameters.    */
+  virtual MeasureType
+  GetValue(const ParametersType & parameters) const = 0;
 
   /** This method returns the derivative of the cost function corresponding
-    * to the specified parameters.   */
-  virtual void GetDerivative(const ParametersType & parameters,
-                             DerivativeType & derivative) const = 0;
+   * to the specified parameters.   */
+  virtual void
+  GetDerivative(const ParametersType & parameters, DerivativeType & derivative) const = 0;
 
   /** This method returns the value and derivative of the cost function corresponding
-    * to the specified parameters    */
-  virtual void GetValueAndDerivative(const ParametersType & parameters,
-                                     MeasureType & value,
-                                     DerivativeType & derivative) const;
+   * to the specified parameters    */
+  virtual void
+  GetValueAndDerivative(const ParametersType & parameters, MeasureType & value, DerivativeType & derivative) const;
 
 protected:
   SingleValuedCostFunction() = default;

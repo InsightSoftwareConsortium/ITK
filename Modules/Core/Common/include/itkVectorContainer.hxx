@@ -31,10 +31,9 @@ namespace itk
  * It is assumed that the value of the element is modified through the
  * reference.
  */
-template< typename TElementIdentifier, typename TElement >
+template <typename TElementIdentifier, typename TElement>
 auto
-VectorContainer< TElementIdentifier, TElement >
-::ElementAt(ElementIdentifier id) -> reference
+VectorContainer<TElementIdentifier, TElement>::ElementAt(ElementIdentifier id) -> reference
 {
   this->Modified();
   return this->VectorType::operator[](id);
@@ -46,10 +45,9 @@ VectorContainer< TElementIdentifier, TElement >
  * be created.
  *
  */
-template< typename TElementIdentifier, typename TElement >
+template <typename TElementIdentifier, typename TElement>
 auto
-VectorContainer< TElementIdentifier, TElement >
-::ElementAt(ElementIdentifier id) const -> const_reference
+VectorContainer<TElementIdentifier, TElement>::ElementAt(ElementIdentifier id) const -> const_reference
 {
   return this->VectorType::operator[](id);
 }
@@ -62,15 +60,14 @@ VectorContainer< TElementIdentifier, TElement >
  * It is assumed that the value of the element is modified through the
  * reference.
  */
-template< typename TElementIdentifier, typename TElement >
+template <typename TElementIdentifier, typename TElement>
 auto
-VectorContainer< TElementIdentifier, TElement >
-::CreateElementAt(ElementIdentifier id) -> reference
+VectorContainer<TElementIdentifier, TElement>::CreateElementAt(ElementIdentifier id) -> reference
 {
-  if ( id >= static_cast<ElementIdentifier>(this->VectorType::size()) )
-    {
+  if (id >= static_cast<ElementIdentifier>(this->VectorType::size()))
+  {
     this->CreateIndex(id);
-    }
+  }
   this->Modified();
   return this->VectorType::operator[](id);
 }
@@ -79,10 +76,9 @@ VectorContainer< TElementIdentifier, TElement >
  * Read the element from the given index.
  * It is assumed that the index exists.
  */
-template< typename TElementIdentifier, typename TElement >
-typename VectorContainer< TElementIdentifier, TElement >::Element
-VectorContainer< TElementIdentifier, TElement >
-::GetElement(ElementIdentifier id) const
+template <typename TElementIdentifier, typename TElement>
+typename VectorContainer<TElementIdentifier, TElement>::Element
+VectorContainer<TElementIdentifier, TElement>::GetElement(ElementIdentifier id) const
 {
   return this->VectorType::operator[](id);
 }
@@ -91,10 +87,9 @@ VectorContainer< TElementIdentifier, TElement >
  * Set the element value at the given index.
  * It is assumed that the index exists.
  */
-template< typename TElementIdentifier, typename TElement >
+template <typename TElementIdentifier, typename TElement>
 void
-VectorContainer< TElementIdentifier, TElement >
-::SetElement(ElementIdentifier id, Element element)
+VectorContainer<TElementIdentifier, TElement>::SetElement(ElementIdentifier id, Element element)
 {
   this->VectorType::operator[](id) = element;
   this->Modified();
@@ -105,15 +100,14 @@ VectorContainer< TElementIdentifier, TElement >
  * If the element location does not exist, it will be created with a
  * default element value.
  */
-template< typename TElementIdentifier, typename TElement >
+template <typename TElementIdentifier, typename TElement>
 void
-VectorContainer< TElementIdentifier, TElement >
-::InsertElement(ElementIdentifier id, Element element)
+VectorContainer<TElementIdentifier, TElement>::InsertElement(ElementIdentifier id, Element element)
 {
-  if ( id >= static_cast< ElementIdentifier >( this->VectorType::size() ) )
-    {
+  if (id >= static_cast<ElementIdentifier>(this->VectorType::size()))
+  {
     this->CreateIndex(id);
-    }
+  }
   this->VectorType::operator[](id) = element;
 
   this->Modified();
@@ -123,13 +117,12 @@ VectorContainer< TElementIdentifier, TElement >
  * Check if the index range of the STL vector is large enough to allow the
  * given index without expansion.
  */
-template< typename TElementIdentifier, typename TElement >
+template <typename TElementIdentifier, typename TElement>
 bool
-VectorContainer< TElementIdentifier, TElement >
-::IndexExists(ElementIdentifier identifier) const
+VectorContainer<TElementIdentifier, TElement>::IndexExists(ElementIdentifier identifier) const
 {
-  return ( NumericTraits< ElementIdentifier >::IsNonnegative(identifier)
-           && ( identifier < static_cast<ElementIdentifier>(this->VectorType::size()) ) );
+  return (NumericTraits<ElementIdentifier>::IsNonnegative(identifier) &&
+          (identifier < static_cast<ElementIdentifier>(this->VectorType::size())));
 }
 
 /**
@@ -137,20 +130,20 @@ VectorContainer< TElementIdentifier, TElement >
  * return false.  Otherwise, set the element through the pointer (if it isn't
  * nullptr), and return true.
  */
-template< typename TElementIdentifier, typename TElement >
+template <typename TElementIdentifier, typename TElement>
 bool
-VectorContainer< TElementIdentifier, TElement >
-::GetElementIfIndexExists(ElementIdentifier identifier, Element *element) const
+VectorContainer<TElementIdentifier, TElement>::GetElementIfIndexExists(ElementIdentifier identifier,
+                                                                       Element *         element) const
 {
-  if ( NumericTraits< ElementIdentifier >::IsNonnegative(identifier)
-       && ( identifier < static_cast<ElementIdentifier>(this->VectorType::size()) ) )
+  if (NumericTraits<ElementIdentifier>::IsNonnegative(identifier) &&
+      (identifier < static_cast<ElementIdentifier>(this->VectorType::size())))
+  {
+    if (element)
     {
-    if ( element )
-      {
       *element = this->VectorType::operator[](identifier);
-      }
-    return true;
     }
+    return true;
+  }
   return false;
 }
 
@@ -159,22 +152,21 @@ VectorContainer< TElementIdentifier, TElement >
  * the given index, expanding it if necessary.  The index will contain
  * the default element regardless of whether expansion occurred.
  */
-template< typename TElementIdentifier, typename TElement >
+template <typename TElementIdentifier, typename TElement>
 void
-VectorContainer< TElementIdentifier, TElement >
-::CreateIndex(ElementIdentifier id)
+VectorContainer<TElementIdentifier, TElement>::CreateIndex(ElementIdentifier id)
 {
-  if ( id >= static_cast< ElementIdentifier >( this->VectorType::size() ) )
-    {
+  if (id >= static_cast<ElementIdentifier>(this->VectorType::size()))
+  {
     /**
      * The vector must be expanded to fit the
      * new id.
      */
     this->VectorType::resize(id + 1);
     this->Modified();
-    }
-  else if ( id > 0 )
-    {
+  }
+  else if (id > 0)
+  {
     /**
      * No expansion was necessary.  Just overwrite the index's entry with
      * the default element.
@@ -182,17 +174,16 @@ VectorContainer< TElementIdentifier, TElement >
     this->VectorType::operator[](id) = Element();
 
     this->Modified();
-    }
+  }
 }
 
 /**
  * It doesn't make sense to delete a vector index.
  * Instead, just overwrite the index with the default element.
  */
-template< typename TElementIdentifier, typename TElement >
+template <typename TElementIdentifier, typename TElement>
 void
-VectorContainer< TElementIdentifier, TElement >
-::DeleteIndex(ElementIdentifier id)
+VectorContainer<TElementIdentifier, TElement>::DeleteIndex(ElementIdentifier id)
 {
   this->VectorType::operator[](id) = Element();
   this->Modified();
@@ -201,65 +192,59 @@ VectorContainer< TElementIdentifier, TElement >
 /**
  * Get a begin const iterator for the vector.
  */
-template< typename TElementIdentifier, typename TElement >
-typename VectorContainer< TElementIdentifier, TElement >::ConstIterator
-VectorContainer< TElementIdentifier, TElement >
-::Begin() const
+template <typename TElementIdentifier, typename TElement>
+typename VectorContainer<TElementIdentifier, TElement>::ConstIterator
+VectorContainer<TElementIdentifier, TElement>::Begin() const
 {
-  return ConstIterator( 0, this->VectorType::begin() );
+  return ConstIterator(0, this->VectorType::begin());
 }
 
 /**
  * Get an end const iterator for the vector.
  */
-template< typename TElementIdentifier, typename TElement >
-typename VectorContainer< TElementIdentifier, TElement >::ConstIterator
-VectorContainer< TElementIdentifier, TElement >
-::End() const
+template <typename TElementIdentifier, typename TElement>
+typename VectorContainer<TElementIdentifier, TElement>::ConstIterator
+VectorContainer<TElementIdentifier, TElement>::End() const
 {
-  return ConstIterator( this->VectorType::size() - 1, this->VectorType::end() );
+  return ConstIterator(this->VectorType::size() - 1, this->VectorType::end());
 }
 
 /**
  * Get a begin iterator for the vector.
  */
-template< typename TElementIdentifier, typename TElement >
-typename VectorContainer< TElementIdentifier, TElement >::Iterator
-VectorContainer< TElementIdentifier, TElement >
-::Begin()
+template <typename TElementIdentifier, typename TElement>
+typename VectorContainer<TElementIdentifier, TElement>::Iterator
+VectorContainer<TElementIdentifier, TElement>::Begin()
 {
-  return Iterator( 0, this->VectorType::begin() );
+  return Iterator(0, this->VectorType::begin());
 }
 
 /**
  * Get an end iterator for the vector.
  */
-template< typename TElementIdentifier, typename TElement >
-typename VectorContainer< TElementIdentifier, TElement >::Iterator
-VectorContainer< TElementIdentifier, TElement >
-::End()
+template <typename TElementIdentifier, typename TElement>
+typename VectorContainer<TElementIdentifier, TElement>::Iterator
+VectorContainer<TElementIdentifier, TElement>::End()
 {
-  return Iterator( this->VectorType::size() - 1, this->VectorType::end() );
+  return Iterator(this->VectorType::size() - 1, this->VectorType::end());
 }
 
 /**
  * Get the number of elements currently stored in the vector.
  */
-template< typename TElementIdentifier, typename TElement >
-typename VectorContainer< TElementIdentifier, TElement >::ElementIdentifier
-VectorContainer< TElementIdentifier, TElement >
-::Size() const
+template <typename TElementIdentifier, typename TElement>
+typename VectorContainer<TElementIdentifier, TElement>::ElementIdentifier
+VectorContainer<TElementIdentifier, TElement>::Size() const
 {
-  return static_cast<ElementIdentifier>( this->VectorType::size() );
+  return static_cast<ElementIdentifier>(this->VectorType::size());
 }
 
 /**
  * Clear the elements. The final size will be zero.
  */
-template< typename TElementIdentifier, typename TElement >
+template <typename TElementIdentifier, typename TElement>
 void
-VectorContainer< TElementIdentifier, TElement >
-::Initialize()
+VectorContainer<TElementIdentifier, TElement>::Initialize()
 {
   this->VectorType::clear();
 }
@@ -267,10 +252,9 @@ VectorContainer< TElementIdentifier, TElement >
 /**
  *    Allocate memory for at the requested number of elements.
  */
-template< typename TElementIdentifier, typename TElement >
+template <typename TElementIdentifier, typename TElement>
 void
-VectorContainer< TElementIdentifier, TElement >
-::Reserve(ElementIdentifier sz)
+VectorContainer<TElementIdentifier, TElement>::Reserve(ElementIdentifier sz)
 {
   this->CreateIndex(sz - 1);
 }
@@ -278,10 +262,9 @@ VectorContainer< TElementIdentifier, TElement >
 /**
  *   Try to compact the internal representation of the memory.
  */
-template< typename TElementIdentifier, typename TElement >
+template <typename TElementIdentifier, typename TElement>
 void
-VectorContainer< TElementIdentifier, TElement >
-::Squeeze()
+VectorContainer<TElementIdentifier, TElement>::Squeeze()
 {}
 } // end namespace itk
 

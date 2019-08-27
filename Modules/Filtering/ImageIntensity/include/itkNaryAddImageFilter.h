@@ -30,35 +30,38 @@ namespace Functor
  * \brief
  * \ingroup ITKImageIntensity
  */
-template< typename TInput, typename TOutput >
+template <typename TInput, typename TOutput>
 class Add1
 {
 public:
-  using AccumulatorType = typename NumericTraits< TInput >::AccumulateType;
+  using AccumulatorType = typename NumericTraits<TInput>::AccumulateType;
   Add1() = default;
   ~Add1() = default;
-  inline TOutput operator()(const std::vector< TInput > & B) const
+  inline TOutput
+  operator()(const std::vector<TInput> & B) const
   {
-    AccumulatorType sum = NumericTraits< TOutput >::ZeroValue();
+    AccumulatorType sum = NumericTraits<TOutput>::ZeroValue();
 
-    for ( unsigned int i = 0; i < B.size(); i++ )
-      {
-      sum += static_cast< AccumulatorType >( B[i] );
-      }
-    return static_cast< TOutput >( sum );
+    for (unsigned int i = 0; i < B.size(); i++)
+    {
+      sum += static_cast<AccumulatorType>(B[i]);
+    }
+    return static_cast<TOutput>(sum);
   }
 
-  bool operator==(const Add1 &) const
+  bool
+  operator==(const Add1 &) const
   {
     return true;
   }
 
-  bool operator!=(const Add1 &) const
+  bool
+  operator!=(const Add1 &) const
   {
     return false;
   }
 };
-}
+} // namespace Functor
 
 /** \class NaryAddImageFilter
  * \brief Pixel-wise addition of N images.
@@ -94,39 +97,36 @@ public:
  * \ingroup MultiThreaded
  * \ingroup ITKImageIntensity
  */
-template< typename TInputImage, typename TOutputImage >
-class NaryAddImageFilter:
-  public
-  NaryFunctorImageFilter< TInputImage, TOutputImage,
-                          Functor::Add1< typename TInputImage::PixelType,  typename TInputImage::PixelType > >
+template <typename TInputImage, typename TOutputImage>
+class NaryAddImageFilter
+  : public NaryFunctorImageFilter<TInputImage,
+                                  TOutputImage,
+                                  Functor::Add1<typename TInputImage::PixelType, typename TInputImage::PixelType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(NaryAddImageFilter);
 
   /** Standard class type aliases. */
   using Self = NaryAddImageFilter;
-  using Superclass = NaryFunctorImageFilter<
-    TInputImage, TOutputImage,
-    Functor::Add1< typename TInputImage::PixelType,
-                   typename TInputImage::PixelType > >;
+  using Superclass =
+    NaryFunctorImageFilter<TInputImage,
+                           TOutputImage,
+                           Functor::Add1<typename TInputImage::PixelType, typename TInputImage::PixelType>>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(NaryAddImageFilter,
-               NaryFunctorImageFilter);
+  itkTypeMacro(NaryAddImageFilter, NaryFunctorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputConvertibleToOutputCheck,
-                   ( Concept::Convertible< typename TInputImage::PixelType,
-                                           typename TOutputImage::PixelType > ) );
-  itkConceptMacro( InputHasZeroCheck,
-                   ( Concept::HasZero< typename TInputImage::PixelType > ) );
+  itkConceptMacro(InputConvertibleToOutputCheck,
+                  (Concept::Convertible<typename TInputImage::PixelType, typename TOutputImage::PixelType>));
+  itkConceptMacro(InputHasZeroCheck, (Concept::HasZero<typename TInputImage::PixelType>));
   // End concept checking
 #endif
 

@@ -53,55 +53,58 @@
 #include "itkGradientAnisotropicDiffusionImageFilter.h"
 #include "itkRescaleIntensityImageFilter.h"
 
-int main(int argc, char* argv[] )
+int
+main(int argc, char * argv[])
 {
 
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " inputImageFile outputImageFile [smoothingIterations]" << std::endl;
+    std::cerr << argv[0] << " inputImageFile outputImageFile [smoothingIterations]"
+              << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // input parameters
-  const char * membershipImageFileName  = argv[1];
-  const char * labelMapImageFileName    = argv[2];
+  const char * membershipImageFileName = argv[1];
+  const char * labelMapImageFileName = argv[2];
 
   // setup reader
   constexpr unsigned int Dimension = 2;
   using InputPixelType = float;
-  using InputImageType = itk::VectorImage< InputPixelType, Dimension >;
-  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using InputImageType = itk::VectorImage<InputPixelType, Dimension>;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( membershipImageFileName );
+  reader->SetFileName(membershipImageFileName);
 
   using LabelType = unsigned char;
   using PriorType = float;
   using PosteriorType = float;
 
 
-  using ClassifierFilterType = itk::BayesianClassifierImageFilter<
-                              InputImageType,LabelType,
-                              PosteriorType,PriorType >;
+  using ClassifierFilterType = itk::
+    BayesianClassifierImageFilter<InputImageType, LabelType, PosteriorType, PriorType>;
 
   ClassifierFilterType::Pointer filter = ClassifierFilterType::New();
 
 
-  filter->SetInput( reader->GetOutput() );
+  filter->SetInput(reader->GetOutput());
 
-  if( argv[3] )
-    {
-    filter->SetNumberOfSmoothingIterations( std::stoi( argv[3] ));
-    using ExtractedComponentImageType = ClassifierFilterType::ExtractedComponentImageType;
-    using SmoothingFilterType = itk::GradientAnisotropicDiffusionImageFilter<
-      ExtractedComponentImageType, ExtractedComponentImageType >;
+  if (argv[3])
+  {
+    filter->SetNumberOfSmoothingIterations(std::stoi(argv[3]));
+    using ExtractedComponentImageType =
+      ClassifierFilterType::ExtractedComponentImageType;
+    using SmoothingFilterType =
+      itk::GradientAnisotropicDiffusionImageFilter<ExtractedComponentImageType,
+                                                   ExtractedComponentImageType>;
     SmoothingFilterType::Pointer smoother = SmoothingFilterType::New();
-    smoother->SetNumberOfIterations( 1 );
-    smoother->SetTimeStep( 0.125 );
-    smoother->SetConductanceParameter( 3 );
-    filter->SetSmoothingFilter( smoother );
-    }
+    smoother->SetNumberOfIterations(1);
+    smoother->SetTimeStep(0.125);
+    smoother->SetConductanceParameter(3);
+    filter->SetSmoothingFilter(smoother);
+  }
 
 
   // SET FILTER'S PRIOR PARAMETERS
@@ -113,39 +116,38 @@ int main(int argc, char* argv[] )
   // datatype and write it
   //
   using ClassifierOutputImageType = ClassifierFilterType::OutputImageType;
-  using OutputImageType = itk::Image< unsigned char, Dimension >;
-  using RescalerType = itk::RescaleIntensityImageFilter<
-    ClassifierOutputImageType, OutputImageType >;
+  using OutputImageType = itk::Image<unsigned char, Dimension>;
+  using RescalerType =
+    itk::RescaleIntensityImageFilter<ClassifierOutputImageType, OutputImageType>;
   RescalerType::Pointer rescaler = RescalerType::New();
-  rescaler->SetInput( filter->GetOutput() );
-  rescaler->SetOutputMinimum( 0 );
-  rescaler->SetOutputMaximum( 255 );
+  rescaler->SetInput(filter->GetOutput());
+  rescaler->SetOutputMinimum(0);
+  rescaler->SetOutputMaximum(255);
 
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName( labelMapImageFileName );
+  writer->SetFileName(labelMapImageFileName);
 
   //
   // Write labelmap to file
   //
-  writer->SetInput( rescaler->GetOutput() );
+  writer->SetInput(rescaler->GetOutput());
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception caught: " << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Testing print
-  filter->Print( std::cout );
+  filter->Print(std::cout);
   std::cout << "Test passed." << std::endl;
 
   return EXIT_SUCCESS;
-
 }

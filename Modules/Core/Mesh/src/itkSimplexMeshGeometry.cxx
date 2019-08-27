@@ -23,8 +23,7 @@
 
 namespace itk
 {
-SimplexMeshGeometry
-::SimplexMeshGeometry()
+SimplexMeshGeometry ::SimplexMeshGeometry()
 {
   double    c = 1.0 / 3.0;
   PointType p;
@@ -47,7 +46,7 @@ SimplexMeshGeometry
   multiplier = 0.0;
   forceIndex = 0;
 
-  neighborIndices.Fill( NumericTraits< IdentifierType >::max() );
+  neighborIndices.Fill(NumericTraits<IdentifierType>::max());
   neighbors.Fill(p);
   meanCurvature = c;
 
@@ -55,77 +54,70 @@ SimplexMeshGeometry
   closestAttractorIndex = 0;
 }
 
-SimplexMeshGeometry
-::~SimplexMeshGeometry()
+SimplexMeshGeometry ::~SimplexMeshGeometry()
 {
   delete this->neighborSet;
   this->neighborSet = nullptr;
 }
 
 void
-SimplexMeshGeometry
-::ComputeGeometry()
+SimplexMeshGeometry ::ComputeGeometry()
 {
   VectorType b, c, cXb, tmp;
 
-  //compute the circum circle (center and radius)
+  // compute the circum circle (center and radius)
   b = this->neighbors[2] - this->neighbors[0];
   c = this->neighbors[1] - this->neighbors[0];
 
-  cXb.SetVnlVector( vnl_cross_3d< double >( c.GetVnlVector(), b.GetVnlVector() ) );
+  cXb.SetVnlVector(vnl_cross_3d<double>(c.GetVnlVector(), b.GetVnlVector()));
 
-  tmp.SetVnlVector( b.GetSquaredNorm()
-                    * vnl_cross_3d< double >( cXb.GetVnlVector(), c.GetVnlVector() )
-                    + c.GetSquaredNorm()
-                    * vnl_cross_3d< double >( b.GetVnlVector(), cXb.GetVnlVector() ) );
+  tmp.SetVnlVector(b.GetSquaredNorm() * vnl_cross_3d<double>(cXb.GetVnlVector(), c.GetVnlVector()) +
+                   c.GetSquaredNorm() * vnl_cross_3d<double>(b.GetVnlVector(), cXb.GetVnlVector()));
 
   double cXbSquaredNorm = 2 * cXb.GetSquaredNorm();
 
-  circleRadius = tmp.GetNorm() / ( cXbSquaredNorm );
-  tmp[0] /= ( cXbSquaredNorm );
-  tmp[1] /= ( cXbSquaredNorm );
-  tmp[2] /= ( cXbSquaredNorm );
+  circleRadius = tmp.GetNorm() / (cXbSquaredNorm);
+  tmp[0] /= (cXbSquaredNorm);
+  tmp[1] /= (cXbSquaredNorm);
+  tmp[2] /= (cXbSquaredNorm);
   circleCenter = this->neighbors[0] + tmp;
 
   // Compute the circum sphere (center and radius) of a point
   VectorType d, dXc, bXd, sphereTmp;
 
   d = pos - this->neighbors[0];
-  dXc.SetVnlVector( vnl_cross_3d< double >( d.GetVnlVector(), c.GetVnlVector() ) );
-  bXd.SetVnlVector( vnl_cross_3d< double >( b.GetVnlVector(), d.GetVnlVector() ) );
+  dXc.SetVnlVector(vnl_cross_3d<double>(d.GetVnlVector(), c.GetVnlVector()));
+  bXd.SetVnlVector(vnl_cross_3d<double>(b.GetVnlVector(), d.GetVnlVector()));
 
-  sphereTmp.SetVnlVector( d.GetSquaredNorm() * cXb.GetVnlVector()
-                          + b.GetSquaredNorm() * dXc.GetVnlVector()
-                          + c.GetSquaredNorm() * bXd.GetVnlVector() );
+  sphereTmp.SetVnlVector(d.GetSquaredNorm() * cXb.GetVnlVector() + b.GetSquaredNorm() * dXc.GetVnlVector() +
+                         c.GetSquaredNorm() * bXd.GetVnlVector());
 
-  double val = 2 * ( c[0] * ( b[1] * d[2] - b[2] * d[1] )
-                     - c[1] * ( b[0] * d[2] - b[2] * d[0] )
-                     + c[2] * ( b[0] * d[1] - b[1] * d[0] ) );
+  double val =
+    2 * (c[0] * (b[1] * d[2] - b[2] * d[1]) - c[1] * (b[0] * d[2] - b[2] * d[0]) + c[2] * (b[0] * d[1] - b[1] * d[0]));
 
   // fix for points which lay on their neighbors plane
   // necessary ??
-  if (Math::AlmostEquals( val, 0.0 ))
-    {
+  if (Math::AlmostEquals(val, 0.0))
+  {
     val = 1.0; //  itkAssertInDebugAndIgnoreInReleaseMacro (val != 0 );
-    }
+  }
 
   sphereRadius = sphereTmp.GetNorm() / val;
 
-  if ( sphereRadius < 0 )
-    {
+  if (sphereRadius < 0)
+  {
     sphereRadius = -1 * sphereRadius;
-    }
+  }
 }
 
 void
-SimplexMeshGeometry::
-CopyFrom( const SimplexMeshGeometry & input )
+SimplexMeshGeometry::CopyFrom(const SimplexMeshGeometry & input)
 {
-  for( unsigned int i = 0; i < 3; i++ )
-    {
+  for (unsigned int i = 0; i < 3; i++)
+  {
     this->neighborIndices[i] = input.neighborIndices[i];
     this->neighbors[i] = input.neighbors[i];
-    }
+  }
   this->meanCurvature = input.meanCurvature;
   this->pos = input.pos;
   this->oldPos = input.oldPos;
@@ -144,23 +136,22 @@ CopyFrom( const SimplexMeshGeometry & input )
   this->phi = input.phi;
   this->multiplier = input.multiplier;
   this->forceIndex = input.forceIndex;
-  this->CopyNeigborSet( input.neighborSet );
+  this->CopyNeigborSet(input.neighborSet);
 }
 
 void
-SimplexMeshGeometry
-::CopyNeigborSet( const NeighborSetType * nset )
+SimplexMeshGeometry ::CopyNeigborSet(const NeighborSetType * nset)
 {
   delete this->neighborSet;
-  if( nset )
-    {
+  if (nset)
+  {
     this->neighborSet = new NeighborSetType;
-    this->neighborSet->insert( nset->begin(), nset->end() );
-    }
+    this->neighborSet->insert(nset->begin(), nset->end());
+  }
   else
-    {
+  {
     this->neighborSet = nullptr;
-    }
+  }
 }
 
-}  // end namespace itk
+} // end namespace itk

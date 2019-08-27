@@ -48,17 +48,16 @@
 #include "itkImageRegionIterator.h"
 // Software Guide : EndCodeSnippet
 
-int main( int argc, char ** argv )
+int
+main(int argc, char ** argv)
 {
-  if ( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Missing parameters. " << std::endl;
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0]
-              << " inputImageFile outputImageFile"
-              << std::endl;
+    std::cerr << argv[0] << " inputImageFile outputImageFile" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Software Guide : BeginLatex
   //
@@ -77,11 +76,11 @@ int main( int argc, char ** argv )
 
   // Software Guide : BeginCodeSnippet
   using PixelType = float;
-  using ImageType = itk::Image< PixelType, 2 >;
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ImageType = itk::Image<PixelType, 2>;
+  using ReaderType = itk::ImageFileReader<ImageType>;
 
-  using NeighborhoodIteratorType = itk::ConstNeighborhoodIterator< ImageType >;
-  using IteratorType = itk::ImageRegionIterator< ImageType>;
+  using NeighborhoodIteratorType = itk::ConstNeighborhoodIterator<ImageType>;
+  using IteratorType = itk::ImageRegionIterator<ImageType>;
   // Software Guide : EndCodeSnippet
 
 
@@ -96,17 +95,17 @@ int main( int argc, char ** argv )
 
   // Software Guide : BeginCodeSnippet
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
   try
-    {
+  {
     reader->Update();
-    }
-  catch ( itk::ExceptionObject &err)
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -120,8 +119,8 @@ int main( int argc, char ** argv )
   // Software Guide : BeginCodeSnippet
   NeighborhoodIteratorType::RadiusType radius;
   radius.Fill(1);
-  NeighborhoodIteratorType it( radius, reader->GetOutput(),
-                               reader->GetOutput()->GetRequestedRegion() );
+  NeighborhoodIteratorType it(
+    radius, reader->GetOutput(), reader->GetOutput()->GetRequestedRegion());
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -160,12 +159,12 @@ int main( int argc, char ** argv )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  NeighborhoodIteratorType::OffsetType offset1 = {{-1,-1}};
-  NeighborhoodIteratorType::OffsetType offset2 = {{1,-1}};
-  NeighborhoodIteratorType::OffsetType offset3 = {{-1,0 }};
-  NeighborhoodIteratorType::OffsetType offset4 = {{1,0}};
-  NeighborhoodIteratorType::OffsetType offset5 = {{-1,1}};
-  NeighborhoodIteratorType::OffsetType offset6 = {{1,1}};
+  NeighborhoodIteratorType::OffsetType offset1 = { { -1, -1 } };
+  NeighborhoodIteratorType::OffsetType offset2 = { { 1, -1 } };
+  NeighborhoodIteratorType::OffsetType offset3 = { { -1, 0 } };
+  NeighborhoodIteratorType::OffsetType offset4 = { { 1, 0 } };
+  NeighborhoodIteratorType::OffsetType offset5 = { { -1, 1 } };
+  NeighborhoodIteratorType::OffsetType offset6 = { { 1, 1 } };
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -182,13 +181,13 @@ int main( int argc, char ** argv )
 
   // Software Guide : BeginCodeSnippet
   for (it.GoToBegin(), out.GoToBegin(); !it.IsAtEnd(); ++it, ++out)
-    {
+  {
     float sum;
     sum = it.GetPixel(offset2) - it.GetPixel(offset1);
     sum += 2.0 * it.GetPixel(offset4) - 2.0 * it.GetPixel(offset3);
     sum += it.GetPixel(offset6) - it.GetPixel(offset5);
     out.Set(sum);
-    }
+  }
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -202,31 +201,30 @@ int main( int argc, char ** argv )
 
   // Software Guide : BeginCodeSnippet
   using WritePixelType = unsigned char;
-  using WriteImageType = itk::Image< WritePixelType, 2 >;
-  using WriterType = itk::ImageFileWriter< WriteImageType >;
+  using WriteImageType = itk::Image<WritePixelType, 2>;
+  using WriterType = itk::ImageFileWriter<WriteImageType>;
 
-  using RescaleFilterType = itk::RescaleIntensityImageFilter<
-               ImageType, WriteImageType >;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter<ImageType, WriteImageType>;
 
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
 
-  rescaler->SetOutputMinimum(   0 );
-  rescaler->SetOutputMaximum( 255 );
+  rescaler->SetOutputMinimum(0);
+  rescaler->SetOutputMaximum(255);
   rescaler->SetInput(output);
 
   WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName( argv[2] );
+  writer->SetFileName(argv[2]);
   writer->SetInput(rescaler->GetOutput());
   try
-    {
+  {
     writer->Update();
-    }
-  catch ( itk::ExceptionObject &err)
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
 

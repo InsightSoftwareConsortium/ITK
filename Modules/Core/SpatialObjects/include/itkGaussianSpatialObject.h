@@ -39,19 +39,18 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 
-template< unsigned int TDimension = 3 >
-class ITK_TEMPLATE_EXPORT GaussianSpatialObject:
-  public SpatialObject< TDimension >
+template <unsigned int TDimension = 3>
+class ITK_TEMPLATE_EXPORT GaussianSpatialObject : public SpatialObject<TDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GaussianSpatialObject);
 
   using Self = GaussianSpatialObject;
   using ScalarType = double;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using Superclass = SpatialObject< TDimension >;
-  using SuperclassPointer = SmartPointer< Superclass >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using Superclass = SpatialObject<TDimension>;
+  using SuperclassPointer = SmartPointer<Superclass>;
   using PointType = typename Superclass::PointType;
   using TransformType = typename Superclass::TransformType;
   using BoundingBoxType = typename Superclass::BoundingBoxType;
@@ -63,7 +62,8 @@ public:
 
   /** Reset the spatial object to its initial condition, yet preserves
    *   Id, Parent, and Child information */
-  void Clear( void ) override;
+  void
+  Clear(void) override;
 
   /** The Radius determines the bounding box, and which points are
    * considered to be inside the SpatialObject.  All points with
@@ -84,43 +84,51 @@ public:
   itkSetMacro(Maximum, ScalarType);
   itkGetConstReferenceMacro(Maximum, ScalarType);
 
-  ScalarType SquaredZScoreInObjectSpace(const PointType & point) const;
+  ScalarType
+  SquaredZScoreInObjectSpace(const PointType & point) const;
 
-  ScalarType SquaredZScoreInWorldSpace(const PointType & point) const;
+  ScalarType
+  SquaredZScoreInWorldSpace(const PointType & point) const;
 
   /** Test whether a point is inside or outside the object */
-  bool IsInsideInObjectSpace(const PointType & point) const override;
+  bool
+  IsInsideInObjectSpace(const PointType & point) const override;
 
   /* Avoid hiding the overload that supports depth and name arguments */
   using Superclass::IsInsideInObjectSpace;
 
   /** Returns the value of the Gaussian at the given point.  */
-  bool ValueAtInObjectSpace(const PointType & point, double & value,
-    unsigned int depth = 0, const std::string & name = "") const override;
+  bool
+  ValueAtInObjectSpace(const PointType &   point,
+                       double &            value,
+                       unsigned int        depth = 0,
+                       const std::string & name = "") const override;
 
   /** Returns the sigma=m_Radius level set of the Gaussian function, as an
    * EllipseSpatialObject.  */
-  typename EllipseSpatialObject< TDimension >::Pointer GetEllipsoid() const;
+  typename EllipseSpatialObject<TDimension>::Pointer
+  GetEllipsoid() const;
 
-#if ! defined ( ITK_LEGACY_REMOVE )
-  itkLegacyMacro( void SetSigma(double sigma) )
-  { return this->SetSigmaInObjectSpace(sigma); }
+#if !defined(ITK_LEGACY_REMOVE)
+  itkLegacyMacro(void SetSigma(double sigma)) { return this->SetSigmaInObjectSpace(sigma); }
 
-  itkLegacyMacro( double GetSigma() const )
-  { return this->GetSigmaInObjectSpace(); }
+  itkLegacyMacro(double GetSigma() const) { return this->GetSigmaInObjectSpace(); }
 #endif
 protected:
   /** This function needs to be called every time one of the object's
    *  components is changed. */
-  void ComputeMyBoundingBox() override;
+  void
+  ComputeMyBoundingBox() override;
 
   GaussianSpatialObject();
   ~GaussianSpatialObject() override = default;
 
   /** Print the object information in a stream. */
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  typename LightObject::Pointer InternalClone() const override;
+  typename LightObject::Pointer
+  InternalClone() const override;
 
 private:
   ScalarType m_Maximum;
@@ -131,7 +139,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGaussianSpatialObject.hxx"
+#  include "itkGaussianSpatialObject.hxx"
 #endif
 
 #endif // itkGaussianSpatialObject_h

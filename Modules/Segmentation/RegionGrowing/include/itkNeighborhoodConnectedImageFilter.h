@@ -32,25 +32,23 @@ namespace itk
  * \ingroup RegionGrowingSegmentation
  * \ingroup ITKRegionGrowing
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT NeighborhoodConnectedImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT NeighborhoodConnectedImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(NeighborhoodConnectedImageFilter);
 
   /** Standard class type aliases. */
   using Self = NeighborhoodConnectedImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods).  */
-  itkTypeMacro(NeighborhoodConnectedImageFilter,
-               ImageToImageFilter);
+  itkTypeMacro(NeighborhoodConnectedImageFilter, ImageToImageFilter);
 
   using InputImageType = TInputImage;
   using InputImagePointer = typename InputImageType::Pointer;
@@ -64,16 +62,20 @@ public:
   using OutputImageRegionType = typename OutputImageType::RegionType;
   using OutputImagePixelType = typename OutputImageType::PixelType;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Clear the seeds */
-  void ClearSeeds();
+  void
+  ClearSeeds();
 
   /** Set seed point. */
-  void SetSeed(const IndexType & seed);
+  void
+  SetSeed(const IndexType & seed);
 
   /** Add a seed point */
-  void AddSeed(const IndexType & seed);
+  void
+  AddSeed(const IndexType & seed);
 
   /** Set/Get the lower threshold. The default is 0. */
   itkSetMacro(Lower, InputImagePixelType);
@@ -102,23 +104,18 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputEqualityComparableCheck,
-                   ( Concept::EqualityComparable< InputImagePixelType > ) );
-  itkConceptMacro( OutputEqualityComparableCheck,
-                   ( Concept::EqualityComparable< OutputImagePixelType > ) );
-  itkConceptMacro( SameDimensionCheck,
-                   ( Concept::SameDimension< InputImageDimension, OutputImageDimension > ) );
-  itkConceptMacro( InputOStreamWritableCheck,
-                   ( Concept::OStreamWritable< InputImagePixelType > ) );
-  itkConceptMacro( OutputOStreamWritableCheck,
-                   ( Concept::OStreamWritable< OutputImagePixelType > ) );
+  itkConceptMacro(InputEqualityComparableCheck, (Concept::EqualityComparable<InputImagePixelType>));
+  itkConceptMacro(OutputEqualityComparableCheck, (Concept::EqualityComparable<OutputImagePixelType>));
+  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
+  itkConceptMacro(InputOStreamWritableCheck, (Concept::OStreamWritable<InputImagePixelType>));
+  itkConceptMacro(OutputOStreamWritableCheck, (Concept::OStreamWritable<OutputImagePixelType>));
   // End concept checking
 #endif
 
 protected:
   NeighborhoodConnectedImageFilter();
   ~NeighborhoodConnectedImageFilter() override = default;
-  std::vector< IndexType > m_Seeds;
+  std::vector<IndexType> m_Seeds;
 
   InputImagePixelType m_Lower;
   InputImagePixelType m_Upper;
@@ -128,17 +125,20 @@ protected:
   InputImageSizeType m_Radius;
 
   // Override since the filter needs all the data for the algorithm
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   // Override since the filter produces the entire dataset
-  void EnlargeOutputRequestedRegion(DataObject *output) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * output) override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNeighborhoodConnectedImageFilter.hxx"
+#  include "itkNeighborhoodConnectedImageFilter.hxx"
 #endif
 
 #endif

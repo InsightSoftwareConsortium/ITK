@@ -25,9 +25,8 @@ namespace itk
 /**
  *
  */
-template< typename TInputPath, typename TInputImage, typename TOutputPath >
-PathAndImageToPathFilter< TInputPath, TInputImage, TOutputPath >
-::PathAndImageToPathFilter()
+template <typename TInputPath, typename TInputImage, typename TOutputPath>
+PathAndImageToPathFilter<TInputPath, TInputImage, TOutputPath>::PathAndImageToPathFilter()
 {
   // Modify superclass default values, can be overridden by subclasses
   this->SetNumberOfRequiredInputs(2);
@@ -36,53 +35,46 @@ PathAndImageToPathFilter< TInputPath, TInputImage, TOutputPath >
 /**
  *
  */
-template< typename TInputPath, typename TInputImage, typename TOutputPath >
+template <typename TInputPath, typename TInputImage, typename TOutputPath>
 void
-PathAndImageToPathFilter< TInputPath, TInputImage, TOutputPath >
-::SetPathInput(const InputPathType *path)
+PathAndImageToPathFilter<TInputPath, TInputImage, TOutputPath>::SetPathInput(const InputPathType * path)
 {
   // We have 2 inputs:  a path and an image
 
   // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput( 0,
-                                    const_cast< InputPathType * >( path ) );
+  this->ProcessObject::SetNthInput(0, const_cast<InputPathType *>(path));
 }
 
-template< typename TInputPath, typename TInputImage, typename TOutputPath >
-const typename PathAndImageToPathFilter< TInputPath, TInputImage, TOutputPath >::InputPathType *
-PathAndImageToPathFilter< TInputPath, TInputImage, TOutputPath >
-::GetPathInput()
+template <typename TInputPath, typename TInputImage, typename TOutputPath>
+const typename PathAndImageToPathFilter<TInputPath, TInputImage, TOutputPath>::InputPathType *
+PathAndImageToPathFilter<TInputPath, TInputImage, TOutputPath>::GetPathInput()
 {
-  return itkDynamicCastInDebugMode< const TInputPath * >( this->GetPrimaryInput() );
+  return itkDynamicCastInDebugMode<const TInputPath *>(this->GetPrimaryInput());
 }
 
-template< typename TInputPath, typename TInputImage, typename TOutputPath >
+template <typename TInputPath, typename TInputImage, typename TOutputPath>
 void
-PathAndImageToPathFilter< TInputPath, TInputImage, TOutputPath >
-::SetImageInput(const InputImageType *image)
+PathAndImageToPathFilter<TInputPath, TInputImage, TOutputPath>::SetImageInput(const InputImageType * image)
 {
   // We have 2 inputs:  a path and an image
 
   // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput( 1,
-                                    const_cast< InputImageType * >( image ) );
+  this->ProcessObject::SetNthInput(1, const_cast<InputImageType *>(image));
 }
 
-template< typename TInputPath, typename TInputImage, typename TOutputPath >
-const typename PathAndImageToPathFilter< TInputPath, TInputImage, TOutputPath >::InputImageType *
-PathAndImageToPathFilter< TInputPath, TInputImage, TOutputPath >
-::GetImageInput()
+template <typename TInputPath, typename TInputImage, typename TOutputPath>
+const typename PathAndImageToPathFilter<TInputPath, TInputImage, TOutputPath>::InputImageType *
+PathAndImageToPathFilter<TInputPath, TInputImage, TOutputPath>::GetImageInput()
 {
-  return static_cast< const TInputImage * >( this->ProcessObject::GetInput(1) );
+  return static_cast<const TInputImage *>(this->ProcessObject::GetInput(1));
 }
 
 /**
  *
  */
-template< typename TInputPath, typename TInputImage, typename TOutputPath >
+template <typename TInputPath, typename TInputImage, typename TOutputPath>
 void
-PathAndImageToPathFilter< TInputPath, TInputImage, TOutputPath >
-::GenerateInputRequestedRegion()
+PathAndImageToPathFilter<TInputPath, TInputImage, TOutputPath>::GenerateInputRequestedRegion()
 {
   // ProcessObject::GenerateInputRequestedRegion() will (for each input) call
   // Path::SetRequestedRegionToLargestPossibleRegion(), which is empty.
@@ -92,10 +84,9 @@ PathAndImageToPathFilter< TInputPath, TInputImage, TOutputPath >
 /**
  *
  */
-template< typename TInputPath, typename TInputImage, typename TOutputPath >
+template <typename TInputPath, typename TInputImage, typename TOutputPath>
 void
-PathAndImageToPathFilter< TInputPath, TInputImage, TOutputPath >
-::PrintSelf(std::ostream & os, Indent indent) const
+PathAndImageToPathFilter<TInputPath, TInputImage, TOutputPath>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

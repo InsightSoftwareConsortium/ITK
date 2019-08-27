@@ -23,67 +23,64 @@
 #include "itkProgressReporter.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 
-namespace itk {
-
-template<typename TInputImage, typename TOutputImage>
-void
-LabelMapToRGBImageFilter<TInputImage, TOutputImage>
-::BeforeThreadedGenerateData()
+namespace itk
 {
-  OutputImageType * output = this->GetOutput();
-  const InputImageType * input = this->GetInput();
 
-  FunctorType function( m_Functor );
-  function.SetBackgroundValue( input->GetBackgroundValue() );
-  output->FillBuffer( function( input->GetBackgroundValue() ) );
-
-  Superclass::BeforeThreadedGenerateData();
-
-}
-
-
-template<typename TInputImage, typename TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
-LabelMapToRGBImageFilter<TInputImage, TOutputImage>
-::ThreadedProcessLabelObject( LabelObjectType * labelObject )
+LabelMapToRGBImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
-  const typename LabelObjectType::LabelType & label = labelObject->GetLabel();
+  OutputImageType *      output = this->GetOutput();
   const InputImageType * input = this->GetInput();
 
   FunctorType function(m_Functor);
-  function.SetBackgroundValue( input->GetBackgroundValue() );
+  function.SetBackgroundValue(input->GetBackgroundValue());
+  output->FillBuffer(function(input->GetBackgroundValue()));
 
-  typename LabelObjectType::ConstIndexIterator it( labelObject );
-  TOutputImage *outputImage = this->GetOutput();
-  while( ! it.IsAtEnd() )
-    {
-    const IndexType idx = it.GetIndex();
-    outputImage->SetPixel( idx, function( label ) );
-    ++it;
-    }
+  Superclass::BeforeThreadedGenerateData();
 }
 
-template<typename TInputImage, typename TOutputImage>
+
+template <typename TInputImage, typename TOutputImage>
 void
-LabelMapToRGBImageFilter<TInputImage, TOutputImage>
-::GenerateOutputInformation()
+LabelMapToRGBImageFilter<TInputImage, TOutputImage>::ThreadedProcessLabelObject(LabelObjectType * labelObject)
+{
+  const typename LabelObjectType::LabelType & label = labelObject->GetLabel();
+  const InputImageType *                      input = this->GetInput();
+
+  FunctorType function(m_Functor);
+  function.SetBackgroundValue(input->GetBackgroundValue());
+
+  typename LabelObjectType::ConstIndexIterator it(labelObject);
+  TOutputImage *                               outputImage = this->GetOutput();
+  while (!it.IsAtEnd())
+  {
+    const IndexType idx = it.GetIndex();
+    outputImage->SetPixel(idx, function(label));
+    ++it;
+  }
+}
+
+template <typename TInputImage, typename TOutputImage>
+void
+LabelMapToRGBImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 {
   // this methods is overloaded so that if the output image is a
   // VectorImage then the correct number of components are set.
 
   Superclass::GenerateOutputInformation();
-  OutputImageType* output = this->GetOutput();
+  OutputImageType * output = this->GetOutput();
 
-  if ( !output )
-    {
+  if (!output)
+  {
     return;
-    }
-  if ( output->GetNumberOfComponentsPerPixel() != 3 )
-    {
-    output->SetNumberOfComponentsPerPixel( 3 );
-    }
+  }
+  if (output->GetNumberOfComponentsPerPixel() != 3)
+  {
+    output->SetNumberOfComponentsPerPixel(3);
+  }
 }
 
 
-}// end namespace itk
+} // end namespace itk
 #endif

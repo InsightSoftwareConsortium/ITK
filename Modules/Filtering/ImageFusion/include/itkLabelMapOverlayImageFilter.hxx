@@ -24,160 +24,154 @@
 #include "itkImageScanlineIterator.h"
 #include "itkProgressTransformer.h"
 
-namespace itk {
+namespace itk
+{
 
-template<typename TLabelMap, typename TFeatureImage, typename TOutputImage>
-LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
-::LabelMapOverlayImageFilter()
+template <typename TLabelMap, typename TFeatureImage, typename TOutputImage>
+LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>::LabelMapOverlayImageFilter()
 {
   this->SetNumberOfRequiredInputs(2);
   m_Opacity = 0.5;
   this->DynamicMultiThreadingOn();
 }
 
-template<typename TLabelMap, typename TFeatureImage, typename TOutputImage>
+template <typename TLabelMap, typename TFeatureImage, typename TOutputImage>
 void
-LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
-::GenerateInputRequestedRegion()
+LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the input.
   LabelMapPointer input = const_cast<LabelMapType *>(this->GetInput());
-  if ( !input )
-    {
+  if (!input)
+  {
     return;
-    }
-  input->SetRequestedRegion( input->GetLargestPossibleRegion() );
+  }
+  input->SetRequestedRegion(input->GetLargestPossibleRegion());
 }
 
 template <typename TLabelMap, typename TFeatureImage, typename TOutputImage>
 void
-LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
-::EnlargeOutputRequestedRegion(DataObject *)
+LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject *)
 {
-  this->GetOutput()->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
+  this->GetOutput()->SetRequestedRegion(this->GetOutput()->GetLargestPossibleRegion());
 }
 
-template<typename TLabelMap, typename TFeatureImage, typename TOutputImage>
+template <typename TLabelMap, typename TFeatureImage, typename TOutputImage>
 void
-LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
-::GenerateData()
+LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>::GenerateData()
 {
   this->UpdateProgress(0.0f);
   this->AllocateOutputs();
 
   Superclass::BeforeThreadedGenerateData();
 
-  ProgressTransformer pt( 0.01f, 0.5f, this );
-  this->GetMultiThreader()->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
+  ProgressTransformer pt(0.01f, 0.5f, this);
+  this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   this->GetMultiThreader()->template ParallelizeImageRegion<OutputImageDimension>(
-      this->GetOutput()->GetRequestedRegion(),
-      [this](const OutputImageRegionType & outputRegionForThread)
-        { this->DynamicThreadedGenerateData(outputRegionForThread); },
-        pt.GetProcessObject() );
+    this->GetOutput()->GetRequestedRegion(),
+    [this](const OutputImageRegionType & outputRegionForThread) {
+      this->DynamicThreadedGenerateData(outputRegionForThread);
+    },
+    pt.GetProcessObject());
 
-  ProgressTransformer pt2( 0.5f, 0.99f, this );
+  ProgressTransformer pt2(0.5f, 0.99f, this);
   // and delegate to the superclass implementation to use the thread support for the label objects
   this->GetMultiThreader()->template ParallelizeImageRegion<OutputImageDimension>(
-      this->GetOutput()->GetRequestedRegion(),
-      [this](const OutputImageRegionType & outputRegionForThread)
-        { this->SuperclassDynamicTGD(outputRegionForThread); },
-        pt2.GetProcessObject() );
+    this->GetOutput()->GetRequestedRegion(),
+    [this](const OutputImageRegionType & outputRegionForThread) { this->SuperclassDynamicTGD(outputRegionForThread); },
+    pt2.GetProcessObject());
 
   this->AfterThreadedGenerateData();
   this->UpdateProgress(1.0f);
 }
 
 
-template<typename TLabelMap, typename TFeatureImage, typename TOutputImage>
+template <typename TLabelMap, typename TFeatureImage, typename TOutputImage>
 void
-LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
-::DynamicThreadedGenerateData( const OutputImageRegionType& outputRegionForThread )
+LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>::DynamicThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
 {
-  OutputImageType * output = this->GetOutput();
-  auto * input = const_cast<LabelMapType *>(this->GetInput());
+  OutputImageType *        output = this->GetOutput();
+  auto *                   input = const_cast<LabelMapType *>(this->GetInput());
   const FeatureImageType * input2 = this->GetFeatureImage();
 
-  FunctorType function( m_Functor );
-  function.SetBackgroundValue( input->GetBackgroundValue() );
-  function.SetOpacity( m_Opacity );
+  FunctorType function(m_Functor);
+  function.SetBackgroundValue(input->GetBackgroundValue());
+  function.SetOpacity(m_Opacity);
 
-  ImageScanlineConstIterator< FeatureImageType > featureIt( input2, outputRegionForThread );
-  ImageScanlineIterator< OutputImageType > outputIt( output, outputRegionForThread );
+  ImageScanlineConstIterator<FeatureImageType> featureIt(input2, outputRegionForThread);
+  ImageScanlineIterator<OutputImageType>       outputIt(output, outputRegionForThread);
 
-  while ( !featureIt.IsAtEnd() )
+  while (!featureIt.IsAtEnd())
+  {
+    while (!featureIt.IsAtEndOfLine())
     {
-    while ( !featureIt.IsAtEndOfLine() )
-      {
-      outputIt.Set( function( featureIt.Get(), input->GetBackgroundValue() ) );
+      outputIt.Set(function(featureIt.Get(), input->GetBackgroundValue()));
       ++featureIt;
       ++outputIt;
-      }
+    }
     featureIt.NextLine();
     outputIt.NextLine();
-    }
+  }
 }
 
 
-template<typename TLabelMap, typename TFeatureImage, typename TOutputImage>
+template <typename TLabelMap, typename TFeatureImage, typename TOutputImage>
 void
-LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
-::ThreadedProcessLabelObject( LabelObjectType * labelObject )
+LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>::ThreadedProcessLabelObject(
+  LabelObjectType * labelObject)
 {
-  OutputImageType * output = this->GetOutput();
-  auto * input = const_cast<LabelMapType *>(this->GetInput());
+  OutputImageType *        output = this->GetOutput();
+  auto *                   input = const_cast<LabelMapType *>(this->GetInput());
   const FeatureImageType * input2 = this->GetFeatureImage();
 
-  FunctorType function( m_Functor );
-  function.SetBackgroundValue( input->GetBackgroundValue() );
-  function.SetOpacity( m_Opacity );
+  FunctorType function(m_Functor);
+  function.SetBackgroundValue(input->GetBackgroundValue());
+  function.SetOpacity(m_Opacity);
 
   const typename LabelObjectType::LabelType & label = labelObject->GetLabel();
 
   // the user want the mask to be the background of the label collection image
-  typename LabelObjectType::ConstIndexIterator it( labelObject );
-  while( ! it.IsAtEnd() )
-    {
+  typename LabelObjectType::ConstIndexIterator it(labelObject);
+  while (!it.IsAtEnd())
+  {
     const IndexType idx = it.GetIndex();
-    output->SetPixel( idx, function( input2->GetPixel(idx), label ) );
+    output->SetPixel(idx, function(input2->GetPixel(idx), label));
     ++it;
-    }
-
+  }
 }
 
-template<typename TLabelMap, typename TFeatureImage, typename TOutputImage>
+template <typename TLabelMap, typename TFeatureImage, typename TOutputImage>
 void
-LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
-::GenerateOutputInformation()
+LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>::GenerateOutputInformation()
 {
   // this methods is overloaded so that if the output image is a
   // VectorImage then the correct number of components are set.
 
   Superclass::GenerateOutputInformation();
-  OutputImageType* output = this->GetOutput();
+  OutputImageType * output = this->GetOutput();
 
-  if ( !output )
-    {
+  if (!output)
+  {
     return;
-    }
-  if ( output->GetNumberOfComponentsPerPixel() != 3 )
-    {
-    output->SetNumberOfComponentsPerPixel( 3 );
-    }
+  }
+  if (output->GetNumberOfComponentsPerPixel() != 3)
+  {
+    output->SetNumberOfComponentsPerPixel(3);
+  }
 }
 
-template<typename TLabelMap, typename TFeatureImage, typename TOutputImage>
+template <typename TLabelMap, typename TFeatureImage, typename TOutputImage>
 void
-LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
-::PrintSelf(std::ostream& os, Indent indent) const
+LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "Opacity: " << m_Opacity << std::endl;
 }
 
 
-}// end namespace itk
+} // end namespace itk
 #endif

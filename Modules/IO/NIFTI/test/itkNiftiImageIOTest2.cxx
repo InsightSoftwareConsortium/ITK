@@ -18,54 +18,55 @@
 
 #include "itkNiftiImageIOTest.h"
 
-int itkNiftiImageIOTest2(int ac, char* av[])
+int
+itkNiftiImageIOTest2(int ac, char * av[])
 {
   //
   // first argument is passing in the writable directory to do all testing
-  if(ac > 1) {
-    char *testdir = *++av;
+  if (ac > 1)
+  {
+    char * testdir = *++av;
     --ac;
     itksys::SystemTools::ChangeDirectory(testdir);
   }
-  if(ac != 4)
+  if (ac != 4)
     return EXIT_FAILURE;
-  char *arg1 = av[1];
-  char *arg2 = av[2];
-  char *prefix = av[3];
-  int test_success = 0;
+  char * arg1 = av[1];
+  char * arg2 = av[2];
+  char * prefix = av[3];
+  int    test_success = 0;
 
   using ImageType = itk::Image<signed short, 3>;
   using ImagePointer = ImageType::Pointer;
 
-  if((strcmp(arg1, "true") == 0) && WriteNiftiTestFiles(prefix) == -1)
-    {
-      return EXIT_FAILURE;
-    }
+  if ((strcmp(arg1, "true") == 0) && WriteNiftiTestFiles(prefix) == -1)
+  {
+    return EXIT_FAILURE;
+  }
 
   ImagePointer input;
   try
-    {
+  {
     using ImageReaderType = itk::ImageFileReader<ImageType>;
     itk::NiftiImageIO::Pointer io = itk::NiftiImageIO::New();
-    ImageReaderType::Pointer imageReader = ImageReaderType::New();
+    ImageReaderType::Pointer   imageReader = ImageReaderType::New();
     imageReader->SetImageIO(io);
     imageReader->SetFileName(arg2);
     imageReader->Update();
     input = imageReader->GetOutput();
     input = itk::IOTestHelper::ReadImage<ImageType>(std::string(arg2));
-    }
+  }
   catch (itk::ExceptionObject &)
-    {
-      test_success = 1;
-    }
+  {
+    test_success = 1;
+  }
 
-  if(strcmp(arg1, "true") == 0)
-    {
-      return test_success;
-    }
+  if (strcmp(arg1, "true") == 0)
+  {
+    return test_success;
+  }
   else
-    {
-      return !test_success;
-    }
-
+  {
+    return !test_success;
+  }
 }

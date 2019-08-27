@@ -25,49 +25,50 @@
 #include "itkPipelineMonitorImageFilter.h"
 
 
-int itkStreamingImageFilterTest3(int argc, char*argv [] )
+int
+itkStreamingImageFilterTest3(int argc, char * argv[])
 {
-   if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile outputImageFile numberOfStreamDivisions" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-   const std::string inputFilename = argv[1];
-   const std::string outputFilename = argv[2];
-   unsigned int numberOfStreamDivisions = std::stoi(argv[3]);
+  const std::string inputFilename = argv[1];
+  const std::string outputFilename = argv[2];
+  unsigned int      numberOfStreamDivisions = std::stoi(argv[3]);
 
   using PixelType = unsigned char;
-  using ImageType = itk::Image< PixelType, 2 >;
+  using ImageType = itk::Image<PixelType, 2>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( inputFilename );
+  reader->SetFileName(inputFilename);
 
   using SomeFilter = itk::ShiftScaleImageFilter<ImageType, ImageType>;
   SomeFilter::Pointer filter = SomeFilter::New();
-  filter->SetInput( reader->GetOutput() );
+  filter->SetInput(reader->GetOutput());
 
   // monitor what's going on
   itk::PipelineMonitorImageFilter<ImageType>::Pointer monitor;
   monitor = itk::PipelineMonitorImageFilter<ImageType>::New();
-  monitor->SetInput( filter->GetOutput() );
+  monitor->SetInput(filter->GetOutput());
 
   itk::ImageRegionSplitterMultidimensional::Pointer splitter;
   splitter = itk::ImageRegionSplitterMultidimensional::New();
 
   itk::StreamingImageFilter<ImageType, ImageType>::Pointer streamer;
   streamer = itk::StreamingImageFilter<ImageType, ImageType>::New();
-  streamer->SetInput( monitor->GetOutput() );
-  streamer->SetNumberOfStreamDivisions( numberOfStreamDivisions );
-  streamer->SetRegionSplitter( splitter );
+  streamer->SetInput(monitor->GetOutput());
+  streamer->SetNumberOfStreamDivisions(numberOfStreamDivisions);
+  streamer->SetRegionSplitter(splitter);
 
 
   using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName( outputFilename );
-  writer->SetInput( streamer->GetOutput() );
+  writer->SetFileName(outputFilename);
+  writer->SetInput(streamer->GetOutput());
   writer->Update();
 
 
@@ -77,13 +78,11 @@ int itkStreamingImageFilterTest3(int argc, char*argv [] )
   std::cout << "ExpectedNumberOfStreams: " << expectedNumberOfStreams << std::endl;
 
   if (!monitor->VerifyAllInputCanStream(expectedNumberOfStreams))
-    {
+  {
     std::cout << "Filter failed to execute as expected!" << std::endl;
     std::cout << monitor;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
-
-
 }

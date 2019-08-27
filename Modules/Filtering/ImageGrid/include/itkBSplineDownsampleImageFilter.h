@@ -84,10 +84,10 @@ namespace itk
  */
 
 //= typename BSplineResampleImageFilterBase<TInputImage, TOutputImage>
-template< typename TInputImage, typename TOutputImage,
-          typename ResamplerType = BSplineResampleImageFilterBase< TInputImage, TOutputImage > >
-class ITK_TEMPLATE_EXPORT BSplineDownsampleImageFilter:
-  public ResamplerType
+template <typename TInputImage,
+          typename TOutputImage,
+          typename ResamplerType = BSplineResampleImageFilterBase<TInputImage, TOutputImage>>
+class ITK_TEMPLATE_EXPORT BSplineDownsampleImageFilter : public ResamplerType
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BSplineDownsampleImageFilter);
@@ -95,8 +95,8 @@ public:
   /** Standard class type aliases. */
   using Self = BSplineDownsampleImageFilter;
   using Superclass = ResamplerType;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(BSplineDownsampleImageFilter, ResamplerType);
@@ -117,24 +117,26 @@ public:
   using OutputImageIterator = typename Superclass::OutputImageIterator;
 
   /** Creates an image half the size of the input image with spacing twice the
-    * input image. */
-  void GenerateOutputInformation() override;
+   * input image. */
+  void
+  GenerateOutputInformation() override;
 
   /** This filter requires all of the input image */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( DoubleConvertibleToOutputCheck,
-                   ( Concept::Convertible< double, typename TOutputImage::PixelType > ) );
+  itkConceptMacro(DoubleConvertibleToOutputCheck, (Concept::Convertible<double, typename TOutputImage::PixelType>));
   // End concept checking
 #endif
 
 protected:
+  void
+  GenerateData() override;
 
-  void GenerateData() override;
-
-  void EnlargeOutputRequestedRegion(DataObject *output) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * output) override;
 
   BSplineDownsampleImageFilter() = default;
   ~BSplineDownsampleImageFilter() override = default;
@@ -142,7 +144,7 @@ protected:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBSplineDownsampleImageFilter.hxx"
+#  include "itkBSplineDownsampleImageFilter.hxx"
 #endif
 
 #endif

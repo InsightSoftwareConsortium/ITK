@@ -24,18 +24,16 @@
 #include "itkMath.h"
 #include "itkTestingMacros.h"
 
-int itkIOEuler3DTransformTxtTest(int argc, char *argv[])
+int
+itkIOEuler3DTransformTxtTest(int argc, char * argv[])
 {
-  if( argc != 3 )
-    {
-    std::cerr<< "Usage: "
-             << itkNameOfTestExecutableMacro(argv)
-             <<" inputFileName outputFileName"
-             << std::endl;
+  if (argc != 3)
+  {
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName outputFileName" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  itk::ObjectFactoryBase::RegisterFactory(itk::TxtTransformIOFactory::New() );
+  itk::ObjectFactoryBase::RegisterFactory(itk::TxtTransformIOFactory::New());
 
   using TransformType = itk::Euler3DTransform<double>;
   TransformType::Pointer oldStyleInput, newStyleInput;
@@ -46,39 +44,39 @@ int itkIOEuler3DTransformTxtTest(int argc, char *argv[])
   using WriterType = itk::TransformFileWriterTemplate<double>;
   WriterType::Pointer writer = WriterType::New();
 
-  //read old style format in
-  reader->SetFileName( argv[1] );
+  // read old style format in
+  reader->SetFileName(argv[1]);
   reader->Update();
-  oldStyleInput = static_cast< TransformType*  >(( reader->GetTransformList()->begin() )->GetPointer());
+  oldStyleInput = static_cast<TransformType *>((reader->GetTransformList()->begin())->GetPointer());
 
-  //modify the interpretation of the Euler angles
-  oldStyleInput->SetComputeZYX( true );
+  // modify the interpretation of the Euler angles
+  oldStyleInput->SetComputeZYX(true);
 
-  //write in new style format
-  writer->SetFileName( argv[2] );
-  writer->SetInput( oldStyleInput );
+  // write in new style format
+  writer->SetFileName(argv[2]);
+  writer->SetInput(oldStyleInput);
   writer->Update();
 
-  //read new style format back in
-  reader->SetFileName( argv[2] );
+  // read new style format back in
+  reader->SetFileName(argv[2]);
   reader->Update();
-  newStyleInput = static_cast< TransformType*  >(( reader->GetTransformList()->begin() )->GetPointer());
+  newStyleInput = static_cast<TransformType *>((reader->GetTransformList()->begin())->GetPointer());
 
-  const TransformType::MatrixType &oldStyleMat = oldStyleInput->GetMatrix();
-  const TransformType::MatrixType &newStyleMat = newStyleInput->GetMatrix();
+  const TransformType::MatrixType & oldStyleMat = oldStyleInput->GetMatrix();
+  const TransformType::MatrixType & newStyleMat = newStyleInput->GetMatrix();
 
-  if(!(itk::Math::FloatAlmostEqual(oldStyleMat(0,0), newStyleMat(0,0)) &&
-       itk::Math::FloatAlmostEqual(oldStyleMat(0,1), newStyleMat(0,1)) &&
-       itk::Math::FloatAlmostEqual(oldStyleMat(0,2), newStyleMat(0,2)) &&
-       itk::Math::FloatAlmostEqual(oldStyleMat(1,0), newStyleMat(1,0)) &&
-       itk::Math::FloatAlmostEqual(oldStyleMat(1,1), newStyleMat(1,1)) &&
-       itk::Math::FloatAlmostEqual(oldStyleMat(1,2), newStyleMat(1,2)) &&
-       itk::Math::FloatAlmostEqual(oldStyleMat(2,0), newStyleMat(2,0)) &&
-       itk::Math::FloatAlmostEqual(oldStyleMat(2,1), newStyleMat(2,1)) &&
-       itk::Math::FloatAlmostEqual(oldStyleMat(2,2), newStyleMat(2,2))))
-    {
-    std::cerr<< "Error reading new style format, different from data in memory." << std::endl;
+  if (!(itk::Math::FloatAlmostEqual(oldStyleMat(0, 0), newStyleMat(0, 0)) &&
+        itk::Math::FloatAlmostEqual(oldStyleMat(0, 1), newStyleMat(0, 1)) &&
+        itk::Math::FloatAlmostEqual(oldStyleMat(0, 2), newStyleMat(0, 2)) &&
+        itk::Math::FloatAlmostEqual(oldStyleMat(1, 0), newStyleMat(1, 0)) &&
+        itk::Math::FloatAlmostEqual(oldStyleMat(1, 1), newStyleMat(1, 1)) &&
+        itk::Math::FloatAlmostEqual(oldStyleMat(1, 2), newStyleMat(1, 2)) &&
+        itk::Math::FloatAlmostEqual(oldStyleMat(2, 0), newStyleMat(2, 0)) &&
+        itk::Math::FloatAlmostEqual(oldStyleMat(2, 1), newStyleMat(2, 1)) &&
+        itk::Math::FloatAlmostEqual(oldStyleMat(2, 2), newStyleMat(2, 2))))
+  {
+    std::cerr << "Error reading new style format, different from data in memory." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   return EXIT_SUCCESS;
 }

@@ -32,4 +32,4 @@ namespace itk
 TextOutput::TextOutput() = default;
 
 TextOutput::~TextOutput() = default;
-}
+} // namespace itk

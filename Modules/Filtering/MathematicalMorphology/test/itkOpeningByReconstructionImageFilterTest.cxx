@@ -23,97 +23,96 @@
 #include "itkSimpleFilterWatcher.h"
 #include "itkTestingMacros.h"
 
-int itkOpeningByReconstructionImageFilterTest(int argc, char* argv [] )
+int
+itkOpeningByReconstructionImageFilterTest(int argc, char * argv[])
 {
- if ( argc < 5 )
+  if (argc < 5)
   {
     std::cerr << "Missing arguments" << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Inputimage OutputImage Radius PreserveIntensities(0,1) [Diffmage]" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
+              << " Inputimage OutputImage Radius PreserveIntensities(0,1) [Diffmage]" << std::endl;
     return EXIT_FAILURE;
   }
 
   constexpr int Dimension = 2;
   using PixelType = unsigned char;
-  using InputImageType = itk::Image< PixelType, Dimension >;
-  using OutputImageType = itk::Image< PixelType, Dimension >;
+  using InputImageType = itk::Image<PixelType, Dimension>;
+  using OutputImageType = itk::Image<PixelType, Dimension>;
 
-  using ReaderType = itk::ImageFileReader< InputImageType >;
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   // Declare the type of the Structuring element to be used
-  using StructuringElementType = itk::BinaryBallStructuringElement<
-                            PixelType,
-                            Dimension>;
+  using StructuringElementType = itk::BinaryBallStructuringElement<PixelType, Dimension>;
 
   // Declare the type for the Morphology Filters to be Tested
-  using MorphologicalFilterType = itk::OpeningByReconstructionImageFilter<
-                                InputImageType,
-                                OutputImageType,
-                                StructuringElementType >;
+  using MorphologicalFilterType =
+    itk::OpeningByReconstructionImageFilter<InputImageType, OutputImageType, StructuringElementType>;
 
-  ReaderType::Pointer           reader = ReaderType::New();
-  WriterType::Pointer           writer = WriterType::New();
+  ReaderType::Pointer reader = ReaderType::New();
+  WriterType::Pointer writer = WriterType::New();
 
   // Create the reader and writer
-  reader->SetFileName( argv[1] );
-  writer->SetFileName( argv[2] );
+  reader->SetFileName(argv[1]);
+  writer->SetFileName(argv[2]);
 
   // Create the filter
-  MorphologicalFilterType::Pointer   filter = MorphologicalFilterType::New();
-  itk::SimpleFilterWatcher watcher(filter, "Opening"); watcher.QuietOn();
+  MorphologicalFilterType::Pointer filter = MorphologicalFilterType::New();
+  itk::SimpleFilterWatcher         watcher(filter, "Opening");
+  watcher.QuietOn();
 
-  StructuringElementType   structuringElement;
+  StructuringElementType structuringElement;
 
   structuringElement.SetRadius(std::stoi(argv[3]));
   structuringElement.CreateStructuringElement();
 
-  filter->SetKernel( structuringElement );
+  filter->SetKernel(structuringElement);
   if (std::stoi(argv[4]) == 0)
-    {
+  {
     filter->PreserveIntensitiesOff();
-    }
+  }
   else
-    {
+  {
     filter->PreserveIntensitiesOn();
-    }
+  }
 
   // Connect the pipelines
-  filter->SetInput ( reader-> GetOutput() );
-  writer->SetInput ( filter-> GetOutput() );
+  filter->SetInput(reader->GetOutput());
+  writer->SetInput(filter->GetOutput());
 
 
   // Execute print
-  filter->Print( std::cout );
+  filter->Print(std::cout);
 
   // Execute the filter
   try
   {
     writer->Update();
   }
-  catch( itk::ExceptionObject & excp )
+  catch (itk::ExceptionObject & excp)
   {
     std::cerr << "Exception caught:" << excp << std::endl;
-    return  EXIT_FAILURE;
+    return EXIT_FAILURE;
   }
 
   // Create a difference image if one is requested
   if (argc == 6)
-    {
-    itk::SubtractImageFilter<InputImageType, OutputImageType, OutputImageType>::Pointer subtract = itk::SubtractImageFilter<InputImageType, OutputImageType, OutputImageType>::New();
-    subtract->SetInput( 0, reader->GetOutput() );
-    subtract->SetInput( 1, filter->GetOutput() );
+  {
+    itk::SubtractImageFilter<InputImageType, OutputImageType, OutputImageType>::Pointer subtract =
+      itk::SubtractImageFilter<InputImageType, OutputImageType, OutputImageType>::New();
+    subtract->SetInput(0, reader->GetOutput());
+    subtract->SetInput(1, filter->GetOutput());
     try
-      {
-      writer->SetFileName( argv[5] );
-      writer->SetInput( subtract->GetOutput() );
+    {
+      writer->SetFileName(argv[5]);
+      writer->SetInput(subtract->GetOutput());
       writer->Update();
-      }
-    catch( itk::ExceptionObject & excp )
-      {
-      std::cerr << "Exception caught writing diff image:" << excp << std::endl;
-      return  EXIT_FAILURE;
-      }
     }
+    catch (itk::ExceptionObject & excp)
+    {
+      std::cerr << "Exception caught writing diff image:" << excp << std::endl;
+      return EXIT_FAILURE;
+    }
+  }
   return EXIT_SUCCESS;
-
 }

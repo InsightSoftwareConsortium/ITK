@@ -25,83 +25,77 @@ namespace itk
 {
 
 /** Prepare for the iteration process. */
-template< typename TInputImage, typename TOutputImage, typename TParentImageFilter >
+template <typename TInputImage, typename TOutputImage, typename TParentImageFilter>
 void
-GPUAnisotropicDiffusionImageFilter< TInputImage, TOutputImage, TParentImageFilter >
-::InitializeIteration()
+GPUAnisotropicDiffusionImageFilter<TInputImage, TOutputImage, TParentImageFilter>::InitializeIteration()
 {
-  GPUAnisotropicDiffusionFunction< UpdateBufferType > *f =
-    dynamic_cast< GPUAnisotropicDiffusionFunction< UpdateBufferType > * >
-      ( this->GetDifferenceFunction().GetPointer() );
-  if ( !f )
-    {
+  GPUAnisotropicDiffusionFunction<UpdateBufferType> * f =
+    dynamic_cast<GPUAnisotropicDiffusionFunction<UpdateBufferType> *>(this->GetDifferenceFunction().GetPointer());
+  if (!f)
+  {
     throw ExceptionObject(__FILE__, __LINE__, "GPU anisotropic diffusion function is not set.", ITK_LOCATION);
+  }
 
-    }
-
-  f->SetConductanceParameter( this->GetConductanceParameter() );
-  f->SetTimeStep( this->GetTimeStep() );
+  f->SetConductanceParameter(this->GetConductanceParameter());
+  f->SetTimeStep(this->GetTimeStep());
 
   // Check the timestep for stability
   double minSpacing;
-  if ( this->GetUseImageSpacing() )
-    {
+  if (this->GetUseImageSpacing())
+  {
     minSpacing = this->GetInput()->GetSpacing()[0];
-    for ( unsigned int i = 1; i < ImageDimension; i++ )
+    for (unsigned int i = 1; i < ImageDimension; i++)
+    {
+      if (this->GetInput()->GetSpacing()[i] < minSpacing)
       {
-      if ( this->GetInput()->GetSpacing()[i] < minSpacing )
-        {
         minSpacing = this->GetInput()->GetSpacing()[i];
-        }
       }
     }
+  }
   else
-    {
+  {
     minSpacing = 1.0;
-    }
-  if ( this->GetTimeStep() >  ( minSpacing / std::pow(2.0, static_cast< double >( ImageDimension ) + 1) ) )
-    {
+  }
+  if (this->GetTimeStep() > (minSpacing / std::pow(2.0, static_cast<double>(ImageDimension) + 1)))
+  {
     //    f->SetTimeStep(1.0 / std::pow(2.0,
     // static_cast<double>(ImageDimension)));
-    itkWarningMacro( << "Anisotropic diffusion unstable time step: "
-                     << this->GetTimeStep() << std::endl
-                     << "Stable time step for this image must be smaller than "
-                     << minSpacing / std::pow( 2.0, static_cast< double >( ImageDimension + 1 ) ) );
-    }
+    itkWarningMacro(<< "Anisotropic diffusion unstable time step: " << this->GetTimeStep() << std::endl
+                    << "Stable time step for this image must be smaller than "
+                    << minSpacing / std::pow(2.0, static_cast<double>(ImageDimension + 1)));
+  }
 
-  if ( this->m_GradientMagnitudeIsFixed == false )
+  if (this->m_GradientMagnitudeIsFixed == false)
+  {
+    if ((this->GetElapsedIterations() % this->GetConductanceScalingUpdateInterval()) == 0)
     {
-    if ( ( this->GetElapsedIterations() % this->GetConductanceScalingUpdateInterval() ) == 0 )
-      {
       /** GPU version of average squared gradient magniture calculation */
-      f->GPUCalculateAverageGradientMagnitudeSquared( this->GetOutput() );
-      }
+      f->GPUCalculateAverageGradientMagnitudeSquared(this->GetOutput());
     }
+  }
   else
-    {
-    f->SetAverageGradientMagnitudeSquared( this->GetFixedAverageGradientMagnitude()
-                                           *
-                                           this->GetFixedAverageGradientMagnitude() );
-    }
+  {
+    f->SetAverageGradientMagnitudeSquared(this->GetFixedAverageGradientMagnitude() *
+                                          this->GetFixedAverageGradientMagnitude());
+  }
   f->InitializeIteration();
 
-  if ( this->GetNumberOfIterations() != 0 )
-    {
-    this->UpdateProgress( ( (float)( this->GetElapsedIterations() ) )
-                          / ( (float)( this->GetNumberOfIterations() ) ) );
-    }
+  if (this->GetNumberOfIterations() != 0)
+  {
+    this->UpdateProgress(((float)(this->GetElapsedIterations())) / ((float)(this->GetNumberOfIterations())));
+  }
   else
-    {
+  {
     this->UpdateProgress(0);
-    }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage, typename TParentImageFilter >
+template <typename TInputImage, typename TOutputImage, typename TParentImageFilter>
 void
-GPUAnisotropicDiffusionImageFilter< TInputImage, TOutputImage, TParentImageFilter >
-::PrintSelf(std::ostream & os, Indent indent) const
+GPUAnisotropicDiffusionImageFilter<TInputImage, TOutputImage, TParentImageFilter>::PrintSelf(std::ostream & os,
+                                                                                             Indent indent) const
 {
-  GPUSuperclass::PrintSelf( os, indent.GetNextIndent() );
+  GPUSuperclass::PrintSelf(os, indent.GetNextIndent());
 }
 
 } // end namespace itk

@@ -49,21 +49,20 @@
 //
 // Software Guide : EndLatex
 
-int main( int argc, char ** argv )
+int
+main(int argc, char ** argv)
 {
-  if ( argc < 4 )
-    {
+  if (argc < 4)
+  {
     std::cerr << "Missing parameters. " << std::endl;
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0]
-              << " outputImageFile startX startY"
-              << std::endl;
+    std::cerr << argv[0] << " outputImageFile startX startY" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   using PixelType = float;
-  using ImageType = itk::Image< PixelType, 2 >;
-  using NeighborhoodIteratorType = itk::NeighborhoodIterator< ImageType >;
+  using ImageType = itk::Image<PixelType, 2>;
+  using NeighborhoodIteratorType = itk::NeighborhoodIterator<ImageType>;
 
   using FastMarchingFilterType = itk::FastMarchingImageFilter<ImageType, ImageType>;
 
@@ -74,7 +73,7 @@ int main( int argc, char ** argv )
 
   NodeContainer::Pointer seeds = NodeContainer::New();
 
-  ImageType::IndexType  seedPosition;
+  ImageType::IndexType seedPosition;
 
   seedPosition[0] = 128;
   seedPosition[1] = 128;
@@ -82,22 +81,22 @@ int main( int argc, char ** argv )
 
   NodeType node;
 
-  const double seedValue = - initialDistance;
+  const double seedValue = -initialDistance;
 
-  ImageType::SizeType size = {{256, 256}};
+  ImageType::SizeType size = { { 256, 256 } };
 
-  node.SetValue( seedValue );
-  node.SetIndex( seedPosition );
+  node.SetValue(seedValue);
+  node.SetIndex(seedPosition);
   seeds->Initialize();
-  seeds->InsertElement( 0, node );
+  seeds->InsertElement(0, node);
 
-  fastMarching->SetTrialPoints(  seeds  );
-  fastMarching->SetSpeedConstant( 1.0 );
+  fastMarching->SetTrialPoints(seeds);
+  fastMarching->SetSpeedConstant(1.0);
 
-  itk::AddImageFilter<ImageType, ImageType, ImageType>::Pointer adder
-    = itk::AddImageFilter<ImageType, ImageType, ImageType>::New();
-  itk::RandomImageSource<ImageType>::Pointer noise
-    = itk::RandomImageSource<ImageType>::New();
+  itk::AddImageFilter<ImageType, ImageType, ImageType>::Pointer adder =
+    itk::AddImageFilter<ImageType, ImageType, ImageType>::New();
+  itk::RandomImageSource<ImageType>::Pointer noise =
+    itk::RandomImageSource<ImageType>::New();
 
   noise->SetSize(size.m_InternalArray);
   noise->SetMin(-.7);
@@ -106,66 +105,65 @@ int main( int argc, char ** argv )
   adder->SetInput2(fastMarching->GetOutput());
 
   try
-    {
-    fastMarching->SetOutputSize( size );
+  {
+    fastMarching->SetOutputSize(size);
     fastMarching->Update();
 
     adder->Update();
-
-    }
-  catch( itk::ExceptionObject & excep )
-    {
+  }
+  catch (itk::ExceptionObject & excep)
+  {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   ImageType::Pointer input = adder->GetOutput();
 
-// Software Guide : BeginLatex
-//
-// The variable \code{input} is the pointer to the distance transform image.
-// The local minimum algorithm is initialized with a seed point read from the
-// command line.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // The variable \code{input} is the pointer to the distance transform image.
+  // The local minimum algorithm is initialized with a seed point read from the
+  // command line.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   ImageType::IndexType index;
   index[0] = ::std::stoi(argv[2]);
   index[1] = ::std::stoi(argv[3]);
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// Next we create the neighborhood iterator and position it at the seed point.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // Next we create the neighborhood iterator and position it at the seed point.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   NeighborhoodIteratorType::RadiusType radius;
   radius.Fill(1);
   NeighborhoodIteratorType it(radius, input, input->GetRequestedRegion());
 
   it.SetLocation(index);
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// Searching for the local minimum involves finding the minimum in the current
-// neighborhood, then shifting the neighborhood in the direction of that
-// minimum.  The \code{for} loop below records the \doxygen{Offset} of the
-// minimum neighborhood pixel.  The neighborhood iterator is then moved using
-// that offset.  When a local minimum is detected, \code{flag} will remain
-// false and the \code{while} loop will exit.  Note that this code is
-// valid for an image of any dimensionality.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // Searching for the local minimum involves finding the minimum in the current
+  // neighborhood, then shifting the neighborhood in the direction of that
+  // minimum.  The \code{for} loop below records the \doxygen{Offset} of the
+  // minimum neighborhood pixel.  The neighborhood iterator is then moved using
+  // that offset.  When a local minimum is detected, \code{flag} will remain
+  // false and the \code{while} loop will exit.  Note that this code is
+  // valid for an image of any dimensionality.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   bool flag = true;
-  while ( flag == true )
-    {
+  while (flag == true)
+  {
     NeighborhoodIteratorType::OffsetType nextMove;
     nextMove.Fill(0);
 
@@ -173,65 +171,64 @@ int main( int argc, char ** argv )
 
     PixelType min = it.GetCenterPixel();
     for (unsigned i = 0; i < it.Size(); i++)
+    {
+      if (it.GetPixel(i) < min)
       {
-      if ( it.GetPixel(i) < min )
-        {
         min = it.GetPixel(i);
         nextMove = it.GetOffset(i);
         flag = true;
-        }
       }
-    it.SetCenterPixel( 255.0 );
-    it += nextMove;
     }
-// Software Guide : EndCodeSnippet
+    it.SetCenterPixel(255.0);
+    it += nextMove;
+  }
+  // Software Guide : EndCodeSnippet
 
 
-// Software Guide : BeginLatex
-//
-// Figure~\ref{fig:NeighborhoodExample6} shows the results of the algorithm
-// for several seed points.  The white line is the path of the iterator from
-// the seed point to the minimum in the center of the image.  The effect of the
-// additive noise is visible as the small perturbations in the paths.
-//
-// \begin{figure} \centering
-// \includegraphics[width=0.3\textwidth]{NeighborhoodIterators6a}
-// \includegraphics[width=0.3\textwidth]{NeighborhoodIterators6b}
-// \includegraphics[width=0.3\textwidth]{NeighborhoodIterators6c}
-// \itkcaption[Finding local minima]{Paths traversed by the neighborhood
-// iterator from different seed points to the local minimum.
-// The true minimum is at the center
-// of the image.  The path of the iterator is shown in white. The effect of
-// noise in the image is seen as small perturbations in each path. }
-// \protect\label{fig:NeighborhoodExample6} \end{figure}
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // Figure~\ref{fig:NeighborhoodExample6} shows the results of the algorithm
+  // for several seed points.  The white line is the path of the iterator from
+  // the seed point to the minimum in the center of the image.  The effect of the
+  // additive noise is visible as the small perturbations in the paths.
+  //
+  // \begin{figure} \centering
+  // \includegraphics[width=0.3\textwidth]{NeighborhoodIterators6a}
+  // \includegraphics[width=0.3\textwidth]{NeighborhoodIterators6b}
+  // \includegraphics[width=0.3\textwidth]{NeighborhoodIterators6c}
+  // \itkcaption[Finding local minima]{Paths traversed by the neighborhood
+  // iterator from different seed points to the local minimum.
+  // The true minimum is at the center
+  // of the image.  The path of the iterator is shown in white. The effect of
+  // noise in the image is seen as small perturbations in each path. }
+  // \protect\label{fig:NeighborhoodExample6} \end{figure}
+  //
+  // Software Guide : EndLatex
 
   using WritePixelType = unsigned char;
-  using WriteImageType = itk::Image< WritePixelType, 2 >;
-  using WriterType = itk::ImageFileWriter< WriteImageType >;
+  using WriteImageType = itk::Image<WritePixelType, 2>;
+  using WriterType = itk::ImageFileWriter<WriteImageType>;
 
-  using RescaleFilterType = itk::RescaleIntensityImageFilter< ImageType,
-    WriteImageType >;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter<ImageType, WriteImageType>;
 
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
 
-  rescaler->SetOutputMinimum(   0 );
-  rescaler->SetOutputMaximum( 255 );
-  rescaler->SetInput( input );
+  rescaler->SetOutputMinimum(0);
+  rescaler->SetOutputMaximum(255);
+  rescaler->SetInput(input);
 
   WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName( argv[1] );
-  writer->SetInput( rescaler->GetOutput() );
+  writer->SetFileName(argv[1]);
+  writer->SetInput(rescaler->GetOutput());
   try
-    {
+  {
     writer->Update();
-    }
-  catch ( itk::ExceptionObject &err)
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   return EXIT_SUCCESS;
 }

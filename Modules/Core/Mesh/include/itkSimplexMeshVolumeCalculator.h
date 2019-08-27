@@ -50,8 +50,8 @@ namespace itk
  * \endsphinx
  */
 
-template< typename TInputMesh >
-class ITK_TEMPLATE_EXPORT SimplexMeshVolumeCalculator:public Object
+template <typename TInputMesh>
+class ITK_TEMPLATE_EXPORT SimplexMeshVolumeCalculator : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SimplexMeshVolumeCalculator);
@@ -63,8 +63,8 @@ public:
   using Superclass = Object;
 
   /** Smart pointer type alias support */
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method of creation through the object factory. */
   itkNewMacro(Self);
@@ -88,15 +88,14 @@ public:
   using InputNeighborsIterator = typename InputMeshType::NeighborListType::iterator;
 
   using SimplexCellType = typename InputMeshType::CellType;
-  using SimplexPolygonType = itk::PolygonCell< SimplexCellType >;
+  using SimplexPolygonType = itk::PolygonCell<SimplexCellType>;
 
   // stores the center for each simplex mesh cell, key is the point id
-  using PointMapType = itk::MapContainer< IdentifierType, InputPointType >;
+  using PointMapType = itk::MapContainer<IdentifierType, InputPointType>;
   using PointMapPointer = typename PointMapType::Pointer;
 
   using VectorType = typename InputPointType::VectorType;
-  using CovariantVectorType = CovariantVector<
-    typename VectorType::ValueType, 3 >;
+  using CovariantVectorType = CovariantVector<typename VectorType::ValueType, 3>;
 
   /**
    * \class SimplexCellVisitor
@@ -107,33 +106,31 @@ public:
    */
   class SimplexCellVisitor
   {
-public:
+  public:
     /**
      * default constructor
      */
-    SimplexCellVisitor()
-    {
-      m_CenterMap = PointMapType::New();
-    }
+    SimplexCellVisitor() { m_CenterMap = PointMapType::New(); }
     virtual ~SimplexCellVisitor() = default;
 
     /**
      * \brief visits all polygon cells and compute the cell centers
      */
-    void Visit(IdentifierType cellId, SimplexPolygonType *poly)
+    void
+    Visit(IdentifierType cellId, SimplexPolygonType * poly)
     {
       using PointIdIterator = typename SimplexPolygonType::PointIdIterator;
-      PointIdIterator it =  poly->PointIdsBegin();
+      PointIdIterator it = poly->PointIdsBegin();
       InputPointType  center, p;
       center.Fill(0);
       p.Fill(0.0);
 
-      while ( it != poly->PointIdsEnd() )
-        {
+      while (it != poly->PointIdsEnd())
+      {
         m_Mesh->GetPoint(*it, &p);
         center += p.GetVectorFromOrigin();
         it++;
-        }
+      }
 
       center[0] /= poly->GetNumberOfPoints();
       center[1] /= poly->GetNumberOfPoints();
@@ -142,26 +139,25 @@ public:
       m_CenterMap->InsertElement(cellId, center);
     }
 
-    PointMapPointer GetCenterMap()
+    PointMapPointer
+    GetCenterMap()
     {
       return m_CenterMap;
     }
 
-    void SetMesh(InputMeshPointer mesh)
+    void
+    SetMesh(InputMeshPointer mesh)
     {
       m_Mesh = mesh;
     }
 
-protected:
+  protected:
     InputMeshPointer m_Mesh;
     PointMapPointer  m_CenterMap;
   };
 
-  using SimplexVisitorInterfaceType = itk::CellInterfaceVisitorImplementation<
-                                                   InputPixelType,
-                                                   InputCellTraitsType,
-                                                   SimplexPolygonType,
-                                                   SimplexCellVisitor >;
+  using SimplexVisitorInterfaceType = itk::
+    CellInterfaceVisitorImplementation<InputPixelType, InputCellTraitsType, SimplexPolygonType, SimplexCellVisitor>;
 
   using SimplexVisitorInterfacePointer = typename SimplexVisitorInterfaceType::Pointer;
   using CellMultiVisitorType = typename SimplexCellType::MultiVisitor;
@@ -171,7 +167,8 @@ protected:
   itkSetObjectMacro(SimplexMesh, InputMeshType);
 
   /** Compute the volume of the entire simplex mesh. */
-  void Compute();
+  void
+  Compute();
 
   /** Return the computed volume. */
   itkGetConstMacro(Volume, double);
@@ -182,50 +179,56 @@ protected:
 protected:
   SimplexMeshVolumeCalculator() = default;
   ~SimplexMeshVolumeCalculator() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  void Initialize();
+  void
+  Initialize();
 
-  void Finalize();
+  void
+  Finalize();
 
   /** creates dual triangles for all simplex cells */
-  void CreateTriangles();
+  void
+  CreateTriangles();
 
   /** intermediate volume computation */
-  void CalculateTriangleVolume(InputPointType p1, InputPointType p2, InputPointType p3);
+  void
+  CalculateTriangleVolume(InputPointType p1, InputPointType p2, InputPointType p3);
 
   /** part of algorithm */
-  IdentifierType FindCellId(IdentifierType id1, IdentifierType id2, IdentifierType id3);
+  IdentifierType
+  FindCellId(IdentifierType id1, IdentifierType id2, IdentifierType id3);
 
   /** attribute stores the result of the simplex cell visitor */
   PointMapPointer m_Centers;
 
   InputMeshPointer m_SimplexMesh;
 
-  double m_Volume{0.0};
-  double m_VolumeX{0.0};
-  double m_VolumeY{0.0};
-  double m_VolumeZ{0.0};
-  double m_Area{0.0};
-  double m_Kx{0.0};
-  double m_Ky{0.0};
-  double m_Kz{0.0};
-  double m_Wxyz{0.0};
-  double m_Wxy{0.0};
-  double m_Wxz{0.0};
-  double m_Wyz{0.0};
+  double m_Volume{ 0.0 };
+  double m_VolumeX{ 0.0 };
+  double m_VolumeY{ 0.0 };
+  double m_VolumeZ{ 0.0 };
+  double m_Area{ 0.0 };
+  double m_Kx{ 0.0 };
+  double m_Ky{ 0.0 };
+  double m_Kz{ 0.0 };
+  double m_Wxyz{ 0.0 };
+  double m_Wxy{ 0.0 };
+  double m_Wxz{ 0.0 };
+  double m_Wyz{ 0.0 };
 
-  IndexValueType   m_Muncx{0};
-  IndexValueType   m_Muncy{0};
-  IndexValueType   m_Muncz{0};
+  IndexValueType m_Muncx{ 0 };
+  IndexValueType m_Muncy{ 0 };
+  IndexValueType m_Muncz{ 0 };
 
-  SizeValueType m_NumberOfTriangles{0};
+  SizeValueType m_NumberOfTriangles{ 0 };
 };
-} //end of namespace
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSimplexMeshVolumeCalculator.hxx"
+#  include "itkSimplexMeshVolumeCalculator.hxx"
 #endif
 
 #endif /* __SimplexMeshVolumeCalculator_h */

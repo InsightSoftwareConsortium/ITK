@@ -83,8 +83,8 @@ public:
   /* Standard class type aliases. */
   using Self = Bruker2dseqImageIO;
   using Superclass = ImageIOBase;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** New macro for creation of through a SmartPointer. */
   itkNewMacro(Self);
@@ -94,44 +94,52 @@ public:
 
   /** Determine if the necessary files exist to read the specified 2dseq file.
    * Returns true if all required files exist. */
-  bool CanReadFile(const char *FileNameToRead) override;
+  bool
+  CanReadFile(const char * FileNameToRead) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  void ReadImageInformation() override;
+  void
+  ReadImageInformation() override;
 
   /** Reads the data from disk into the memory buffer provided. */
-  void Read(void *buffer) override;
+  void
+  Read(void * buffer) override;
 
   /** Writing files has not been implemented for Bruker 2dseq.
    * This function will always return false. */
-  bool CanWriteFile( const char *itkNotUsed(FileNameToWrite) ) override
-    {
+  bool
+  CanWriteFile(const char * itkNotUsed(FileNameToWrite)) override
+  {
     return false;
-    }
+  }
 
   /** Not implemented. */
-  void WriteImageInformation() override
-    {
+  void
+  WriteImageInformation() override
+  {
     return;
-    }
+  }
 
   /** Not implemented - does nothing */
-  void Write( const void *itkNotUsed(buffer) ) override
-    {
+  void
+  Write(const void * itkNotUsed(buffer)) override
+  {
     return;
-    }
+  }
 
 protected:
   Bruker2dseqImageIO();
   ~Bruker2dseqImageIO() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  void SwapBytesIfNecessary(void *buffer, SizeValueType numberOfPixels);
+  void
+  SwapBytesIfNecessary(void * buffer, SizeValueType numberOfPixels);
 
-  ImageIOBase::IOComponentType  m_OnDiskComponentType{ UCHAR };
-  ImageIOBase::ByteOrder        m_MachineByteOrder;
+  ImageIOBase::IOComponentType m_OnDiskComponentType{ UCHAR };
+  ImageIOBase::ByteOrder       m_MachineByteOrder;
 };
 
 } // end namespace itk

@@ -26,9 +26,8 @@
 
 namespace itk
 {
-template< typename TOutputImage >
-GridImageSource< TOutputImage >
-::GridImageSource()
+template <typename TOutputImage>
+GridImageSource<TOutputImage>::GridImageSource()
 
 {
   this->m_Sigma.Fill(0.5);
@@ -36,85 +35,81 @@ GridImageSource< TOutputImage >
   this->m_GridOffset.Fill(0.0);
   this->m_WhichDimensions.Fill(true);
 
-  this->m_KernelFunction = dynamic_cast< KernelFunctionType * >(
-    GaussianKernelFunction<double>::New().GetPointer() );
+  this->m_KernelFunction = dynamic_cast<KernelFunctionType *>(GaussianKernelFunction<double>::New().GetPointer());
   this->DynamicMultiThreadingOn();
 }
 
-template< typename TOutputImage >
+template <typename TOutputImage>
 void
-GridImageSource< TOutputImage >
-::BeforeThreadedGenerateData()
+GridImageSource<TOutputImage>::BeforeThreadedGenerateData()
 {
-  ImageType* output = this->GetOutput(0);
+  ImageType * output = this->GetOutput(0);
 
   this->m_PixelArrays = PixelArrayContainerType::New();
   m_PixelArrays->Initialize();
 
-  for ( unsigned int i = 0; i < ImageDimension; i++ )
+  for (unsigned int i = 0; i < ImageDimension; i++)
+  {
+    if (this->m_GridOffset[i] > this->m_GridSpacing[i])
     {
-    if ( this->m_GridOffset[i] > this->m_GridSpacing[i] )
-      {
       this->m_GridOffset[i] = this->m_GridSpacing[i];
-      }
+    }
     PixelArrayType pixels = m_PixelArrays->CreateElementAt(i);
     pixels.set_size(this->GetSize()[i]);
     pixels.fill(1);
-    if ( this->m_WhichDimensions[i] )
-      {
-      ImageLinearIteratorWithIndex< ImageType > It( output, output->GetRequestedRegion() );
+    if (this->m_WhichDimensions[i])
+    {
+      ImageLinearIteratorWithIndex<ImageType> It(output, output->GetRequestedRegion());
       It.SetDirection(i);
 
       // Add two extra functions in the front and one in the back to ensure
       // coverage.
-      unsigned int numberOfGaussians = Math::Ceil< unsigned int >(
-        this->GetSize()[i] * output->GetSpacing()[i] / this->m_GridSpacing[i]) + 4u;
-      for ( It.GoToBegin(); !It.IsAtEndOfLine(); ++It )
-        {
+      unsigned int numberOfGaussians =
+        Math::Ceil<unsigned int>(this->GetSize()[i] * output->GetSpacing()[i] / this->m_GridSpacing[i]) + 4u;
+      for (It.GoToBegin(); !It.IsAtEndOfLine(); ++It)
+      {
         typename ImageType::IndexType index = It.GetIndex();
         typename ImageType::PointType point;
         output->TransformIndexToPhysicalPoint(index, point);
 
         RealType val = 0;
-        for ( unsigned int j = 0; j < numberOfGaussians; j++ )
-          {
-          RealType num = point[i] - static_cast< RealType >( j - 2 ) * this->m_GridSpacing[i]
-            - output->GetOrigin()[i] - this->m_GridOffset[i];
+        for (unsigned int j = 0; j < numberOfGaussians; j++)
+        {
+          RealType num = point[i] - static_cast<RealType>(j - 2) * this->m_GridSpacing[i] - output->GetOrigin()[i] -
+                         this->m_GridOffset[i];
           val += this->m_KernelFunction->Evaluate(num / this->m_Sigma[i]);
-          }
-        pixels[index[i]] = val;
         }
+        pixels[index[i]] = val;
+      }
       pixels = 1.0 - pixels / pixels.max_value();
-      }
+    }
     this->m_PixelArrays->SetElement(i, pixels);
-    }
+  }
 }
 
-template< typename TOutputImage >
+template <typename TOutputImage>
 void
-GridImageSource< TOutputImage >
-::DynamicThreadedGenerateData(const ImageRegionType & outputRegionForThread)
+GridImageSource<TOutputImage>::DynamicThreadedGenerateData(const ImageRegionType & outputRegionForThread)
 {
-  ImageType* output = this->GetOutput(0);
+  ImageType * output = this->GetOutput(0);
 
-  ImageRegionIteratorWithIndex< ImageType > It(output, outputRegionForThread);
+  ImageRegionIteratorWithIndex<ImageType> It(output, outputRegionForThread);
 
-  for ( It.GoToBegin(); !It.IsAtEnd(); ++It )
-    {
-    RealType val = 1.0;
+  for (It.GoToBegin(); !It.IsAtEnd(); ++It)
+  {
+    RealType                      val = 1.0;
     typename ImageType::IndexType index = It.GetIndex();
-    for ( unsigned int i = 0; i < ImageDimension; i++ )
-      {
+    for (unsigned int i = 0; i < ImageDimension; i++)
+    {
       val *= this->m_PixelArrays->GetElement(i)[index[i]];
-      }
-    It.Set( static_cast<PixelType>(m_Scale * val) );
     }
+    It.Set(static_cast<PixelType>(m_Scale * val));
+  }
 }
 
-template< typename TOutputImage >
+template <typename TOutputImage>
 void
-GridImageSource< TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+GridImageSource<TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

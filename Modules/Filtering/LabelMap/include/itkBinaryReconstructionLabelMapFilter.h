@@ -21,7 +21,8 @@
 #include "itkInPlaceLabelMapFilter.h"
 #include "itkAttributeLabelObject.h"
 
-namespace itk {
+namespace itk
+{
 /** \class BinaryReconstructionLabelMapFilter
  * \brief Mark the objects at least partially at the same position as the objects in a binary image
  *
@@ -40,10 +41,11 @@ namespace itk {
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template<typename TImage, typename TMarkerImage, typename TAttributeAccessor=
-  typename Functor::AttributeLabelObjectAccessor< typename TImage::LabelObjectType > >
-class ITK_TEMPLATE_EXPORT BinaryReconstructionLabelMapFilter :
-    public InPlaceLabelMapFilter<TImage>
+template <typename TImage,
+          typename TMarkerImage,
+          typename TAttributeAccessor =
+            typename Functor::AttributeLabelObjectAccessor<typename TImage::LabelObjectType>>
+class ITK_TEMPLATE_EXPORT BinaryReconstructionLabelMapFilter : public InPlaceLabelMapFilter<TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryReconstructionLabelMapFilter);
@@ -76,44 +78,47 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(BinaryReconstructionLabelMapFilter,
-               InPlaceLabelMapFilter);
+  itkTypeMacro(BinaryReconstructionLabelMapFilter, InPlaceLabelMapFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-/*  itkConceptMacro(InputEqualityComparableCheck,
-    (Concept::EqualityComparable<PixelType>));
-  itkConceptMacro(IntConvertibleToInputCheck,
-    (Concept::Convertible<int, PixelType>));
-  itkConceptMacro(InputOStreamWritableCheck,
-    (Concept::OStreamWritable<PixelType>));*/
+  /*  itkConceptMacro(InputEqualityComparableCheck,
+      (Concept::EqualityComparable<PixelType>));
+    itkConceptMacro(IntConvertibleToInputCheck,
+      (Concept::Convertible<int, PixelType>));
+    itkConceptMacro(InputOStreamWritableCheck,
+      (Concept::OStreamWritable<PixelType>));*/
   // End concept checking
 #endif
 
-   /** Set the marker image */
-  void SetMarkerImage(TMarkerImage *input)
-    {
+  /** Set the marker image */
+  void
+  SetMarkerImage(TMarkerImage * input)
+  {
     // Process object is not const-correct so the const casting is required.
-    this->SetNthInput( 1, const_cast<TMarkerImage *>(input) );
-    }
+    this->SetNthInput(1, const_cast<TMarkerImage *>(input));
+  }
 
   /** Get the marker image */
-  MarkerImageType * GetMarkerImage()
-    {
-    return static_cast<MarkerImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput(1)));
-    }
+  MarkerImageType *
+  GetMarkerImage()
+  {
+    return static_cast<MarkerImageType *>(const_cast<DataObject *>(this->ProcessObject::GetInput(1)));
+  }
 
-   /** Set the input image */
-  void SetInput1(TImage *input)
-    {
-    this->SetInput( input );
-    }
+  /** Set the input image */
+  void
+  SetInput1(TImage * input)
+  {
+    this->SetInput(input);
+  }
 
   /** Set the marker image */
-  void SetInput2(TMarkerImage *input)
-    {
-    this->SetMarkerImage( input );
-    }
+  void
+  SetInput2(TMarkerImage * input)
+  {
+    this->SetMarkerImage(input);
+  }
 
   /**
    * Set/Get the value used as "foreground" in the output image.
@@ -126,9 +131,11 @@ protected:
   BinaryReconstructionLabelMapFilter();
   ~BinaryReconstructionLabelMapFilter() override = default;
 
-  void ThreadedProcessLabelObject( LabelObjectType * labelObject ) override;
+  void
+  ThreadedProcessLabelObject(LabelObjectType * labelObject) override;
 
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   MarkerImagePixelType m_ForegroundValue;
@@ -138,7 +145,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryReconstructionLabelMapFilter.hxx"
+#  include "itkBinaryReconstructionLabelMapFilter.hxx"
 #endif
 
 #endif

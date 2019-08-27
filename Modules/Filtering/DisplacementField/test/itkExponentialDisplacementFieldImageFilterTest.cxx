@@ -21,18 +21,19 @@
 #include "vnl/vnl_random.h"
 
 
-int itkExponentialDisplacementFieldImageFilterTest(int, char* [] )
+int
+itkExponentialDisplacementFieldImageFilterTest(int, char *[])
 {
   // Define the dimension of the images
   constexpr unsigned int ImageDimension = 3;
 
-  using PixelType = itk::Vector< double, ImageDimension >;
+  using PixelType = itk::Vector<double, ImageDimension>;
 
   // Declare the types of the images
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
   // Declare Iterator types apropriated for each image
-  using IteratorType = itk::ImageRegionIteratorWithIndex< ImageType>;
+  using IteratorType = itk::ImageRegionIteratorWithIndex<ImageType>;
 
 
   // Declare the type of the index to access images
@@ -45,7 +46,7 @@ int itkExponentialDisplacementFieldImageFilterTest(int, char* [] )
   using RegionType = itk::ImageRegion<ImageDimension>;
 
   // Create two images
-  ImageType::Pointer inputImage  = ImageType::New();
+  ImageType::Pointer inputImage = ImageType::New();
 
   // Define their size, and start index
   SizeType size;
@@ -59,33 +60,32 @@ int itkExponentialDisplacementFieldImageFilterTest(int, char* [] )
   start[2] = 0;
 
   RegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
+  region.SetIndex(start);
+  region.SetSize(size);
 
   // Initialize Image A
-  inputImage->SetLargestPossibleRegion( region );
-  inputImage->SetBufferedRegion( region );
-  inputImage->SetRequestedRegion( region );
+  inputImage->SetLargestPossibleRegion(region);
+  inputImage->SetBufferedRegion(region);
+  inputImage->SetRequestedRegion(region);
   inputImage->Allocate();
 
   // Create one iterator for the Input Image (this is a light object)
-  IteratorType it( inputImage, inputImage->GetBufferedRegion() );
+  IteratorType it(inputImage, inputImage->GetBufferedRegion());
 
   // Initialize the content of Image A
   PixelType vectorValue;
-  vectorValue.Fill( 5.0 ); // FIXME: replace with something more interesting...
+  vectorValue.Fill(5.0); // FIXME: replace with something more interesting...
 
   it.GoToBegin();
-  while( !it.IsAtEnd() )
-    {
-    it.Set( vectorValue );
+  while (!it.IsAtEnd())
+  {
+    it.Set(vectorValue);
     std::cout << it.Get() << std::endl;
     ++it;
-    }
+  }
 
   // Declare the type for the filter
-  using FilterType = itk::ExponentialDisplacementFieldImageFilter<
-                                  ImageType, ImageType  >;
+  using FilterType = itk::ExponentialDisplacementFieldImageFilter<ImageType, ImageType>;
 
 
   // Create one filter
@@ -93,9 +93,9 @@ int itkExponentialDisplacementFieldImageFilterTest(int, char* [] )
 
 
   // Connect the input images
-  filter->SetInput( inputImage );
+  filter->SetInput(inputImage);
 
-  filter->SetMaximumNumberOfIterations( 20 );
+  filter->SetMaximumNumberOfIterations(20);
 
   // Execute the filter
   filter->Update();
@@ -114,18 +114,18 @@ int itkExponentialDisplacementFieldImageFilterTest(int, char* [] )
 
   ot.GoToBegin();
   it.GoToBegin();
-  while( !ot.IsAtEnd() )
-    {
-    PixelType input  = it.Get();
+  while (!ot.IsAtEnd())
+  {
+    PixelType input = it.Get();
     PixelType output = ot.Get();
     // The input is a constant field, its exponential
     // should be exactly equal
-    testpassed &= ( (input-output).GetNorm() < epsilon );
+    testpassed &= ((input - output).GetNorm() < epsilon);
     std::cout << input << " => ";
-    std::cout << output  << std::endl;
+    std::cout << output << std::endl;
     ++ot;
     ++it;
-    }
+  }
 
 
   // Ask for the inverse deformation
@@ -145,23 +145,23 @@ int itkExponentialDisplacementFieldImageFilterTest(int, char* [] )
 
   ot2.GoToBegin();
   it.GoToBegin();
-  while( !ot2.IsAtEnd() )
-    {
-    PixelType input  = it.Get();
+  while (!ot2.IsAtEnd())
+  {
+    PixelType input = it.Get();
     PixelType output = ot2.Get();
     // The input is a constant field, its inverse exponential
     // should be exactly equal to its opposite
-    testpassed &= ( (input+output).GetNorm() < epsilon );
+    testpassed &= ((input + output).GetNorm() < epsilon);
     std::cout << input << " => ";
-    std::cout << output  << std::endl;
+    std::cout << output << std::endl;
     ++ot2;
     ++it;
-    }
+  }
 
 
   // Try with 0 iterations
   filter->ComputeInverseOff();
-  filter->SetMaximumNumberOfIterations( 0 );
+  filter->SetMaximumNumberOfIterations(0);
 
   // Execute the filter
   filter->Update();
@@ -177,23 +177,23 @@ int itkExponentialDisplacementFieldImageFilterTest(int, char* [] )
 
   ot3.GoToBegin();
   it.GoToBegin();
-  while( !ot3.IsAtEnd() )
-    {
-    PixelType input  = it.Get();
+  while (!ot3.IsAtEnd())
+  {
+    PixelType input = it.Get();
     PixelType output = ot3.Get();
     // The input is a constant field, its inverse exponential
     // should be exactly equal to its opposite
-    testpassed &= ( (input-output).GetNorm() < epsilon );
+    testpassed &= ((input - output).GetNorm() < epsilon);
     std::cout << input << " => ";
-    std::cout << output  << std::endl;
+    std::cout << output << std::endl;
     ++ot3;
     ++it;
-    }
+  }
 
 
   // Try inverse with 0 iterations
   filter->ComputeInverseOn();
-  filter->SetMaximumNumberOfIterations( 0 );
+  filter->SetMaximumNumberOfIterations(0);
 
   // Execute the filter
   filter->Update();
@@ -209,18 +209,18 @@ int itkExponentialDisplacementFieldImageFilterTest(int, char* [] )
 
   ot4.GoToBegin();
   it.GoToBegin();
-  while( !ot4.IsAtEnd() )
-    {
-    PixelType input  = it.Get();
+  while (!ot4.IsAtEnd())
+  {
+    PixelType input = it.Get();
     PixelType output = ot4.Get();
     // The input is a constant field, its inverse exponential
     // should be exactly equal to its opposite
-    testpassed &= ( (input+output).GetNorm() < epsilon );
+    testpassed &= ((input + output).GetNorm() < epsilon);
     std::cout << input << " => ";
-    std::cout << output  << std::endl;
+    std::cout << output << std::endl;
     ++ot4;
     ++it;
-    }
+  }
 
 
   // See if the output is consistent when the spacing is changed
@@ -228,28 +228,28 @@ int itkExponentialDisplacementFieldImageFilterTest(int, char* [] )
   constexpr double isospacing = 10;
   using SpacingType = ImageType::SpacingType;
   SpacingType spacing;
-  for (unsigned int d=0; d<ImageDimension; ++d)
-    {
+  for (unsigned int d = 0; d < ImageDimension; ++d)
+  {
     spacing[d] = isospacing;
-    }
+  }
 
-  filter->SetInput( inputImage );
-  filter->SetMaximumNumberOfIterations( 20 );
+  filter->SetInput(inputImage);
+  filter->SetMaximumNumberOfIterations(20);
   filter->ComputeInverseOff();
 
   // Random number generator
-  vnl_random rng;
+  vnl_random       rng;
   constexpr double power = 5.0;
 
   it.GoToBegin();
-  while( !it.IsAtEnd() )
+  while (!it.IsAtEnd())
+  {
+    for (unsigned int d = 0; d < ImageDimension; ++d)
     {
-    for (unsigned int d=0; d<ImageDimension; ++d)
-      {
       it.Value()[d] = power * rng.normal();
-      }
-    ++it;
     }
+    ++it;
+  }
 
   filter->Update();
   ImageType::Pointer outputImage5 = filter->GetOutput();
@@ -258,11 +258,11 @@ int itkExponentialDisplacementFieldImageFilterTest(int, char* [] )
   // Change the spacing
   inputImage->SetSpacing(spacing);
   it.GoToBegin();
-  while( !it.IsAtEnd() )
-    {
+  while (!it.IsAtEnd())
+  {
     it.Value() *= isospacing;
     ++it;
-    }
+  }
 
   filter->Update();
   ImageType::Pointer outputImage6 = filter->GetOutput();
@@ -274,21 +274,21 @@ int itkExponentialDisplacementFieldImageFilterTest(int, char* [] )
 
   ot5.GoToBegin();
   ot6.GoToBegin();
-  while( !ot5.IsAtEnd() )
-    {
-    testpassed &= ( (ot5.Value()-(ot6.Value()/isospacing)).GetNorm() < epsilon );
+  while (!ot5.IsAtEnd())
+  {
+    testpassed &= ((ot5.Value() - (ot6.Value() / isospacing)).GetNorm() < epsilon);
     std::cout << ot5.Value() << " => ";
-    std::cout << ot6.Value()/isospacing << std::endl;
+    std::cout << ot6.Value() / isospacing << std::endl;
     ++ot5;
     ++ot6;
-    }
+  }
 
   if (!testpassed)
-    {
-    std::cout<<"Test failed"<<std::endl;
+  {
+    std::cout << "Test failed" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  std::cout<<"Test passed"<<std::endl;
+  std::cout << "Test passed" << std::endl;
   return EXIT_SUCCESS;
 }

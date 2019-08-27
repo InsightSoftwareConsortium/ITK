@@ -22,36 +22,32 @@
 
 namespace itk
 {
-template< typename TImage >
-ReflectiveImageRegionIterator< TImage >
-::ReflectiveImageRegionIterator():
-  ReflectiveImageRegionConstIterator< TImage >()
+template <typename TImage>
+ReflectiveImageRegionIterator<TImage>::ReflectiveImageRegionIterator()
+  : ReflectiveImageRegionConstIterator<TImage>()
 {}
 
-template< typename TImage >
-ReflectiveImageRegionIterator< TImage >
-::ReflectiveImageRegionIterator(ImageType *ptr, const RegionType & region):
-  ReflectiveImageRegionConstIterator< TImage >(ptr, region)
+template <typename TImage>
+ReflectiveImageRegionIterator<TImage>::ReflectiveImageRegionIterator(ImageType * ptr, const RegionType & region)
+  : ReflectiveImageRegionConstIterator<TImage>(ptr, region)
 {}
 
-template< typename TImage >
-ReflectiveImageRegionIterator< TImage >
-::ReflectiveImageRegionIterator(const ImageIteratorWithIndex< TImage > & it):
-  ReflectiveImageRegionConstIterator< TImage >(it)
+template <typename TImage>
+ReflectiveImageRegionIterator<TImage>::ReflectiveImageRegionIterator(const ImageIteratorWithIndex<TImage> & it)
+  : ReflectiveImageRegionConstIterator<TImage>(it)
 {}
 
-template< typename TImage >
-ReflectiveImageRegionIterator< TImage >
-::ReflectiveImageRegionIterator(const ReflectiveImageRegionConstIterator< TImage > & it):
-  ReflectiveImageRegionConstIterator< TImage >(it)
+template <typename TImage>
+ReflectiveImageRegionIterator<TImage>::ReflectiveImageRegionIterator(
+  const ReflectiveImageRegionConstIterator<TImage> & it)
+  : ReflectiveImageRegionConstIterator<TImage>(it)
 {}
 
-template< typename TImage >
-ReflectiveImageRegionIterator< TImage > &
-ReflectiveImageRegionIterator< TImage >
-::operator=(const ReflectiveImageRegionConstIterator< TImage > & it)
+template <typename TImage>
+ReflectiveImageRegionIterator<TImage> &
+ReflectiveImageRegionIterator<TImage>::operator=(const ReflectiveImageRegionConstIterator<TImage> & it)
 {
-  this->ReflectiveImageRegionConstIterator< TImage >::operator=(it);
+  this->ReflectiveImageRegionConstIterator<TImage>::operator=(it);
   return *this;
 }
 } // end namespace itk

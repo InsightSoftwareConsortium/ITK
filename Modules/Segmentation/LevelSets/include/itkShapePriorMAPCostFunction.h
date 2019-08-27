@@ -46,18 +46,17 @@ namespace itk
  * \ingroup Numerics Optimizers
  * \ingroup ITKLevelSets
  */
-template< typename TFeatureImage, typename TOutputPixel >
-class ITK_TEMPLATE_EXPORT ShapePriorMAPCostFunction:
-  public ShapePriorMAPCostFunctionBase< TFeatureImage, TOutputPixel >
+template <typename TFeatureImage, typename TOutputPixel>
+class ITK_TEMPLATE_EXPORT ShapePriorMAPCostFunction : public ShapePriorMAPCostFunctionBase<TFeatureImage, TOutputPixel>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ShapePriorMAPCostFunction);
 
   /** Standard class type aliases. */
   using Self = ShapePriorMAPCostFunction;
-  using Superclass = ShapePriorMAPCostFunctionBase< TFeatureImage, TOutputPixel >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ShapePriorMAPCostFunctionBase<TFeatureImage, TOutputPixel>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -92,9 +91,9 @@ public:
   using ShapeFunctionType = typename Superclass::ShapeFunctionType;
 
   /** Type of the array for storing shape parameter mean and standard deivation.
-    * FIXME: should be templated.
-    */
-  using ArrayType = Array< double >;
+   * FIXME: should be templated.
+   */
+  using ArrayType = Array<double>;
 
   /** Set/Get the array of shape parameters mean. */
   itkSetMacro(ShapeParameterMeans, ArrayType);
@@ -108,7 +107,7 @@ public:
    * The weights are applied to terms in the following order:
    * LogInsideTerm, LogGradientTerm, LogShapePriorTerm and
    * LogPosePriorTerm. */
-  using WeightsType = FixedArray< double, 4 >;
+  using WeightsType = FixedArray<double, 4>;
   itkSetMacro(Weights, WeightsType);
   itkGetConstReferenceMacro(Weights, WeightsType);
 
@@ -117,35 +116,41 @@ public:
    * the current contour (defined by nodes of the active region
    * that are less than zero) which are outside the shape
    * specified by the input parameters. */
-  MeasureType ComputeLogInsideTerm(const ParametersType & parameters) const override;
+  MeasureType
+  ComputeLogInsideTerm(const ParametersType & parameters) const override;
 
   /** Compute the gradient term component of the MAP cost function.
    * In particular, this method assume that ( 1 - FeatureImage ) approximates
    * a Gaussian (zero mean, unit variance) algon the normal of the evolving contour.
    * The gradient term is then given by a Laplacian of the goodness of fit of
    * the Gaussian. */
-  MeasureType ComputeLogGradientTerm(const ParametersType & parameters) const override;
+  MeasureType
+  ComputeLogGradientTerm(const ParametersType & parameters) const override;
 
   /** Compute the shape prior component of the MAP cost function.
    * In particular, the method assumes that the shape parameters comes from
    * independent Gaussian distributions defined by the ShapeParameterMeans
    * and ShapeParameterVariances array. */
-  MeasureType ComputeLogShapePriorTerm(const ParametersType & parameters) const override;
+  MeasureType
+  ComputeLogShapePriorTerm(const ParametersType & parameters) const override;
 
   /** Compute the pose prior component of the MAP cost function.
    * In particular, this method assumes that the pose parameters are
    * uniformly distributed and returns a constant of zero. */
-  MeasureType ComputeLogPosePriorTerm(const ParametersType & parameters) const override;
+  MeasureType
+  ComputeLogPosePriorTerm(const ParametersType & parameters) const override;
 
   /** Initialize the cost function by making sure that all the components
    *  are present. */
-  void Initialize() override;
+  void
+  Initialize() override;
 
 protected:
   ShapePriorMAPCostFunction();
   ~ShapePriorMAPCostFunction() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ArrayType   m_ShapeParameterMeans;
@@ -157,7 +162,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShapePriorMAPCostFunction.hxx"
+#  include "itkShapePriorMAPCostFunction.hxx"
 #endif
 
 #endif

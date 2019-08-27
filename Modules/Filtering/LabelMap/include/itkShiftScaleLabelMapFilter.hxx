@@ -23,63 +23,60 @@
 
 namespace itk
 {
-template< typename TImage >
-ShiftScaleLabelMapFilter< TImage >
-::ShiftScaleLabelMapFilter()
+template <typename TImage>
+ShiftScaleLabelMapFilter<TImage>::ShiftScaleLabelMapFilter()
 {
   m_Shift = 0.0;
   m_Scale = 1.0;
   m_ChangeBackgroundValue = false;
 }
 
-template< typename TImage >
+template <typename TImage>
 void
-ShiftScaleLabelMapFilter< TImage >
-::GenerateData()
+ShiftScaleLabelMapFilter<TImage>::GenerateData()
 {
   // Allocate the output
   this->AllocateOutputs();
 
-  ImageType *output = this->GetOutput();
+  ImageType * output = this->GetOutput();
 
   // get the label objects
   typename ImageType::LabelObjectVectorType labelObjects = output->GetLabelObjects();
 
-  ProgressReporter progress( this, 0, static_cast<SizeValueType>( labelObjects.size() ) );
+  ProgressReporter progress(this, 0, static_cast<SizeValueType>(labelObjects.size()));
 
   // change the background, if requested
-  if ( m_ChangeBackgroundValue )
-    {
-    auto label = static_cast< PixelType >( m_Scale * output->GetBackgroundValue() + m_Shift );
+  if (m_ChangeBackgroundValue)
+  {
+    auto label = static_cast<PixelType>(m_Scale * output->GetBackgroundValue() + m_Shift);
     output->SetBackgroundValue(label);
-    }
+  }
 
   // and put back the objects in the map
   output->ClearLabels();
   auto it = labelObjects.begin();
-  while ( it != labelObjects.end() )
-    {
-    LabelObjectType *lo = *it;
-    auto label = static_cast< PixelType >( m_Scale * lo->GetLabel() + m_Shift );
+  while (it != labelObjects.end())
+  {
+    LabelObjectType * lo = *it;
+    auto              label = static_cast<PixelType>(m_Scale * lo->GetLabel() + m_Shift);
     lo->SetLabel(label);
     output->AddLabelObject(lo);
 
     // go to the next label
     progress.CompletedPixel();
     ++it;
-    }
+  }
 }
 
-template< typename TImage >
+template <typename TImage>
 void
-ShiftScaleLabelMapFilter< TImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+ShiftScaleLabelMapFilter<TImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Shift: "  << m_Shift << std::endl;
-  os << indent << "Scale: "  << m_Scale << std::endl;
-  os << indent << "ChangeBackgroundValue: "  << m_ChangeBackgroundValue << std::endl;
+  os << indent << "Shift: " << m_Shift << std::endl;
+  os << indent << "Scale: " << m_Scale << std::endl;
+  os << indent << "ChangeBackgroundValue: " << m_ChangeBackgroundValue << std::endl;
 }
 } // end namespace itk
 #endif

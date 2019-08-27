@@ -31,8 +31,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers
  */
-class ITKOptimizers_EXPORT MultipleValuedNonLinearOptimizer:
-  public NonLinearOptimizer
+class ITKOptimizers_EXPORT MultipleValuedNonLinearOptimizer : public NonLinearOptimizer
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MultipleValuedNonLinearOptimizer);
@@ -40,8 +39,8 @@ public:
   /** Standard class type aliases. */
   using Self = MultipleValuedNonLinearOptimizer;
   using Superclass = NonLinearOptimizer;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Type of the Cost Function   */
   using CostFunctionType = MultipleValuedCostFunction;
@@ -60,20 +59,22 @@ public:
   /**  Measure type.
    *  It defines a type used to return the cost function value.
    *  Here an Array is used for Multivalued functions   */
-  using MeasureType = Array< double >;
+  using MeasureType = Array<double>;
 
   /**  Derivative type.
    *  It defines a type used to return the cost function derivative.
    *  Here a bidimensional Array is used for Multivalued functions   */
-  using DerivativeType = Array2D< double >;
+  using DerivativeType = Array2D<double>;
 
   /** Set the cost function. */
-  virtual void SetCostFunction(CostFunctionType *costFunction);
+  virtual void
+  SetCostFunction(CostFunctionType * costFunction);
 
 protected:
   MultipleValuedNonLinearOptimizer();
   ~MultipleValuedNonLinearOptimizer() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   CostFunctionPointer m_CostFunction;
 };

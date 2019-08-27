@@ -47,25 +47,23 @@ namespace itk
  *  \tparam TLevelSetContainer Level set function container type
  *  \ingroup ITKLevelSetsv4
  */
-template< typename TInput, // Input image or mesh
-          typename TLevelSetContainer >
-class ITK_TEMPLATE_EXPORT LevelSetEquationAdvectionTerm :
-    public LevelSetEquationTermBase< TInput, TLevelSetContainer >
+template <typename TInput, // Input image or mesh
+          typename TLevelSetContainer>
+class ITK_TEMPLATE_EXPORT LevelSetEquationAdvectionTerm : public LevelSetEquationTermBase<TInput, TLevelSetContainer>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationAdvectionTerm);
 
   using Self = LevelSetEquationAdvectionTerm;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using Superclass = LevelSetEquationTermBase< TInput, TLevelSetContainer >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using Superclass = LevelSetEquationTermBase<TInput, TLevelSetContainer>;
 
   /** Method for creation through object factory */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information */
-  itkTypeMacro( LevelSetEquationAdvectionTerm,
-                LevelSetEquationTermBase );
+  itkTypeMacro(LevelSetEquationAdvectionTerm, LevelSetEquationTermBase);
 
   using InputImageType = typename Superclass::InputImageType;
   using InputImagePointer = typename Superclass::InputImagePointer;
@@ -91,36 +89,41 @@ public:
 
   using VectorType = LevelSetGradientType;
 
-  using AdvectionImageType = Image< VectorType, Self::ImageDimension >;
+  using AdvectionImageType = Image<VectorType, Self::ImageDimension>;
   using AdvectionImagePointer = typename AdvectionImageType::Pointer;
 
 
-  void SetAdvectionImage( AdvectionImageType* iImage );
-  itkGetModifiableObjectMacro(AdvectionImage, AdvectionImageType );
+  void
+  SetAdvectionImage(AdvectionImageType * iImage);
+  itkGetModifiableObjectMacro(AdvectionImage, AdvectionImageType);
 
-  itkSetMacro( DerivativeSigma, LevelSetOutputRealType );
-  itkGetMacro( DerivativeSigma, LevelSetOutputRealType );
+  itkSetMacro(DerivativeSigma, LevelSetOutputRealType);
+  itkGetMacro(DerivativeSigma, LevelSetOutputRealType);
 
   /** Neighborhood radius type */
-  using DefaultBoundaryConditionType = ZeroFluxNeumannBoundaryCondition< InputImageType >;
-  using RadiusType = typename ConstNeighborhoodIterator< InputImageType >::RadiusType;
-  using NeighborhoodType = ConstNeighborhoodIterator< InputImageType, DefaultBoundaryConditionType >;
+  using DefaultBoundaryConditionType = ZeroFluxNeumannBoundaryCondition<InputImageType>;
+  using RadiusType = typename ConstNeighborhoodIterator<InputImageType>::RadiusType;
+  using NeighborhoodType = ConstNeighborhoodIterator<InputImageType, DefaultBoundaryConditionType>;
 
-  using NeighborhoodScalesType = Vector< LevelSetOutputRealType, Self::ImageDimension >;
+  using NeighborhoodScalesType = Vector<LevelSetOutputRealType, Self::ImageDimension>;
 
   /** \todo to be documented. */
-  void Update() override;
+  void
+  Update() override;
 
   /** Initialize the parameters in the terms prior to an iteration */
-  void InitializeParameters() override;
+  void
+  InitializeParameters() override;
 
   /** \todo to be documented. */
-  void Initialize( const LevelSetInputIndexType& ) override;
+  void
+  Initialize(const LevelSetInputIndexType &) override;
 
   /** Supply updates at pixels to keep the term parameters always updated */
-  void UpdatePixel( const LevelSetInputIndexType& iP,
-                            const LevelSetOutputRealType& oldValue,
-                            const LevelSetOutputRealType& newValue ) override;
+  void
+  UpdatePixel(const LevelSetInputIndexType & iP,
+              const LevelSetOutputRealType & oldValue,
+              const LevelSetOutputRealType & newValue) override;
 
 protected:
   LevelSetEquationAdvectionTerm();
@@ -131,13 +134,15 @@ protected:
 
   /** Return the spatial speed dependence a given pixel location
    * Usually, it is constant across the image domain */
-  VectorType AdvectionSpeed( const LevelSetInputIndexType& iP ) const;
+  VectorType
+  AdvectionSpeed(const LevelSetInputIndexType & iP) const;
 
   /** Returns the term contribution for a given location iP, i.e.
    *  \f$ \omega_i( p ) \f$. */
-  LevelSetOutputRealType Value( const LevelSetInputIndexType& iP ) override;
-  LevelSetOutputRealType Value( const LevelSetInputIndexType& iP,
-                                        const LevelSetDataType& iData ) override;
+  LevelSetOutputRealType
+  Value(const LevelSetInputIndexType & iP) override;
+  LevelSetOutputRealType
+  Value(const LevelSetInputIndexType & iP, const LevelSetDataType & iData) override;
 
   LevelSetOutputRealType m_NeighborhoodScales[ImageDimension];
 
@@ -146,13 +151,14 @@ private:
 
   bool m_AutoGenerateAdvectionImage;
 
-  void GenerateAdvectionImage();
+  void
+  GenerateAdvectionImage();
 };
 
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetEquationAdvectionTerm.hxx"
+#  include "itkLevelSetEquationAdvectionTerm.hxx"
 #endif
 
 #endif

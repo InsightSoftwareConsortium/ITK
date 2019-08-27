@@ -48,21 +48,22 @@ namespace itk
  * \sphinxexmaple{Filtering/Convolution/ColorNormalizedCorrelation,Color Normalized Operation}
  * \endsphinx
  */
-template< typename TInputImage, typename TMaskImage, typename TOutputImage, typename TOperatorValueType =
-            typename TOutputImage::PixelType >
-class ITK_TEMPLATE_EXPORT NormalizedCorrelationImageFilter:
-  public NeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueType >
+template <typename TInputImage,
+          typename TMaskImage,
+          typename TOutputImage,
+          typename TOperatorValueType = typename TOutputImage::PixelType>
+class ITK_TEMPLATE_EXPORT NormalizedCorrelationImageFilter
+  : public NeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(NormalizedCorrelationImageFilter);
 
   /** Standard "Self" & Superclass type alias. */
   using Self = NormalizedCorrelationImageFilter;
-  using Superclass = NeighborhoodOperatorImageFilter<
-    TInputImage, TOutputImage, TOperatorValueType >;
+  using Superclass = NeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -74,10 +75,10 @@ public:
    * of the two images is assumed to be the same. */
   using OutputPixelType = typename TOutputImage::PixelType;
   using OutputInternalPixelType = typename TOutputImage::InternalPixelType;
-  using InputPixelType = typename  TInputImage::PixelType;
-  using InputInternalPixelType = typename  TInputImage::InternalPixelType;
-  using MaskPixelType = typename   TMaskImage::PixelType;
-  using MaskInternalPixelType = typename   TMaskImage::InternalPixelType;
+  using InputPixelType = typename TInputImage::PixelType;
+  using InputInternalPixelType = typename TInputImage::InternalPixelType;
+  using MaskPixelType = typename TMaskImage::PixelType;
+  using MaskInternalPixelType = typename TMaskImage::InternalPixelType;
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
@@ -93,7 +94,7 @@ public:
   using MaskImagePointer = typename MaskImageType::Pointer;
 
   /** Typedef for generic boundary condition pointer. */
-  using ImageBoundaryConditionPointerType = ImageBoundaryCondition< OutputImageType > *;
+  using ImageBoundaryConditionPointerType = ImageBoundaryCondition<OutputImageType> *;
 
   /** Superclass type alias. */
   using OutputImageRegionType = typename Superclass::OutputImageRegionType;
@@ -105,32 +106,31 @@ public:
   /** Set the mask image. Using a mask is optional.  When a mask is
    * specified, the normalized correlation is only calculated for
    * those pixels under the mask. */
-  void SetMaskImage(const TMaskImage *mask);
+  void
+  SetMaskImage(const TMaskImage * mask);
 
   /** Get the mask image. Using a mask is optional.  When a mask is
    * specified, the normalized correlation is only calculated for
    * those pixels under the mask. */
-  const TMaskImage * GetMaskImage() const;
+  const TMaskImage *
+  GetMaskImage() const;
 
   /** Set the template used in the calculation of the normalized
    * correlation. The elements of the template must be set prior to
    * calling SetTemplate(). */
-  void SetTemplate(const OutputNeighborhoodType & t)
+  void
+  SetTemplate(const OutputNeighborhoodType & t)
   {
     this->SetOperator(t);
   }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( SameDimensionCheck,
-                   ( Concept::SameDimension< InputImageDimension, MaskImageDimension > ) );
-  itkConceptMacro( OutputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< OutputPixelType > ) );
-  itkConceptMacro( OperatorHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< OperatorValueType > ) );
+  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, MaskImageDimension>));
+  itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<OutputPixelType>));
+  itkConceptMacro(OperatorHasNumericTraitsCheck, (Concept::HasNumericTraits<OperatorValueType>));
   // This filter can only operate on data types that are signed.
-  itkConceptMacro( SignedOutputPixelType,
-                   ( Concept::Signed< OutputPixelType > ) );
+  itkConceptMacro(SignedOutputPixelType, (Concept::Signed<OutputPixelType>));
   // End concept checking
 #endif
 
@@ -143,7 +143,8 @@ protected:
    * region is expanded by the radius of the template.  If the request
    * extends past the LargestPossibleRegion for the input, the request
    * is cropped by the LargestPossibleRegion. */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** NormalizedCorrelationImageFilter can be implemented as a
    * multithreaded filter.  Therefore, this implementation provides a
@@ -156,16 +157,20 @@ protected:
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
   /** Standard PrintSelf method */
-  void PrintSelf(std::ostream & os, Indent indent) const override
-  {  Superclass::PrintSelf(os, indent); }
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override
+  {
+    Superclass::PrintSelf(os, indent);
+  }
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNormalizedCorrelationImageFilter.hxx"
+#  include "itkNormalizedCorrelationImageFilter.hxx"
 #endif
 
 #endif

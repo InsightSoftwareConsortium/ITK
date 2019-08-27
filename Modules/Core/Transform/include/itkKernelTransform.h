@@ -56,10 +56,8 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template<typename TParametersValueType,
-          unsigned int NDimensions>
-class ITK_TEMPLATE_EXPORT KernelTransform :
-  public Transform<TParametersValueType, NDimensions, NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
+class ITK_TEMPLATE_EXPORT KernelTransform : public Transform<TParametersValueType, NDimensions, NDimensions>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(KernelTransform);
@@ -110,12 +108,13 @@ public:
   using InputVnlVectorType = typename Superclass::InputVnlVectorType;
   using OutputVnlVectorType = typename Superclass::OutputVnlVectorType;
 
-   /** The number of parameters defininig this transform. */
+  /** The number of parameters defininig this transform. */
   using NumberOfParametersType = typename Superclass::NumberOfParametersType;
 
   /** PointList type alias. This type is used for maintaining lists of points,
    * specifically, the source and target landmark lists. */
-  using PointSetTraitsType = DefaultStaticMeshTraits<TParametersValueType, NDimensions, NDimensions, TParametersValueType, TParametersValueType>;
+  using PointSetTraitsType =
+    DefaultStaticMeshTraits<TParametersValueType, NDimensions, NDimensions, TParametersValueType, TParametersValueType>;
   using PointSetType = PointSet<InputPointType, NDimensions, PointSetTraitsType>;
 
   using PointSetPointer = typename PointSetType::Pointer;
@@ -129,53 +128,63 @@ public:
   using VectorSetPointer = typename VectorSetType::Pointer;
 
   /** Get/Set the source landmarks list, which we will denote \f$ p \f$. */
-  itkGetModifiableObjectMacro(SourceLandmarks, PointSetType); //NOTE: This is used to circumvent the SetTargetLandmarks
-  virtual void SetSourceLandmarks(PointSetType *);
+  itkGetModifiableObjectMacro(SourceLandmarks, PointSetType); // NOTE: This is used to circumvent the SetTargetLandmarks
+  virtual void
+  SetSourceLandmarks(PointSetType *);
 
   /** Get the target landmarks list, which we will denote  \f$ q \f$. */
-  itkGetModifiableObjectMacro(TargetLandmarks, PointSetType); //NOTE: This is used to circumvent the SetTargetLandmarks
-  virtual void SetTargetLandmarks(PointSetType *);
+  itkGetModifiableObjectMacro(TargetLandmarks, PointSetType); // NOTE: This is used to circumvent the SetTargetLandmarks
+  virtual void
+  SetTargetLandmarks(PointSetType *);
 
   /** Get the displacements list, which we will denote \f$ d \f$,
    * where \f$ d_i = q_i - p_i \f$. */
   itkGetModifiableObjectMacro(Displacements, VectorSetType);
 
   /** Compute W matrix. */
-  void ComputeWMatrix();
+  void
+  ComputeWMatrix();
 
   /** Compute the position of point in the new space */
-  OutputPointType TransformPoint(const InputPointType & thisPoint) const override;
+  OutputPointType
+  TransformPoint(const InputPointType & thisPoint) const override;
 
   /** These vector transforms are not implemented for this transform */
   using Superclass::TransformVector;
-  OutputVectorType TransformVector(const InputVectorType &) const override
+  OutputVectorType
+  TransformVector(const InputVectorType &) const override
   {
-    itkExceptionMacro( << "TransformVector(const InputVectorType &) is not implemented for KernelTransform");
+    itkExceptionMacro(<< "TransformVector(const InputVectorType &) is not implemented for KernelTransform");
   }
 
-  OutputVnlVectorType TransformVector(const InputVnlVectorType &) const override
+  OutputVnlVectorType
+  TransformVector(const InputVnlVectorType &) const override
   {
-    itkExceptionMacro( << "TransformVector(const InputVnlVectorType &) is not implemented for KernelTransform");
+    itkExceptionMacro(<< "TransformVector(const InputVnlVectorType &) is not implemented for KernelTransform");
   }
 
   /**  Method to transform a CovariantVector. */
   using Superclass::TransformCovariantVector;
-  OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType &) const override
+  OutputCovariantVectorType
+  TransformCovariantVector(const InputCovariantVectorType &) const override
   {
-    itkExceptionMacro( << "TransformCovariantVector(const InputCovariantVectorType &) is not implemented for KernelTransform");
+    itkExceptionMacro(
+      << "TransformCovariantVector(const InputCovariantVectorType &) is not implemented for KernelTransform");
   }
 
   /** 'I' (identity) matrix type alias. */
   using IMatrixType = vnl_matrix_fixed<TParametersValueType, NDimensions, NDimensions>;
 
   /** Compute the Jacobian Matrix of the transformation at one point */
-  void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const override;
+  void
+  ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const override;
 
-  void ComputeJacobianWithRespectToPosition(const InputPointType &,
-                                                    JacobianPositionType &) const override
+  void
+  ComputeJacobianWithRespectToPosition(const InputPointType &, JacobianPositionType &) const override
   {
-    itkExceptionMacro( "ComputeJacobianWithRespectToPosition not yet implemented "
-                       "for " << this->GetNameOfClass() );
+    itkExceptionMacro("ComputeJacobianWithRespectToPosition not yet implemented "
+                      "for "
+                      << this->GetNameOfClass());
   }
   using Superclass::ComputeJacobianWithRespectToPosition;
 
@@ -183,28 +192,34 @@ public:
    * The parameters represent the source landmarks. Each landmark point is
    * represented by NDimensions doubles. All the landmarks are concatenated to
    * form one flat Array<double>. */
-  void SetParameters(const ParametersType &) override;
+  void
+  SetParameters(const ParametersType &) override;
 
   /** Set Transform Fixed Parameters:
    *     To support the transform file writer this function was
    *     added to set the target landmarks similar to the
    *     SetParameters function setting the source landmarks
    */
-  void SetFixedParameters(const FixedParametersType &) override;
+  void
+  SetFixedParameters(const FixedParametersType &) override;
 
   /** Update the Parameters array from the landmarks corrdinates. */
-  virtual void UpdateParameters() const;
+  virtual void
+  UpdateParameters() const;
 
   /** Get the Transformation Parameters - Gets the Source Landmarks */
-  const ParametersType & GetParameters() const override;
+  const ParametersType &
+  GetParameters() const override;
 
   /** Get Transform Fixed Parameters - Gets the Target Landmarks */
-  const FixedParametersType & GetFixedParameters() const override;
+  const FixedParametersType &
+  GetFixedParameters() const override;
 
   /** This transform is not linear, because the transformation of a linear
    * combination of points is not equal to the linear combination of the
    * transformations of individual points */
-  TransformCategoryType GetTransformCategory() const override
+  TransformCategoryType
+  GetTransformCategory() const override
   {
     return Self::TransformCategoryType::Spline;
   }
@@ -219,13 +234,14 @@ public:
    * International Conference of the IEEE Engineering in Medicine and
    * Biology Society. 1996.
    */
-  itkSetClampMacro( Stiffness, double, 0.0, NumericTraits<double>::max() );
+  itkSetClampMacro(Stiffness, double, 0.0, NumericTraits<double>::max());
   itkGetConstMacro(Stiffness, double);
 
 protected:
   KernelTransform();
   ~KernelTransform() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 public:
   /** 'G' matrix type alias. */
@@ -268,7 +284,8 @@ protected:
    *    Elastic body spline
    *    Thin plate spline
    *    Volume spline */
-  virtual void ComputeG(const InputVectorType & landmarkVector, GMatrixType & gmatrix) const;
+  virtual void
+  ComputeG(const InputVectorType & landmarkVector, GMatrixType & gmatrix) const;
 
   /** Compute a G(x) for a point to itself (i.e. for the block diagonal
    * elements of the matrix K. Parameter indicates for which landmark
@@ -283,28 +300,35 @@ protected:
 
   /** Compute the contribution of the landmarks weighted by the kernel funcion
       to the global deformation of the space  */
-  virtual void ComputeDeformationContribution(const InputPointType & inputPoint, OutputPointType & result) const;
+  virtual void
+  ComputeDeformationContribution(const InputPointType & inputPoint, OutputPointType & result) const;
 
   /** Compute K matrix. */
-  void ComputeK();
+  void
+  ComputeK();
 
   /** Compute L matrix. */
-  void ComputeL();
+  void
+  ComputeL();
 
   /** Compute P matrix. */
-  void ComputeP();
+  void
+  ComputeP();
 
   /** Compute Y matrix. */
-  void ComputeY();
+  void
+  ComputeY();
 
   /** Compute displacements \f$ q_i - p_i \f$. */
-  void ComputeD();
+  void
+  ComputeD();
 
   /** Reorganize the components of W into
     D (deformable), A (rotation part of affine)
     and B (translational part of affine ) components.
     \warning This method release the memory of the W Matrix  */
-  void ReorganizeW();
+  void
+  ReorganizeW();
 
   /** Stiffness parameter */
   double m_Stiffness;
@@ -359,12 +383,11 @@ protected:
   PointSetPointer m_TargetLandmarks;
 
 private:
-
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkKernelTransform.hxx"
+#  include "itkKernelTransform.hxx"
 #endif
 
 #endif // itkKernelTransform_h

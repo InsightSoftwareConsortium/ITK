@@ -43,21 +43,20 @@ namespace itk
  * \ingroup ITKLabelMap
  *
  * \sphinx
- * \sphinxexample{Filtering/LabelMap/KeepBinaryRegionsThatMeetSpecific,Keep Binary Regions That Meet Specific Properties}
- * \endsphinx
+ * \sphinxexample{Filtering/LabelMap/KeepBinaryRegionsThatMeetSpecific,Keep Binary Regions That Meet Specific
+ * Properties} \endsphinx
  */
-template< typename TInputImage, typename TFeatureImage >
-class ITK_TEMPLATE_EXPORT BinaryStatisticsOpeningImageFilter:
-  public ImageToImageFilter< TInputImage, TInputImage >
+template <typename TInputImage, typename TFeatureImage>
+class ITK_TEMPLATE_EXPORT BinaryStatisticsOpeningImageFilter : public ImageToImageFilter<TInputImage, TInputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryStatisticsOpeningImageFilter);
 
   /** Standard class type aliases. */
   using Self = BinaryStatisticsOpeningImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TInputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TInputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Some convenient type alias. */
   using InputImageType = TInputImage;
@@ -83,13 +82,13 @@ public:
 
   using LabelType = SizeValueType;
 
-  using LabelObjectType = StatisticsLabelObject< LabelType, Self::ImageDimension >;
-  using LabelMapType = LabelMap< LabelObjectType >;
-  using LabelizerType = BinaryImageToLabelMapFilter< InputImageType, LabelMapType >;
-  using LabelObjectValuatorType = StatisticsLabelMapFilter< LabelMapType, FeatureImageType >;
+  using LabelObjectType = StatisticsLabelObject<LabelType, Self::ImageDimension>;
+  using LabelMapType = LabelMap<LabelObjectType>;
+  using LabelizerType = BinaryImageToLabelMapFilter<InputImageType, LabelMapType>;
+  using LabelObjectValuatorType = StatisticsLabelMapFilter<LabelMapType, FeatureImageType>;
   using AttributeType = typename LabelObjectType::AttributeType;
-  using OpeningType = StatisticsOpeningLabelMapFilter< LabelMapType >;
-  using BinarizerType = LabelMapToBinaryImageFilter< LabelMapType, OutputImageType >;
+  using OpeningType = StatisticsOpeningLabelMapFilter<LabelMapType>;
+  using BinarizerType = LabelMapToBinaryImageFilter<LabelMapType, OutputImageType>;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -109,12 +108,9 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputEqualityComparableCheck,
-                   ( Concept::EqualityComparable< InputImagePixelType > ) );
-  itkConceptMacro( IntConvertibleToInputCheck,
-                   ( Concept::Convertible< int, InputImagePixelType > ) );
-  itkConceptMacro( InputOStreamWritableCheck,
-                   ( Concept::OStreamWritable< InputImagePixelType > ) );
+  itkConceptMacro(InputEqualityComparableCheck, (Concept::EqualityComparable<InputImagePixelType>));
+  itkConceptMacro(IntConvertibleToInputCheck, (Concept::Convertible<int, InputImagePixelType>));
+  itkConceptMacro(InputOStreamWritableCheck, (Concept::OStreamWritable<InputImagePixelType>));
   // End concept checking
 #endif
 
@@ -154,32 +150,37 @@ public:
    */
   itkGetConstMacro(Attribute, AttributeType);
   itkSetMacro(Attribute, AttributeType);
-  void SetAttribute(const std::string & s)
+  void
+  SetAttribute(const std::string & s)
   {
-    this->SetAttribute( LabelObjectType::GetAttributeFromName(s) );
+    this->SetAttribute(LabelObjectType::GetAttributeFromName(s));
   }
 
   /** Set the feature image */
-  void SetFeatureImage(const TFeatureImage *input)
+  void
+  SetFeatureImage(const TFeatureImage * input)
   {
     // Process object is not const-correct so the const casting is required.
-    this->SetNthInput( 1, const_cast< TFeatureImage * >( input ) );
+    this->SetNthInput(1, const_cast<TFeatureImage *>(input));
   }
 
   /** Get the feature image */
-  const FeatureImageType * GetFeatureImage()
+  const FeatureImageType *
+  GetFeatureImage()
   {
-    return static_cast< const FeatureImageType * >( this->ProcessObject::GetInput(1) );
+    return static_cast<const FeatureImageType *>(this->ProcessObject::GetInput(1));
   }
 
   /** Set the input image */
-  void SetInput1(const InputImageType *input)
+  void
+  SetInput1(const InputImageType * input)
   {
     this->SetInput(input);
   }
 
   /** Set the feature image */
-  void SetInput2(const FeatureImageType *input)
+  void
+  SetInput2(const FeatureImageType * input)
   {
     this->SetFeatureImage(input);
   }
@@ -187,18 +188,22 @@ public:
 protected:
   BinaryStatisticsOpeningImageFilter();
   ~BinaryStatisticsOpeningImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** BinaryStatisticsOpeningImageFilter needs the entire input to be available.
    * Thus, it needs to provide an implementation of GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** BinaryStatisticsOpeningImageFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * itkNotUsed(output)) override;
 
   /** Single-threaded version of GenerateData.  This filter delegates
    * to GrayscaleGeodesicErodeImageFilter. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   bool                 m_FullyConnected;
@@ -211,7 +216,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryStatisticsOpeningImageFilter.hxx"
+#  include "itkBinaryStatisticsOpeningImageFilter.hxx"
 #endif
 
 #endif

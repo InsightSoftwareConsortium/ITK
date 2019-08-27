@@ -45,14 +45,15 @@
 // Software Guide : EndCodeSnippet
 
 
-int main( int argc, char * argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << " inputImageFile outputImageFile" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   //  Software Guide : BeginLatex
@@ -66,19 +67,19 @@ int main( int argc, char * argv[] )
   using InputPixelType = unsigned char;
   using OutputPixelType = unsigned char;
 
-  using InputImageType = itk::Image< InputPixelType,  2 >;
-  using OutputImageType = itk::Image< OutputPixelType, 2 >;
+  using InputImageType = itk::Image<InputPixelType, 2>;
+  using OutputImageType = itk::Image<OutputPixelType, 2>;
   // Software Guide : EndCodeSnippet
 
 
-  using ReaderType = itk::ImageFileReader< InputImageType  >;
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
 
-  reader->SetFileName( argv[1] );
-  writer->SetFileName( argv[2] );
+  reader->SetFileName(argv[1]);
+  writer->SetFileName(argv[2]);
 
   //  Software Guide : BeginLatex
   //
@@ -92,8 +93,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FilterType = itk::RelabelComponentImageFilter<
-               InputImageType, OutputImageType >;
+  using FilterType = itk::RelabelComponentImageFilter<InputImageType, OutputImageType>;
 
   FilterType::Pointer relabeler = FilterType::New();
   // Software Guide : EndCodeSnippet
@@ -113,8 +113,8 @@ int main( int argc, char * argv[] )
 
 
   // Software Guide : BeginCodeSnippet
-  relabeler->SetInput( reader->GetOutput() );
-  writer->SetInput( relabeler->GetOutput() );
+  relabeler->SetInput(reader->GetOutput());
+  writer->SetInput(relabeler->GetOutput());
   writer->Update();
   // Software Guide : EndCodeSnippet
 
@@ -127,38 +127,37 @@ int main( int argc, char * argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using SizesInPixelsType = std::vector< itk::SizeValueType >;
-  const SizesInPixelsType & sizesInPixels
-                                      = relabeler->GetSizeOfObjectsInPixels();
+  using SizesInPixelsType = std::vector<itk::SizeValueType>;
+  const SizesInPixelsType & sizesInPixels = relabeler->GetSizeOfObjectsInPixels();
 
   auto sizeItr = sizesInPixels.begin();
   auto sizeEnd = sizesInPixels.end();
   std::cout << "Number of pixels per class " << std::endl;
   unsigned int kclass = 0;
   while (sizeItr != sizeEnd)
-    {
+  {
     std::cout << "Class " << kclass << " = " << *sizeItr << std::endl;
     ++kclass;
     ++sizeItr;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginCodeSnippet
-  using SizesInPhysicalUnitsType = std::vector< float >;
-  const SizesInPhysicalUnitsType sizesInUnits
-                               = relabeler->GetSizeOfObjectsInPhysicalUnits();
+  using SizesInPhysicalUnitsType = std::vector<float>;
+  const SizesInPhysicalUnitsType sizesInUnits =
+    relabeler->GetSizeOfObjectsInPhysicalUnits();
 
   auto physicalSizeItr = sizesInUnits.begin();
   auto physicalSizeEnd = sizesInUnits.end();
 
   std::cout << "Area in Physical Units per class " << std::endl;
   unsigned int jclass = 0;
-  while( physicalSizeItr != physicalSizeEnd )
-    {
+  while (physicalSizeItr != physicalSizeEnd)
+  {
     std::cout << "Class " << jclass << " = " << *physicalSizeItr << std::endl;
     ++jclass;
     ++physicalSizeItr;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;

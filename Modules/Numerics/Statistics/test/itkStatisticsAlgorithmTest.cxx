@@ -21,110 +21,99 @@
 #include "itkTestingMacros.h"
 
 // Problem has been solved in _MSC_FULL_VER == 191125508
-#if ( NDEBUG && (_MSC_FULL_VER == 190024215 || _MSC_FULL_VER == 191025017 ) )
-#pragma optimize ("g", off) // disable global optimizations
+#if (NDEBUG && (_MSC_FULL_VER == 190024215 || _MSC_FULL_VER == 191025017))
+#  pragma optimize("g", off) // disable global optimizations
 #endif
 
-int itkStatisticsAlgorithmTest( int, char * [] )
+int
+itkStatisticsAlgorithmTest(int, char *[])
 {
   std::cout << "StatisticsAlgorithm Test \n \n";
 
   constexpr unsigned int measurementVectorSize = 2;
 
-  using MeasurementVectorType = itk::Array< float >;
-  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
+  using MeasurementVectorType = itk::Array<float>;
+  using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
 
   SampleType::Pointer sample = SampleType::New();
 
-  SampleType::MeasurementVectorType lower( measurementVectorSize );
-  SampleType::MeasurementVectorType upper( measurementVectorSize );
+  SampleType::MeasurementVectorType lower(measurementVectorSize);
+  SampleType::MeasurementVectorType upper(measurementVectorSize);
 
   const SampleType * constSample = sample.GetPointer();
 
   // Testing the exception throwing for samples of measurement size = 0
-  sample->SetMeasurementVectorSize( 0 );
+  sample->SetMeasurementVectorSize(0);
 
   ITK_TRY_EXPECT_EXCEPTION(
-      itk::Statistics::Algorithm::FindSampleBound(
-      constSample,
-      constSample->Begin(), constSample->End(),
-      lower, upper)
-  );
+    itk::Statistics::Algorithm::FindSampleBound(constSample, constSample->Begin(), constSample->End(), lower, upper));
 
   // Now set the correct measurement vector size
-  sample->SetMeasurementVectorSize( measurementVectorSize );
+  sample->SetMeasurementVectorSize(measurementVectorSize);
 
   // Testing the equivalent of an empty sample by passing
   // the Begin() iterator inlieu of the End() iterator.
 
   ITK_TRY_EXPECT_EXCEPTION(
-      itk::Statistics::Algorithm::FindSampleBound(
-          constSample,
-          constSample->Begin(), constSample->Begin(),
-          lower, upper)
-  );
+    itk::Statistics::Algorithm::FindSampleBound(constSample, constSample->Begin(), constSample->Begin(), lower, upper));
 
-  MeasurementVectorType measure( measurementVectorSize );
-  MeasurementVectorType realUpper( measurementVectorSize );
-  MeasurementVectorType realLower( measurementVectorSize );
+  MeasurementVectorType measure(measurementVectorSize);
+  MeasurementVectorType realUpper(measurementVectorSize);
+  MeasurementVectorType realLower(measurementVectorSize);
 
   constexpr unsigned int numberOfSamples = 25;
 
-  realLower.Fill( 1000 );
-  realUpper.Fill(    0 );
+  realLower.Fill(1000);
+  realUpper.Fill(0);
 
   // Force the first value not to be the min or max.
   measure[0] = 13;
   measure[1] = 39;
-  sample->PushBack( measure );
+  sample->PushBack(measure);
 
-  for( unsigned int i = 1; i < numberOfSamples; i++ )
-    {
+  for (unsigned int i = 1; i < numberOfSamples; i++)
+  {
     float value = i + 3;
     measure[0] = value;
     measure[1] = value * value;
-    sample->PushBack( measure );
+    sample->PushBack(measure);
 
-    for(unsigned int j = 0; j < measurementVectorSize; j++ )
+    for (unsigned int j = 0; j < measurementVectorSize; j++)
+    {
+      if (measure[j] < realLower[j])
       {
-      if( measure[j] < realLower[j] )
-        {
         realLower[j] = measure[j];
-        }
-      if( measure[j] > realUpper[j] )
-        {
+      }
+      if (measure[j] > realUpper[j])
+      {
         realUpper[j] = measure[j];
-        }
       }
     }
+  }
 
   // Now testing the real algorithm
   ITK_TRY_EXPECT_NO_EXCEPTION(
-      itk::Statistics::Algorithm::FindSampleBound(
-          constSample,
-          constSample->Begin(), constSample->End(),
-          lower, upper)
-  );
+    itk::Statistics::Algorithm::FindSampleBound(constSample, constSample->Begin(), constSample->End(), lower, upper));
 
   const float epsilon = 1e-5;
 
-  for(unsigned int j = 0; j < measurementVectorSize; j++ )
+  for (unsigned int j = 0; j < measurementVectorSize; j++)
+  {
+    if (itk::Math::abs(lower[j] - realLower[j]) > epsilon)
     {
-    if( itk::Math::abs( lower[j] - realLower[j] ) > epsilon )
-      {
       std::cerr << "FindSampleBound() failed" << std::endl;
       std::cerr << "Expected lower = " << realLower << std::endl;
       std::cerr << "Computed lower = " << lower << std::endl;
       return EXIT_FAILURE;
-      }
-    if( itk::Math::abs( upper[j] - realUpper[j] ) > epsilon )
-      {
+    }
+    if (itk::Math::abs(upper[j] - realUpper[j]) > epsilon)
+    {
       std::cerr << "FindSampleBound() failed" << std::endl;
       std::cerr << "Expected upper = " << realUpper << std::endl;
       std::cerr << "Computed upper = " << upper << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;

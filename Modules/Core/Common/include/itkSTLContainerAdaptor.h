@@ -39,38 +39,39 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-template< typename TContainer >
+template <typename TContainer>
 class STLContainerAdaptor
 {
 public:
-
   using AdapteeType = TContainer;
 
   using ElementType = typename AdapteeType::Element;
   using TargetType = typename AdapteeType::STLContainerType;
 
 private:
-
   AdapteeType & m_AdapteeRef;
 
   /** hide the copy constructor to allow only direct construction of the adapter
-    */
+   */
   STLContainerAdaptor(const STLContainerAdaptor & r) = delete;
 
   /* hide and avoid operator= */
-  const STLContainerAdaptor & operator=(const STLContainerAdaptor & r) = delete;
+  const STLContainerAdaptor &
+  operator=(const STLContainerAdaptor & r) = delete;
 
 public:
-  STLContainerAdaptor(AdapteeType & adaptee):m_AdapteeRef(adaptee) {}
+  STLContainerAdaptor(AdapteeType & adaptee)
+    : m_AdapteeRef(adaptee)
+  {}
 
-  STLContainerAdaptor(AdapteeType *adaptee):m_AdapteeRef(*adaptee) {}
+  STLContainerAdaptor(AdapteeType * adaptee)
+    : m_AdapteeRef(*adaptee)
+  {}
 
-  ~STLContainerAdaptor()
-  {
-    m_AdapteeRef.Modified();
-  }
+  ~STLContainerAdaptor() { m_AdapteeRef.Modified(); }
 
-  TargetType & GetSTLContainerRef()
+  TargetType &
+  GetSTLContainerRef()
   {
     return m_AdapteeRef.CastToSTLContainer();
   }

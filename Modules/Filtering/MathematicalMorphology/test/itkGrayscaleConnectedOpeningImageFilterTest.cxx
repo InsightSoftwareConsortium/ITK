@@ -26,15 +26,16 @@
 #include "itkTestingMacros.h"
 
 
-int itkGrayscaleConnectedOpeningImageFilterTest( int argc, char * argv[] )
+int
+itkGrayscaleConnectedOpeningImageFilterTest(int argc, char * argv[])
 {
-  if( argc < 5 )
-    {
+  if (argc < 5)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << itkNameOfTestExecutableMacro(argv) << "  inputImageFile  ";
     std::cerr << " outputImageFile seedX seedY " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   //
@@ -47,35 +48,34 @@ int itkGrayscaleConnectedOpeningImageFilterTest( int argc, char * argv[] )
   using OutputPixelType = unsigned char;
   using WritePixelType = unsigned char;
 
-  using InputImageType = itk::Image< InputPixelType,  Dimension >;
-  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
-  using WriteImageType = itk::Image< WritePixelType, Dimension >;
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
+  using WriteImageType = itk::Image<WritePixelType, Dimension>;
 
 
   // readers/writers
-  using ReaderType = itk::ImageFileReader< InputImageType  >;
-  using WriterType = itk::ImageFileWriter< WriteImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using WriterType = itk::ImageFileWriter<WriteImageType>;
 
   // define the fillhole filter
-  using ConnectedOpeningFilterType = itk::GrayscaleConnectedOpeningImageFilter<
-                            InputImageType,
-                            OutputImageType >;
+  using ConnectedOpeningFilterType = itk::GrayscaleConnectedOpeningImageFilter<InputImageType, OutputImageType>;
 
 
   // Creation of Reader and Writer filters
   ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer  = WriterType::New();
+  WriterType::Pointer writer = WriterType::New();
 
   // Create the filter
-  ConnectedOpeningFilterType::Pointer  connectedOpening = ConnectedOpeningFilterType::New();
-  itk::SimpleFilterWatcher watcher(connectedOpening, "Opening"); watcher.QuietOn();
+  ConnectedOpeningFilterType::Pointer connectedOpening = ConnectedOpeningFilterType::New();
+  itk::SimpleFilterWatcher            watcher(connectedOpening, "Opening");
+  watcher.QuietOn();
 
   // Setup the input and output files
-  reader->SetFileName( argv[1] );
-  writer->SetFileName(  argv[2] );
+  reader->SetFileName(argv[1]);
+  writer->SetFileName(argv[2]);
 
   // Setup the connected opening method
-  connectedOpening->SetInput(  reader->GetOutput() );
+  connectedOpening->SetInput(reader->GetOutput());
 
   InputImageType::IndexType seed;
   seed[0] = std::stoi(argv[3]);
@@ -83,7 +83,7 @@ int itkGrayscaleConnectedOpeningImageFilterTest( int argc, char * argv[] )
   connectedOpening->SetSeed(seed);
 
   // Run the filter
-  writer->SetInput( connectedOpening->GetOutput() );
+  writer->SetInput(connectedOpening->GetOutput());
   writer->Update();
 
   return EXIT_SUCCESS;

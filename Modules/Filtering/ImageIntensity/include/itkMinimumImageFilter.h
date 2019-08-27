@@ -29,26 +29,31 @@ namespace Functor
  * \brief
  * \ingroup ITKImageIntensity
  */
-template< typename TInput1, typename TInput2 = TInput1, typename TOutput = TInput1 >
+template <typename TInput1, typename TInput2 = TInput1, typename TOutput = TInput1>
 class Minimum
 {
 public:
   Minimum() = default;
   ~Minimum() = default;
-  bool operator!=(const Minimum &) const
+  bool
+  operator!=(const Minimum &) const
   {
     return false;
   }
 
-  bool operator==(const Minimum & other) const
+  bool
+  operator==(const Minimum & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 
-  inline TOutput operator()(const TInput1 & A, const TInput2 & B) const
-  { return static_cast< TOutput >( ( A < B ) ? A : B ); }
+  inline TOutput
+  operator()(const TInput1 & A, const TInput2 & B) const
+  {
+    return static_cast<TOutput>((A < B) ? A : B);
+  }
 };
-}
+} // namespace Functor
 
 /** \class MinimumImageFilter
  * \brief Implements a pixel-wise operator Min(a,b) between two images.
@@ -68,52 +73,45 @@ public:
  * \sphinxexample{Filtering/ImageIntensity/SetOutputPixelToMin,Compare Two Images And Set Output Pixel To Min}
  * \endsphinx
  */
-template< typename TInputImage1, typename TInputImage2 = TInputImage1, typename TOutputImage = TInputImage1 >
-class MinimumImageFilter:
-  public
-  BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >
+template <typename TInputImage1, typename TInputImage2 = TInputImage1, typename TOutputImage = TInputImage1>
+class MinimumImageFilter : public BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MinimumImageFilter);
 
   /** Standard class type aliases. */
   using Self = MinimumImageFilter;
-  using Superclass = BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >;
+  using Superclass = BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using FunctorType =   Functor::Minimum< typename TInputImage1::PixelType,
-                                          typename TInputImage2::PixelType,
-                                          typename TOutputImage::PixelType >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using FunctorType = Functor::
+    Minimum<typename TInputImage1::PixelType, typename TInputImage2::PixelType, typename TOutputImage::PixelType>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(MinimumImageFilter,
-               BinaryGeneratorImageFilter);
+  itkTypeMacro(MinimumImageFilter, BinaryGeneratorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( Input1ConvertibleToInput2Check,
-                   ( Concept::Convertible< typename TInputImage1::PixelType,
-                                           typename TInputImage2::PixelType > ) );
-  itkConceptMacro( Input2ConvertibleToOutputCheck,
-                   ( Concept::Convertible< typename TInputImage2::PixelType,
-                                           typename TOutputImage::PixelType > ) );
-  itkConceptMacro( Input1LessThanInput2Check,
-                   ( Concept::LessThanComparable< typename TInputImage1::PixelType,
-                                                  typename TInputImage2::PixelType > ) );
+  itkConceptMacro(Input1ConvertibleToInput2Check,
+                  (Concept::Convertible<typename TInputImage1::PixelType, typename TInputImage2::PixelType>));
+  itkConceptMacro(Input2ConvertibleToOutputCheck,
+                  (Concept::Convertible<typename TInputImage2::PixelType, typename TOutputImage::PixelType>));
+  itkConceptMacro(Input1LessThanInput2Check,
+                  (Concept::LessThanComparable<typename TInputImage1::PixelType, typename TInputImage2::PixelType>));
   // End concept checking
 #endif
 
 protected:
   MinimumImageFilter()
-    {
-#if !defined( ITK_WRAPPING_PARSER )
-      Superclass::SetFunctor(FunctorType());
+  {
+#if !defined(ITK_WRAPPING_PARSER)
+    Superclass::SetFunctor(FunctorType());
 #endif
-    }
+  }
 
   ~MinimumImageFilter() override = default;
 };

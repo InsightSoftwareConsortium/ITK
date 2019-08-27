@@ -46,15 +46,14 @@ using myVectorIteratorType = itk::ImageRegionIteratorWithIndex<myVectorImageType
 
 
 // Declare the Filter
-using myFilterType = itk::EigenAnalysis2DImageFilter< myImageType,
-                                         myImageType,
-                                         myVectorImageType >;
+using myFilterType = itk::EigenAnalysis2DImageFilter<myImageType, myImageType, myVectorImageType>;
 
 // Function for image initialization
-void InitializeImage( myImageType * image, double value   )
+void
+InitializeImage(myImageType * image, double value)
 {
 
-  myImageType::Pointer inputImage( image );
+  myImageType::Pointer inputImage(image);
 
   // Define their size, and start index
   mySizeType size;
@@ -65,92 +64,89 @@ void InitializeImage( myImageType * image, double value   )
   start.Fill(0);
 
   myRegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
+  region.SetIndex(start);
+  region.SetSize(size);
 
-  inputImage->SetLargestPossibleRegion( region );
-  inputImage->SetBufferedRegion( region );
-  inputImage->SetRequestedRegion( region );
+  inputImage->SetLargestPossibleRegion(region);
+  inputImage->SetBufferedRegion(region);
+  inputImage->SetRequestedRegion(region);
   inputImage->Allocate();
 
-  myIteratorType it( inputImage,
-                     inputImage->GetRequestedRegion() );
+  myIteratorType it(inputImage, inputImage->GetRequestedRegion());
 
   it.GoToBegin();
-  while( !it.IsAtEnd() )
-    {
-    it.Set( value );
+  while (!it.IsAtEnd())
+  {
+    it.Set(value);
     ++it;
-    }
-
+  }
 }
 
 // Function for image printing
-void PrintImage( myImageType * image, const char *text )
+void
+PrintImage(myImageType * image, const char * text)
 {
 
-  myImageType::Pointer imagePtr( image );
+  myImageType::Pointer imagePtr(image);
 
   // Create an iterator for going through the image
-  myIteratorType it( imagePtr,
-                     imagePtr->GetRequestedRegion() );
+  myIteratorType it(imagePtr, imagePtr->GetRequestedRegion());
 
   it.GoToBegin();
 
   //  Print the content of the image
   std::cout << text << std::endl;
-  while( !it.IsAtEnd() )
+  while (!it.IsAtEnd())
   {
     std::cout << it.Get() << std::endl;
     ++it;
   }
-
 }
 
 
 // Function for image printing
-void PrintImage( myVectorImageType * image, const char *text )
+void
+PrintImage(myVectorImageType * image, const char * text)
 {
 
-  myVectorImageType::Pointer imagePtr( image );
+  myVectorImageType::Pointer imagePtr(image);
 
   // Create an iterator for going through the image
-  myVectorIteratorType it( imagePtr,
-                           imagePtr->GetRequestedRegion() );
+  myVectorIteratorType it(imagePtr, imagePtr->GetRequestedRegion());
 
   it.GoToBegin();
 
   //  Print the content of the image
   std::cout << text << std::endl;
-  while( !it.IsAtEnd() )
+  while (!it.IsAtEnd())
   {
     std::cout << it.Get() << std::endl;
     ++it;
   }
-
 }
 
-int itkEigenAnalysis2DImageFilterTest(int, char* [] )
+int
+itkEigenAnalysis2DImageFilterTest(int, char *[])
 {
   // Create the images
-  myImageType::Pointer inputImageXX  = myImageType::New();
-  myImageType::Pointer inputImageXY  = myImageType::New();
-  myImageType::Pointer inputImageYY  = myImageType::New();
+  myImageType::Pointer inputImageXX = myImageType::New();
+  myImageType::Pointer inputImageXY = myImageType::New();
+  myImageType::Pointer inputImageYY = myImageType::New();
 
 
-  InitializeImage( inputImageXX, std::cos( itk::Math::pi / 6.0 ) );
-  InitializeImage( inputImageXY, std::sin( itk::Math::pi / 6.0 ) );
-  InitializeImage( inputImageYY, std::cos( itk::Math::pi / 6.0 ) );
+  InitializeImage(inputImageXX, std::cos(itk::Math::pi / 6.0));
+  InitializeImage(inputImageXY, std::sin(itk::Math::pi / 6.0));
+  InitializeImage(inputImageYY, std::cos(itk::Math::pi / 6.0));
 
 
   // Create a  Filter
-  myFilterType::Pointer filter = myFilterType::New();
+  myFilterType::Pointer    filter = myFilterType::New();
   itk::SimpleFilterWatcher watcher(filter);
 
   // Connect the input images
-  filter->SetInput1( inputImageXX );
-  filter->SetInput2( inputImageXY );
-  filter->SetInput3( inputImageYY );
+  filter->SetInput1(inputImageXX);
+  filter->SetInput2(inputImageXY);
+  filter->SetInput3(inputImageYY);
 
 
   // Execute the filter
@@ -162,13 +158,12 @@ int itkEigenAnalysis2DImageFilterTest(int, char* [] )
 
   myVectorImageType::Pointer maxEigenVector = filter->GetMaxEigenVector();
 
-  PrintImage( maxEigenValue, "Max Eigen Value");
-  PrintImage( minEigenValue, "Min Eigen Value");
-  PrintImage( maxEigenVector, "Max Eigen Vector");
+  PrintImage(maxEigenValue, "Max Eigen Value");
+  PrintImage(minEigenValue, "Min Eigen Value");
+  PrintImage(maxEigenVector, "Max Eigen Vector");
 
 
   // All objects should be automatically destroyed at this point
 
   return EXIT_SUCCESS;
-
 }

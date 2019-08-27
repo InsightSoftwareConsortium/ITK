@@ -38,7 +38,7 @@ namespace itk
  * \brief Create instances of BioRadImageIO objects using an object factory.
  * \ingroup ITKIOBioRad
  */
-class ITKIOBioRad_EXPORT BioRadImageIOFactory:public ObjectFactoryBase
+class ITKIOBioRad_EXPORT BioRadImageIOFactory : public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BioRadImageIOFactory);
@@ -46,13 +46,15 @@ public:
   /** Standard class type aliases. */
   using Self = BioRadImageIOFactory;
   using Superclass = ObjectFactoryBase;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Class Methods used to interface with the registered factories. */
-  const char * GetITKSourceVersion() const override;
+  const char *
+  GetITKSourceVersion() const override;
 
-  const char * GetDescription() const override;
+  const char *
+  GetDescription() const override;
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
@@ -61,7 +63,8 @@ public:
   itkTypeMacro(BioRadImageIOFactory, ObjectFactoryBase);
 
   /** Register one factory of this type  */
-  static void RegisterOneFactory()
+  static void
+  RegisterOneFactory()
   {
     BioRadImageIOFactory::Pointer bioradFactory = BioRadImageIOFactory::New();
 

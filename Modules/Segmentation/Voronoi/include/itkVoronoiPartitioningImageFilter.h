@@ -29,25 +29,24 @@ namespace itk
  * \ingroup HybridSegmentation
  * \ingroup ITKVoronoi
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT VoronoiPartitioningImageFilter:
-  public VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT VoronoiPartitioningImageFilter
+  : public VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VoronoiPartitioningImageFilter);
 
   /** Standard class type aliases. */
   using Self = VoronoiPartitioningImageFilter;
-  using Superclass = VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VoronoiPartitioningImageFilter,
-               VoronoiSegmentationImageFilterBase);
+  itkTypeMacro(VoronoiPartitioningImageFilter, VoronoiSegmentationImageFilterBase);
 
   /** Convenient type alias. */
   using BinaryObjectImage = typename Superclass::BinaryObjectImage;
@@ -66,9 +65,11 @@ public:
   using NeighborIdIterator = typename Superclass::NeighborIdIterator;
 
   /** Create the output results.  */
-  void MakeSegmentBoundary() override;
+  void
+  MakeSegmentBoundary() override;
 
-  void MakeSegmentObject() override;
+  void
+  MakeSegmentObject() override;
 
   /** Set/Get the threshold used to determine if a Voronoi region is
    * homogeneous. If the standard deviation of the intensities in the
@@ -83,34 +84,36 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( SameDimensionCheck,
-                   ( Concept::SameDimension< InputImageDimension, OutputImageDimension > ) );
-  itkConceptMacro( IntConvertibleToOutputCheck,
-                   ( Concept::Convertible< int, OutputPixelType > ) );
+  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
+  itkConceptMacro(IntConvertibleToOutputCheck, (Concept::Convertible<int, OutputPixelType>));
   // End concept checking
 #endif
 
 protected:
   VoronoiPartitioningImageFilter() = default;
   ~VoronoiPartitioningImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   // Classify all the voronoi cells as interior , exterior or boundary.
-  void ClassifyDiagram() override;
+  void
+  ClassifyDiagram() override;
 
   // Generate the seeds to be added by dividing the boundary cells.
-  void GenerateAddingSeeds() override;
+  void
+  GenerateAddingSeeds() override;
 
   // Are the pixels specified in the index list homogeneous?
-  bool TestHomogeneity(IndexList & Plist) override;
+  bool
+  TestHomogeneity(IndexList & Plist) override;
 
   // Threshold for homogeneity criterion
-  double m_SigmaThreshold{10};
+  double m_SigmaThreshold{ 10 };
 };
-} //end namespace
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVoronoiPartitioningImageFilter.hxx"
+#  include "itkVoronoiPartitioningImageFilter.hxx"
 #endif
 
 #endif

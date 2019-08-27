@@ -37,7 +37,7 @@ namespace Accessor
  * \ingroup ImageAdaptors
  * \ingroup ITKImageAdaptors
  */
-template< typename TInternalType, typename TExternalType >
+template <typename TInternalType, typename TExternalType>
 class RGBToLuminancePixelAccessor
 {
 public:
@@ -49,11 +49,17 @@ public:
    * representation of data. */
   using InternalType = TInternalType;
 
-  static inline void Set(TInternalType & output, const TExternalType & input)
-  { output = static_cast< TInternalType >( input.GetLuminance() ); }
+  static inline void
+  Set(TInternalType & output, const TExternalType & input)
+  {
+    output = static_cast<TInternalType>(input.GetLuminance());
+  }
 
-  static inline TExternalType Get(const TInternalType & input)
-  { return static_cast< TExternalType >( input.GetLuminance() ); }
+  static inline TExternalType
+  Get(const TInternalType & input)
+  {
+    return static_cast<TExternalType>(input.GetLuminance());
+  }
 };
 } // end namespace Accessor
 
@@ -67,23 +73,19 @@ public:
  * \ingroup ImageAdaptors
  * \ingroup ITKImageAdaptors
  */
-template< typename TImage, typename TOutputPixelType >
-class RGBToLuminanceImageAdaptor:public
-  ImageAdaptor< TImage,
-                Accessor::RGBToLuminancePixelAccessor<
-                  typename TImage::PixelType,
-                  TOutputPixelType >   >
+template <typename TImage, typename TOutputPixelType>
+class RGBToLuminanceImageAdaptor
+  : public ImageAdaptor<TImage, Accessor::RGBToLuminancePixelAccessor<typename TImage::PixelType, TOutputPixelType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(RGBToLuminanceImageAdaptor);
 
   /** Standard class type aliases. */
   using Self = RGBToLuminanceImageAdaptor;
-  using Superclass = ImageAdaptor< TImage, Accessor::RGBToLuminancePixelAccessor<
-                          typename TImage::PixelType,
-                          TOutputPixelType > >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass =
+    ImageAdaptor<TImage, Accessor::RGBToLuminancePixelAccessor<typename TImage::PixelType, TOutputPixelType>>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

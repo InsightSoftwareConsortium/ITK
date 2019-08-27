@@ -35,18 +35,17 @@ namespace itk
  *
  * \ingroup ITKImageIntensity
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT ShiftScaleImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT ShiftScaleImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ShiftScaleImageFilter);
 
   /** Standard class type aliases. */
   using Self = ShiftScaleImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -72,7 +71,7 @@ public:
   using OutputImageOffsetType = typename TOutputImage::OffsetType;
 
   /** Type to use form computations. */
-  using RealType = typename NumericTraits< OutputImagePixelType >::RealType;
+  using RealType = typename NumericTraits<OutputImagePixelType>::RealType;
 
   /** Image related type alias. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
@@ -81,7 +80,7 @@ public:
   itkTypeMacro(ShiftScaleImageFilter, ImageToImageFilter);
 
   /** Set/Get the amount to Shift each Pixel. The shift is followed by a Scale.
-    */
+   */
   itkSetMacro(Shift, RealType);
   itkGetConstMacro(Shift, RealType);
 
@@ -96,32 +95,32 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( OutputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< OutputImagePixelType > ) );
-  itkConceptMacro( InputPlusRealTypeCheck,
-                   ( Concept::AdditiveOperators< InputImagePixelType, RealType, RealType > ) );
-  itkConceptMacro( RealTypeMultiplyOperatorCheck,
-                   ( Concept::MultiplyOperator< RealType > ) );
+  itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<OutputImagePixelType>));
+  itkConceptMacro(InputPlusRealTypeCheck, (Concept::AdditiveOperators<InputImagePixelType, RealType, RealType>));
+  itkConceptMacro(RealTypeMultiplyOperatorCheck, (Concept::MultiplyOperator<RealType>));
   // End concept checking
 #endif
 
 protected:
   ShiftScaleImageFilter();
   ~ShiftScaleImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Initialize some accumulators before the threads run. */
-  void BeforeThreadedGenerateData() override;
+  void
+  BeforeThreadedGenerateData() override;
 
   /** Tally accumulated in threads. */
-  void AfterThreadedGenerateData() override;
+  void
+  AfterThreadedGenerateData() override;
 
   /** Multi-thread version GenerateData. */
-  void  ThreadedGenerateData(const OutputImageRegionType &
-                             outputRegionForThread,
-                             ThreadIdType threadId) override;
+  void
+  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
 
-  void DynamicThreadedGenerateData( const OutputImageRegionType & ) override
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType &) override
   {
     itkExceptionMacro("This class requires threadId so it must use classic multi-threading model");
   }
@@ -133,16 +132,16 @@ private:
   long m_UnderflowCount;
   long m_OverflowCount;
 
-  Array< long > m_ThreadUnderflow;
-  Array< long > m_ThreadOverflow;
+  Array<long> m_ThreadUnderflow;
+  Array<long> m_ThreadOverflow;
 
-  const TInputImage *m_InputImage;
-  TOutputImage      *m_OutputImage;
+  const TInputImage * m_InputImage;
+  TOutputImage *      m_OutputImage;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShiftScaleImageFilter.hxx"
+#  include "itkShiftScaleImageFilter.hxx"
 #endif
 
 #endif

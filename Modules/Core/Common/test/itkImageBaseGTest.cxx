@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
- // First include the header file to be tested:
+// First include the header file to be tested:
 #include "itkImageBase.h"
 
 #include "itkCovariantVector.h"
@@ -29,91 +29,74 @@
 
 namespace
 {
-  template <typename T1, typename T2>
-  void Expect_same_type_and_equal_value(T1&& value1, T2&& value2)
-  {
-    static_assert(std::is_same<T1, T2>::value, "Expect the same type!");
-    EXPECT_EQ(value1, value2);
-  }
+template <typename T1, typename T2>
+void
+Expect_same_type_and_equal_value(T1 && value1, T2 && value2)
+{
+  static_assert(std::is_same<T1, T2>::value, "Expect the same type!");
+  EXPECT_EQ(value1, value2);
+}
 
 
-  template <typename TImage>
-  void Expect_by_default_Transform_result_equals_default_constructed_value(
-    const typename TImage::SizeType& imageSize)
-  {
-    const auto ImageDimension = TImage::ImageDimension;
-    const auto image = TImage::New();
-    image->SetRegions(imageSize);
-    image->Allocate();
+template <typename TImage>
+void
+Expect_by_default_Transform_result_equals_default_constructed_value(const typename TImage::SizeType & imageSize)
+{
+  const auto ImageDimension = TImage::ImageDimension;
+  const auto image = TImage::New();
+  image->SetRegions(imageSize);
+  image->Allocate();
 
-    using ImageBaseType = itk::ImageBase<ImageDimension>;
-    using IndexType = typename ImageBaseType::IndexType;
+  using ImageBaseType = itk::ImageBase<ImageDimension>;
+  using IndexType = typename ImageBaseType::IndexType;
 
-    using PointType = itk::Point<double, ImageDimension>;
-    using ContinuousIndexType = itk::ContinuousIndex<double, ImageDimension>;
+  using PointType = itk::Point<double, ImageDimension>;
+  using ContinuousIndexType = itk::ContinuousIndex<double, ImageDimension>;
 
-    using FloatArrayType = itk::FixedArray<float, ImageDimension>;
-    using DoubleArrayType = itk::FixedArray<double, ImageDimension>;
-    using VectorType = itk::Vector<double, ImageDimension>;
-    using CovariantVectorType = itk::CovariantVector<double, ImageDimension>;
+  using FloatArrayType = itk::FixedArray<float, ImageDimension>;
+  using DoubleArrayType = itk::FixedArray<double, ImageDimension>;
+  using VectorType = itk::Vector<double, ImageDimension>;
+  using CovariantVectorType = itk::CovariantVector<double, ImageDimension>;
 
-    const ImageBaseType& imageBase = *image;
+  const ImageBaseType & imageBase = *image;
 
-    Expect_same_type_and_equal_value(
-      imageBase.TransformPhysicalPointToIndex(PointType()),
-      IndexType());
+  Expect_same_type_and_equal_value(imageBase.TransformPhysicalPointToIndex(PointType()), IndexType());
 
-    // For the three member functions TransformPhysicalPointToContinuousIndex,
-    // TransformContinuousIndexToPhysicalPoint, and TransformIndexToPhysicalPoint,
-    // the first template argument of the return type is expected to
-    // correspond with the first template argument of the member function.
-    Expect_same_type_and_equal_value(
-      imageBase.template TransformPhysicalPointToContinuousIndex<float>(PointType()),
-      itk::ContinuousIndex<float, ImageDimension>());
-    Expect_same_type_and_equal_value(
-      imageBase.template TransformPhysicalPointToContinuousIndex<double>(PointType()),
-      itk::ContinuousIndex<double, ImageDimension>());
-    Expect_same_type_and_equal_value(
-      imageBase.template TransformContinuousIndexToPhysicalPoint<float>(ContinuousIndexType()),
-      itk::Point<float, ImageDimension>());
-    Expect_same_type_and_equal_value(
-      imageBase.template TransformContinuousIndexToPhysicalPoint<double>(ContinuousIndexType()),
-      itk::Point<double, ImageDimension>());
-    Expect_same_type_and_equal_value(
-      imageBase.template TransformIndexToPhysicalPoint<float>(IndexType()),
-      itk::Point<float, ImageDimension>());
-    Expect_same_type_and_equal_value(
-      imageBase.template TransformIndexToPhysicalPoint<double>(IndexType()),
-      itk::Point<double, ImageDimension>());
+  // For the three member functions TransformPhysicalPointToContinuousIndex,
+  // TransformContinuousIndexToPhysicalPoint, and TransformIndexToPhysicalPoint,
+  // the first template argument of the return type is expected to
+  // correspond with the first template argument of the member function.
+  Expect_same_type_and_equal_value(imageBase.template TransformPhysicalPointToContinuousIndex<float>(PointType()),
+                                   itk::ContinuousIndex<float, ImageDimension>());
+  Expect_same_type_and_equal_value(imageBase.template TransformPhysicalPointToContinuousIndex<double>(PointType()),
+                                   itk::ContinuousIndex<double, ImageDimension>());
+  Expect_same_type_and_equal_value(
+    imageBase.template TransformContinuousIndexToPhysicalPoint<float>(ContinuousIndexType()),
+    itk::Point<float, ImageDimension>());
+  Expect_same_type_and_equal_value(
+    imageBase.template TransformContinuousIndexToPhysicalPoint<double>(ContinuousIndexType()),
+    itk::Point<double, ImageDimension>());
+  Expect_same_type_and_equal_value(imageBase.template TransformIndexToPhysicalPoint<float>(IndexType()),
+                                   itk::Point<float, ImageDimension>());
+  Expect_same_type_and_equal_value(imageBase.template TransformIndexToPhysicalPoint<double>(IndexType()),
+                                   itk::Point<double, ImageDimension>());
 
-    // The two member functions TransformLocalVectorToPhysicalVector and
-    // TransformPhysicalVectorToLocalVector are expected to return an
-    // array or vector of the same type as their first function argument.
-    Expect_same_type_and_equal_value(
-      imageBase.TransformLocalVectorToPhysicalVector(FloatArrayType()),
-      FloatArrayType());
-    Expect_same_type_and_equal_value(
-      imageBase.TransformLocalVectorToPhysicalVector(DoubleArrayType()),
-      DoubleArrayType());
-    Expect_same_type_and_equal_value(
-      imageBase.TransformLocalVectorToPhysicalVector(VectorType()),
-      VectorType());
-    Expect_same_type_and_equal_value(
-      imageBase.TransformLocalVectorToPhysicalVector(CovariantVectorType()),
-      CovariantVectorType());
-    Expect_same_type_and_equal_value(
-      imageBase.TransformPhysicalVectorToLocalVector(FloatArrayType()),
-      FloatArrayType());
-    Expect_same_type_and_equal_value(
-      imageBase.TransformPhysicalVectorToLocalVector(DoubleArrayType()),
-      DoubleArrayType());
-    Expect_same_type_and_equal_value(
-      imageBase.TransformPhysicalVectorToLocalVector(VectorType()),
-      VectorType());
-    Expect_same_type_and_equal_value(
-      imageBase.TransformPhysicalVectorToLocalVector(CovariantVectorType()),
-      CovariantVectorType());
-  }
+  // The two member functions TransformLocalVectorToPhysicalVector and
+  // TransformPhysicalVectorToLocalVector are expected to return an
+  // array or vector of the same type as their first function argument.
+  Expect_same_type_and_equal_value(imageBase.TransformLocalVectorToPhysicalVector(FloatArrayType()), FloatArrayType());
+  Expect_same_type_and_equal_value(imageBase.TransformLocalVectorToPhysicalVector(DoubleArrayType()),
+                                   DoubleArrayType());
+  Expect_same_type_and_equal_value(imageBase.TransformLocalVectorToPhysicalVector(VectorType()), VectorType());
+  Expect_same_type_and_equal_value(imageBase.TransformLocalVectorToPhysicalVector(CovariantVectorType()),
+                                   CovariantVectorType());
+  Expect_same_type_and_equal_value(imageBase.TransformPhysicalVectorToLocalVector(FloatArrayType()), FloatArrayType());
+  Expect_same_type_and_equal_value(imageBase.TransformPhysicalVectorToLocalVector(DoubleArrayType()),
+                                   DoubleArrayType());
+  Expect_same_type_and_equal_value(imageBase.TransformPhysicalVectorToLocalVector(VectorType()), VectorType());
+  Expect_same_type_and_equal_value(imageBase.TransformPhysicalVectorToLocalVector(CovariantVectorType()),
+                                   CovariantVectorType());
+}
 
 } // end namespace
 
@@ -126,6 +109,6 @@ namespace
 TEST(ImageBase, ByDefaultTransformResultEqualsDefaultConstructedValue)
 {
   // Test both 2D and 3D, for different pixel types and sizes:
-  Expect_by_default_Transform_result_equals_default_constructed_value<itk::Image<double>>({ {2, 2} });
-  Expect_by_default_Transform_result_equals_default_constructed_value<itk::Image<unsigned char, 3>>({ {2, 3, 4} });
+  Expect_by_default_Transform_result_equals_default_constructed_value<itk::Image<double>>({ { 2, 2 } });
+  Expect_by_default_Transform_result_equals_default_constructed_value<itk::Image<unsigned char, 3>>({ { 2, 3, 4 } });
 }

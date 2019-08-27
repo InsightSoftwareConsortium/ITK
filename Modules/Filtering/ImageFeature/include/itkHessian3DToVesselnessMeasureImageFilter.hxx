@@ -27,27 +27,24 @@ namespace itk
 /**
  * Constructor
  */
-template< typename TPixel >
-Hessian3DToVesselnessMeasureImageFilter< TPixel >
-::Hessian3DToVesselnessMeasureImageFilter()
+template <typename TPixel>
+Hessian3DToVesselnessMeasureImageFilter<TPixel>::Hessian3DToVesselnessMeasureImageFilter()
 {
   m_Alpha1 = 0.5;
   m_Alpha2 = 2.0;
 
   // Hessian( Image ) = Jacobian( Gradient ( Image ) )  is symmetric
   m_SymmetricEigenValueFilter = EigenAnalysisFilterType::New();
-  m_SymmetricEigenValueFilter->OrderEigenValuesBy(
-          Functor::OrderTypeOfEigenValue::OrderByValue);
+  m_SymmetricEigenValueFilter->OrderEigenValuesBy(Functor::OrderTypeOfEigenValue::OrderByValue);
 }
 
-template< typename TPixel >
+template <typename TPixel>
 void
-Hessian3DToVesselnessMeasureImageFilter< TPixel >
-::GenerateData()
+Hessian3DToVesselnessMeasureImageFilter<TPixel>::GenerateData()
 {
   itkDebugMacro(<< "Hessian3DToVesselnessMeasureImageFilter generating data ");
 
-  m_SymmetricEigenValueFilter->SetInput( this->GetInput() );
+  m_SymmetricEigenValueFilter->SetInput(this->GetInput());
 
   typename OutputImageType::Pointer output = this->GetOutput();
 
@@ -55,22 +52,19 @@ Hessian3DToVesselnessMeasureImageFilter< TPixel >
 
   m_SymmetricEigenValueFilter->Update();
 
-  const typename EigenValueOutputImageType::ConstPointer eigenImage =
-    m_SymmetricEigenValueFilter->GetOutput();
+  const typename EigenValueOutputImageType::ConstPointer eigenImage = m_SymmetricEigenValueFilter->GetOutput();
 
   // walk the region of eigen values and get the vesselness measure
-  EigenValueArrayType                                   eigenValue;
-  ImageRegionConstIterator< EigenValueOutputImageType > it;
-  it = ImageRegionConstIterator< EigenValueOutputImageType >(
-    eigenImage, eigenImage->GetRequestedRegion() );
-  ImageRegionIterator< OutputImageType > oit;
+  EigenValueArrayType                                 eigenValue;
+  ImageRegionConstIterator<EigenValueOutputImageType> it;
+  it = ImageRegionConstIterator<EigenValueOutputImageType>(eigenImage, eigenImage->GetRequestedRegion());
+  ImageRegionIterator<OutputImageType> oit;
   this->AllocateOutputs();
-  oit = ImageRegionIterator< OutputImageType >( output,
-                                                output->GetRequestedRegion() );
+  oit = ImageRegionIterator<OutputImageType>(output, output->GetRequestedRegion());
   oit.GoToBegin();
   it.GoToBegin();
-  while ( !it.IsAtEnd() )
-    {
+  while (!it.IsAtEnd())
+  {
     // Get the eigen value
     eigenValue = it.Get();
 
@@ -78,37 +72,34 @@ Hessian3DToVesselnessMeasureImageFilter< TPixel >
     double normalizeValue = std::min(-1.0 * eigenValue[1], -1.0 * eigenValue[0]);
 
     // Similarity measure to a line structure
-    if ( normalizeValue > 0 )
-      {
+    if (normalizeValue > 0)
+    {
       double lineMeasure;
-      if ( eigenValue[2] <= 0 )
-        {
-        lineMeasure =
-          std::exp( -0.5 * itk::Math::sqr( eigenValue[2] / ( m_Alpha1 * normalizeValue ) ) );
-        }
+      if (eigenValue[2] <= 0)
+      {
+        lineMeasure = std::exp(-0.5 * itk::Math::sqr(eigenValue[2] / (m_Alpha1 * normalizeValue)));
+      }
       else
-        {
-        lineMeasure =
-          std::exp( -0.5 * itk::Math::sqr( eigenValue[2] / ( m_Alpha2 * normalizeValue ) ) );
-        }
+      {
+        lineMeasure = std::exp(-0.5 * itk::Math::sqr(eigenValue[2] / (m_Alpha2 * normalizeValue)));
+      }
 
       lineMeasure *= normalizeValue;
-      oit.Set( static_cast< OutputPixelType >( lineMeasure ) );
-      }
+      oit.Set(static_cast<OutputPixelType>(lineMeasure));
+    }
     else
-      {
-      oit.Set(NumericTraits< OutputPixelType >::ZeroValue());
-      }
+    {
+      oit.Set(NumericTraits<OutputPixelType>::ZeroValue());
+    }
 
     ++it;
     ++oit;
-    }
+  }
 }
 
-template< typename TPixel >
+template <typename TPixel>
 void
-Hessian3DToVesselnessMeasureImageFilter< TPixel >
-::PrintSelf(std::ostream & os, Indent indent) const
+Hessian3DToVesselnessMeasureImageFilter<TPixel>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

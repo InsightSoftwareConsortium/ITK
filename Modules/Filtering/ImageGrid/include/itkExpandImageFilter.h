@@ -59,18 +59,17 @@ namespace itk
  * \ingroup GeometricTransform
  * \ingroup ITKImageGrid
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT ExpandImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT ExpandImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ExpandImageFilter);
 
   /** Standard class type aliases. */
   using Self = ExpandImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -93,22 +92,22 @@ public:
 
   /** Typedef support for the interpolation function. */
   using CoordRepType = double;
-  using InterpolatorType = InterpolateImageFunction< InputImageType, CoordRepType >;
+  using InterpolatorType = InterpolateImageFunction<InputImageType, CoordRepType>;
   using InterpolatorPointer = typename InterpolatorType::Pointer;
-  using DefaultInterpolatorType =
-      LinearInterpolateImageFunction< InputImageType, CoordRepType >;
+  using DefaultInterpolatorType = LinearInterpolateImageFunction<InputImageType, CoordRepType>;
 
   /** Get/Set the interpolator function. */
   itkSetObjectMacro(Interpolator, InterpolatorType);
   itkGetModifiableObjectMacro(Interpolator, InterpolatorType);
 
   /** The type of the expand factors representation */
-  using ExpandFactorsType = FixedArray< unsigned int, ImageDimension >;
+  using ExpandFactorsType = FixedArray<unsigned int, ImageDimension>;
 
   /** Set the expand factors. Values are clamped to
    * a minimum value of 1. Default is 1 for all dimensions. */
   itkSetMacro(ExpandFactors, ExpandFactorsType);
-  virtual void SetExpandFactors(const unsigned int factor);
+  virtual void
+  SetExpandFactors(const unsigned int factor);
 
   /** Get the expand factors. */
   itkGetConstReferenceMacro(ExpandFactors, ExpandFactorsType);
@@ -120,19 +119,22 @@ public:
    * UpdateOutputInformation() in order to inform the pipeline execution model.
    * The original documentation of this method is below.
    * \sa ProcessObject::GenerateOutputInformaton() */
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
   /** ExpandImageFilter needs a smaller input requested region than the output
    * requested region.  As such, ShrinkImageFilter needs to provide an
    * implementation for GenerateInputRequestedRegion() in order to inform
    * the pipeline execution model.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
 protected:
   ExpandImageFilter();
   ~ExpandImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** ExpandImageFilter is implemented as a multithreaded filter.  Therefore,
    * this implementation provides a DynamicThreadedGenerateData() routine which
@@ -144,12 +146,14 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
 
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 
   /** This method is used to set the state of the filter before
    * multi-threading. */
-  void BeforeThreadedGenerateData() override;
+  void
+  BeforeThreadedGenerateData() override;
 
 private:
   ExpandFactorsType   m_ExpandFactors;
@@ -158,7 +162,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkExpandImageFilter.hxx"
+#  include "itkExpandImageFilter.hxx"
 #endif
 
 #endif

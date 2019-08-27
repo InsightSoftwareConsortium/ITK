@@ -23,35 +23,39 @@
 #include "itkImageFileWriter.h"
 
 
-namespace{
+namespace
+{
 // The following class is used to support callbacks
 // on the filter in the pipeline that follows later
-template<typename TRegistration>
+template <typename TRegistration>
 class ShowProgressObject
 {
 public:
-  ShowProgressObject(TRegistration* o)
-    {m_Process = o;}
-  void ShowProgress()
-    {
+  ShowProgressObject(TRegistration * o) { m_Process = o; }
+  void
+  ShowProgress()
+  {
     std::cout << "Progress: " << m_Process->GetProgress() << "  ";
     std::cout << "Iter: " << m_Process->GetElapsedIterations() << "  ";
-    std::cout << "Metric: "   << m_Process->GetMetric()   << "  ";
+    std::cout << "Metric: " << m_Process->GetMetric() << "  ";
     std::cout << "RMSChange: " << m_Process->GetRMSChange() << "  ";
     std::cout << std::endl;
-    if ( m_Process->GetElapsedIterations() == 150 )
-      { m_Process->StopRegistration(); }
+    if (m_Process->GetElapsedIterations() == 150)
+    {
+      m_Process->StopRegistration();
     }
+  }
   typename TRegistration::Pointer m_Process;
 };
-}
+} // namespace
 
 
-int itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv [] )
+int
+itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv[])
 {
 
-  if( argc < 8 )
-    {
+  if (argc < 8)
+  {
     std::cerr << "Missing arguments" << std::endl;
     std::cerr << "Usage:" << std::endl;
     std::cerr << argv[0] << std::endl;
@@ -61,98 +65,97 @@ int itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv [] )
     std::cerr << "Intensity Difference Threshold (double)" << std::endl;
     std::cerr << "Maximum Update step length (double)" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   using PixelType = float;
   constexpr unsigned int ImageDimension = 2;
 
-  using ImageType = itk::Image<PixelType,ImageDimension>;
-  using VectorType = itk::Vector<float,ImageDimension>;
-  using FieldType = itk::Image<VectorType,ImageDimension>;
+  using ImageType = itk::Image<PixelType, ImageDimension>;
+  using VectorType = itk::Vector<float, ImageDimension>;
+  using FieldType = itk::Image<VectorType, ImageDimension>;
 
-  using ReaderType = itk::ImageFileReader< ImageType >;
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  using WriterType = itk::ImageFileWriter<ImageType>;
 
-  ReaderType::Pointer  fixedReader  = ReaderType::New();
-  ReaderType::Pointer  movingReader = ReaderType::New();
+  ReaderType::Pointer fixedReader = ReaderType::New();
+  ReaderType::Pointer movingReader = ReaderType::New();
 
-  fixedReader->SetFileName( argv[1] );
-  movingReader->SetFileName( argv[2] );
+  fixedReader->SetFileName(argv[1]);
+  movingReader->SetFileName(argv[2]);
 
-  WriterType::Pointer  writer       = WriterType::New();
+  WriterType::Pointer writer = WriterType::New();
 
-  writer->SetFileName( argv[3] );
+  writer->SetFileName(argv[3]);
 
   try
-    {
+  {
     fixedReader->Update();
     movingReader->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   //-------------------------------------------------------------
   std::cout << "Run registration and warp moving" << std::endl;
 
-  using RegistrationType = itk::DiffeomorphicDemonsRegistrationFilter<
-    ImageType,ImageType,FieldType>;
+  using RegistrationType = itk::DiffeomorphicDemonsRegistrationFilter<ImageType, ImageType, FieldType>;
 
   RegistrationType::Pointer registrator = RegistrationType::New();
 
-  registrator->SetMovingImage( movingReader->GetOutput() );
-  registrator->SetFixedImage( fixedReader->GetOutput() );
-  registrator->SetNumberOfIterations( 200 );
-  registrator->SetStandardDeviations( 1.0 );
-  registrator->SetMaximumError( 0.08 );
-  registrator->SetMaximumKernelWidth( 10 );
+  registrator->SetMovingImage(movingReader->GetOutput());
+  registrator->SetFixedImage(fixedReader->GetOutput());
+  registrator->SetNumberOfIterations(200);
+  registrator->SetStandardDeviations(1.0);
+  registrator->SetMaximumError(0.08);
+  registrator->SetMaximumKernelWidth(10);
 
 
-  const double intensityDifferenceThreshold = std::stod( argv[6] );
+  const double intensityDifferenceThreshold = std::stod(argv[6]);
 
-  registrator->SetIntensityDifferenceThreshold( intensityDifferenceThreshold );
+  registrator->SetIntensityDifferenceThreshold(intensityDifferenceThreshold);
 
-  const double maximumUpdateStepLength = std::stod( argv[7] );
+  const double maximumUpdateStepLength = std::stod(argv[7]);
 
-  registrator->SetMaximumUpdateStepLength( maximumUpdateStepLength );
+  registrator->SetMaximumUpdateStepLength(maximumUpdateStepLength);
 
 
   const std::string gradientTypeString{ argv[4] };
-  const int gradientType = std::stoi( gradientTypeString );
+  const int         gradientType = std::stoi(gradientTypeString);
 
   using FunctionType = RegistrationType::DemonsRegistrationFunctionType;
 
-  switch( gradientType )
-    {
+  switch (gradientType)
+  {
     case 0:
-      registrator->SetUseGradientType( FunctionType::Symmetric );
+      registrator->SetUseGradientType(FunctionType::Symmetric);
       break;
     case 1:
-      registrator->SetUseGradientType( FunctionType::Fixed );
+      registrator->SetUseGradientType(FunctionType::Fixed);
       break;
     case 2:
-      registrator->SetUseGradientType( FunctionType::WarpedMoving );
+      registrator->SetUseGradientType(FunctionType::WarpedMoving);
       break;
     case 3:
-      registrator->SetUseGradientType( FunctionType::MappedMoving );
+      registrator->SetUseGradientType(FunctionType::MappedMoving);
       break;
-    }
+  }
 
   std::cout << "GradientType = " << registrator->GetUseGradientType() << std::endl;
 
   const std::string useFirstOrderExponentialString{ argv[5] };
-  const int useFirstOrderExponential = std::stoi( useFirstOrderExponentialString );
+  const int         useFirstOrderExponential = std::stoi(useFirstOrderExponentialString);
 
-  if( useFirstOrderExponential == 0 )
-    {
-    registrator->SetUseFirstOrderExp( false );
-    }
+  if (useFirstOrderExponential == 0)
+  {
+    registrator->SetUseFirstOrderExp(false);
+  }
   else
-    {
-    registrator->SetUseFirstOrderExp( true );
-    }
+  {
+    registrator->SetUseFirstOrderExp(true);
+  }
 
 
   // turn on inplace execution
@@ -160,9 +163,8 @@ int itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv [] )
 
 
   FunctionType * fptr;
-  fptr = dynamic_cast<FunctionType *>(
-    registrator->GetDifferenceFunction().GetPointer() );
-  fptr->Print( std::cout );
+  fptr = dynamic_cast<FunctionType *>(registrator->GetDifferenceFunction().GetPointer());
+  fptr->Print(std::cout);
 
   // exercise other member variables
   std::cout << "No. Iterations: " << registrator->GetNumberOfIterations() << std::endl;
@@ -170,58 +172,54 @@ int itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv [] )
   std::cout << "Max. kernel width: " << registrator->GetMaximumKernelWidth() << std::endl;
 
   double v[ImageDimension];
-  for ( unsigned int j = 0; j < ImageDimension; j++ )
-    {
+  for (unsigned int j = 0; j < ImageDimension; j++)
+  {
     v[j] = registrator->GetStandardDeviations()[j];
-    }
-  registrator->SetStandardDeviations( v );
+  }
+  registrator->SetStandardDeviations(v);
 
   using ProgressType = ShowProgressObject<RegistrationType>;
-  ProgressType progressWatch(registrator);
+  ProgressType                                    progressWatch(registrator);
   itk::SimpleMemberCommand<ProgressType>::Pointer command;
   command = itk::SimpleMemberCommand<ProgressType>::New();
-  command->SetCallbackFunction(&progressWatch,
-                               &ProgressType::ShowProgress);
-  registrator->AddObserver( itk::ProgressEvent(), command);
+  command->SetCallbackFunction(&progressWatch, &ProgressType::ShowProgress);
+  registrator->AddObserver(itk::ProgressEvent(), command);
 
   // warp moving image
-  using WarperType = itk::WarpImageFilter<ImageType,ImageType,FieldType>;
+  using WarperType = itk::WarpImageFilter<ImageType, ImageType, FieldType>;
   WarperType::Pointer warper = WarperType::New();
 
   using CoordRepType = WarperType::CoordRepType;
-  using InterpolatorType =
-      itk::NearestNeighborInterpolateImageFunction<ImageType,CoordRepType>;
+  using InterpolatorType = itk::NearestNeighborInterpolateImageFunction<ImageType, CoordRepType>;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
-  const ImageType * fixed  = fixedReader->GetOutput();
+  const ImageType * fixed = fixedReader->GetOutput();
   const ImageType * moving = movingReader->GetOutput();
 
-  warper->SetInput( moving );
-  warper->SetDisplacementField( registrator->GetOutput() );
-  warper->SetInterpolator( interpolator );
-  warper->SetOutputSpacing( fixed->GetSpacing() );
-  warper->SetOutputOrigin( fixed->GetOrigin() );
-  warper->SetOutputDirection( fixed->GetDirection() );
+  warper->SetInput(moving);
+  warper->SetDisplacementField(registrator->GetOutput());
+  warper->SetInterpolator(interpolator);
+  warper->SetOutputSpacing(fixed->GetSpacing());
+  warper->SetOutputOrigin(fixed->GetOrigin());
+  warper->SetOutputDirection(fixed->GetDirection());
 
-  warper->Print( std::cout );
+  warper->Print(std::cout);
 
   warper->Update();
 
-  writer->SetInput( warper->GetOutput() );
+  writer->SetInput(warper->GetOutput());
   writer->UseCompressionOn();
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "Test passed" << std::endl;
   return EXIT_SUCCESS;
-
-
 }

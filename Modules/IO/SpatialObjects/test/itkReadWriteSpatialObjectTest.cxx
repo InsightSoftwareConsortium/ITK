@@ -22,7 +22,8 @@
 #include "itkMath.h"
 #include "itkMath.h"
 
-int itkReadWriteSpatialObjectTest(int argc, char* argv[])
+int
+itkReadWriteSpatialObjectTest(int argc, char * argv[])
 {
 
   using TubeType = itk::TubeSpatialObject<3>;
@@ -44,11 +45,11 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
   using ContourType = itk::ContourSpatialObject<3>;
 
 
-  using ImageType = itk::ImageSpatialObject<3,unsigned short>;
+  using ImageType = itk::ImageSpatialObject<3, unsigned short>;
   using ImageMaskType = itk::ImageMaskSpatialObject<3>;
 
-  using WriterType = itk::SpatialObjectWriter<3,unsigned short>;
-  using ReaderType = itk::SpatialObjectReader<3,unsigned short>;
+  using WriterType = itk::SpatialObjectWriter<3, unsigned short>;
+  using ReaderType = itk::SpatialObjectReader<3, unsigned short>;
 
   using TubePointType = itk::TubeSpatialObjectPoint<3>;
   using VesselTubePointType = itk::TubeSpatialObjectPoint<3>;
@@ -60,133 +61,133 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
   // Tubes
   std::cout << " --- Testing Read-Write SpatialObject ---" << std::endl;
 
-  TubeType::TubePointListType       list;
-  VesselTubeType::TubePointListType list2;
-  DTITubeType::DTITubePointListType    list3;
-  BlobType::BlobPointListType       list4;
-  SurfaceType::SurfacePointListType    list5;
-  LineType::LinePointListType       list6;
-  LandmarkType::LandmarkPointListType   list7;
+  TubeType::TubePointListType         list;
+  VesselTubeType::TubePointListType   list2;
+  DTITubeType::DTITubePointListType   list3;
+  BlobType::BlobPointListType         list4;
+  SurfaceType::SurfacePointListType   list5;
+  LineType::LinePointListType         list6;
+  LandmarkType::LandmarkPointListType list7;
 
-  for( unsigned int i=0; i<10; i++)
-    {
+  for (unsigned int i = 0; i < 10; i++)
+  {
     TubePointType p;
-    p.SetPositionInObjectSpace(i,i,i);
+    p.SetPositionInObjectSpace(i, i, i);
     p.SetRadiusInObjectSpace(i);
     p.SetRed(i);
-    p.SetGreen(i+1);
-    p.SetBlue(i+2);
-    p.SetAlpha(i+3);
+    p.SetGreen(i + 1);
+    p.SetBlue(i + 2);
+    p.SetAlpha(i + 3);
     list.push_back(p);
-    }
+  }
 
-  for( unsigned int i=0; i<5; i++)
-    {
+  for (unsigned int i = 0; i < 5; i++)
+  {
     VesselTubePointType p;
-    p.SetPositionInObjectSpace(i*2,i*2,i*2);
+    p.SetPositionInObjectSpace(i * 2, i * 2, i * 2);
     p.SetRadiusInObjectSpace(i);
     p.SetRed(i);
-    p.SetGreen(i+1);
-    p.SetBlue(i+2);
-    p.SetAlpha(i+3);
-    p.SetRidgeness( (i*1) );
-    p.SetMedialness( (i*2) );
-    p.SetBranchness( (i*3) );
-    p.SetAlpha1( (i*1) );
-    p.SetAlpha2( (i*2) );
-    p.SetAlpha3( (i*3) );
+    p.SetGreen(i + 1);
+    p.SetBlue(i + 2);
+    p.SetAlpha(i + 3);
+    p.SetRidgeness((i * 1));
+    p.SetMedialness((i * 2));
+    p.SetBranchness((i * 3));
+    p.SetAlpha1((i * 1));
+    p.SetAlpha2((i * 2));
+    p.SetAlpha3((i * 3));
     list2.push_back(p);
-    }
+  }
 
-  for( unsigned int i=0; i<7; i++)
-    {
+  for (unsigned int i = 0; i < 7; i++)
+  {
     DTITubePointType p;
-    p.SetPositionInObjectSpace(i*3,i*3,i*3);
+    p.SetPositionInObjectSpace(i * 3, i * 3, i * 3);
     p.SetRadiusInObjectSpace(i);
     p.SetRed(i);
-    p.SetGreen(i+1);
-    p.SetBlue(i+2);
-    p.SetAlpha(i+3);
-    p.AddField(itk::DTITubeSpatialObjectPointFieldEnumType::FA,i);
-    p.SetField(itk::DTITubeSpatialObjectPointFieldEnumType::FA,i+1);
-    p.AddField(itk::DTITubeSpatialObjectPointFieldEnumType::ADC,2*i);
-    p.AddField(itk::DTITubeSpatialObjectPointFieldEnumType::GA,3*i);
-    p.AddField("Lambda1",4*i);
-    p.AddField("Lambda2",5*i);
-    p.AddField("Lambda3",6*i);
+    p.SetGreen(i + 1);
+    p.SetBlue(i + 2);
+    p.SetAlpha(i + 3);
+    p.AddField(itk::DTITubeSpatialObjectPointFieldEnumType::FA, i);
+    p.SetField(itk::DTITubeSpatialObjectPointFieldEnumType::FA, i + 1);
+    p.AddField(itk::DTITubeSpatialObjectPointFieldEnumType::ADC, 2 * i);
+    p.AddField(itk::DTITubeSpatialObjectPointFieldEnumType::GA, 3 * i);
+    p.AddField("Lambda1", 4 * i);
+    p.AddField("Lambda2", 5 * i);
+    p.AddField("Lambda3", 6 * i);
     auto * v = new float[6];
     // this is only for testing
     // the tensor matrix should be definite positive
     // in the real case
-    for(unsigned int k=0;k<6;k++)
-      {
+    for (unsigned int k = 0; k < 6; k++)
+    {
       v[k] = k;
-      }
+    }
     p.SetTensorMatrix(v);
     delete[] v;
     list3.push_back(p);
-    }
+  }
 
   // Blob point list
-  for( unsigned int i=0; i<3; i++)
-    {
+  for (unsigned int i = 0; i < 3; i++)
+  {
     BlobPointType p;
-    p.SetPositionInObjectSpace(i,i,i);
+    p.SetPositionInObjectSpace(i, i, i);
     p.SetRed(i);
-    p.SetGreen(i+1);
-    p.SetBlue(i+2);
-    p.SetAlpha(i+3);
+    p.SetGreen(i + 1);
+    p.SetBlue(i + 2);
+    p.SetAlpha(i + 3);
     list4.push_back(p);
-    }
+  }
 
 
   // Surface point list
-  for( unsigned int i=0; i<3; i++)
-    {
+  for (unsigned int i = 0; i < 3; i++)
+  {
     SurfacePointType p;
-    p.SetPositionInObjectSpace(i,i,i);
+    p.SetPositionInObjectSpace(i, i, i);
     SurfacePointType::CovariantVectorType normal;
-    for(unsigned int j=0;j<3;j++)
-      {
-      normal[j]=j;
-      }
+    for (unsigned int j = 0; j < 3; j++)
+    {
+      normal[j] = j;
+    }
     p.SetNormalInObjectSpace(normal);
     p.SetRed(i);
-    p.SetGreen(i+1);
-    p.SetBlue(i+2);
-    p.SetAlpha(i+3);
+    p.SetGreen(i + 1);
+    p.SetBlue(i + 2);
+    p.SetAlpha(i + 3);
     list5.push_back(p);
-    }
+  }
 
   // Line point list
-  for( unsigned int i=0; i<3; i++)
-    {
+  for (unsigned int i = 0; i < 3; i++)
+  {
     LinePointType p;
-    p.SetPositionInObjectSpace(i,i,i);
+    p.SetPositionInObjectSpace(i, i, i);
     p.SetRed(i);
-    p.SetGreen(i+1);
-    p.SetBlue(i+2);
-    p.SetAlpha(i+3);
+    p.SetGreen(i + 1);
+    p.SetBlue(i + 2);
+    p.SetAlpha(i + 3);
     LinePointType::CovariantVectorType normal1;
     LinePointType::CovariantVectorType normal2;
-    for(unsigned int j=0;j<3;j++)
-      {
-      normal1[j]=j;
-      normal2[j]=2*j;
-      }
-    p.SetNormalInObjectSpace(normal1,0);
-    p.SetNormalInObjectSpace(normal2,1);
-    list6.push_back(p);
+    for (unsigned int j = 0; j < 3; j++)
+    {
+      normal1[j] = j;
+      normal2[j] = 2 * j;
     }
+    p.SetNormalInObjectSpace(normal1, 0);
+    p.SetNormalInObjectSpace(normal2, 1);
+    list6.push_back(p);
+  }
 
   // Landmark point list
-  for( unsigned int i=0; i<3; i++)
-    {
+  for (unsigned int i = 0; i < 3; i++)
+  {
     LinePointType p;
-    p.SetPositionInObjectSpace(i,i,i);
-    p.SetColor(1,0,0,1);
+    p.SetPositionInObjectSpace(i, i, i);
+    p.SetColor(1, 0, 0, 1);
     list7.push_back(p);
-    }
+  }
 
   /** Create a Tube  composed of 3 tubes */
   TubePointer tube1 = TubeType::New();
@@ -211,15 +212,15 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
   GroupPointer tubeN1 = GroupType::New();
   tubeN1->GetProperty().SetName("tube network 1");
   tubeN1->SetId(0);
-  tubeN1->AddChild( tube1 );
-  tubeN1->AddChild( tube2 );
+  tubeN1->AddChild(tube1);
+  tubeN1->AddChild(tube2);
   tubeN1->Update();
 
 
   GroupPointer tubeN2 = GroupType::New();
   tubeN2->SetId(5);
   tubeN2->GetProperty().SetName("tube network 2");
-  tubeN2->AddChild( tube3 );
+  tubeN2->AddChild(tube3);
   tubeN2->Update();
 
   EllipsePointer ellipse = EllipseType::New();
@@ -258,37 +259,37 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
   SizeType size;
 
   unsigned int dim = 3;
-  double spacing[3];
+  double       spacing[3];
 
-  for(unsigned int i=0;i<dim;i++)
-    {
+  for (unsigned int i = 0; i < dim; i++)
+  {
     size[i] = 10;
     spacing[i] = i + 1;
-    }
+  }
 
   RegionType region;
   region.SetSize(size);
   itk::Index<3> zeroIndex;
   zeroIndex.Fill(0);
-  region.SetIndex( zeroIndex );
+  region.SetIndex(zeroIndex);
   itkImage->SetLargestPossibleRegion(region);
   itkImage->SetBufferedRegion(region);
   itkImage->SetRequestedRegion(region);
   itkImage->SetSpacing(spacing);
   itkImage->Allocate();
 
-  itk::ImageRegionIteratorWithIndex< itkImageType > sit(itkImage, region);
-  for(unsigned int i = 0; !sit.IsAtEnd(); i++, ++sit)
-    {
+  itk::ImageRegionIteratorWithIndex<itkImageType> sit(itkImage, region);
+  for (unsigned int i = 0; !sit.IsAtEnd(); i++, ++sit)
+  {
     sit.Set(i);
-    }
+  }
 
   ImageType::Pointer image = ImageType::New();
   image->GetProperty().SetName("Image 1");
   image->SetImage(itkImage);
   image->Update();
 
-  tubeN2->AddChild( image );
+  tubeN2->AddChild(image);
   tubeN2->Update();
 
   // Create Mask Image
@@ -303,1057 +304,952 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
   itkImageMask->SetSpacing(spacing);
   itkImageMask->Allocate();
 
-  itk::ImageRegionIteratorWithIndex< itkImageMaskType > itM(itkImageMask, region);
-  for(unsigned int i = 0; !itM.IsAtEnd(); i++, ++itM)
-    {
+  itk::ImageRegionIteratorWithIndex<itkImageMaskType> itM(itkImageMask, region);
+  for (unsigned int i = 0; !itM.IsAtEnd(); i++, ++itM)
+  {
     itM.Set(i);
-    }
+  }
 
   ImageMaskType::Pointer maskImage = ImageMaskType::New();
   maskImage->GetProperty().SetName("Mask Image 1");
   maskImage->SetImage(itkImageMask);
   maskImage->Update();
 
-  tubeN2->AddChild( maskImage );
+  tubeN2->AddChild(maskImage);
   tubeN2->Update();
 
   // Define a contour
   ContourType::Pointer contour = ContourType::New();
   contour->GetProperty().SetName("My First Contour");
-  contour->SetInterpolationMethod(
-    ContourType::InterpolationMethodType::EXPLICIT_INTERPOLATION );
+  contour->SetInterpolationMethod(ContourType::InterpolationMethodType::EXPLICIT_INTERPOLATION);
   contour->SetIsClosed(true);
   contour->SetAttachedToSlice(50);
 
-  for(int i = 0;i<10;i++)
-    {
-    ContourType::ContourPointType ctrlPt;
-    ContourType::ContourPointType::PointType p;
+  for (int i = 0; i < 10; i++)
+  {
+    ContourType::ContourPointType                      ctrlPt;
+    ContourType::ContourPointType::PointType           p;
     ContourType::ContourPointType::CovariantVectorType n;
     ctrlPt.SetId(i);
-    p.Fill( -i );
+    p.Fill(-i);
     p[2] = 0;
     ctrlPt.SetPickedPointInObjectSpace(p);
-    p.Fill( i );
+    p.Fill(i);
     p[2] = 0;
     ctrlPt.SetPositionInObjectSpace(p);
-    n.Fill( i );
+    n.Fill(i);
     ctrlPt.SetNormalInObjectSpace(n);
     ctrlPt.SetRed(i);
-    ctrlPt.SetGreen(i+1);
-    ctrlPt.SetBlue(i+2);
-    ctrlPt.SetAlpha(i+3);
+    ctrlPt.SetGreen(i + 1);
+    ctrlPt.SetBlue(i + 2);
+    ctrlPt.SetAlpha(i + 3);
     contour->GetControlPoints().push_back(ctrlPt);
 
     ContourType::ContourPointType iPt;
     iPt.SetId(i);
     iPt.SetRed(i);
-    iPt.SetGreen(i+1);
-    iPt.SetBlue(i+2);
-    iPt.SetAlpha(i+3);
-    p.Fill( i );
+    iPt.SetGreen(i + 1);
+    iPt.SetBlue(i + 2);
+    iPt.SetAlpha(i + 3);
+    p.Fill(i);
     p[2] = 0;
     iPt.SetPositionInObjectSpace(p);
     contour->GetPoints().push_back(iPt);
-    }
+  }
   contour->Update();
 
-  tubeN1->AddChild( tubeN2 );
-  tubeN1->AddChild( blob );
-  tubeN1->AddChild( line );
-  tubeN1->AddChild( surface );
-  tubeN1->AddChild( landmark );
-  tubeN1->AddChild( ellipse );
-  tubeN1->AddChild( contour );
+  tubeN1->AddChild(tubeN2);
+  tubeN1->AddChild(blob);
+  tubeN1->AddChild(line);
+  tubeN1->AddChild(surface);
+  tubeN1->AddChild(landmark);
+  tubeN1->AddChild(ellipse);
+  tubeN1->AddChild(contour);
   tubeN1->Update();
 
-  std::cout<<"Testing Number of children: ";
+  std::cout << "Testing Number of children: ";
 
-  if( tubeN1->GetNumberOfChildren() != 9)
-    {
-    std::cout<< tubeN1->GetNumberOfChildren()  << " instead of 9 [FAILED]"<< std::endl;
+  if (tubeN1->GetNumberOfChildren() != 9)
+  {
+    std::cout << tubeN1->GetNumberOfChildren() << " instead of 9 [FAILED]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   else
-    {
-    std::cout<<"[PASSED]"<< std::endl;
-    }
+  {
+    std::cout << "[PASSED]" << std::endl;
+  }
 
   std::cout << "Testing Writing SceneSpatialObject: " << std::endl;
 
   WriterType::Pointer writer = WriterType::New();
   try
-    {
+  {
     writer->SetInput(tubeN1);
     writer->SetFileName(argv[1]);
     writer->SetBinaryPoints(false);
-    if(writer->GetBinaryPoints())
-      {
-      std::cout<<"[FAILURE]"<< std::endl;
+    if (writer->GetBinaryPoints())
+    {
+      std::cout << "[FAILURE]" << std::endl;
       return EXIT_FAILURE;
-      }
-    if((argc>3) && (!strcmp(argv[2],"binary")))
-      {
+    }
+    if ((argc > 3) && (!strcmp(argv[2], "binary")))
+    {
       writer->SetBinaryPoints(true);
-      }
+    }
     writer->Update();
-    }
-  catch( itk::ExceptionObject & e )
-    {
+  }
+  catch (itk::ExceptionObject & e)
+  {
     std::cout << e << std::endl;
-    }
-  catch( ... )
-    {
-    std::cout<<"[EXCEPTION FAILURE]"<< std::endl;
+  }
+  catch (...)
+  {
+    std::cout << "[EXCEPTION FAILURE]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  std::cout<<"[PASSED]"<< std::endl;
+  std::cout << "[PASSED]" << std::endl;
 
-  std::cout<<"Testing Reading SceneSpatialObject: ";
+  std::cout << "Testing Reading SceneSpatialObject: ";
 
   ReaderType::Pointer reader = ReaderType::New();
-  if((argc>2) && (strcmp(argv[2],"binary")))
-    {
+  if ((argc > 2) && (strcmp(argv[2], "binary")))
+  {
     reader->SetFileName(argv[2]);
-    }
+  }
   else
-    {
+  {
     reader->SetFileName(argv[1]);
-    }
+  }
   reader->Update();
 
   ReaderType::GroupPointer myScene = reader->GetGroup();
 
-  if(!myScene)
-    {
-    std::cout<<"No Scene : [FAILED]"<< std::endl;
+  if (!myScene)
+  {
+    std::cout << "No Scene : [FAILED]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   else
-    {
-    std::cout<<" [PASSED]"<< std::endl;
-    }
+  {
+    std::cout << " [PASSED]" << std::endl;
+  }
 
-  std::cout<<"Testing Number of children:";
-  if(myScene->GetNumberOfChildren(1) != 12)
-    {
-    std::cout << "found " << myScene->GetNumberOfChildren(1)
-      << " instead of 12" << std::endl;
-    std::cout<<" [FAILED]"<< std::endl;
+  std::cout << "Testing Number of children:";
+  if (myScene->GetNumberOfChildren(1) != 12)
+  {
+    std::cout << "found " << myScene->GetNumberOfChildren(1) << " instead of 12" << std::endl;
+    std::cout << " [FAILED]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   else
-    {
-    std::cout<<" [PASSED]"<< std::endl;
-    }
+  {
+    std::cout << " [PASSED]" << std::endl;
+  }
 
-  std::cout<<"Testing CenterLine Position:";
+  std::cout << "Testing CenterLine Position:";
 
   TubeType::TubePointListType::const_iterator j;
 
-  ReaderType::GroupType::ChildrenListType * mySceneChildren =
-        myScene->GetChildren( TubeType::MaximumDepth );
+  ReaderType::GroupType::ChildrenListType * mySceneChildren = myScene->GetChildren(TubeType::MaximumDepth);
   ReaderType::GroupType::ChildrenListType::const_iterator obj;
 
   bool found = false;
-  for(obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
-    {
+  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
+  {
     std::cout << "obj = " << (*obj)->GetTypeName() << std::endl;
-    if(!strcmp((*obj)->GetTypeName().c_str(), "TubeSpatialObject"))
-      {
+    if (!strcmp((*obj)->GetTypeName().c_str(), "TubeSpatialObject"))
+    {
       found = true;
-      unsigned int value=0;
-      for(j = dynamic_cast<TubeType*>((*obj).GetPointer())->GetPoints().begin();
-          j != dynamic_cast<TubeType*>((*obj).GetPointer())->GetPoints().end();
-          j++)
+      unsigned int value = 0;
+      for (j = dynamic_cast<TubeType *>((*obj).GetPointer())->GetPoints().begin();
+           j != dynamic_cast<TubeType *>((*obj).GetPointer())->GetPoints().end();
+           j++)
+      {
+        for (unsigned int d = 0; d < 3; d++)
         {
-        for(unsigned int d=0;d<3;d++)
+          if (itk::Math::NotExactlyEquals((*j).GetPositionInObjectSpace()[d], value * (*obj)->GetId()))
           {
-          if(itk::Math::NotExactlyEquals((*j).GetPositionInObjectSpace()[d],
-              value * (*obj)->GetId()))
-            {
-            std::cout<<" [FAILED] (Position is: "
-              << (*j).GetPositionInObjectSpace()[d]
-              << " expected : "<< value * (*obj)->GetId()<< " ) " << std::endl;
+            std::cout << " [FAILED] (Position is: " << (*j).GetPositionInObjectSpace()[d]
+                      << " expected : " << value * (*obj)->GetId() << " ) " << std::endl;
             delete mySceneChildren;
             return EXIT_FAILURE;
-            }
           }
-          // Testing the color of the tube points
-        if( itk::Math::NotExactlyEquals((*j).GetRed(), value))
-          {
-          std::cout<<" [FAILED] : RGBColormapFilterEnumType::Red : found " << ( *j).GetRed()
-            << " instead of " << value << std::endl;
-          delete mySceneChildren;
-          return EXIT_FAILURE;
-          }
-
-        if(itk::Math::NotExactlyEquals((*j).GetGreen(), value+1))
-          {
-          std::cout<<" [FAILED] : RGBColormapFilterEnumType::Green : found " << ( *j).GetGreen()
-            << " instead of " << value+1 << std::endl;
-          delete mySceneChildren;
-          return EXIT_FAILURE;
-          }
-
-        if(itk::Math::NotExactlyEquals((*j).GetBlue(), value+2))
-          {
-          std::cout<<"[FAILED] : RGBColormapFilterEnumType::Blue : found " << ( *j).GetBlue()
-            << " instead of " << value+2 << std::endl;
-          delete mySceneChildren;
-          return EXIT_FAILURE;
-          }
-
-        if(itk::Math::NotExactlyEquals((*j).GetAlpha(), value+3))
-          {
-          std::cout<<" [FAILED] : Alpha : found " << ( *j).GetAlpha()
-            << " instead of " << value+3 << std::endl;
-          delete mySceneChildren;
-          return EXIT_FAILURE;
-          }
-        value++;
         }
-      break;
-      }
-    }
+        // Testing the color of the tube points
+        if (itk::Math::NotExactlyEquals((*j).GetRed(), value))
+        {
+          std::cout << " [FAILED] : RGBColormapFilterEnumType::Red : found " << (*j).GetRed() << " instead of " << value
+                    << std::endl;
+          delete mySceneChildren;
+          return EXIT_FAILURE;
+        }
 
-  if( found )
-    {
-    std::cout<<" [PASSED]"<< std::endl;
+        if (itk::Math::NotExactlyEquals((*j).GetGreen(), value + 1))
+        {
+          std::cout << " [FAILED] : RGBColormapFilterEnumType::Green : found " << (*j).GetGreen() << " instead of "
+                    << value + 1 << std::endl;
+          delete mySceneChildren;
+          return EXIT_FAILURE;
+        }
+
+        if (itk::Math::NotExactlyEquals((*j).GetBlue(), value + 2))
+        {
+          std::cout << "[FAILED] : RGBColormapFilterEnumType::Blue : found " << (*j).GetBlue() << " instead of "
+                    << value + 2 << std::endl;
+          delete mySceneChildren;
+          return EXIT_FAILURE;
+        }
+
+        if (itk::Math::NotExactlyEquals((*j).GetAlpha(), value + 3))
+        {
+          std::cout << " [FAILED] : Alpha : found " << (*j).GetAlpha() << " instead of " << value + 3 << std::endl;
+          delete mySceneChildren;
+          return EXIT_FAILURE;
+        }
+        value++;
+      }
+      break;
     }
+  }
+
+  if (found)
+  {
+    std::cout << " [PASSED]" << std::endl;
+  }
   else
-    {
-    std::cout<<" TubeSpatialObject Not Found. [FAILED]"<< std::endl;
+  {
+    std::cout << " TubeSpatialObject Not Found. [FAILED]" << std::endl;
     delete mySceneChildren;
     return EXIT_FAILURE;
-    }
+  }
 
 
   // Testing VesselTubeSO
   found = false;
   std::cout << "Testing VesselTubeSpatialObject: ";
   VesselTubeType::TubePointListType::const_iterator jv;
-  for(obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
-    {
+  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
+  {
     std::cout << "obj = " << (*obj)->GetTypeName() << std::endl;
-    if(!strcmp((*obj)->GetTypeName().c_str(), "VesselTubeSpatialObject"))
-      {
+    if (!strcmp((*obj)->GetTypeName().c_str(), "VesselTubeSpatialObject"))
+    {
       found = true;
-      unsigned int value=0;
-      for(jv = dynamic_cast<VesselTubeType*>((*obj).GetPointer())->
-            GetPoints().begin();
-          jv != dynamic_cast<VesselTubeType*>((*obj).GetPointer())->
-            GetPoints().end();
-          jv++)
+      unsigned int value = 0;
+      for (jv = dynamic_cast<VesselTubeType *>((*obj).GetPointer())->GetPoints().begin();
+           jv != dynamic_cast<VesselTubeType *>((*obj).GetPointer())->GetPoints().end();
+           jv++)
+      {
+        for (unsigned int d = 0; d < 3; d++)
         {
-        for(unsigned int d=0;d<3;d++)
+          if (itk::Math::NotExactlyEquals((*jv).GetPositionInObjectSpace()[d], value * (*obj)->GetId()))
           {
-          if(itk::Math::NotExactlyEquals(
-              (*jv).GetPositionInObjectSpace()[d],
-              value * (*obj)->GetId()))
-            {
-            std::cout<<" [FAILED] (Position is: "
-              << (*jv).GetPositionInObjectSpace()[d] << " expected : "
-              << value * (*obj)->GetId()<< " ) " << std::endl;
+            std::cout << " [FAILED] (Position is: " << (*jv).GetPositionInObjectSpace()[d]
+                      << " expected : " << value * (*obj)->GetId() << " ) " << std::endl;
             delete mySceneChildren;
             return EXIT_FAILURE;
-            }
           }
-          // Testing the color of the tube points
-        if(itk::Math::NotExactlyEquals((*jv).GetRed(), value))
-          {
-          std::cout<<" [FAILED] : RGBColormapFilterEnumType::Red : found " << ( *jv).GetRed()
-            << " instead of " << value << std::endl;
-          delete mySceneChildren;
-          return EXIT_FAILURE;
-          }
-
-        if(itk::Math::NotExactlyEquals((*jv).GetGreen(), value+1))
-          {
-          std::cout<<" [FAILED] : RGBColormapFilterEnumType::Green : found " << ( *jv).GetGreen()
-            << " instead of " << value+1 << std::endl;
-          delete mySceneChildren;
-          return EXIT_FAILURE;
-          }
-
-        if(itk::Math::NotExactlyEquals((*jv).GetBlue(), value+2))
-          {
-          std::cout<<"[FAILED] : RGBColormapFilterEnumType::Blue : found " << ( *jv).GetBlue()
-            << " instead of " << value+2 << std::endl;
-          delete mySceneChildren;
-          return EXIT_FAILURE;
-          }
-
-        if(itk::Math::NotExactlyEquals((*jv).GetAlpha(), value+3))
-          {
-          std::cout<<" [FAILED] : Alpha : found " << ( *jv).GetAlpha()
-            << " instead of " << value+3 << std::endl;
-          delete mySceneChildren;
-          return EXIT_FAILURE;
-          }
-        if(itk::Math::NotExactlyEquals( (*jv).GetRidgeness(), value*1))
-          {
-          std::cout<<" [FAILED] : Ridgeness : found "
-            << (*jv).GetRidgeness()
-            << " instead of " << value*1 << std::endl;
-          delete mySceneChildren;
-          return EXIT_FAILURE;
-          }
-        if(itk::Math::NotExactlyEquals( (*jv).GetMedialness(), value*2))
-          {
-          std::cout<<" [FAILED] : Medialness : found "
-            << (*jv).GetMedialness()
-            << " instead of " << value*2 << std::endl;
-          delete mySceneChildren;
-          return EXIT_FAILURE;
-          }
-        if(itk::Math::NotExactlyEquals(
-            (*jv).GetBranchness(), value*3))
-          {
-          std::cout<<" [FAILED] : Branchness : found "
-            << (*jv).GetBranchness()
-            << " instead of " << value*3 << std::endl;
-          delete mySceneChildren;
-          return EXIT_FAILURE;
-          }
-        if(itk::Math::NotExactlyEquals(
-            (*jv).GetAlpha1(), value*1))
-          {
-          std::cout<<" [FAILED] : Alpha1 : found "
-            << ( *jv).GetAlpha1()
-            << " instead of " << value*1 << std::endl;
-          delete mySceneChildren;
-          return EXIT_FAILURE;
-          }
-        if(itk::Math::NotExactlyEquals(
-            (*jv).GetAlpha2(), value*2))
-          {
-          std::cout<<" [FAILED] : Alpha2 : found "
-            << ( *jv).GetAlpha2()
-            << " instead of " << value*2 << std::endl;
-          delete mySceneChildren;
-          return EXIT_FAILURE;
-          }
-        if(itk::Math::NotExactlyEquals(
-            (*jv).GetAlpha3(), value*3))
-          {
-          std::cout<<" [FAILED] : Alpha3 : found "
-            << ( *jv).GetAlpha3()
-            << " instead of " << value*3 << std::endl;
-          delete mySceneChildren;
-          return EXIT_FAILURE;
-          }
-        value++;
         }
-      break;
-      }
-    }
+        // Testing the color of the tube points
+        if (itk::Math::NotExactlyEquals((*jv).GetRed(), value))
+        {
+          std::cout << " [FAILED] : RGBColormapFilterEnumType::Red : found " << (*jv).GetRed() << " instead of "
+                    << value << std::endl;
+          delete mySceneChildren;
+          return EXIT_FAILURE;
+        }
 
-  if(found)
-    {
-    std::cout<<" [PASSED]"<< std::endl;
+        if (itk::Math::NotExactlyEquals((*jv).GetGreen(), value + 1))
+        {
+          std::cout << " [FAILED] : RGBColormapFilterEnumType::Green : found " << (*jv).GetGreen() << " instead of "
+                    << value + 1 << std::endl;
+          delete mySceneChildren;
+          return EXIT_FAILURE;
+        }
+
+        if (itk::Math::NotExactlyEquals((*jv).GetBlue(), value + 2))
+        {
+          std::cout << "[FAILED] : RGBColormapFilterEnumType::Blue : found " << (*jv).GetBlue() << " instead of "
+                    << value + 2 << std::endl;
+          delete mySceneChildren;
+          return EXIT_FAILURE;
+        }
+
+        if (itk::Math::NotExactlyEquals((*jv).GetAlpha(), value + 3))
+        {
+          std::cout << " [FAILED] : Alpha : found " << (*jv).GetAlpha() << " instead of " << value + 3 << std::endl;
+          delete mySceneChildren;
+          return EXIT_FAILURE;
+        }
+        if (itk::Math::NotExactlyEquals((*jv).GetRidgeness(), value * 1))
+        {
+          std::cout << " [FAILED] : Ridgeness : found " << (*jv).GetRidgeness() << " instead of " << value * 1
+                    << std::endl;
+          delete mySceneChildren;
+          return EXIT_FAILURE;
+        }
+        if (itk::Math::NotExactlyEquals((*jv).GetMedialness(), value * 2))
+        {
+          std::cout << " [FAILED] : Medialness : found " << (*jv).GetMedialness() << " instead of " << value * 2
+                    << std::endl;
+          delete mySceneChildren;
+          return EXIT_FAILURE;
+        }
+        if (itk::Math::NotExactlyEquals((*jv).GetBranchness(), value * 3))
+        {
+          std::cout << " [FAILED] : Branchness : found " << (*jv).GetBranchness() << " instead of " << value * 3
+                    << std::endl;
+          delete mySceneChildren;
+          return EXIT_FAILURE;
+        }
+        if (itk::Math::NotExactlyEquals((*jv).GetAlpha1(), value * 1))
+        {
+          std::cout << " [FAILED] : Alpha1 : found " << (*jv).GetAlpha1() << " instead of " << value * 1 << std::endl;
+          delete mySceneChildren;
+          return EXIT_FAILURE;
+        }
+        if (itk::Math::NotExactlyEquals((*jv).GetAlpha2(), value * 2))
+        {
+          std::cout << " [FAILED] : Alpha2 : found " << (*jv).GetAlpha2() << " instead of " << value * 2 << std::endl;
+          delete mySceneChildren;
+          return EXIT_FAILURE;
+        }
+        if (itk::Math::NotExactlyEquals((*jv).GetAlpha3(), value * 3))
+        {
+          std::cout << " [FAILED] : Alpha3 : found " << (*jv).GetAlpha3() << " instead of " << value * 3 << std::endl;
+          delete mySceneChildren;
+          return EXIT_FAILURE;
+        }
+        value++;
+      }
+      break;
     }
+  }
+
+  if (found)
+  {
+    std::cout << " [PASSED]" << std::endl;
+  }
   else
-    {
-    std::cout << " [FAILED] : Cannot find VesselTubeSpatialObject"
-      << std::endl;
+  {
+    std::cout << " [FAILED] : Cannot find VesselTubeSpatialObject" << std::endl;
     delete mySceneChildren;
     return EXIT_FAILURE;
-    }
+  }
 
 
   // Testing DTITubeSO
   found = false;
   std::cout << "Testing DTITubeSpatialObject: ";
   DTITubeType::DTITubePointListType::const_iterator jdti;
-  for(obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
-    {
+  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
+  {
     std::cout << "obj = " << (*obj)->GetTypeName() << std::endl;
-    if(!strcmp((*obj)->GetTypeName().c_str(), "DTITubeSpatialObject"))
-      {
+    if (!strcmp((*obj)->GetTypeName().c_str(), "DTITubeSpatialObject"))
+    {
       found = true;
-      unsigned int value=0;
-      for(jdti = dynamic_cast<DTITubeType*>((*obj).GetPointer())->
-                   GetPoints().begin();
-          jdti != dynamic_cast<DTITubeType*>((*obj).GetPointer())->
-                   GetPoints().end();
-          jdti++)
+      unsigned int value = 0;
+      for (jdti = dynamic_cast<DTITubeType *>((*obj).GetPointer())->GetPoints().begin();
+           jdti != dynamic_cast<DTITubeType *>((*obj).GetPointer())->GetPoints().end();
+           jdti++)
+      {
+        for (unsigned int d = 0; d < 3; d++)
         {
-        for(unsigned int d=0;d<3;d++)
+          if (itk::Math::NotExactlyEquals((*jdti).GetPositionInObjectSpace()[d], value * (*obj)->GetId()))
           {
-          if(itk::Math::NotExactlyEquals(
-              (*jdti).GetPositionInObjectSpace()[d],
-              value * (*obj)->GetId()))
-            {
-            std::cout<<" [FAILED] (Position is: "
-              << (*jdti).GetPositionInObjectSpace()[d] << " expected : "
-              << value * (*obj)->GetId()<< " ) " << std::endl;
+            std::cout << " [FAILED] (Position is: " << (*jdti).GetPositionInObjectSpace()[d]
+                      << " expected : " << value * (*obj)->GetId() << " ) " << std::endl;
             delete mySceneChildren;
             return EXIT_FAILURE;
-            }
           }
-          // Testing the color of the tube points
-        if( itk::Math::NotExactlyEquals((*jdti).GetRed(), value))
-          {
-          std::cout<<" [FAILED] : RGBColormapFilterEnumType::Red : found " << ( *jdti).GetRed()
-            << " instead of " << value << std::endl;
-          delete mySceneChildren;
-          return EXIT_FAILURE;
-          }
-
-        if(itk::Math::NotExactlyEquals((*jdti).GetGreen(), value+1))
-          {
-          std::cout<<" [FAILED] : RGBColormapFilterEnumType::Green : found " << ( *jdti).GetGreen()
-            << " instead of " << value+1 << std::endl;
-          delete mySceneChildren;
-          return EXIT_FAILURE;
-          }
-
-        if(itk::Math::NotExactlyEquals((*jdti).GetBlue(), value+2))
-          {
-          std::cout<<"[FAILED] : RGBColormapFilterEnumType::Blue : found " << ( *jdti).GetBlue()
-            << " instead of " << value+2 << std::endl;
-          delete mySceneChildren;
-          return EXIT_FAILURE;
-          }
-
-        if(itk::Math::NotExactlyEquals((*jdti).GetAlpha(), value+3))
-          {
-          std::cout<<" [FAILED] : Alpha : found " << ( *jdti).GetAlpha()
-            << " instead of " << value+3 << std::endl;
-          delete mySceneChildren;
-          return EXIT_FAILURE;
-          }
-
-        if(itk::Math::NotExactlyEquals(
-            (*jdti).GetField(itk::DTITubeSpatialObjectPointFieldEnumType::FA), value+1) )
-          {
-          std::cout<<" [FAILED] : FA : found " << ( *jdti).GetField("FA")
-            << " instead of " << value+1 << std::endl;
-          delete mySceneChildren;
-          return EXIT_FAILURE;
-          }
-        if(itk::Math::NotExactlyEquals((*jdti).GetField(
-                itk::DTITubeSpatialObjectPointFieldEnumType::ADC), value*2))
-          {
-          std::cout<<" [FAILED] : ADC : found " << ( *jdti).GetField("ADC")
-            << " instead of " << value*2 << std::endl;
-          delete mySceneChildren;
-          return EXIT_FAILURE;
-          }
-        if(itk::Math::NotExactlyEquals((*jdti).GetField(
-                itk::DTITubeSpatialObjectPointFieldEnumType::GA), value*3))
-          {
-          std::cout<<" [FAILED] : GA : found " << ( *jdti).GetField("FA")
-            << " instead of " << value*3 << std::endl;
-          delete mySceneChildren;
-          return EXIT_FAILURE;
-          }
-        if(itk::Math::NotExactlyEquals((*jdti).GetField("Lambda1"),
-            value*4))
-          {
-          std::cout<<" [FAILED] : GetLambda1 : found "
-            << ( *jdti).GetField("Lambda1") << " instead of " << value*4
-            << std::endl;
-          delete mySceneChildren;
-          return EXIT_FAILURE;
-          }
-        if(itk::Math::NotExactlyEquals((*jdti).GetField("Lambda2"),
-            value*5))
-          {
-          std::cout<<" [FAILED] : GetLambda2 : found "
-            << ( *jdti).GetField("Lambda2") << " instead of " << value*5
-            << std::endl;
-          delete mySceneChildren;
-          return EXIT_FAILURE;
-          }
-        if(itk::Math::NotExactlyEquals((*jdti).GetField("Lambda3"),
-            value*6))
-          {
-          std::cout<<" [FAILED] : GetLambda3 : found "
-            << ( *jdti).GetField("Lambda3") << " instead of " << value*6
-            << std::endl;
-          delete mySceneChildren;
-          return EXIT_FAILURE;
-          }
-        int ind;
-        for(ind=0;ind<6;ind++)
-          {
-          if(itk::Math::NotExactlyEquals((*jdti).GetTensorMatrix()[ind],
-              ind))
-            {
-            std::cout<<" [FAILED] : GetTensorMatrix : found "
-              << ( *jdti).GetTensorMatrix()[ind] << " instead of " << ind
-              << std::endl;
-            delete mySceneChildren;
-            return EXIT_FAILURE;
-            }
-          }
-        value++;
         }
-      break;
-      }
-    }
+        // Testing the color of the tube points
+        if (itk::Math::NotExactlyEquals((*jdti).GetRed(), value))
+        {
+          std::cout << " [FAILED] : RGBColormapFilterEnumType::Red : found " << (*jdti).GetRed() << " instead of "
+                    << value << std::endl;
+          delete mySceneChildren;
+          return EXIT_FAILURE;
+        }
 
-  if(found)
-    {
-    std::cout<<" [PASSED]"<< std::endl;
+        if (itk::Math::NotExactlyEquals((*jdti).GetGreen(), value + 1))
+        {
+          std::cout << " [FAILED] : RGBColormapFilterEnumType::Green : found " << (*jdti).GetGreen() << " instead of "
+                    << value + 1 << std::endl;
+          delete mySceneChildren;
+          return EXIT_FAILURE;
+        }
+
+        if (itk::Math::NotExactlyEquals((*jdti).GetBlue(), value + 2))
+        {
+          std::cout << "[FAILED] : RGBColormapFilterEnumType::Blue : found " << (*jdti).GetBlue() << " instead of "
+                    << value + 2 << std::endl;
+          delete mySceneChildren;
+          return EXIT_FAILURE;
+        }
+
+        if (itk::Math::NotExactlyEquals((*jdti).GetAlpha(), value + 3))
+        {
+          std::cout << " [FAILED] : Alpha : found " << (*jdti).GetAlpha() << " instead of " << value + 3 << std::endl;
+          delete mySceneChildren;
+          return EXIT_FAILURE;
+        }
+
+        if (itk::Math::NotExactlyEquals((*jdti).GetField(itk::DTITubeSpatialObjectPointFieldEnumType::FA), value + 1))
+        {
+          std::cout << " [FAILED] : FA : found " << (*jdti).GetField("FA") << " instead of " << value + 1 << std::endl;
+          delete mySceneChildren;
+          return EXIT_FAILURE;
+        }
+        if (itk::Math::NotExactlyEquals((*jdti).GetField(itk::DTITubeSpatialObjectPointFieldEnumType::ADC), value * 2))
+        {
+          std::cout << " [FAILED] : ADC : found " << (*jdti).GetField("ADC") << " instead of " << value * 2
+                    << std::endl;
+          delete mySceneChildren;
+          return EXIT_FAILURE;
+        }
+        if (itk::Math::NotExactlyEquals((*jdti).GetField(itk::DTITubeSpatialObjectPointFieldEnumType::GA), value * 3))
+        {
+          std::cout << " [FAILED] : GA : found " << (*jdti).GetField("FA") << " instead of " << value * 3 << std::endl;
+          delete mySceneChildren;
+          return EXIT_FAILURE;
+        }
+        if (itk::Math::NotExactlyEquals((*jdti).GetField("Lambda1"), value * 4))
+        {
+          std::cout << " [FAILED] : GetLambda1 : found " << (*jdti).GetField("Lambda1") << " instead of " << value * 4
+                    << std::endl;
+          delete mySceneChildren;
+          return EXIT_FAILURE;
+        }
+        if (itk::Math::NotExactlyEquals((*jdti).GetField("Lambda2"), value * 5))
+        {
+          std::cout << " [FAILED] : GetLambda2 : found " << (*jdti).GetField("Lambda2") << " instead of " << value * 5
+                    << std::endl;
+          delete mySceneChildren;
+          return EXIT_FAILURE;
+        }
+        if (itk::Math::NotExactlyEquals((*jdti).GetField("Lambda3"), value * 6))
+        {
+          std::cout << " [FAILED] : GetLambda3 : found " << (*jdti).GetField("Lambda3") << " instead of " << value * 6
+                    << std::endl;
+          delete mySceneChildren;
+          return EXIT_FAILURE;
+        }
+        int ind;
+        for (ind = 0; ind < 6; ind++)
+        {
+          if (itk::Math::NotExactlyEquals((*jdti).GetTensorMatrix()[ind], ind))
+          {
+            std::cout << " [FAILED] : GetTensorMatrix : found " << (*jdti).GetTensorMatrix()[ind] << " instead of "
+                      << ind << std::endl;
+            delete mySceneChildren;
+            return EXIT_FAILURE;
+          }
+        }
+        value++;
+      }
+      break;
     }
+  }
+
+  if (found)
+  {
+    std::cout << " [PASSED]" << std::endl;
+  }
   else
-    {
-    std::cout << " [FAILED] : Cannot find DTITubeSpatialObject"
-      << std::endl;
+  {
+    std::cout << " [FAILED] : Cannot find DTITubeSpatialObject" << std::endl;
     delete mySceneChildren;
     return EXIT_FAILURE;
-    }
+  }
 
 
-  std::cout<<"Testing Ellipse parameters:";
+  std::cout << "Testing Ellipse parameters:";
   bool gotEllipse = false;
 
-  for(obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
+  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
+  {
+    if (!strcmp((*obj)->GetTypeName().c_str(), "EllipseSpatialObject"))
     {
-    if(!strcmp((*obj)->GetTypeName().c_str(), "EllipseSpatialObject"))
+      for (unsigned int jj = 0; jj < 3; jj++)
       {
-      for(unsigned int jj=0;jj<3;jj++)
+        if (dynamic_cast<EllipseType *>((*obj).GetPointer())->GetRadiusInObjectSpace()[jj] != 9.0)
         {
-        if (dynamic_cast<EllipseType*>((*obj).GetPointer())->
-          GetRadiusInObjectSpace()[jj] != 9.0)
-          {
-          std::cout<<" [FAILED]"<< std::endl;
+          std::cout << " [FAILED]" << std::endl;
           delete mySceneChildren;
           return EXIT_FAILURE;
-          }
-        gotEllipse = true;
         }
+        gotEllipse = true;
       }
     }
+  }
 
-  if(!gotEllipse)
-    {
-    std::cout<<" [FAILED] : No ellipse!"<< std::endl;
+  if (!gotEllipse)
+  {
+    std::cout << " [FAILED] : No ellipse!" << std::endl;
     delete mySceneChildren;
     return EXIT_FAILURE;
-    }
+  }
 
-  std::cout<<" [PASSED]"<< std::endl;
+  std::cout << " [PASSED]" << std::endl;
 
- std::cout<<"Testing Image data validity:";
+  std::cout << "Testing Image data validity:";
 
-  for(obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
+  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
+  {
+    if (!strcmp((*obj)->GetTypeName().c_str(), "ImageSpatialObject"))
     {
-    if(!strcmp((*obj)->GetTypeName().c_str(), "ImageSpatialObject"))
+      const itkImageType * constImage = dynamic_cast<const ImageType *>((*obj).GetPointer())->GetImage();
+      if (constImage == nullptr)
       {
-      const itkImageType *constImage = dynamic_cast<const ImageType*>(
-        (*obj).GetPointer())->GetImage();
-      if(constImage == nullptr)
-        {
         std::cerr << "dynamic_cast failed." << std::endl;
         return EXIT_FAILURE;
-        }
-      itk::ImageRegionConstIteratorWithIndex< itkImageType > it(
-        constImage, constImage->GetLargestPossibleRegion());
-      for(unsigned int i = 0; !it.IsAtEnd(); i++, ++it)
+      }
+      itk::ImageRegionConstIteratorWithIndex<itkImageType> it(constImage, constImage->GetLargestPossibleRegion());
+      for (unsigned int i = 0; !it.IsAtEnd(); i++, ++it)
+      {
+        if (it.Get() != i)
         {
-        if(it.Get() != i)
-          {
-          std::cout << "Expected " << i << " , found " << it.Get()
-            << std::endl;
-          std::cout<<" [FAILED]"<< std::endl;
+          std::cout << "Expected " << i << " , found " << it.Get() << std::endl;
+          std::cout << " [FAILED]" << std::endl;
           delete mySceneChildren;
           return EXIT_FAILURE;
-          }
         }
       }
     }
+  }
 
-  std::cout<<" [PASSED]"<< std::endl;
+  std::cout << " [PASSED]" << std::endl;
 
-  std::cout<<"Testing Image Mask validity:";
+  std::cout << "Testing Image Mask validity:";
 
   bool maskFound = false;
-  for(obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
+  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
+  {
+    if (!strcmp((*obj)->GetTypeName().c_str(), "ImageMaskSpatialObject"))
     {
-    if(!strcmp((*obj)->GetTypeName().c_str(), "ImageMaskSpatialObject"))
-      {
       maskFound = true;
-      itkImageMaskType::ConstPointer constImage =
-        dynamic_cast<const ImageMaskType*>((*obj).GetPointer())->
-          GetImage();
-      itk::ImageRegionConstIteratorWithIndex< itkImageMaskType > it(
-        constImage, constImage->GetLargestPossibleRegion());
-      for(unsigned char i = 0; !it.IsAtEnd(); i++, ++it)
+      itkImageMaskType::ConstPointer constImage = dynamic_cast<const ImageMaskType *>((*obj).GetPointer())->GetImage();
+      itk::ImageRegionConstIteratorWithIndex<itkImageMaskType> it(constImage, constImage->GetLargestPossibleRegion());
+      for (unsigned char i = 0; !it.IsAtEnd(); i++, ++it)
+      {
+        if (it.Get() != i)
         {
-        if(it.Get() != i)
-          {
-          std::cout << "Expected " << i << " , found " << it.Get()
-            << std::endl;
-          std::cout<<" [FAILED]"<< std::endl;
+          std::cout << "Expected " << i << " , found " << it.Get() << std::endl;
+          std::cout << " [FAILED]" << std::endl;
           delete mySceneChildren;
           return EXIT_FAILURE;
-          }
         }
       }
     }
+  }
 
-  if(!maskFound)
-    {
+  if (!maskFound)
+  {
     std::cout << "No Mask!" << std::endl;
-    std::cout<<" [FAILED]"<< std::endl;
+    std::cout << " [FAILED]" << std::endl;
     delete mySceneChildren;
     return EXIT_FAILURE;
-    }
+  }
 
-  std::cout<<" [PASSED]"<< std::endl;
+  std::cout << " [PASSED]" << std::endl;
 
-  std::cout<<"Testing Blob validity:";
+  std::cout << "Testing Blob validity:";
 
-  for(obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
-    {
+  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
+  {
     BlobType::BlobPointListType::const_iterator pit;
-    if(!strcmp((*obj)->GetTypeName().c_str(), "BlobSpatialObject"))
-      {
+    if (!strcmp((*obj)->GetTypeName().c_str(), "BlobSpatialObject"))
+    {
       unsigned int value = 0;
-      for(pit = dynamic_cast<BlobType*>((*obj).GetPointer())->
-                  GetPoints().begin();
-          pit != dynamic_cast<BlobType*>((*obj).GetPointer())->
-                  GetPoints().end();
-          pit++)
+      for (pit = dynamic_cast<BlobType *>((*obj).GetPointer())->GetPoints().begin();
+           pit != dynamic_cast<BlobType *>((*obj).GetPointer())->GetPoints().end();
+           pit++)
+      {
+        for (unsigned int d = 0; d < 3; d++)
         {
-        for(unsigned int d=0;d<3;d++)
+          if (itk::Math::NotExactlyEquals((*pit).GetPositionInObjectSpace()[d], value))
           {
-          if(itk::Math::NotExactlyEquals(
-              (*pit).GetPositionInObjectSpace()[d], value))
-            {
-            std::cout<<" [FAILED]"<< std::endl;
+            std::cout << " [FAILED]" << std::endl;
             delete mySceneChildren;
             return EXIT_FAILURE;
-            }
-          // Testing the color of the tube points
-          if( itk::Math::NotExactlyEquals((*pit).GetRed(), value))
-            {
-            std::cout<<" [FAILED] : RGBColormapFilterEnumType::Red : found " << (*pit).GetRed()
-              << " instead of " << value << std::endl;
-            delete mySceneChildren;
-            return EXIT_FAILURE;
-            }
-
-          if(itk::Math::NotExactlyEquals((*pit).GetGreen(), value+1))
-            {
-            std::cout<<" [FAILED] : RGBColormapFilterEnumType::Green : found " << (*pit).GetGreen()
-              << " instead of " << value+1 << std::endl;
-            delete mySceneChildren;
-            return EXIT_FAILURE;
-            }
-
-          if(itk::Math::NotExactlyEquals((*pit).GetBlue(), value+2))
-            {
-            std::cout<<" [FAILED] : RGBColormapFilterEnumType::Blue : found " << (*pit).GetBlue()
-              << " instead of " << value+2 << std::endl;
-            delete mySceneChildren;
-            return EXIT_FAILURE;
-            }
-
-          if(itk::Math::NotExactlyEquals((*pit).GetAlpha(), value+3))
-            {
-            std::cout<<" [FAILED] : Alpha : found " << (*pit).GetAlpha()
-              << " instead of " << value+3 << std::endl;
-            delete mySceneChildren;
-            return EXIT_FAILURE;
-            }
           }
-        value++;
+          // Testing the color of the tube points
+          if (itk::Math::NotExactlyEquals((*pit).GetRed(), value))
+          {
+            std::cout << " [FAILED] : RGBColormapFilterEnumType::Red : found " << (*pit).GetRed() << " instead of "
+                      << value << std::endl;
+            delete mySceneChildren;
+            return EXIT_FAILURE;
+          }
+
+          if (itk::Math::NotExactlyEquals((*pit).GetGreen(), value + 1))
+          {
+            std::cout << " [FAILED] : RGBColormapFilterEnumType::Green : found " << (*pit).GetGreen() << " instead of "
+                      << value + 1 << std::endl;
+            delete mySceneChildren;
+            return EXIT_FAILURE;
+          }
+
+          if (itk::Math::NotExactlyEquals((*pit).GetBlue(), value + 2))
+          {
+            std::cout << " [FAILED] : RGBColormapFilterEnumType::Blue : found " << (*pit).GetBlue() << " instead of "
+                      << value + 2 << std::endl;
+            delete mySceneChildren;
+            return EXIT_FAILURE;
+          }
+
+          if (itk::Math::NotExactlyEquals((*pit).GetAlpha(), value + 3))
+          {
+            std::cout << " [FAILED] : Alpha : found " << (*pit).GetAlpha() << " instead of " << value + 3 << std::endl;
+            delete mySceneChildren;
+            return EXIT_FAILURE;
+          }
         }
+        value++;
       }
     }
+  }
 
-  std::cout<<" [PASSED]"<< std::endl;
+  std::cout << " [PASSED]" << std::endl;
 
 
-  std::cout<<"Testing Surface validity:";
+  std::cout << "Testing Surface validity:";
 
-  for(obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
-    {
+  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
+  {
     SurfaceType::SurfacePointListType::const_iterator pit;
-    if(!strcmp((*obj)->GetTypeName().c_str(), "SurfaceSpatialObject"))
-      {
+    if (!strcmp((*obj)->GetTypeName().c_str(), "SurfaceSpatialObject"))
+    {
       unsigned int value = 0;
-      for(pit = dynamic_cast<SurfaceType*>((*obj).GetPointer())->
-                  GetPoints().begin();
-          pit != dynamic_cast<SurfaceType*>((*obj).GetPointer())->
-                   GetPoints().end();
-          pit++)
+      for (pit = dynamic_cast<SurfaceType *>((*obj).GetPointer())->GetPoints().begin();
+           pit != dynamic_cast<SurfaceType *>((*obj).GetPointer())->GetPoints().end();
+           pit++)
+      {
+        for (unsigned int d = 0; d < 3; d++)
         {
-        for(unsigned int d=0;d<3;d++)
+          if (itk::Math::NotExactlyEquals((*pit).GetPositionInObjectSpace()[d], value))
           {
-          if(itk::Math::NotExactlyEquals(
-              (*pit).GetPositionInObjectSpace()[d], value))
-            {
-            std::cout << (*pit).GetPositionInObjectSpace()[d] << "!="
-              << value << std::endl;
-            std::cout<<" [FAILED]"<< std::endl;
+            std::cout << (*pit).GetPositionInObjectSpace()[d] << "!=" << value << std::endl;
+            std::cout << " [FAILED]" << std::endl;
             delete mySceneChildren;
             return EXIT_FAILURE;
-            }
+          }
 
-          if(itk::Math::NotExactlyEquals(
-              (*pit).GetNormalInObjectSpace()[d], d))
-            {
-            std::cout << "Normal : " << (*pit).GetNormalInObjectSpace()[d]
-              << std::endl;
-            std::cout<<" [FAILED]"<< std::endl;
+          if (itk::Math::NotExactlyEquals((*pit).GetNormalInObjectSpace()[d], d))
+          {
+            std::cout << "Normal : " << (*pit).GetNormalInObjectSpace()[d] << std::endl;
+            std::cout << " [FAILED]" << std::endl;
             delete mySceneChildren;
             return EXIT_FAILURE;
-            }
+          }
 
           // Testing the color of the tube points
-          if( itk::Math::NotExactlyEquals((*pit).GetRed(), value))
-            {
-            std::cout<<" [FAILED] : RGBColormapFilterEnumType::Red : found " << ( *pit).GetRed()
-              << " instead of " << value << std::endl;
+          if (itk::Math::NotExactlyEquals((*pit).GetRed(), value))
+          {
+            std::cout << " [FAILED] : RGBColormapFilterEnumType::Red : found " << (*pit).GetRed() << " instead of "
+                      << value << std::endl;
             delete mySceneChildren;
             return EXIT_FAILURE;
-            }
-
-          if(itk::Math::NotExactlyEquals((*pit).GetGreen(), value+1))
-            {
-            std::cout<<" [FAILED] : RGBColormapFilterEnumType::Green : found " << ( *pit).GetGreen()
-              << " instead of " << value+1 << std::endl;
-            delete mySceneChildren;
-            return EXIT_FAILURE;
-            }
-
-          if(itk::Math::NotExactlyEquals((*pit).GetBlue(), value+2))
-            {
-            std::cout<<" [FAILED] : RGBColormapFilterEnumType::Blue : found " << ( *pit).GetBlue()
-              << " instead of " << value+2 << std::endl;
-            delete mySceneChildren;
-            return EXIT_FAILURE;
-            }
-
-          if(itk::Math::NotExactlyEquals((*pit).GetAlpha(), value+3))
-            {
-            std::cout<<" [FAILED] : Alpha : found " << ( *pit).GetAlpha()
-              << " instead of " << value+3 << std::endl;
-            delete mySceneChildren;
-            return EXIT_FAILURE;
-            }
           }
-        value++;
+
+          if (itk::Math::NotExactlyEquals((*pit).GetGreen(), value + 1))
+          {
+            std::cout << " [FAILED] : RGBColormapFilterEnumType::Green : found " << (*pit).GetGreen() << " instead of "
+                      << value + 1 << std::endl;
+            delete mySceneChildren;
+            return EXIT_FAILURE;
+          }
+
+          if (itk::Math::NotExactlyEquals((*pit).GetBlue(), value + 2))
+          {
+            std::cout << " [FAILED] : RGBColormapFilterEnumType::Blue : found " << (*pit).GetBlue() << " instead of "
+                      << value + 2 << std::endl;
+            delete mySceneChildren;
+            return EXIT_FAILURE;
+          }
+
+          if (itk::Math::NotExactlyEquals((*pit).GetAlpha(), value + 3))
+          {
+            std::cout << " [FAILED] : Alpha : found " << (*pit).GetAlpha() << " instead of " << value + 3 << std::endl;
+            delete mySceneChildren;
+            return EXIT_FAILURE;
+          }
         }
+        value++;
       }
     }
+  }
 
-  std::cout<<" [PASSED]"<< std::endl;
+  std::cout << " [PASSED]" << std::endl;
 
-  std::cout<<"Testing Line validity:";
+  std::cout << "Testing Line validity:";
 
-  for(obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
-    {
+  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
+  {
     LineType::LinePointListType::const_iterator pit;
-    if(!strcmp((*obj)->GetTypeName().c_str(), "LineSpatialObject"))
-      {
+    if (!strcmp((*obj)->GetTypeName().c_str(), "LineSpatialObject"))
+    {
       unsigned int value = 0;
-      for(pit = dynamic_cast<LineType*>((*obj).GetPointer())->GetPoints().begin();
-          pit != dynamic_cast<LineType*>((*obj).GetPointer())->GetPoints().end();
-          pit++)
+      for (pit = dynamic_cast<LineType *>((*obj).GetPointer())->GetPoints().begin();
+           pit != dynamic_cast<LineType *>((*obj).GetPointer())->GetPoints().end();
+           pit++)
+      {
+        for (unsigned int d = 0; d < 3; d++)
         {
-        for(unsigned int d=0;d<3;d++)
+          if (itk::Math::NotExactlyEquals((*pit).GetPositionInObjectSpace()[d], value))
           {
-          if(itk::Math::NotExactlyEquals((*pit).GetPositionInObjectSpace()[d],
-              value))
-            {
-            std::cout<<" [FAILED]"<< std::endl;
+            std::cout << " [FAILED]" << std::endl;
             delete mySceneChildren;
             return EXIT_FAILURE;
-            }
+          }
 
-          if(itk::Math::NotExactlyEquals(((*pit).GetNormalInObjectSpace(0))[d],
-              d))
-            {
-            std::cout<<" [FAILED]"<< std::endl;
+          if (itk::Math::NotExactlyEquals(((*pit).GetNormalInObjectSpace(0))[d], d))
+          {
+            std::cout << " [FAILED]" << std::endl;
             delete mySceneChildren;
             return EXIT_FAILURE;
-            }
+          }
 
-          if(itk::Math::NotExactlyEquals(((*pit).GetNormalInObjectSpace(1))[d],
-              2*d))
-            {
-            std::cout<<" [FAILED]"<< std::endl;
+          if (itk::Math::NotExactlyEquals(((*pit).GetNormalInObjectSpace(1))[d], 2 * d))
+          {
+            std::cout << " [FAILED]" << std::endl;
             delete mySceneChildren;
             return EXIT_FAILURE;
-            }
+          }
 
           // Testing the color of the tube points
-          if( itk::Math::NotExactlyEquals((*pit).GetRed(), value))
-            {
-            std::cout<<" [FAILED] : RGBColormapFilterEnumType::Red : found " << ( *pit).GetRed() << " instead of " << value << std::endl;
-            delete mySceneChildren;
-            return EXIT_FAILURE;
-            }
-
-          if(itk::Math::NotExactlyEquals((*pit).GetGreen(), value+1))
-            {
-            std::cout<<" [FAILED] : RGBColormapFilterEnumType::Green : found " << ( *pit).GetGreen() << " instead of " << value+1 << std::endl;
-            delete mySceneChildren;
-            return EXIT_FAILURE;
-            }
-
-          if(itk::Math::NotExactlyEquals((*pit).GetBlue(), value+2))
-            {
-            std::cout<<" [FAILED] : RGBColormapFilterEnumType::Blue : found " << ( *pit).GetBlue() << " instead of " << value+2 << std::endl;
-            delete mySceneChildren;
-            return EXIT_FAILURE;
-            }
-
-          if(itk::Math::NotExactlyEquals((*pit).GetAlpha(), value+3))
-            {
-            std::cout<<" [FAILED] : Alpha : found " << ( *pit).GetAlpha() << " instead of " << value+3 << std::endl;
-            delete mySceneChildren;
-            return EXIT_FAILURE;
-            }
-          }
-        value++;
-        }
-      }
-    }
-
-  std::cout<<" [PASSED]"<< std::endl;
-
-  std::cout<<"Testing Landmark validity:";
-
-  for(obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
-    {
-    LandmarkType::LandmarkPointListType::const_iterator pit;
-    if(!strcmp((*obj)->GetTypeName().c_str(), "LandmarkSpatialObject"))
-      {
-      unsigned int value = 0;
-      for(pit = dynamic_cast<LandmarkType*>((*obj).GetPointer())->
-                  GetPoints().begin();
-          pit != dynamic_cast<LandmarkType*>((*obj).GetPointer())->
-                    GetPoints().end();
-          pit++)
-        {
-        for(unsigned int d=0;d<3;d++)
+          if (itk::Math::NotExactlyEquals((*pit).GetRed(), value))
           {
-          if(itk::Math::NotExactlyEquals(
-              (*pit).GetPositionInObjectSpace()[d], value))
-            {
-            std::cout<<" [FAILED]"<< std::endl;
+            std::cout << " [FAILED] : RGBColormapFilterEnumType::Red : found " << (*pit).GetRed() << " instead of "
+                      << value << std::endl;
             delete mySceneChildren;
             return EXIT_FAILURE;
-            }
           }
-        value++;
+
+          if (itk::Math::NotExactlyEquals((*pit).GetGreen(), value + 1))
+          {
+            std::cout << " [FAILED] : RGBColormapFilterEnumType::Green : found " << (*pit).GetGreen() << " instead of "
+                      << value + 1 << std::endl;
+            delete mySceneChildren;
+            return EXIT_FAILURE;
+          }
+
+          if (itk::Math::NotExactlyEquals((*pit).GetBlue(), value + 2))
+          {
+            std::cout << " [FAILED] : RGBColormapFilterEnumType::Blue : found " << (*pit).GetBlue() << " instead of "
+                      << value + 2 << std::endl;
+            delete mySceneChildren;
+            return EXIT_FAILURE;
+          }
+
+          if (itk::Math::NotExactlyEquals((*pit).GetAlpha(), value + 3))
+          {
+            std::cout << " [FAILED] : Alpha : found " << (*pit).GetAlpha() << " instead of " << value + 3 << std::endl;
+            delete mySceneChildren;
+            return EXIT_FAILURE;
+          }
         }
+        value++;
       }
     }
+  }
 
-  std::cout<<" [PASSED]"<< std::endl;
-  std::cout<<"Testing Contour validity:";
-  for(obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
+  std::cout << " [PASSED]" << std::endl;
+
+  std::cout << "Testing Landmark validity:";
+
+  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
+  {
+    LandmarkType::LandmarkPointListType::const_iterator pit;
+    if (!strcmp((*obj)->GetTypeName().c_str(), "LandmarkSpatialObject"))
     {
-    if(!strcmp((*obj)->GetTypeName().c_str(), "ContourSpatialObject"))
+      unsigned int value = 0;
+      for (pit = dynamic_cast<LandmarkType *>((*obj).GetPointer())->GetPoints().begin();
+           pit != dynamic_cast<LandmarkType *>((*obj).GetPointer())->GetPoints().end();
+           pit++)
       {
-      if(!dynamic_cast<ContourType*>((*obj).GetPointer())->GetIsClosed())
+        for (unsigned int d = 0; d < 3; d++)
         {
+          if (itk::Math::NotExactlyEquals((*pit).GetPositionInObjectSpace()[d], value))
+          {
+            std::cout << " [FAILED]" << std::endl;
+            delete mySceneChildren;
+            return EXIT_FAILURE;
+          }
+        }
+        value++;
+      }
+    }
+  }
+
+  std::cout << " [PASSED]" << std::endl;
+  std::cout << "Testing Contour validity:";
+  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
+  {
+    if (!strcmp((*obj)->GetTypeName().c_str(), "ContourSpatialObject"))
+    {
+      if (!dynamic_cast<ContourType *>((*obj).GetPointer())->GetIsClosed())
+      {
         std::cout << "The contour should be closed" << std::endl;
         delete mySceneChildren;
         return EXIT_FAILURE;
-        }
+      }
 
-      if(dynamic_cast<ContourType*>((*obj).GetPointer())->
-         GetControlPoints().begin()->GetPositionInObjectSpace()[2] != 0
-         && dynamic_cast<ContourType*>((*obj).GetPointer())->
-             GetOrientationInObjectSpace() != 2)
-        {
-        std::cout
-          << "The contour should have display orientation == 2 instead of"
-          << dynamic_cast<ContourType*>( (*obj).GetPointer())->
-               GetOrientationInObjectSpace()
-          << std::endl;
+      if (dynamic_cast<ContourType *>((*obj).GetPointer())->GetControlPoints().begin()->GetPositionInObjectSpace()[2] !=
+            0 &&
+          dynamic_cast<ContourType *>((*obj).GetPointer())->GetOrientationInObjectSpace() != 2)
+      {
+        std::cout << "The contour should have display orientation == 2 instead of"
+                  << dynamic_cast<ContourType *>((*obj).GetPointer())->GetOrientationInObjectSpace() << std::endl;
         delete mySceneChildren;
         return EXIT_FAILURE;
-        }
+      }
 
-      if(dynamic_cast<ContourType*>((*obj).GetPointer())->
-           GetAttachedToSlice() != 50)
-        {
-        std::cout
-          << "The contour should be attached to slice 50 instead of"
-          << dynamic_cast<ContourType*>((*obj).GetPointer())->
-               GetAttachedToSlice()
-          << std::endl;
+      if (dynamic_cast<ContourType *>((*obj).GetPointer())->GetAttachedToSlice() != 50)
+      {
+        std::cout << "The contour should be attached to slice 50 instead of"
+                  << dynamic_cast<ContourType *>((*obj).GetPointer())->GetAttachedToSlice() << std::endl;
         delete mySceneChildren;
         return EXIT_FAILURE;
-        }
+      }
       ContourType::ContourPointListType::const_iterator ctrl;
-      int value = 0;
+      int                                               value = 0;
 
-      for(ctrl = dynamic_cast<ContourType*>((*obj).GetPointer())->
-                   GetControlPoints().begin();
-          ctrl != dynamic_cast<ContourType*>((*obj).GetPointer())->
-                    GetControlPoints().end();
-          ctrl++)
+      for (ctrl = dynamic_cast<ContourType *>((*obj).GetPointer())->GetControlPoints().begin();
+           ctrl != dynamic_cast<ContourType *>((*obj).GetPointer())->GetControlPoints().end();
+           ctrl++)
+      {
+        for (unsigned int d = 0; d < 3; d++)
         {
-        for(unsigned int d=0;d<3;d++)
+          if ((*ctrl).GetId() != value)
           {
-          if((*ctrl).GetId() != value)
-            {
-            std::cout << "Control ID [FAILED]" << (*ctrl).GetId()
-              << " v.s. " << value << std::endl;
+            std::cout << "Control ID [FAILED]" << (*ctrl).GetId() << " v.s. " << value << std::endl;
             delete mySceneChildren;
             return EXIT_FAILURE;
-            }
+          }
 
-          if((d != 2
-              && itk::Math::NotExactlyEquals(
-              ctrl->GetPositionInObjectSpace()[d], value))
-            || (d == 2
-              && itk::Math::NotExactlyEquals(
-              ctrl->GetPositionInObjectSpace()[d], value)
-              && itk::Math::NotExactlyEquals(
-              ctrl->GetPositionInObjectSpace()[d], 0)))
-            {
+          if ((d != 2 && itk::Math::NotExactlyEquals(ctrl->GetPositionInObjectSpace()[d], value)) ||
+              (d == 2 && itk::Math::NotExactlyEquals(ctrl->GetPositionInObjectSpace()[d], value) &&
+               itk::Math::NotExactlyEquals(ctrl->GetPositionInObjectSpace()[d], 0)))
+          {
             std::cout << "Control Position [FAILED]" << std::endl;
             delete mySceneChildren;
             return EXIT_FAILURE;
-            }
+          }
 
-          if((d != 2
-              && itk::Math::NotExactlyEquals(
-              ctrl->GetPickedPointInObjectSpace()[d], -value))
-            || (d == 2
-              && itk::Math::NotExactlyEquals(
-              ctrl->GetPickedPointInObjectSpace()[d], -value)
-              && itk::Math::NotExactlyEquals(
-              ctrl->GetPickedPointInObjectSpace()[d], 0)))
-            {
-            std::cout << "Picked Point [FAILED]"
-              << (*ctrl).GetPickedPointInObjectSpace() << " v.s. " << -value
-              << std::endl;
+          if ((d != 2 && itk::Math::NotExactlyEquals(ctrl->GetPickedPointInObjectSpace()[d], -value)) ||
+              (d == 2 && itk::Math::NotExactlyEquals(ctrl->GetPickedPointInObjectSpace()[d], -value) &&
+               itk::Math::NotExactlyEquals(ctrl->GetPickedPointInObjectSpace()[d], 0)))
+          {
+            std::cout << "Picked Point [FAILED]" << (*ctrl).GetPickedPointInObjectSpace() << " v.s. " << -value
+                      << std::endl;
             delete mySceneChildren;
             return EXIT_FAILURE;
-            }
+          }
 
-          if(itk::Math::NotExactlyEquals((
-                ctrl->GetNormalInObjectSpace())[d], value))
-            {
+          if (itk::Math::NotExactlyEquals((ctrl->GetNormalInObjectSpace())[d], value))
+          {
             std::cout << "Normal [FAILED]" << std::endl;
             delete mySceneChildren;
             return EXIT_FAILURE;
-            }
+          }
 
           // Testing the color of the tube points
-          if( itk::Math::NotExactlyEquals((*ctrl).GetRed(), value))
-            {
-            std::cout << " [FAILED] : CRed : found " << (*ctrl).GetRed()
-              << " instead of " << value << std::endl;
+          if (itk::Math::NotExactlyEquals((*ctrl).GetRed(), value))
+          {
+            std::cout << " [FAILED] : CRed : found " << (*ctrl).GetRed() << " instead of " << value << std::endl;
             delete mySceneChildren;
             return EXIT_FAILURE;
-            }
-
-          if(itk::Math::NotExactlyEquals((*ctrl).GetGreen(), value+1))
-            {
-            std::cout << " [FAILED] : CGreen : found "
-              << (*ctrl).GetGreen() << " instead of " << value+1
-              << std::endl;
-            delete mySceneChildren;
-            return EXIT_FAILURE;
-            }
-
-          if(itk::Math::NotExactlyEquals((*ctrl).GetBlue(), value+2))
-            {
-            std::cout << " [FAILED] : CBlue : found " << (*ctrl).GetBlue()
-              << " instead of " << value+2 << std::endl;
-            delete mySceneChildren;
-            return EXIT_FAILURE;
-            }
-
-          if(itk::Math::NotExactlyEquals((*ctrl).GetAlpha(), value+3))
-            {
-            std::cout << " [FAILED] : CAlpha : found "
-              << (*ctrl).GetAlpha() << " instead of " << value+3
-              << std::endl;
-            delete mySceneChildren;
-            return EXIT_FAILURE;
-            }
           }
-        value++;
+
+          if (itk::Math::NotExactlyEquals((*ctrl).GetGreen(), value + 1))
+          {
+            std::cout << " [FAILED] : CGreen : found " << (*ctrl).GetGreen() << " instead of " << value + 1
+                      << std::endl;
+            delete mySceneChildren;
+            return EXIT_FAILURE;
+          }
+
+          if (itk::Math::NotExactlyEquals((*ctrl).GetBlue(), value + 2))
+          {
+            std::cout << " [FAILED] : CBlue : found " << (*ctrl).GetBlue() << " instead of " << value + 2 << std::endl;
+            delete mySceneChildren;
+            return EXIT_FAILURE;
+          }
+
+          if (itk::Math::NotExactlyEquals((*ctrl).GetAlpha(), value + 3))
+          {
+            std::cout << " [FAILED] : CAlpha : found " << (*ctrl).GetAlpha() << " instead of " << value + 3
+                      << std::endl;
+            delete mySceneChildren;
+            return EXIT_FAILURE;
+          }
         }
+        value++;
+      }
 
       ContourType::ContourPointListType::const_iterator inter;
       value = 0;
-      for(inter = dynamic_cast<ContourType*>((*obj).GetPointer())->
-                    GetPoints().begin();
-          inter != dynamic_cast<ContourType*>((*obj).GetPointer())->
-                     GetPoints().end();
-          inter++)
+      for (inter = dynamic_cast<ContourType *>((*obj).GetPointer())->GetPoints().begin();
+           inter != dynamic_cast<ContourType *>((*obj).GetPointer())->GetPoints().end();
+           inter++)
+      {
+        for (unsigned int d = 0; d < 3; d++)
         {
-        for(unsigned int d=0;d<3;d++)
+          if ((*inter).GetId() != value)
           {
-          if((*inter).GetId() != value)
-            {
             std::cout << "Interpolated ID [FAILED]" << std::endl;
             delete mySceneChildren;
             return EXIT_FAILURE;
-            }
+          }
 
-          if(( d != 2 && itk::Math::NotExactlyEquals(
-              (*inter).GetPositionInObjectSpace()[d], value) ) ||
-             ( d == 2 && itk::Math::NotExactlyEquals(
-              (*inter).GetPositionInObjectSpace()[d], 0)
-               && itk::Math::NotExactlyEquals(
-              (*inter).GetPositionInObjectSpace()[d], value) ) )
-            {
+          if ((d != 2 && itk::Math::NotExactlyEquals((*inter).GetPositionInObjectSpace()[d], value)) ||
+              (d == 2 && itk::Math::NotExactlyEquals((*inter).GetPositionInObjectSpace()[d], 0) &&
+               itk::Math::NotExactlyEquals((*inter).GetPositionInObjectSpace()[d], value)))
+          {
             std::cout << "Interpolated Position [FAILED]" << std::endl;
             delete mySceneChildren;
             return EXIT_FAILURE;
-            }
+          }
 
           // Testing the color of the tube points
-          if( itk::Math::NotExactlyEquals((*inter).GetRed(), value))
-            {
-            std::cout << " [FAILED] : IRed : found " << (*inter).GetRed()
-              << " instead of " << value << std::endl;
+          if (itk::Math::NotExactlyEquals((*inter).GetRed(), value))
+          {
+            std::cout << " [FAILED] : IRed : found " << (*inter).GetRed() << " instead of " << value << std::endl;
             delete mySceneChildren;
             return EXIT_FAILURE;
-            }
-
-          if(itk::Math::NotExactlyEquals((*inter).GetGreen(), value+1))
-            {
-            std::cout << " [FAILED] : IGreen : found "
-              << (*inter).GetGreen() << " instead of " << value+1
-              << std::endl;
-            delete mySceneChildren;
-            return EXIT_FAILURE;
-            }
-
-          if(itk::Math::NotExactlyEquals((*inter).GetBlue(), value+2))
-            {
-            std::cout << " [FAILED] : IBlue : found "
-              << (*inter).GetBlue() << " instead of " << value+2
-              << std::endl;
-            delete mySceneChildren;
-            return EXIT_FAILURE;
-            }
-
-          if(itk::Math::NotExactlyEquals((*inter).GetAlpha(), value+3))
-            {
-            std::cout << " [FAILED] : IAlpha : found "
-              << (*inter).GetAlpha() << " instead of " << value+3
-              << std::endl;
-            delete mySceneChildren;
-            return EXIT_FAILURE;
-            }
           }
-        value++;
+
+          if (itk::Math::NotExactlyEquals((*inter).GetGreen(), value + 1))
+          {
+            std::cout << " [FAILED] : IGreen : found " << (*inter).GetGreen() << " instead of " << value + 1
+                      << std::endl;
+            delete mySceneChildren;
+            return EXIT_FAILURE;
+          }
+
+          if (itk::Math::NotExactlyEquals((*inter).GetBlue(), value + 2))
+          {
+            std::cout << " [FAILED] : IBlue : found " << (*inter).GetBlue() << " instead of " << value + 2 << std::endl;
+            delete mySceneChildren;
+            return EXIT_FAILURE;
+          }
+
+          if (itk::Math::NotExactlyEquals((*inter).GetAlpha(), value + 3))
+          {
+            std::cout << " [FAILED] : IAlpha : found " << (*inter).GetAlpha() << " instead of " << value + 3
+                      << std::endl;
+            delete mySceneChildren;
+            return EXIT_FAILURE;
+          }
         }
+        value++;
       }
     }
+  }
 
-  std::cout<<" [PASSED]"<< std::endl;
+  std::cout << " [PASSED]" << std::endl;
 
   delete mySceneChildren;
 

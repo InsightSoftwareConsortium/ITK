@@ -36,11 +36,9 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT MemoryProbe:
-  public ResourceProbe< SizeValueType, double >
+class ITKCommon_EXPORT MemoryProbe : public ResourceProbe<SizeValueType, double>
 {
 public:
-
   MemoryProbe();
   ~MemoryProbe() override;
 
@@ -51,11 +49,12 @@ public:
   using MeanMemoryLoadType = double;
 
 protected:
-  MemoryLoadType GetInstantValue() const override;
+  MemoryLoadType
+  GetInstantValue() const override;
 
 private:
   mutable MemoryUsageObserver m_MemoryObserver;
 };
 } // end namespace itk
 
-#endif //itkMemoryProbe_h
+#endif // itkMemoryProbe_h

@@ -24,51 +24,45 @@
 
 namespace itk
 {
-template< typename TPixel >
+template <typename TPixel>
 class MinFunctor
 {
 public:
-  MinFunctor()= default;
-  ~MinFunctor()= default;
-  inline TPixel operator()(const TPixel & A, const TPixel & B) const
+  MinFunctor() = default;
+  ~MinFunctor() = default;
+  inline TPixel
+  operator()(const TPixel & A, const TPixel & B) const
   {
     return std::min(A, B);
   }
 };
 
-template< typename TImage, typename TKernel >
-class VanHerkGilWermanErodeImageFilter:
-  public VanHerkGilWermanErodeDilateImageFilter< TImage, TKernel, MinFunctor< typename TImage::PixelType > >
+template <typename TImage, typename TKernel>
+class VanHerkGilWermanErodeImageFilter
+  : public VanHerkGilWermanErodeDilateImageFilter<TImage, TKernel, MinFunctor<typename TImage::PixelType>>
 
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VanHerkGilWermanErodeImageFilter);
 
   using Self = VanHerkGilWermanErodeImageFilter;
-  using Superclass = VanHerkGilWermanErodeDilateImageFilter< TImage, TKernel,
-                                                  MinFunctor< typename TImage::PixelType > >;
+  using Superclass = VanHerkGilWermanErodeDilateImageFilter<TImage, TKernel, MinFunctor<typename TImage::PixelType>>;
 
   /** Runtime information support. */
-  itkTypeMacro(VanHerkGilWermanErodeImageFilter,
-               VanHerkGilWermanErodeDilateImageFilter);
+  itkTypeMacro(VanHerkGilWermanErodeImageFilter, VanHerkGilWermanErodeDilateImageFilter);
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
   using PixelType = typename TImage::PixelType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
 protected:
-
-  VanHerkGilWermanErodeImageFilter()
-  {
-    this->m_Boundary = NumericTraits< PixelType >::max();
-  }
+  VanHerkGilWermanErodeImageFilter() { this->m_Boundary = NumericTraits<PixelType>::max(); }
   ~VanHerkGilWermanErodeImageFilter() override = default;
 
 private:
-
 };
 } // namespace itk
 

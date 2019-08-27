@@ -30,24 +30,23 @@ namespace itk
  * \brief Helper class used to share data in the ScalarChanAndVeseLevelSetFunction.
  * \ingroup ITKLevelSetsv4
  */
-template< typename TImage >
-class ITK_TEMPLATE_EXPORT LevelSetDomainPartitionImageWithKdTree:
-  public LevelSetDomainPartitionImage< TImage >
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT LevelSetDomainPartitionImageWithKdTree : public LevelSetDomainPartitionImage<TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetDomainPartitionImageWithKdTree);
 
   using Self = LevelSetDomainPartitionImageWithKdTree;
-  using Superclass = LevelSetDomainPartitionImage< TImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = LevelSetDomainPartitionImage<TImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  itkTypeMacro( LevelSetDomainPartitionImageWithKdTree, LevelSetDomainPartitionImage);
+  itkTypeMacro(LevelSetDomainPartitionImageWithKdTree, LevelSetDomainPartitionImage);
 
   using ImageType = TImage;
   using ListIndexType = typename Superclass::ListIndexType;
@@ -57,25 +56,26 @@ public:
   using IdentifierListType = typename Superclass::IdentifierListType;
 
   using CentroidVectorType = typename ListPointType::VectorType;
-  using SampleType = typename Statistics::ListSample< CentroidVectorType >;
-  using TreeGeneratorType = typename Statistics::KdTreeGenerator< SampleType >;
+  using SampleType = typename Statistics::ListSample<CentroidVectorType>;
+  using TreeGeneratorType = typename Statistics::KdTreeGenerator<SampleType>;
   using TreePointer = typename TreeGeneratorType::Pointer;
   using TreeType = typename TreeGeneratorType::KdTreeType;
   using KdTreePointer = typename TreeType::Pointer;
 
   /** Initialize with a precomputed kd-tree */
-  itkSetObjectMacro( KdTree, TreeType );
+  itkSetObjectMacro(KdTree, TreeType);
 
   /** Number of neighbors level sets connected to this level set. */
   using NeighborsIdType = unsigned int;
 
   /** Get/Set number of neighbors in the kd-tree leaf node */
-  itkSetMacro( NumberOfNeighbors, NeighborsIdType );
-  itkGetMacro( NumberOfNeighbors, NeighborsIdType );
+  itkSetMacro(NumberOfNeighbors, NeighborsIdType);
+  itkGetMacro(NumberOfNeighbors, NeighborsIdType);
 
   /** Populate a list image with each pixel being a list of overlapping
    *  level set support at that pixel */
-  void PopulateListDomain() override;
+  void
+  PopulateListDomain() override;
 
 protected:
   LevelSetDomainPartitionImageWithKdTree();
@@ -83,17 +83,18 @@ protected:
 
   /** Populate a list image with each pixel being a list of overlapping
    *  level set support at that pixel */
-  void PopulateDomainWithKdTree();
+  void
+  PopulateDomainWithKdTree();
 
 private:
-  KdTreePointer     m_KdTree;
-  NeighborsIdType   m_NumberOfNeighbors{ 10 };
+  KdTreePointer   m_KdTree;
+  NeighborsIdType m_NumberOfNeighbors{ 10 };
 };
 
-} //end namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetDomainPartitionImageWithKdTree.hxx"
+#  include "itkLevelSetDomainPartitionImageWithKdTree.hxx"
 #endif
 
 #endif

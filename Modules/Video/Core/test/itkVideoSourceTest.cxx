@@ -23,8 +23,8 @@
 // Set up type alias for test
 constexpr unsigned int Dimension = 2;
 using PixelType = unsigned char;
-using FrameType = itk::Image< PixelType, Dimension >;
-using VideoType = itk::VideoStream< FrameType >;
+using FrameType = itk::Image<PixelType, Dimension>;
+using VideoType = itk::VideoStream<FrameType>;
 using SizeValueType = itk::SizeValueType;
 
 namespace itk
@@ -34,18 +34,17 @@ namespace VideoSourceTest
 /** \class DummyVideoSource
  * Provide dummy implementation of VideoSource that just sets all pixels to 1
  */
-template<typename TOutputVideoStream>
+template <typename TOutputVideoStream>
 class DummyVideoSource : public VideoSource<TOutputVideoStream>
 {
 public:
-
   /** Standard class type aliases */
   using OutputVideoStreamType = TOutputVideoStream;
-  using Self = DummyVideoSource< OutputVideoStreamType >;
-  using Superclass = VideoSource< OutputVideoStreamType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using ConstWeakPointer = WeakPointer< const Self >;
+  using Self = DummyVideoSource<OutputVideoStreamType>;
+  using Superclass = VideoSource<OutputVideoStreamType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using ConstWeakPointer = WeakPointer<const Self>;
 
   using OutputFrameType = typename TOutputVideoStream::FrameType;
   using OutputFrameSpatialRegionType = typename OutputFrameType::RegionType;
@@ -55,7 +54,6 @@ public:
   itkTypeMacro(DummyVideoSource, VideoSource);
 
 protected:
-
   /** Constructor */
   DummyVideoSource()
   {
@@ -67,9 +65,8 @@ protected:
 
   /** Override ThreadedGenerateData to set all pixels in the requested region
    * to 1 */
-  void ThreadedGenerateData(
-    const OutputFrameSpatialRegionType& outputRegionForThread,
-    int threadId) override
+  void
+  ThreadedGenerateData(const OutputFrameSpatialRegionType & outputRegionForThread, int threadId) override
   {
 
     // Print out your threadId
@@ -77,42 +74,40 @@ protected:
     std::cout << "Working on thread " << threadId << std::endl;
     this->m_Mutex.unlock();
 
-    OutputVideoStreamType* video = this->GetOutput();
-    typename OutputVideoStreamType::TemporalRegionType requestedTemporalRegion =
-      video->GetRequestedTemporalRegion();
-    SizeValueType startFrame = requestedTemporalRegion.GetFrameStart();
-    SizeValueType frameDuration = requestedTemporalRegion.GetFrameDuration();
+    OutputVideoStreamType *                            video = this->GetOutput();
+    typename OutputVideoStreamType::TemporalRegionType requestedTemporalRegion = video->GetRequestedTemporalRegion();
+    SizeValueType                                      startFrame = requestedTemporalRegion.GetFrameStart();
+    SizeValueType                                      frameDuration = requestedTemporalRegion.GetFrameDuration();
 
     // Just as a check, throw an exception if the duration isn't equal to the
     // unit output size
     if (frameDuration != this->TemporalProcessObject::m_UnitOutputNumberOfFrames)
-      {
-      itkExceptionMacro(<< "Trying to generate output of non-unit size. Got: "
-                        << frameDuration << " Expected: "
-                        << this->TemporalProcessObject::m_UnitOutputNumberOfFrames);
-      }
+    {
+      itkExceptionMacro(<< "Trying to generate output of non-unit size. Got: " << frameDuration
+                        << " Expected: " << this->TemporalProcessObject::m_UnitOutputNumberOfFrames);
+    }
 
     for (SizeValueType i = startFrame; i < startFrame + frameDuration; ++i)
-      {
-      OutputFrameType*                          frame = video->GetFrame(i);
+    {
+      OutputFrameType *                         frame = video->GetFrame(i);
       itk::ImageRegionIterator<OutputFrameType> iter(frame, outputRegionForThread);
-      while(!iter.IsAtEnd() )
-        {
+      while (!iter.IsAtEnd())
+      {
         // Set the pixel to 1
         iter.Set(1);
         ++iter;
-        }
       }
+    }
   }
 
   std::mutex m_Mutex;
-
 };
 
 /**
  * Create a new empty frame
  */
-FrameType::Pointer CreateEmptyFrame()
+FrameType::Pointer
+CreateEmptyFrame()
 {
   FrameType::Pointer out = FrameType::New();
 
@@ -148,13 +143,14 @@ FrameType::Pointer CreateEmptyFrame()
 /**
  * Test the basic functionality of temporal data objects
  */
-int itkVideoSourceTest( int, char* [] )
+int
+itkVideoSourceTest(int, char *[])
 {
 
   //////
   // Test Instantiation
   //////
-  using VideoSourceType = itk::VideoSourceTest::DummyVideoSource< VideoType >;
+  using VideoSourceType = itk::VideoSourceTest::DummyVideoSource<VideoType>;
   VideoSourceType::Pointer videoSource = VideoSourceType::New();
 
   //////
@@ -179,10 +175,10 @@ int itkVideoSourceTest( int, char* [] )
   for (SizeValueType i = bufferedRegion.GetFrameStart();
        i < bufferedRegion.GetFrameStart() + bufferedRegion.GetFrameDuration();
        ++i)
-    {
+  {
     frame = itk::VideoSourceTest::CreateEmptyFrame();
     video->SetFrame(i, frame);
-    }
+  }
 
   // Graft video onto output of VideoSource
   videoSource->GraftOutput(video);
@@ -191,16 +187,16 @@ int itkVideoSourceTest( int, char* [] )
   VideoType::Pointer videoOut = videoSource->GetOutput();
   if (videoOut->GetLargestPossibleTemporalRegion() != video->GetLargestPossibleTemporalRegion() ||
       videoOut->GetRequestedTemporalRegion() != video->GetRequestedTemporalRegion() ||
-      videoOut->GetBufferedTemporalRegion() != video->GetBufferedTemporalRegion() )
-    {
+      videoOut->GetBufferedTemporalRegion() != video->GetBufferedTemporalRegion())
+  {
     std::cerr << "Graft failed to copy meta information" << std::endl;
     return EXIT_FAILURE;
-    }
-  if (videoOut->GetFrameBuffer() != video->GetFrameBuffer() )
-    {
+  }
+  if (videoOut->GetFrameBuffer() != video->GetFrameBuffer())
+  {
     std::cerr << "Graft failed to assign frame buffer correctly" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   //////
   // Test ThreadedGenerateData System
@@ -224,33 +220,33 @@ int itkVideoSourceTest( int, char* [] )
   SizeValueType frameStart = requestedRegion.GetFrameStart();
   SizeValueType numFrames = requestedRegion.GetFrameDuration();
   for (SizeValueType i = frameStart; i < frameStart + numFrames; ++i)
-    {
+  {
     frame = videoSource->GetOutput()->GetFrame(i);
-    FrameType::RegionType region = frame->GetRequestedRegion();
-    itk::ImageRegionIterator<FrameType> iter( frame, region);
-    while (!iter.IsAtEnd() )
-      {
+    FrameType::RegionType               region = frame->GetRequestedRegion();
+    itk::ImageRegionIterator<FrameType> iter(frame, region);
+    while (!iter.IsAtEnd())
+    {
       if (iter.Get() != 1)
-        {
+      {
         std::cerr << "Pixel not set correctly" << std::endl;
         return EXIT_FAILURE;
-        }
-      ++iter;
       }
+      ++iter;
+    }
 
-      // Make sure (0,0) which was outside the requested spatial region didn't
-      // get set
-      if (region.GetNumberOfPixels() > 0)
-       {
-       FrameType::IndexType idx;
-       idx.Fill(0);
-       if (frame->GetPixel(idx) == 1)
-          {
-          std::cerr << "Pixel outside requested spatial region set to 1" << std::endl;
-          return EXIT_FAILURE;
-          }
-       }
-     }
+    // Make sure (0,0) which was outside the requested spatial region didn't
+    // get set
+    if (region.GetNumberOfPixels() > 0)
+    {
+      FrameType::IndexType idx;
+      idx.Fill(0);
+      if (frame->GetPixel(idx) == 1)
+      {
+        std::cerr << "Pixel outside requested spatial region set to 1" << std::endl;
+        return EXIT_FAILURE;
+      }
+    }
+  }
 
   //////
   // Test that the output has the proper number of buffers when no requested
@@ -264,45 +260,41 @@ int itkVideoSourceTest( int, char* [] )
   // Make sure the requested temporal region of videoSource's output is empty
   itk::TemporalRegion emptyRegion;
   if (videoSource->GetOutput()->GetRequestedTemporalRegion() != emptyRegion)
-    {
-    std::cerr << "videoSource's output's requested temporal region not empty before propagate"
-              << std::endl;
+  {
+    std::cerr << "videoSource's output's requested temporal region not empty before propagate" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Propagate the request
-  videoSource->PropagateRequestedRegion(videoSource->GetOutput() );
+  videoSource->PropagateRequestedRegion(videoSource->GetOutput());
 
   // Since the largest possible region's duration is infinte, the request
   // should have duration 1
   if (videoSource->GetOutput()->GetRequestedTemporalRegion().GetFrameDuration() != 1)
-    {
+  {
     std::cerr << "videoSource's output's requested temporal region not set "
               << "correctly after propagate for with infinte largest region" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Artificially set the output's largest possible temporal region duration
-  itk::TemporalRegion largestTempRegion =
-    videoSource->GetOutput()->GetLargestPossibleTemporalRegion();
-  unsigned int newNumBuffers = 25;
+  itk::TemporalRegion largestTempRegion = videoSource->GetOutput()->GetLargestPossibleTemporalRegion();
+  unsigned int        newNumBuffers = 25;
   largestTempRegion.SetFrameDuration(newNumBuffers);
   videoSource->GetOutput()->SetLargestPossibleTemporalRegion(largestTempRegion);
   videoSource->GetOutput()->SetRequestedTemporalRegion(emptyRegion);
 
   // No propagate again and make sure 25 buffers have been set
-  videoSource->PropagateRequestedRegion(videoSource->GetOutput() );
+  videoSource->PropagateRequestedRegion(videoSource->GetOutput());
   if (videoSource->GetOutput()->GetNumberOfBuffers() != newNumBuffers)
-    {
+  {
     std::cerr << "Number of buffers not set correctly after propagate. Got: "
-              << videoSource->GetOutput()->GetNumberOfBuffers() << " Expected: " << newNumBuffers
-              << std::endl;
+              << videoSource->GetOutput()->GetNumberOfBuffers() << " Expected: " << newNumBuffers << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   //////
   // Return Successfully
   //////
   return EXIT_SUCCESS;
-
 }

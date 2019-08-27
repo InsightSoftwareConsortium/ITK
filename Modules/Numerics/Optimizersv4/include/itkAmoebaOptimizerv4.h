@@ -57,8 +57,7 @@ namespace itk
  *
  * \ingroup ITKOptimizersv4
  */
-class ITKOptimizersv4_EXPORT AmoebaOptimizerv4:
-  public SingleValuedNonLinearVnlOptimizerv4
+class ITKOptimizersv4_EXPORT AmoebaOptimizerv4 : public SingleValuedNonLinearVnlOptimizerv4
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(AmoebaOptimizerv4);
@@ -66,8 +65,8 @@ public:
   /** Standard "Self" type alias. */
   using Self = AmoebaOptimizerv4;
   using Superclass = SingleValuedNonLinearVnlOptimizerv4;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -80,13 +79,15 @@ public:
   using ParametersType = Superclass::ParametersType;
 
   /** InternalParameters type alias. */
-  using InternalParametersType = vnl_vector< double >;
+  using InternalParametersType = vnl_vector<double>;
 
   /** Start optimization with an initial value. */
-  void StartOptimization(bool doOnlyInitialization = false) override;
+  void
+  StartOptimization(bool doOnlyInitialization = false) override;
 
   /** Plug in a Cost Function into the optimizer  */
-  void SetMetric(MetricType *metric) override;
+  void
+  SetMetric(MetricType * metric) override;
 
   /** Set/Get the mode which determines how the amoeba algorithm
    * defines the initial simplex.  Default is
@@ -112,8 +113,8 @@ public:
 
   /** Set/Get the deltas that are used to define the initial simplex
    * when AutomaticInitialSimplex is off. */
-  void SetInitialSimplexDelta(ParametersType initialSimplexDelta,
-                              bool automaticInitialSimplex = false);
+  void
+  SetInitialSimplexDelta(ParametersType initialSimplexDelta, bool automaticInitialSimplex = false);
   itkGetConstMacro(InitialSimplexDelta, ParametersType);
 
   /** The optimization algorithm will terminate when the simplex
@@ -131,30 +132,34 @@ public:
   itkGetConstMacro(FunctionConvergenceTolerance, double);
 
   /** Report the reason for stopping. */
-  const std::string GetStopConditionDescription() const override;
+  const std::string
+  GetStopConditionDescription() const override;
 
   /** Method for getting access to the internal optimizer. */
-  vnl_amoeba * GetOptimizer() const;
+  vnl_amoeba *
+  GetOptimizer() const;
 
 protected:
   AmoebaOptimizerv4();
   ~AmoebaOptimizerv4() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   using CostFunctionAdaptorType = Superclass::CostFunctionAdaptorType;
 
 private:
   /**Check that the settings are valid. If not throw an exception.*/
-  void ValidateSettings();
+  void
+  ValidateSettings();
 
-  ParametersType::ValueType       m_ParametersConvergenceTolerance;
-  MeasureType                     m_FunctionConvergenceTolerance;
-  bool                            m_AutomaticInitialSimplex;
-  ParametersType                  m_InitialSimplexDelta;
-  bool                            m_OptimizeWithRestarts;
-  vnl_amoeba *                    m_VnlOptimizer;
+  ParametersType::ValueType m_ParametersConvergenceTolerance;
+  MeasureType               m_FunctionConvergenceTolerance;
+  bool                      m_AutomaticInitialSimplex;
+  ParametersType            m_InitialSimplexDelta;
+  bool                      m_OptimizeWithRestarts;
+  vnl_amoeba *              m_VnlOptimizer;
 
-  std::ostringstream              m_StopConditionDescription;
+  std::ostringstream m_StopConditionDescription;
 };
 } // end namespace itk
 

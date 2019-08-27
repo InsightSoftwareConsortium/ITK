@@ -29,66 +29,72 @@ StdStreamLogOutput::StdStreamLogOutput()
 /** Destructor */
 StdStreamLogOutput::~StdStreamLogOutput()
 {
-  if ( this->m_Stream )
-    {
+  if (this->m_Stream)
+  {
     this->m_Stream->flush();
-    }
+  }
 }
 
 /** Set file stream */
-void StdStreamLogOutput::SetStream(StreamType & Stream)
+void
+StdStreamLogOutput::SetStream(StreamType & Stream)
 {
   this->m_Stream = &Stream;
   this->m_Stream->precision(30);
 }
 
 /** flush a buffer */
-void StdStreamLogOutput::Flush()
+void
+StdStreamLogOutput::Flush()
 {
   StdStreamLogOutput::m_Mutex.lock();
-  if ( this->m_Stream )
-    {
+  if (this->m_Stream)
+  {
     this->m_Stream->flush();
-    }
+  }
   StdStreamLogOutput::m_Mutex.unlock();
 }
 
 /** Write to a buffer */
-void StdStreamLogOutput::Write(double timestamp)
+void
+StdStreamLogOutput::Write(double timestamp)
 {
   StdStreamLogOutput::m_Mutex.lock();
-  if ( this->m_Stream )
-    {
-    ( *this->m_Stream ) << timestamp;
-    }
+  if (this->m_Stream)
+  {
+    (*this->m_Stream) << timestamp;
+  }
   StdStreamLogOutput::m_Mutex.unlock();
 }
 
 /** Write to a buffer */
-void StdStreamLogOutput::Write(std::string const & content)
+void
+StdStreamLogOutput::Write(std::string const & content)
 {
   StdStreamLogOutput::m_Mutex.lock();
-  if ( this->m_Stream )
-    {
-    ( *this->m_Stream ) << content;
-    }
+  if (this->m_Stream)
+  {
+    (*this->m_Stream) << content;
+  }
   StdStreamLogOutput::m_Mutex.unlock();
 }
 
 /** Write to a buffer */
-void StdStreamLogOutput::Write(std::string const & content, double timestamp)
+void
+StdStreamLogOutput::Write(std::string const & content, double timestamp)
 {
   StdStreamLogOutput::m_Mutex.lock();
-  if ( this->m_Stream )
-    {
-    ( *this->m_Stream ) << timestamp << "  :  " << content;
-    }
+  if (this->m_Stream)
+  {
+    (*this->m_Stream) << timestamp << "  :  " << content;
+  }
   StdStreamLogOutput::m_Mutex.unlock();
 }
 
-void StdStreamLogOutput::PrintSelf(std::ostream & os, Indent indent) const
+void
+StdStreamLogOutput::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Stream: " << m_Stream << std::endl;
 }
-}
+} // namespace itk

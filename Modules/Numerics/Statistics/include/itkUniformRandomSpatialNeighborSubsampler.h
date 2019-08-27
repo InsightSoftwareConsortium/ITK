@@ -21,8 +21,10 @@
 #include "itkSpatialNeighborSubsampler.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 
-namespace itk {
-namespace Statistics {
+namespace itk
+{
+namespace Statistics
+{
 /** \class UniformRandomSpatialNeighborSubsampler
  * \brief A subsampler that uniformly randomly selects points
  * within the specified radius of the query point.
@@ -42,8 +44,8 @@ namespace Statistics {
  * \ingroup ITKStatistics
  */
 
-template < typename TSample, typename TRegion >
-  class ITK_TEMPLATE_EXPORT UniformRandomSpatialNeighborSubsampler : public SpatialNeighborSubsampler<TSample, TRegion>
+template <typename TSample, typename TRegion>
+class ITK_TEMPLATE_EXPORT UniformRandomSpatialNeighborSubsampler : public SpatialNeighborSubsampler<TSample, TRegion>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(UniformRandomSpatialNeighborSubsampler);
@@ -88,13 +90,15 @@ public:
   /** type alias related to random variate generator */
   using RandomGeneratorType = Statistics::MersenneTwisterRandomVariateGenerator;
 
-  void SetSeed(const SeedType seed) override
+  void
+  SetSeed(const SeedType seed) override
   {
     Superclass::SetSeed(seed);
     this->m_RandomNumberGenerator->SetSeed(this->m_Seed);
   }
 
-  virtual void SetUseClockForSeed(const bool& useClock)
+  virtual void
+  SetUseClockForSeed(const bool & useClock)
   {
     if (useClock != this->m_UseClockForSeed)
     {
@@ -110,11 +114,11 @@ public:
   itkBooleanMacro(UseClockForSeed);
   itkGetConstMacro(UseClockForSeed, bool);
 
-  virtual void SetNumberOfResultsRequested(const SearchSizeType& numberRequested)
+  virtual void
+  SetNumberOfResultsRequested(const SearchSizeType & numberRequested)
   {
     itkDebugMacro("setting NumberOfResultsRequested to " << numberRequested);
-    if (this->m_RequestMaximumNumberOfResults ||
-        this->m_NumberOfResultsRequested != numberRequested)
+    if (this->m_RequestMaximumNumberOfResults || this->m_NumberOfResultsRequested != numberRequested)
     {
       this->m_NumberOfResultsRequested = numberRequested;
       this->m_RequestMaximumNumberOfResults = false;
@@ -128,8 +132,8 @@ public:
    * them as a Subsample.  The definition of similar will be subclass-
    * specific.  And could mean spatial similarity or feature similarity
    * etc.  */
-  void Search(const InstanceIdentifier& query,
-                      SubsamplePointer& results) override;
+  void
+  Search(const InstanceIdentifier & query, SubsamplePointer & results) override;
 
 protected:
   /**
@@ -137,20 +141,21 @@ protected:
    * This does a complete copy of the subsampler state
    * to the new subsampler
    */
-  typename LightObject::Pointer InternalClone() const override;
+  typename LightObject::Pointer
+  InternalClone() const override;
 
   UniformRandomSpatialNeighborSubsampler();
   ~UniformRandomSpatialNeighborSubsampler() override = default;
 
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** method to randomly generate an integer in the closed range
    * [lowerBound, upperBound]
    * using a uniform sampling selection method.
    * override this method to do gaussian selection */
-  virtual RandomIntType GetIntegerVariate(RandomIntType lowerBound,
-                                          RandomIntType upperBound,
-                                          RandomIntType itkNotUsed(mean));
+  virtual RandomIntType
+  GetIntegerVariate(RandomIntType lowerBound, RandomIntType upperBound, RandomIntType itkNotUsed(mean));
 
   SearchSizeType               m_NumberOfResultsRequested;
   RandomGeneratorType::Pointer m_RandomNumberGenerator;
@@ -161,7 +166,7 @@ protected:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkUniformRandomSpatialNeighborSubsampler.hxx"
+#  include "itkUniformRandomSpatialNeighborSubsampler.hxx"
 #endif
 
 #endif

@@ -30,18 +30,17 @@ namespace itk
  *  \sa MetaConverterBase
  *  \ingroup ITKSpatialObjects
  */
-template< unsigned int NDimensions = 3 >
-class ITK_TEMPLATE_EXPORT MetaArrowConverter :
-    public MetaConverterBase< NDimensions >
+template <unsigned int NDimensions = 3>
+class ITK_TEMPLATE_EXPORT MetaArrowConverter : public MetaConverterBase<NDimensions>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MetaArrowConverter);
 
   /** Standard class type aliases */
   using Self = MetaArrowConverter;
-  using Superclass = MetaConverterBase< NDimensions >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = MetaConverterBase<NDimensions>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -56,21 +55,21 @@ public:
   /** Specific class types for conversion */
   using ArrowSpatialObjectType = ArrowSpatialObject<NDimensions>;
   using ArrowSpatialObjectPointer = typename ArrowSpatialObjectType::Pointer;
-  using ArrowSpatialObjectConstPointer = typename
-    ArrowSpatialObjectType::ConstPointer;
+  using ArrowSpatialObjectConstPointer = typename ArrowSpatialObjectType::ConstPointer;
   using ArrowMetaObjectType = MetaArrow;
 
   /** Convert the MetaObject to Spatial Object */
-  SpatialObjectPointer MetaObjectToSpatialObject(
-    const MetaObjectType *mo) override;
+  SpatialObjectPointer
+  MetaObjectToSpatialObject(const MetaObjectType * mo) override;
 
   /** Convert the SpatialObject to MetaObject */
-  MetaObjectType *SpatialObjectToMetaObject(
-    const SpatialObjectType *spatialObject) override;
+  MetaObjectType *
+  SpatialObjectToMetaObject(const SpatialObjectType * spatialObject) override;
 
 protected:
   /** Create the specific MetaObject for this class */
-  MetaObjectType *CreateMetaObject() override;
+  MetaObjectType *
+  CreateMetaObject() override;
 
   MetaArrowConverter() = default;
   ~MetaArrowConverter() override = default;
@@ -79,7 +78,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-  #include "itkMetaArrowConverter.hxx"
+#  include "itkMetaArrowConverter.hxx"
 #endif
 
 #endif

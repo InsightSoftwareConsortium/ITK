@@ -33,11 +33,8 @@ namespace itk
 {
 StimulateImageIOFactory::StimulateImageIOFactory()
 {
-  this->RegisterOverride( "itkImageIOBase",
-                          "itkStimulateImageIO",
-                          "Stimulate Image IO",
-                          true,
-                          CreateObjectFunction< StimulateImageIO >::New() );
+  this->RegisterOverride(
+    "itkImageIOBase", "itkStimulateImageIO", "Stimulate Image IO", true, CreateObjectFunction<StimulateImageIO>::New());
 }
 
 StimulateImageIOFactory::~StimulateImageIOFactory() = default;
@@ -59,13 +56,14 @@ StimulateImageIOFactory::GetDescription() const
 
 static bool StimulateImageIOFactoryHasBeenRegistered;
 
-void ITKIOStimulate_EXPORT StimulateImageIOFactoryRegister__Private()
+void ITKIOStimulate_EXPORT
+     StimulateImageIOFactoryRegister__Private()
 {
-  if( ! StimulateImageIOFactoryHasBeenRegistered )
-    {
+  if (!StimulateImageIOFactoryHasBeenRegistered)
+  {
     StimulateImageIOFactoryHasBeenRegistered = true;
     StimulateImageIOFactory::RegisterOneFactory();
-    }
+  }
 }
 
 } // end namespace itk

@@ -30,28 +30,28 @@
  * If this test succeeds, this bug has been fixed.
  */
 int
-itkNrrdMetaDataTest( int ac, char* av[] )
+itkNrrdMetaDataTest(int ac, char * av[])
 {
 
-  if(ac < 2)
-    {
+  if (ac < 2)
+  {
     std::cerr << "Missing data directory argument" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Image type
-  using ImageType = itk::Image<unsigned char,3>;
+  using ImageType = itk::Image<unsigned char, 3>;
   // create dummy image
-  ImageType::Pointer image1 = ImageType::New();
-  ImageType::SizeType size = { {2,2,2} };
+  ImageType::Pointer  image1 = ImageType::New();
+  ImageType::SizeType size = { { 2, 2, 2 } };
   image1->SetRegions(size);
   image1->Allocate();
   image1->FillBuffer(1);
-  const char *metaDataObjectName = "NrrdTest";
-  const char *metaDataObjectValue = "123456";
+  const char * metaDataObjectName = "NrrdTest";
+  const char * metaDataObjectValue = "123456";
   // add a metadataobject to the dictionary
-  itk::MetaDataDictionary &dict = image1->GetMetaDataDictionary();
-  itk::EncapsulateMetaData<std::string>(dict,metaDataObjectName,metaDataObjectValue);
+  itk::MetaDataDictionary & dict = image1->GetMetaDataDictionary();
+  itk::EncapsulateMetaData<std::string>(dict, metaDataObjectName, metaDataObjectValue);
 
   // write the file then read it back in.
   using ImageWriterType = itk::ImageFileWriter<ImageType>;
@@ -72,29 +72,28 @@ itkNrrdMetaDataTest( int ac, char* av[] )
   ImageType::Pointer image2;
   // write and then read
   try
-    {
+  {
     writer->Update();
     reader->Update();
     image2 = reader->GetOutput();
-    }
+  }
   catch (itk::ExceptionObject & e)
-    {
+  {
     std::cerr << "Exception in file reader or writer " << std::endl;
     std::cerr << e.GetDescription() << std::endl;
     std::cerr << e.GetLocation() << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   // see if the test metaDataObject was copied to the output and is
   // present in the image read in.
   dict = image2->GetMetaDataDictionary();
   std::string NrrdTest;
   // if it exists and the string matches what we put in on the image
   // to write, AOK.
-  if(itk::ExposeMetaData<std::string>(dict,metaDataObjectName,NrrdTest) != false &&
-     NrrdTest == metaDataObjectValue)
-    {
+  if (itk::ExposeMetaData<std::string>(dict, metaDataObjectName, NrrdTest) != false && NrrdTest == metaDataObjectValue)
+  {
     return EXIT_SUCCESS;
-    }
+  }
   // oops!
   return EXIT_FAILURE;
 }

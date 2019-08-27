@@ -50,9 +50,8 @@ namespace itk
  * \ingroup ImageFilters  MeshFilters
  * \ingroup ITKLevelSets
  */
-template< typename TInputImage, typename TOutputMesh >
-class ITK_TEMPLATE_EXPORT BinaryMaskToNarrowBandPointSetFilter:
-  public ImageToMeshFilter< TInputImage, TOutputMesh >
+template <typename TInputImage, typename TOutputMesh>
+class ITK_TEMPLATE_EXPORT BinaryMaskToNarrowBandPointSetFilter : public ImageToMeshFilter<TInputImage, TOutputMesh>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryMaskToNarrowBandPointSetFilter);
@@ -60,10 +59,10 @@ public:
   /** Standard class type aliases. */
   using Self = BinaryMaskToNarrowBandPointSetFilter;
 
-  using Superclass = ImageToMeshFilter< TInputImage, TOutputMesh >;
+  using Superclass = ImageToMeshFilter<TInputImage, TOutputMesh>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -77,7 +76,7 @@ public:
   using InputImageRegionType = typename InputImageType::RegionType;
   using InputImagePixelType = typename InputImageType::PixelType;
 
-  using InputImageIterator = ImageRegionConstIteratorWithIndex< InputImageType >;
+  using InputImageIterator = ImageRegionConstIteratorWithIndex<InputImageType>;
 
   /** Some type alias associated with the output mesh. */
   using OutputMeshType = TOutputMesh;
@@ -96,14 +95,13 @@ public:
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Float image type to be used by the ReinitializeLevelSet image filter */
-  using RealImageType = itk::Image< float,
-                      Self::ImageDimension >;
+  using RealImageType = itk::Image<float, Self::ImageDimension>;
 
   /** The ReinitializeLevelSet filter is used to evaluate the distance from
       every pixel to the border of the binary mask. It uses internally a
       FastMarching filter for propagating a from from the edges of the binary
       mask.  */
-  using DistanceFilterType = ReinitializeLevelSetImageFilter< RealImageType >;
+  using DistanceFilterType = ReinitializeLevelSetImageFilter<RealImageType>;
   using DistanceFilterPointer = typename DistanceFilterType::Pointer;
   using NodeContainerPointer = typename DistanceFilterType::NodeContainerPointer;
   using NodeContainer = typename DistanceFilterType::NodeContainer;
@@ -112,7 +110,7 @@ public:
   /** The ReinitializeLevelSetImageFilter expect the input to be binary
       within the range [-0.5:0.5]. This filte will scale the input to
       fit in this range. */
-  using RescaleFilterType = RescaleIntensityImageFilter< InputImageType, RealImageType >;
+  using RescaleFilterType = RescaleIntensityImageFilter<InputImageType, RealImageType>;
 
   using RescaleFilterPointer = typename RescaleFilterType::Pointer;
 
@@ -121,7 +119,8 @@ public:
 
   /** accept the input image */
   using Superclass::SetInput;
-  void SetInput(const InputImageType *inputImage);
+  void
+  SetInput(const InputImageType * inputImage);
 
   /** Set/Get the width of the narrowband. This is the
       maximum distance from the binary mask edges to
@@ -133,13 +132,16 @@ public:
 protected:
   BinaryMaskToNarrowBandPointSetFilter();
   ~BinaryMaskToNarrowBandPointSetFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Some type alias associated with the output mesh. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /** Some type alias associated with the output mesh. */
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
 private:
   DistanceFilterPointer m_DistanceFilter;
@@ -150,7 +152,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryMaskToNarrowBandPointSetFilter.hxx"
+#  include "itkBinaryMaskToNarrowBandPointSetFilter.hxx"
 #endif
 
 #endif

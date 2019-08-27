@@ -23,70 +23,70 @@
 #include <iostream>
 #include "itkTestingMacros.h"
 
-int itkRegularSphereQuadEdgeMeshSourceTest(int argc, char * argv [] )
+int
+itkRegularSphereQuadEdgeMeshSourceTest(int argc, char * argv[])
 {
-  if( argc != 2 )
-    {
+  if (argc != 2)
+  {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " outputFileName.vtk" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   using MeshType = itk::QuadEdgeMesh<float, 3>;
 
-  using SphereMeshSourceType = itk::RegularSphereMeshSource< MeshType >;
+  using SphereMeshSourceType = itk::RegularSphereMeshSource<MeshType>;
 
-  SphereMeshSourceType::Pointer  mySphereMeshSource = SphereMeshSourceType::New();
+  SphereMeshSourceType::Pointer mySphereMeshSource = SphereMeshSourceType::New();
 
   using PointType = SphereMeshSourceType::PointType;
   using VectorType = SphereMeshSourceType::VectorType;
 
   PointType center;
-  center.Fill( 0.0 );
+  center.Fill(0.0);
 
   VectorType scale;
-  scale.Fill( 1.0 );
+  scale.Fill(1.0);
 
-  mySphereMeshSource->SetCenter( center );
-  mySphereMeshSource->SetResolution( 1 );
-  mySphereMeshSource->SetScale( scale );
+  mySphereMeshSource->SetCenter(center);
+  mySphereMeshSource->SetResolution(1);
+  mySphereMeshSource->SetScale(scale);
 
   mySphereMeshSource->Modified();
 
   try
-    {
+  {
     mySphereMeshSource->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Error during Update() " << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "mySphereMeshSource: " << mySphereMeshSource;
 
   MeshType::Pointer myMesh = mySphereMeshSource->GetOutput();
 
   PointType pt;
-  pt.Fill( 0. );
+  pt.Fill(0.);
 
-  std::cout << "Testing itk::RegularSphereMeshSource "<< std::endl;
+  std::cout << "Testing itk::RegularSphereMeshSource " << std::endl;
 
-  for(unsigned int i=0; i<myMesh->GetNumberOfPoints(); i++)
-    {
+  for (unsigned int i = 0; i < myMesh->GetNumberOfPoints(); i++)
+  {
     myMesh->GetPoint(i, &pt);
     std::cout << "Point[" << i << "]: " << pt << std::endl;
-    }
+  }
 
   using WriterType = itk::MeshFileWriter<MeshType>;
 
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( myMesh );
-  writer->SetFileName( argv[1] );
+  writer->SetInput(myMesh);
+  writer->SetFileName(argv[1]);
   writer->Write();
 
-  std::cout << "Test End "<< std::endl;
+  std::cout << "Test End " << std::endl;
 
   return EXIT_SUCCESS;
-
 }

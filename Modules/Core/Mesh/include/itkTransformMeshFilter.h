@@ -38,18 +38,17 @@ namespace itk
  * \ingroup MeshFilters
  * \ingroup ITKMesh
  */
-template< typename TInputMesh, typename TOutputMesh, typename TTransform >
-class ITK_TEMPLATE_EXPORT TransformMeshFilter:
-  public MeshToMeshFilter< TInputMesh, TOutputMesh >
+template <typename TInputMesh, typename TOutputMesh, typename TTransform>
+class ITK_TEMPLATE_EXPORT TransformMeshFilter : public MeshToMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(TransformMeshFilter);
 
   /** Standard class type aliases. */
   using Self = TransformMeshFilter;
-  using Superclass = MeshToMeshFilter< TInputMesh, TOutputMesh >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = MeshToMeshFilter<TInputMesh, TOutputMesh>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using InputMeshType = TInputMesh;
   using OutputMeshType = TOutputMesh;
@@ -75,10 +74,12 @@ public:
 protected:
   TransformMeshFilter();
   ~TransformMeshFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate Requested Data */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /** Transform to apply to all the mesh points. */
   typename TransformType::Pointer m_Transform;
@@ -86,7 +87,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTransformMeshFilter.hxx"
+#  include "itkTransformMeshFilter.hxx"
 #endif
 
 #endif

@@ -18,13 +18,14 @@
 
 #include "itkManhattanDistanceMetric.h"
 
-int itkManhattanDistanceMetricTest(int, char* [] )
+int
+itkManhattanDistanceMetricTest(int, char *[])
 {
   constexpr unsigned int MeasurementVectorSize = 3;
 
-  using MeasurementVectorType = itk::Array< float  >;
+  using MeasurementVectorType = itk::Array<float>;
 
-  using DistanceMetricType = itk::Statistics::ManhattanDistanceMetric< MeasurementVectorType >;
+  using DistanceMetricType = itk::Statistics::ManhattanDistanceMetric<MeasurementVectorType>;
 
   DistanceMetricType::Pointer distance = DistanceMetricType::New();
 
@@ -33,75 +34,76 @@ int itkManhattanDistanceMetricTest(int, char* [] )
   distance->Print(std::cout);
 
   MeasurementVectorType measurementNew;
-  ::itk::NumericTraits<MeasurementVectorType>::SetLength( measurementNew, 3);
+  ::itk::NumericTraits<MeasurementVectorType>::SetLength(measurementNew, 3);
   measurementNew[0] = 2.5;
   measurementNew[1] = 3.3;
   measurementNew[2] = 4.0;
 
-  //Attempting to compute distance before setting a measurment vector should
-  //throw an exception
+  // Attempting to compute distance before setting a measurment vector should
+  // throw an exception
 
   try
-    {
-    distance->Evaluate( measurementNew );
+  {
+    distance->Evaluate(measurementNew);
     std::cerr << "Attempting to compute distance w/o setting measurement vector"
-                 "size, Exception should have been thrown" << std::endl;
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+                 "size, Exception should have been thrown"
+              << std::endl;
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception: " << excp << std::endl;
-    }
+  }
 
 
-  distance->SetMeasurementVectorSize( MeasurementVectorSize );
+  distance->SetMeasurementVectorSize(MeasurementVectorSize);
 
-  if( distance->GetMeasurementVectorSize() != MeasurementVectorSize )
-    {
+  if (distance->GetMeasurementVectorSize() != MeasurementVectorSize)
+  {
     std::cerr << "GetMeasurementVectorSize() Failed !" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  //Test if the distance computed is correct
+  // Test if the distance computed is correct
   DistanceMetricType::OriginType origin;
-  ::itk::NumericTraits<DistanceMetricType::OriginType>::SetLength( origin, 3);
+  ::itk::NumericTraits<DistanceMetricType::OriginType>::SetLength(origin, 3);
   origin[0] = 1.5;
   origin[1] = 2.3;
   origin[2] = 1.0;
-  distance->SetOrigin( origin );
+  distance->SetOrigin(origin);
 
   MeasurementVectorType measurement;
-  ::itk::NumericTraits<MeasurementVectorType>::SetLength( measurement, 3);
+  ::itk::NumericTraits<MeasurementVectorType>::SetLength(measurement, 3);
   measurement[0] = 2.5;
   measurement[1] = 3.3;
   measurement[2] = 4.0;
 
-  double trueValue = 5.0;
-  double distanceComputed = distance->Evaluate( measurement );
+  double           trueValue = 5.0;
+  double           distanceComputed = distance->Evaluate(measurement);
   constexpr double tolerance = 0.001;
 
-  if( std::fabs( distanceComputed - trueValue) > tolerance )
-    {
-    std::cerr << "Distance computed not correct: " << "truevalue= " << trueValue
-              << "ComputedValue=" << distanceComputed << std::endl;
+  if (std::fabs(distanceComputed - trueValue) > tolerance)
+  {
+    std::cerr << "Distance computed not correct: "
+              << "truevalue= " << trueValue << "ComputedValue=" << distanceComputed << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  //Compute distance between two measurement vectors
+  // Compute distance between two measurement vectors
   MeasurementVectorType measurement2;
-  ::itk::NumericTraits<MeasurementVectorType>::SetLength( measurement2, 3);
+  ::itk::NumericTraits<MeasurementVectorType>::SetLength(measurement2, 3);
   measurement2[0] = 1.5;
   measurement2[1] = 3.5;
   measurement2[2] = 3.5;
 
   double trueValue2 = 1.7;
-  double distanceComputed2 = distance->Evaluate( measurement, measurement2 );
+  double distanceComputed2 = distance->Evaluate(measurement, measurement2);
 
-  if( std::fabs( distanceComputed2 - trueValue2) > tolerance )
-    {
-    std::cerr << "Distance computed not correct: " << "truevalue= " << trueValue2
-              << "ComputedValue=" << distanceComputed2 << std::endl;
+  if (std::fabs(distanceComputed2 - trueValue2) > tolerance)
+  {
+    std::cerr << "Distance computed not correct: "
+              << "truevalue= " << trueValue2 << "ComputedValue=" << distanceComputed2 << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

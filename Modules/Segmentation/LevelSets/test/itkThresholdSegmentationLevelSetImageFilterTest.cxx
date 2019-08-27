@@ -18,7 +18,8 @@
 
 #include "itkThresholdSegmentationLevelSetImageFilter.h"
 
-namespace TSIFTN {
+namespace TSIFTN
+{
 
 using ImageType = itk::Image<float, 3>;
 using SeedImageType = itk::Image<char, 3>;
@@ -27,45 +28,48 @@ constexpr int V_WIDTH = 64;
 constexpr int V_HEIGHT = 64;
 constexpr int V_DEPTH = 64;
 
-float sphere(float x, float y, float z)
+float
+sphere(float x, float y, float z)
 {
   float dis;
-  dis = (x - (float)V_WIDTH/2.0)*(x - (float)V_WIDTH/2.0)
-    /((0.2f*V_WIDTH)*(0.2f*V_WIDTH)) +
-    (y - (float)V_HEIGHT/2.0)*(y - (float)V_HEIGHT/2.0)
-    /((0.2f*V_HEIGHT)*(0.2f*V_HEIGHT)) +
-    (z - (float)V_DEPTH/2.0)*(z - (float)V_DEPTH/2.0)
-    /((0.2f*V_DEPTH)*(0.2f*V_DEPTH));
-  return(1.0f-dis);
+  dis = (x - (float)V_WIDTH / 2.0) * (x - (float)V_WIDTH / 2.0) / ((0.2f * V_WIDTH) * (0.2f * V_WIDTH)) +
+        (y - (float)V_HEIGHT / 2.0) * (y - (float)V_HEIGHT / 2.0) / ((0.2f * V_HEIGHT) * (0.2f * V_HEIGHT)) +
+        (z - (float)V_DEPTH / 2.0) * (z - (float)V_DEPTH / 2.0) / ((0.2f * V_DEPTH) * (0.2f * V_DEPTH));
+  return (1.0f - dis);
 }
 
-void evaluate_function(itk::Image<char, 3> *im,
-          float (*f)(float, float, float) )
+void
+evaluate_function(itk::Image<char, 3> * im, float (*f)(float, float, float))
 {
   itk::Image<char, 3>::IndexType idx;
 
-  for(int z = 0; z < V_DEPTH; ++z)
+  for (int z = 0; z < V_DEPTH; ++z)
+  {
+    idx[2] = z;
+    for (int y = 0; y < V_HEIGHT; ++y)
     {
-      idx[2] = z;
-      for (int y = 0; y < V_HEIGHT; ++y)
+      idx[1] = y;
+      for (int x = 0; x < V_WIDTH; ++x)
+      {
+        idx[0] = x;
+        if (f((float)x, (float)y, (float)z) >= 0.0)
         {
-          idx[1] = y;
-          for (int x = 0; x < V_WIDTH; ++x)
-            {
-              idx[0] = x;
-              if ( f((float)x,(float)y,(float)z) >= 0.0 )
-                {  im->SetPixel(idx, 1 ); }
-              else
-                {  im->SetPixel(idx, 0 ); }
-            }
+          im->SetPixel(idx, 1);
         }
+        else
+        {
+          im->SetPixel(idx, 0);
+        }
+      }
     }
+  }
 }
 
-} // end namespace
+} // namespace TSIFTN
 
 
-namespace itk {
+namespace itk
+{
 
 class RMSCommand : public Command
 {
@@ -75,28 +79,29 @@ public:
   using Superclass = Command;
   using Pointer = itk::SmartPointer<Self>;
   using ConstPointer = itk::SmartPointer<const Self>;
-  itkTypeMacro( RMSCommand, Command );
+  itkTypeMacro(RMSCommand, Command);
   itkNewMacro(Self);
 
   /** Standard Command virtual methods */
-  void Execute(Object *caller, const EventObject &) override
+  void
+  Execute(Object * caller, const EventObject &) override
   {
-    std::cout <<
-      (dynamic_cast<SparseFieldLevelSetImageFilter< ::TSIFTN::SeedImageType, ::TSIFTN::ImageType> *>(caller))->GetRMSChange()
+    std::cout << (dynamic_cast<SparseFieldLevelSetImageFilter<::TSIFTN::SeedImageType, ::TSIFTN::ImageType> *>(caller))
+                   ->GetRMSChange()
               << std::endl;
-    std::cout <<
-      (dynamic_cast<SegmentationLevelSetImageFilter< ::TSIFTN::SeedImageType, ::TSIFTN::ImageType> *>(caller))->GetSegmentationFunction()->GetPropagationWeight()
+    std::cout << (dynamic_cast<SegmentationLevelSetImageFilter<::TSIFTN::SeedImageType, ::TSIFTN::ImageType> *>(caller))
+                   ->GetSegmentationFunction()
+                   ->GetPropagationWeight()
               << std::endl;
-
   }
-  void Execute(const Object *, const EventObject &) override
+  void
+  Execute(const Object *, const EventObject &) override
   {
     std::cout << "ack" << std::endl;
-
   }
 
 protected:
-  RMSCommand()  = default;
+  RMSCommand() = default;
   ~RMSCommand() override = default;
 };
 
@@ -109,36 +114,38 @@ public:
   using Superclass = Command;
   using Pointer = itk::SmartPointer<Self>;
   using ConstPointer = itk::SmartPointer<const Self>;
-  itkTypeMacro( TSIFTNProgressCommand, Command );
+  itkTypeMacro(TSIFTNProgressCommand, Command);
   itkNewMacro(Self);
 
   /** Standard Command virtual methods */
-  void Execute(Object *caller, const EventObject &) override
+  void
+  Execute(Object * caller, const EventObject &) override
   {
     const ProcessObject * process = dynamic_cast<ProcessObject *>(caller);
     std::cout << "Progress = " << process->GetProgress() << std::endl;
   }
-  void Execute(const Object *, const EventObject &) override
+  void
+  Execute(const Object *, const EventObject &) override
   {
     std::cout << "ack" << std::endl;
-
   }
 
 protected:
-  TSIFTNProgressCommand()  = default;
+  TSIFTNProgressCommand() = default;
   ~TSIFTNProgressCommand() override = default;
 };
 
 
-}
+} // namespace itk
 
 
-int itkThresholdSegmentationLevelSetImageFilterTest(int, char * [] )
+int
+itkThresholdSegmentationLevelSetImageFilterTest(int, char *[])
 {
   std::cout << "Last modified 11/08/02" << std::endl;
 
-  TSIFTN::ImageType::RegionType reg;
-  TSIFTN::ImageType::RegionType::SizeType sz;
+  TSIFTN::ImageType::RegionType            reg;
+  TSIFTN::ImageType::RegionType::SizeType  sz;
   TSIFTN::ImageType::RegionType::IndexType idx;
   idx[0] = idx[1] = idx[2] = 0;
   sz[0] = sz[1] = sz[2] = 64;
@@ -156,25 +163,25 @@ int itkThresholdSegmentationLevelSetImageFilterTest(int, char * [] )
   TSIFTN::evaluate_function(seedImage, TSIFTN::sphere);
 
   // Target surface is a diamond
-  float val;
+  float        val;
   unsigned int i;
   //  TSIFTN::ImageType::IndexType idx;
   for (idx[2] = 0; idx[2] < 64; idx[2]++)
     for (idx[1] = 0; idx[1] < 64; idx[1]++)
-        for (idx[0] = 0; idx[0] < 64; idx[0]++)
-          {
-            val = 0;
-            for (i = 0; i < 3; ++i)
-              {
-              if (idx[i] < 32) val += idx[i];
-              else val += 64 - idx[i];
-              }
-            inputImage->SetPixel(idx, val);
-          }
+      for (idx[0] = 0; idx[0] < 64; idx[0]++)
+      {
+        val = 0;
+        for (i = 0; i < 3; ++i)
+        {
+          if (idx[i] < 32)
+            val += idx[i];
+          else
+            val += 64 - idx[i];
+        }
+        inputImage->SetPixel(idx, val);
+      }
 
-  using FilterType = itk::ThresholdSegmentationLevelSetImageFilter<
-                                    ::TSIFTN::SeedImageType,
-                                    ::TSIFTN::ImageType       >;
+  using FilterType = itk::ThresholdSegmentationLevelSetImageFilter<::TSIFTN::SeedImageType, ::TSIFTN::ImageType>;
 
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput(seedImage);
@@ -195,9 +202,10 @@ int itkThresholdSegmentationLevelSetImageFilterTest(int, char * [] )
   itk::TSIFTNProgressCommand::Pointer progress = itk::TSIFTNProgressCommand::New();
   filter->AddObserver(itk::ProgressEvent(), progress);
 
-  filter->SetIsoSurfaceValue(0.5);  //<--- IMPORTANT!  Default is zero.
+  filter->SetIsoSurfaceValue(0.5); //<--- IMPORTANT!  Default is zero.
 
-  try {
+  try
+  {
     filter->Update();
     std::cout << "Done first trial" << std::endl;
     // Repeat to make sure that the filter is reinitialized properly
@@ -219,20 +227,19 @@ int itkThresholdSegmentationLevelSetImageFilterTest(int, char * [] )
     //        caster->SetInput(seedImage);
     //        caster->Update();
 
-        // writer->SetInput(caster->GetOutput());
-        //     writer->SetInput(filter->GetSpeedImage());
-        //        writer->SetInput(filter->GetFeatureImage());
+    // writer->SetInput(caster->GetOutput());
+    //     writer->SetInput(filter->GetSpeedImage());
+    //        writer->SetInput(filter->GetFeatureImage());
     // writer->SetInput(inputImage);
     //        writer->SetInput(filter->GetOutput());
     //       writer->SetFileName("output.raw");
     //        writer->Write();
-
   }
-  catch (itk::ExceptionObject &e)
-    {
+  catch (itk::ExceptionObject & e)
+  {
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

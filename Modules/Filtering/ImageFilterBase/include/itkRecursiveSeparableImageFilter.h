@@ -47,18 +47,17 @@ namespace itk
  * \ingroup ImageFilters
  * \ingroup ITKImageFilterBase
  */
-template< typename TInputImage, typename TOutputImage = TInputImage >
-class ITK_TEMPLATE_EXPORT RecursiveSeparableImageFilter:
-  public InPlaceImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage = TInputImage>
+class ITK_TEMPLATE_EXPORT RecursiveSeparableImageFilter : public InPlaceImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(RecursiveSeparableImageFilter);
 
   /** Standard class type aliases. */
   using Self = RecursiveSeparableImageFilter;
-  using Superclass = InPlaceImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = InPlaceImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Type macro that defines a name for this class. */
   itkTypeMacro(RecursiveSeparableImageFilter, InPlaceImageFilter);
@@ -73,8 +72,8 @@ public:
    * meant for scalars.
    */
   using InputPixelType = typename TInputImage::PixelType;
-  using RealType = typename NumericTraits< InputPixelType >::RealType;
-  using ScalarRealType = typename NumericTraits< InputPixelType >::ScalarRealType;
+  using RealType = typename NumericTraits<InputPixelType>::RealType;
+  using ScalarRealType = typename NumericTraits<InputPixelType>::ScalarRealType;
 
   using OutputImageRegionType = typename TOutputImage::RegionType;
 
@@ -91,21 +90,27 @@ public:
   itkSetMacro(Direction, unsigned int);
 
   /** Set Input Image. */
-  void SetInputImage(const TInputImage *);
+  void
+  SetInputImage(const TInputImage *);
 
   /** Get Input Image. */
-  const TInputImage * GetInputImage();
+  const TInputImage *
+  GetInputImage();
 
 protected:
   RecursiveSeparableImageFilter();
   ~RecursiveSeparableImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void BeforeThreadedGenerateData() override;
+  void
+  BeforeThreadedGenerateData() override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  void DynamicThreadedGenerateData( const OutputImageRegionType & ) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType &) override;
 
   /** RecursiveSeparableImageFilter needs all of the input only in the
    *  "Direction" dimension. Therefore we enlarge the output's
@@ -115,13 +120,15 @@ protected:
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion()
    */
-  void EnlargeOutputRequestedRegion(DataObject *output) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * output) override;
 
   /** Set up the coefficients of the filter to approximate a specific kernel.
    * Typically it can be used to approximate a Gaussian or one of its
    * derivatives. Parameter is the spacing along the dimension to
    * filter. */
-  virtual void SetUp(ScalarRealType spacing) = 0;
+  virtual void
+  SetUp(ScalarRealType spacing) = 0;
 
   /** Apply the Recursive Filter to an array of data.  This method is called
    * for each line of the volume. Parameter "scratch" is a scratch
@@ -129,8 +136,8 @@ protected:
    * parameters "outs" and "data". The scratch area must be allocated
    * outside of this routine (this avoids memory allocation and
    * deallocation in the inner loop of the overall algorithm. */
-  void FilterDataArray(RealType *outs, const RealType *data, RealType *scratch,
-                       SizeValueType ln);
+  void
+  FilterDataArray(RealType * outs, const RealType * data, RealType * scratch, SizeValueType ln);
 
 protected:
   /** Causal coefficients that multiply the input data. */
@@ -167,61 +174,81 @@ protected:
 
 
   template <typename T1, typename T2>
-  inline void MathEMAMAMAM(T1 &out,
-                           const T1 &a1, const T2 &b1,
-                           const T1 &a2, const T2 &b2,
-                           const T1 &a3, const T2 &b3,
-                           const T1 &a4, const T2 &b4 )
-    {
-      out = a1*b1 + a2*b2 + a3*b3 + a4*b4;
-    }
+  inline void
+  MathEMAMAMAM(T1 &       out,
+               const T1 & a1,
+               const T2 & b1,
+               const T1 & a2,
+               const T2 & b2,
+               const T1 & a3,
+               const T2 & b3,
+               const T1 & a4,
+               const T2 & b4)
+  {
+    out = a1 * b1 + a2 * b2 + a3 * b3 + a4 * b4;
+  }
 
 
   template <typename T1, typename T2>
-  inline void MathEMAMAMAM(VariableLengthVector<T1> &out,
-                           const VariableLengthVector<T1> &a1, const T2 &b1,
-                           const VariableLengthVector<T1> &a2, const T2 &b2,
-                           const VariableLengthVector<T1> &a3, const T2 &b3,
-                           const VariableLengthVector<T1> &a4, const T2 &b4 )
+  inline void
+  MathEMAMAMAM(VariableLengthVector<T1> &       out,
+               const VariableLengthVector<T1> & a1,
+               const T2 &                       b1,
+               const VariableLengthVector<T1> & a2,
+               const T2 &                       b2,
+               const VariableLengthVector<T1> & a3,
+               const T2 &                       b3,
+               const VariableLengthVector<T1> & a4,
+               const T2 &                       b4)
+  {
+    const unsigned int sz = a1.GetSize();
+    if (sz != out.GetSize())
     {
-      const unsigned int sz  = a1.GetSize();
-      if (sz != out.GetSize() )
-        {
-        out.SetSize(sz);
-        }
-      for ( unsigned int i = 0; i < sz; ++i)
-        {
-        out[i] = a1[i]*b1 + a2[i]*b2 + a3[i]*b3 + a4[i]*b4;
-        }
+      out.SetSize(sz);
     }
+    for (unsigned int i = 0; i < sz; ++i)
+    {
+      out[i] = a1[i] * b1 + a2[i] * b2 + a3[i] * b3 + a4[i] * b4;
+    }
+  }
 
   template <typename T1, typename T2>
-  inline void MathSMAMAMAM(T1 &out,
-                           const T1 &a1, const T2 &b1,
-                           const T1 &a2, const T2 &b2,
-                           const T1 &a3, const T2 &b3,
-                           const T1 &a4, const T2 &b4 )
-    {
-      out -= a1*b1 + a2*b2 + a3*b3 + a4*b4;
-    }
+  inline void
+  MathSMAMAMAM(T1 &       out,
+               const T1 & a1,
+               const T2 & b1,
+               const T1 & a2,
+               const T2 & b2,
+               const T1 & a3,
+               const T2 & b3,
+               const T1 & a4,
+               const T2 & b4)
+  {
+    out -= a1 * b1 + a2 * b2 + a3 * b3 + a4 * b4;
+  }
 
   template <typename T1, typename T2>
-  inline void MathSMAMAMAM(VariableLengthVector<T1> &out,
-                           const VariableLengthVector<T1> &a1, const T2 &b1,
-                           const VariableLengthVector<T1> &a2, const T2 &b2,
-                           const VariableLengthVector<T1> &a3, const T2 &b3,
-                           const VariableLengthVector<T1> &a4, const T2 &b4 )
+  inline void
+  MathSMAMAMAM(VariableLengthVector<T1> &       out,
+               const VariableLengthVector<T1> & a1,
+               const T2 &                       b1,
+               const VariableLengthVector<T1> & a2,
+               const T2 &                       b2,
+               const VariableLengthVector<T1> & a3,
+               const T2 &                       b3,
+               const VariableLengthVector<T1> & a4,
+               const T2 &                       b4)
+  {
+    const unsigned int sz = a1.GetSize();
+    if (sz != out.GetSize())
     {
-      const unsigned int sz  = a1.GetSize();
-      if (sz != out.GetSize() )
-        {
-        out.SetSize(sz);
-        }
-      for ( unsigned int i = 0; i < sz; ++i)
-        {
-        out[i] -= a1[i]*b1 + a2[i]*b2 + a3[i]*b3 + a4[i]*b4;
-        }
+      out.SetSize(sz);
     }
+    for (unsigned int i = 0; i < sz; ++i)
+    {
+      out[i] -= a1[i] * b1 + a2[i] * b2 + a3[i] * b3 + a4[i] * b4;
+    }
+  }
 
 private:
   /** Direction in which the filter is to be applied
@@ -231,7 +258,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRecursiveSeparableImageFilter.hxx"
+#  include "itkRecursiveSeparableImageFilter.hxx"
 #endif
 
 #endif

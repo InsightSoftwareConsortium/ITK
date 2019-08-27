@@ -72,19 +72,22 @@ public:
   /**
    * Compute the B matrix.
    */
-  void GetStrainDisplacementMatrix(MatrixType & B, const MatrixType & shapeDgl) const override;
+  void
+  GetStrainDisplacementMatrix(MatrixType & B, const MatrixType & shapeDgl) const override;
 
   /**
    * Compute the D matrix.
    */
-  void GetMaterialMatrix(MatrixType & D) const override;
+  void
+  GetMaterialMatrix(MatrixType & D) const override;
 
   /**
    * Element stiffness matrix is reimplemented here, because we want to
    * be able to use this class to implement 1D stress problem in any
    * number of dimensions i.e. Bar1D, Bar2D, Bar3D.
    */
-  void GetStiffnessMatrix(MatrixType & Ke) const override;
+  void
+  GetStiffnessMatrix(MatrixType & Ke) const override;
 
   /**
    * 1D stress elements have 2 DOFs per node. In reality there is
@@ -93,7 +96,8 @@ public:
    * So the number of DOFs per node is equal to the number of
    * spatial dimensions.
    */
-  unsigned int GetNumberOfDegreesOfFreedomPerNode() const override
+  unsigned int
+  GetNumberOfDegreesOfFreedomPerNode() const override
   {
     return 2;
   }
@@ -101,31 +105,33 @@ public:
   /**
    * Get/Set the material properties for the element
    */
-  Material::ConstPointer GetMaterial() const override
+  Material::ConstPointer
+  GetMaterial() const override
   {
     return m_mat;
   }
 
-  void SetMaterial(Material::ConstPointer mat_) override
+  void
+  SetMaterial(Material::ConstPointer mat_) override
   {
     m_mat = dynamic_cast<const MaterialLinearElasticity *>(mat_.GetPointer());
   }
 
 protected:
-
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**
    * Pointer to material properties of the element
    */
   const MaterialLinearElasticity * m_mat;
 
-};  // class Element1DStress
+}; // class Element1DStress
 } // end namespace fem
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFEMElement1DStress.hxx"
+#  include "itkFEMElement1DStress.hxx"
 #endif
 
 #endif // itkFEMElement1DStress_h

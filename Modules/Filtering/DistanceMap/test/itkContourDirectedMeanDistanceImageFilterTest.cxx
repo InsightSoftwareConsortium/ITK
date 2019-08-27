@@ -19,7 +19,8 @@
 #include "itkContourDirectedMeanDistanceImageFilter.h"
 #include "itkSimpleFilterWatcher.h"
 
-int itkContourDirectedMeanDistanceImageFilterTest(int, char* [] )
+int
+itkContourDirectedMeanDistanceImageFilterTest(int, char *[])
 {
 
   using Pixel1Type = unsigned int;
@@ -27,23 +28,23 @@ int itkContourDirectedMeanDistanceImageFilterTest(int, char* [] )
 
   constexpr unsigned int ImageDimension = 3;
 
-  using Image1Type = itk::Image<Pixel1Type,ImageDimension>;
-  using Image2Type = itk::Image<Pixel2Type,ImageDimension>;
+  using Image1Type = itk::Image<Pixel1Type, ImageDimension>;
+  using Image2Type = itk::Image<Pixel2Type, ImageDimension>;
 
   Image1Type::Pointer image1 = Image1Type::New();
   Image2Type::Pointer image2 = Image2Type::New();
 
   Image1Type::SizeType size;
-  size.Fill( 50 );
+  size.Fill(50);
 
-  image1->SetRegions( size );
-  image2->SetRegions( size );
+  image1->SetRegions(size);
+  image2->SetRegions(size);
 
   image1->Allocate();
   image2->Allocate();
 
-  image1->FillBuffer( itk::NumericTraits<Pixel1Type>::ZeroValue() );
-  image2->FillBuffer( itk::NumericTraits<Pixel2Type>::ZeroValue() );
+  image1->FillBuffer(itk::NumericTraits<Pixel1Type>::ZeroValue());
+  image2->FillBuffer(itk::NumericTraits<Pixel2Type>::ZeroValue());
 
   using RegionType = Image1Type::RegionType;
   RegionType region1;
@@ -52,84 +53,83 @@ int itkContourDirectedMeanDistanceImageFilterTest(int, char* [] )
   using IndexType = Image1Type::IndexType;
   IndexType index;
 
-  size.Fill( 20 );
-  index.Fill( 10 );
-  region1.SetSize( size );
-  region1.SetIndex( index );
+  size.Fill(20);
+  index.Fill(10);
+  region1.SetSize(size);
+  region1.SetIndex(index);
 
-  size.Fill( 15 );
-  index.Fill( 20 );
-  region2.SetSize( size );
-  region2.SetIndex( index );
+  size.Fill(15);
+  index.Fill(20);
+  region2.SetSize(size);
+  region2.SetIndex(index);
 
-  itk::ImageRegionIterator<Image1Type> it1( image1, region1 );
-  Pixel1Type count = itk::NumericTraits<Pixel1Type>::ZeroValue();
-  while ( !it1.IsAtEnd() )
-    {
-    it1.Set( ++count );
+  itk::ImageRegionIterator<Image1Type> it1(image1, region1);
+  Pixel1Type                           count = itk::NumericTraits<Pixel1Type>::ZeroValue();
+  while (!it1.IsAtEnd())
+  {
+    it1.Set(++count);
     ++it1;
-    }
+  }
 
-  itk::ImageRegionIterator<Image2Type> it2( image2, region2 );
-  while ( !it2.IsAtEnd() )
-    {
-    it2.Set( 7.2 );
+  itk::ImageRegionIterator<Image2Type> it2(image2, region2);
+  while (!it2.IsAtEnd())
+  {
+    it2.Set(7.2);
     ++it2;
-    }
+  }
 
 
   // compute the directed Mean distance h(image1,image2)
   {
-  using FilterType = itk::ContourDirectedMeanDistanceImageFilter<Image1Type,Image2Type>;
-  FilterType::Pointer filter = FilterType::New();
-  itk::SimpleFilterWatcher watcher(filter, "filter");
+    using FilterType = itk::ContourDirectedMeanDistanceImageFilter<Image1Type, Image2Type>;
+    FilterType::Pointer      filter = FilterType::New();
+    itk::SimpleFilterWatcher watcher(filter, "filter");
 
-  filter->SetInput1( image1 );
-  filter->SetInput2( image2 );
-  filter->Update();
-  filter->Print( std::cout );
+    filter->SetInput1(image1);
+    filter->SetInput2(image2);
+    filter->Update();
+    filter->Print(std::cout);
 
 
-  // check results
+    // check results
 
-  FilterType::RealType trueDistance = 8.37831;
-  FilterType::RealType distance = filter->GetContourDirectedMeanDistance();
+    FilterType::RealType trueDistance = 8.37831;
+    FilterType::RealType distance = filter->GetContourDirectedMeanDistance();
 
-  std::cout << " True     distance: " << trueDistance << std::endl;
-  std::cout << " Computed distance: " << distance << std::endl;
+    std::cout << " True     distance: " << trueDistance << std::endl;
+    std::cout << " Computed distance: " << distance << std::endl;
 
-  if ( itk::Math::abs( trueDistance - distance ) > 0.1 )
+    if (itk::Math::abs(trueDistance - distance) > 0.1)
     {
-    std::cout << "Test failed. " << std::endl;
-    return EXIT_FAILURE;
+      std::cout << "Test failed. " << std::endl;
+      return EXIT_FAILURE;
     }
   }
 
   // compute the directed Mean distance h(image2,image1)
   {
-  using FilterType = itk::ContourDirectedMeanDistanceImageFilter<Image2Type,Image1Type>;
-  FilterType::Pointer filter = FilterType::New();
+    using FilterType = itk::ContourDirectedMeanDistanceImageFilter<Image2Type, Image1Type>;
+    FilterType::Pointer filter = FilterType::New();
 
-  filter->SetInput1( image2 );
-  filter->SetInput2( image1 );
-  filter->Update();
+    filter->SetInput1(image2);
+    filter->SetInput2(image1);
+    filter->Update();
 
 
-  // check results
-  FilterType::RealType trueDistance = 4.2053;
-  FilterType::RealType distance = filter->GetContourDirectedMeanDistance();
+    // check results
+    FilterType::RealType trueDistance = 4.2053;
+    FilterType::RealType distance = filter->GetContourDirectedMeanDistance();
 
-  std::cout << " True     distance: " << trueDistance << std::endl;
-  std::cout << " Computed distance: " << distance << std::endl;
+    std::cout << " True     distance: " << trueDistance << std::endl;
+    std::cout << " Computed distance: " << distance << std::endl;
 
-  if ( itk::Math::abs( trueDistance - distance ) > 0.1 )
+    if (itk::Math::abs(trueDistance - distance) > 0.1)
     {
-    std::cout << "Test failed. " << std::endl;
-    return EXIT_FAILURE;
+      std::cout << "Test failed. " << std::endl;
+      return EXIT_FAILURE;
     }
   }
 
   std::cout << "Test passed. " << std::endl;
   return EXIT_SUCCESS;
-
 }

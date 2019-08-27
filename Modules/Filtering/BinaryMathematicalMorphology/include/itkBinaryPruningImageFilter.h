@@ -54,18 +54,17 @@ namespace itk
  * \endsphinx
  */
 
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT BinaryPruningImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT BinaryPruningImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryPruningImageFilter);
 
   /** Standard class type aliases. */
   using Self = BinaryPruningImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
@@ -98,10 +97,11 @@ public:
   using OutputImagePointer = typename OutputImageType::Pointer;
 
   /** Neighborhood iterator type */
-  using NeighborhoodIteratorType = NeighborhoodIterator< TInputImage >;
+  using NeighborhoodIteratorType = NeighborhoodIterator<TInputImage>;
 
   /** Get Skelenton by thinning image. */
-  OutputImageType * GetPruning();
+  OutputImageType *
+  GetPruning();
 
   /** Set/Get the iteration value */
   itkSetMacro(Iteration, unsigned int);
@@ -113,40 +113,39 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( SameDimensionCheck,
-                   ( Concept::SameDimension< InputImageDimension, OutputImageDimension > ) );
-  itkConceptMacro( SameTypeCheck,
-                   ( Concept::SameType< PixelType, typename TOutputImage::PixelType > ) );
-  itkConceptMacro( AdditiveOperatorsCheck,
-                   ( Concept::AdditiveOperators< PixelType > ) );
-  itkConceptMacro( IntConvertibleToPixelTypeCheck,
-                   ( Concept::Convertible< int, PixelType > ) );
-  itkConceptMacro( PixelLessThanIntCheck,
-                   ( Concept::LessThanComparable< PixelType, int > ) );
+  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
+  itkConceptMacro(SameTypeCheck, (Concept::SameType<PixelType, typename TOutputImage::PixelType>));
+  itkConceptMacro(AdditiveOperatorsCheck, (Concept::AdditiveOperators<PixelType>));
+  itkConceptMacro(IntConvertibleToPixelTypeCheck, (Concept::Convertible<int, PixelType>));
+  itkConceptMacro(PixelLessThanIntCheck, (Concept::LessThanComparable<PixelType, int>));
   // End concept checking
 #endif
 
 protected:
   BinaryPruningImageFilter();
   ~BinaryPruningImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Compute thinning Image. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /** Prepare data. */
-  void PrepareData();
+  void
+  PrepareData();
 
   /**  Compute thinning Image. */
-  void ComputePruneImage();
+  void
+  ComputePruneImage();
 
 private:
   unsigned int m_Iteration;
 }; // end of BinaryThinningImageFilter class
-} //end namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryPruningImageFilter.hxx"
+#  include "itkBinaryPruningImageFilter.hxx"
 #endif
 
 #endif

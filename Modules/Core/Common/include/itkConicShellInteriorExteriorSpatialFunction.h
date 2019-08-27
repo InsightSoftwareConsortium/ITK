@@ -56,23 +56,21 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-template< unsigned int VDimension = 3,
-          typename TInput = Point< double, VDimension > >
-class ITK_TEMPLATE_EXPORT ConicShellInteriorExteriorSpatialFunction:
-  public InteriorExteriorSpatialFunction< VDimension, TInput >
+template <unsigned int VDimension = 3, typename TInput = Point<double, VDimension>>
+class ITK_TEMPLATE_EXPORT ConicShellInteriorExteriorSpatialFunction
+  : public InteriorExteriorSpatialFunction<VDimension, TInput>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ConicShellInteriorExteriorSpatialFunction);
 
   /** Standard class type aliases. */
   using Self = ConicShellInteriorExteriorSpatialFunction;
-  using Superclass = InteriorExteriorSpatialFunction< VDimension, TInput >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = InteriorExteriorSpatialFunction<VDimension, TInput>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run time information. */
-  itkTypeMacro(ConicShellInteriorExteriorSpatialFunction,
-               InteriorExteriorSpatialFunction);
+  itkTypeMacro(ConicShellInteriorExteriorSpatialFunction, InteriorExteriorSpatialFunction);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -84,18 +82,24 @@ public:
   using OutputType = typename Superclass::OutputType;
 
   /** The type of vector used to store the gradient info. */
-  using GradientType = CovariantVector< double, VDimension >;
+  using GradientType = CovariantVector<double, VDimension>;
 
   /** Evaluates the function at a given position. */
-  OutputType Evaluate(const InputType & position) const override;
+  OutputType
+  Evaluate(const InputType & position) const override;
 
   /** Set/Get the origin of the function. */
   itkGetConstMacro(Origin, InputType);
   itkSetMacro(Origin, InputType);
 
   /** Set/Get the gradient at the origin of the function. */
-  GradientType GetOriginGradient() { return m_OriginGradient; }
-  void SetOriginGradient(GradientType grad);
+  GradientType
+  GetOriginGradient()
+  {
+    return m_OriginGradient;
+  }
+  void
+  SetOriginGradient(GradientType grad);
 
   /** Set/Get the minimum search distance. */
   itkGetConstMacro(DistanceMin, double);
@@ -119,20 +123,21 @@ public:
 protected:
   ConicShellInteriorExteriorSpatialFunction();
   ~ConicShellInteriorExteriorSpatialFunction() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  InputType     m_Origin;
-  GradientType  m_OriginGradient;
-  double        m_DistanceMin{ 0.0 };
-  double        m_DistanceMax{ 0.0 };
-  double        m_Epsilon{ 0.0 };
-  bool          m_Polarity{ false };
+  InputType    m_Origin;
+  GradientType m_OriginGradient;
+  double       m_DistanceMin{ 0.0 };
+  double       m_DistanceMax{ 0.0 };
+  double       m_Epsilon{ 0.0 };
+  bool         m_Polarity{ false };
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkConicShellInteriorExteriorSpatialFunction.hxx"
+#  include "itkConicShellInteriorExteriorSpatialFunction.hxx"
 #endif
 
 #endif

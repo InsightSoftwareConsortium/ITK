@@ -62,8 +62,7 @@ class ITK_FORWARD_EXPORT LBFGSBOptimizerHelperv4;
  * \ingroup Numerics Optimizersv4
  * \ingroup ITKOptimizersv4
  */
-class ITKOptimizersv4_EXPORT LBFGSBOptimizerv4:
-  public LBFGSOptimizerBasev4< vnl_lbfgsb >
+class ITKOptimizersv4_EXPORT LBFGSBOptimizerv4 : public LBFGSOptimizerBasev4<vnl_lbfgsb>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LBFGSBOptimizerv4);
@@ -71,8 +70,8 @@ public:
   /** Standard "Self" type alias. */
   using Self = LBFGSBOptimizerv4;
   using Superclass = LBFGSOptimizerBasev4<vnl_lbfgsb>;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using MetricType = Superclass::MetricType;
   using ParametersType = Superclass::ParametersType;
@@ -84,47 +83,54 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(LBFGSBOptimizerv4, Superclass);
 
-  enum BoundSelectionValues {
+  enum BoundSelectionValues
+  {
     UNBOUNDED = 0,
     LOWERBOUNDED = 1,
     BOTHBOUNDED = 2,
     UPPERBOUNDED = 3
-    };
+  };
 
   /**  BoundValue type.
    *  Use for defining the lower and upper bounds on the variables.
    */
-  using BoundValueType = Array< double >;
+  using BoundValueType = Array<double>;
 
   /** BoundSelection type
    * Use for defining the boundary condition for each variables.
    */
-  using BoundSelectionType = Array< long >;
+  using BoundSelectionType = Array<long>;
 
   /**  Set the position to initialize the optimization. */
-  void SetInitialPosition(const ParametersType & param);
+  void
+  SetInitialPosition(const ParametersType & param);
 
   /** Get the position to initialize the optimization. */
-  ParametersType & GetInitialPosition()
+  ParametersType &
+  GetInitialPosition()
   {
-  return m_InitialPosition;
+    return m_InitialPosition;
   }
 
   /** Start optimization with an initial value. */
-  void StartOptimization(bool doOnlyInitialization = false) override;
+  void
+  StartOptimization(bool doOnlyInitialization = false) override;
 
   /** Plug in a Cost Function into the optimizer  */
-  void SetMetric(MetricType *metric) override;
+  void
+  SetMetric(MetricType * metric) override;
 
   /** Set the lower bound value for each variable. */
-  void SetLowerBound(const BoundValueType & value);
+  void
+  SetLowerBound(const BoundValueType & value);
 
-  itkGetConstReferenceMacro(LowerBound,BoundValueType);
+  itkGetConstReferenceMacro(LowerBound, BoundValueType);
 
   /** Set the upper bound value for each variable. */
-  void SetUpperBound(const BoundValueType & value);
+  void
+  SetUpperBound(const BoundValueType & value);
 
-  itkGetConstReferenceMacro(UpperBound,BoundValueType);
+  itkGetConstReferenceMacro(UpperBound, BoundValueType);
 
   /** Set the boundary condition for each variable, where
    * select[i] = 0 if x[i] is unbounded,
@@ -132,9 +138,10 @@ public:
    *           = 2 if x[i] has both lower and upper bounds, and
    *           = 3 if x[1] has only an upper bound
    */
-  void SetBoundSelection(const BoundSelectionType & select);
+  void
+  SetBoundSelection(const BoundSelectionType & select);
 
-  itkGetConstReferenceMacro(BoundSelection,BoundSelectionType);
+  itkGetConstReferenceMacro(BoundSelection, BoundSelectionType);
 
   /** Set/Get the CostFunctionConvergenceFactor. Algorithm terminates
    * when the reduction in cost function is less than factor * epsmcj
@@ -142,17 +149,20 @@ public:
    * Typical values for factor: 1e+12 for low accuracy;
    * 1e+7 for moderate accuracy and 1e+1 for extremely high accuracy.
    */
-  virtual void SetCostFunctionConvergenceFactor(double);
+  virtual void
+  SetCostFunctionConvergenceFactor(double);
 
   itkGetConstMacro(CostFunctionConvergenceFactor, double);
 
   /** Set/Get the MaximumNumberOfCorrections. Default is 5 */
-  virtual void SetMaximumNumberOfCorrections(unsigned int);
+  virtual void
+  SetMaximumNumberOfCorrections(unsigned int);
 
   itkGetConstMacro(MaximumNumberOfCorrections, unsigned int);
 
   /** This optimizer does not support scaling of the derivatives. */
-  void SetScales(const ScalesType &) override;
+  void
+  SetScales(const ScalesType &) override;
 
   /** Get the current infinity norm of the project gradient of the cost
    * function. */
@@ -161,7 +171,8 @@ public:
 protected:
   LBFGSBOptimizerv4();
   ~LBFGSBOptimizerv4() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   using CostFunctionAdaptorType = Superclass::CostFunctionAdaptorType;
 
@@ -171,12 +182,12 @@ protected:
   friend class LBFGSBOptimizerHelperv4;
 
 private:
-  unsigned int m_MaximumNumberOfCorrections{5};
+  unsigned int m_MaximumNumberOfCorrections{ 5 };
 
-  ParametersType          m_InitialPosition;
-  BoundValueType          m_LowerBound;
-  BoundValueType          m_UpperBound;
-  BoundSelectionType      m_BoundSelection;
+  ParametersType     m_InitialPosition;
+  BoundValueType     m_LowerBound;
+  BoundValueType     m_UpperBound;
+  BoundSelectionType m_BoundSelection;
 };
 } // end namespace itk
 #endif

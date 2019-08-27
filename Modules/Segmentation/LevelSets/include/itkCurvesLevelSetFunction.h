@@ -58,19 +58,18 @@ namespace itk
  * \ingroup FiniteDifferenceFunctions
  * \ingroup ITKLevelSets
  */
-template< typename TImageType, typename TFeatureImageType = TImageType >
-class ITK_TEMPLATE_EXPORT CurvesLevelSetFunction:
-  public SegmentationLevelSetFunction< TImageType, TFeatureImageType >
+template <typename TImageType, typename TFeatureImageType = TImageType>
+class ITK_TEMPLATE_EXPORT CurvesLevelSetFunction : public SegmentationLevelSetFunction<TImageType, TFeatureImageType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(CurvesLevelSetFunction);
 
   /** Standard class type aliases. */
   using Self = CurvesLevelSetFunction;
-  using Superclass = SegmentationLevelSetFunction< TImageType, TFeatureImageType >;
-  using SuperSuperclass = LevelSetFunction< TImageType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = SegmentationLevelSetFunction<TImageType, TFeatureImageType>;
+  using SuperSuperclass = LevelSetFunction<TImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
   using FeatureImageType = TFeatureImageType;
 
   /** Method for creation through the object factory. */
@@ -94,61 +93,74 @@ public:
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Compute speed image from feature image. */
-  void CalculateSpeedImage() override;
+  void
+  CalculateSpeedImage() override;
 
   /** Compute the advection field from feature image. */
-  void CalculateAdvectionImage() override;
+  void
+  CalculateAdvectionImage() override;
 
   /** The curvature speed is same as the propagation speed. */
-  ScalarValueType CurvatureSpeed(const NeighborhoodType & neighborhood,
-                                         const FloatOffsetType & offset, GlobalDataStruct *gd) const override
-  { return this->PropagationSpeed(neighborhood, offset, gd); }
+  ScalarValueType
+  CurvatureSpeed(const NeighborhoodType & neighborhood,
+                 const FloatOffsetType &  offset,
+                 GlobalDataStruct *       gd) const override
+  {
+    return this->PropagationSpeed(neighborhood, offset, gd);
+  }
 
   /** Set/Get the sigma for the Gaussian kernel used to compute the gradient
    * of the feature image needed for the advection term of the equation. */
-  void SetDerivativeSigma(const double v)
-  { m_DerivativeSigma = v; }
-  double GetDerivativeSigma()
-  { return m_DerivativeSigma; }
+  void
+  SetDerivativeSigma(const double v)
+  {
+    m_DerivativeSigma = v;
+  }
+  double
+  GetDerivativeSigma()
+  {
+    return m_DerivativeSigma;
+  }
 
-  void Initialize(const RadiusType & r) override;
+  void
+  Initialize(const RadiusType & r) override;
 
 protected:
   CurvesLevelSetFunction()
 
   {
-    //Curvature term is the minimal curvature.
+    // Curvature term is the minimal curvature.
     this->UseMinimalCurvatureOn();
-    this->SetAdvectionWeight(NumericTraits< ScalarValueType >::OneValue());
-    this->SetPropagationWeight(NumericTraits< ScalarValueType >::OneValue());
-    this->SetCurvatureWeight(NumericTraits< ScalarValueType >::OneValue());
+    this->SetAdvectionWeight(NumericTraits<ScalarValueType>::OneValue());
+    this->SetPropagationWeight(NumericTraits<ScalarValueType>::OneValue());
+    this->SetCurvatureWeight(NumericTraits<ScalarValueType>::OneValue());
   }
 
   ~CurvesLevelSetFunction() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
     os << indent << "DerivativeSigma: " << m_DerivativeSigma << std::endl;
   }
 
 private:
-
   /** Slices for the ND neighborhood. */
   std::slice x_slice[ImageDimension];
 
   /** The offset of the center pixel in the neighborhood. */
-  OffsetValueType m_Center{0};
+  OffsetValueType m_Center{ 0 };
 
   /** Stride length along the y-dimension. */
   OffsetValueType m_xStride[ImageDimension];
 
-  double m_DerivativeSigma{1.0};
+  double m_DerivativeSigma{ 1.0 };
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCurvesLevelSetFunction.hxx"
+#  include "itkCurvesLevelSetFunction.hxx"
 #endif
 
 #endif

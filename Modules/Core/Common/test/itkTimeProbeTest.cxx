@@ -21,7 +21,8 @@
 #include "itkMath.h"
 
 
-int itkTimeProbeTest( int, char * [] )
+int
+itkTimeProbeTest(int, char *[])
 {
   // Create an ITK time probe
   itk::TimeProbe localTimer;
@@ -39,12 +40,12 @@ int itkTimeProbeTest( int, char * [] )
 
   // time a task
   localTimer.Start();
-  //usleep( 1000000 );//not portable
+  // usleep( 1000000 );//not portable
   double sum = 0.0;
-  for( unsigned int i = 0; i < 1e6; ++i )
-    {
+  for (unsigned int i = 0; i < 1e6; ++i)
+  {
     sum += i;
-    }
+  }
   localTimer.Stop();
 
   // Print current values
@@ -57,26 +58,27 @@ int itkTimeProbeTest( int, char * [] )
   // invoke reset
   localTimer.Reset();
 
-  if( localTimer.GetNumberOfStarts() != 0 )
-    {
+  if (localTimer.GetNumberOfStarts() != 0)
+  {
     std::cerr << "Reset() failure" << std::endl;
     return EXIT_FAILURE;
-    }
-  if( localTimer.GetNumberOfStops() != itk::NumericTraits< itk::TimeProbe::CountType >::ZeroValue() )
-    {
+  }
+  if (localTimer.GetNumberOfStops() != itk::NumericTraits<itk::TimeProbe::CountType>::ZeroValue())
+  {
     std::cerr << "Reset() failure" << std::endl;
     return EXIT_FAILURE;
-    }
- if( itk::Math::NotExactlyEquals(localTimer.GetTotal(), itk::NumericTraits< itk::TimeProbe::TimeStampType  >::ZeroValue()) )
-    {
+  }
+  if (itk::Math::NotExactlyEquals(localTimer.GetTotal(),
+                                  itk::NumericTraits<itk::TimeProbe::TimeStampType>::ZeroValue()))
+  {
     std::cerr << "Reset() failure" << std::endl;
     return EXIT_FAILURE;
-    }
-  if( itk::Math::NotExactlyEquals(localTimer.GetMean(), itk::NumericTraits< itk::TimeProbe::TimeStampType >::ZeroValue()) )
-    {
+  }
+  if (itk::Math::NotExactlyEquals(localTimer.GetMean(), itk::NumericTraits<itk::TimeProbe::TimeStampType>::ZeroValue()))
+  {
     std::cerr << "Reset() failure" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   /** Invoke GetRealTimeClock. */
   itk::RealTimeStamp timeStamp = localTimer.GetRealTimeClock()->GetRealTimeStamp();

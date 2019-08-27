@@ -40,18 +40,18 @@ namespace itk
  * \ingroup ITKMathematicalMorphology
  */
 
-template< typename TInputImage, typename TMaskImage, typename TOutputImage, typename TKernel, typename THistogram >
-class ITK_TEMPLATE_EXPORT MaskedMovingHistogramImageFilter:
-  public MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel >
+template <typename TInputImage, typename TMaskImage, typename TOutputImage, typename TKernel, typename THistogram>
+class ITK_TEMPLATE_EXPORT MaskedMovingHistogramImageFilter
+  : public MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MaskedMovingHistogramImageFilter);
 
   /** Standard class type aliases. */
   using Self = MaskedMovingHistogramImageFilter;
-  using Superclass = MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -75,26 +75,30 @@ public:
   using HistogramType = THistogram;
 
   /** Set the marker image */
-  void SetMaskImage(const MaskImageType *input)
+  void
+  SetMaskImage(const MaskImageType * input)
   {
     // Process object is not const-correct so the const casting is required.
-    this->SetNthInput( 1, const_cast< TMaskImage * >( input ) );
+    this->SetNthInput(1, const_cast<TMaskImage *>(input));
   }
 
   /** Get the marker image */
-  MaskImageType * GetMaskImage()
+  MaskImageType *
+  GetMaskImage()
   {
-    return static_cast< MaskImageType * >( const_cast< DataObject * >( this->ProcessObject::GetInput(1) ) );
+    return static_cast<MaskImageType *>(const_cast<DataObject *>(this->ProcessObject::GetInput(1)));
   }
 
   /** Set the input image */
-  void SetInput1(const InputImageType *input)
+  void
+  SetInput1(const InputImageType * input)
   {
     this->SetInput(input);
   }
 
   /** Set the marker image */
-  void SetInput2(const MaskImageType *input)
+  void
+  SetInput2(const MaskImageType * input)
   {
     this->SetMaskImage(input);
   }
@@ -111,19 +115,21 @@ public:
   /** n-dimensional Kernel radius. */
   using RadiusType = typename KernelType::SizeType;
 
-  using OffsetListType = typename std::list< OffsetType >;
+  using OffsetListType = typename std::list<OffsetType>;
 
-  using OffsetMapType = typename std::map< OffsetType, OffsetListType,
-                             Functor::LexicographicCompare >;
+  using OffsetMapType = typename std::map<OffsetType, OffsetListType, Functor::LexicographicCompare>;
 
   /** Get the modified mask image */
-  MaskImageType * GetOutputMask();
+  MaskImageType *
+  GetOutputMask();
 
-  void AllocateOutputs() override;
+  void
+  AllocateOutputs() override;
 
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  DataObject::Pointer MakeOutput(DataObjectPointerArraySizeType idx) override;
+  DataObject::Pointer
+  MakeOutput(DataObjectPointerArraySizeType idx) override;
 
   itkSetMacro(FillValue, OutputPixelType);
   itkGetConstMacro(FillValue, OutputPixelType);
@@ -134,32 +140,38 @@ public:
   itkSetMacro(BackgroundMaskValue, MaskPixelType);
   itkGetConstMacro(BackgroundMaskValue, MaskPixelType);
 
-  void SetGenerateOutputMask(bool);
+  void
+  SetGenerateOutputMask(bool);
 
   itkGetConstMacro(GenerateOutputMask, bool);
   itkBooleanMacro(GenerateOutputMask);
 
   /** ConfigurewHistogram can be used to configure the histogram. The default version just do nothing. */
-  virtual void ConfigureHistogram(THistogram &) {}
+  virtual void
+  ConfigureHistogram(THistogram &)
+  {}
 
 protected:
   MaskedMovingHistogramImageFilter();
   ~MaskedMovingHistogramImageFilter() override = default;
 
   /** Multi-thread version GenerateData. */
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void pushHistogram(HistogramType & histogram,
-                     const OffsetListType *addedList,
-                     const OffsetListType *removedList,
-                     const RegionType & inputRegion,
-                     const RegionType & kernRegion,
-                     const InputImageType *inputImage,
-                     const MaskImageType *maskImage,
-                     const IndexType currentIdx);
+  void
+  pushHistogram(HistogramType &        histogram,
+                const OffsetListType * addedList,
+                const OffsetListType * removedList,
+                const RegionType &     inputRegion,
+                const RegionType &     kernRegion,
+                const InputImageType * inputImage,
+                const MaskImageType *  maskImage,
+                const IndexType        currentIdx);
 
 private:
   bool m_GenerateOutputMask;
@@ -173,7 +185,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMaskedMovingHistogramImageFilter.hxx"
+#  include "itkMaskedMovingHistogramImageFilter.hxx"
 #endif
 
 #endif

@@ -30,7 +30,8 @@
 #include <iostream>
 #include <ctime>
 
-namespace itk {
+namespace itk
+{
 
 /**
  * \class NullImageToImageFilterDriver
@@ -46,69 +47,80 @@ template <typename TInputImage, typename TOutputImage>
 class NullImageToImageFilterDriver
 {
 public:
-  NullImageToImageFilterDriver():
-    m_Filter( nullptr )
-    {};
+  NullImageToImageFilterDriver()
+    : m_Filter(nullptr){};
 
   using ImageSizeType = typename TInputImage::SizeType;
   using InputPixelType = typename TInputImage::PixelType;
-  enum {InputPixelDimension=PixelTraits<InputPixelType>::Dimension};
+  enum
+  {
+    InputPixelDimension = PixelTraits<InputPixelType>::Dimension
+  };
 
   /**
    * Set the image-to-image filter to drive.
    */
-  void SetFilter(ImageToImageFilter<TInputImage, TOutputImage> * filter)
-  {    m_Filter = filter;   }
+  void
+  SetFilter(ImageToImageFilter<TInputImage, TOutputImage> * filter)
+  {
+    m_Filter = filter;
+  }
 
   /**
    * Set the size of the input and output image.
    */
-  void SetImageSize(const ImageSizeType size)
-    { m_ImageSize = size; }
+  void
+  SetImageSize(const ImageSizeType size)
+  {
+    m_ImageSize = size;
+  }
 
   /**
    * Drive the filter without using the itk pipeline.
    */
-  void Execute();
+  void
+  Execute();
 
 protected:
-  struct DispatchBase {};
-  template<unsigned int VDimension>
-  struct Dispatch : public DispatchBase {};
+  struct DispatchBase
+  {};
+  template <unsigned int VDimension>
+  struct Dispatch : public DispatchBase
+  {};
 
-  void InitializePixel(InputPixelType &pixel);
-  void InitializePixel(const DispatchBase&, InputPixelType &pixel);
-  void InitializePixel(const Dispatch<1>&, InputPixelType &pixel);
+  void
+  InitializePixel(InputPixelType & pixel);
+  void
+  InitializePixel(const DispatchBase &, InputPixelType & pixel);
+  void
+  InitializePixel(const Dispatch<1> &, InputPixelType & pixel);
 
 private:
-  ImageToImageFilter<TInputImage, TOutputImage> *m_Filter;
-  ImageSizeType                                  m_ImageSize;
+  ImageToImageFilter<TInputImage, TOutputImage> * m_Filter;
+  ImageSizeType                                   m_ImageSize;
 };
 
 
 template <typename TInputImage, typename TOutputImage>
 void
-NullImageToImageFilterDriver<TInputImage, TOutputImage>
-::InitializePixel(InputPixelType &pixel)
+NullImageToImageFilterDriver<TInputImage, TOutputImage>::InitializePixel(InputPixelType & pixel)
 {
   this->InitializePixel(Dispatch<InputPixelDimension>(), pixel);
 }
 
 template <typename TInputImage, typename TOutputImage>
 void
-NullImageToImageFilterDriver<TInputImage, TOutputImage>
-::InitializePixel(const DispatchBase &, InputPixelType &pixel)
+NullImageToImageFilterDriver<TInputImage, TOutputImage>::InitializePixel(const DispatchBase &, InputPixelType & pixel)
 {
-  for (unsigned int i=0; i < InputPixelDimension; ++i)
-    {
+  for (unsigned int i = 0; i < InputPixelDimension; ++i)
+  {
     pixel[i] = NumericTraits<typename PixelTraits<InputPixelType>::ValueType>::ZeroValue();
-    }
+  }
 }
 
 template <typename TInputImage, typename TOutputImage>
 void
-NullImageToImageFilterDriver<TInputImage, TOutputImage>
-::InitializePixel(const Dispatch<1> &, InputPixelType &pixel)
+NullImageToImageFilterDriver<TInputImage, TOutputImage>::InitializePixel(const Dispatch<1> &, InputPixelType & pixel)
 {
   pixel = NumericTraits<InputPixelType>::ZeroValue();
 }
@@ -118,22 +130,25 @@ NullImageToImageFilterDriver<TInputImage, TOutputImage>
  */
 template <typename TInputImage, typename TOutputImage>
 void
-NullImageToImageFilterDriver<TInputImage, TOutputImage>
-::Execute()
+NullImageToImageFilterDriver<TInputImage, TOutputImage>::Execute()
 {
-  enum { ImageDimension = TInputImage::ImageDimension };
+  enum
+  {
+    ImageDimension = TInputImage::ImageDimension
+  };
 
   // Set up input images
-  typename TInputImage::Pointer ip = TInputImage::New();
-  typename TOutputImage::IndexType index;
+  typename TInputImage::Pointer     ip = TInputImage::New();
+  typename TOutputImage::IndexType  index;
   typename TOutputImage::RegionType region;
 
-  for (unsigned int i = 0; i < ImageDimension; ++i) index[i] = 0;
-  region.SetSize( m_ImageSize );
-  region.SetIndex( index);
+  for (unsigned int i = 0; i < ImageDimension; ++i)
+    index[i] = 0;
+  region.SetSize(m_ImageSize);
+  region.SetIndex(index);
 
   // Allocate the input
-  ip->SetLargestPossibleRegion( region );
+  ip->SetLargestPossibleRegion(region);
   ip->SetBufferedRegion(region);
   ip->SetRequestedRegion(region);
   ip->Allocate();
@@ -152,7 +167,7 @@ NullImageToImageFilterDriver<TInputImage, TOutputImage>
 
   using ImageFilterType = ImageToImageFilter<TInputImage, TOutputImage>;
   typename ImageFilterType::Pointer sourceBefore =
-     dynamic_cast< ImageFilterType * >( m_Filter->GetOutput()->GetSource().GetPointer() );
+    dynamic_cast<ImageFilterType *>(m_Filter->GetOutput()->GetSource().GetPointer());
 
   // Execute the filter
   clock_t start = ::clock();
@@ -160,25 +175,23 @@ NullImageToImageFilterDriver<TInputImage, TOutputImage>
   clock_t stop = ::clock();
 
   // print out the output object so we can see it modified times and regions
-  std::cout << "Output object after filter execution" << std::endl
-            << m_Filter->GetOutput() << std::endl;
+  std::cout << "Output object after filter execution" << std::endl << m_Filter->GetOutput() << std::endl;
 
   typename ImageFilterType::Pointer sourceAfter =
-    dynamic_cast< ImageFilterType * >( m_Filter->GetOutput()->GetSource().GetPointer() );
+    dynamic_cast<ImageFilterType *>(m_Filter->GetOutput()->GetSource().GetPointer());
 
   std::cout << sourceBefore.GetPointer() << ", " << sourceAfter.GetPointer() << std::endl;
   if (sourceBefore != sourceAfter.GetPointer())
-    {
+  {
     std::cout << std::endl << "Pipeline corrupt, filter output source different after execution." << std::endl;
-    }
+  }
   else
-    {
+  {
     std::cout << std::endl << "Pipeline intact" << std::endl;
-    }
+  }
 
-  std::cout << "Execution time was approximately " << (stop - start)
-            << " clock cycles." << std::endl;
+  std::cout << "Execution time was approximately " << (stop - start) << " clock cycles." << std::endl;
 }
 
-}  // end namespace itk
+} // end namespace itk
 #endif

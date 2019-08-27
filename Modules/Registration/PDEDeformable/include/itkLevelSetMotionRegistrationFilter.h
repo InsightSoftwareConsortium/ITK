@@ -87,26 +87,24 @@ namespace itk
  * \ingroup DeformableImageRegistration MultiThreaded
  * \ingroup ITKPDEDeformableRegistration
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
-class ITK_TEMPLATE_EXPORT LevelSetMotionRegistrationFilter:
-  public PDEDeformableRegistrationFilter< TFixedImage, TMovingImage,
-                                          TDisplacementField >
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
+class ITK_TEMPLATE_EXPORT LevelSetMotionRegistrationFilter
+  : public PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetMotionRegistrationFilter);
 
   /** Standard class type aliases. */
   using Self = LevelSetMotionRegistrationFilter;
-  using Superclass = PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(LevelSetMotionRegistrationFilter,
-               PDEDeformableRegistrationFilter);
+  itkTypeMacro(LevelSetMotionRegistrationFilter, PDEDeformableRegistrationFilter);
 
   /** Inherit types from superclass. */
   using TimeStepType = typename Superclass::TimeStepType;
@@ -127,15 +125,16 @@ public:
   using FiniteDifferenceFunctionType = typename Superclass::FiniteDifferenceFunctionType;
 
   /** LevelSetMotionFilterFunction type. */
-  using LevelSetMotionFunctionType = LevelSetMotionRegistrationFunction< FixedImageType, MovingImageType,
-                                              DisplacementFieldType >;
+  using LevelSetMotionFunctionType =
+    LevelSetMotionRegistrationFunction<FixedImageType, MovingImageType, DisplacementFieldType>;
 
   /** Get the metric value. The metric value is the mean square difference
    * in intensity between the fixed image and transforming moving image
    * computed over the the overlapping region between the two images.
    * This is value is only available for the previous iteration and
    * NOT the current iteration. */
-  virtual double GetMetric() const;
+  virtual double
+  GetMetric() const;
 
   /** Set/Get the parameter alpha.  Alpha is added to the calculated
    * gradient magnitude prior to normalizing the gradient to protect
@@ -143,23 +142,29 @@ public:
    * approaches zero.  This should be set as a small fraction of the
    * intensity dynamic range, for instance 0.04%. Default is the
    * absolute (not percentage) value of 0.1. */
-  virtual void SetAlpha(double);
+  virtual void
+  SetAlpha(double);
 
-  virtual double GetAlpha() const;
+  virtual double
+  GetAlpha() const;
 
   /** Set/Get the threshold below which the absolute difference of
    * intensity yields a match. When the intensities match between a
    * moving and fixed image pixel, the update vector (for that
    * iteration) will be the zero vector. Default is 0.001. */
-  virtual void SetIntensityDifferenceThreshold(double);
+  virtual void
+  SetIntensityDifferenceThreshold(double);
 
-  virtual double GetIntensityDifferenceThreshold() const;
+  virtual double
+  GetIntensityDifferenceThreshold() const;
 
   /** Set/Get the threshold below which the gradient magnitude is
    * considered the zero vector. Default is 1e-9. */
-  virtual void SetGradientMagnitudeThreshold(double);
+  virtual void
+  SetGradientMagnitudeThreshold(double);
 
-  virtual double GetGradientMagnitudeThreshold() const;
+  virtual double
+  GetGradientMagnitudeThreshold() const;
 
   /** Set/Get the standard deviation used for smoothing the moving
    * image prior to calculating gradients. The standard deviation is
@@ -173,31 +178,37 @@ public:
    * not done by default in LevelSetMotionRegistration. This smoothing
    * parameter is to condition the gradient calculation and parameter
    * is specified in physical units. */
-  virtual void SetGradientSmoothingStandardDeviations(double sigma);
+  virtual void
+  SetGradientSmoothingStandardDeviations(double sigma);
 
-  virtual double GetGradientSmoothingStandardDeviations() const;
+  virtual double
+  GetGradientSmoothingStandardDeviations() const;
 
 protected:
   LevelSetMotionRegistrationFilter();
   ~LevelSetMotionRegistrationFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Initialize the state of filter and equation before each iteration. */
-  void InitializeIteration() override;
+  void
+  InitializeIteration() override;
 
   /** Apply update. */
-  void ApplyUpdate(const TimeStepType& dt) override;
+  void
+  ApplyUpdate(const TimeStepType & dt) override;
 
   /** This method returns true when the current iterative solution of the
    * equation has met the criteria to stop solving.  This version
    * calls the superclass' version but also Halts if the RMSChange is zero.
    */
-  bool Halt() override;
+  bool
+  Halt() override;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetMotionRegistrationFilter.hxx"
+#  include "itkLevelSetMotionRegistrationFilter.hxx"
 #endif
 
 #endif

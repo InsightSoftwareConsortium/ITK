@@ -22,23 +22,23 @@
 #include "itkMath.h"
 
 int
-itkMinimumMaximumImageFilterTest(int , char *[] )
+itkMinimumMaximumImageFilterTest(int, char *[])
 {
   using SizeType = itk::Size<3>;
   using ImageType = itk::Image<float, 3>;
   using MinMaxFilterType = itk::MinimumMaximumImageFilter<ImageType>;
 
   /* Define the image size and physical coordinates */
-  SizeType size = {{20, 20, 20}};
-  double origin [3] = { 0.0, 0.0, 0.0};
-  double spacing[3] = { 1, 1 , 1};
+  SizeType size = { { 20, 20, 20 } };
+  double   origin[3] = { 0.0, 0.0, 0.0 };
+  double   spacing[3] = { 1, 1, 1 };
 
-  int flag = 0;           /* Did this test program work? */
+  int flag = 0; /* Did this test program work? */
 
   std::cout << "Testing Minimum and Maximum Image Calulator:\n";
 
   // Allocate a simple test image
-  ImageType::Pointer image = ImageType::New();
+  ImageType::Pointer    image = ImageType::New();
   ImageType::RegionType region;
   region.SetSize(size);
   image->SetLargestPossibleRegion(region);
@@ -57,18 +57,18 @@ itkMinimumMaximumImageFilterTest(int , char *[] )
   // Initialize the image contents with the minimum value
   itk::Index<3> index;
   for (int slice = 0; slice < 20; slice++)
-    {
+  {
     index[2] = slice;
-    for (int row = 0; row <20; row++)
-      {
+    for (int row = 0; row < 20; row++)
+    {
       index[1] = row;
       for (int col = 0; col < 20; col++)
-        {
+      {
         index[0] = col;
         image->SetPixel(index, minimum);
-        }
       }
     }
+  }
 
   // Set voxel (10,10,10) to maximum value
   index[0] = 10;
@@ -78,7 +78,7 @@ itkMinimumMaximumImageFilterTest(int , char *[] )
 
   // Create and initialize the filter
   MinMaxFilterType::Pointer filter = MinMaxFilterType::New();
-  itk::SimpleFilterWatcher watcher(filter);
+  itk::SimpleFilterWatcher  watcher(filter);
 
   filter->SetInput(image);
   filter->Update();
@@ -87,33 +87,33 @@ itkMinimumMaximumImageFilterTest(int , char *[] )
   float minimumResult = filter->GetMinimum();
   std::cout << "The Minimum intensity value is : " << minimumResult << std::endl;
 
-  if(itk::Math::NotExactlyEquals(minimumResult, minimum))
-    {
+  if (itk::Math::NotExactlyEquals(minimumResult, minimum))
+  {
     std::cout << "Minimum Value is wrong : " << minimumResult;
     std::cout << " != " << minimum << std::endl;
     flag = 1;
-    }
+  }
 
   // Return maximum of intensity
   float maximumResult = filter->GetMaximum();
   std::cout << "The Maximum intensity value is : " << maximumResult << std::endl;
 
-  if(itk::Math::NotExactlyEquals(maximumResult, maximum))
-    {
+  if (itk::Math::NotExactlyEquals(maximumResult, maximum))
+  {
     std::cout << "Maximum Value is wrong : " << maximumResult;
     std::cout << " != " << maximum << std::endl;
     flag = 2;
-    }
+  }
 
   // Return results of test
   if (flag != 0)
-    {
+  {
     std::cout << "*** Some tests failed" << std::endl;
     return flag;
-    }
+  }
   else
-    {
+  {
     std::cout << "All tests successfully passed" << std::endl;
     return EXIT_SUCCESS;
-    }
+  }
 }

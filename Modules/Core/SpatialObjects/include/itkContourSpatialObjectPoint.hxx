@@ -22,72 +22,64 @@
 
 namespace itk
 {
-template< unsigned int TPointDimension >
-ContourSpatialObjectPoint< TPointDimension >
-::ContourSpatialObjectPoint()
+template <unsigned int TPointDimension>
+ContourSpatialObjectPoint<TPointDimension>::ContourSpatialObjectPoint()
 {
   m_NormalInObjectSpace.Fill(0);
   m_PickedPointInObjectSpace.Fill(0);
 }
 
-template< unsigned int TPointDimension >
+template <unsigned int TPointDimension>
 void
-ContourSpatialObjectPoint< TPointDimension >
-::SetPickedPointInObjectSpace(const PointType & point)
+ContourSpatialObjectPoint<TPointDimension>::SetPickedPointInObjectSpace(const PointType & point)
 {
   m_PickedPointInObjectSpace = point;
 }
 
-template< unsigned int TPointDimension >
-const typename ContourSpatialObjectPoint< TPointDimension >::PointType &
-ContourSpatialObjectPoint< TPointDimension >
-::GetPickedPointInObjectSpace() const
+template <unsigned int TPointDimension>
+const typename ContourSpatialObjectPoint<TPointDimension>::PointType &
+ContourSpatialObjectPoint<TPointDimension>::GetPickedPointInObjectSpace() const
 {
   return m_PickedPointInObjectSpace;
 }
 
-template< unsigned int TPointDimension >
+template <unsigned int TPointDimension>
 void
-ContourSpatialObjectPoint< TPointDimension >
-::SetNormalInObjectSpace(const CovariantVectorType & normal)
+ContourSpatialObjectPoint<TPointDimension>::SetNormalInObjectSpace(const CovariantVectorType & normal)
 {
   m_NormalInObjectSpace = normal;
 }
 
-template< unsigned int TPointDimension >
-const typename ContourSpatialObjectPoint< TPointDimension >::CovariantVectorType &
-ContourSpatialObjectPoint< TPointDimension >
-::GetNormalInObjectSpace() const
+template <unsigned int TPointDimension>
+const typename ContourSpatialObjectPoint<TPointDimension>::CovariantVectorType &
+ContourSpatialObjectPoint<TPointDimension>::GetNormalInObjectSpace() const
 {
   return m_NormalInObjectSpace;
 }
 
-template< unsigned int TPointDimension >
-typename ContourSpatialObjectPoint< TPointDimension >::Self &
-ContourSpatialObjectPoint< TPointDimension >
-::operator=(const ContourSpatialObjectPoint & rhs)
+template <unsigned int TPointDimension>
+typename ContourSpatialObjectPoint<TPointDimension>::Self &
+ContourSpatialObjectPoint<TPointDimension>::operator=(const ContourSpatialObjectPoint & rhs)
 {
-  if(this != &rhs)
-    {
+  if (this != &rhs)
+  {
     this->m_Id = rhs.GetId();
     this->m_PositionInObjectSpace = rhs.GetPositionInObjectSpace();
     this->m_Color = rhs.GetColor();
     this->m_NormalInObjectSpace = rhs.GetNormalInObjectSpace();
     this->m_PickedPointInObjectSpace = rhs.GetPickedPointInObjectSpace();
-    }
+  }
   return *this;
 }
 
-template< unsigned int TPointDimension >
+template <unsigned int TPointDimension>
 void
-ContourSpatialObjectPoint< TPointDimension >
-::PrintSelf(std::ostream & os, Indent indent) const
+ContourSpatialObjectPoint<TPointDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Picked PointInObjectSpace: " <<  m_PickedPointInObjectSpace
-    << std::endl;
-  os << indent << "NormalInObjectSpace: " <<  m_NormalInObjectSpace << std::endl;
+  os << indent << "Picked PointInObjectSpace: " << m_PickedPointInObjectSpace << std::endl;
+  os << indent << "NormalInObjectSpace: " << m_NormalInObjectSpace << std::endl;
 }
 } // end namespace itk
 

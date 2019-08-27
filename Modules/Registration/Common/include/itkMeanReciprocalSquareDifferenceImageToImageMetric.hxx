@@ -26,92 +26,90 @@ namespace itk
 /**
  * Constructor
  */
-template< typename TFixedImage, typename TMovingImage >
-MeanReciprocalSquareDifferenceImageToImageMetric< TFixedImage, TMovingImage >
-::MeanReciprocalSquareDifferenceImageToImageMetric()
+template <typename TFixedImage, typename TMovingImage>
+MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage,
+                                                 TMovingImage>::MeanReciprocalSquareDifferenceImageToImageMetric()
 {
   m_Lambda = 1.0;
-  m_Delta  = 0.00011;
+  m_Delta = 0.00011;
 }
 
 /**
  * PrintSelf
  */
-template< typename TFixedImage, typename TMovingImage >
+template <typename TFixedImage, typename TMovingImage>
 void
-MeanReciprocalSquareDifferenceImageToImageMetric< TFixedImage, TMovingImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os,
+                                                                                       Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << "Lambda factor = " << m_Lambda << std::endl;
-  os << "Delta  value  = " << m_Delta  << std::endl;
+  os << "Delta  value  = " << m_Delta << std::endl;
 }
 
 /*
  * Get the match Measure
  */
-template< typename TFixedImage, typename TMovingImage >
-typename MeanReciprocalSquareDifferenceImageToImageMetric< TFixedImage, TMovingImage >::MeasureType
-MeanReciprocalSquareDifferenceImageToImageMetric< TFixedImage, TMovingImage >
-::GetValue(const TransformParametersType & parameters) const
+template <typename TFixedImage, typename TMovingImage>
+typename MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage, TMovingImage>::MeasureType
+MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage, TMovingImage>::GetValue(
+  const TransformParametersType & parameters) const
 {
   FixedImageConstPointer fixedImage = this->m_FixedImage;
 
-  if ( !fixedImage )
-    {
+  if (!fixedImage)
+  {
     itkExceptionMacro(<< "Fixed image has not been assigned");
-    }
+  }
 
   double MovingValue;
   double FixedValue;
 
-  using FixedIteratorType = itk::ImageRegionConstIteratorWithIndex< FixedImageType >;
+  using FixedIteratorType = itk::ImageRegionConstIteratorWithIndex<FixedImageType>;
 
-  FixedIteratorType ti( fixedImage, this->GetFixedImageRegion() );
+  FixedIteratorType ti(fixedImage, this->GetFixedImageRegion());
 
   typename FixedImageType::IndexType index;
 
-  MeasureType measure = NumericTraits< MeasureType >::ZeroValue();
+  MeasureType measure = NumericTraits<MeasureType>::ZeroValue();
 
   this->m_NumberOfPixelsCounted = 0;
 
   this->SetTransformParameters(parameters);
 
-  while ( !ti.IsAtEnd() )
-    {
+  while (!ti.IsAtEnd())
+  {
     index = ti.GetIndex();
 
     InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint(index, inputPoint);
 
-    if ( this->m_FixedImageMask
-      && !this->m_FixedImageMask->IsInsideInWorldSpace(inputPoint) )
-      {
+    if (this->m_FixedImageMask && !this->m_FixedImageMask->IsInsideInWorldSpace(inputPoint))
+    {
       ++ti;
       continue;
-      }
+    }
 
-    TransformType const *transform = this->m_Transform;
-    OutputPointType      transformedPoint = transform->TransformPoint(inputPoint);
+    TransformType const * transform = this->m_Transform;
+    OutputPointType       transformedPoint = transform->TransformPoint(inputPoint);
 
-    if ( this->m_MovingImageMask
-      && !this->m_MovingImageMask->IsInsideInWorldSpace(transformedPoint) )
-      {
+    if (this->m_MovingImageMask && !this->m_MovingImageMask->IsInsideInWorldSpace(transformedPoint))
+    {
       ++ti;
       continue;
-      }
+    }
 
-    if ( this->m_Interpolator->IsInsideBuffer(transformedPoint) )
-      {
-      MovingValue  = this->m_Interpolator->Evaluate(transformedPoint);
-      FixedValue     = ti.Get();
+    if (this->m_Interpolator->IsInsideBuffer(transformedPoint))
+    {
+      MovingValue = this->m_Interpolator->Evaluate(transformedPoint);
+      FixedValue = ti.Get();
       this->m_NumberOfPixelsCounted++;
       const double diff = MovingValue - FixedValue;
-      measure += 1.0f / ( 1.0f + m_Lambda * ( diff * diff ) );
-      }
+      measure += 1.0f / (1.0f + m_Lambda * (diff * diff));
+    }
 
     ++ti;
-    }
+  }
 
   return measure;
 }
@@ -119,11 +117,11 @@ MeanReciprocalSquareDifferenceImageToImageMetric< TFixedImage, TMovingImage >
 /**
  * Get the Derivative Measure
  */
-template< typename TFixedImage, typename TMovingImage >
+template <typename TFixedImage, typename TMovingImage>
 void
-MeanReciprocalSquareDifferenceImageToImageMetric< TFixedImage, TMovingImage >
-::GetDerivative(const TransformParametersType & parameters,
-                DerivativeType & derivative) const
+MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage, TMovingImage>::GetDerivative(
+  const TransformParametersType & parameters,
+  DerivativeType &                derivative) const
 {
   TransformParametersType testPoint;
 
@@ -132,27 +130,28 @@ MeanReciprocalSquareDifferenceImageToImageMetric< TFixedImage, TMovingImage >
   const unsigned int numberOfParameters = this->GetNumberOfParameters();
   derivative = DerivativeType(numberOfParameters);
 
-  for ( unsigned int i = 0; i < numberOfParameters; i++ )
-    {
+  for (unsigned int i = 0; i < numberOfParameters; i++)
+  {
     testPoint[i] -= m_Delta;
     const MeasureType valuep0 = this->GetValue(testPoint);
     testPoint[i] += 2 * m_Delta;
     const MeasureType valuep1 = this->GetValue(testPoint);
-    derivative[i] = ( valuep1 - valuep0 ) / ( 2 * m_Delta );
+    derivative[i] = (valuep1 - valuep0) / (2 * m_Delta);
     testPoint[i] = parameters[i];
-    }
+  }
 }
 
 /**
  * Get both the match Measure and theDerivative Measure
  */
-template< typename TFixedImage, typename TMovingImage >
+template <typename TFixedImage, typename TMovingImage>
 void
-MeanReciprocalSquareDifferenceImageToImageMetric< TFixedImage, TMovingImage >
-::GetValueAndDerivative(const TransformParametersType & parameters,
-                        MeasureType & Value, DerivativeType  & Derivative) const
+MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivative(
+  const TransformParametersType & parameters,
+  MeasureType &                   Value,
+  DerivativeType &                Derivative) const
 {
-  Value      = this->GetValue(parameters);
+  Value = this->GetValue(parameters);
   this->GetDerivative(parameters, Derivative);
 }
 } // end namespace itk

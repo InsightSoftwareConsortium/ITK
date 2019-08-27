@@ -25,38 +25,44 @@ DynamicLoader::DynamicLoader() = default;
 DynamicLoader::~DynamicLoader() = default;
 
 //----------------------------------------------------------------------------
-LibHandle DynamicLoader::OpenLibrary(const char *libname)
+LibHandle
+DynamicLoader::OpenLibrary(const char * libname)
 {
   return itksys::DynamicLoader::OpenLibrary(libname);
 }
 
 //----------------------------------------------------------------------------
-int DynamicLoader::CloseLibrary(LibHandle lib)
+int
+DynamicLoader::CloseLibrary(LibHandle lib)
 {
   return itksys::DynamicLoader::CloseLibrary(lib);
 }
 
 //----------------------------------------------------------------------------
-//itkSymbolPointer
-void * DynamicLoader::GetSymbolAddress(LibHandle lib, const char *sym)
+// itkSymbolPointer
+void *
+DynamicLoader::GetSymbolAddress(LibHandle lib, const char * sym)
 {
   return (void *)itksys::DynamicLoader::GetSymbolAddress(lib, sym);
 }
 
 //----------------------------------------------------------------------------
-const char * DynamicLoader::LibPrefix()
+const char *
+DynamicLoader::LibPrefix()
 {
   return itksys::DynamicLoader::LibPrefix();
 }
 
 //----------------------------------------------------------------------------
-const char * DynamicLoader::LibExtension()
+const char *
+DynamicLoader::LibExtension()
 {
   return itksys::DynamicLoader::LibExtension();
 }
 
 //----------------------------------------------------------------------------
-const char * DynamicLoader::LastError()
+const char *
+DynamicLoader::LastError()
 {
   return itksys::DynamicLoader::LastError();
 }

@@ -22,9 +22,8 @@
 
 namespace itk
 {
-template< typename TNodeType >
-SparseFieldLayer< TNodeType >
-::SparseFieldLayer()
+template <typename TNodeType>
+SparseFieldLayer<TNodeType>::SparseFieldLayer()
 {
   m_HeadNode = new NodeType;
   m_HeadNode->Next = m_HeadNode;
@@ -32,17 +31,15 @@ SparseFieldLayer< TNodeType >
   m_Size = 0;
 }
 
-template< typename TNodeType >
-SparseFieldLayer< TNodeType >
-::~SparseFieldLayer()
+template <typename TNodeType>
+SparseFieldLayer<TNodeType>::~SparseFieldLayer()
 {
   delete m_HeadNode;
 }
 
-template< typename TNodeType >
+template <typename TNodeType>
 void
-SparseFieldLayer< TNodeType >
-::PrintSelf(std::ostream & os, Indent indent) const
+SparseFieldLayer<TNodeType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -50,40 +47,37 @@ SparseFieldLayer< TNodeType >
   os << indent << "Empty? : " << this->Empty() << std::endl;
 }
 
-template< typename TNodeType >
+template <typename TNodeType>
 unsigned int
-SparseFieldLayer< TNodeType >
-::Size() const
+SparseFieldLayer<TNodeType>::Size() const
 {
   return m_Size;
 }
 
-template< typename TNodeType >
-typename SparseFieldLayer< TNodeType >::RegionListType
-SparseFieldLayer< TNodeType >
-::SplitRegions(int num) const
+template <typename TNodeType>
+typename SparseFieldLayer<TNodeType>::RegionListType
+SparseFieldLayer<TNodeType>::SplitRegions(int num) const
 {
-  std::vector< RegionType > regionlist;
-  unsigned int              size, regionsize;
+  std::vector<RegionType> regionlist;
+  unsigned int            size, regionsize;
   size = Size();
-  regionsize = static_cast< unsigned int >(
-    std::ceil( static_cast< float >( size ) / static_cast< float >( num ) ) );
+  regionsize = static_cast<unsigned int>(std::ceil(static_cast<float>(size) / static_cast<float>(num)));
   ConstIterator position = Begin();
   ConstIterator last = End();
 
-  for ( int i = 0; i < num; i++ )
-    {
+  for (int i = 0; i < num; i++)
+  {
     unsigned int j = 0;
     RegionType   region;
     region.first = position;
-    while ( ( j < regionsize ) && ( position != last ) )
-      {
+    while ((j < regionsize) && (position != last))
+    {
       j++;
       ++position;
-      }
+    }
     region.last = position;
     regionlist.push_back(region);
-    }
+  }
 
   return regionlist;
 }

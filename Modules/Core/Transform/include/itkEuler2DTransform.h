@@ -37,9 +37,8 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template<typename TParametersValueType=double>
-class ITK_TEMPLATE_EXPORT Euler2DTransform:
-  public Rigid2DTransform<TParametersValueType>
+template <typename TParametersValueType = double>
+class ITK_TEMPLATE_EXPORT Euler2DTransform : public Rigid2DTransform<TParametersValueType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(Euler2DTransform);
@@ -97,38 +96,46 @@ public:
    * This method creates and returns a new Euler2DTransform object
    * which is the inverse of self.
    */
-  void CloneInverseTo(Pointer & newinverse) const;
+  void
+  CloneInverseTo(Pointer & newinverse) const;
 
   /** Get an inverse of this transform. */
-  bool GetInverse(Self *inverse) const;
+  bool
+  GetInverse(Self * inverse) const;
 
   /** Return an inverse of this transform. */
-  InverseTransformBasePointer GetInverseTransform() const override;
+  InverseTransformBasePointer
+  GetInverseTransform() const override;
 
   /**
    * This method creates and returns a new Euler2DTransform object
    * which has the same parameters as self.
    */
-  void CloneTo(Pointer & clone) const;
+  void
+  CloneTo(Pointer & clone) const;
 
   /**
    * Update the angle from the underlying matrix. This method
    * is old and is retained for backward compatibility.
    */
-  void ComputeAngleFromMatrix()
-  { this->ComputeMatrixParameters(); }
+  void
+  ComputeAngleFromMatrix()
+  {
+    this->ComputeMatrixParameters();
+  }
 
 protected:
   Euler2DTransform(unsigned int parametersDimension);
   Euler2DTransform();
   ~Euler2DTransform() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
-};                                //class Euler2DTransform
-}  // namespace itk
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
+}; // class Euler2DTransform
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkEuler2DTransform.hxx"
+#  include "itkEuler2DTransform.hxx"
 #endif
 
 #endif /* itkEuler2DTransform_h */

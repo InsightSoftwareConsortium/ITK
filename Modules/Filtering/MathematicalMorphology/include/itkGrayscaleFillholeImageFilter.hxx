@@ -27,43 +27,38 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage >
-GrayscaleFillholeImageFilter< TInputImage, TOutputImage >
-::GrayscaleFillholeImageFilter()
+template <typename TInputImage, typename TOutputImage>
+GrayscaleFillholeImageFilter<TInputImage, TOutputImage>::GrayscaleFillholeImageFilter()
 
 {
   m_FullyConnected = false;
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-GrayscaleFillholeImageFilter< TInputImage, TOutputImage >
-::GenerateInputRequestedRegion()
+GrayscaleFillholeImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the input.
-  InputImagePointer input = const_cast< InputImageType * >( this->GetInput() );
-  if ( input )
-    {
-    input->SetRequestedRegion( input->GetLargestPossibleRegion() );
-    }
+  InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
+  if (input)
+  {
+    input->SetRequestedRegion(input->GetLargestPossibleRegion());
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-GrayscaleFillholeImageFilter< TInputImage, TOutputImage >
-::EnlargeOutputRequestedRegion(DataObject *)
+GrayscaleFillholeImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject *)
 {
-  this->GetOutput()
-  ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
+  this->GetOutput()->SetRequestedRegion(this->GetOutput()->GetLargestPossibleRegion());
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-GrayscaleFillholeImageFilter< TInputImage, TOutputImage >
-::GenerateData()
+GrayscaleFillholeImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   // Allocate the output
   this->AllocateOutputs();
@@ -76,9 +71,9 @@ GrayscaleFillholeImageFilter< TInputImage, TOutputImage >
   //
 
   // compute the maximum pixel value in the input
-  typename MinimumMaximumImageCalculator< TInputImage >::Pointer calculator =
-    MinimumMaximumImageCalculator< TInputImage >::New();
-  calculator->SetImage( this->GetInput() );
+  typename MinimumMaximumImageCalculator<TInputImage>::Pointer calculator =
+    MinimumMaximumImageCalculator<TInputImage>::New();
+  calculator->SetImage(this->GetInput());
   calculator->ComputeMaximum();
 
   InputImagePixelType maxValue;
@@ -86,8 +81,8 @@ GrayscaleFillholeImageFilter< TInputImage, TOutputImage >
 
   // allocate a marker image
   InputImagePointer markerPtr = InputImageType::New();
-  markerPtr->SetRegions( this->GetInput()->GetRequestedRegion() );
-  markerPtr->CopyInformation( this->GetInput() );
+  markerPtr->SetRegions(this->GetInput()->GetRequestedRegion());
+  markerPtr->CopyInformation(this->GetInput());
   markerPtr->Allocate();
 
   // fill the marker image with the maximum value from the input
@@ -95,30 +90,29 @@ GrayscaleFillholeImageFilter< TInputImage, TOutputImage >
 
   // copy the borders of the input image to the marker image
   //
-  ImageRegionExclusionConstIteratorWithIndex< TInputImage >
-  inputBoundaryIt( this->GetInput(), this->GetInput()->GetRequestedRegion() );
+  ImageRegionExclusionConstIteratorWithIndex<TInputImage> inputBoundaryIt(this->GetInput(),
+                                                                          this->GetInput()->GetRequestedRegion());
   inputBoundaryIt.SetExclusionRegionToInsetRegion();
 
-  ImageRegionExclusionIteratorWithIndex< TInputImage >
-  markerBoundaryIt( markerPtr, this->GetInput()->GetRequestedRegion() );
+  ImageRegionExclusionIteratorWithIndex<TInputImage> markerBoundaryIt(markerPtr,
+                                                                      this->GetInput()->GetRequestedRegion());
   markerBoundaryIt.SetExclusionRegionToInsetRegion();
 
   // copy the boundary pixels
   inputBoundaryIt.GoToBegin();
   markerBoundaryIt.GoToBegin();
-  while ( !inputBoundaryIt.IsAtEnd() )
-    {
-    markerBoundaryIt.Set( inputBoundaryIt.Get() );
+  while (!inputBoundaryIt.IsAtEnd())
+  {
+    markerBoundaryIt.Set(inputBoundaryIt.Get());
     ++markerBoundaryIt;
     ++inputBoundaryIt;
-    }
+  }
 
   // Delegate to a geodesic erosion filter.
   //
   //
-  typename ReconstructionByErosionImageFilter< TInputImage, TInputImage >::Pointer
-  erode =
-    ReconstructionByErosionImageFilter< TInputImage, TInputImage >::New();
+  typename ReconstructionByErosionImageFilter<TInputImage, TInputImage>::Pointer erode =
+    ReconstructionByErosionImageFilter<TInputImage, TInputImage>::New();
 
   // Create a process accumulator for tracking the progress of this minipipeline
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
@@ -126,14 +120,14 @@ GrayscaleFillholeImageFilter< TInputImage, TOutputImage >
   progress->RegisterInternalFilter(erode, 1.0f);
 
   // set up the erode filter
-  //erode->RunOneIterationOff();             // run to convergence
+  // erode->RunOneIterationOff();             // run to convergence
   erode->SetMarkerImage(markerPtr);
-  erode->SetMaskImage( this->GetInput() );
+  erode->SetMaskImage(this->GetInput());
   erode->SetFullyConnected(m_FullyConnected);
 
   // graft our output to the erode filter to force the proper regions
   // to be generated
-  erode->GraftOutput( this->GetOutput() );
+  erode->GraftOutput(this->GetOutput());
 
   // reconstruction by erosion
   erode->Update();
@@ -141,19 +135,17 @@ GrayscaleFillholeImageFilter< TInputImage, TOutputImage >
   // graft the output of the erode filter back onto this filter's
   // output. this is needed to get the appropriate regions passed
   // back.
-  this->GraftOutput( erode->GetOutput() );
+  this->GraftOutput(erode->GetOutput());
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-GrayscaleFillholeImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+GrayscaleFillholeImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Number of iterations used to produce current output: "
-     << m_NumberOfIterationsUsed << std::endl;
-  os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
+  os << indent << "Number of iterations used to produce current output: " << m_NumberOfIterationsUsed << std::endl;
+  os << indent << "FullyConnected: " << m_FullyConnected << std::endl;
 }
 } // end namespace itk
 #endif

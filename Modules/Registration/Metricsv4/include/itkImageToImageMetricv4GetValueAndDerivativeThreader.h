@@ -40,7 +40,7 @@ namespace itk
  * \sa ImageToImageMetricv4GetValueAndDerivativeThreaderBase
  * \ingroup ITKMetricsv4
  * */
-template < typename TDomainPartitioner, typename TImageToImageMetricv4 >
+template <typename TDomainPartitioner, typename TImageToImageMetricv4>
 class ITK_TEMPLATE_EXPORT ImageToImageMetricv4GetValueAndDerivativeThreader
 {};
 
@@ -48,21 +48,27 @@ class ITK_TEMPLATE_EXPORT ImageToImageMetricv4GetValueAndDerivativeThreader
  * \brief Specialization for ThreadedImageRegionPartitioner.
  * \ingroup ITKMetricsv4
  * */
-template < typename TImageToImageMetricv4 >
-class ITK_TEMPLATE_EXPORT ImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< TImageToImageMetricv4::VirtualImageDimension >, TImageToImageMetricv4 >
-  : public ImageToImageMetricv4GetValueAndDerivativeThreaderBase< ThreadedImageRegionPartitioner< TImageToImageMetricv4::VirtualImageDimension >, TImageToImageMetricv4 >
+template <typename TImageToImageMetricv4>
+class ITK_TEMPLATE_EXPORT ImageToImageMetricv4GetValueAndDerivativeThreader<
+  ThreadedImageRegionPartitioner<TImageToImageMetricv4::VirtualImageDimension>,
+  TImageToImageMetricv4>
+  : public ImageToImageMetricv4GetValueAndDerivativeThreaderBase<
+      ThreadedImageRegionPartitioner<TImageToImageMetricv4::VirtualImageDimension>,
+      TImageToImageMetricv4>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageToImageMetricv4GetValueAndDerivativeThreader);
 
   /** Standard class type aliases. */
   using Self = ImageToImageMetricv4GetValueAndDerivativeThreader;
-  using Superclass =
-      ImageToImageMetricv4GetValueAndDerivativeThreaderBase< ThreadedImageRegionPartitioner< TImageToImageMetricv4::VirtualImageDimension >, TImageToImageMetricv4 >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageMetricv4GetValueAndDerivativeThreaderBase<
+    ThreadedImageRegionPartitioner<TImageToImageMetricv4::VirtualImageDimension>,
+    TImageToImageMetricv4>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  itkTypeMacro( ImageToImageMetricv4GetValueAndDerivativeThreader, ImageToImageMetricv4GetValueAndDerivativeThreaderBase );
+  itkTypeMacro(ImageToImageMetricv4GetValueAndDerivativeThreader,
+               ImageToImageMetricv4GetValueAndDerivativeThreaderBase);
 
   /** Superclass types. */
   using DomainType = typename Superclass::DomainType;
@@ -100,17 +106,19 @@ protected:
 
   /** Walk through the given virtual image domain, and call \c ProcessVirtualPoint on every
    * point. */
-  void ThreadedExecution( const DomainType & subdomain,
-                                  const ThreadIdType threadId ) override;
+  void
+  ThreadedExecution(const DomainType & subdomain, const ThreadIdType threadId) override;
 
   /** Get cached values for efficiency. Only valid once threading has started.
    *  These methods should be used in tight loops (inlining helps measurably).
    *  Put these methods here so derived threaders can access them directly. */
-  inline NumberOfParametersType GetCachedNumberOfParameters() const
+  inline NumberOfParametersType
+  GetCachedNumberOfParameters() const
   {
     return this->m_CachedNumberOfParameters;
   }
-  inline NumberOfParametersType GetCachedNumberOfLocalParameters() const
+  inline NumberOfParametersType
+  GetCachedNumberOfLocalParameters() const
   {
     return this->m_CachedNumberOfLocalParameters;
   }
@@ -120,9 +128,11 @@ protected:
  * \brief Specialization for ThreadedIndexedContainerPartitioner.
  * \ingroup ITKMetricsv4
  * */
-template < typename TImageToImageMetricv4 >
-class ITK_TEMPLATE_EXPORT ImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, TImageToImageMetricv4 >
-  : public ImageToImageMetricv4GetValueAndDerivativeThreaderBase< ThreadedIndexedContainerPartitioner, TImageToImageMetricv4 >
+template <typename TImageToImageMetricv4>
+class ITK_TEMPLATE_EXPORT
+  ImageToImageMetricv4GetValueAndDerivativeThreader<ThreadedIndexedContainerPartitioner, TImageToImageMetricv4>
+  : public ImageToImageMetricv4GetValueAndDerivativeThreaderBase<ThreadedIndexedContainerPartitioner,
+                                                                 TImageToImageMetricv4>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageToImageMetricv4GetValueAndDerivativeThreader);
@@ -130,11 +140,12 @@ public:
   /** Standard class type aliases. */
   using Self = ImageToImageMetricv4GetValueAndDerivativeThreader;
   using Superclass =
-      ImageToImageMetricv4GetValueAndDerivativeThreaderBase< ThreadedIndexedContainerPartitioner, TImageToImageMetricv4 >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+    ImageToImageMetricv4GetValueAndDerivativeThreaderBase<ThreadedIndexedContainerPartitioner, TImageToImageMetricv4>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  itkTypeMacro( ImageToImageMetricv4GetValueAndDerivativeThreader, ImageToImageMetricv4GetValueAndDerivativeThreaderBase );
+  itkTypeMacro(ImageToImageMetricv4GetValueAndDerivativeThreader,
+               ImageToImageMetricv4GetValueAndDerivativeThreaderBase);
 
   /** Superclass types. */
   using DomainType = typename Superclass::DomainType;
@@ -171,17 +182,19 @@ protected:
 
   /** Walk through the given virtual image domain, and call \c ProcessVirtualPoint on every
    * point. */
-  void ThreadedExecution( const DomainType & subdomain,
-                                  const ThreadIdType threadId ) override;
+  void
+  ThreadedExecution(const DomainType & subdomain, const ThreadIdType threadId) override;
 
   /** Get cached values for efficiency. Only valid once threading has started.
    *  These methods should be used in tight loops (inlining helps measurably).
    *  Put these methods here so derived threaders can access them directly. */
-  inline NumberOfParametersType GetCachedNumberOfParameters() const
+  inline NumberOfParametersType
+  GetCachedNumberOfParameters() const
   {
     return this->m_CachedNumberOfParameters;
   }
-  inline NumberOfParametersType GetCachedNumberOfLocalParameters() const
+  inline NumberOfParametersType
+  GetCachedNumberOfLocalParameters() const
   {
     return this->m_CachedNumberOfLocalParameters;
   }
@@ -190,7 +203,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageToImageMetricv4GetValueAndDerivativeThreader.hxx"
+#  include "itkImageToImageMetricv4GetValueAndDerivativeThreader.hxx"
 #endif
 
 #endif

@@ -31,14 +31,13 @@
 // itk namespace first suppresses
 // kwstyle error for the H5 namespace below
 namespace itk
-{
-}
+{}
 namespace H5
 {
 class H5File;
 class DataSpace;
 class DataSet;
-}
+} // namespace H5
 
 #include "itkStreamingImageIOBase.h"
 
@@ -82,7 +81,7 @@ namespace itk
  *
  */
 
-class ITKIOHDF5_EXPORT HDF5ImageIO: public StreamingImageIOBase
+class ITKIOHDF5_EXPORT HDF5ImageIO : public StreamingImageIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(HDF5ImageIO);
@@ -90,7 +89,7 @@ public:
   /** Standard class type aliases. */
   using Self = HDF5ImageIO;
   using Superclass = StreamingImageIOBase;
-  using Pointer = SmartPointer< Self >;
+  using Pointer = SmartPointer<Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -106,13 +105,16 @@ public:
    * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
    * \return Returns true if this ImageIO can read the file specified.
    */
-  bool CanReadFile(const char *FileNameToRead) override;
+  bool
+  CanReadFile(const char * FileNameToRead) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  void ReadImageInformation() override;
+  void
+  ReadImageInformation() override;
 
   /** Reads the data from disk into the memory buffer provided. */
-  void Read(void *buffer) override;
+  void
+  Read(void * buffer) override;
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
@@ -122,80 +124,92 @@ public:
    * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
    * \return Returns true if this ImageIO can write the file specified.
    */
-  bool CanWriteFile(const char *FileNameToWrite) override;
+  bool
+  CanWriteFile(const char * FileNameToWrite) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  void WriteImageInformation() override;
+  void
+  WriteImageInformation() override;
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. */
-  void Write(const void *buffer) override;
+  void
+  Write(const void * buffer) override;
 
 protected:
   HDF5ImageIO();
   ~HDF5ImageIO() override;
 
-  SizeType GetHeaderSize() const override;
+  SizeType
+  GetHeaderSize() const override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  void WriteString(const std::string &path,
-                   const std::string &value);
-  void WriteString(const std::string &path,
-                   const char *s);
-  std::string ReadString(const std::string &path);
+  void
+  WriteString(const std::string & path, const std::string & value);
+  void
+  WriteString(const std::string & path, const char * s);
+  std::string
+  ReadString(const std::string & path);
 
-  void WriteScalar(const std::string &path,
-                   const bool &value);
-  void WriteScalar(const std::string &path,
-                   const long &value);
-  void WriteScalar(const std::string &path,
-                   const unsigned long &value);
-  void WriteScalar(const std::string &path,
-                   const long long &value);
-  void WriteScalar(const std::string &path,
-                   const unsigned long long &value);
-
-  template <typename TScalar>
-  void WriteScalar(const std::string &path,
-                   const TScalar &value);
+  void
+  WriteScalar(const std::string & path, const bool & value);
+  void
+  WriteScalar(const std::string & path, const long & value);
+  void
+  WriteScalar(const std::string & path, const unsigned long & value);
+  void
+  WriteScalar(const std::string & path, const long long & value);
+  void
+  WriteScalar(const std::string & path, const unsigned long long & value);
 
   template <typename TScalar>
-  TScalar ReadScalar(const std::string &DataSetName);
+  void
+  WriteScalar(const std::string & path, const TScalar & value);
 
   template <typename TScalar>
-  void WriteVector(const std::string &path,
-                   const std::vector<TScalar> &vec);
+  TScalar
+  ReadScalar(const std::string & DataSetName);
 
   template <typename TScalar>
-  std::vector<TScalar> ReadVector(const std::string &DataSetName);
+  void
+  WriteVector(const std::string & path, const std::vector<TScalar> & vec);
 
-  void WriteDirections(const std::string &path,
-                       const std::vector<std::vector<double> > &dir);
+  template <typename TScalar>
+  std::vector<TScalar>
+  ReadVector(const std::string & DataSetName);
 
-  std::vector<std::vector<double> > ReadDirections(const std::string &path);
+  void
+  WriteDirections(const std::string & path, const std::vector<std::vector<double>> & dir);
+
+  std::vector<std::vector<double>>
+  ReadDirections(const std::string & path);
 
   template <typename TType>
-    bool WriteMeta(const std::string &name,
-                   MetaDataObjectBase *metaObj);
+  bool
+  WriteMeta(const std::string & name, MetaDataObjectBase * metaObj);
   template <typename TType>
-    bool WriteMetaArray(const std::string &name,
-                   MetaDataObjectBase *metaObj);
+  bool
+  WriteMetaArray(const std::string & name, MetaDataObjectBase * metaObj);
   template <typename TType>
-    void StoreMetaData(MetaDataDictionary *metaDict,
-                       const std::string &HDFPath,
-                       const std::string &name,
-                       unsigned long numElements);
-  void SetupStreaming(H5::DataSpace *imageSpace,
-                      H5::DataSpace *slabSpace);
+  void
+  StoreMetaData(MetaDataDictionary * metaDict,
+                const std::string &  HDFPath,
+                const std::string &  name,
+                unsigned long        numElements);
+  void
+  SetupStreaming(H5::DataSpace * imageSpace, H5::DataSpace * slabSpace);
 
-  void CloseH5File();
-  void CloseDataSet();
+  void
+  CloseH5File();
+  void
+  CloseDataSet();
 
-  H5::H5File  *m_H5File{nullptr};
-  H5::DataSet *m_VoxelDataSet{nullptr};
-  bool         m_ImageInformationWritten{false};
+  H5::H5File *  m_H5File{ nullptr };
+  H5::DataSet * m_VoxelDataSet{ nullptr };
+  bool          m_ImageInformationWritten{ false };
 };
 } // end namespace itk
 

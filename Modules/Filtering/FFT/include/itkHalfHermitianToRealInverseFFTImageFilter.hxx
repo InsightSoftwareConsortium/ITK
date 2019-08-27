@@ -20,98 +20,93 @@
 
 #include "itkVnlHalfHermitianToRealInverseFFTImageFilter.h"
 
-#if defined( ITK_USE_FFTWD ) || defined( ITK_USE_FFTWF )
-#include "itkFFTWHalfHermitianToRealInverseFFTImageFilter.h"
+#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
+#  include "itkFFTWHalfHermitianToRealInverseFFTImageFilter.h"
 #endif
 
 namespace itk
 {
 
 // Partial specialization allows avoiding runtime type choice
-template< typename TSelfPointer, typename TInputImage, typename TOutputImage, typename TPixel >
+template <typename TSelfPointer, typename TInputImage, typename TOutputImage, typename TPixel>
 struct Dispatch_C2R_New
 {
-  static TSelfPointer Apply()
-    {
-      return VnlHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
-        ::New().GetPointer();
-    }
+  static TSelfPointer
+  Apply()
+  {
+    return VnlHalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::New().GetPointer();
+  }
 };
 
 #ifdef ITK_USE_FFTWD
-template < typename TSelfPointer, typename TInputImage, typename TOutputImage >
-struct Dispatch_C2R_New< TSelfPointer, TInputImage, TOutputImage, double >
+template <typename TSelfPointer, typename TInputImage, typename TOutputImage>
+struct Dispatch_C2R_New<TSelfPointer, TInputImage, TOutputImage, double>
 {
-  static TSelfPointer Apply()
-    {
-      return FFTWHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
-        ::New().GetPointer();
-    }
+  static TSelfPointer
+  Apply()
+  {
+    return FFTWHalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::New().GetPointer();
+  }
 };
 #endif
 
 #ifdef ITK_USE_FFTWF
-template< typename TSelfPointer, typename TInputImage, typename TOutputImage >
-struct Dispatch_C2R_New< TSelfPointer, TInputImage, TOutputImage, float >
+template <typename TSelfPointer, typename TInputImage, typename TOutputImage>
+struct Dispatch_C2R_New<TSelfPointer, TInputImage, TOutputImage, float>
 {
-  static TSelfPointer Apply()
-    {
-      return FFTWHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
-        ::New().GetPointer();
-    }
+  static TSelfPointer
+  Apply()
+  {
+    return FFTWHalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::New().GetPointer();
+  }
 };
 #endif
 
-template< typename TInputImage, typename TOutputImage >
-typename HalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >::Pointer
-HalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
-::New()
+template <typename TInputImage, typename TOutputImage>
+typename HalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::Pointer
+HalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::New()
 {
-  Pointer smartPtr = ::itk::ObjectFactory< Self >::Create();
+  Pointer smartPtr = ::itk::ObjectFactory<Self>::Create();
 
-  if ( smartPtr.IsNull() )
-    {
+  if (smartPtr.IsNull())
+  {
     smartPtr = Dispatch_C2R_New<Pointer, TInputImage, TOutputImage, OutputPixelType>::Apply();
-    }
+  }
 
   return smartPtr;
 }
 
-template< typename TInputImage, typename TOutputImage >
-HalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
-::HalfHermitianToRealInverseFFTImageFilter()
+template <typename TInputImage, typename TOutputImage>
+HalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::HalfHermitianToRealInverseFFTImageFilter()
 {
   this->ActualXDimensionIsOddOff();
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-HalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
-::GenerateOutputInformation()
+HalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateOutputInformation();
 
   // get pointers to the input and output
-  typename InputImageType::ConstPointer inputPtr  = this->GetInput();
-  typename OutputImageType::Pointer outputPtr = this->GetOutput();
+  typename InputImageType::ConstPointer inputPtr = this->GetInput();
+  typename OutputImageType::Pointer     outputPtr = this->GetOutput();
 
-  if ( !inputPtr || !outputPtr )
-    {
+  if (!inputPtr || !outputPtr)
+  {
     return;
-    }
+  }
 
   // This is all based on the same function in itk::ShrinkImageFilter.
   // ShrinkImageFilter also modifies the image spacing, but spacing
   // has no meaning in the result of an FFT. For an IFFT, since the
   // spacing is propagated to the complex result, we can use the spacing
   // from the input to propagate back to the output.
-  const typename InputImageType::SizeType &   inputSize =
-    inputPtr->GetLargestPossibleRegion().GetSize();
-  const typename InputImageType::IndexType &  inputStartIndex =
-    inputPtr->GetLargestPossibleRegion().GetIndex();
+  const typename InputImageType::SizeType &  inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
+  const typename InputImageType::IndexType & inputStartIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
 
-  typename OutputImageType::SizeType outputSize;
+  typename OutputImageType::SizeType  outputSize;
   typename OutputImageType::IndexType outputStartIndex;
 
   // In 4.3.4 of the FFTW documentation, they indicate the size of
@@ -122,58 +117,53 @@ HalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
   // twice the size in the last dimension as the input, but it might
   // be 2*size+1.  Consequently, you need to check whether the actual
   // X dimension is even or odd.
-  outputSize[0] = ( inputSize[0] - 1 ) * 2;
-  if ( this->GetActualXDimensionIsOdd() )
-    {
+  outputSize[0] = (inputSize[0] - 1) * 2;
+  if (this->GetActualXDimensionIsOdd())
+  {
     outputSize[0]++;
-    }
+  }
 
   outputStartIndex[0] = inputStartIndex[0];
 
-  for ( unsigned int i = 1; i < OutputImageType::ImageDimension; i++ )
-    {
+  for (unsigned int i = 1; i < OutputImageType::ImageDimension; i++)
+  {
     outputSize[i] = inputSize[i];
     outputStartIndex[i] = inputStartIndex[i];
-    }
+  }
   typename OutputImageType::RegionType outputLargestPossibleRegion;
-  outputLargestPossibleRegion.SetSize( outputSize );
-  outputLargestPossibleRegion.SetIndex( outputStartIndex );
+  outputLargestPossibleRegion.SetSize(outputSize);
+  outputLargestPossibleRegion.SetIndex(outputStartIndex);
 
-  outputPtr->SetLargestPossibleRegion( outputLargestPossibleRegion );
+  outputPtr->SetLargestPossibleRegion(outputLargestPossibleRegion);
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-HalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
-::GenerateInputRequestedRegion()
+HalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   Superclass::GenerateInputRequestedRegion();
 
   // Get pointers to the input and output
-  typename InputImageType::Pointer inputPtr  =
-    const_cast< InputImageType * >( this->GetInput() );
-  if ( inputPtr )
-    {
+  typename InputImageType::Pointer inputPtr = const_cast<InputImageType *>(this->GetInput());
+  if (inputPtr)
+  {
     inputPtr->SetRequestedRegionToLargestPossibleRegion();
-    }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-HalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
-::EnlargeOutputRequestedRegion(DataObject *)
+HalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject *)
 {
-  this->GetOutput()
-    ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
+  this->GetOutput()->SetRequestedRegion(this->GetOutput()->GetLargestPossibleRegion());
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 SizeValueType
-HalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
-::GetSizeGreatestPrimeFactor() const
+HalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::GetSizeGreatestPrimeFactor() const
 {
   return 2;
 }
 
-}
+} // namespace itk
 #endif

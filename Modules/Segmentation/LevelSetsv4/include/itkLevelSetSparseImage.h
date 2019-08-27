@@ -38,20 +38,19 @@ namespace itk
  *
  *  \ingroup ITKLevelSetsv4
  */
-template< typename TOutput, unsigned int VDimension >
-class ITK_TEMPLATE_EXPORT LevelSetSparseImage :
-  public DiscreteLevelSetImage< TOutput, VDimension >
+template <typename TOutput, unsigned int VDimension>
+class ITK_TEMPLATE_EXPORT LevelSetSparseImage : public DiscreteLevelSetImage<TOutput, VDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetSparseImage);
 
   using Self = LevelSetSparseImage;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using Superclass = DiscreteLevelSetImage< TOutput, VDimension >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using Superclass = DiscreteLevelSetImage<TOutput, VDimension>;
 
   /** Run-time type information */
-  itkTypeMacro ( LevelSetSparseImage, DiscreteLevelSetImage );
+  itkTypeMacro(LevelSetSparseImage, DiscreteLevelSetImage);
 
   static constexpr unsigned int Dimension = Superclass::Dimension;
 
@@ -63,76 +62,87 @@ public:
   using LevelSetDataType = typename Superclass::LevelSetDataType;
 
   using LayerIdType = int8_t;
-  using LayerIdListType = std::list< LayerIdType >;
+  using LayerIdListType = std::list<LayerIdType>;
 
-  using LabelObjectType = LabelObject< LayerIdType, VDimension >;
+  using LabelObjectType = LabelObject<LayerIdType, VDimension>;
   using LabelObjectPointer = typename LabelObjectType::Pointer;
   using LabelObjectLengthType = typename LabelObjectType::LengthType;
   using LabelObjectLineType = typename LabelObjectType::LineType;
 
-  using LabelMapType = LabelMap< LabelObjectType >;
+  using LabelMapType = LabelMap<LabelObjectType>;
   using LabelMapPointer = typename LabelMapType::Pointer;
   using LabelMapConstPointer = typename LabelMapType::ConstPointer;
   using RegionType = typename LabelMapType::RegionType;
 
-  using LayerType = std::map< InputType, OutputType,
-                    Functor::LexicographicCompare >;
+  using LayerType = std::map<InputType, OutputType, Functor::LexicographicCompare>;
   using LayerIterator = typename LayerType::iterator;
   using LayerConstIterator = typename LayerType::const_iterator;
 
-  using LayerMapType = std::map< LayerIdType, LayerType >;
+  using LayerMapType = std::map<LayerIdType, LayerType>;
   using LayerMapIterator = typename LayerMapType::iterator;
   using LayerMapConstIterator = typename LayerMapType::const_iterator;
 
   /** Returns the layer affiliation of a given location inputIndex */
-  virtual LayerIdType Status( const InputType& inputIndex ) const;
+  virtual LayerIdType
+  Status(const InputType & inputIndex) const;
 
   /** Return the const reference to a layer map with given id  */
-  const LayerType& GetLayer( LayerIdType value ) const;
+  const LayerType &
+  GetLayer(LayerIdType value) const;
 
   /** Return the pointer to a layer map with given id  */
-  LayerType& GetLayer( LayerIdType value );
+  LayerType &
+  GetLayer(LayerIdType value);
 
   /** Set a layer map with id to the given layer pointer */
-  void SetLayer( LayerIdType value, const LayerType& layer );
+  void
+  SetLayer(LayerIdType value, const LayerType & layer);
 
   /** Set/Get the label map for computing the sparse representation */
-  virtual void SetLabelMap( LabelMapType* labelMap );
-  itkGetModifiableObjectMacro(LabelMap, LabelMapType );
+  virtual void
+  SetLabelMap(LabelMapType * labelMap);
+  itkGetModifiableObjectMacro(LabelMap, LabelMapType);
 
   /** Graft data object as level set object */
-  void Graft( const DataObject* data ) override;
+  void
+  Graft(const DataObject * data) override;
 
   /** Return the label object pointer with a given id */
-  template< typename TLabel >
-  typename LabelObject< TLabel, VDimension >::Pointer GetAsLabelObject();
+  template <typename TLabel>
+  typename LabelObject<TLabel, VDimension>::Pointer
+  GetAsLabelObject();
 
 protected:
   LevelSetSparseImage() = default;
   ~LevelSetSparseImage() override = default;
 
-  LayerMapType      m_Layers;
-  LabelMapPointer   m_LabelMap;
-  LayerIdListType   m_InternalLabelList;
+  LayerMapType    m_Layers;
+  LabelMapPointer m_LabelMap;
+  LayerIdListType m_InternalLabelList;
 
   /** Initialize the sparse field layers */
-  virtual void InitializeLayers() = 0;
+  virtual void
+  InitializeLayers() = 0;
 
-  virtual void InitializeInternalLabelList() = 0;
+  virtual void
+  InitializeInternalLabelList() = 0;
 
-  bool IsInsideDomain( const InputType& inputIndex ) const override;
+  bool
+  IsInsideDomain(const InputType & inputIndex) const override;
 
   /** Initialize the label map point and the sparse-field layers */
-  void Initialize() override;
+  void
+  Initialize() override;
 
   /** Copy level set information from data object */
-  void CopyInformation( const DataObject* data ) override;
+  void
+  CopyInformation(const DataObject * data) override;
 };
 
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetSparseImage.hxx"
+#  include "itkLevelSetSparseImage.hxx"
 #endif
 
 #endif // itkLevelSetSparseImage_h

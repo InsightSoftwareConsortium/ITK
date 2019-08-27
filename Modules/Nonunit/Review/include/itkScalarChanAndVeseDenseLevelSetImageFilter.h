@@ -55,29 +55,27 @@ namespace itk
  *
  * \ingroup ITKReview
  */
-template< typename TInputImage, typename TFeatureImage, typename TOutputImage,
-          typename TFunction = ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage >,
-          class TSharedData = typename TFunction::SharedDataType >
-class ITK_TEMPLATE_EXPORT ScalarChanAndVeseDenseLevelSetImageFilter:
-  public MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage,
-                                                     TFunction >
+template <typename TInputImage,
+          typename TFeatureImage,
+          typename TOutputImage,
+          typename TFunction = ScalarChanAndVeseLevelSetFunction<TInputImage, TFeatureImage>,
+          class TSharedData = typename TFunction::SharedDataType>
+class ITK_TEMPLATE_EXPORT ScalarChanAndVeseDenseLevelSetImageFilter
+  : public MultiphaseDenseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, TFunction>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ScalarChanAndVeseDenseLevelSetImageFilter);
 
   using Self = ScalarChanAndVeseDenseLevelSetImageFilter;
-  using Superclass = MultiphaseDenseFiniteDifferenceImageFilter< TInputImage,
-                                                      TFeatureImage, TOutputImage,
-                                                      TFunction >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = MultiphaseDenseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, TFunction>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ScalarChanAndVeseDenseLevelSetImageFilter,
-               MultiphaseDenseFiniteDifferenceImageFilter);
+  itkTypeMacro(ScalarChanAndVeseDenseLevelSetImageFilter, MultiphaseDenseFiniteDifferenceImageFilter);
 
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
@@ -109,41 +107,40 @@ public:
   using SharedDataType = TSharedData;
   using SharedDataPointer = typename SharedDataType::Pointer;
 
-  using ROIFilterType = RegionOfInterestImageFilter< FeatureImageType, FeatureImageType >;
+  using ROIFilterType = RegionOfInterestImageFilter<FeatureImageType, FeatureImageType>;
   using ROIFilterPointer = typename ROIFilterType::Pointer;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( OutputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< OutputPixelType > ) );
+  itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<OutputPixelType>));
   // End concept checking
 #endif
 
   /** Set/Get the feature image to be used for speed function of the level set
    *  equation.  Equivalent to calling Set/GetInput(1, ..) */
-  virtual void SetFeatureImage(const FeatureImagePointer f)
+  virtual void
+  SetFeatureImage(const FeatureImagePointer f)
   {
     this->SetInput(f);
   }
 
 protected:
-  ScalarChanAndVeseDenseLevelSetImageFilter()
-  {
-    this->m_SharedData = SharedDataType::New();
-  }
+  ScalarChanAndVeseDenseLevelSetImageFilter() { this->m_SharedData = SharedDataType::New(); }
 
-  ~ScalarChanAndVeseDenseLevelSetImageFilter() override{}
+  ~ScalarChanAndVeseDenseLevelSetImageFilter() override {}
 
   SharedDataPointer m_SharedData;
 
-  void Initialize() override;
+  void
+  Initialize() override;
 
-  void InitializeIteration() override;
+  void
+  InitializeIteration() override;
 };
-} //end namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkScalarChanAndVeseDenseLevelSetImageFilter.hxx"
+#  include "itkScalarChanAndVeseDenseLevelSetImageFilter.hxx"
 #endif
 
 #endif

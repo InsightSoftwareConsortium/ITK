@@ -23,43 +23,39 @@
 namespace itk
 {
 
-template< typename TSuperclass >
-ProjectedIterativeDeconvolutionImageFilter< TSuperclass >
-::ProjectedIterativeDeconvolutionImageFilter()
+template <typename TSuperclass>
+ProjectedIterativeDeconvolutionImageFilter<TSuperclass>::ProjectedIterativeDeconvolutionImageFilter()
 {
   m_ProjectionFilter = nullptr;
 }
 
-template< typename TSuperclass >
-ProjectedIterativeDeconvolutionImageFilter< TSuperclass >
-::~ProjectedIterativeDeconvolutionImageFilter()
+template <typename TSuperclass>
+ProjectedIterativeDeconvolutionImageFilter<TSuperclass>::~ProjectedIterativeDeconvolutionImageFilter()
 {
   m_ProjectionFilter = nullptr;
 }
 
-template< typename TSuperclass >
+template <typename TSuperclass>
 void
-ProjectedIterativeDeconvolutionImageFilter< TSuperclass >
-::Initialize(ProgressAccumulator * progress, float progressWeight,
-             float iterationProgressWeight)
+ProjectedIterativeDeconvolutionImageFilter<TSuperclass>::Initialize(ProgressAccumulator * progress,
+                                                                    float                 progressWeight,
+                                                                    float                 iterationProgressWeight)
 {
-  this->Superclass::Initialize( progress, progressWeight,
-                                iterationProgressWeight );
+  this->Superclass::Initialize(progress, progressWeight, iterationProgressWeight);
 
   m_ProjectionFilter = ProjectionFilterType::New();
-  typename InternalImageType::PixelType zero =
-    NumericTraits< typename InternalImageType::PixelType >::ZeroValue();
-  m_ProjectionFilter->ThresholdBelow( zero );
+  typename InternalImageType::PixelType zero = NumericTraits<typename InternalImageType::PixelType>::ZeroValue();
+  m_ProjectionFilter->ThresholdBelow(zero);
 }
 
-template< typename TSuperclass >
+template <typename TSuperclass>
 void
-ProjectedIterativeDeconvolutionImageFilter< TSuperclass >
-::Iteration(ProgressAccumulator * progress, float iterationProgressWeight)
+ProjectedIterativeDeconvolutionImageFilter<TSuperclass>::Iteration(ProgressAccumulator * progress,
+                                                                   float                 iterationProgressWeight)
 {
-  this->Superclass::Iteration( progress, iterationProgressWeight );
+  this->Superclass::Iteration(progress, iterationProgressWeight);
 
-  m_ProjectionFilter->SetInput( this->m_CurrentEstimate );
+  m_ProjectionFilter->SetInput(this->m_CurrentEstimate);
   m_ProjectionFilter->UpdateLargestPossibleRegion();
   this->m_CurrentEstimate = m_ProjectionFilter->GetOutput();
   this->m_CurrentEstimate->DisconnectPipeline();

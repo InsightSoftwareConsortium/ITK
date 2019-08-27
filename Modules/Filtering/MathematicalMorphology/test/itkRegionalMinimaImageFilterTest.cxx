@@ -25,68 +25,68 @@
 #include "itkTestingMacros.h"
 
 
-template< typename TInputImage, typename TOutputImage >
-int RegionalMinimaImageFilterTestHelper( std::string inputImageFile,
-  std::string outputImageFile, std::string outputImageFile2,
-  bool fullyConnected, bool flatIsMinima )
+template <typename TInputImage, typename TOutputImage>
+int
+RegionalMinimaImageFilterTestHelper(std::string inputImageFile,
+                                    std::string outputImageFile,
+                                    std::string outputImageFile2,
+                                    bool        fullyConnected,
+                                    bool        flatIsMinima)
 {
   using InputImageType = TInputImage;
   using OutputImageType = TInputImage;
 
-  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
   typename ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( inputImageFile );
+  reader->SetFileName(inputImageFile);
 
-  using FilterType =
-      itk::RegionalMinimaImageFilter< InputImageType, OutputImageType >;
+  using FilterType = itk::RegionalMinimaImageFilter<InputImageType, OutputImageType>;
   typename FilterType::Pointer filter = FilterType::New();
 
-  filter->SetInput( reader->GetOutput() );
+  filter->SetInput(reader->GetOutput());
 
-  ITK_TEST_SET_GET_BOOLEAN( filter, FullyConnected, fullyConnected );
+  ITK_TEST_SET_GET_BOOLEAN(filter, FullyConnected, fullyConnected);
 
-  ITK_TEST_SET_GET_BOOLEAN( filter, FlatIsMinima, flatIsMinima );
+  ITK_TEST_SET_GET_BOOLEAN(filter, FlatIsMinima, flatIsMinima);
 
   typename FilterType::OutputImagePixelType foregroundValue =
-    itk::NumericTraits< typename FilterType::OutputImagePixelType >::max();
-  filter->SetForegroundValue( foregroundValue );
-  ITK_TEST_SET_GET_VALUE( foregroundValue, filter->GetForegroundValue() );
+    itk::NumericTraits<typename FilterType::OutputImagePixelType>::max();
+  filter->SetForegroundValue(foregroundValue);
+  ITK_TEST_SET_GET_VALUE(foregroundValue, filter->GetForegroundValue());
 
   typename FilterType::OutputImagePixelType backgroundValue =
-    itk::NumericTraits< typename FilterType::OutputImagePixelType >::NonpositiveMin();
-  filter->SetBackgroundValue( backgroundValue );
-  ITK_TEST_SET_GET_VALUE( backgroundValue, filter->GetBackgroundValue() );
+    itk::NumericTraits<typename FilterType::OutputImagePixelType>::NonpositiveMin();
+  filter->SetBackgroundValue(backgroundValue);
+  ITK_TEST_SET_GET_VALUE(backgroundValue, filter->GetBackgroundValue());
 
-  itk::SimpleFilterWatcher watcher( filter, "RegionalMinimaImageFilter" );
+  itk::SimpleFilterWatcher watcher(filter, "RegionalMinimaImageFilter");
 
   // Write the output images
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
   typename WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( filter->GetOutput() );
-  writer->SetFileName( outputImageFile );
+  writer->SetInput(filter->GetOutput());
+  writer->SetFileName(outputImageFile);
   writer->Update();
 
 
   // Produce the same output with other filters
-  using ConcaveFilterType =
-      itk::HConcaveImageFilter< InputImageType, InputImageType >;
+  using ConcaveFilterType = itk::HConcaveImageFilter<InputImageType, InputImageType>;
   typename ConcaveFilterType::Pointer concaveFilter = ConcaveFilterType::New();
-  concaveFilter->SetInput( reader->GetOutput() );
-  concaveFilter->SetFullyConnected( fullyConnected );
-  concaveFilter->SetHeight( 1 );
+  concaveFilter->SetInput(reader->GetOutput());
+  concaveFilter->SetFullyConnected(fullyConnected);
+  concaveFilter->SetHeight(1);
 
   // Concave gives maxima with value = 1 and others with value = 0
   // Rescale the image so we have maxima = 255 other = 0
-  using RescaleFilterType =
-      itk::RescaleIntensityImageFilter< InputImageType, OutputImageType >;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter<InputImageType, OutputImageType>;
   typename RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
-  rescaler->SetInput( concaveFilter->GetOutput() );
-  rescaler->SetOutputMaximum( 255 );
-  rescaler->SetOutputMinimum( 0 );
+  rescaler->SetInput(concaveFilter->GetOutput());
+  rescaler->SetOutputMaximum(255);
+  rescaler->SetOutputMinimum(0);
 
   typename WriterType::Pointer writer2 = WriterType::New();
-  writer2->SetInput( rescaler->GetOutput() );
-  writer2->SetFileName( outputImageFile2 );
+  writer2->SetInput(rescaler->GetOutput());
+  writer2->SetFileName(outputImageFile2);
   writer2->Update();
 
 
@@ -95,62 +95,59 @@ int RegionalMinimaImageFilterTestHelper( std::string inputImageFile,
 }
 
 // A test routine for regional extrema using flooding
-int itkRegionalMinimaImageFilterTest( int argc, char * argv[] )
+int
+itkRegionalMinimaImageFilterTest(int argc, char * argv[])
 {
-  if( argc < 7 )
-    {
+  if (argc < 7)
+  {
     std::cerr << "Missing parameters" << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
-      << " inputImageFile"
-      << " outputImageFile"
-      << " outputImageFile2"
-      << " dimension"
-      << " fullyConnected"
-      << " flatIsMinima";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputImageFile"
+              << " outputImageFile"
+              << " outputImageFile2"
+              << " dimension"
+              << " fullyConnected"
+              << " flatIsMinima";
     std::cerr << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::string inputImageFile = argv[1];
   std::string outputImageFile = argv[2];
   std::string outputImageFile2 = argv[3];
 
-  unsigned int dimension = std::stoi( argv[4] );
+  unsigned int dimension = std::stoi(argv[4]);
 
-  bool fullyConnected = std::stoi( argv[5] );
-  bool flatIsMinima = std::stoi( argv[6] );
+  bool fullyConnected = std::stoi(argv[5]);
+  bool flatIsMinima = std::stoi(argv[6]);
 
   // Exercise basic object methods
   // Done outside the helper function in the test because GCC is limited
   // when calling overloaded base class functions.
   using PixelType = unsigned char;
-  using ImageType = itk::Image< PixelType, 2 >;
+  using ImageType = itk::Image<PixelType, 2>;
 
-  using FilterType = itk::RegionalMinimaImageFilter< ImageType, ImageType >;
+  using FilterType = itk::RegionalMinimaImageFilter<ImageType, ImageType>;
   FilterType::Pointer filter = FilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, RegionalMinimaImageFilter,
-    ImageToImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, RegionalMinimaImageFilter, ImageToImageFilter);
 
-  if( dimension == 2 )
-    {
-    using Image2DType = itk::Image< PixelType, 2 >;
-    return RegionalMinimaImageFilterTestHelper< Image2DType, Image2DType >(
-      inputImageFile, outputImageFile, outputImageFile2, fullyConnected,
-      flatIsMinima );
-    }
-  else if( dimension == 3 )
-    {
-    using Image3DType = itk::Image< PixelType, 3 >;
-    return RegionalMinimaImageFilterTestHelper< Image3DType, Image3DType >(
-      inputImageFile, outputImageFile, outputImageFile2, fullyConnected,
-      flatIsMinima );
-    }
+  if (dimension == 2)
+  {
+    using Image2DType = itk::Image<PixelType, 2>;
+    return RegionalMinimaImageFilterTestHelper<Image2DType, Image2DType>(
+      inputImageFile, outputImageFile, outputImageFile2, fullyConnected, flatIsMinima);
+  }
+  else if (dimension == 3)
+  {
+    using Image3DType = itk::Image<PixelType, 3>;
+    return RegionalMinimaImageFilterTestHelper<Image3DType, Image3DType>(
+      inputImageFile, outputImageFile, outputImageFile2, fullyConnected, flatIsMinima);
+  }
   else
-    {
+  {
     std::cerr << "Test failed!" << std::endl;
     std::cerr << "Unsupported dimension: " << dimension << std::endl;
     std::cerr << "Only dimensions 2 and 3 are supported." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 }

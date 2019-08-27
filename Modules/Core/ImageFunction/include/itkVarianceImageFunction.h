@@ -39,21 +39,20 @@ namespace itk
  * \ingroup ImageFunctions
  * \ingroup ITKImageFunction
  */
-template< typename TInputImage, typename TCoordRep = float >
-class ITK_TEMPLATE_EXPORT VarianceImageFunction:
-  public ImageFunction< TInputImage, typename NumericTraits< typename TInputImage::PixelType >::RealType,
-                        TCoordRep >
+template <typename TInputImage, typename TCoordRep = float>
+class ITK_TEMPLATE_EXPORT VarianceImageFunction
+  : public ImageFunction<TInputImage, typename NumericTraits<typename TInputImage::PixelType>::RealType, TCoordRep>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VarianceImageFunction);
 
   /** Standard class type aliases. */
   using Self = VarianceImageFunction;
-  using Superclass = ImageFunction< TInputImage, typename NumericTraits< typename TInputImage::PixelType >::RealType,
-                         TCoordRep >;
+  using Superclass =
+    ImageFunction<TInputImage, typename NumericTraits<typename TInputImage::PixelType>::RealType, TCoordRep>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(VarianceImageFunction, ImageFunction);
@@ -80,14 +79,15 @@ public:
   static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
 
   /** Datatype used for the variance */
-  using RealType = typename NumericTraits<
-                      typename InputImageType::PixelType >::RealType;
+  using RealType = typename NumericTraits<typename InputImageType::PixelType>::RealType;
 
   /** Evalulate the function at specified index */
-  RealType EvaluateAtIndex(const IndexType & index) const override;
+  RealType
+  EvaluateAtIndex(const IndexType & index) const override;
 
   /** Evaluate the function at non-integer positions */
-  RealType Evaluate(const PointType & point) const override
+  RealType
+  Evaluate(const PointType & point) const override
   {
     IndexType index;
 
@@ -95,8 +95,8 @@ public:
     return this->EvaluateAtIndex(index);
   }
 
-  RealType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & cindex) const override
+  RealType
+  EvaluateAtContinuousIndex(const ContinuousIndexType & cindex) const override
   {
     IndexType index;
 
@@ -112,7 +112,8 @@ public:
 protected:
   VarianceImageFunction();
   ~VarianceImageFunction() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   unsigned int m_NeighborhoodRadius;
@@ -120,7 +121,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVarianceImageFunction.hxx"
+#  include "itkVarianceImageFunction.hxx"
 #endif
 
 #endif

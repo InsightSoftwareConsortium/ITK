@@ -19,15 +19,15 @@
 #include "itkQuadEdgeMeshEulerOperatorSplitEdgeFunction.h"
 #include "itkQuadEdgeMeshEulerOperatorsTestHelper.h"
 
-int itkQuadEdgeMeshEulerOperatorSplitEdgeTest( int, char * [] )
+int
+itkQuadEdgeMeshEulerOperatorSplitEdgeTest(int, char *[])
 {
 
-  using MeshType = itk::QuadEdgeMesh< double, 3 >;
+  using MeshType = itk::QuadEdgeMesh<double, 3>;
   using MeshPointer = MeshType::Pointer;
   using QEType = MeshType::QEType;
 
-  using SplitEdge =
-      itk::QuadEdgeMeshEulerOperatorSplitEdgeFunction< MeshType, QEType>;
+  using SplitEdge = itk::QuadEdgeMeshEulerOperatorSplitEdgeFunction<MeshType, QEType>;
 
   /////////////////////////////////////////
   //
@@ -36,43 +36,46 @@ int itkQuadEdgeMeshEulerOperatorSplitEdgeTest( int, char * [] )
   /////////////////////////////////////////
   std::cout << "Checking SplitEdge." << std::endl;
   MeshPointer mesh = MeshType::New();
-  CreateSquareTriangularMesh<MeshType>( mesh );
+  CreateSquareTriangularMesh<MeshType>(mesh);
 
-  SplitEdge::Pointer splitEdge = SplitEdge::New( );
-  std::cout << "     " << "Test No Mesh Input";
-  if( splitEdge->Evaluate( (QEType*)1 ) )
-    {
+  SplitEdge::Pointer splitEdge = SplitEdge::New();
+  std::cout << "     "
+            << "Test No Mesh Input";
+  if (splitEdge->Evaluate((QEType *)1))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "OK" << std::endl;
 
   (void)splitEdge->GetNameOfClass();
 
-  splitEdge->SetInput( mesh );
-  std::cout << "     " << "Test No QE Input";
-  if( splitEdge->Evaluate( (QEType*)nullptr ) )
-    {
+  splitEdge->SetInput(mesh);
+  std::cout << "     "
+            << "Test No QE Input";
+  if (splitEdge->Evaluate((QEType *)nullptr))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "OK" << std::endl;
 
   std::cout << "     ";
   std::cout << "Split an internal edge (possible).";
-  if( !splitEdge->Evaluate( mesh->FindEdge(  6, 12 ) ) )
-    {
+  if (!splitEdge->Evaluate(mesh->FindEdge(6, 12)))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
-  if( ! AssertTopologicalInvariants< MeshType >
-          ( mesh, 26, 57, 32, 1, 0 ) )
-    {
+  }
+  if (!AssertTopologicalInvariants<MeshType>(mesh, 26, 57, 32, 1, 0))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << ".OK" << std::endl;
 
-  std::cout << "Checking SplitEdge." << "OK" << std::endl << std::endl;
+  std::cout << "Checking SplitEdge."
+            << "OK" << std::endl
+            << std::endl;
   return EXIT_SUCCESS;
 }

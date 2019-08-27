@@ -50,17 +50,17 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template< typename TInputImage >
-class ITK_TEMPLATE_EXPORT RegionFromReferenceLabelMapFilter:public ChangeRegionLabelMapFilter< TInputImage >
+template <typename TInputImage>
+class ITK_TEMPLATE_EXPORT RegionFromReferenceLabelMapFilter : public ChangeRegionLabelMapFilter<TInputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(RegionFromReferenceLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = RegionFromReferenceLabelMapFilter;
-  using Superclass = ChangeRegionLabelMapFilter< TInputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ChangeRegionLabelMapFilter<TInputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(RegionFromReferenceLabelMapFilter, ChangeRegionImageFilter);
@@ -94,41 +94,44 @@ public:
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
   static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
-  using ReferenceImageType = ImageBase< Self::ImageDimension >;
+  using ReferenceImageType = ImageBase<Self::ImageDimension>;
 
   /** Copy the output information from another Image. */
-  void SetReferenceImage(const ReferenceImageType *image);
+  void
+  SetReferenceImage(const ReferenceImageType * image);
 
-  const ReferenceImageType * GetReferenceImage() const;
+  const ReferenceImageType *
+  GetReferenceImage() const;
 
   /** Set the input image */
-  void SetInput1(const TInputImage *input)
+  void
+  SetInput1(const TInputImage * input)
   {
     this->SetInput(input);
   }
 
   /** Set the reference image */
-  void SetInput2(const ReferenceImageType *input)
+  void
+  SetInput2(const ReferenceImageType * input)
   {
     this->SetReferenceImage(input);
   }
 
 protected:
-  RegionFromReferenceLabelMapFilter()
-  {
-    this->SetNumberOfRequiredInputs(2);
-  }
+  RegionFromReferenceLabelMapFilter() { this->SetNumberOfRequiredInputs(2); }
 
   ~RegionFromReferenceLabelMapFilter() override = default;
 
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRegionFromReferenceLabelMapFilter.hxx"
+#  include "itkRegionFromReferenceLabelMapFilter.hxx"
 #endif
 
 #endif

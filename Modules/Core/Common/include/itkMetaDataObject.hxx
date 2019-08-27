@@ -32,42 +32,37 @@
 
 namespace itk
 {
-template< typename MetaDataObjectType >
+template <typename MetaDataObjectType>
 const char *
-MetaDataObject< MetaDataObjectType >
-::GetMetaDataObjectTypeName() const
+MetaDataObject<MetaDataObjectType>::GetMetaDataObjectTypeName() const
 {
-  return typeid( MetaDataObjectType ).name();
+  return typeid(MetaDataObjectType).name();
 }
 
-template< typename MetaDataObjectType >
+template <typename MetaDataObjectType>
 const std::type_info &
-MetaDataObject< MetaDataObjectType >
-::GetMetaDataObjectTypeInfo() const
+MetaDataObject<MetaDataObjectType>::GetMetaDataObjectTypeInfo() const
 {
-  return typeid( MetaDataObjectType );
+  return typeid(MetaDataObjectType);
 }
 
-template< typename MetaDataObjectType >
+template <typename MetaDataObjectType>
 const MetaDataObjectType &
-MetaDataObject< MetaDataObjectType >
-::GetMetaDataObjectValue() const
+MetaDataObject<MetaDataObjectType>::GetMetaDataObjectValue() const
 {
   return m_MetaDataObjectValue;
 }
 
-template< typename MetaDataObjectType >
+template <typename MetaDataObjectType>
 void
-MetaDataObject< MetaDataObjectType >
-::SetMetaDataObjectValue(const MetaDataObjectType & newValue)
+MetaDataObject<MetaDataObjectType>::SetMetaDataObjectValue(const MetaDataObjectType & newValue)
 {
   m_MetaDataObjectValue = newValue;
 }
 
-template< typename MetaDataObjectType >
+template <typename MetaDataObjectType>
 void
-MetaDataObject< MetaDataObjectType >
-::Print(std::ostream & os) const
+MetaDataObject<MetaDataObjectType>::Print(std::ostream & os) const
 {
   Superclass::Print(os);
 }

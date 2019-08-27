@@ -23,27 +23,21 @@
 
 namespace itk
 {
-template< typename TInputImage,
-          typename TMembershipFunction >
-ImageModelEstimatorBase< TInputImage, TMembershipFunction >
-::ImageModelEstimatorBase(void)
+template <typename TInputImage, typename TMembershipFunction>
+ImageModelEstimatorBase<TInputImage, TMembershipFunction>::ImageModelEstimatorBase(void)
 
 {}
 
-template< typename TInputImage,
-          typename TMembershipFunction >
+template <typename TInputImage, typename TMembershipFunction>
 void
-ImageModelEstimatorBase< TInputImage, TMembershipFunction >
-::Update()
+ImageModelEstimatorBase<TInputImage, TMembershipFunction>::Update()
 {
   GenerateData();
 }
 
-template< typename TInputImage,
-          typename TMembershipFunction >
+template <typename TInputImage, typename TMembershipFunction>
 void
-ImageModelEstimatorBase< TInputImage, TMembershipFunction >
-::GenerateData()
+ImageModelEstimatorBase<TInputImage, TMembershipFunction>::GenerateData()
 {
   this->EstimateModels();
 }
@@ -51,11 +45,9 @@ ImageModelEstimatorBase< TInputImage, TMembershipFunction >
 /**
  * PrintSelf
  */
-template< typename TInputImage,
-          typename TMembershipFunction >
+template <typename TInputImage, typename TMembershipFunction>
 void
-ImageModelEstimatorBase< TInputImage, TMembershipFunction >
-::PrintSelf(std::ostream & os, Indent indent) const
+ImageModelEstimatorBase<TInputImage, TMembershipFunction>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Number of models: " << m_NumberOfModels << std::endl;
@@ -64,13 +56,13 @@ ImageModelEstimatorBase< TInputImage, TMembershipFunction >
   os << indent << "Results of the model estimator." << std::endl;
   os << indent << "====================================" << std::endl;
 
-  for ( unsigned int classIndex = 0; classIndex < m_NumberOfModels; classIndex++ )
-    {
+  for (unsigned int classIndex = 0; classIndex < m_NumberOfModels; classIndex++)
+  {
     os << indent << "Statistics for " << classIndex << std::endl;
-    ( m_MembershipFunctions[classIndex] )->Print(os);
+    (m_MembershipFunctions[classIndex])->Print(os);
 
     os << indent << "====================================" << std::endl;
-    }
+  }
 
   os << indent << "                   " << std::endl;
 
@@ -82,14 +74,12 @@ ImageModelEstimatorBase< TInputImage, TMembershipFunction >
 // Add a membership function corresponding to the class index
 //------------------------------------------------------------------
 
-template< typename TInputImage,
-          typename TMembershipFunction >
+template <typename TInputImage, typename TMembershipFunction>
 unsigned int
-ImageModelEstimatorBase< TInputImage, TMembershipFunction >
-::AddMembershipFunction(MembershipFunctionPointer function)
+ImageModelEstimatorBase<TInputImage, TMembershipFunction>::AddMembershipFunction(MembershipFunctionPointer function)
 {
   m_MembershipFunctions.push_back(function);
-  return static_cast< unsigned int >( m_MembershipFunctions.size() );
+  return static_cast<unsigned int>(m_MembershipFunctions.size());
 }
 } // namespace itk
 

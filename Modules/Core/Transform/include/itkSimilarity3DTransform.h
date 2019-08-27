@@ -43,9 +43,8 @@ namespace itk
  * \sa VersorRigid3DTransform
  * \ingroup ITKTransform
  */
-template<typename TParametersValueType=double>
-class ITK_TEMPLATE_EXPORT Similarity3DTransform :
-  public VersorRigid3DTransform<TParametersValueType>
+template <typename TParametersValueType = double>
+class ITK_TEMPLATE_EXPORT Similarity3DTransform : public VersorRigid3DTransform<TParametersValueType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(Similarity3DTransform);
@@ -96,7 +95,8 @@ public:
   using ScaleType = TParametersValueType;
 
   /** Set the parameters to the IdentityTransform */
-  void SetIdentity() override;
+  void
+  SetIdentity() override;
 
   /** Directly set the rotation matrix of the transform.
    *
@@ -104,7 +104,8 @@ public:
    * to within a specified tolerance, else an exception is thrown.
    *
    * \sa MatrixOffsetTransformBase::SetMatrix() */
-  void SetMatrix(const MatrixType & matrix) override;
+  void
+  SetMatrix(const MatrixType & matrix) override;
 
   /** Directly set the rotation matrix of the transform.
    *
@@ -112,18 +113,22 @@ public:
    * to within the specified tolerance, else an exception is thrown.
    *
    * \sa MatrixOffsetTransformBase::SetMatrix() */
-  void SetMatrix(const MatrixType & matrix, const TParametersValueType tolerance) override;
+  void
+  SetMatrix(const MatrixType & matrix, const TParametersValueType tolerance) override;
 
   /** Set the transformation from a container of parameters This is typically
    * used by optimizers.  There are 7 parameters. The first three represent the
    * versor, the next three represent the translation and the last one
    * represents the scaling factor. */
-  void SetParameters(const ParametersType & parameters) override;
+  void
+  SetParameters(const ParametersType & parameters) override;
 
-  const ParametersType & GetParameters() const override;
+  const ParametersType &
+  GetParameters() const override;
 
   /** Set/Get the value of the isotropic scaling factor */
-  void SetScale(ScaleType scale);
+  void
+  SetScale(ScaleType scale);
 
   itkGetConstReferenceMacro(Scale, ScaleType);
 
@@ -131,7 +136,8 @@ public:
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the
    * transform is invertible at this point. */
-  void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const override;
+  void
+  ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const override;
 
 protected:
   Similarity3DTransform(const MatrixType & matrix, const OutputVectorType & offset);
@@ -139,22 +145,25 @@ protected:
   Similarity3DTransform();
   ~Similarity3DTransform() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Recomputes the matrix by calling the Superclass::ComputeMatrix() and then
    * applying the scale factor. */
-  void ComputeMatrix() override;
+  void
+  ComputeMatrix() override;
 
   /** Computes the parameters from an input matrix. */
-  void ComputeMatrixParameters() override;
+  void
+  ComputeMatrixParameters() override;
 
 private:
   ScaleType m_Scale;
 }; // class Similarity3DTransform
-}  // namespace itk
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSimilarity3DTransform.hxx"
+#  include "itkSimilarity3DTransform.hxx"
 #endif
 
 #endif /* itkSimilarity3DTransform_h */

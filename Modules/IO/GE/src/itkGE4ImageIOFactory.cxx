@@ -21,16 +21,14 @@
 
 namespace itk
 {
-void GE4ImageIOFactory::PrintSelf(std::ostream &, Indent) const
+void
+GE4ImageIOFactory::PrintSelf(std::ostream &, Indent) const
 {}
 
 GE4ImageIOFactory::GE4ImageIOFactory()
 {
-  this->RegisterOverride( "itkImageIOBase",
-                          "itkGE4ImageIO",
-                          "GE4 Image IO",
-                          true,
-                          CreateObjectFunction< GE4ImageIO >::New() );
+  this->RegisterOverride(
+    "itkImageIOBase", "itkGE4ImageIO", "GE4 Image IO", true, CreateObjectFunction<GE4ImageIO>::New());
 }
 
 GE4ImageIOFactory::~GE4ImageIOFactory() = default;
@@ -52,13 +50,14 @@ GE4ImageIOFactory::GetDescription() const
 
 static bool GE4ImageIOFactoryHasBeenRegistered;
 
-void ITKIOGE_EXPORT GE4ImageIOFactoryRegister__Private()
+void ITKIOGE_EXPORT
+     GE4ImageIOFactoryRegister__Private()
 {
-  if( ! GE4ImageIOFactoryHasBeenRegistered )
-    {
+  if (!GE4ImageIOFactoryHasBeenRegistered)
+  {
     GE4ImageIOFactoryHasBeenRegistered = true;
     GE4ImageIOFactory::RegisterOneFactory();
-    }
+  }
 }
 
 } // end namespace itk

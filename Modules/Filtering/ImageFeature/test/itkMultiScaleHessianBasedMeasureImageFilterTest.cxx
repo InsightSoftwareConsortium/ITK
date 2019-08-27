@@ -23,54 +23,56 @@
 #include "itkSimpleFilterWatcher.h"
 #include "itkTestingMacros.h"
 
-int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
+int
+itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
 {
-  if ( argc < 4 )
-    {
-    std::cerr << "Missing Parameters: "
-              << itkNameOfTestExecutableMacro(argv)
-              << " InputImage"
-              << " EnhancedOutputImage ScalesOutputImage "
-              << " [SigmaMin SigmaMax NumberOfScales ObjectDimension Bright/Dark EnhancedOutputImage2 ScalesOutputImage3]" << std::endl;
+  if (argc < 4)
+  {
+    std::cerr
+      << "Missing Parameters: " << itkNameOfTestExecutableMacro(argv) << " InputImage"
+      << " EnhancedOutputImage ScalesOutputImage "
+      << " [SigmaMin SigmaMax NumberOfScales ObjectDimension Bright/Dark EnhancedOutputImage2 ScalesOutputImage3]"
+      << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Define the dimension of the images
   constexpr unsigned int Dimension = 2;
 
   using InputPixelType = float;
-  using InputImageType = itk::Image<InputPixelType,Dimension>;
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
 
 
   using OutputPixelType = float;
-  using OutputImageType = itk::Image<OutputPixelType,Dimension>;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
   using FileReaderType = itk::ImageFileReader<InputImageType>;
 
   using FileWriterType = itk::ImageFileWriter<OutputImageType>;
 
-  using RealPixelType = itk::NumericTraits< InputPixelType >::RealType;
+  using RealPixelType = itk::NumericTraits<InputPixelType>::RealType;
 
-  using HessianPixelType = itk::SymmetricSecondRankTensor< RealPixelType, Dimension >;
-  using HessianImageType = itk::Image< HessianPixelType, Dimension >;
+  using HessianPixelType = itk::SymmetricSecondRankTensor<RealPixelType, Dimension>;
+  using HessianImageType = itk::Image<HessianPixelType, Dimension>;
 
   // Declare the type of enhancement filter
-  using ObjectnessFilterType = itk::HessianToObjectnessMeasureImageFilter< HessianImageType,OutputImageType >;
+  using ObjectnessFilterType = itk::HessianToObjectnessMeasureImageFilter<HessianImageType, OutputImageType>;
 
   // Declare the type of multiscale enhancement filter
-  using MultiScaleEnhancementFilterType = itk::MultiScaleHessianBasedMeasureImageFilter< InputImageType,HessianImageType, OutputImageType >;
+  using MultiScaleEnhancementFilterType =
+    itk::MultiScaleHessianBasedMeasureImageFilter<InputImageType, HessianImageType, OutputImageType>;
 
   FileReaderType::Pointer imageReader = FileReaderType::New();
   imageReader->SetFileName(argv[1]);
   try
-    {
+  {
     imageReader->Update();
-    }
-  catch (itk::ExceptionObject &ex)
-    {
+  }
+  catch (itk::ExceptionObject & ex)
+  {
     std::cout << ex << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   ObjectnessFilterType::Pointer objectnessFilter = ObjectnessFilterType::New();
   objectnessFilter->SetScaleObjectnessMeasure(false);
@@ -82,215 +84,213 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
 
   MultiScaleEnhancementFilterType::Pointer multiScaleEnhancementFilter = MultiScaleEnhancementFilterType::New();
   multiScaleEnhancementFilter->SetInput(imageReader->GetOutput());
-  multiScaleEnhancementFilter->SetHessianToMeasureFilter( objectnessFilter );
+  multiScaleEnhancementFilter->SetHessianToMeasureFilter(objectnessFilter);
   multiScaleEnhancementFilter->SetSigmaStepMethodToLogarithmic();
 
   itk::SimpleFilterWatcher watcher(multiScaleEnhancementFilter);
 
   constexpr double tolerance = 0.01;
 
-   if ( argc > 4 )
-    {
-    double sigmaMinimum = std::stod( argv[4] );
-    multiScaleEnhancementFilter->SetSigmaMinimum( sigmaMinimum );
+  if (argc > 4)
+  {
+    double sigmaMinimum = std::stod(argv[4]);
+    multiScaleEnhancementFilter->SetSigmaMinimum(sigmaMinimum);
 
-    if( itk::Math::abs( multiScaleEnhancementFilter->GetSigmaMinimum() - sigmaMinimum ) > tolerance )
-      {
+    if (itk::Math::abs(multiScaleEnhancementFilter->GetSigmaMinimum() - sigmaMinimum) > tolerance)
+    {
       std::cerr << " Error in Set/GetSigmaMinimum() " << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
 
-  if ( argc > 5 )
+  if (argc > 5)
+  {
+    double sigmaMaximum = std::stod(argv[5]);
+    multiScaleEnhancementFilter->SetSigmaMaximum(sigmaMaximum);
+
+    if (itk::Math::abs(multiScaleEnhancementFilter->GetSigmaMaximum() - sigmaMaximum) > tolerance)
     {
-    double sigmaMaximum = std::stod( argv[5] );
-    multiScaleEnhancementFilter->SetSigmaMaximum( sigmaMaximum );
-
-    if( itk::Math::abs( multiScaleEnhancementFilter->GetSigmaMaximum() - sigmaMaximum ) > tolerance )
-      {
       std::cerr << " Error in Set/GetSigmaMaximum() " << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
 
-  if ( argc > 6 )
+  if (argc > 6)
+  {
+    unsigned int numberOfSigmaSteps = std::stoi(argv[6]);
+    multiScaleEnhancementFilter->SetNumberOfSigmaSteps(numberOfSigmaSteps);
+
+    if (multiScaleEnhancementFilter->GetNumberOfSigmaSteps() != numberOfSigmaSteps)
     {
-    unsigned int numberOfSigmaSteps = std::stoi( argv[6] );
-    multiScaleEnhancementFilter->SetNumberOfSigmaSteps( numberOfSigmaSteps );
-
-    if( multiScaleEnhancementFilter->GetNumberOfSigmaSteps() != numberOfSigmaSteps )
-      {
       std::cerr << " Error in Set/GetNumberOfSigmaSteps() " << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
 
-  if ( argc > 7 )
-    {
-    objectnessFilter->SetObjectDimension( std::stoi(argv[7]) );
-    }
+  if (argc > 7)
+  {
+    objectnessFilter->SetObjectDimension(std::stoi(argv[7]));
+  }
 
-  if ( argc > 8 )
-    {
-    objectnessFilter->SetBrightObject( std::stoi(argv[8]) );
-    }
+  if (argc > 8)
+  {
+    objectnessFilter->SetBrightObject(std::stoi(argv[8]));
+  }
 
   multiScaleEnhancementFilter->GenerateScalesOutputOn();
-  if ( !multiScaleEnhancementFilter->GetGenerateScalesOutput() )
-    {
+  if (!multiScaleEnhancementFilter->GetGenerateScalesOutput())
+  {
     std::cerr << "Error in Set/GetGenerateScalesOutput()" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  multiScaleEnhancementFilter->SetGenerateScalesOutput( false );
-  if ( multiScaleEnhancementFilter->GetGenerateScalesOutput() )
-    {
+  multiScaleEnhancementFilter->SetGenerateScalesOutput(false);
+  if (multiScaleEnhancementFilter->GetGenerateScalesOutput())
+  {
     std::cerr << "Error in Set/GetGenerateScalesOutput()" << std::endl;
     return EXIT_FAILURE;
-    }
-  multiScaleEnhancementFilter->SetGenerateScalesOutput( true );
+  }
+  multiScaleEnhancementFilter->SetGenerateScalesOutput(true);
 
   multiScaleEnhancementFilter->GenerateHessianOutputOn();
-  if ( !multiScaleEnhancementFilter->GetGenerateHessianOutput() )
-    {
+  if (!multiScaleEnhancementFilter->GetGenerateHessianOutput())
+  {
     std::cerr << "Error in Set/GetGenerateHessianOutput()" << std::endl;
     return EXIT_FAILURE;
-    }
-  multiScaleEnhancementFilter->SetGenerateHessianOutput( false );
-  if ( multiScaleEnhancementFilter->GetGenerateHessianOutput() )
-    {
+  }
+  multiScaleEnhancementFilter->SetGenerateHessianOutput(false);
+  if (multiScaleEnhancementFilter->GetGenerateHessianOutput())
+  {
     std::cerr << "Error in Set/GetGenerateHessianOutput()" << std::endl;
     return EXIT_FAILURE;
-    }
-  multiScaleEnhancementFilter->SetGenerateHessianOutput( true );
+  }
+  multiScaleEnhancementFilter->SetGenerateHessianOutput(true);
 
   try
-    {
+  {
     multiScaleEnhancementFilter->Update();
-    }
-  catch (itk::ExceptionObject &e)
-    {
+  }
+  catch (itk::ExceptionObject & e)
+  {
     std::cerr << e << std::endl;
-    }
+  }
 
   FileWriterType::Pointer writer = FileWriterType::New();
   writer->SetFileName(argv[2]);
   writer->UseCompressionOn();
-  writer->SetInput( multiScaleEnhancementFilter->GetOutput() );
+  writer->SetInput(multiScaleEnhancementFilter->GetOutput());
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch (itk::ExceptionObject &e)
-    {
+  }
+  catch (itk::ExceptionObject & e)
+  {
     std::cerr << e << std::endl;
-    }
+  }
 
   writer->SetFileName(argv[3]);
   writer->UseCompressionOn();
-  writer->SetInput( multiScaleEnhancementFilter->GetScalesOutput() );
+  writer->SetInput(multiScaleEnhancementFilter->GetScalesOutput());
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch (itk::ExceptionObject &e)
-    {
+  }
+  catch (itk::ExceptionObject & e)
+  {
     std::cerr << e << std::endl;
-    }
+  }
 
-  const HessianImageType * hessianImage =
-    multiScaleEnhancementFilter->GetHessianOutput();
+  const HessianImageType * hessianImage = multiScaleEnhancementFilter->GetHessianOutput();
 
   std::cout << "Hessian Image Buffered Region = " << std::endl;
   std::cout << hessianImage->GetBufferedRegion() << std::endl;
 
-  //Print out
-  multiScaleEnhancementFilter->Print( std::cout );
+  // Print out
+  multiScaleEnhancementFilter->Print(std::cout);
 
-  if ( argc > 9 )
-    {
-    //Change sigma step to equispaced type and regnerate vesselness image
-    multiScaleEnhancementFilter->SetSigmaStepMethod(
-          MultiScaleEnhancementFilterType::EquispacedSigmaSteps);
+  if (argc > 9)
+  {
+    // Change sigma step to equispaced type and regnerate vesselness image
+    multiScaleEnhancementFilter->SetSigmaStepMethod(MultiScaleEnhancementFilterType::EquispacedSigmaSteps);
 
     try
-      {
+    {
       multiScaleEnhancementFilter->Update();
-      }
-    catch (itk::ExceptionObject &e)
-      {
+    }
+    catch (itk::ExceptionObject & e)
+    {
       std::cerr << e << std::endl;
-      }
+    }
 
     FileWriterType::Pointer writer2 = FileWriterType::New();
     writer2->SetFileName(argv[9]);
     writer2->UseCompressionOn();
-    writer2->SetInput( multiScaleEnhancementFilter->GetOutput() );
+    writer2->SetInput(multiScaleEnhancementFilter->GetOutput());
 
     try
-      {
-      writer2->Update();
-      }
-    catch (itk::ExceptionObject &e)
-      {
-      std::cerr << e << std::endl;
-      }
-    }
-
-  if ( argc > 10 )
     {
-    //Change NonNegativeHessianBasedMeasure to Off and regnerate vesselness image
+      writer2->Update();
+    }
+    catch (itk::ExceptionObject & e)
+    {
+      std::cerr << e << std::endl;
+    }
+  }
+
+  if (argc > 10)
+  {
+    // Change NonNegativeHessianBasedMeasure to Off and regnerate vesselness image
     multiScaleEnhancementFilter->NonNegativeHessianBasedMeasureOff();
 
-    multiScaleEnhancementFilter->Print( std::cout );
+    multiScaleEnhancementFilter->Print(std::cout);
 
     try
-      {
+    {
       multiScaleEnhancementFilter->Update();
-      }
-    catch (itk::ExceptionObject &e)
-      {
+    }
+    catch (itk::ExceptionObject & e)
+    {
       std::cerr << e << std::endl;
-      }
+    }
 
     FileWriterType::Pointer writer3 = FileWriterType::New();
     writer3->SetFileName(argv[10]);
     writer3->UseCompressionOn();
-    writer3->SetInput( multiScaleEnhancementFilter->GetScalesOutput() );
+    writer3->SetInput(multiScaleEnhancementFilter->GetScalesOutput());
 
     try
-      {
+    {
       writer3->Update();
-      }
-    catch (itk::ExceptionObject &e)
-      {
+    }
+    catch (itk::ExceptionObject & e)
+    {
       std::cerr << e << std::endl;
-      }
     }
+  }
 
-  //Test for NumberOfSigmaSteps = 0
-  multiScaleEnhancementFilter->SetNumberOfSigmaSteps( 0 );
+  // Test for NumberOfSigmaSteps = 0
+  multiScaleEnhancementFilter->SetNumberOfSigmaSteps(0);
   try
-    {
+  {
     multiScaleEnhancementFilter->Update();
-    }
-  catch (itk::ExceptionObject &e)
-    {
+  }
+  catch (itk::ExceptionObject & e)
+  {
     std::cerr << e << std::endl;
-    }
+  }
 
-  //Test for NumberOfSigmaSteps = 1
-  multiScaleEnhancementFilter->SetNumberOfSigmaSteps( 1 );
+  // Test for NumberOfSigmaSteps = 1
+  multiScaleEnhancementFilter->SetNumberOfSigmaSteps(1);
   try
-    {
+  {
     multiScaleEnhancementFilter->Update();
-    }
-  catch (itk::ExceptionObject &e)
-    {
+  }
+  catch (itk::ExceptionObject & e)
+  {
     std::cerr << e << std::endl;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

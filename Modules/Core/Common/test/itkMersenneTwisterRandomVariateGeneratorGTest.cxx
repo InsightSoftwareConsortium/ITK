@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
- // First include the header file to be tested:
+// First include the header file to be tested:
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 #include <gtest/gtest.h>
 #include <random> // For mt19937.
@@ -50,7 +50,7 @@ TEST(MersenneTwisterRandomVariateGenerator, GetIntegerVariateConformsWithStdMt19
 // as std::mt19937, when std::mt19937 uses the same seed as the ITK generator.
 TEST(MersenneTwisterRandomVariateGenerator, GetIntegerVariateReturnsSameAsStdMt19937)
 {
-  const auto generator = itk::Statistics::MersenneTwisterRandomVariateGenerator::New();
+  const auto   generator = itk::Statistics::MersenneTwisterRandomVariateGenerator::New();
   std::mt19937 stdMt19937{ generator->GetSeed() };
 
   // Just repeat a few times, assuming that that should be enough.

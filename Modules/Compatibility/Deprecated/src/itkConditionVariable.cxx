@@ -18,9 +18,9 @@
 #include "itkConditionVariable.h"
 
 #if defined(ITK_USE_PTHREADS)
-#include "itkConditionVariablePThreads.cxx"
+#  include "itkConditionVariablePThreads.cxx"
 #elif defined(ITK_USE_WIN32_THREADS)
-#include "itkConditionVariableWinThreads.cxx"
+#  include "itkConditionVariableWinThreads.cxx"
 #else
-#include "itkConditionVariableNoThreads.cxx"
+#  include "itkConditionVariableNoThreads.cxx"
 #endif

@@ -33,11 +33,8 @@ namespace itk
 {
 MRCImageIOFactory::MRCImageIOFactory()
 {
-  this->RegisterOverride( "itkImageIOBase",
-                          "itkMRCImageIO",
-                          "MRC Image IO",
-                          true,
-                          CreateObjectFunction< MRCImageIO >::New() );
+  this->RegisterOverride(
+    "itkImageIOBase", "itkMRCImageIO", "MRC Image IO", true, CreateObjectFunction<MRCImageIO>::New());
 }
 
 MRCImageIOFactory::~MRCImageIOFactory() = default;
@@ -59,13 +56,14 @@ MRCImageIOFactory::GetDescription() const
 
 static bool MRCImageIOFactoryHasBeenRegistered;
 
-void ITKIOMRC_EXPORT MRCImageIOFactoryRegister__Private()
+void ITKIOMRC_EXPORT
+     MRCImageIOFactoryRegister__Private()
 {
-  if( !MRCImageIOFactoryHasBeenRegistered )
-    {
+  if (!MRCImageIOFactoryHasBeenRegistered)
+  {
     MRCImageIOFactoryHasBeenRegistered = true;
     MRCImageIOFactory::RegisterOneFactory();
-    }
+  }
 }
 
 } // end namespace itk

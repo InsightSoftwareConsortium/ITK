@@ -65,13 +65,13 @@ namespace itk
  * \sa ImageConstIteratorWithIndex
  * \ingroup ITKCommon
  */
-template< typename TImage >
-class ITK_TEMPLATE_EXPORT ImageSliceIteratorWithIndex:public ImageSliceConstIteratorWithIndex< TImage >
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT ImageSliceIteratorWithIndex : public ImageSliceConstIteratorWithIndex<TImage>
 {
 public:
   /** Standard class type aliases. */
   using Self = ImageSliceIteratorWithIndex;
-  using Superclass = ImageSliceConstIteratorWithIndex< TImage >;
+  using Superclass = ImageSliceConstIteratorWithIndex<TImage>;
 
   /** Types inherited from the Superclass */
   using IndexType = typename Superclass::IndexType;
@@ -90,7 +90,7 @@ public:
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
-  ImageSliceIteratorWithIndex(ImageType *ptr, const RegionType & region);
+  ImageSliceIteratorWithIndex(ImageType * ptr, const RegionType & region);
 
   /** Constructor that can be used to cast from an ImageIterator to an
    * ImageSliceIteratorWithIndex. Many routines return an ImageIterator, but for a
@@ -98,28 +98,35 @@ public:
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageSliceIteratorWithIndex. */
-  ImageSliceIteratorWithIndex(const ImageIteratorWithIndex< TImage > & it);
+  ImageSliceIteratorWithIndex(const ImageIteratorWithIndex<TImage> & it);
 
   /** Set the pixel value */
-  void Set(const PixelType & value) const
-  { this->m_PixelAccessorFunctor.Set(*( const_cast< InternalPixelType * >( this->m_Position ) ), value); }
+  void
+  Set(const PixelType & value) const
+  {
+    this->m_PixelAccessorFunctor.Set(*(const_cast<InternalPixelType *>(this->m_Position)), value);
+  }
 
   /** Return a reference to the pixel.
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
-  PixelType & Value()
-  { return *( const_cast< InternalPixelType * >( this->m_Position ) ); }
+  PixelType &
+  Value()
+  {
+    return *(const_cast<InternalPixelType *>(this->m_Position));
+  }
 
 protected:
   /** The construction from a const iterator is declared protected
       in order to enforce const correctness. */
-  ImageSliceIteratorWithIndex(const ImageSliceConstIteratorWithIndex< TImage > & it);
-  Self & operator=(const ImageSliceConstIteratorWithIndex< TImage > & it);
+  ImageSliceIteratorWithIndex(const ImageSliceConstIteratorWithIndex<TImage> & it);
+  Self &
+  operator=(const ImageSliceConstIteratorWithIndex<TImage> & it);
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageSliceIteratorWithIndex.hxx"
+#  include "itkImageSliceIteratorWithIndex.hxx"
 #endif
 
 #endif

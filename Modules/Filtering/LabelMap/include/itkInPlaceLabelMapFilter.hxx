@@ -43,73 +43,71 @@
 namespace itk
 {
 
-template< typename TInputImage >
+template <typename TInputImage>
 void
-InPlaceLabelMapFilter< TInputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+InPlaceLabelMapFilter<TInputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "InPlace: " << ( this->m_InPlace ? "On" : "Off" ) << std::endl;
-  if ( this->CanRunInPlace() )
-    {
+  os << indent << "InPlace: " << (this->m_InPlace ? "On" : "Off") << std::endl;
+  if (this->CanRunInPlace())
+  {
     os << indent << "The input and output to this filter are the same type. The filter can be run in place."
        << std::endl;
-    }
+  }
   else
-    {
+  {
     os << indent << "The input and output to this filter are different types. The filter cannot be run in place."
        << std::endl;
-    }
+  }
 }
 
-template< typename TInputImage >
+template <typename TInputImage>
 void
-InPlaceLabelMapFilter< TInputImage >
-::AllocateOutputs()
+InPlaceLabelMapFilter<TInputImage>::AllocateOutputs()
 {
   // if told to run in place and the types support it,
-  if ( this->m_InPlace && this->CanRunInPlace() )
-    {
+  if (this->m_InPlace && this->CanRunInPlace())
+  {
     // Graft this first input to the output.  Later, we'll need to
     // remove the input's hold on the bulk data.
     //
-    OutputImagePointer inputAsOutput = dynamic_cast< TOutputImage * >( const_cast< TInputImage * >( this->GetInput() ) );
+    OutputImagePointer inputAsOutput = dynamic_cast<TOutputImage *>(const_cast<TInputImage *>(this->GetInput()));
 
-    if ( inputAsOutput )
-      {
+    if (inputAsOutput)
+    {
       // save the largest possible region to restore it after the graft output.
       // the largest possible region is not that important with LabelMap and
       // can be managed by the filter, even when running inplace
       RegionType region = this->GetOutput()->GetLargestPossibleRegion();
       this->GraftOutput(inputAsOutput);
       this->GetOutput()->SetRegions(region);
-      }
+    }
 
     // If there are more than one outputs, allocate the remaining outputs
-    for ( unsigned int i = 1; i < this->GetNumberOfIndexedOutputs(); i++ )
-      {
+    for (unsigned int i = 1; i < this->GetNumberOfIndexedOutputs(); i++)
+    {
       OutputImagePointer outputPtr;
 
       outputPtr = this->GetOutput(i);
-      outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
+      outputPtr->SetBufferedRegion(outputPtr->GetRequestedRegion());
       outputPtr->Allocate();
-      }
     }
+  }
   else
-    {
+  {
     Superclass::AllocateOutputs();
     // copy the content of the input image to the output image
-    const TInputImage *input = this->GetInput();
-    TOutputImage *     output = this->GetOutput();
+    const TInputImage * input = this->GetInput();
+    TOutputImage *      output = this->GetOutput();
     itkAssertInDebugAndIgnoreInReleaseMacro(input != nullptr);
     itkAssertInDebugAndIgnoreInReleaseMacro(output != nullptr);
 
-    output->SetBackgroundValue( input->GetBackgroundValue() );
+    output->SetBackgroundValue(input->GetBackgroundValue());
 
-    typename TInputImage::ConstIterator it( input );
-    while ( ! it.IsAtEnd() )
-      {
-      const LabelObjectType *labelObject = it.GetLabelObject();
+    typename TInputImage::ConstIterator it(input);
+    while (!it.IsAtEnd())
+    {
+      const LabelObjectType * labelObject = it.GetLabelObject();
 
       itkAssertInDebugAndIgnoreInReleaseMacro(labelObject != nullptr);
       itkAssertInDebugAndIgnoreInReleaseMacro(labelObject->GetLabel() == it.GetLabel());
@@ -119,8 +117,8 @@ InPlaceLabelMapFilter< TInputImage >
 
       output->AddLabelObject(newLabelObject);
       ++it;
-      }
     }
+  }
 }
 
 } // end namespace itk

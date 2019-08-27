@@ -43,36 +43,32 @@ DCMTKImageIO::DCMTKImageIO()
   this->SetNumberOfDimensions(3); // otherwise, things go crazy w/dir cosines
   m_PixelType = SCALAR;
   m_ComponentType = UCHAR;
-  //m_FileType =
+  // m_FileType =
 
   // specific members
   m_UseJPEGCodec = false;
   m_UseJPLSCodec = false;
-  m_UseRLECodec  = false;
+  m_UseRLECodec = false;
   m_DicomImageSetByUser = false;
 
 
-  const char *readExtensions[] =
-    {
-      ".dcm",".DCM", ".dicom", ".DICOM"
-    };
+  const char * readExtensions[] = { ".dcm", ".DCM", ".dicom", ".DICOM" };
 
 
-  for(auto ext : readExtensions)
-    {
+  for (auto ext : readExtensions)
+  {
     this->AddSupportedReadExtension(ext);
-    }
+  }
 
   // DCMTK loves printing warnings, turn off by default.
   this->SetLogLevel(FATAL_LOG_LEVEL);
 }
 
 void
-DCMTKImageIO
-::SetLogLevel(LogLevel level)
+DCMTKImageIO ::SetLogLevel(LogLevel level)
 {
-  switch(level)
-    {
+  switch (level)
+  {
     case TRACE_LOG_LEVEL:
       OFLog::configure(OFLogger::TRACE_LOG_LEVEL);
       break;
@@ -95,18 +91,16 @@ DCMTKImageIO
       OFLog::configure(OFLogger::OFF_LOG_LEVEL);
       break;
     default:
-      itkExceptionMacro(<< "Unknown DCMTK Logging constant "
-                        << level);
-    }
+      itkExceptionMacro(<< "Unknown DCMTK Logging constant " << level);
+  }
 }
 
 DCMTKImageIO::LogLevel
-DCMTKImageIO
-::GetLogLevel() const
+DCMTKImageIO ::GetLogLevel() const
 {
   dcmtk::log4cplus::Logger rootLogger = dcmtk::log4cplus::Logger::getRoot();
-  switch(rootLogger.getLogLevel())
-    {
+  switch (rootLogger.getLogLevel())
+  {
     case OFLogger::TRACE_LOG_LEVEL:
       return TRACE_LOG_LEVEL;
     case OFLogger::DEBUG_LOG_LEVEL:
@@ -121,7 +115,7 @@ DCMTKImageIO
       return FATAL_LOG_LEVEL;
     case OFLogger::OFF_LOG_LEVEL:
       return OFF_LOG_LEVEL;
-    }
+  }
   // will never happen
   return FATAL_LOG_LEVEL;
 }
@@ -129,21 +123,21 @@ DCMTKImageIO
 /** Destructor */
 DCMTKImageIO::~DCMTKImageIO()
 {
-  if(!this->m_DicomImageSetByUser)
-    {
+  if (!this->m_DicomImageSetByUser)
+  {
     delete m_DImage;
-    }
+  }
   DJDecoderRegistration::cleanup();
   DcmRLEDecoderRegistration::cleanup();
 }
 
 /**
-* Helper function to test for some dicom like formatting.
-* @param file A stream to test if the file is dicom like
-* @return true if the structure of the file is dicom like
-*/
+ * Helper function to test for some dicom like formatting.
+ * @param file A stream to test if the file is dicom like
+ * @return true if the structure of the file is dicom like
+ */
 static bool
-readNoPreambleDicom( std::ifstream & file )  // NOTE: This file is duplicated in itkGDCMImageIO.cxx
+readNoPreambleDicom(std::ifstream & file) // NOTE: This file is duplicated in itkGDCMImageIO.cxx
 {
   // Adapted from https://stackoverflow.com/questions/2381983/c-how-to-read-parts-of-a-file-dicom
   /* This heuristic tries to determine if the file follows the basic structure of a dicom file organization.
@@ -153,13 +147,14 @@ readNoPreambleDicom( std::ifstream & file )  // NOTE: This file is duplicated in
 
   unsigned short groupNo = 0xFFFF;
   unsigned short tagElementNo = 0xFFFF;
-  do {
-    file.read(reinterpret_cast<char *>(&groupNo),sizeof(unsigned short));
+  do
+  {
+    file.read(reinterpret_cast<char *>(&groupNo), sizeof(unsigned short));
     ByteSwapper<unsigned short>::SwapFromSystemToLittleEndian(&groupNo);
-    file.read(reinterpret_cast<char *>(&tagElementNo),sizeof(unsigned short));
+    file.read(reinterpret_cast<char *>(&tagElementNo), sizeof(unsigned short));
     ByteSwapper<unsigned short>::SwapFromSystemToLittleEndian(&tagElementNo);
 
-    if(groupNo != 0x0002 && groupNo != 0x0008) // Only groupNo 2 & 8 are supported without preambles
+    if (groupNo != 0x0002 && groupNo != 0x0008) // Only groupNo 2 & 8 are supported without preambles
     {
       return false;
     }
@@ -167,20 +162,15 @@ readNoPreambleDicom( std::ifstream & file )  // NOTE: This file is duplicated in
     char vrcode[3] = { '\0', '\0', '\0' };
     file.read(vrcode, 2);
 
-    long length=std::numeric_limits<long>::max();
-    const std::string vr{vrcode};
-    if ( vr == "AE" || vr == "AS" || vr == "AT"
-      || vr == "CS" || vr == "DA" || vr == "DS"
-      || vr == "DT" || vr == "FL" || vr == "FD"
-      || vr == "IS" || vr == "LO" || vr == "PN"
-      || vr == "SH" || vr == "SL" || vr == "SS"
-      || vr == "ST" || vr == "TM" || vr == "UI"
-      || vr == "UL" || vr == "US"
-        )
+    long              length = std::numeric_limits<long>::max();
+    const std::string vr{ vrcode };
+    if (vr == "AE" || vr == "AS" || vr == "AT" || vr == "CS" || vr == "DA" || vr == "DS" || vr == "DT" || vr == "FL" ||
+        vr == "FD" || vr == "IS" || vr == "LO" || vr == "PN" || vr == "SH" || vr == "SL" || vr == "SS" || vr == "ST" ||
+        vr == "TM" || vr == "UI" || vr == "UL" || vr == "US")
     {
       // Explicit VR (value representation stored in the file)
-      unsigned short uslength=0;
-      file.read(reinterpret_cast<char *>(&uslength),sizeof(unsigned short));
+      unsigned short uslength = 0;
+      file.read(reinterpret_cast<char *>(&uslength), sizeof(unsigned short));
       ByteSwapper<unsigned short>::SwapFromSystemToLittleEndian(&uslength);
       length = uslength;
     }
@@ -188,171 +178,166 @@ readNoPreambleDicom( std::ifstream & file )  // NOTE: This file is duplicated in
     {
       // Implicit VR (value representation not stored in the file)
       char lengthChars[4] = { vrcode[0], vrcode[1], '\0', '\0' };
-      file.read(lengthChars+2, 2);
+      file.read(lengthChars + 2, 2);
 
-      unsigned int* uilength = reinterpret_cast<unsigned int*>(lengthChars);
+      unsigned int * uilength = reinterpret_cast<unsigned int *>(lengthChars);
       ByteSwapper<unsigned int>::SwapFromSystemToLittleEndian(uilength);
 
       length = (*uilength);
     }
-    if(length <= 0 )
+    if (length <= 0)
     {
       return false;
     }
     file.ignore(length);
-    if(file.eof())
+    if (file.eof())
     {
       return false;
     }
   } while (groupNo == 2);
 
-#if defined( NDEBUG )
+#if defined(NDEBUG)
   std::ostringstream itkmsg;
- itkmsg << "No DICOM magic number found, but the file appears to be DICOM without a preamble.\n"
-        << "Proceeding without caution.";
-    ::itk::OutputWindowDisplayDebugText( itkmsg.str().c_str() );
+  itkmsg << "No DICOM magic number found, but the file appears to be DICOM without a preamble.\n"
+         << "Proceeding without caution.";
+  ::itk::OutputWindowDisplayDebugText(itkmsg.str().c_str());
 #endif
   return true;
 }
 
 
-bool DCMTKImageIO::CanReadFile(const char *filename)
+bool
+DCMTKImageIO::CanReadFile(const char * filename)
 {
   // First check the filename extension
   std::string fname = filename;
 
-  if ( fname == "" )
-    {
+  if (fname == "")
+  {
     itkDebugMacro(<< "No filename specified.");
-    }
+  }
 
 #if !defined(__EMSCRIPTEN__)
-    {
+  {
     std::ifstream file;
     try
-      {
-      this->OpenFileForReading( file, filename );
-      }
-    catch( ExceptionObject & )
-      {
+    {
+      this->OpenFileForReading(file, filename);
+    }
+    catch (ExceptionObject &)
+    {
       return false;
-      }
+    }
     const bool hasdicomsig = readNoPreambleDicom(file);
     file.close();
-    if ( ! hasdicomsig )
-      {
-       return false;
-      }
+    if (!hasdicomsig)
+    {
+      return false;
     }
+  }
 #endif
   return DCMTKFileReader::IsImageFile(filename);
 }
 
-bool DCMTKImageIO::CanWriteFile(const char * itkNotUsed( name ))
+bool
+DCMTKImageIO::CanWriteFile(const char * itkNotUsed(name))
 {
   // writing is currently not implemented
   return false;
 }
 
 void
-DCMTKImageIO
-::OpenDicomImage()
+DCMTKImageIO ::OpenDicomImage()
 {
-  if(this->m_DImage != nullptr)
+  if (this->m_DImage != nullptr)
+  {
+    if (!this->m_DicomImageSetByUser && this->m_FileName != this->m_LastFileName)
     {
-    if( !this->m_DicomImageSetByUser &&
-        this->m_FileName != this->m_LastFileName)
-      {
       delete m_DImage;
       this->m_DImage = nullptr;
-      }
     }
-  if( m_DImage == nullptr )
-    {
-    m_DImage = new DicomImage( m_FileName.c_str() );
+  }
+  if (m_DImage == nullptr)
+  {
+    m_DImage = new DicomImage(m_FileName.c_str());
     this->m_LastFileName = this->m_FileName;
-    }
-  if(this->m_DImage == nullptr)
-    {
-    itkExceptionMacro(<< "Can't create DicomImage for "
-                      << this->m_FileName)
-    }
+  }
+  if (this->m_DImage == nullptr)
+  {
+    itkExceptionMacro(<< "Can't create DicomImage for " << this->m_FileName)
+  }
 }
 
 
 //------------------------------------------------------------------------------
 void
-DCMTKImageIO
-::Read(void *buffer)
+DCMTKImageIO ::Read(void * buffer)
 {
   this->OpenDicomImage();
   if (m_DImage->getStatus() != EIS_Normal)
-    {
-    itkExceptionMacro(<< "Error: cannot load DICOM image ("
-                      << DicomImage::getString(m_DImage->getStatus())
-                      << ")")
-      }
+  {
+    itkExceptionMacro(<< "Error: cannot load DICOM image (" << DicomImage::getString(m_DImage->getStatus()) << ")")
+  }
 
   m_Dimensions[0] = (unsigned int)(m_DImage->getWidth());
   m_Dimensions[1] = (unsigned int)(m_DImage->getHeight());
 
-  switch(this->m_ComponentType)
-    {
+  switch (this->m_ComponentType)
+  {
     case UNKNOWNCOMPONENTTYPE:
     case FLOAT:
     case DOUBLE:
-      itkExceptionMacro(<< "Bad component type" <<
-                        ImageIOBase::GetComponentTypeAsString(this->m_ComponentType));
+      itkExceptionMacro(<< "Bad component type" << ImageIOBase::GetComponentTypeAsString(this->m_ComponentType));
       break;
     default: // scalarSize already set
       break;
-    }
+  }
   // get the image in the DCMTK buffer
   const DiPixel * const interData = m_DImage->getInterData();
-  const void *data = interData->getData();
-  size_t count = interData->getCount();
+  const void *          data = interData->getData();
+  size_t                count = interData->getCount();
   if (this->m_PixelType == RGB || this->m_PixelType == RGBA)
-    {
+  {
     ReorderRGBValues(buffer, data, count, this->GetNumberOfComponents());
-    }
+  }
   else
-    {
+  {
     memcpy(buffer, data, count * this->GetComponentSize() * this->GetNumberOfComponents());
-    }
+  }
 }
 
 void
-DCMTKImageIO
-::ReorderRGBValues(void *buffer, const void* data, size_t count, unsigned int voxel_size)
+DCMTKImageIO ::ReorderRGBValues(void * buffer, const void * data, size_t count, unsigned int voxel_size)
 {
-    switch(this->m_ComponentType)
-      {
-      // DCMTK only supports unsigned integer types for RGB(A) images.
-      // see DCMTK file dcmimage/libsrc/dicoimg.cc (function const void *DiColorImage::getData(...) )
-      // DCMTK only supports uint8, uint16, and uint32, but we leave LONG (at least 32bits but
-      // could be 64bits) for future support.
-      case UCHAR:
-        ReorderRGBValues<unsigned char>(buffer, data, count, voxel_size);
-        break;
-      case USHORT:
-        ReorderRGBValues<unsigned short>(buffer, data, count, voxel_size);
-        break;
-      case UINT:
-        ReorderRGBValues<unsigned int>(buffer, data, count, voxel_size);
-        break;
-      case ULONG:
-        ReorderRGBValues<unsigned long>(buffer, data, count, voxel_size);
-        break;
-      default:
-        itkExceptionMacro(<< "Only unsigned integer pixel types are supported. Bad component type for color image" <<
-                        ImageIOBase::GetComponentTypeAsString(this->m_ComponentType));
+  switch (this->m_ComponentType)
+  {
+    // DCMTK only supports unsigned integer types for RGB(A) images.
+    // see DCMTK file dcmimage/libsrc/dicoimg.cc (function const void *DiColorImage::getData(...) )
+    // DCMTK only supports uint8, uint16, and uint32, but we leave LONG (at least 32bits but
+    // could be 64bits) for future support.
+    case UCHAR:
+      ReorderRGBValues<unsigned char>(buffer, data, count, voxel_size);
       break;
-    }
+    case USHORT:
+      ReorderRGBValues<unsigned short>(buffer, data, count, voxel_size);
+      break;
+    case UINT:
+      ReorderRGBValues<unsigned int>(buffer, data, count, voxel_size);
+      break;
+    case ULONG:
+      ReorderRGBValues<unsigned long>(buffer, data, count, voxel_size);
+      break;
+    default:
+      itkExceptionMacro(<< "Only unsigned integer pixel types are supported. Bad component type for color image"
+                        << ImageIOBase::GetComponentTypeAsString(this->m_ComponentType));
+      break;
+  }
 }
 /**
  *  Read Information about the DICOM file
  */
-void DCMTKImageIO::ReadImageInformation()
+void
+DCMTKImageIO::ReadImageInformation()
 {
 
   DJDecoderRegistration::registerCodecs();
@@ -361,42 +346,42 @@ void DCMTKImageIO::ReadImageInformation()
   DCMTKFileReader reader;
   reader.SetFileName(this->m_FileName);
   try
-    {
+  {
     reader.LoadFile();
-    }
-  catch(...)
-    {
+  }
+  catch (...)
+  {
     std::cerr << "DCMTKImageIO::ReadImageInformation: "
               << "DicomImage could not read the file." << std::endl;
-    }
+  }
 
   // check for multiframe > 3D
   ::itk::int32_t numPhases;
-  unsigned      numDim(3);
+  unsigned       numDim(3);
 
-  if(reader.GetElementSL(0x2001,0x1017,numPhases,false) != EXIT_SUCCESS)
-    {
+  if (reader.GetElementSL(0x2001, 0x1017, numPhases, false) != EXIT_SUCCESS)
+  {
     numPhases = 1;
-    }
-  if(numPhases > 1)
-    {
+  }
+  if (numPhases > 1)
+  {
     this->SetNumberOfDimensions(4);
     numDim = 4;
-    }
+  }
 
-  unsigned short rows,columns;
-  reader.GetDimensions(rows,columns);
+  unsigned short rows, columns;
+  reader.GetDimensions(rows, columns);
   this->m_Dimensions[0] = columns;
   this->m_Dimensions[1] = rows;
-  if(numPhases == 1)
-    {
+  if (numPhases == 1)
+  {
     this->m_Dimensions[2] = reader.GetFrameCount();
-    }
+  }
   else
-    {
+  {
     this->m_Dimensions[2] = reader.GetFrameCount() / numPhases;
     this->m_Dimensions[3] = numPhases;
-    }
+  }
   vnl_vector<double> rowDirection(3);
   vnl_vector<double> columnDirection(3);
   vnl_vector<double> sliceDirection(3);
@@ -408,46 +393,43 @@ void DCMTKImageIO::ReadImageInformation()
   columnDirection[1] = 1.0;
   sliceDirection[2] = 1.0;
 
-  reader.GetDirCosines(rowDirection,columnDirection,sliceDirection);
+  reader.GetDirCosines(rowDirection, columnDirection, sliceDirection);
   // orthogonalize
   sliceDirection.normalize();
-  rowDirection = vnl_cross_3d(columnDirection,sliceDirection).normalize();
+  rowDirection = vnl_cross_3d(columnDirection, sliceDirection).normalize();
   columnDirection.normalize();
 
-  if(numDim < 4)
+  if (numDim < 4)
+  {
+    this->SetDirection(0, rowDirection);
+    this->SetDirection(1, columnDirection);
+    if (this->m_NumberOfDimensions > 2)
     {
-    this->SetDirection(0,rowDirection);
-    this->SetDirection(1,columnDirection);
-    if(this->m_NumberOfDimensions > 2)
-      {
-      this->SetDirection(2,sliceDirection);
-      }
+      this->SetDirection(2, sliceDirection);
     }
+  }
   else
+  {
+    vnl_vector<double> rowDirection4(4), columnDirection4(4), sliceDirection4(4), phaseDirection4(4);
+    for (unsigned i = 0; i < 3; ++i)
     {
-    vnl_vector<double> rowDirection4(4),
-      columnDirection4(4),
-      sliceDirection4(4),
-      phaseDirection4(4);
-    for(unsigned i = 0; i < 3; ++i)
-      {
       rowDirection4[i] = rowDirection[i];
       columnDirection4[i] = columnDirection[i];
       sliceDirection4[i] = sliceDirection[i];
       phaseDirection4[i] = 0.0;
-      }
+    }
     rowDirection4[3] = 0.0;
     columnDirection4[3] = 0.0;
     sliceDirection4[3] = 0.0;
     phaseDirection4[3] = 1.0;
-    this->SetDirection(0,rowDirection4);
-    this->SetDirection(1,columnDirection4);
-    this->SetDirection(2,sliceDirection4);
-    this->SetDirection(3,phaseDirection4);
-    }
+    this->SetDirection(0, rowDirection4);
+    this->SetDirection(1, columnDirection4);
+    this->SetDirection(2, sliceDirection4);
+    this->SetDirection(3, phaseDirection4);
+  }
 
   // get slope and intercept
-  reader.GetSlopeIntercept(this->m_RescaleSlope,this->m_RescaleIntercept);
+  reader.GetSlopeIntercept(this->m_RescaleSlope, this->m_RescaleIntercept);
 
   double spacing[3];
   double origin[3];
@@ -455,83 +437,92 @@ void DCMTKImageIO::ReadImageInformation()
   reader.GetOrigin(origin);
   this->m_Origin.resize(numDim);
 
-  for(unsigned i = 0; i < 3; i++)
-    {
+  for (unsigned i = 0; i < 3; i++)
+  {
     this->m_Origin[i] = origin[i];
-    }
+  }
 
   this->m_Spacing.clear();
-  for(double i : spacing)
-    {
+  for (double i : spacing)
+  {
     this->m_Spacing.push_back(i);
-    }
-  if(numDim == 4)
-    {
+  }
+  if (numDim == 4)
+  {
     this->m_Origin[3] = 0.0;
     this->m_Spacing.push_back(1.0);
-    }
+  }
 
 
   this->OpenDicomImage();
-  const DiPixel *interData = this->m_DImage->getInterData();
+  const DiPixel * interData = this->m_DImage->getInterData();
 
-  if(interData == nullptr)
-    {
-    itkExceptionMacro(<< "Missing Image Data in "
-                      << this->m_FileName);
-    }
+  if (interData == nullptr)
+  {
+    itkExceptionMacro(<< "Missing Image Data in " << this->m_FileName);
+  }
 
   EP_Representation pixelRep = this->m_DImage->getInterData()->getRepresentation();
-  switch(pixelRep)
-    {
+  switch (pixelRep)
+  {
     case EPR_Uint8:
-      this->m_ComponentType = UCHAR; break;
+      this->m_ComponentType = UCHAR;
+      break;
     case EPR_Sint8:
-      this->m_ComponentType = CHAR; break;
+      this->m_ComponentType = CHAR;
+      break;
     case EPR_Uint16:
-      this->m_ComponentType = USHORT; break;
+      this->m_ComponentType = USHORT;
+      break;
     case EPR_Sint16:
-      this->m_ComponentType = SHORT; break;
+      this->m_ComponentType = SHORT;
+      break;
     case EPR_Uint32:
-      this->m_ComponentType = UINT; break;
+      this->m_ComponentType = UINT;
+      break;
     case EPR_Sint32:
-      this->m_ComponentType = INT; break;
+      this->m_ComponentType = INT;
+      break;
     default: // HACK should throw exception
-      this->m_ComponentType = USHORT; break;
-    }
+      this->m_ComponentType = USHORT;
+      break;
+  }
   int numPlanes = this->m_DImage->getInterData()->getPlanes();
-  switch(numPlanes)
-    {
+  switch (numPlanes)
+  {
     case 1:
-      this->m_PixelType = SCALAR; break;
+      this->m_PixelType = SCALAR;
+      break;
     case 2:
       // hack, supposedly Luminence/Alpha
       this->SetNumberOfComponents(2);
-      this->m_PixelType = VECTOR; break;
+      this->m_PixelType = VECTOR;
+      break;
     case 3:
       this->SetNumberOfComponents(3);
-      this->m_PixelType = RGB; break;
+      this->m_PixelType = RGB;
+      break;
     case 4:
       this->SetNumberOfComponents(4);
-      this->m_PixelType = RGBA; break;
-    }
+      this->m_PixelType = RGBA;
+      break;
+  }
 }
 
 void
-DCMTKImageIO
-::WriteImageInformation()
+DCMTKImageIO ::WriteImageInformation()
 {}
 
 /** */
 void
-DCMTKImageIO
-::Write(const void *buffer)
+DCMTKImageIO ::Write(const void * buffer)
 {
   (void)(buffer);
 }
 
 /** Print Self Method */
-void DCMTKImageIO::PrintSelf(std::ostream & os, Indent indent) const
+void
+DCMTKImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

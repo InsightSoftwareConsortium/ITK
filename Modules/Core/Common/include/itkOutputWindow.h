@@ -41,7 +41,7 @@ namespace itk
  * \ingroup OSSystemObjects
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT OutputWindow:public Object
+class ITKCommon_EXPORT OutputWindow : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(OutputWindow);
@@ -49,8 +49,8 @@ public:
   /** Standard class type aliases. */
   using Self = OutputWindow;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(OutputWindow, Object);
@@ -60,37 +60,57 @@ public:
    * call this must call Delete on the object so that the reference
    * counting will work.   The single instance will be unreferenced when
    * the program exits. */
-  static Pointer New();
+  static Pointer
+  New();
 
   /** Return the singleton instance with no reference counting. */
-  static Pointer GetInstance();
+  static Pointer
+  GetInstance();
 
   /** Supply a user defined output window. Call ->Delete() on the supplied
    * instance after setting it. */
-  static void SetInstance(OutputWindow *instance);
+  static void
+  SetInstance(OutputWindow * instance);
 
   /** Send a string to display. */
-  virtual void DisplayText(const char *);
+  virtual void
+  DisplayText(const char *);
 
   /** Send a string as an error message to display.
    * The default implementation calls DisplayText() but subclasses
    * could present this message differently. */
-  virtual void DisplayErrorText(const char *t) { this->DisplayText(t); }
+  virtual void
+  DisplayErrorText(const char * t)
+  {
+    this->DisplayText(t);
+  }
 
   /** Send a string as a warningmessage to display.
    * The default implementation calls DisplayText() but subclasses
    * could present this message differently. */
-  virtual void DisplayWarningText(const char *t) { this->DisplayText(t); }
+  virtual void
+  DisplayWarningText(const char * t)
+  {
+    this->DisplayText(t);
+  }
 
   /** Send a string as a message to display.
    * The default implementation calls DisplayText() but subclasses
    * could present this message differently. */
-  virtual void DisplayGenericOutputText(const char *t) { this->DisplayText(t); }
+  virtual void
+  DisplayGenericOutputText(const char * t)
+  {
+    this->DisplayText(t);
+  }
 
   /** Send a string as a debug message to display.
    * The default implementation calls DisplayText() but subclasses
    * could present this message differently. */
-  virtual void DisplayDebugText(const char *t) { this->DisplayText(t); }
+  virtual void
+  DisplayDebugText(const char * t)
+  {
+    this->DisplayText(t);
+  }
 
   /** If PromptUser is set to true then each time a line of text
    * is displayed, the user is asked if they want to keep getting
@@ -102,7 +122,8 @@ public:
 protected:
   OutputWindow();
   ~OutputWindow() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   bool           m_PromptUser;

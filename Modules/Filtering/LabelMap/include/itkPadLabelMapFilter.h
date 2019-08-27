@@ -51,17 +51,17 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template< typename TInputImage >
-class ITK_TEMPLATE_EXPORT PadLabelMapFilter:public ChangeRegionLabelMapFilter< TInputImage >
+template <typename TInputImage>
+class ITK_TEMPLATE_EXPORT PadLabelMapFilter : public ChangeRegionLabelMapFilter<TInputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PadLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = PadLabelMapFilter;
-  using Superclass = ChangeRegionLabelMapFilter< TInputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ChangeRegionLabelMapFilter<TInputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(PadLabelMapFilter, ChangeRegionLabelMapFilter);
@@ -101,7 +101,8 @@ public:
   itkSetMacro(LowerBoundaryPadSize, SizeType);
   itkGetMacro(LowerBoundaryPadSize, SizeType);
 
-  void SetPadSize(const SizeType & size)
+  void
+  SetPadSize(const SizeType & size)
   {
     this->SetUpperBoundaryPadSize(size);
     this->SetLowerBoundaryPadSize(size);
@@ -116,9 +117,11 @@ protected:
 
   ~PadLabelMapFilter() override = default;
 
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   SizeType m_UpperBoundaryPadSize;
@@ -127,7 +130,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPadLabelMapFilter.hxx"
+#  include "itkPadLabelMapFilter.hxx"
 #endif
 
 #endif

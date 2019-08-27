@@ -20,62 +20,61 @@
 #include "itkImageToNeighborhoodSampleAdaptor.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 
-int itkSpatialNeighborSubsamplerTest(int, char * [] )
+int
+itkSpatialNeighborSubsamplerTest(int, char *[])
 {
 
-// Given the following 25x25 image on the left
-// with the region constraint marked by |---|
-//                                      |   |
-//                                      |---|
-// Sample all points within a radius of 10 from the point at (2,6) marked
-// by an X in the image.  Replace each of the sampled points with a value of 255
-// The correct image should match the image on the right where a + indicates a
-// value of 255
+  // Given the following 25x25 image on the left
+  // with the region constraint marked by |---|
+  //                                      |   |
+  //                                      |---|
+  // Sample all points within a radius of 10 from the point at (2,6) marked
+  // by an X in the image.  Replace each of the sampled points with a value of 255
+  // The correct image should match the image on the right where a + indicates a
+  // value of 255
 
-// input image with search index      |        output image with sampled
-// and region constraint indicated    |        points indicated by +
-// ooooooooooooooooooooooooo          |        ooooooooooooooooooooooooo
-// ooooooooooooooooooooooooo          |        ooooooooooooooooooooooooo
-// ooooooooooooooooooooooooo          |        ooooooooooooooooooooooooo
-// ooooooooooooooooooooooooo          |        ooooooooooooooooooooooooo
-// ooooooooooooooooooooooooo          |        ooooooooooooooooooooooooo
-// |---------------------|oo          |        +++++++++++++oooooooooooo
-// |oXooooooooooooooooooo|oo          |        +++++++++++++oooooooooooo
-// |ooooooooooooooooooooo|oo          |        +++++++++++++oooooooooooo
-// |ooooooooooooooooooooo|oo          |        +++++++++++++oooooooooooo
-// |ooooooooooooooooooooo|oo          |        +++++++++++++oooooooooooo
-// |ooooooooooooooooooooo|oo          |        +++++++++++++oooooooooooo
-// |ooooooooooooooooooooo|oo          |        +++++++++++++oooooooooooo
-// |ooooooooooooooooooooo|oo          |        +++++++++++++oooooooooooo
-// |ooooooooooooooooooooo|oo          |        +++++++++++++oooooooooooo
-// |---------------------|oo          |        +++++++++++++oooooooooooo
-// ooooooooooooooooooooooooo          |        ooooooooooooooooooooooooo
-// ooooooooooooooooooooooooo          |        ooooooooooooooooooooooooo
-// ooooooooooooooooooooooooo          |        ooooooooooooooooooooooooo
-// ooooooooooooooooooooooooo          |        ooooooooooooooooooooooooo
-// ooooooooooooooooooooooooo          |        ooooooooooooooooooooooooo
-// ooooooooooooooooooooooooo          |        ooooooooooooooooooooooooo
-// ooooooooooooooooooooooooo          |        ooooooooooooooooooooooooo
-// ooooooooooooooooooooooooo          |        ooooooooooooooooooooooooo
-// ooooooooooooooooooooooooo          |        ooooooooooooooooooooooooo
-// ooooooooooooooooooooooooo          |        ooooooooooooooooooooooooo
+  // input image with search index      |        output image with sampled
+  // and region constraint indicated    |        points indicated by +
+  // ooooooooooooooooooooooooo          |        ooooooooooooooooooooooooo
+  // ooooooooooooooooooooooooo          |        ooooooooooooooooooooooooo
+  // ooooooooooooooooooooooooo          |        ooooooooooooooooooooooooo
+  // ooooooooooooooooooooooooo          |        ooooooooooooooooooooooooo
+  // ooooooooooooooooooooooooo          |        ooooooooooooooooooooooooo
+  // |---------------------|oo          |        +++++++++++++oooooooooooo
+  // |oXooooooooooooooooooo|oo          |        +++++++++++++oooooooooooo
+  // |ooooooooooooooooooooo|oo          |        +++++++++++++oooooooooooo
+  // |ooooooooooooooooooooo|oo          |        +++++++++++++oooooooooooo
+  // |ooooooooooooooooooooo|oo          |        +++++++++++++oooooooooooo
+  // |ooooooooooooooooooooo|oo          |        +++++++++++++oooooooooooo
+  // |ooooooooooooooooooooo|oo          |        +++++++++++++oooooooooooo
+  // |ooooooooooooooooooooo|oo          |        +++++++++++++oooooooooooo
+  // |ooooooooooooooooooooo|oo          |        +++++++++++++oooooooooooo
+  // |---------------------|oo          |        +++++++++++++oooooooooooo
+  // ooooooooooooooooooooooooo          |        ooooooooooooooooooooooooo
+  // ooooooooooooooooooooooooo          |        ooooooooooooooooooooooooo
+  // ooooooooooooooooooooooooo          |        ooooooooooooooooooooooooo
+  // ooooooooooooooooooooooooo          |        ooooooooooooooooooooooooo
+  // ooooooooooooooooooooooooo          |        ooooooooooooooooooooooooo
+  // ooooooooooooooooooooooooo          |        ooooooooooooooooooooooooo
+  // ooooooooooooooooooooooooo          |        ooooooooooooooooooooooooo
+  // ooooooooooooooooooooooooo          |        ooooooooooooooooooooooooo
+  // ooooooooooooooooooooooooo          |        ooooooooooooooooooooooooo
+  // ooooooooooooooooooooooooo          |        ooooooooooooooooooooooooo
 
   std::cout << "SpatialNeighborSubsampler Test \n \n";
 
   using PixelType = unsigned int;
-  using ImageType = itk::Image< PixelType, 2 >;
+  using ImageType = itk::Image<PixelType, 2>;
   using RegionType = ImageType::RegionType;
   using IndexType = ImageType::IndexType;
   using SizeType = ImageType::SizeType;
   using BoundaryCondition = itk::ZeroFluxNeumannBoundaryCondition<ImageType>;
-  using AdaptorType =
-      itk::Statistics::ImageToNeighborhoodSampleAdaptor< ImageType, BoundaryCondition >;
-  using SamplerType =
-      itk::Statistics::SpatialNeighborSubsampler< AdaptorType, RegionType >;
+  using AdaptorType = itk::Statistics::ImageToNeighborhoodSampleAdaptor<ImageType, BoundaryCondition>;
+  using SamplerType = itk::Statistics::SpatialNeighborSubsampler<AdaptorType, RegionType>;
   using IteratorType = itk::ImageRegionConstIteratorWithIndex<ImageType>;
 
   ImageType::Pointer inImage = ImageType::New();
-  SizeType sz;
+  SizeType           sz;
   sz.Fill(25);
   IndexType idx;
   idx.Fill(0);
@@ -85,7 +84,7 @@ int itkSpatialNeighborSubsamplerTest(int, char * [] )
 
   inImage->SetRegions(region);
   inImage->Allocate(true); // initialize buffer
-                                                  // to zero
+                           // to zero
 
   SizeType szConstraint;
   szConstraint[0] = 23;
@@ -111,33 +110,33 @@ int itkSpatialNeighborSubsamplerTest(int, char * [] )
   // test clone mechanism
   SamplerType::Pointer sampler = sampler_orig->Clone().GetPointer();
   if (sampler->GetSample() != sampler_orig->GetSample())
-    {
+  {
     std::cerr << "Clone did not copy the sample correctly!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   if (sampler->GetSampleRegion() != sampler_orig->GetSampleRegion())
-    {
+  {
     std::cerr << "Clone did not copy the region correctly!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   if (sampler->GetRegionConstraint() != sampler_orig->GetRegionConstraint())
-    {
+  {
     std::cerr << "Clone did not copy the region constraint correctly!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   if (sampler->GetRadius() != sampler_orig->GetRadius())
-    {
+  {
     std::cerr << "Clone did not copy the radius correctly!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   if (sampler->GetCanSelectQuery() != sampler_orig->GetCanSelectQuery())
-    {
+  {
     std::cerr << "Clone did not copy CanSelectQuery correctly!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   SamplerType::SubsamplePointer subsample = SamplerType::SubsampleType::New();
-  IndexType queryIdx;
+  IndexType                     queryIdx;
   queryIdx[0] = 2;
   queryIdx[1] = 6;
   ImageType::OffsetValueType queryOffset = inImage->ComputeOffset(queryIdx);
@@ -145,13 +144,11 @@ int itkSpatialNeighborSubsamplerTest(int, char * [] )
 
   IndexType index;
 
-  for (SamplerType::SubsampleConstIterator sIt = subsample->Begin();
-       sIt != subsample->End();
-       ++sIt)
-    {
+  for (SamplerType::SubsampleConstIterator sIt = subsample->Begin(); sIt != subsample->End(); ++sIt)
+  {
     index = sIt.GetMeasurementVector()[0].GetIndex();
     inImage->SetPixel(index, 255);
-    }
+  }
 
   // To validate, create a region that should contain only the points that
   // should now be = 255.  Iterate through the image and confirm that only
@@ -167,39 +164,34 @@ int itkSpatialNeighborSubsamplerTest(int, char * [] )
   validRegion.SetSize(validSz);
   validRegion.SetIndex(validStart);
 
-  IteratorType it( inImage, region);
+  IteratorType it(inImage, region);
   it.GoToBegin();
-  while( !it.IsAtEnd() )
-    {
+  while (!it.IsAtEnd())
+  {
     PixelType curValue = it.Get();
     IndexType curIdx = it.GetIndex();
     if (validRegion.IsInside(curIdx))
-      {
+    {
       // inside the region, value must be 255
       if (curValue != 255)
-        {
-        std::cout << "Error! Pixel at " << curIdx
-                  << " should be 255 but is " << curValue
-                  << " instead!" << std::endl;
-        return EXIT_FAILURE;
-        }
-      }
-    else
       {
+        std::cout << "Error! Pixel at " << curIdx << " should be 255 but is " << curValue << " instead!" << std::endl;
+        return EXIT_FAILURE;
+      }
+    }
+    else
+    {
       // outside of the region, value must be 0
       if (curValue != 0)
-        {
-        std::cout << "Error! Pixel at " << curIdx
-                  << " should be 0 but is " << curValue
-                  << " instead!" << std::endl;
+      {
+        std::cout << "Error! Pixel at " << curIdx << " should be 0 but is " << curValue << " instead!" << std::endl;
         return EXIT_FAILURE;
-        }
       }
+    }
     ++it;
-    } // end for each point in the image
+  } // end for each point in the image
 
   std::cout << "All pixels and only pixels within intersection of"
-            << " the image region and constraint region are equal to 255."
-            << std::endl;
+            << " the image region and constraint region are equal to 255." << std::endl;
   return EXIT_SUCCESS;
 }

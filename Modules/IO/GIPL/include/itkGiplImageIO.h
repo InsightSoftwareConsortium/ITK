@@ -36,7 +36,7 @@ class GiplImageIOInternals;
  *
  * \ingroup ITKIOGIPL
  */
-class ITKIOGIPL_EXPORT GiplImageIO:public ImageIOBase
+class ITKIOGIPL_EXPORT GiplImageIO : public ImageIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GiplImageIO);
@@ -44,7 +44,7 @@ public:
   /** Standard class type aliases. */
   using Self = GiplImageIO;
   using Superclass = ImageIOBase;
-  using Pointer = SmartPointer< Self >;
+  using Pointer = SmartPointer<Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -56,41 +56,50 @@ public:
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  bool CanReadFile(const char *) override;
+  bool
+  CanReadFile(const char *) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  void ReadImageInformation() override;
+  void
+  ReadImageInformation() override;
 
   /** Reads the data from disk into the memory buffer provided. */
-  void Read(void *buffer) override;
+  void
+  Read(void * buffer) override;
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
   /** Determine the file type. Returns true if this ImageIO can write the
    * file specified. */
-  bool CanWriteFile(const char *) override;
+  bool
+  CanWriteFile(const char *) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  void WriteImageInformation() override;
+  void
+  WriteImageInformation() override;
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. */
-  void Write(const void *buffer) override;
+  void
+  Write(const void * buffer) override;
 
   GiplImageIO();
   ~GiplImageIO() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  void SwapBytesIfNecessary(void *buffer, SizeValueType numberOfPixels);
+  void
+  SwapBytesIfNecessary(void * buffer, SizeValueType numberOfPixels);
 
-  bool CheckExtension(const char *);
+  bool
+  CheckExtension(const char *);
 
   std::ifstream m_Ifstream;
   std::ofstream m_Ofstream;
   bool          m_IsCompressed;
 
-  GiplImageIOInternals *m_Internal;
+  GiplImageIOInternals * m_Internal;
 };
 } // end namespace itk
 

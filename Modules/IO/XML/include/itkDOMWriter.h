@@ -42,7 +42,8 @@ namespace itk
  * is implicitly written to the output XML file using the DOMNodeXMLWriter.
  *
  * Note: Though this class behaves similar to ProcessObject, it is not derived from ProcessObject. This is
- *       because many user objects to be written, e.g., registrations, transforms, optimizers, and so on, are not objects
+ *       because many user objects to be written, e.g., registrations, transforms, optimizers, and so on, are not
+ objects
  *       of type DataObject, thus this class cannot be connected to an ITK process pipeline.
  *
  * The following code snippet demontrates how to use a DOM-based writer that is derived from this class:
@@ -62,7 +63,7 @@ namespace itk
  *
  * \ingroup ITKIOXML
  */
-template< typename TInput >
+template <typename TInput>
 class ITK_TEMPLATE_EXPORT DOMWriter : public Object
 {
 public:
@@ -88,28 +89,32 @@ public:
   itkGetStringMacro(FileName);
 
   /** Set the input object to be written. */
-  virtual void SetInput( const InputType* input );
+  virtual void
+  SetInput(const InputType * input);
 
   /** Get the input object to be written. */
-  const InputType* GetInput() const;
+  const InputType *
+  GetInput() const;
 
   /**
    * Return the internal logger so that users can change the
    * output format or add/remove logging destinations.
    */
-  itkGetConstMacro( Logger, LoggerType* );
+  itkGetConstMacro(Logger, LoggerType *);
 
   /**
    * Function called by Update() or end-users to write the input object to a DOM object.
    * Some derived writers may accept an incomplete input object during the writing process, in those cases
    * the optional argument 'userdata' can be used to provide the missed information.
    */
-  void Update( DOMNodeType* outputdom, const void* userdata = nullptr );
+  void
+  Update(DOMNodeType * outputdom, const void * userdata = nullptr);
 
   /**
    * Function called by end-users to write the input object to the output XML file.
    */
-  virtual void Update();
+  virtual void
+  Update();
 
 protected:
   DOMWriter();
@@ -121,18 +126,19 @@ protected:
    * Some derived writers may accept an incomplete input object during the writing process, in those cases
    * the optional argument 'userdata' can be used to provide the missed information.
    */
-  virtual void GenerateData( DOMNodeType* outputdom, const void* userdata ) const = 0;
+  virtual void
+  GenerateData(DOMNodeType * outputdom, const void * userdata) const = 0;
 
 private:
   /** Get/Set the intermediate DOM object. */
-  itkSetObjectMacro( IntermediateDOM, DOMNodeType );
-  itkGetModifiableObjectMacro(IntermediateDOM, DOMNodeType );
+  itkSetObjectMacro(IntermediateDOM, DOMNodeType);
+  itkGetModifiableObjectMacro(IntermediateDOM, DOMNodeType);
 
   /** Variable to hold the output XML file name. */
   std::string m_FileName;
 
   /** Variable to hold the input object. */
-  const InputType* m_Input;
+  const InputType * m_Input;
   /** Variable to hold the input object if it is a smart object. */
   typename LightObject::ConstPointer m_InputHolder;
 
@@ -146,7 +152,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDOMWriter.hxx"
+#  include "itkDOMWriter.hxx"
 #endif
 
 #endif // itkDOMWriter_h

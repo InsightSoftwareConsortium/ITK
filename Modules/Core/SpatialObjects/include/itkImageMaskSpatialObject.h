@@ -40,17 +40,16 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 
-template< unsigned int TDimension = 3, typename TPixel = unsigned char >
-class ITK_TEMPLATE_EXPORT ImageMaskSpatialObject:
-  public ImageSpatialObject< TDimension, TPixel >
+template <unsigned int TDimension = 3, typename TPixel = unsigned char>
+class ITK_TEMPLATE_EXPORT ImageMaskSpatialObject : public ImageSpatialObject<TDimension, TPixel>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageMaskSpatialObject);
 
-  using Self = ImageMaskSpatialObject< TDimension, TPixel >;
-  using Superclass = ImageSpatialObject< TDimension, TPixel >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Self = ImageMaskSpatialObject<TDimension, TPixel>;
+  using Superclass = ImageSpatialObject<TDimension, TPixel>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using ScalarType = typename Superclass::ScalarType;
   using PixelType = typename Superclass::PixelType;
@@ -74,7 +73,8 @@ public:
 
   /** Returns true if the point is inside, false otherwise. According to this function,
    * a point is inside the image mask when the value of its nearest pixel is non-zero. */
-  bool IsInsideInObjectSpace(const PointType & point) const override;
+  bool
+  IsInsideInObjectSpace(const PointType & point) const override;
 
   /* Avoid hiding the overload that supports depth and name arguments */
   using Superclass::IsInsideInObjectSpace;
@@ -89,13 +89,14 @@ public:
    * \note This function is introduced with ITK 5.0, replacing
    * `GetAxisAlignedBoundingBoxRegion()`.
    */
-  RegionType ComputeMyBoundingBoxInIndexSpace() const;
+  RegionType
+  ComputeMyBoundingBoxInIndexSpace() const;
 
-#if ! defined ( ITK_LEGACY_REMOVE )
+#if !defined(ITK_LEGACY_REMOVE)
   /** Compute axis aligned bounding box from the image mask.
    * \note With ITK 5.0, this function is superseded by `ComputeMyBoundingBoxInIndexSpace()`
-  */
-  itkLegacyMacro( RegionType GetAxisAlignedBoundingBoxRegion() const );
+   */
+  itkLegacyMacro(RegionType GetAxisAlignedBoundingBoxRegion() const);
 
 #endif
 
@@ -103,20 +104,22 @@ protected:
   /** Get the boundaries of a specific object.  This function needs to
    *  be called every time one of the object's components is
    *  changed. */
-  void ComputeMyBoundingBox() override;
+  void
+  ComputeMyBoundingBox() override;
 
   ImageMaskSpatialObject();
   ~ImageMaskSpatialObject() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  typename LightObject::Pointer InternalClone() const override;
-
+  typename LightObject::Pointer
+  InternalClone() const override;
 };
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageMaskSpatialObject.hxx"
+#  include "itkImageMaskSpatialObject.hxx"
 #endif
 
-#endif //itkImageMaskSpatialObject_h
+#endif // itkImageMaskSpatialObject_h

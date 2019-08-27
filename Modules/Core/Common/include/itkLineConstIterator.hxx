@@ -22,9 +22,10 @@
 
 namespace itk
 {
-template< typename TImage >
-LineConstIterator< TImage >
-::LineConstIterator(const ImageType *imagePtr, const IndexType & firstIndex, const IndexType & lastIndex)
+template <typename TImage>
+LineConstIterator<TImage>::LineConstIterator(const ImageType * imagePtr,
+                                             const IndexType & firstIndex,
+                                             const IndexType & lastIndex)
 {
 
   m_Image = imagePtr;
@@ -33,24 +34,24 @@ LineConstIterator< TImage >
   m_LastIndex = lastIndex;
 
   IndexType difference;
-  for ( unsigned int i = 0; i < TImage::ImageDimension; ++i )
-    {
+  for (unsigned int i = 0; i < TImage::ImageDimension; ++i)
+  {
     difference[i] = lastIndex[i] - firstIndex[i];
-    }
+  }
 
   IndexValueType maxDistance = 0;
-  unsigned int maxDistanceDimension = 0;
-  for ( unsigned int i = 0; i < TImage::ImageDimension; ++i )
-    {
+  unsigned int   maxDistanceDimension = 0;
+  for (unsigned int i = 0; i < TImage::ImageDimension; ++i)
+  {
     IndexValueType distance = itk::Math::abs(difference[i]);
-    if ( distance > maxDistance )
-      {
+    if (distance > maxDistance)
+    {
       maxDistance = distance;
       maxDistanceDimension = i;
-      }
-    m_IncrementError[i] = 2 * distance;
-    m_OverflowIncrement[i] = ( difference[i] < 0 ? -1 : 1 );
     }
+    m_IncrementError[i] = 2 * distance;
+    m_OverflowIncrement[i] = (difference[i] < 0 ? -1 : 1);
+  }
   m_MainDirection = maxDistanceDimension;
   m_MaximalError.Fill(maxDistance);
   m_ReduceErrorAfterIncrement.Fill(2 * maxDistance);
@@ -66,34 +67,33 @@ LineConstIterator< TImage >
   // to be incremented and keep the remaining indices to be same as
   // LastIndex. Then in the test for IsAtEnd, we just check the
   // MainDirection component of the index.
-  for ( unsigned int i = 0; i < TImage::ImageDimension; ++i )
+  for (unsigned int i = 0; i < TImage::ImageDimension; ++i)
+  {
+    if (i == m_MainDirection)
     {
-    if ( i == m_MainDirection )
-      {
       m_EndIndex[i] = m_LastIndex[i] + m_OverflowIncrement[i];
-      }
-    else
-      {
-      m_EndIndex[i] = m_LastIndex[i];
-      }
     }
+    else
+    {
+      m_EndIndex[i] = m_LastIndex[i];
+    }
+  }
 
   m_Region = m_Image->GetBufferedRegion();
 
   this->GoToBegin();
 }
 
-template< typename TImage >
-LineConstIterator< TImage > &
-LineConstIterator< TImage >
-::operator=(const Self & it)
+template <typename TImage>
+LineConstIterator<TImage> &
+LineConstIterator<TImage>::operator=(const Self & it)
 {
-  if(this != &it)
-    {
-    m_Image  = it.m_Image;  // copy the smart pointer
+  if (this != &it)
+  {
+    m_Image = it.m_Image; // copy the smart pointer
     m_Region = it.m_Region;
     m_IsAtEnd = it.m_IsAtEnd;
-    m_CurrentImageIndex   = it.m_CurrentImageIndex;
+    m_CurrentImageIndex = it.m_CurrentImageIndex;
     m_StartIndex = it.m_StartIndex;
     m_LastIndex = it.m_LastIndex;
     m_EndIndex = it.m_EndIndex;
@@ -103,54 +103,52 @@ LineConstIterator< TImage >
     m_MaximalError = it.m_MaximalError;
     m_OverflowIncrement = it.m_OverflowIncrement;
     m_ReduceErrorAfterIncrement = it.m_ReduceErrorAfterIncrement;
-    }
+  }
   return *this;
 }
 
-template< typename TImage >
+template <typename TImage>
 void
-LineConstIterator< TImage >
-::GoToBegin()
+LineConstIterator<TImage>::GoToBegin()
 {
-  m_CurrentImageIndex   = m_StartIndex;
+  m_CurrentImageIndex = m_StartIndex;
   m_AccumulateError.Fill(0);
-  m_IsAtEnd = ( m_StartIndex[m_MainDirection] == m_EndIndex[m_MainDirection] );
+  m_IsAtEnd = (m_StartIndex[m_MainDirection] == m_EndIndex[m_MainDirection]);
 }
 
-template< typename TImage >
+template <typename TImage>
 void
-LineConstIterator< TImage >
-::operator++()
+LineConstIterator<TImage>::operator++()
 {
   // We need to modify m_AccumulateError, m_CurrentImageIndex, m_IsAtEnd
-  for ( unsigned int i = 0; i < TImage::ImageDimension; ++i )
+  for (unsigned int i = 0; i < TImage::ImageDimension; ++i)
+  {
+    if (i == m_MainDirection)
     {
-    if ( i == m_MainDirection )
-      {
       m_CurrentImageIndex[i] += m_OverflowIncrement[i];
-      }
+    }
     else
-      {
+    {
       m_AccumulateError[i] += m_IncrementError[i];
-      if ( m_AccumulateError[i] >= m_MaximalError[i] )
-        {
+      if (m_AccumulateError[i] >= m_MaximalError[i])
+      {
         m_CurrentImageIndex[i] += m_OverflowIncrement[i];
         m_AccumulateError[i] -= m_ReduceErrorAfterIncrement[i];
-        }
       }
     }
+  }
 
-  if ( m_CurrentImageIndex[m_MainDirection] == m_EndIndex[m_MainDirection] )
-    {
+  if (m_CurrentImageIndex[m_MainDirection] == m_EndIndex[m_MainDirection])
+  {
     m_IsAtEnd = true;
-    }
-  else if ( !m_Region.IsInside(m_CurrentImageIndex) )
-    {
+  }
+  else if (!m_Region.IsInside(m_CurrentImageIndex))
+  {
     // The new index is outside the acceptable region.  We can iterate no
     // farther, call this the end.  NOTE THAT INPUT IS STILL INCREMENTED.
     m_IsAtEnd = true;
     itkWarningMacro(<< "Line left region; unable to finish tracing it");
-    }
+  }
 }
 } // end namespace itk
 

@@ -50,18 +50,17 @@ namespace itk
  * \ingroup RegistrationMetrics
  * \ingroup ITKRegistrationCommon
  */
-template< typename TFixedImage, typename TMovingImage >
-class ITK_TEMPLATE_EXPORT KappaStatisticImageToImageMetric:
-  public ImageToImageMetric< TFixedImage, TMovingImage >
+template <typename TFixedImage, typename TMovingImage>
+class ITK_TEMPLATE_EXPORT KappaStatisticImageToImageMetric : public ImageToImageMetric<TFixedImage, TMovingImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(KappaStatisticImageToImageMetric);
 
   /** Standard class type aliases. */
   using Self = KappaStatisticImageToImageMetric;
-  using Superclass = ImageToImageMetric< TFixedImage, TMovingImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageMetric<TFixedImage, TMovingImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -89,23 +88,27 @@ public:
   using FixedImageRegionType = typename Superclass::FixedImageRegionType;
 
   /** Computes the gradient image and assigns it to m_GradientImage */
-  void ComputeGradient() override;
+  void
+  ComputeGradient() override;
 
   /** Get the derivatives of the match measure. */
-  void GetDerivative(const TransformParametersType &,
-                     DerivativeType & derivative) const override;
+  void
+  GetDerivative(const TransformParametersType &, DerivativeType & derivative) const override;
 
   /** Get the value of the metric at a particular parameter
    *  setting. The metric value is given by 2*|A&B|/(|A|+|B|), where A
    *  is the moving image, B is the fixed image, & is intersection,
    *  and |.| indicates the area of the enclosed set. If ComplementOn has
    *  been set, the metric value is 1.0-2*|A&B|/(|A|+|B|). */
-  MeasureType GetValue(const TransformParametersType & parameters) const override;
+  MeasureType
+  GetValue(const TransformParametersType & parameters) const override;
 
   /** Get both the value and derivative. This method internally calls the
     \c GetValue() and the \c GetDerivative() method. */
-  void GetValueAndDerivative(const TransformParametersType & parameters,
-                             MeasureType & Value, DerivativeType & Derivative) const override;
+  void
+  GetValueAndDerivative(const TransformParametersType & parameters,
+                        MeasureType &                   Value,
+                        DerivativeType &                Derivative) const override;
 
   /** This method allows the user to set the foreground value. The default
    *  value is 255. */
@@ -123,7 +126,8 @@ public:
 protected:
   KappaStatisticImageToImageMetric();
   ~KappaStatisticImageToImageMetric() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   RealType m_ForegroundValue;
@@ -132,7 +136,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkKappaStatisticImageToImageMetric.hxx"
+#  include "itkKappaStatisticImageToImageMetric.hxx"
 #endif
 
 #endif

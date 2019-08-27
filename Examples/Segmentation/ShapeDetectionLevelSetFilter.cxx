@@ -167,10 +167,11 @@
 #include "itkRescaleIntensityImageFilter.h"
 
 
-int main( int argc, char *argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 11 )
-    {
+  if (argc < 11)
+  {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " inputImage  outputImage";
@@ -178,9 +179,9 @@ int main( int argc, char *argv[] )
     std::cerr << " Sigma SigmoidAlpha SigmoidBeta ";
     std::cerr << " curvatureScaling propagationScaling" << std::endl;
     return EXIT_FAILURE;
-    }
-  const std::string inputImageFile( argv[1] );
-  const std::string outputImageFile( argv[2] );
+  }
+  const std::string inputImageFile(argv[1]);
+  const std::string outputImageFile(argv[2]);
 
 
   //  Software Guide : BeginLatex
@@ -194,7 +195,7 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   using InternalPixelType = float;
   constexpr unsigned int Dimension = 2;
-  using InternalImageType = itk::Image< InternalPixelType, Dimension >;
+  using InternalImageType = itk::Image<InternalPixelType, Dimension>;
   // Software Guide : EndCodeSnippet
 
 
@@ -206,7 +207,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   using OutputPixelType = unsigned char;
-  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
   // Software Guide : EndCodeSnippet
 
 
@@ -219,7 +220,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   using ThresholdingFilterType =
-      itk::BinaryThresholdImageFilter< InternalImageType, OutputImageType >;
+    itk::BinaryThresholdImageFilter<InternalImageType, OutputImageType>;
   ThresholdingFilterType::Pointer thresholder = ThresholdingFilterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -235,31 +236,31 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  thresholder->SetLowerThreshold( -1000.0 );
-  thresholder->SetUpperThreshold(     0.0 );
+  thresholder->SetLowerThreshold(-1000.0);
+  thresholder->SetUpperThreshold(0.0);
 
-  thresholder->SetOutsideValue(  0  );
-  thresholder->SetInsideValue(  255 );
+  thresholder->SetOutsideValue(0);
+  thresholder->SetInsideValue(255);
   // Software Guide : EndCodeSnippet
 
 
   // We instantiate reader and writer types in the following lines.
   //
-  using ReaderType = itk::ImageFileReader< InternalImageType >;
-  using WriterType = itk::ImageFileWriter<  OutputImageType  >;
+  using ReaderType = itk::ImageFileReader<InternalImageType>;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
 
-  reader->SetFileName( inputImageFile );
-  writer->SetFileName( outputImageFile );
+  reader->SetFileName(inputImageFile);
+  writer->SetFileName(outputImageFile);
 
 
   //  The RescaleIntensityImageFilter type is declared below. This filter will
   //  renormalize image before sending them to writers.
   //
   using CastFilterType =
-      itk::RescaleIntensityImageFilter<InternalImageType, OutputImageType>;
+    itk::RescaleIntensityImageFilter<InternalImageType, OutputImageType>;
 
   //  Software Guide : BeginLatex
   //
@@ -269,9 +270,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using SmoothingFilterType = itk::CurvatureAnisotropicDiffusionImageFilter<
-                               InternalImageType,
-                               InternalImageType >;
+  using SmoothingFilterType =
+    itk::CurvatureAnisotropicDiffusionImageFilter<InternalImageType, InternalImageType>;
   // Software Guide : EndCodeSnippet
 
 
@@ -297,13 +297,11 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   using GradientFilterType =
-    itk::GradientMagnitudeRecursiveGaussianImageFilter<
-                               InternalImageType,
-                               InternalImageType >;
+    itk::GradientMagnitudeRecursiveGaussianImageFilter<InternalImageType,
+                                                       InternalImageType>;
 
-  using SigmoidFilterType = itk::SigmoidImageFilter<
-                               InternalImageType,
-                               InternalImageType >;
+  using SigmoidFilterType =
+    itk::SigmoidImageFilter<InternalImageType, InternalImageType>;
   // Software Guide : EndCodeSnippet
 
 
@@ -315,8 +313,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  GradientFilterType::Pointer  gradientMagnitude = GradientFilterType::New();
-  SigmoidFilterType::Pointer sigmoid = SigmoidFilterType::New();
+  GradientFilterType::Pointer gradientMagnitude = GradientFilterType::New();
+  SigmoidFilterType::Pointer  sigmoid = SigmoidFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -333,8 +331,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  sigmoid->SetOutputMinimum(  0.0  );
-  sigmoid->SetOutputMaximum(  1.0  );
+  sigmoid->SetOutputMinimum(0.0);
+  sigmoid->SetOutputMaximum(1.0);
   // Software Guide : EndCodeSnippet
 
 
@@ -348,7 +346,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   using FastMarchingFilterType =
-      itk::FastMarchingImageFilter< InternalImageType, InternalImageType >;
+    itk::FastMarchingImageFilter<InternalImageType, InternalImageType>;
   // Software Guide : EndCodeSnippet
 
 
@@ -360,8 +358,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  FastMarchingFilterType::Pointer  fastMarching
-                                              = FastMarchingFilterType::New();
+  FastMarchingFilterType::Pointer fastMarching = FastMarchingFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -375,10 +372,8 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   using ShapeDetectionFilterType =
-    itk::ShapeDetectionLevelSetImageFilter< InternalImageType,
-                                            InternalImageType >;
-  ShapeDetectionFilterType::Pointer
-    shapeDetection = ShapeDetectionFilterType::New();
+    itk::ShapeDetectionLevelSetImageFilter<InternalImageType, InternalImageType>;
+  ShapeDetectionFilterType::Pointer shapeDetection = ShapeDetectionFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -391,16 +386,16 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  smoothing->SetInput( reader->GetOutput() );
-  gradientMagnitude->SetInput( smoothing->GetOutput() );
-  sigmoid->SetInput( gradientMagnitude->GetOutput() );
+  smoothing->SetInput(reader->GetOutput());
+  gradientMagnitude->SetInput(smoothing->GetOutput());
+  sigmoid->SetInput(gradientMagnitude->GetOutput());
 
-  shapeDetection->SetInput( fastMarching->GetOutput() );
-  shapeDetection->SetFeatureImage( sigmoid->GetOutput() );
+  shapeDetection->SetInput(fastMarching->GetOutput());
+  shapeDetection->SetFeatureImage(sigmoid->GetOutput());
 
-  thresholder->SetInput( shapeDetection->GetOutput() );
+  thresholder->SetInput(shapeDetection->GetOutput());
 
-  writer->SetInput( thresholder->GetOutput() );
+  writer->SetInput(thresholder->GetOutput());
   // Software Guide : EndCodeSnippet
 
 
@@ -415,9 +410,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  smoothing->SetTimeStep( 0.125 );
-  smoothing->SetNumberOfIterations(  5 );
-  smoothing->SetConductanceParameter( 9.0 );
+  smoothing->SetTimeStep(0.125);
+  smoothing->SetNumberOfIterations(5);
+  smoothing->SetConductanceParameter(9.0);
   // Software Guide : EndCodeSnippet
 
 
@@ -433,10 +428,10 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-  const double sigma = std::stod( argv[6] );
+  const double sigma = std::stod(argv[6]);
 
   // Software Guide : BeginCodeSnippet
-  gradientMagnitude->SetSigma(  sigma  );
+  gradientMagnitude->SetSigma(sigma);
   // Software Guide : EndCodeSnippet
 
 
@@ -449,12 +444,12 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-  const double alpha =  std::stod( argv[7] );
-  const double beta  =  std::stod( argv[8] );
+  const double alpha = std::stod(argv[7]);
+  const double beta = std::stod(argv[8]);
 
   // Software Guide : BeginCodeSnippet
-  sigmoid->SetAlpha( alpha );
-  sigmoid->SetBeta(  beta  );
+  sigmoid->SetAlpha(alpha);
+  sigmoid->SetBeta(beta);
   // Software Guide : EndCodeSnippet
 
 
@@ -486,10 +481,10 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndCodeSnippet
 
 
-  InternalImageType::IndexType  seedPosition;
+  InternalImageType::IndexType seedPosition;
 
-  seedPosition[0] = std::stoi( argv[3] );
-  seedPosition[1] = std::stoi( argv[4] );
+  seedPosition[0] = std::stoi(argv[3]);
+  seedPosition[1] = std::stoi(argv[4]);
 
 
   //  Software Guide : BeginLatex
@@ -509,14 +504,14 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-  const double initialDistance = std::stod( argv[5] );
+  const double initialDistance = std::stod(argv[5]);
 
   // Software Guide : BeginCodeSnippet
-  NodeType node;
-  const double seedValue = - initialDistance;
+  NodeType     node;
+  const double seedValue = -initialDistance;
 
-  node.SetValue( seedValue );
-  node.SetIndex( seedPosition );
+  node.SetValue(seedValue);
+  node.SetIndex(seedPosition);
   // Software Guide : EndCodeSnippet
 
 
@@ -529,7 +524,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginCodeSnippet
   seeds->Initialize();
-  seeds->InsertElement( 0, node );
+  seeds->InsertElement(0, node);
   //  Software Guide : EndCodeSnippet
 
 
@@ -543,7 +538,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  fastMarching->SetTrialPoints(  seeds  );
+  fastMarching->SetTrialPoints(seeds);
   // Software Guide : EndCodeSnippet
 
 
@@ -557,7 +552,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  fastMarching->SetSpeedConstant( 1.0 );
+  fastMarching->SetSpeedConstant(1.0);
   //  Software Guide : EndCodeSnippet
 
 
@@ -579,33 +574,33 @@ int main( int argc, char *argv[] )
   WriterType::Pointer writer4 = WriterType::New();
 
   const std::string outputImageFilePrefix =
-    itksys::SystemTools::GetFilenameWithoutExtension( outputImageFile );
-  caster1->SetInput( smoothing->GetOutput() );
-  writer1->SetInput( caster1->GetOutput() );
-  writer1->SetFileName( outputImageFilePrefix + "Smoothing.png" );
-  caster1->SetOutputMinimum(   0 );
-  caster1->SetOutputMaximum( 255 );
+    itksys::SystemTools::GetFilenameWithoutExtension(outputImageFile);
+  caster1->SetInput(smoothing->GetOutput());
+  writer1->SetInput(caster1->GetOutput());
+  writer1->SetFileName(outputImageFilePrefix + "Smoothing.png");
+  caster1->SetOutputMinimum(0);
+  caster1->SetOutputMaximum(255);
   writer1->Update();
 
-  caster2->SetInput( gradientMagnitude->GetOutput() );
-  writer2->SetInput( caster2->GetOutput() );
-  writer2->SetFileName( outputImageFilePrefix + "GradientMagnitude.png" );
-  caster2->SetOutputMinimum(   0 );
-  caster2->SetOutputMaximum( 255 );
+  caster2->SetInput(gradientMagnitude->GetOutput());
+  writer2->SetInput(caster2->GetOutput());
+  writer2->SetFileName(outputImageFilePrefix + "GradientMagnitude.png");
+  caster2->SetOutputMinimum(0);
+  caster2->SetOutputMaximum(255);
   writer2->Update();
 
-  caster3->SetInput( sigmoid->GetOutput() );
-  writer3->SetInput( caster3->GetOutput() );
-  writer3->SetFileName( outputImageFilePrefix + "Sigmoid.png" );
-  caster3->SetOutputMinimum(   0 );
-  caster3->SetOutputMaximum( 255 );
+  caster3->SetInput(sigmoid->GetOutput());
+  writer3->SetInput(caster3->GetOutput());
+  writer3->SetFileName(outputImageFilePrefix + "Sigmoid.png");
+  caster3->SetOutputMinimum(0);
+  caster3->SetOutputMaximum(255);
   writer3->Update();
 
-  caster4->SetInput( fastMarching->GetOutput() );
-  writer4->SetInput( caster4->GetOutput() );
-  writer4->SetFileName( outputImageFilePrefix + "FastMarching.png" );
-  caster4->SetOutputMinimum(   0 );
-  caster4->SetOutputMaximum( 255 );
+  caster4->SetInput(fastMarching->GetOutput());
+  writer4->SetInput(caster4->GetOutput());
+  writer4->SetFileName(outputImageFilePrefix + "FastMarching.png");
+  caster4->SetOutputMinimum(0);
+  caster4->SetOutputMaximum(255);
 
 
   //  Software Guide : BeginLatex
@@ -620,8 +615,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  fastMarching->SetOutputSize(
-           reader->GetOutput()->GetBufferedRegion().GetSize() );
+  fastMarching->SetOutputSize(reader->GetOutput()->GetBufferedRegion().GetSize());
   // Software Guide : EndCodeSnippet
 
 
@@ -645,12 +639,12 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-  const double curvatureScaling   = std::stod( argv[  9 ] );
-  const double propagationScaling = std::stod( argv[ 10 ] );
+  const double curvatureScaling = std::stod(argv[9]);
+  const double propagationScaling = std::stod(argv[10]);
 
   //  Software Guide : BeginCodeSnippet
-  shapeDetection->SetPropagationScaling(  propagationScaling );
-  shapeDetection->SetCurvatureScaling( curvatureScaling );
+  shapeDetection->SetPropagationScaling(propagationScaling);
+  shapeDetection->SetCurvatureScaling(curvatureScaling);
   //  Software Guide : EndCodeSnippet
 
 
@@ -676,8 +670,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  shapeDetection->SetMaximumRMSError( 0.02 );
-  shapeDetection->SetNumberOfIterations( 800 );
+  shapeDetection->SetMaximumRMSError(0.02);
+  shapeDetection->SetNumberOfIterations(800);
   //  Software Guide : EndCodeSnippet
 
 
@@ -691,23 +685,25 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excep )
-    {
+  }
+  catch (itk::ExceptionObject & excep)
+  {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
   // Print out some useful information
   std::cout << std::endl;
-  std::cout << "Max. no. iterations: " << shapeDetection->GetNumberOfIterations() << std::endl;
+  std::cout << "Max. no. iterations: " << shapeDetection->GetNumberOfIterations()
+            << std::endl;
   std::cout << "Max. RMS error: " << shapeDetection->GetMaximumRMSError() << std::endl;
   std::cout << std::endl;
-  std::cout << "No. elpased iterations: " << shapeDetection->GetElapsedIterations() << std::endl;
+  std::cout << "No. elpased iterations: " << shapeDetection->GetElapsedIterations()
+            << std::endl;
   std::cout << "RMS change: " << shapeDetection->GetRMSChange() << std::endl;
 
   writer4->Update();
@@ -719,20 +715,20 @@ int main( int argc, char *argv[] )
   // determine an appropriate threshold to be used on the output of the
   // fastmarching filter.
   //
-  using InternalWriterType = itk::ImageFileWriter< InternalImageType >;
+  using InternalWriterType = itk::ImageFileWriter<InternalImageType>;
 
   InternalWriterType::Pointer mapWriter = InternalWriterType::New();
-  mapWriter->SetInput( fastMarching->GetOutput() );
+  mapWriter->SetInput(fastMarching->GetOutput());
   mapWriter->SetFileName("ShapeDetectionLevelSetFilterOutput4.mha");
   mapWriter->Update();
 
   InternalWriterType::Pointer speedWriter = InternalWriterType::New();
-  speedWriter->SetInput( sigmoid->GetOutput() );
+  speedWriter->SetInput(sigmoid->GetOutput());
   speedWriter->SetFileName("ShapeDetectionLevelSetFilterOutput3.mha");
   speedWriter->Update();
 
   InternalWriterType::Pointer gradientWriter = InternalWriterType::New();
-  gradientWriter->SetInput( gradientMagnitude->GetOutput() );
+  gradientWriter->SetInput(gradientMagnitude->GetOutput());
   gradientWriter->SetFileName("ShapeDetectionLevelSetFilterOutput2.mha");
   gradientWriter->Update();
 
@@ -752,12 +748,15 @@ int main( int argc, char *argv[] )
   //  \begin{center}
   //  \begin{tabular}{|l|c|c|c|c|c|c|}
   //  \hline
-  //  Structure    & Seed Index & Distance & $\sigma$ & $\alpha$ & $\beta$ & Output Image \\ \hline
-  //  Left Ventricle  & $(81,114)$ & 5.0 & 1.0 & -0.5 & 3.0  & First  in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\  \hline
-  //  Right Ventricle & $(99,114)$ & 5.0 & 1.0 & -0.5 & 3.0  & Second in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\  \hline
-  //  White matter    & $(56, 92)$ & 5.0 & 1.0 & -0.3 & 2.0  & Third  in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\  \hline
-  //  Gray matter     & $(40, 90)$ & 5.0 & 0.5 & -0.3 & 2.0  & Fourth in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\  \hline
-  //  \end{tabular}
+  //  Structure    & Seed Index & Distance & $\sigma$ & $\alpha$ & $\beta$ & Output
+  //  Image \\ \hline Left Ventricle  & $(81,114)$ & 5.0 & 1.0 & -0.5 & 3.0  & First  in
+  //  Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\  \hline Right Ventricle &
+  //  $(99,114)$ & 5.0 & 1.0 & -0.5 & 3.0  & Second in Figure
+  //  \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\  \hline White matter    & $(56,
+  //  92)$ & 5.0 & 1.0 & -0.3 & 2.0  & Third  in Figure
+  //  \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\  \hline Gray matter     & $(40,
+  //  90)$ & 5.0 & 0.5 & -0.3 & 2.0  & Fourth in Figure
+  //  \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\  \hline \end{tabular}
   //  \end{center}
   //  \itkcaption[ShapeDetection example parameters]{Parameters used for
   //  segmenting some brain structures shown in
@@ -786,12 +785,12 @@ int main( int argc, char *argv[] )
   // \includegraphics[height=0.40\textheight]{ShapeDetectionLevelSetFilterOutput1Smoothing}
   // \includegraphics[height=0.40\textheight]{ShapeDetectionLevelSetFilterOutput1GradientMagnitude}
   // \includegraphics[height=0.40\textheight]{ShapeDetectionLevelSetFilterOutput1Sigmoid}
-  // \itkcaption[ShapeDetectionLevelSetImageFilter intermediate output]{Images generated by
-  // the segmentation process based on the ShapeDetectionLevelSetImageFilter. From left
-  // to right and top to bottom: input image to be segmented, image smoothed with an
-  // edge-preserving smoothing filter, gradient magnitude of the smoothed
-  // image, sigmoid of the gradient magnitude. This last image, the sigmoid, is
-  // used to compute the speed term for the front propagation.}
+  // \itkcaption[ShapeDetectionLevelSetImageFilter intermediate output]{Images generated
+  // by the segmentation process based on the ShapeDetectionLevelSetImageFilter. From
+  // left to right and top to bottom: input image to be segmented, image smoothed with
+  // an edge-preserving smoothing filter, gradient magnitude of the smoothed image,
+  // sigmoid of the gradient magnitude. This last image, the sigmoid, is used to compute
+  // the speed term for the front propagation.}
   // \label{fig:ShapeDetectionLevelSetFilterOutput}
   // \end{figure}
   //
@@ -809,11 +808,10 @@ int main( int argc, char *argv[] )
   // \includegraphics[width=0.24\textwidth]{ShapeDetectionLevelSetFilterOutput2}
   // \includegraphics[width=0.24\textwidth]{ShapeDetectionLevelSetFilterOutput3}
   // \includegraphics[width=0.24\textwidth]{ShapeDetectionLevelSetFilterOutput4}
-  // \itkcaption[ShapeDetectionLevelSetImageFilter segmentations]{Images generated by the
-  // segmentation process based on the ShapeDetectionLevelSetImageFilter. From left to
-  // right: segmentation of the left ventricle, segmentation of the right
-  // ventricle, segmentation of the white matter, attempt of segmentation of
-  // the gray matter.}
+  // \itkcaption[ShapeDetectionLevelSetImageFilter segmentations]{Images generated by
+  // the segmentation process based on the ShapeDetectionLevelSetImageFilter. From left
+  // to right: segmentation of the left ventricle, segmentation of the right ventricle,
+  // segmentation of the white matter, attempt of segmentation of the gray matter.}
   // \label{fig:ShapeDetectionLevelSetFilterOutput2}
   // \end{figure}
   //

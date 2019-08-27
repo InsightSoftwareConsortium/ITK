@@ -60,16 +60,15 @@ namespace watershed
  * \sa itk::watershed::SegmentTree
  * \ingroup ITKWatersheds
  */
-template< typename TScalar, unsigned int TImageDimension >
-class ITK_TEMPLATE_EXPORT Relabeler:
-  public ProcessObject
+template <typename TScalar, unsigned int TImageDimension>
+class ITK_TEMPLATE_EXPORT Relabeler : public ProcessObject
 {
 public:
   /** Define smart pointers for this object */
   using Self = Relabeler;
   using Superclass = ProcessObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -80,54 +79,59 @@ public:
 
   /** Some convenient type alias */
   using ScalarType = TScalar;
-  using ImageType = Image< IdentifierType, TImageDimension >;
-  using SegmentTreeType = SegmentTree< ScalarType >;
-  using SegmenterType = Segmenter< Image< ScalarType, TImageDimension > >;
+  using ImageType = Image<IdentifierType, TImageDimension>;
+  using SegmentTreeType = SegmentTree<ScalarType>;
+  using SegmenterType = Segmenter<Image<ScalarType, TImageDimension>>;
   using DataObjectPointer = DataObject::Pointer;
 
   /** Standard itk::ProcessObject subclass method. */
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
+  DataObjectPointer
+  MakeOutput(DataObjectPointerArraySizeType idx) override;
 
   /** Set/Get the input image */
-  void SetInputImage(ImageType *img)
+  void
+  SetInputImage(ImageType * img)
   {
     this->ProcessObject::SetNthInput(0, img);
   }
 
-  ImageType * GetInputImage()
+  ImageType *
+  GetInputImage()
   {
-    return itkDynamicCastInDebugMode< ImageType * >
-           ( this->ProcessObject::GetInput(0) );
+    return itkDynamicCastInDebugMode<ImageType *>(this->ProcessObject::GetInput(0));
   }
 
   /** Set/Get the output image */
-  void SetOutputImage(ImageType *img)
+  void
+  SetOutputImage(ImageType * img)
   {
     this->ProcessObject::SetNthOutput(0, img);
   }
 
-  ImageType * GetOutputImage()
+  ImageType *
+  GetOutputImage()
   {
-    return itkDynamicCastInDebugMode< ImageType * >
-           ( this->ProcessObject::GetOutput(0) );
+    return itkDynamicCastInDebugMode<ImageType *>(this->ProcessObject::GetOutput(0));
   }
 
   /** Set/Get the input tree that defines segment merges */
-  void SetInputSegmentTree(SegmentTreeType *et)
+  void
+  SetInputSegmentTree(SegmentTreeType * et)
   {
     this->ProcessObject::SetNthInput(1, et);
   }
 
-  SegmentTreeType * GetInputSegmentTree()
+  SegmentTreeType *
+  GetInputSegmentTree()
   {
-    return itkDynamicCastInDebugMode< SegmentTreeType * >
-           ( this->ProcessObject::GetInput(1) );
+    return itkDynamicCastInDebugMode<SegmentTreeType *>(this->ProcessObject::GetInput(1));
   }
 
   /** Standard non-threaded pipeline method */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /** Set/Get the percentage of the maximum saliency level
    * to merge to. */
@@ -135,27 +139,34 @@ public:
   itkGetConstMacro(FloodLevel, double);
 
   /** Standard ProcessObject method used in implementing mini-pipelines */
-  void GraftOutput(ImageType *graft);
+  void
+  GraftOutput(ImageType * graft);
 
-  void GraftNthOutput(unsigned int idx, ImageType *graft);
+  void
+  GraftNthOutput(unsigned int idx, ImageType * graft);
 
 protected:
   Relabeler();
   ~Relabeler() override = default;
   Relabeler(const Self &) {}
-  void operator=(const Self &) {}
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  operator=(const Self &)
+  {}
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  double m_FloodLevel{0.0};
-  void GenerateOutputRequestedRegion(DataObject *output) override;
+  double m_FloodLevel{ 0.0 };
+  void
+  GenerateOutputRequestedRegion(DataObject * output) override;
 
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 };
 } // end namespace watershed
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkWatershedRelabeler.hxx"
+#  include "itkWatershedRelabeler.hxx"
 #endif
 
 #endif

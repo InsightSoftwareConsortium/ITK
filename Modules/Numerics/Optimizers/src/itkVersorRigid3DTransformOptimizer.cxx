@@ -27,9 +27,7 @@ namespace itk
  * This method will be overrided in non-vector spaces
  */
 void
-VersorRigid3DTransformOptimizer
-::StepAlongGradient(double factor,
-                    const DerivativeType & transformedGradient)
+VersorRigid3DTransformOptimizer ::StepAlongGradient(double factor, const DerivativeType & transformedGradient)
 {
   const ParametersType & currentPosition = this->GetCurrentPosition();
 
@@ -38,10 +36,10 @@ VersorRigid3DTransformOptimizer
   //
   VectorType rightPart;
 
-  for ( unsigned int i = 0; i < 3; i++ )
-    {
+  for (unsigned int i = 0; i < 3; i++)
+  {
     rightPart[i] = currentPosition[i];
-    }
+  }
 
   VersorType currentRotation;
   currentRotation.Set(rightPart);
@@ -62,7 +60,7 @@ VersorRigid3DTransformOptimizer
   // direction.
 
   VersorType gradientRotation;
-  gradientRotation.Set( axis, factor * axis.GetNorm() );
+  gradientRotation.Set(axis, factor * axis.GetNorm());
 
   //
   // Composing the currentRotation with the gradientRotation
@@ -77,10 +75,10 @@ VersorRigid3DTransformOptimizer
   newParameters[2] = newRotation.GetZ();
 
   // Now do the typical update for a Vector space.
-  for ( unsigned int k = 3; k < 6; k++ )
-    {
+  for (unsigned int k = 3; k < 6; k++)
+  {
     newParameters[k] = currentPosition[k] + transformedGradient[k] * factor;
-    }
+  }
 
   this->SetCurrentPosition(newParameters);
 }

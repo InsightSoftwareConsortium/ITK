@@ -36,11 +36,12 @@ namespace
 // whose input is a 1x1 image, having the specified input pixel value. The
 // filter uses a default interpolator and a default (identity) transform.
 template <typename TPixel>
-TPixel GetFirstPixelFromFilterOutput(const TPixel inputPixel)
+TPixel
+GetFirstPixelFromFilterOutput(const TPixel inputPixel)
 {
   using ImageType = itk::Image<TPixel>;
 
-  const auto image = ImageType::New();
+  const auto                         image = ImageType::New();
   const typename ImageType::SizeType imageSize = { { 1, 1 } };
   image->SetRegions(imageSize);
   image->Allocate();
@@ -59,7 +60,8 @@ TPixel GetFirstPixelFromFilterOutput(const TPixel inputPixel)
 // image is equal to the specified input pixel value, when the filter just
 // uses default settings.
 template <typename TPixel>
-void Expect_ResampleImageFilter_preserves_pixel_value(const TPixel inputPixel)
+void
+Expect_ResampleImageFilter_preserves_pixel_value(const TPixel inputPixel)
 {
   EXPECT_EQ(GetFirstPixelFromFilterOutput(inputPixel), inputPixel);
 }
@@ -67,10 +69,10 @@ void Expect_ResampleImageFilter_preserves_pixel_value(const TPixel inputPixel)
 } // namespace
 
 // Compile time check of mixing transform and precision types
-template class itk::ResampleImageFilter<itk::Image<int>, itk::Image<int>, float, float >;
-template class itk::ResampleImageFilter<itk::Image<int>, itk::Image<int>, double, float >;
-template class itk::ResampleImageFilter<itk::Image<int>, itk::Image<int>, float , double >;
-template class itk::ResampleImageFilter<itk::Image<int>, itk::Image<int>, double, double >;
+template class itk::ResampleImageFilter<itk::Image<int>, itk::Image<int>, float, float>;
+template class itk::ResampleImageFilter<itk::Image<int>, itk::Image<int>, double, float>;
+template class itk::ResampleImageFilter<itk::Image<int>, itk::Image<int>, float, double>;
+template class itk::ResampleImageFilter<itk::Image<int>, itk::Image<int>, double, double>;
 
 TEST(ResampleImageFilter, FilterPreservesAnyDoublePixelValueByDefault)
 {
@@ -90,8 +92,7 @@ TEST(ResampleImageFilter, FilterPreservesAnyDoublePixelValueByDefault)
   Expect_ResampleImageFilter_preserves_pixel_value(-NumericLimits::infinity());
 
   // Not A Number as input should yield Not A Number as output.
-  EXPECT_TRUE(
-    std::isnan(GetFirstPixelFromFilterOutput(NumericLimits::quiet_NaN())));
+  EXPECT_TRUE(std::isnan(GetFirstPixelFromFilterOutput(NumericLimits::quiet_NaN())));
 
   // Check that the filter preserves any "random" pixel value:
 
@@ -102,10 +103,8 @@ TEST(ResampleImageFilter, FilterPreservesAnyDoublePixelValueByDefault)
 
   for (std::size_t i = 0; i < numberOfIterations; ++i)
   {
-    const double randomNumber1 =
-      std::uniform_real_distribution<>{ }(randomEngine);
-    const double randomNumber2 =
-      std::uniform_real_distribution<>{ 0.0, NumericLimits::max() }(randomEngine);
+    const double randomNumber1 = std::uniform_real_distribution<>{}(randomEngine);
+    const double randomNumber2 = std::uniform_real_distribution<>{ 0.0, NumericLimits::max() }(randomEngine);
 
     Expect_ResampleImageFilter_preserves_pixel_value(randomNumber1);
     Expect_ResampleImageFilter_preserves_pixel_value(-randomNumber1);

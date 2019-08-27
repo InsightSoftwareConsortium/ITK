@@ -35,9 +35,8 @@ namespace Function
  * \ingroup ITKOptimizersv4
  */
 
-template<typename TScalar = double>
-class ITK_TEMPLATE_EXPORT WindowConvergenceMonitoringFunction
-: public ConvergenceMonitoringFunction<TScalar, TScalar>
+template <typename TScalar = double>
+class ITK_TEMPLATE_EXPORT WindowConvergenceMonitoringFunction : public ConvergenceMonitoringFunction<TScalar, TScalar>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(WindowConvergenceMonitoringFunction);
@@ -48,10 +47,10 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( WindowConvergenceMonitoringFunction, ConvergenceMonitoringFunction );
+  itkTypeMacro(WindowConvergenceMonitoringFunction, ConvergenceMonitoringFunction);
 
   using ScalarType = TScalar;
   using RealType = typename NumericTraits<ScalarType>::RealType;
@@ -63,36 +62,39 @@ public:
   using EnergyValueConstIterator = typename EnergyValueContainerType::const_iterator;
 
   /** Add energy value */
-  void AddEnergyValue( const EnergyValueType ) override;
+  void
+  AddEnergyValue(const EnergyValueType) override;
 
   /* Clear energy values and set total energy to 0 */
-  void ClearEnergyValues() override;
+  void
+  ClearEnergyValues() override;
 
   /** Set/Get window size over which the convergence value is calculated */
-  itkSetMacro( WindowSize, EnergyValueContainerSizeType );
-  itkGetConstMacro( WindowSize, EnergyValueContainerSizeType );
+  itkSetMacro(WindowSize, EnergyValueContainerSizeType);
+  itkGetConstMacro(WindowSize, EnergyValueContainerSizeType);
 
   /** Calculate convergence value by fitting to a window of the enrgy profile */
-  RealType GetConvergenceValue() const override;
+  RealType
+  GetConvergenceValue() const override;
 
 protected:
   WindowConvergenceMonitoringFunction();
 
   ~WindowConvergenceMonitoringFunction() override = default;
 
-  void PrintSelf( std::ostream & os, Indent indent ) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  EnergyValueContainerSizeType                   m_WindowSize;
+  EnergyValueContainerSizeType m_WindowSize;
 
-  RealType                                       m_TotalEnergy;
-
+  RealType m_TotalEnergy;
 };
 } // end namespace Function
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkWindowConvergenceMonitoringFunction.hxx"
+#  include "itkWindowConvergenceMonitoringFunction.hxx"
 #endif
 
 #endif

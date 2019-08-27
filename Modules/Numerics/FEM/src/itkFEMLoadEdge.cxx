@@ -24,53 +24,60 @@ namespace fem
 {
 
 // Overload the CreateAnother() method.
-::itk::LightObject::Pointer LoadEdge::CreateAnother() const
+::itk::LightObject::Pointer
+LoadEdge::CreateAnother() const
 {
   ::itk::LightObject::Pointer smartPtr;
-  Pointer copyPtr = Self::New();
+  Pointer                     copyPtr = Self::New();
 
   copyPtr->m_Edge = this->m_Edge;
 
   // vnl_matrix = operator copies all elements
   copyPtr->m_Force = this->m_Force;
-  for(auto i : this->m_Element)
-    {
-    copyPtr->AddNextElement( i );
-    }
+  for (auto i : this->m_Element)
+  {
+    copyPtr->AddNextElement(i);
+  }
 
-  copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
+  copyPtr->SetGlobalNumber(this->GetGlobalNumber());
 
   smartPtr = static_cast<Pointer>(copyPtr);
 
   return smartPtr;
 }
 
-void LoadEdge::SetEdge(int edge)
+void
+LoadEdge::SetEdge(int edge)
 {
   this->m_Edge = edge;
 }
 
-int LoadEdge::GetEdge() const
+int
+LoadEdge::GetEdge() const
 {
   return this->m_Edge;
 }
 
-void LoadEdge::SetForce(const vnl_matrix<itk::fem::Element::Float> force)
+void
+LoadEdge::SetForce(const vnl_matrix<itk::fem::Element::Float> force)
 {
   this->m_Force = force;
 }
 
-const vnl_matrix<itk::fem::Element::Float> & LoadEdge::GetForce() const
+const vnl_matrix<itk::fem::Element::Float> &
+LoadEdge::GetForce() const
 {
   return this->m_Force;
 }
 
-vnl_matrix<itk::fem::Element::Float> & LoadEdge::GetForce()
+vnl_matrix<itk::fem::Element::Float> &
+LoadEdge::GetForce()
 {
   return this->m_Force;
 }
 
-void LoadEdge::ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe)
+void
+LoadEdge::ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe)
 {
   //
   // Only some classes modify their state in PopulateEdges, but that
@@ -84,26 +91,26 @@ void LoadEdge::ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe
 
   vnl_matrix<itk::fem::Element::Float> Force = this->GetForce();
 
-  const std::vector<std::vector<int> > EdgeIds = element->GetEdgeIds();
+  const std::vector<std::vector<int>> EdgeIds = element->GetEdgeIds();
 
-  Fe.set_size( element->GetNumberOfDegreesOfFreedom() );
+  Fe.set_size(element->GetNumberOfDegreesOfFreedom());
   Fe.fill(0.0);
 
-  auto NEdgePts = static_cast<unsigned int>( (EdgeIds[0]).size() );
-  int EdgePt;
+  auto NEdgePts = static_cast<unsigned int>((EdgeIds[0]).size());
+  int  EdgePt;
   // access the edge points.
-  for( unsigned int i = 0; i < NEdgePts; i++ )
-    {
+  for (unsigned int i = 0; i < NEdgePts; i++)
+  {
     EdgePt = (EdgeIds[EdgeNum])[i];
-    for( unsigned int j = 0; j < NnDOF; j++ )
-      {
+    for (unsigned int j = 0; j < NnDOF; j++)
+    {
       Fe[NnDOF * EdgePt + j] = Fe[NnDOF * EdgePt + j] + Force[i][j];
-      }
     }
-
+  }
 }
 
-void LoadEdge::PrintSelf(std::ostream& os, Indent indent) const
+void
+LoadEdge::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Edge: " << this->m_Edge << std::endl;

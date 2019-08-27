@@ -26,16 +26,17 @@
 #include "itkGrayscaleFillholeImageFilter.h"
 
 
-int itkGrayscaleFillholeImageFilterTest( int argc, char * argv[] )
+int
+itkGrayscaleFillholeImageFilterTest(int argc, char * argv[])
 {
-  if( argc < 4 )
-    {
+  if (argc < 4)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << itkNameOfTestExecutableMacro(argv) << "  inputImageFile  ";
     std::cerr << " outputImageFile  " << std::endl;
     std::cerr << " fullyConnected " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   //
@@ -48,51 +49,48 @@ int itkGrayscaleFillholeImageFilterTest( int argc, char * argv[] )
   using OutputPixelType = short;
   using WritePixelType = unsigned char;
 
-  using InputImageType = itk::Image< InputPixelType,  Dimension >;
-  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
-  using WriteImageType = itk::Image< WritePixelType, Dimension >;
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
+  using WriteImageType = itk::Image<WritePixelType, Dimension>;
 
 
   // readers/writers
-  using ReaderType = itk::ImageFileReader< InputImageType  >;
-  using WriterType = itk::ImageFileWriter< WriteImageType >;
-  using RescaleType =
-      itk::RescaleIntensityImageFilter<OutputImageType, WriteImageType>;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using WriterType = itk::ImageFileWriter<WriteImageType>;
+  using RescaleType = itk::RescaleIntensityImageFilter<OutputImageType, WriteImageType>;
 
   // define the fillhole filter
-  using FillholeFilterType = itk::GrayscaleFillholeImageFilter<
-                            InputImageType,
-                            OutputImageType >;
+  using FillholeFilterType = itk::GrayscaleFillholeImageFilter<InputImageType, OutputImageType>;
 
 
   // Creation of Reader and Writer filters
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer  = WriterType::New();
+  ReaderType::Pointer  reader = ReaderType::New();
+  WriterType::Pointer  writer = WriterType::New();
   RescaleType::Pointer rescaler = RescaleType::New();
 
   // Create the filter
-  FillholeFilterType::Pointer  fillhole = FillholeFilterType::New();
+  FillholeFilterType::Pointer fillhole = FillholeFilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( fillhole, GrayscaleFillholeImageFilter,
-    ImageToImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(fillhole, GrayscaleFillholeImageFilter, ImageToImageFilter);
 
-  itk::SimpleFilterWatcher watcher(fillhole, "fillhole"); watcher.QuietOn();
+  itk::SimpleFilterWatcher watcher(fillhole, "fillhole");
+  watcher.QuietOn();
 
-  auto fullyConnected = static_cast< bool >( atoi( argv[3] ) );
-  ITK_TEST_SET_GET_BOOLEAN( fillhole, FullyConnected, fullyConnected );
+  auto fullyConnected = static_cast<bool>(atoi(argv[3]));
+  ITK_TEST_SET_GET_BOOLEAN(fillhole, FullyConnected, fullyConnected);
 
   // Setup the input and output files
-  reader->SetFileName( argv[1] );
-  writer->SetFileName(  argv[2] );
+  reader->SetFileName(argv[1]);
+  writer->SetFileName(argv[2]);
 
   // Setup the fillhole method
-  fillhole->SetInput(  reader->GetOutput() );
+  fillhole->SetInput(reader->GetOutput());
 
   // Run the filter
-  rescaler->SetInput( fillhole->GetOutput() );
-  rescaler->SetOutputMinimum(   0 );
-  rescaler->SetOutputMaximum( 255 );
-  writer->SetInput( rescaler->GetOutput() );
+  rescaler->SetInput(fillhole->GetOutput());
+  rescaler->SetOutputMinimum(0);
+  rescaler->SetOutputMaximum(255);
+  writer->SetInput(rescaler->GetOutput());
   writer->Update();
 
   return EXIT_SUCCESS;

@@ -63,7 +63,7 @@ public:
   /** Standard class type aliases */
   using Self = MaximumRatioDecisionRule;
   using Superclass = DecisionRule;
-  using Pointer = SmartPointer< Self >;
+  using Pointer = SmartPointer<Self>;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(MaximumRatioDecisionRule, DecisionRule);
@@ -80,7 +80,7 @@ public:
 
   /** Types for priors and values */
   using PriorProbabilityValueType = MembershipValueType;
-  using PriorProbabilityVectorType = std::vector< PriorProbabilityValueType >;
+  using PriorProbabilityVectorType = std::vector<PriorProbabilityValueType>;
   using PriorProbabilityVectorSizeType = PriorProbabilityVectorType::size_type;
 
   /**
@@ -90,13 +90,15 @@ public:
    * assumed). Parameter to Evaluate() is the discriminant score in
    * the form of a likelihood \f$p(x|i)\f$.
    */
-  ClassIdentifierType Evaluate(const MembershipVectorType & discriminantScores) const override;
+  ClassIdentifierType
+  Evaluate(const MembershipVectorType & discriminantScores) const override;
 
   /** Set the prior probabilities used in evaluating
    * \f$p(x|i) p(i) > p(x|j) p(j)\f$. The likelihoods are set using
    * the Evaluate() method. SetPriorProbabilities needs to be called before
    * Evaluate(). If not set, assumes a uniform prior.  */
-  void SetPriorProbabilities(const PriorProbabilityVectorType& p);
+  void
+  SetPriorProbabilities(const PriorProbabilityVectorType & p);
 
   /** Get the prior probabilities. */
   itkGetConstReferenceMacro(PriorProbabilities, PriorProbabilityVectorType);
@@ -104,12 +106,13 @@ public:
 protected:
   MaximumRatioDecisionRule();
   ~MaximumRatioDecisionRule() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   PriorProbabilityVectorType m_PriorProbabilities;
 
-};  // end of class
-} // end of Statistics namespace
-} // end of ITK namespace
+}; // end of class
+} // namespace Statistics
+} // namespace itk
 #endif

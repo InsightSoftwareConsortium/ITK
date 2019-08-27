@@ -39,9 +39,8 @@ namespace Function
  *
  * \ingroup ITKOptimizersv4
  */
-template<typename TScalar, typename TEnergyValue>
-class ConvergenceMonitoringFunction
-: public Object
+template <typename TScalar, typename TEnergyValue>
+class ConvergenceMonitoringFunction : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ConvergenceMonitoringFunction);
@@ -52,7 +51,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( ConvergenceMonitoringFunction, Object );
+  itkTypeMacro(ConvergenceMonitoringFunction, Object);
 
   using ScalarType = TScalar;
   using RealType = typename NumericTraits<ScalarType>::RealType;
@@ -64,57 +63,59 @@ public:
   using EnergyValueConstIterator = typename EnergyValueContainerType::const_iterator;
 
   /* Add energy value to the end of the profile. */
-  virtual void AddEnergyValue( const EnergyValueType value )
-    {
-    itkDebugMacro( "Adding energy value " << value );
-    this->m_EnergyValues.push_back( value );
+  virtual void
+  AddEnergyValue(const EnergyValueType value)
+  {
+    itkDebugMacro("Adding energy value " << value);
+    this->m_EnergyValues.push_back(value);
     this->Modified();
-    }
+  }
 
   /* Get the current number of energy values. */
-  EnergyValueContainerSizeType GetNumberOfEnergyValues() const
-    {
+  EnergyValueContainerSizeType
+  GetNumberOfEnergyValues() const
+  {
     return this->m_EnergyValues.size();
-    }
+  }
 
   /** Clear all the energy values. */
-  virtual void ClearEnergyValues()
+  virtual void
+  ClearEnergyValues()
+  {
+    if (this->GetNumberOfEnergyValues() > 0)
     {
-    if( this->GetNumberOfEnergyValues() > 0 )
-      {
-      itkDebugMacro( "Clearing energy values." );
+      itkDebugMacro("Clearing energy values.");
       this->m_EnergyValues.clear();
       this->Modified();
-      }
     }
+  }
 
   /** Derived classes are responsible for defining the convergence value calculation */
-  virtual RealType GetConvergenceValue() const = 0;
+  virtual RealType
+  GetConvergenceValue() const = 0;
 
 protected:
-  ConvergenceMonitoringFunction()
-    {
-    this->m_EnergyValues.clear();
-    }
+  ConvergenceMonitoringFunction() { this->m_EnergyValues.clear(); }
 
   ~ConvergenceMonitoringFunction() override = default;
 
-  void PrintSelf( std::ostream & os, Indent indent ) const override
-    {
-    Superclass::PrintSelf( os, indent );
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override
+  {
+    Superclass::PrintSelf(os, indent);
 
     os << std::endl << "Energy values: " << std::flush;
 
     auto it = this->m_EnergyValues.begin();
-    while( it != this->m_EnergyValues.end() )
-      {
+    while (it != this->m_EnergyValues.end())
+    {
       os << "(" << it - this->m_EnergyValues.begin() << "): " << *it << " ";
       ++it;
-      }
-    os << std::endl;
     }
+    os << std::endl;
+  }
 
-  EnergyValueContainerType          m_EnergyValues;
+  EnergyValueContainerType m_EnergyValues;
 };
 } // end namespace Function
 } // end namespace itk

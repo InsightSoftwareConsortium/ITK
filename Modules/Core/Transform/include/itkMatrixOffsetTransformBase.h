@@ -35,21 +35,29 @@ namespace itk
  * The tolerance needs to be different for
  * matricies of type float vs. double.
  */
-template<typename T>
+template <typename T>
 class MatrixOrthogonalityTolerance;
 
 template <>
 class ITK_TEMPLATE_EXPORT MatrixOrthogonalityTolerance<double>
 {
 public:
-  static double GetTolerance() { return 1e-10; }
+  static double
+  GetTolerance()
+  {
+    return 1e-10;
+  }
 };
 
 template <>
 class ITK_TEMPLATE_EXPORT MatrixOrthogonalityTolerance<float>
 {
 public:
-  static float GetTolerance() { return 1e-5f; }
+  static float
+  GetTolerance()
+  {
+    return 1e-5f;
+  }
 };
 
 /** \class MatrixOffsetTransformBase
@@ -93,18 +101,14 @@ public:
  * \ingroup ITKTransform
  */
 
-template<typename TParametersValueType=double,
-         unsigned int NInputDimensions = 3,
-         unsigned int NOutputDimensions = 3>
-class ITK_TEMPLATE_EXPORT MatrixOffsetTransformBase :
-  public Transform<TParametersValueType, NInputDimensions, NOutputDimensions>
+template <typename TParametersValueType = double, unsigned int NInputDimensions = 3, unsigned int NOutputDimensions = 3>
+class ITK_TEMPLATE_EXPORT MatrixOffsetTransformBase
+  : public Transform<TParametersValueType, NInputDimensions, NOutputDimensions>
 {
 public:
   /** Standard type alias   */
   using Self = MatrixOffsetTransformBase;
-  using Superclass = Transform<TParametersValueType,
-                    NInputDimensions,
-                    NOutputDimensions>;
+  using Superclass = Transform<TParametersValueType, NInputDimensions, NOutputDimensions>;
 
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
@@ -118,7 +122,7 @@ public:
   /** Dimension of the domain space. */
   static constexpr unsigned int InputSpaceDimension = NInputDimensions;
   static constexpr unsigned int OutputSpaceDimension = NOutputDimensions;
-  static constexpr unsigned int ParametersDimension = NOutputDimensions * ( NInputDimensions + 1 );
+  static constexpr unsigned int ParametersDimension = NOutputDimensions * (NInputDimensions + 1);
 
   /** Parameters Type   */
   using FixedParametersType = typename Superclass::FixedParametersType;
@@ -138,17 +142,13 @@ public:
   using ScalarType = typename Superclass::ScalarType;
 
   /** Standard vector type for this class   */
-  using InputVectorType = Vector<TParametersValueType,
-                 Self::InputSpaceDimension>;
-  using OutputVectorType = Vector<TParametersValueType,
-                 Self::OutputSpaceDimension>;
+  using InputVectorType = Vector<TParametersValueType, Self::InputSpaceDimension>;
+  using OutputVectorType = Vector<TParametersValueType, Self::OutputSpaceDimension>;
   using OutputVectorValueType = typename OutputVectorType::ValueType;
 
   /** Standard covariant vector type for this class   */
-  using InputCovariantVectorType = CovariantVector<TParametersValueType,
-                          Self::InputSpaceDimension>;
-  using OutputCovariantVectorType = CovariantVector<TParametersValueType,
-                          Self::OutputSpaceDimension>;
+  using InputCovariantVectorType = CovariantVector<TParametersValueType, Self::InputSpaceDimension>;
+  using OutputCovariantVectorType = CovariantVector<TParametersValueType, Self::OutputSpaceDimension>;
 
   using InputVectorPixelType = typename Superclass::InputVectorPixelType;
   using OutputVectorPixelType = typename Superclass::OutputVectorPixelType;
@@ -161,31 +161,24 @@ public:
   using InputSymmetricSecondRankTensorType = typename Superclass::InputSymmetricSecondRankTensorType;
   using OutputSymmetricSecondRankTensorType = typename Superclass::OutputSymmetricSecondRankTensorType;
 
-  using InputTensorEigenVectorType =
-      CovariantVector<TParametersValueType, InputDiffusionTensor3DType::Dimension>;
+  using InputTensorEigenVectorType = CovariantVector<TParametersValueType, InputDiffusionTensor3DType::Dimension>;
 
   /** Standard vnl_vector type for this class   */
-  using InputVnlVectorType = vnl_vector_fixed<TParametersValueType,
-                           Self::InputSpaceDimension>;
-  using OutputVnlVectorType = vnl_vector_fixed<TParametersValueType,
-                           Self::OutputSpaceDimension>;
+  using InputVnlVectorType = vnl_vector_fixed<TParametersValueType, Self::InputSpaceDimension>;
+  using OutputVnlVectorType = vnl_vector_fixed<TParametersValueType, Self::OutputSpaceDimension>;
 
   /** Standard coordinate point type for this class   */
-  using InputPointType = Point<TParametersValueType,
-                Self::InputSpaceDimension>;
+  using InputPointType = Point<TParametersValueType, Self::InputSpaceDimension>;
   using InputPointValueType = typename InputPointType::ValueType;
-  using OutputPointType = Point<TParametersValueType,
-                Self::OutputSpaceDimension>;
+  using OutputPointType = Point<TParametersValueType, Self::OutputSpaceDimension>;
   using OutputPointValueType = typename OutputPointType::ValueType;
 
   /** Standard matrix type for this class   */
-  using MatrixType = Matrix<TParametersValueType, Self::OutputSpaceDimension,
-                 Self::InputSpaceDimension>;
+  using MatrixType = Matrix<TParametersValueType, Self::OutputSpaceDimension, Self::InputSpaceDimension>;
   using MatrixValueType = typename MatrixType::ValueType;
 
   /** Standard inverse matrix type for this class   */
-  using InverseMatrixType = Matrix<TParametersValueType, Self::InputSpaceDimension,
-                 Self::OutputSpaceDimension>;
+  using InverseMatrixType = Matrix<TParametersValueType, Self::InputSpaceDimension, Self::OutputSpaceDimension>;
 
   using CenterType = InputPointType;
 
@@ -204,12 +197,14 @@ public:
   /** Set the transformation to an Identity
    *
    * This sets the matrix to identity and the Offset to null. */
-  virtual void SetIdentity();
+  virtual void
+  SetIdentity();
 
   /** Indicates the category transform.
    *  e.g. an affine transform, or a local one, e.g. a deformation field.
    */
-  TransformCategoryType GetTransformCategory() const override
+  TransformCategoryType
+  GetTransformCategory() const override
   {
     return Self::TransformCategoryType::Linear;
   }
@@ -225,11 +220,15 @@ public:
    *
    * To define an affine transform, you must set the matrix,
    * center, and translation OR the matrix and offset */
-  virtual void SetMatrix(const MatrixType & matrix)
+  virtual void
+  SetMatrix(const MatrixType & matrix)
   {
-    m_Matrix = matrix; this->ComputeOffset();
+    m_Matrix = matrix;
+    this->ComputeOffset();
     this->ComputeMatrixParameters();
-    m_MatrixMTime.Modified(); this->Modified(); return;
+    m_MatrixMTime.Modified();
+    this->Modified();
+    return;
   }
 
   /** Get matrix of an MatrixOffsetTransformBase
@@ -239,7 +238,8 @@ public:
    * To define an affine transform, you must set the matrix,
    * center, and translation OR the matrix and offset */
 
-  virtual const MatrixType & GetMatrix() const
+  virtual const MatrixType &
+  GetMatrix() const
   {
     return m_Matrix;
   }
@@ -252,10 +252,13 @@ public:
    * offset-versus-translation in the documentation for SetCenter.
    * To define an affine transform, you must set the matrix,
    * center, and translation OR the matrix and offset */
-  void SetOffset(const OutputVectorType & offset)
+  void
+  SetOffset(const OutputVectorType & offset)
   {
-    m_Offset = offset; this->ComputeTranslation();
-    this->Modified(); return;
+    m_Offset = offset;
+    this->ComputeTranslation();
+    this->Modified();
+    return;
   }
 
   /** Get offset of an MatrixOffsetTransformBase
@@ -263,7 +266,8 @@ public:
    * This method returns the offset value of the MatrixOffsetTransformBase.
    * To define an affine transform, you must set the matrix,
    * center, and translation OR the matrix and offset */
-  const OutputVectorType & GetOffset() const
+  const OutputVectorType &
+  GetOffset() const
   {
     return m_Offset;
   }
@@ -290,10 +294,13 @@ public:
    *
    * To define an affine transform, you must set the matrix,
    * center, and translation OR the matrix and offset */
-  void SetCenter(const InputPointType & center)
+  void
+  SetCenter(const InputPointType & center)
   {
-    m_Center = center; this->ComputeOffset();
-    this->Modified(); return;
+    m_Center = center;
+    this->ComputeOffset();
+    this->Modified();
+    return;
   }
 
   /** Get center of rotation of the MatrixOffsetTransformBase
@@ -302,7 +309,8 @@ public:
    * center of rotation for the MatrixOffsetTransformBase.
    * To define an affine transform, you must set the matrix,
    * center, and translation OR the matrix and offset */
-  const InputPointType & GetCenter() const
+  const InputPointType &
+  GetCenter() const
   {
     return m_Center;
   }
@@ -313,10 +321,13 @@ public:
    * This updates Offset to reflect current translation.
    * To define an affine transform, you must set the matrix,
    * center, and translation OR the matrix and offset */
-  void SetTranslation(const OutputVectorType & translation)
+  void
+  SetTranslation(const OutputVectorType & translation)
   {
-    m_Translation = translation; this->ComputeOffset();
-    this->Modified(); return;
+    m_Translation = translation;
+    this->ComputeOffset();
+    this->Modified();
+    return;
   }
 
   /** Get translation component of the MatrixOffsetTransformBase
@@ -325,7 +336,8 @@ public:
    * about the center point.
    * To define an affine transform, you must set the matrix,
    * center, and translation OR the matrix and offset */
-  const OutputVectorType & GetTranslation() const
+  const OutputVectorType &
+  GetTranslation() const
   {
     return m_Translation;
   }
@@ -334,16 +346,20 @@ public:
    * The first (NOutputDimension x NInputDimension) parameters define the
    * matrix and the last NOutputDimension parameters the translation.
    * Offset is updated based on current center. */
-  void SetParameters(const ParametersType & parameters) override;
+  void
+  SetParameters(const ParametersType & parameters) override;
 
   /** Get the Transformation Parameters. */
-  const ParametersType & GetParameters() const override;
+  const ParametersType &
+  GetParameters() const override;
 
   /** Set the fixed parameters and update internal transformation. */
-  void SetFixedParameters(const FixedParametersType &) override;
+  void
+  SetFixedParameters(const FixedParametersType &) override;
 
   /** Get the Fixed Parameters. */
-  const FixedParametersType & GetFixedParameters() const override;
+  const FixedParametersType &
+  GetFixedParameters() const override;
 
   /** Compose with another MatrixOffsetTransformBase
    *
@@ -356,7 +372,8 @@ public:
    * with self; that is the resulting transformation consists of
    * first applying self to the source, followed by other.
    * This updates the Translation based on current center. */
-  void Compose(const Self *other, bool pre = false);
+  void
+  Compose(const Self * other, bool pre = false);
 
   /** Transform by an affine transformation
    *
@@ -366,32 +383,42 @@ public:
    * an affine point, whereas the TransformVector method transforms
    * its argument as a vector. */
 
-  OutputPointType       TransformPoint(const InputPointType & point) const override;
+  OutputPointType
+  TransformPoint(const InputPointType & point) const override;
 
   using Superclass::TransformVector;
 
-  OutputVectorType      TransformVector(const InputVectorType & vector) const override;
+  OutputVectorType
+  TransformVector(const InputVectorType & vector) const override;
 
-  OutputVnlVectorType   TransformVector(const InputVnlVectorType & vector) const override;
+  OutputVnlVectorType
+  TransformVector(const InputVnlVectorType & vector) const override;
 
-  OutputVectorPixelType TransformVector(const InputVectorPixelType & vector) const override;
+  OutputVectorPixelType
+  TransformVector(const InputVectorPixelType & vector) const override;
 
   using Superclass::TransformCovariantVector;
 
-  OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType & vector) const override;
+  OutputCovariantVectorType
+  TransformCovariantVector(const InputCovariantVectorType & vector) const override;
 
-  OutputVectorPixelType TransformCovariantVector(const InputVectorPixelType & vector) const override;
+  OutputVectorPixelType
+  TransformCovariantVector(const InputVectorPixelType & vector) const override;
 
   using Superclass::TransformDiffusionTensor3D;
 
-  OutputDiffusionTensor3DType TransformDiffusionTensor3D(const InputDiffusionTensor3DType & tensor) const override;
+  OutputDiffusionTensor3DType
+  TransformDiffusionTensor3D(const InputDiffusionTensor3DType & tensor) const override;
 
-  OutputVectorPixelType TransformDiffusionTensor3D(const InputVectorPixelType & tensor ) const override;
+  OutputVectorPixelType
+  TransformDiffusionTensor3D(const InputVectorPixelType & tensor) const override;
 
   using Superclass::TransformSymmetricSecondRankTensor;
-  OutputSymmetricSecondRankTensorType TransformSymmetricSecondRankTensor( const InputSymmetricSecondRankTensorType & tensor ) const override;
+  OutputSymmetricSecondRankTensorType
+  TransformSymmetricSecondRankTensor(const InputSymmetricSecondRankTensorType & tensor) const override;
 
-  OutputVectorPixelType TransformSymmetricSecondRankTensor( const InputVectorPixelType & tensor ) const override;
+  OutputVectorPixelType
+  TransformSymmetricSecondRankTensor(const InputVectorPixelType & tensor) const override;
 
 
   /** Compute the Jacobian of the transformation
@@ -403,20 +430,23 @@ public:
    * Get local Jacobian for the given point
    * \c j will sized properly as needed.
    */
-  void ComputeJacobianWithRespectToParameters(const InputPointType  & x, JacobianType & j) const override;
+  void
+  ComputeJacobianWithRespectToParameters(const InputPointType & x, JacobianType & j) const override;
 
 
   /** Get the jacobian with respect to position. This simply returns
    * the current Matrix. jac will be resized as needed, but it's
    * more efficient if it's already properly sized. */
-  void ComputeJacobianWithRespectToPosition(const InputPointType  & x, JacobianPositionType & jac) const override;
+  void
+  ComputeJacobianWithRespectToPosition(const InputPointType & x, JacobianPositionType & jac) const override;
   using Superclass::ComputeJacobianWithRespectToPosition;
 
   /** Get the jacobian with respect to position. This simply returns
    * the inverse of the current Matrix. jac will be resized as needed, but it's
    * more efficient if it's already properly sized. */
-  void ComputeInverseJacobianWithRespectToPosition(const InputPointType  & x,
-                                                   InverseJacobianPositionType & jac) const override;
+  void
+  ComputeInverseJacobianWithRespectToPosition(const InputPointType &        x,
+                                              InverseJacobianPositionType & jac) const override;
   using Superclass::ComputeInverseJacobianWithRespectToPosition;
 
   /** Create inverse of an affine transformation
@@ -437,17 +467,20 @@ public:
    * incorrect transform.
    *
    */
-  bool GetInverse(Self *inverse) const;
+  bool
+  GetInverse(Self * inverse) const;
 
   /** Return an inverse of this transform. */
-  InverseTransformBasePointer GetInverseTransform() const override;
+  InverseTransformBasePointer
+  GetInverseTransform() const override;
 
   /** Indicates that this transform is linear. That is, given two
    * points P and Q, and scalar coefficients a and b, then
    *
    *           T( a*P + b*Q ) = a * T(P) + b * T(Q)
    */
-  bool IsLinear() const override
+  bool
+  IsLinear() const override
   {
     return true;
   }
@@ -455,7 +488,8 @@ public:
 protected:
   /** \deprecated Use GetInverse for public API instead.
    * Method will eventually be made a protected member function */
-  const InverseMatrixType & GetInverseMatrix() const;
+  const InverseMatrixType &
+  GetInverseMatrix() const;
 
 protected:
   /** Construct an MatrixOffsetTransformBase object
@@ -473,66 +507,81 @@ protected:
   ~MatrixOffsetTransformBase() override = default;
 
   /** Print contents of an MatrixOffsetTransformBase */
-  void PrintSelf(std::ostream & s, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & s, Indent indent) const override;
 
-  const InverseMatrixType & GetVarInverseMatrix() const
+  const InverseMatrixType &
+  GetVarInverseMatrix() const
   {
     return m_InverseMatrix;
   }
-  void SetVarInverseMatrix(const InverseMatrixType & matrix) const
+  void
+  SetVarInverseMatrix(const InverseMatrixType & matrix) const
   {
-    m_InverseMatrix = matrix; m_InverseMatrixMTime.Modified();
+    m_InverseMatrix = matrix;
+    m_InverseMatrixMTime.Modified();
   }
-  bool InverseMatrixIsOld() const
+  bool
+  InverseMatrixIsOld() const
   {
-    if( m_MatrixMTime != m_InverseMatrixMTime )
-      {
+    if (m_MatrixMTime != m_InverseMatrixMTime)
+    {
       return true;
-      }
+    }
     else
-      {
+    {
       return false;
-      }
+    }
   }
 
-  virtual void ComputeMatrixParameters();
+  virtual void
+  ComputeMatrixParameters();
 
-  virtual void ComputeMatrix();
+  virtual void
+  ComputeMatrix();
 
-  void SetVarMatrix(const MatrixType & matrix)
+  void
+  SetVarMatrix(const MatrixType & matrix)
   {
-    m_Matrix = matrix; m_MatrixMTime.Modified();
+    m_Matrix = matrix;
+    m_MatrixMTime.Modified();
   }
 
-  virtual void ComputeTranslation();
+  virtual void
+  ComputeTranslation();
 
-  void SetVarTranslation(const OutputVectorType & translation)
+  void
+  SetVarTranslation(const OutputVectorType & translation)
   {
     m_Translation = translation;
   }
 
-  virtual void ComputeOffset();
+  virtual void
+  ComputeOffset();
 
-  void SetVarOffset(const OutputVectorType & offset)
+  void
+  SetVarOffset(const OutputVectorType & offset)
   {
     m_Offset = offset;
   }
 
-  void SetVarCenter(const InputPointType & center)
+  void
+  SetVarCenter(const InputPointType & center)
   {
     m_Center = center;
   }
 
   itkGetConstMacro(Singular, bool);
+
 private:
-
   MatrixOffsetTransformBase(const Self & other) = delete;
-  const Self & operator=(const Self &) = delete;
+  const Self &
+  operator=(const Self &) = delete;
 
-  MatrixType                m_Matrix;           // Matrix of the transformation
-  OutputVectorType          m_Offset;           // Offset of the transformation
-  mutable InverseMatrixType m_InverseMatrix;    // Inverse of the matrix
-  mutable bool              m_Singular;         // Is m_Inverse singular?
+  MatrixType                m_Matrix;        // Matrix of the transformation
+  OutputVectorType          m_Offset;        // Offset of the transformation
+  mutable InverseMatrixType m_InverseMatrix; // Inverse of the matrix
+  mutable bool              m_Singular;      // Is m_Inverse singular?
 
   InputPointType   m_Center;
   OutputVectorType m_Translation;
@@ -541,10 +590,10 @@ private:
   TimeStamp         m_MatrixMTime;
   mutable TimeStamp m_InverseMatrixMTime;
 }; // class MatrixOffsetTransformBase
-}  // namespace itk
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMatrixOffsetTransformBase.hxx"
+#  include "itkMatrixOffsetTransformBase.hxx"
 #endif
 
 #endif /* itkMatrixOffsetTransformBase_h */

@@ -24,84 +24,84 @@
 #include "itkBinaryProjectionImageFilter.h"
 #include "itkTestingMacros.h"
 
-int itkBinaryProjectionImageFilterTest(int argc, char * argv[])
+int
+itkBinaryProjectionImageFilterTest(int argc, char * argv[])
 {
-  if( argc < 5 )
-    {
+  if (argc < 5)
+  {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " InputImage OutputImage Foreground Background" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr int dim = 3;
 
   using PixelType = unsigned char;
-  using ImageType = itk::Image< PixelType, dim >;
+  using ImageType = itk::Image<PixelType, dim>;
 
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
   // produce an image with 3 labels: 0 (background), 100 and 200
 
-  using LabelerType = itk::ThresholdLabelerImageFilter< ImageType, ImageType >;
+  using LabelerType = itk::ThresholdLabelerImageFilter<ImageType, ImageType>;
   LabelerType::Pointer labeler = LabelerType::New();
-  labeler->SetInput( reader->GetOutput() );
+  labeler->SetInput(reader->GetOutput());
   LabelerType::RealThresholdVector thresholds;
-  thresholds.push_back( 100 );
-  thresholds.push_back( 200 );
-  labeler->SetRealThresholds( thresholds );
+  thresholds.push_back(100);
+  thresholds.push_back(200);
+  labeler->SetRealThresholds(thresholds);
 
-  using ChangeType = itk::ChangeLabelImageFilter< ImageType, ImageType >;
+  using ChangeType = itk::ChangeLabelImageFilter<ImageType, ImageType>;
   ChangeType::Pointer change = ChangeType::New();
-  change->SetInput( labeler->GetOutput() );
-  change->SetChange( 1, 100 );
-  change->SetChange( 2, 200 );
+  change->SetInput(labeler->GetOutput());
+  change->SetChange(1, 100);
+  change->SetChange(2, 200);
 
-  using FilterType = itk::BinaryProjectionImageFilter< ImageType, ImageType >;
+  using FilterType = itk::BinaryProjectionImageFilter<ImageType, ImageType>;
   FilterType::Pointer filter = FilterType::New();
-  filter->SetInput( change->GetOutput() );
+  filter->SetInput(change->GetOutput());
 
-  //Exercise Set/Get methods for Foreground Value
-  filter->SetForegroundValue( 255 );
+  // Exercise Set/Get methods for Foreground Value
+  filter->SetForegroundValue(255);
 
-  if ( filter->GetForegroundValue( ) != 255 )
-    {
-    std::cerr << "Set/Get Foreground value problem: "
-              << filter->GetForegroundValue() << std::endl;
+  if (filter->GetForegroundValue() != 255)
+  {
+    std::cerr << "Set/Get Foreground value problem: " << filter->GetForegroundValue() << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  filter->SetForegroundValue( std::stoi(argv[3]) );
+  filter->SetForegroundValue(std::stoi(argv[3]));
 
-  //Exercise Set/Get methods for Background Value
-  filter->SetBackgroundValue( 0 );
+  // Exercise Set/Get methods for Background Value
+  filter->SetBackgroundValue(0);
 
-  if ( filter->GetBackgroundValue( ) != 0 )
-    {
+  if (filter->GetBackgroundValue() != 0)
+  {
     std::cerr << "Set/Get Background value problem" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  filter->SetBackgroundValue( std::stoi(argv[4]) );
+  filter->SetBackgroundValue(std::stoi(argv[4]));
 
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( filter->GetOutput() );
-  writer->SetFileName( argv[2] );
+  writer->SetInput(filter->GetOutput());
+  writer->SetFileName(argv[2]);
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch ( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

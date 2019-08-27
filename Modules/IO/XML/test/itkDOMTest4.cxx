@@ -27,59 +27,60 @@ because it is used here to verify the correctness of the query output.
 #include <iostream>
 #include "itkMacro.h"
 
-int itkDOMTest4( int argc, char* argv[] )
+int
+itkDOMTest4(int argc, char * argv[])
 {
-  if ( argc < 4 )
-    {
+  if (argc < 4)
+  {
     std::cerr << "arguments expected: <test>.xml <QueryString> <GroundTruthPathString>" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   try
-    {
+  {
     // read the DOM object from the input XML file
     itk::DOMNodeXMLReader::Pointer reader = itk::DOMNodeXMLReader::New();
-    reader->SetFileName( argv[1] );
+    reader->SetFileName(argv[1]);
     reader->Update();
     itk::DOMNode::Pointer dom = reader->GetOutput();
 
     std::string sQueryString = argv[2];
     // itk_add_test has problem to supply an empty string, so we use a special string
-    if ( sQueryString == "[]" )
-      {
+    if (sQueryString == "[]")
+    {
       sQueryString = "";
-      }
+    }
 
     std::string sGroundTruthPathString = argv[3];
     // itk_add_test has problem to supply an empty string, so we use a special string
-    if ( sGroundTruthPathString == "[]" )
-      {
+    if (sGroundTruthPathString == "[]")
+    {
       sGroundTruthPathString = "";
-      }
+    }
 
-    itk::DOMNode* node = dom->Find( sQueryString );
-    if ( !node )
-      {
+    itk::DOMNode * node = dom->Find(sQueryString);
+    if (!node)
+    {
       throw "testing failed";
-      }
+    }
     std::cout << "node path: " << node->GetPath() << std::endl;
-    if ( node->GetPath() != sGroundTruthPathString )
-      {
+    if (node->GetPath() != sGroundTruthPathString)
+    {
       throw "testing failed";
-      }
+    }
 
     // the testing is successful if you reached here
-    }
-  catch ( const itk::ExceptionObject& eo )
-    {
-    eo.Print( std::cerr );
+  }
+  catch (const itk::ExceptionObject & eo)
+  {
+    eo.Print(std::cerr);
     return EXIT_FAILURE;
-    }
-  catch ( ... )
-    {
+  }
+  catch (...)
+  {
     std::cerr << "Unknown exception caught!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

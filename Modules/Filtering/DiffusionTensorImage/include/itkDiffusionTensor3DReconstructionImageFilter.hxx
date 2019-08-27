@@ -29,21 +29,21 @@
 
 namespace itk
 {
-template< typename TReferenceImagePixelType,
-          typename TGradientImagePixelType, typename TTensorPixelType,
-          typename TMaskImageType >
-DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
-                                            TGradientImagePixelType,
-                                            TTensorPixelType,
-                                            TMaskImageType >
-::DiffusionTensor3DReconstructionImageFilter()
+template <typename TReferenceImagePixelType,
+          typename TGradientImagePixelType,
+          typename TTensorPixelType,
+          typename TMaskImageType>
+DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
+                                           TGradientImagePixelType,
+                                           TTensorPixelType,
+                                           TMaskImageType>::DiffusionTensor3DReconstructionImageFilter()
 {
   // At least 1 inputs is necessary for a vector image.
   // For images added one at a time we need at least six
   this->SetNumberOfRequiredInputs(1);
   m_NumberOfGradientDirections = 0;
   m_NumberOfBaselineImages = 1;
-  m_Threshold = NumericTraits< ReferencePixelType >::min();
+  m_Threshold = NumericTraits<ReferencePixelType>::min();
   m_GradientImageTypeEnumeration = GradientEnumeration::Else;
   m_GradientDirectionContainer = nullptr;
   m_TensorBasis.set_identity();
@@ -52,14 +52,15 @@ DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
   this->DynamicMultiThreadingOn();
 }
 
-template< typename TReferenceImagePixelType,
-          typename TGradientImagePixelType, typename TTensorPixelType,
-          typename TMaskImageType >
-void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
-                                                 TGradientImagePixelType,
-                                                 TTensorPixelType,
-                                                 TMaskImageType >
-::BeforeThreadedGenerateData()
+template <typename TReferenceImagePixelType,
+          typename TGradientImagePixelType,
+          typename TTensorPixelType,
+          typename TMaskImageType>
+void
+DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
+                                           TGradientImagePixelType,
+                                           TTensorPixelType,
+                                           TMaskImageType>::BeforeThreadedGenerateData()
 {
   // If we have more than 3 inputs, then each input, except the first is a
   // gradient image. The number of gradient images must match the number of
@@ -70,128 +71,115 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
   // Otherwise
   // we must have a container of (numberOfInputs-1) itk::Image. Check to make
   // sure
-  if ( (numberOfInputs == 1 ||
-        (numberOfInputs == 2 && this->m_MaskImagePresent))
-       && m_GradientImageTypeEnumeration != GradientEnumeration::GradientIsInASingleImage )
+  if ((numberOfInputs == 1 || (numberOfInputs == 2 && this->m_MaskImagePresent)) &&
+      m_GradientImageTypeEnumeration != GradientEnumeration::GradientIsInASingleImage)
+  {
+    std::string gradientImageClassName(this->ProcessObject::GetInput(0)->GetNameOfClass());
+    if (strcmp(gradientImageClassName.c_str(), "VectorImage") != 0)
     {
-    std::string gradientImageClassName(
-      this->ProcessObject::GetInput(0)->GetNameOfClass() );
-    if ( strcmp(gradientImageClassName.c_str(), "VectorImage") != 0 )
-      {
-      itkExceptionMacro(
-        << "There is only one Gradient image. I expect that to be a VectorImage. "
-        << "But its of type: " << gradientImageClassName);
-      }
+      itkExceptionMacro(<< "There is only one Gradient image. I expect that to be a VectorImage. "
+                        << "But its of type: " << gradientImageClassName);
     }
+  }
 
   this->ComputeTensorBasis();
 
   // If there's a mask, make sure it matches the dimensions of the
   // gradient image(s).
-  if(!this->m_MaskImagePresent)
-    {
+  if (!this->m_MaskImagePresent)
+  {
     return;
-    }
+  }
   typename ImageMaskSpatialObject<3>::Pointer maskSpatialObject =
     dynamic_cast<ImageMaskSpatialObject<3> *>(this->ProcessObject::GetInput(1));
-  if(maskSpatialObject.IsNull())
-    {
+  if (maskSpatialObject.IsNull())
+  {
     return; // not a mask image
-    }
+  }
   typename MaskImageType::ConstPointer maskImage = maskSpatialObject->GetImage();
 
-  typename MaskImageType::SizeType maskSize =
-    maskImage->GetLargestPossibleRegion().GetSize();
+  typename MaskImageType::SizeType maskSize = maskImage->GetLargestPossibleRegion().GetSize();
   typename MaskImageType::SizeType refSize;
 
-  typename MaskImageType::PointType maskOrigin =
-    maskImage->GetOrigin();
+  typename MaskImageType::PointType maskOrigin = maskImage->GetOrigin();
   typename MaskImageType::PointType refOrigin;
 
-  typename MaskImageType::SpacingType maskSpacing =
-    maskImage->GetSpacing();
+  typename MaskImageType::SpacingType maskSpacing = maskImage->GetSpacing();
   typename MaskImageType::SpacingType refSpacing;
 
-  typename MaskImageType::DirectionType maskDirection =
-    maskImage->GetDirection();
+  typename MaskImageType::DirectionType maskDirection = maskImage->GetDirection();
   typename MaskImageType::DirectionType refDirection;
 
-  if( m_GradientImageTypeEnumeration == GradientEnumeration::GradientIsInManyImages )
-    {
+  if (m_GradientImageTypeEnumeration == GradientEnumeration::GradientIsInManyImages)
+  {
     auto * refImage = static_cast<ReferenceImageType *>(this->ProcessObject::GetInput(0));
-    refSize =
-      refImage->GetLargestPossibleRegion().GetSize();
+    refSize = refImage->GetLargestPossibleRegion().GetSize();
     refOrigin = refImage->GetOrigin();
     refSpacing = refImage->GetSpacing();
     refDirection = refImage->GetDirection();
-    }
-  else if( m_GradientImageTypeEnumeration == GradientEnumeration::GradientIsInASingleImage )
-    {
-    auto * gradientImage = static_cast< GradientImagesType * >(this->ProcessObject::GetInput(0) );
-    refSize =
-      gradientImage->GetLargestPossibleRegion().GetSize();
+  }
+  else if (m_GradientImageTypeEnumeration == GradientEnumeration::GradientIsInASingleImage)
+  {
+    auto * gradientImage = static_cast<GradientImagesType *>(this->ProcessObject::GetInput(0));
+    refSize = gradientImage->GetLargestPossibleRegion().GetSize();
     refOrigin = gradientImage->GetOrigin();
     refSpacing = gradientImage->GetSpacing();
     refDirection = gradientImage->GetDirection();
-    }
+  }
   // size mismatch is a deal breaker. Iterators are useless.
-  if(refSize != maskSize)
-    {
-    itkExceptionMacro( << "Mask size doesn't match Reference Image Size"
-                       << " Mask Size " << maskSize
-                       << " Ref Size " << refSize );
-    }
+  if (refSize != maskSize)
+  {
+    itkExceptionMacro(<< "Mask size doesn't match Reference Image Size"
+                      << " Mask Size " << maskSize << " Ref Size " << refSize);
+  }
   // Origin, Spacing, Direction, should match but it isn't fatal if
   // they don't.
-  if(refOrigin != maskOrigin)
-    {
-    itkWarningMacro( << "Mask origin doesn't match Reference origin "
-                     << "Mask Origin " << maskOrigin
-                     << " Ref Origin " << refOrigin );
-    }
-  if(refSpacing != maskSpacing)
-    {
-    itkWarningMacro( << "Mask spacing doesn't match Reference spacing "
-                     << "Mask Spacing " << maskSpacing
-                     << " Ref Spacing " << refSpacing );
-    }
-  if(refDirection != maskDirection)
-    {
-    itkWarningMacro( << "Mask direction doesn't match Reference direction "
-                     << "Mask Direction " << maskDirection
-                     << " Ref Direction " << refDirection );
-    }
+  if (refOrigin != maskOrigin)
+  {
+    itkWarningMacro(<< "Mask origin doesn't match Reference origin "
+                    << "Mask Origin " << maskOrigin << " Ref Origin " << refOrigin);
+  }
+  if (refSpacing != maskSpacing)
+  {
+    itkWarningMacro(<< "Mask spacing doesn't match Reference spacing "
+                    << "Mask Spacing " << maskSpacing << " Ref Spacing " << refSpacing);
+  }
+  if (refDirection != maskDirection)
+  {
+    itkWarningMacro(<< "Mask direction doesn't match Reference direction "
+                    << "Mask Direction " << maskDirection << " Ref Direction " << refDirection);
+  }
 }
 
 // POTENTIAL WARNING:
 //
 // Until we fix netlib svd routines, we will need to set the number of thread
 // to 1.
-template< typename TReferenceImagePixelType,
-          typename TGradientImagePixelType, typename TTensorPixelType,
-          typename TMaskImageType >
-void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
-                                                 TGradientImagePixelType,
-                                                 TTensorPixelType,
-                                                 TMaskImageType >
-::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
+template <typename TReferenceImagePixelType,
+          typename TGradientImagePixelType,
+          typename TTensorPixelType,
+          typename TMaskImageType>
+void
+DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
+                                           TGradientImagePixelType,
+                                           TTensorPixelType,
+                                           TMaskImageType>::DynamicThreadedGenerateData(const OutputImageRegionType &
+                                                                                          outputRegionForThread)
 {
-  typename OutputImageType::Pointer outputImage =
-    static_cast< OutputImageType * >( this->ProcessObject::GetOutput(0) );
+  typename OutputImageType::Pointer outputImage = static_cast<OutputImageType *>(this->ProcessObject::GetOutput(0));
 
-  ImageRegionIterator< OutputImageType > oit(outputImage, outputRegionForThread);
+  ImageRegionIterator<OutputImageType> oit(outputImage, outputRegionForThread);
   oit.GoToBegin();
 
-  vnl_vector< double > B(m_NumberOfGradientDirections);
-  vnl_vector< double > D(6);
+  vnl_vector<double> B(m_NumberOfGradientDirections);
+  vnl_vector<double> D(6);
 
   // if a mask is present, iterate through mask image and skip zero voxels
   typename MaskSpatialObjectType::Pointer maskSpatialObject;
-  if(this->m_MaskImagePresent)
-    {
-    maskSpatialObject =
-      static_cast<MaskSpatialObjectType *>(this->ProcessObject::GetInput(1));
-    }
+  if (this->m_MaskImagePresent)
+  {
+    maskSpatialObject = static_cast<MaskSpatialObjectType *>(this->ProcessObject::GetInput(1));
+  }
   bool useMask(maskSpatialObject.IsNotNull());
 
   // Two cases here .
@@ -201,33 +189,29 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
   // 2. If the Gradients have been specified in a single multi-component image,
   // one iterator will suffice to do the same.
 
-  if ( m_GradientImageTypeEnumeration == GradientEnumeration::GradientIsInManyImages )
-    {
-    typename ReferenceImageType::Pointer refImage =
-      static_cast< ReferenceImageType * >( this->ProcessObject::GetInput(0) );
-    ImageRegionConstIteratorWithIndex< ReferenceImageType >
-      it(refImage,
-       outputRegionForThread);
+  if (m_GradientImageTypeEnumeration == GradientEnumeration::GradientIsInManyImages)
+  {
+    typename ReferenceImageType::Pointer refImage = static_cast<ReferenceImageType *>(this->ProcessObject::GetInput(0));
+    ImageRegionConstIteratorWithIndex<ReferenceImageType> it(refImage, outputRegionForThread);
     it.GoToBegin();
 
-    using GradientIteratorType = ImageRegionConstIterator< GradientImageType >;
-    std::vector< GradientIteratorType * > gradientItContainer;
+    using GradientIteratorType = ImageRegionConstIterator<GradientImageType>;
+    std::vector<GradientIteratorType *> gradientItContainer;
 
-    for ( unsigned int i = 1; i <= m_NumberOfGradientDirections; i++ )
-      {
+    for (unsigned int i = 1; i <= m_NumberOfGradientDirections; i++)
+    {
 
       typename GradientImageType::Pointer gradientImagePointer =
-        dynamic_cast< GradientImageType * >( this->ProcessObject::GetInput(i+1) );
-      if(gradientImagePointer.IsNull())
-        {
+        dynamic_cast<GradientImageType *>(this->ProcessObject::GetInput(i + 1));
+      if (gradientImagePointer.IsNull())
+      {
         itkExceptionMacro(<< "Invalid dynamic_cast");
-        }
+      }
 
-      auto * git = new GradientIteratorType(
-        gradientImagePointer, outputRegionForThread);
+      auto * git = new GradientIteratorType(gradientImagePointer, outputRegionForThread);
       git->GoToBegin();
       gradientItContainer.push_back(git);
-      }
+    }
 
     // Iterate over the reference and gradient images and solve the steskal
     // equations to reconstruct the Diffusion tensor.
@@ -235,8 +219,8 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
     // "A Dual Tensor Basis Solution to the Stejskal-Tanner Equations for
     // DT-MRI"
 
-    while ( !it.IsAtEnd() )
-      {
+    while (!it.IsAtEnd())
+    {
 
       ReferencePixelType b0 = it.Get();
 
@@ -247,43 +231,42 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
       // look up the voxel in the mask image corresponding to
       // the location of the current index.
       bool unmaskedPixel(true);
-      if(useMask)
-        {
-        typename ImageRegionConstIteratorWithIndex<ReferenceImageType>::IndexType
-          index = it.GetIndex();
-        typename ReferenceImageType::PointType point;
-        refImage->TransformIndexToPhysicalPoint(index,point);
+      if (useMask)
+      {
+        typename ImageRegionConstIteratorWithIndex<ReferenceImageType>::IndexType index = it.GetIndex();
+        typename ReferenceImageType::PointType                                    point;
+        refImage->TransformIndexToPhysicalPoint(index, point);
         unmaskedPixel = maskSpatialObject->IsInsideInWorldSpace(point);
-        }
+      }
 
-      if ( Math::NotAlmostEquals( b0, itk::NumericTraits< ReferencePixelType >::ZeroValue() ) &&
-           unmaskedPixel && ( b0 >= m_Threshold ) )
+      if (Math::NotAlmostEquals(b0, itk::NumericTraits<ReferencePixelType>::ZeroValue()) && unmaskedPixel &&
+          (b0 >= m_Threshold))
+      {
+        for (unsigned int i = 0; i < m_NumberOfGradientDirections; i++)
         {
-        for ( unsigned int i = 0; i < m_NumberOfGradientDirections; i++ )
-          {
           GradientPixelType b = gradientItContainer[i]->Get();
 
-          if ( Math::AlmostEquals( b, itk::NumericTraits< GradientPixelType >::ZeroValue() ) )
-            {
+          if (Math::AlmostEquals(b, itk::NumericTraits<GradientPixelType>::ZeroValue()))
+          {
             B[i] = 0;
-            }
+          }
           else
-            {
-            B[i] = -std::log( static_cast< double >( b ) / static_cast< double >( b0 ) ) / this->m_BValue;
-            }
-
-          ++( *gradientItContainer[i] );
+          {
+            B[i] = -std::log(static_cast<double>(b) / static_cast<double>(b0)) / this->m_BValue;
           }
 
-        vnl_svd< double > pseudoInverseSolver(m_TensorBasis);
-        if ( m_NumberOfGradientDirections > 6 )
-          {
+          ++(*gradientItContainer[i]);
+        }
+
+        vnl_svd<double> pseudoInverseSolver(m_TensorBasis);
+        if (m_NumberOfGradientDirections > 6)
+        {
           D = pseudoInverseSolver.solve(m_BMatrix * B);
-          }
+        }
         else
-          {
+        {
           D = pseudoInverseSolver.solve(B);
-          }
+        }
 
         tensor(0, 0) = D[0];
         tensor(0, 1) = D[1];
@@ -291,72 +274,70 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
         tensor(1, 1) = D[3];
         tensor(1, 2) = D[4];
         tensor(2, 2) = D[5];
-        }
+      }
       else
+      {
+        for (unsigned int i = 0; i < m_NumberOfGradientDirections; i++)
         {
-        for ( unsigned int i = 0; i < m_NumberOfGradientDirections; i++ )
-          {
-          ++( *gradientItContainer[i] );
-          }
+          ++(*gradientItContainer[i]);
         }
+      }
 
       oit.Set(tensor);
       ++oit;
       ++it;
-      }
-
-    for ( unsigned int i = 0; i < gradientItContainer.size(); i++ )
-      {
-      delete gradientItContainer[i];
-      }
     }
-  // The gradients are specified in a single multi-component image
-  else if ( m_GradientImageTypeEnumeration == GradientEnumeration::GradientIsInASingleImage )
+
+    for (unsigned int i = 0; i < gradientItContainer.size(); i++)
     {
+      delete gradientItContainer[i];
+    }
+  }
+  // The gradients are specified in a single multi-component image
+  else if (m_GradientImageTypeEnumeration == GradientEnumeration::GradientIsInASingleImage)
+  {
     using GradientIteratorType = ImageRegionConstIteratorWithIndex<GradientImagesType>;
     using GradientVectorType = typename GradientImagesType::PixelType;
     typename GradientImagesType::Pointer gradientImagePointer = nullptr;
 
     // Would have liked a dynamic_cast here, but seems SGI doesn't like it
     // The enum will ensure that an inappropriate cast is not done
-    gradientImagePointer = itkDynamicCastInDebugMode< GradientImagesType * >
-      (this->ProcessObject::GetInput(0) );
+    gradientImagePointer = itkDynamicCastInDebugMode<GradientImagesType *>(this->ProcessObject::GetInput(0));
 
     GradientIteratorType git(gradientImagePointer, outputRegionForThread);
     git.GoToBegin();
 
     // Compute the indices of the baseline images and gradient images
-    std::vector< unsigned int > baselineind; // contains the indices of
-                                             // the baseline images
-    std::vector< unsigned int > gradientind; // contains the indices of
-                                             // the gradient images
+    std::vector<unsigned int> baselineind; // contains the indices of
+                                           // the baseline images
+    std::vector<unsigned int> gradientind; // contains the indices of
+                                           // the gradient images
 
-    for ( GradientDirectionContainerType::ConstIterator gdcit =
-            this->m_GradientDirectionContainer->Begin();
-          gdcit != this->m_GradientDirectionContainer->End(); ++gdcit )
+    for (GradientDirectionContainerType::ConstIterator gdcit = this->m_GradientDirectionContainer->Begin();
+         gdcit != this->m_GradientDirectionContainer->End();
+         ++gdcit)
+    {
+      if (gdcit.Value().one_norm() <= 0.0)
       {
-      if ( gdcit.Value().one_norm() <= 0.0 )
-        {
-        baselineind.push_back( gdcit.Index() );
-        }
-      else
-        {
-        gradientind.push_back( gdcit.Index() );
-        }
+        baselineind.push_back(gdcit.Index());
       }
-
-    while ( !git.IsAtEnd() )
+      else
       {
+        gradientind.push_back(gdcit.Index());
+      }
+    }
+
+    while (!git.IsAtEnd())
+    {
       GradientVectorType b = git.Get();
 
-      typename NumericTraits< ReferencePixelType >::AccumulateType b0 =
-        NumericTraits< ReferencePixelType >::ZeroValue();
+      typename NumericTraits<ReferencePixelType>::AccumulateType b0 = NumericTraits<ReferencePixelType>::ZeroValue();
 
       // Average the baseline image pixels
       for (const auto & i : baselineind)
-        {
+      {
         b0 += b[i];
-        }
+      }
       b0 /= this->m_NumberOfBaselineImages;
 
       TensorPixelType tensor(0.0);
@@ -366,41 +347,39 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
       // look up the voxel in the mask image corresponding to
       // the location of the current index.
       bool unmaskedPixel(true);
-      if(useMask)
-        {
-        typename ImageRegionConstIteratorWithIndex<ReferenceImageType>::IndexType
-          index = git.GetIndex();
-        typename ReferenceImageType::PointType point;
+      if (useMask)
+      {
+        typename ImageRegionConstIteratorWithIndex<ReferenceImageType>::IndexType index = git.GetIndex();
+        typename ReferenceImageType::PointType                                    point;
 
-        gradientImagePointer->TransformIndexToPhysicalPoint(index,point);
+        gradientImagePointer->TransformIndexToPhysicalPoint(index, point);
         unmaskedPixel = maskSpatialObject->IsInsideInWorldSpace(point);
+      }
+
+      if (Math::NotAlmostEquals(b0, NumericTraits<ReferencePixelType>::ZeroValue()) && unmaskedPixel &&
+          (b0 >= m_Threshold))
+      {
+        for (unsigned int i = 0; i < m_NumberOfGradientDirections; i++)
+        {
+          if (Math::AlmostEquals(b[gradientind[i]], NumericTraits<typename GradientVectorType::ValueType>::ZeroValue()))
+          {
+            B[i] = 0;
+          }
+          else
+          {
+            B[i] = -std::log(static_cast<double>(b[gradientind[i]]) / static_cast<double>(b0)) / this->m_BValue;
+          }
         }
 
-      if ( Math::NotAlmostEquals( b0, NumericTraits< ReferencePixelType >::ZeroValue() ) &&
-           unmaskedPixel && ( b0 >= m_Threshold ) )
+        vnl_svd<double> pseudoInverseSolver(m_TensorBasis);
+        if (m_NumberOfGradientDirections > 6)
         {
-        for ( unsigned int i = 0; i < m_NumberOfGradientDirections; i++ )
-          {
-          if ( Math::AlmostEquals( b[gradientind[i]], NumericTraits< typename GradientVectorType::ValueType >::ZeroValue() ) )
-            {
-            B[i] = 0;
-            }
-          else
-            {
-            B[i] =
-              -std::log( static_cast< double >( b[gradientind[i]] ) / static_cast< double >( b0 ) ) / this->m_BValue;
-            }
-          }
-
-        vnl_svd< double > pseudoInverseSolver(m_TensorBasis);
-        if ( m_NumberOfGradientDirections > 6 )
-          {
           D = pseudoInverseSolver.solve(m_BMatrix * B);
-          }
+        }
         else
-          {
+        {
           D = pseudoInverseSolver.solve(B);
-          }
+        }
 
         tensor(0, 0) = D[0];
         tensor(0, 1) = D[1];
@@ -408,261 +387,262 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
         tensor(1, 1) = D[3];
         tensor(1, 2) = D[4];
         tensor(2, 2) = D[5];
-        }
+      }
 
       oit.Set(tensor);
       ++oit; // Output (reconstructed tensor image) iterator
       ++git; // Gradient  image iterator
-      }
     }
+  }
 }
 
-template< typename TReferenceImagePixelType,
-          typename TGradientImagePixelType, typename TTensorPixelType,
-          typename TMaskImageType >
-void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
-                                                 TGradientImagePixelType,
-                                                 TTensorPixelType,
-                                                 TMaskImageType >
-::ComputeTensorBasis()
+template <typename TReferenceImagePixelType,
+          typename TGradientImagePixelType,
+          typename TTensorPixelType,
+          typename TMaskImageType>
+void
+DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
+                                           TGradientImagePixelType,
+                                           TTensorPixelType,
+                                           TMaskImageType>::ComputeTensorBasis()
 {
   // This is only important if we are using a vector image.  For
   // images added one at a time, this is not needed but doesn't hurt.
-  std::vector< unsigned int > gradientind;
-  for ( GradientDirectionContainerType::ConstIterator gdcit = this->m_GradientDirectionContainer->Begin();
-        gdcit != this->m_GradientDirectionContainer->End(); ++gdcit )
+  std::vector<unsigned int> gradientind;
+  for (GradientDirectionContainerType::ConstIterator gdcit = this->m_GradientDirectionContainer->Begin();
+       gdcit != this->m_GradientDirectionContainer->End();
+       ++gdcit)
+  {
+    if (gdcit.Value().one_norm() > 0.0)
     {
-    if ( gdcit.Value().one_norm() > 0.0 )
-      {
-      gradientind.push_back( gdcit.Index() );
-      }
+      gradientind.push_back(gdcit.Index());
     }
+  }
 
   m_BMatrix.set_size(m_NumberOfGradientDirections, 6);
-  for ( unsigned int m = 0; m < m_NumberOfGradientDirections; m++ )
-    {
-    m_BMatrix[m][0] =     m_GradientDirectionContainer->ElementAt(gradientind[m])[0]
-                      * m_GradientDirectionContainer->ElementAt(gradientind[m])[0];
-    m_BMatrix[m][1] = 2 * m_GradientDirectionContainer->ElementAt(gradientind[m])[0]
-                      * m_GradientDirectionContainer->ElementAt(gradientind[m])[1];
-    m_BMatrix[m][2] = 2 * m_GradientDirectionContainer->ElementAt(gradientind[m])[0]
-                      * m_GradientDirectionContainer->ElementAt(gradientind[m])[2];
-    m_BMatrix[m][3] =     m_GradientDirectionContainer->ElementAt(gradientind[m])[1]
-                      * m_GradientDirectionContainer->ElementAt(gradientind[m])[1];
-    m_BMatrix[m][4] = 2 * m_GradientDirectionContainer->ElementAt(gradientind[m])[1]
-                      * m_GradientDirectionContainer->ElementAt(gradientind[m])[2];
-    m_BMatrix[m][5] =     m_GradientDirectionContainer->ElementAt(gradientind[m])[2]
-                      * m_GradientDirectionContainer->ElementAt(gradientind[m])[2];
-    }
+  for (unsigned int m = 0; m < m_NumberOfGradientDirections; m++)
+  {
+    m_BMatrix[m][0] = m_GradientDirectionContainer->ElementAt(gradientind[m])[0] *
+                      m_GradientDirectionContainer->ElementAt(gradientind[m])[0];
+    m_BMatrix[m][1] = 2 * m_GradientDirectionContainer->ElementAt(gradientind[m])[0] *
+                      m_GradientDirectionContainer->ElementAt(gradientind[m])[1];
+    m_BMatrix[m][2] = 2 * m_GradientDirectionContainer->ElementAt(gradientind[m])[0] *
+                      m_GradientDirectionContainer->ElementAt(gradientind[m])[2];
+    m_BMatrix[m][3] = m_GradientDirectionContainer->ElementAt(gradientind[m])[1] *
+                      m_GradientDirectionContainer->ElementAt(gradientind[m])[1];
+    m_BMatrix[m][4] = 2 * m_GradientDirectionContainer->ElementAt(gradientind[m])[1] *
+                      m_GradientDirectionContainer->ElementAt(gradientind[m])[2];
+    m_BMatrix[m][5] = m_GradientDirectionContainer->ElementAt(gradientind[m])[2] *
+                      m_GradientDirectionContainer->ElementAt(gradientind[m])[2];
+  }
 
-  if ( m_NumberOfGradientDirections > 6 )
-    {
+  if (m_NumberOfGradientDirections > 6)
+  {
     m_TensorBasis = m_BMatrix.transpose() * m_BMatrix;
-    }
+  }
   else
-    {
+  {
     m_TensorBasis = m_BMatrix;
-    }
+  }
 
   m_BMatrix.inplace_transpose();
 }
 
-template< typename TReferenceImagePixelType,
-          typename TGradientImagePixelType, typename TTensorPixelType,
-          typename TMaskImageType >
-const Image<TGradientImagePixelType,3> *
-DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
-                                                 TGradientImagePixelType,
-                                                 TTensorPixelType,
-                                                 TMaskImageType >
-::GetGradientImage(unsigned index) const
+template <typename TReferenceImagePixelType,
+          typename TGradientImagePixelType,
+          typename TTensorPixelType,
+          typename TMaskImageType>
+const Image<TGradientImagePixelType, 3> *
+DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
+                                           TGradientImagePixelType,
+                                           TTensorPixelType,
+                                           TMaskImageType>::GetGradientImage(unsigned index) const
 {
-  if ( m_GradientImageTypeEnumeration == GradientEnumeration::GradientIsInASingleImage )
-    {
+  if (m_GradientImageTypeEnumeration == GradientEnumeration::GradientIsInASingleImage)
+  {
     itkExceptionMacro(<< "Cannot retrieve individual gradient Image if "
                       << "all gradients are in a single image.");
-    }
+  }
   // input 0 is either the single gradient image, or the reference
   // image. input 1 is either null or a mask image.
-  return itkDynamicCastInDebugMode< const GradientImageType * >
-    (this->ProcessObject::GetInput(index+2));
+  return itkDynamicCastInDebugMode<const GradientImageType *>(this->ProcessObject::GetInput(index + 2));
 }
 
-template< typename TReferenceImagePixelType,
-          typename TGradientImagePixelType, typename TTensorPixelType,
-          typename TMaskImageType >
-void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
-                                                 TGradientImagePixelType,
-                                                 TTensorPixelType,
-                                                 TMaskImageType >
-::AddGradientImage(const GradientDirectionType & gradientDirection,
-                   const GradientImageType *gradientImage)
+template <typename TReferenceImagePixelType,
+          typename TGradientImagePixelType,
+          typename TTensorPixelType,
+          typename TMaskImageType>
+void
+DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
+                                           TGradientImagePixelType,
+                                           TTensorPixelType,
+                                           TMaskImageType>::AddGradientImage(const GradientDirectionType &
+                                                                                                       gradientDirection,
+                                                                             const GradientImageType * gradientImage)
 {
   // Make sure crazy users did not call both AddGradientImage and
   // SetGradientImage
-  if ( m_GradientImageTypeEnumeration == GradientEnumeration::GradientIsInASingleImage )
-    {
+  if (m_GradientImageTypeEnumeration == GradientEnumeration::GradientIsInASingleImage)
+  {
     itkExceptionMacro(<< "Cannot call both methods:"
                       << "AddGradientImage and SetGradientImage. Please call only one of them.");
-    }
+  }
 
   // If the container to hold the gradient directions hasn't been allocated
   // yet, allocate it.
-  if ( !this->m_GradientDirectionContainer )
-    {
+  if (!this->m_GradientDirectionContainer)
+  {
     this->m_GradientDirectionContainer = GradientDirectionContainerType::New();
-    }
+  }
 
-  m_GradientDirectionContainer->InsertElement(
-    m_NumberOfGradientDirections, gradientDirection / gradientDirection.two_norm() );
+  m_GradientDirectionContainer->InsertElement(m_NumberOfGradientDirections,
+                                              gradientDirection / gradientDirection.two_norm());
   ++m_NumberOfGradientDirections;
-  this->ProcessObject::SetNthInput( m_NumberOfGradientDirections+1,
-                                    const_cast< GradientImageType * >( gradientImage ) );
+  this->ProcessObject::SetNthInput(m_NumberOfGradientDirections + 1, const_cast<GradientImageType *>(gradientImage));
   m_GradientImageTypeEnumeration = GradientEnumeration::GradientIsInManyImages;
 }
 
-template< typename TReferenceImagePixelType,
-          typename TGradientImagePixelType, typename TTensorPixelType,
-          typename TMaskImageType >
-void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
-                                                 TGradientImagePixelType,
-                                                 TTensorPixelType,
-                                                 TMaskImageType >
-::SetGradientImage(GradientDirectionContainerType *gradientDirection,
-                   const GradientImagesType *gradientImage)
+template <typename TReferenceImagePixelType,
+          typename TGradientImagePixelType,
+          typename TTensorPixelType,
+          typename TMaskImageType>
+void
+DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
+                                           TGradientImagePixelType,
+                                           TTensorPixelType,
+                                           TMaskImageType>::SetGradientImage(GradientDirectionContainerType *
+                                                                                                        gradientDirection,
+                                                                             const GradientImagesType * gradientImage)
 {
   // Make sure crazy users did not call both AddGradientImage and
   // SetGradientImage
-  if ( m_GradientImageTypeEnumeration == GradientEnumeration::GradientIsInManyImages )
-    {
+  if (m_GradientImageTypeEnumeration == GradientEnumeration::GradientIsInManyImages)
+  {
     itkExceptionMacro(<< "Cannot call both methods:"
                       << "AddGradientImage and SetGradientImage. Please call only one of them.");
-    }
+  }
 
   this->m_GradientDirectionContainer = gradientDirection;
 
   unsigned int numImages = gradientDirection->Size();
   this->m_NumberOfBaselineImages = 0;
-  for ( GradientDirectionContainerType::Iterator it = this->m_GradientDirectionContainer->Begin();
-        it != this->m_GradientDirectionContainer->End(); it++ )
+  for (GradientDirectionContainerType::Iterator it = this->m_GradientDirectionContainer->Begin();
+       it != this->m_GradientDirectionContainer->End();
+       it++)
+  {
+    if (it.Value().one_norm() <= 0.0)
     {
-    if ( it.Value().one_norm() <= 0.0 )
-      {
       this->m_NumberOfBaselineImages++;
-      }
-    else // Normalize non-zero gradient directions
-      {
-      it.Value() = it.Value() / it.Value().two_norm();
-      }
     }
+    else // Normalize non-zero gradient directions
+    {
+      it.Value() = it.Value() / it.Value().two_norm();
+    }
+  }
 
   this->m_NumberOfGradientDirections = numImages - this->m_NumberOfBaselineImages;
 
   // ensure that the gradient image we received has as many components as
   // the number of gradient directions
-  if ( gradientImage->GetVectorLength() != this->m_NumberOfBaselineImages + this->m_NumberOfGradientDirections )
-    {
+  if (gradientImage->GetVectorLength() != this->m_NumberOfBaselineImages + this->m_NumberOfGradientDirections)
+  {
     itkExceptionMacro(<< this->m_NumberOfGradientDirections << " gradients + " << this->m_NumberOfBaselineImages
                       << "baselines = " << this->m_NumberOfGradientDirections + this->m_NumberOfBaselineImages
-                      << " directions specified but image has " << gradientImage->GetVectorLength()
-                      << " components.");
-    }
+                      << " directions specified but image has " << gradientImage->GetVectorLength() << " components.");
+  }
 
-  this->ProcessObject::SetNthInput( 0,
-                                    const_cast< GradientImagesType * >( gradientImage ) );
+  this->ProcessObject::SetNthInput(0, const_cast<GradientImagesType *>(gradientImage));
   m_GradientImageTypeEnumeration = GradientEnumeration::GradientIsInASingleImage;
 }
 
-template< typename TReferenceImagePixelType,
-          typename TGradientImagePixelType, typename TTensorPixelType,
-          typename TMaskImageType >
+template <typename TReferenceImagePixelType,
+          typename TGradientImagePixelType,
+          typename TTensorPixelType,
+          typename TMaskImageType>
 void
-DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
-                                                 TGradientImagePixelType,
-                                                 TTensorPixelType,
-                                                 TMaskImageType >
-::SetMaskSpatialObject(MaskSpatialObjectType *maskSpatialObject)
+DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
+                                           TGradientImagePixelType,
+                                           TTensorPixelType,
+                                           TMaskImageType>::SetMaskSpatialObject(MaskSpatialObjectType *
+                                                                                   maskSpatialObject)
 {
-  this->ProcessObject::SetNthInput(1,maskSpatialObject);
+  this->ProcessObject::SetNthInput(1, maskSpatialObject);
   this->m_MaskImagePresent = true;
 }
 
-template< typename TReferenceImagePixelType,
-          typename TGradientImagePixelType, typename TTensorPixelType,
-          typename TMaskImageType >
+template <typename TReferenceImagePixelType,
+          typename TGradientImagePixelType,
+          typename TTensorPixelType,
+          typename TMaskImageType>
 void
-DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
-                                                 TGradientImagePixelType,
-                                                 TTensorPixelType,
-                                                 TMaskImageType >
-::SetMaskImage(MaskImageType *maskImage)
+DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
+                                           TGradientImagePixelType,
+                                           TTensorPixelType,
+                                           TMaskImageType>::SetMaskImage(MaskImageType * maskImage)
 {
-  typename ImageMaskSpatialObject<3>::Pointer maskSpatialObject =
-    ImageMaskSpatialObject<3>::New();
+  typename ImageMaskSpatialObject<3>::Pointer maskSpatialObject = ImageMaskSpatialObject<3>::New();
   maskSpatialObject->SetImage(maskImage);
   this->SetMaskSpatialObject(maskSpatialObject);
 }
 
-template< typename TReferenceImagePixelType,
-          typename TGradientImagePixelType, typename TTensorPixelType,
-          typename TMaskImageType >
-void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
-                                                 TGradientImagePixelType,
-                                                 TTensorPixelType,
-                                                 TMaskImageType >
-::PrintSelf(std::ostream & os, Indent indent) const
+template <typename TReferenceImagePixelType,
+          typename TGradientImagePixelType,
+          typename TTensorPixelType,
+          typename TMaskImageType>
+void
+DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
+                                           TGradientImagePixelType,
+                                           TTensorPixelType,
+                                           TMaskImageType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << indent << "TensorBasisMatrix: " << m_TensorBasis << std::endl;
   os << indent << "Coeffs: " << m_BMatrix << std::endl;
-  if ( m_GradientDirectionContainer )
-    {
-    os << indent << "GradientDirectionContainer: "
-       << m_GradientDirectionContainer << std::endl;
-    }
+  if (m_GradientDirectionContainer)
+  {
+    os << indent << "GradientDirectionContainer: " << m_GradientDirectionContainer << std::endl;
+  }
   else
-    {
-    os << indent
-       << "GradientDirectionContainer: (Gradient directions not set)" << std::endl;
-    }
-  os << indent << "NumberOfGradientDirections: "
-     << m_NumberOfGradientDirections << std::endl;
-  os << indent << "NumberOfBaselineImages: "
-     << m_NumberOfBaselineImages << std::endl;
+  {
+    os << indent << "GradientDirectionContainer: (Gradient directions not set)" << std::endl;
+  }
+  os << indent << "NumberOfGradientDirections: " << m_NumberOfGradientDirections << std::endl;
+  os << indent << "NumberOfBaselineImages: " << m_NumberOfBaselineImages << std::endl;
   os << indent << "Threshold for reference B0 image: " << m_Threshold << std::endl;
   os << indent << "BValue: " << m_BValue << std::endl;
-  if ( this->m_GradientImageTypeEnumeration == GradientEnumeration::GradientIsInManyImages )
-    {
+  if (this->m_GradientImageTypeEnumeration == GradientEnumeration::GradientIsInManyImages)
+  {
     os << indent << "Gradient images haven been supplied " << std::endl;
-    }
-  else if ( this->m_GradientImageTypeEnumeration == GradientEnumeration::GradientIsInManyImages )
-    {
+  }
+  else if (this->m_GradientImageTypeEnumeration == GradientEnumeration::GradientIsInManyImages)
+  {
     os << indent << "A multicomponent gradient image has been supplied" << std::endl;
-    }
+  }
 }
 
-template< typename TReferenceImagePixelType,
-          typename TGradientImagePixelType, typename TTensorPixelType,
-          typename TMaskImageType >
-void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
-                                                 TGradientImagePixelType,
-                                                 TTensorPixelType,
-                                                 TMaskImageType >
-::VerifyPreconditions() ITKv5_CONST
+template <typename TReferenceImagePixelType,
+          typename TGradientImagePixelType,
+          typename TTensorPixelType,
+          typename TMaskImageType>
+void
+DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
+                                           TGradientImagePixelType,
+                                           TTensorPixelType,
+                                           TMaskImageType>::VerifyPreconditions() ITKv5_CONST
 {
   Superclass::VerifyPreconditions();
 
-  if ( this->m_NumberOfBaselineImages == 0 )
-    {
+  if (this->m_NumberOfBaselineImages == 0)
+  {
     itkExceptionMacro(<< "Number of baseline images is null");
-    }
-  if ( this->m_NumberOfGradientDirections < 6 )
-    {
+  }
+  if (this->m_NumberOfGradientDirections < 6)
+  {
     itkExceptionMacro(<< "Not enough gradient directions supplied. Need to supply at least 6");
-    }
+  }
 }
 
-}
+} // namespace itk
 
 #endif

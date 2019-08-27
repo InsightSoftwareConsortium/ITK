@@ -17,10 +17,9 @@
  *=========================================================================*/
 /*******************************************************************************
 
-  Abstract:  -  Multiresolution  symmetric forces demons registration - 4 multiresolution levels
-  Created: July 8 2008
-  Last Revision 7/9/2008
-  by Vidya Rajagopalan  on 7/9/2008
+  Abstract:  -  Multiresolution  symmetric forces demons registration - 4
+multiresolution levels Created: July 8 2008 Last Revision 7/9/2008 by Vidya Rajagopalan
+on 7/9/2008
 
   Copyright (c) 2008, Bioimaging Systems Lab, Virginia Tech
   All rights reserved.
@@ -103,7 +102,7 @@
 
 
 unsigned int RmsCounter = 0;
-double MaxRmsE[4] = {0.8,  0.75,  0.4, 0.2};
+double       MaxRmsE[4] = { 0.8, 0.75, 0.4, 0.2 };
 
 //  The following section of code implements a Command observer
 //  that will monitor the evolution of the registration process.
@@ -117,7 +116,7 @@ public:
   using Self = CommandIterationUpdate;
   using Superclass = itk::Command;
   using Pointer = itk::SmartPointer<Self>;
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
 protected:
   CommandIterationUpdate() = default;
@@ -125,36 +124,40 @@ protected:
   // define ITK short-hand types
   using PixelType = short;
   using InternalPixelType = float;
-  using ImageType = itk::Image< PixelType, 2 >;
-  using InternalImageType = itk::Image< InternalPixelType, 2 >;
-  using VectorPixelType = itk::Vector< float, 2 >;
-  using DisplacementFieldType = itk::Image< VectorPixelType, 2 >;
-  using RegistrationFilterType = itk::SymmetricForcesDemonsRegistrationFilter< InternalImageType,
-    InternalImageType, DisplacementFieldType>;
+  using ImageType = itk::Image<PixelType, 2>;
+  using InternalImageType = itk::Image<InternalPixelType, 2>;
+  using VectorPixelType = itk::Vector<float, 2>;
+  using DisplacementFieldType = itk::Image<VectorPixelType, 2>;
+  using RegistrationFilterType =
+    itk::SymmetricForcesDemonsRegistrationFilter<InternalImageType,
+                                                 InternalImageType,
+                                                 DisplacementFieldType>;
 
-  public:
+public:
+  void
+  Execute(const itk::Object *, const itk::EventObject &) override
+  {
+    std::cout << "Warning: The const Execute method shouldn't be called" << std::endl;
+  }
 
-    void Execute(const itk::Object *, const itk::EventObject & ) override
-      {
-      std::cout << "Warning: The const Execute method shouldn't be called" << std::endl;
-      }
+  void
+  Execute(itk::Object * caller, const itk::EventObject & event) override
+  {
+    auto * filter = static_cast<RegistrationFilterType *>(caller);
 
-    void Execute(itk::Object *caller, const itk::EventObject & event) override
-      {
-      auto * filter = static_cast<  RegistrationFilterType * >( caller );
+    if (!(itk::IterationEvent().CheckEvent(&event)))
+    {
+      return;
+    }
 
-      if( !(itk::IterationEvent().CheckEvent( &event )) )
-       {
-       return;
-       }
+    if (filter)
+    {
+      filter->SetMaximumRMSError(MaxRmsE[RmsCounter]);
+      std::cout << filter->GetMetric() << "  RMS Change: " << filter->GetRMSChange()
+                << std::endl;
 
-      if(filter)
-        {
-        filter->SetMaximumRMSError(MaxRmsE[RmsCounter]);
-        std::cout << filter->GetMetric() <<  "  RMS Change: " << filter->GetRMSChange() << std::endl;
-
-        std::cout << "Level Tolerance=  "<<filter->GetMaximumRMSError ()<<std::endl;
-        }
+      std::cout << "Level Tolerance=  " << filter->GetMaximumRMSError() << std::endl;
+    }
   }
 };
 
@@ -169,178 +172,188 @@ public:
   using Self = CommandResolutionLevelUpdate;
   using Superclass = itk::Command;
   using Pointer = itk::SmartPointer<Self>;
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
 protected:
   CommandResolutionLevelUpdate() = default;
 
 public:
-  void Execute(itk::Object *caller, const itk::EventObject & event) override
-    {
-    Execute( (const itk::Object *)caller, event);
-    }
-  void Execute(const itk::Object *, const itk::EventObject & ) override
-    {
+  void
+  Execute(itk::Object * caller, const itk::EventObject & event) override
+  {
+    Execute((const itk::Object *)caller, event);
+  }
+  void
+  Execute(const itk::Object *, const itk::EventObject &) override
+  {
     std::cout << "----------------------------------" << std::endl;
     RmsCounter = RmsCounter + 1;
     std::cout << "----------------------------------" << std::endl;
-    }
+  }
 };
 
 
-int main( int argc, char * argv [] )
+int
+main(int argc, char * argv[])
 {
 
   // Verify the number of parameters in the command line
-  if( argc != 5 )
-    {
+  if (argc != 5)
+  {
     std::cerr << "usage: " << std::endl;
-    std::cerr << argv[0] << " fixedImage movingImage registeredImage deformationField" << std::endl;
+    std::cerr << argv[0] << " fixedImage movingImage registeredImage deformationField"
+              << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // define ITK short-hand types
   constexpr unsigned int Dimension = 2;
   using PixelType = short;
   using InternalPixelType = float;
-  using ImageType = itk::Image< PixelType, Dimension >;
-  using InternalImageType = itk::Image< InternalPixelType, Dimension >;
-  using ImageCasterType = itk::CastImageFilter< ImageType, InternalImageType >;
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using InternalImageType = itk::Image<InternalPixelType, Dimension>;
+  using ImageCasterType = itk::CastImageFilter<ImageType, InternalImageType>;
 
   // setup input file readers
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer targetReader = ReaderType::New();
-  targetReader->SetFileName( argv[1] );
+  targetReader->SetFileName(argv[1]);
   targetReader->Update();
 
   ReaderType::Pointer sourceReader = ReaderType::New();
-  sourceReader->SetFileName( argv[2] );
+  sourceReader->SetFileName(argv[2]);
   sourceReader->Update();
 
   // cast target and source to float
   ImageCasterType::Pointer targetImageCaster = ImageCasterType::New();
   ImageCasterType::Pointer sourceImageCaster = ImageCasterType::New();
-  targetImageCaster->SetInput( targetReader->GetOutput() );
-  sourceImageCaster->SetInput( sourceReader->GetOutput() );
+  targetImageCaster->SetInput(targetReader->GetOutput());
+  sourceImageCaster->SetInput(sourceReader->GetOutput());
 
   // match the histograms between source and target
-  using MatchingFilterType = itk::HistogramMatchingImageFilter<
-    InternalImageType, InternalImageType >;
+  using MatchingFilterType =
+    itk::HistogramMatchingImageFilter<InternalImageType, InternalImageType>;
 
   MatchingFilterType::Pointer matcher = MatchingFilterType::New();
 
-  matcher->SetInput( sourceImageCaster->GetOutput() );
-  matcher->SetReferenceImage( targetImageCaster->GetOutput() );
-  matcher->SetNumberOfHistogramLevels( 1024 );
-  matcher->SetNumberOfMatchPoints( 7 );
+  matcher->SetInput(sourceImageCaster->GetOutput());
+  matcher->SetReferenceImage(targetImageCaster->GetOutput());
+  matcher->SetNumberOfHistogramLevels(1024);
+  matcher->SetNumberOfMatchPoints(7);
   matcher->ThresholdAtMeanIntensityOn();
 
   // setup the deformation field and filter
-  using VectorPixelType = itk::Vector< float, Dimension >;
+  using VectorPixelType = itk::Vector<float, Dimension>;
 
-  using DisplacementFieldType = itk::Image< VectorPixelType, Dimension >;
+  using DisplacementFieldType = itk::Image<VectorPixelType, Dimension>;
 
-  using RegistrationFilterType = itk::SymmetricForcesDemonsRegistrationFilter<
-    InternalImageType,
-    InternalImageType,
-    DisplacementFieldType>;
+  using RegistrationFilterType =
+    itk::SymmetricForcesDemonsRegistrationFilter<InternalImageType,
+                                                 InternalImageType,
+                                                 DisplacementFieldType>;
 
   RegistrationFilterType::Pointer filter = RegistrationFilterType::New();
 
-  filter->SetStandardDeviations( 1.0 );
+  filter->SetStandardDeviations(1.0);
 
   //
   // Create the Command observer and register it with the registration filter.
   //
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
-  filter->AddObserver( itk::IterationEvent(), observer );
+  filter->AddObserver(itk::IterationEvent(), observer);
 
 
   // use multiresolution scheme
-  using MultiResRegistrationFilterType = itk::MultiResolutionPDEDeformableRegistration<
-    InternalImageType,
-    InternalImageType,
-    DisplacementFieldType >;
+  using MultiResRegistrationFilterType =
+    itk::MultiResolutionPDEDeformableRegistration<InternalImageType,
+                                                  InternalImageType,
+                                                  DisplacementFieldType>;
 
   MultiResRegistrationFilterType::Pointer multires =
     MultiResRegistrationFilterType::New();
 
-  multires->SetRegistrationFilter( filter );
-  multires->SetNumberOfLevels( 4 );
-  multires->SetFixedImage( targetImageCaster->GetOutput() );
-  multires->SetMovingImage( matcher->GetOutput() );
-  unsigned int nIterations[4] = {40, 40, 32, 32 };
-  multires->SetNumberOfIterations( nIterations );
+  multires->SetRegistrationFilter(filter);
+  multires->SetNumberOfLevels(4);
+  multires->SetFixedImage(targetImageCaster->GetOutput());
+  multires->SetMovingImage(matcher->GetOutput());
+  unsigned int nIterations[4] = { 40, 40, 32, 32 };
+  multires->SetNumberOfIterations(nIterations);
 
   //
   // Create the Command observer and register it with the registration filter.
   //
-  CommandResolutionLevelUpdate::Pointer levelobserver = CommandResolutionLevelUpdate::New();
-  multires->AddObserver( itk::IterationEvent(), levelobserver );
+  CommandResolutionLevelUpdate::Pointer levelobserver =
+    CommandResolutionLevelUpdate::New();
+  multires->AddObserver(itk::IterationEvent(), levelobserver);
 
   // apply the registration filter
   try
-    {
+  {
     multires->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  using DisplacementFieldTransformType = itk::DisplacementFieldTransform<InternalPixelType, Dimension>;
+  using DisplacementFieldTransformType =
+    itk::DisplacementFieldTransform<InternalPixelType, Dimension>;
   auto displacementTransform = DisplacementFieldTransformType::New();
-  displacementTransform->SetDisplacementField( multires->GetOutput() );
+  displacementTransform->SetDisplacementField(multires->GetOutput());
 
   // compute the output (warped) image
   using InterpolatorPrecisionType = double;
-  using WarperType = itk::ResampleImageFilter< ImageType, ImageType, InterpolatorPrecisionType, InternalPixelType >;
-  using InterpolatorType = itk::LinearInterpolateImageFunction< ImageType, InterpolatorPrecisionType >;
+  using WarperType = itk::ResampleImageFilter<ImageType,
+                                              ImageType,
+                                              InterpolatorPrecisionType,
+                                              InternalPixelType>;
+  using InterpolatorType =
+    itk::LinearInterpolateImageFunction<ImageType, InterpolatorPrecisionType>;
 
   WarperType::Pointer warper = WarperType::New();
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
   ImageType::Pointer targetImage = targetReader->GetOutput();
-  warper->SetInput( sourceReader->GetOutput() );
-  warper->SetInterpolator( interpolator );
-  warper->SetOutputSpacing( targetImage->GetSpacing() );
-  warper->SetOutputOrigin( targetImage->GetOrigin() );
-  warper->SetOutputDirection( targetImage->GetDirection() );
-  warper->SetTransform( displacementTransform );
+  warper->SetInput(sourceReader->GetOutput());
+  warper->SetInterpolator(interpolator);
+  warper->SetOutputSpacing(targetImage->GetSpacing());
+  warper->SetOutputOrigin(targetImage->GetOrigin());
+  warper->SetOutputDirection(targetImage->GetDirection());
+  warper->SetTransform(displacementTransform);
 
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName( argv[3] );
-  writer->SetInput( warper->GetOutput() );
+  writer->SetFileName(argv[3]);
+  writer->SetInput(warper->GetOutput());
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   // write the deformation field
-  using DeformationWriterType = itk::ImageFileWriter< DisplacementFieldType >;
+  using DeformationWriterType = itk::ImageFileWriter<DisplacementFieldType>;
   DeformationWriterType::Pointer defwriter = DeformationWriterType::New();
-  defwriter->SetFileName( argv[4] );
-  defwriter->SetInput( multires->GetOutput() );
+  defwriter->SetFileName(argv[4]);
+  defwriter->SetInput(multires->GetOutput());
 
   try
-    {
+  {
     defwriter->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

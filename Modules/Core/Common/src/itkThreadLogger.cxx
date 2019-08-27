@@ -22,27 +22,24 @@
 namespace itk
 {
 
-ThreadLogger
-::ThreadLogger()
+ThreadLogger ::ThreadLogger()
 {
   m_Delay = 300; // ms
   m_TerminationRequested = false;
   m_Thread = std::thread(&ThreadLogger::ThreadFunction, this);
 }
 
-ThreadLogger
-::~ThreadLogger()
+ThreadLogger ::~ThreadLogger()
 {
-  if( m_Thread.joinable() )
-    {
+  if (m_Thread.joinable())
+  {
     m_TerminationRequested = true;
-    m_Thread.join(); //waits for it to finish if necessary
-    }
+    m_Thread.join(); // waits for it to finish if necessary
+  }
 }
 
 void
-ThreadLogger
-::SetPriorityLevel(PriorityLevelType level)
+ThreadLogger ::SetPriorityLevel(PriorityLevelType level)
 {
   this->m_Mutex.lock();
   this->m_OperationQ.push(SET_PRIORITY_LEVEL);
@@ -51,8 +48,7 @@ ThreadLogger
 }
 
 Logger::PriorityLevelType
-ThreadLogger
-::GetPriorityLevel() const
+ThreadLogger ::GetPriorityLevel() const
 {
   this->m_Mutex.lock();
   PriorityLevelType level = this->m_PriorityLevel;
@@ -61,8 +57,7 @@ ThreadLogger
 }
 
 void
-ThreadLogger
-::SetLevelForFlushing(PriorityLevelType level)
+ThreadLogger ::SetLevelForFlushing(PriorityLevelType level)
 {
   this->m_Mutex.lock();
   this->m_LevelForFlushing = level;
@@ -72,8 +67,7 @@ ThreadLogger
 }
 
 Logger::PriorityLevelType
-ThreadLogger
-::GetLevelForFlushing() const
+ThreadLogger ::GetLevelForFlushing() const
 {
   this->m_Mutex.lock();
   PriorityLevelType level = this->m_LevelForFlushing;
@@ -82,8 +76,7 @@ ThreadLogger
 }
 
 void
-ThreadLogger
-::SetDelay(DelayType delay)
+ThreadLogger ::SetDelay(DelayType delay)
 {
   this->m_Mutex.lock();
   this->m_Delay = delay;
@@ -91,8 +84,7 @@ ThreadLogger
 }
 
 ThreadLogger::DelayType
-ThreadLogger
-::GetDelay() const
+ThreadLogger ::GetDelay() const
 {
   this->m_Mutex.lock();
   DelayType delay = this->m_Delay;
@@ -101,8 +93,7 @@ ThreadLogger
 }
 
 void
-ThreadLogger
-::AddLogOutput(OutputType *output)
+ThreadLogger ::AddLogOutput(OutputType * output)
 {
   this->m_Mutex.lock();
   this->m_OperationQ.push(ADD_LOG_OUTPUT);
@@ -111,23 +102,21 @@ ThreadLogger
 }
 
 void
-ThreadLogger
-::Write(PriorityLevelType level, std::string const & content)
+ThreadLogger ::Write(PriorityLevelType level, std::string const & content)
 {
   this->m_Mutex.lock();
   this->m_OperationQ.push(WRITE);
   this->m_MessageQ.push(content);
   this->m_LevelQ.push(level);
   this->m_Mutex.unlock();
-  if ( this->m_LevelForFlushing >= level )
-    {
+  if (this->m_LevelForFlushing >= level)
+  {
     this->InternalFlush();
-    }
+  }
 }
 
 void
-ThreadLogger
-::Flush()
+ThreadLogger ::Flush()
 {
   this->m_Mutex.lock();
   this->m_OperationQ.push(FLUSH);
@@ -136,15 +125,14 @@ ThreadLogger
 }
 
 void
-ThreadLogger
-::InternalFlush()
+ThreadLogger ::InternalFlush()
 {
   this->m_Mutex.lock();
 
-  while ( !this->m_OperationQ.empty() )
+  while (!this->m_OperationQ.empty())
+  {
+    switch (this->m_OperationQ.front())
     {
-    switch ( this->m_OperationQ.front() )
-      {
       case ThreadLogger::SET_PRIORITY_LEVEL:
         this->m_PriorityLevel = this->m_LevelQ.front();
         this->m_LevelQ.pop();
@@ -156,36 +144,35 @@ ThreadLogger
         break;
 
       case ThreadLogger::ADD_LOG_OUTPUT:
-        this->m_Output->AddLogOutput( this->m_OutputQ.front() );
+        this->m_Output->AddLogOutput(this->m_OutputQ.front());
         this->m_OutputQ.pop();
         break;
 
       case ThreadLogger::WRITE:
-        this->Logger::Write( this->m_LevelQ.front(), this->m_MessageQ.front() );
+        this->Logger::Write(this->m_LevelQ.front(), this->m_MessageQ.front());
         this->m_LevelQ.pop();
         this->m_MessageQ.pop();
         break;
       case ThreadLogger::FLUSH:
         this->Logger::Flush();
         break;
-      }
-    this->m_OperationQ.pop();
     }
+    this->m_OperationQ.pop();
+  }
   this->m_Output->Flush();
   this->m_Mutex.unlock();
 }
 
 void
-ThreadLogger
-::ThreadFunction()
+ThreadLogger ::ThreadFunction()
 {
-  while ( !m_TerminationRequested )
-    {
+  while (!m_TerminationRequested)
+  {
     m_Mutex.lock();
-    while ( !m_OperationQ.empty() )
+    while (!m_OperationQ.empty())
+    {
+      switch (m_OperationQ.front())
       {
-      switch ( m_OperationQ.front() )
-        {
         case ThreadLogger::SET_PRIORITY_LEVEL:
           m_PriorityLevel = m_LevelQ.front();
           m_LevelQ.pop();
@@ -197,29 +184,28 @@ ThreadLogger
           break;
 
         case ThreadLogger::ADD_LOG_OUTPUT:
-          m_Output->AddLogOutput( m_OutputQ.front() );
+          m_Output->AddLogOutput(m_OutputQ.front());
           m_OutputQ.pop();
           break;
 
         case ThreadLogger::WRITE:
-          Logger::Write( m_LevelQ.front(), m_MessageQ.front() );
+          Logger::Write(m_LevelQ.front(), m_MessageQ.front());
           m_LevelQ.pop();
           m_MessageQ.pop();
           break;
         case ThreadLogger::FLUSH:
           Logger::Flush();
           break;
-        }
-      m_OperationQ.pop();
       }
+      m_OperationQ.pop();
+    }
     m_Mutex.unlock();
     itksys::SystemTools::Delay(this->GetDelay());
-    }
+  }
 }
 
 void
-ThreadLogger
-::PrintSelf(std::ostream & os, Indent indent) const
+ThreadLogger ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

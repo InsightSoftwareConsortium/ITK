@@ -29,7 +29,7 @@ namespace itk
  * \brief Create instances of JPEGImageIO objects using an object factory.
  * \ingroup ITKIOJPEG
  */
-class ITKIOJPEG_EXPORT JPEGImageIOFactory:public ObjectFactoryBase
+class ITKIOJPEG_EXPORT JPEGImageIOFactory : public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(JPEGImageIOFactory);
@@ -37,22 +37,29 @@ public:
   /** Standard class type aliases. */
   using Self = JPEGImageIOFactory;
   using Superclass = ObjectFactoryBase;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
-  const char * GetITKSourceVersion() const override;
+  const char *
+  GetITKSourceVersion() const override;
 
-  const char * GetDescription() const override;
+  const char *
+  GetDescription() const override;
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
-  static JPEGImageIOFactory * FactoryNew() { return new JPEGImageIOFactory; }
+  static JPEGImageIOFactory *
+  FactoryNew()
+  {
+    return new JPEGImageIOFactory;
+  }
   /** Run-time type information (and related methods). */
   itkTypeMacro(JPEGImageIOFactory, ObjectFactoryBase);
 
   /** Register one factory of this type  */
-  static void RegisterOneFactory()
+  static void
+  RegisterOneFactory()
   {
     JPEGImageIOFactory::Pointer JPEGFactory = JPEGImageIOFactory::New();
 

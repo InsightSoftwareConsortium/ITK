@@ -21,10 +21,10 @@ namespace itk
 {
 /** Print enumerations */
 std::ostream &
-operator<<( std::ostream & out, const TreeIteratorBaseNodeType value )
+operator<<(std::ostream & out, const TreeIteratorBaseNodeType value)
 {
   const char * s = nullptr;
-  switch ( value )
+  switch (value)
   {
     case TreeIteratorBaseNodeType::UNDEFIND:
       s = "TreeIteratorBaseNodeType::UNDEFIND";

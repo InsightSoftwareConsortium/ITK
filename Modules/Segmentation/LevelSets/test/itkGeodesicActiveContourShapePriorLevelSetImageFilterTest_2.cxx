@@ -35,25 +35,27 @@
  * This class is used to support callbacks
  * on the segmentation filter in this test.
  */
-namespace {
-template<typename TFilter>
+namespace
+{
+template <typename TFilter>
 class ShowIterationObject
 {
 public:
-  ShowIterationObject( TFilter * filter )
-    { m_Filter = filter; }
-  void ShowIteration()
-    {
+  ShowIterationObject(TFilter * filter) { m_Filter = filter; }
+  void
+  ShowIteration()
+  {
     std::cout << m_Filter->GetElapsedIterations() << ": ";
     std::cout << m_Filter->GetCurrentParameters() << " ";
     std::cout << m_Filter->GetRMSChange() << std::endl;
-    }
+  }
 
   typename TFilter::Pointer m_Filter;
 };
-}
+} // namespace
 
-int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[] )
+int
+itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2(int, char *[])
 {
   // Typedefs of components
   constexpr unsigned int ImageDimension = 2;
@@ -63,34 +65,31 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[] )
   using ImageType = itk::Image<PixelType, ImageDimension>;
   using InternalImageType = itk::Image<InternalPixelType, ImageDimension>;
 
-  using FilterType =
-      itk::GeodesicActiveContourShapePriorLevelSetImageFilter<InternalImageType, InternalImageType>;
-  using ShapeFunctionType =
-      itk::PCAShapeSignedDistanceFunction<double, ImageDimension>;
-  using CostFunctionType =
-      itk::ShapePriorMAPCostFunction<InternalImageType, InternalPixelType>;
+  using FilterType = itk::GeodesicActiveContourShapePriorLevelSetImageFilter<InternalImageType, InternalImageType>;
+  using ShapeFunctionType = itk::PCAShapeSignedDistanceFunction<double, ImageDimension>;
+  using CostFunctionType = itk::ShapePriorMAPCostFunction<InternalImageType, InternalPixelType>;
   using OptimizerType = itk::AmoebaOptimizer;
   using ParametersType = FilterType::ParametersType;
 
 
   using SphereFunctionType = itk::SphereSignedDistanceFunction<double, ImageDimension>;
 
-  FilterType::Pointer filter             = FilterType::New();
-  ShapeFunctionType::Pointer shape       = ShapeFunctionType::New();
-  CostFunctionType::Pointer costFunction = CostFunctionType::New();
-  OptimizerType::Pointer optimizer       = OptimizerType::New();
+  FilterType::Pointer        filter = FilterType::New();
+  ShapeFunctionType::Pointer shape = ShapeFunctionType::New();
+  CostFunctionType::Pointer  costFunction = CostFunctionType::New();
+  OptimizerType::Pointer     optimizer = OptimizerType::New();
 
-  SphereFunctionType::Pointer sphere     = SphereFunctionType::New();
+  SphereFunctionType::Pointer sphere = SphereFunctionType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, GeodesicActiveContourShapePriorLevelSetImageFilter,
-    ShapePriorSegmentationLevelSetImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    filter, GeodesicActiveContourShapePriorLevelSetImageFilter, ShapePriorSegmentationLevelSetImageFilter);
 
   ImageType::SizeType imageSize;
   imageSize[0] = 128;
   imageSize[1] = 128;
 
   ImageType::RegionType imageRegion;
-  imageRegion.SetSize( imageSize );
+  imageRegion.SetSize(imageSize);
 
   //
   // Create an input image.
@@ -106,14 +105,14 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[] )
 
   // Fill in the background
   ImageType::Pointer inputImage = ImageType::New();
-  inputImage->SetRegions( imageRegion );
+  inputImage->SetRegions(imageRegion);
   inputImage->Allocate();
-  inputImage->FillBuffer( background );
+  inputImage->FillBuffer(background);
 
   ImageType::Pointer trueShape = ImageType::New();
-  trueShape->SetRegions( imageRegion );
+  trueShape->SetRegions(imageRegion);
   trueShape->Allocate();
-  trueShape->FillBuffer( background );
+  trueShape->FillBuffer(background);
 
   // Draw in the rectangle
   ImageType::IndexType rectStart;
@@ -123,44 +122,44 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[] )
   rectSize[0] = 80;
   rectSize[1] = 10;
   ImageType::RegionType rectRegion;
-  rectRegion.SetIndex( rectStart );
-  rectRegion.SetSize( rectSize );
+  rectRegion.SetIndex(rectStart);
+  rectRegion.SetSize(rectSize);
 
   using Iterator = itk::ImageRegionIterator<ImageType>;
-  Iterator it( inputImage, rectRegion );
+  Iterator it(inputImage, rectRegion);
   it.GoToBegin();
-  while( !it.IsAtEnd() )
-    {
-    it.Set( foreground );
+  while (!it.IsAtEnd())
+  {
+    it.Set(foreground);
     ++it;
-    }
+  }
 
   // Draw in the circle
   sphere->Initialize();
-  ParametersType trueParameters( sphere->GetNumberOfParameters() );
+  ParametersType trueParameters(sphere->GetNumberOfParameters());
   trueParameters[0] = 30.0;
   trueParameters[1] = 50.0;
   trueParameters[2] = 57.0;
-  sphere->SetParameters( trueParameters );
+  sphere->SetParameters(trueParameters);
 
-  it = Iterator( inputImage, imageRegion );
+  it = Iterator(inputImage, imageRegion);
   it.GoToBegin();
 
-  Iterator it2( trueShape, imageRegion );
+  Iterator it2(trueShape, imageRegion);
   it2.GoToBegin();
 
-  while( !it.IsAtEnd() )
+  while (!it.IsAtEnd())
   {
-  ImageType::IndexType index = it.GetIndex();
-  SphereFunctionType::PointType point;
-  inputImage->TransformIndexToPhysicalPoint( index, point );
-  if( sphere->Evaluate( point ) <= 0.0 )
+    ImageType::IndexType          index = it.GetIndex();
+    SphereFunctionType::PointType point;
+    inputImage->TransformIndexToPhysicalPoint(index, point);
+    if (sphere->Evaluate(point) <= 0.0)
     {
-    it.Set( foreground );
-    it2.Set( foreground );
+      it.Set(foreground);
+      it2.Set(foreground);
     }
-  ++it;
-  ++it2;
+    ++it;
+    ++it2;
   }
 
   //
@@ -168,25 +167,23 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[] )
   // First compute the image gradient magnitude using a derivative of gaussian filter.
   // Then apply a sigmoid function to the gradient magnitude.
   //
-  using CastFilterType = itk::CastImageFilter< ImageType, InternalImageType >;
+  using CastFilterType = itk::CastImageFilter<ImageType, InternalImageType>;
   CastFilterType::Pointer caster = CastFilterType::New();
-  caster->SetInput( inputImage );
+  caster->SetInput(inputImage);
 
-  using GradientImageType = itk::GradientMagnitudeRecursiveGaussianImageFilter< InternalImageType,
-    InternalImageType >;
+  using GradientImageType = itk::GradientMagnitudeRecursiveGaussianImageFilter<InternalImageType, InternalImageType>;
 
   GradientImageType::Pointer gradMagnitude = GradientImageType::New();
-  gradMagnitude->SetInput( caster->GetOutput() );
-  gradMagnitude->SetSigma( 1.0 );
+  gradMagnitude->SetInput(caster->GetOutput());
+  gradMagnitude->SetSigma(1.0);
 
-  using SigmoidFilterType =
-      itk::SigmoidImageFilter< InternalImageType, InternalImageType >;
+  using SigmoidFilterType = itk::SigmoidImageFilter<InternalImageType, InternalImageType>;
   SigmoidFilterType::Pointer sigmoid = SigmoidFilterType::New();
-  sigmoid->SetOutputMinimum( 0.0 );
-  sigmoid->SetOutputMaximum( 1.0 );
-  sigmoid->SetAlpha( -0.4 );
-  sigmoid->SetBeta( 2.5 );
-  sigmoid->SetInput( gradMagnitude->GetOutput() );
+  sigmoid->SetOutputMinimum(0.0);
+  sigmoid->SetOutputMaximum(1.0);
+  sigmoid->SetAlpha(-0.4);
+  sigmoid->SetBeta(2.5);
+  sigmoid->SetInput(gradMagnitude->GetOutput());
 
   //
   // Create an initial level.
@@ -207,15 +204,15 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[] )
   seedPosition[1] = 47;
 
   NodeType node;
-  node.SetValue( -10.0 );
-  node.SetIndex( seedPosition );
+  node.SetValue(-10.0);
+  node.SetIndex(seedPosition);
 
   seeds->Initialize();
-  seeds->InsertElement( 0, node );
+  seeds->InsertElement(0, node);
 
-  fastMarching->SetTrialPoints( seeds );
-  fastMarching->SetSpeedConstant( 1.0 );
-  fastMarching->SetOutputSize( imageSize );
+  fastMarching->SetTrialPoints(seeds);
+  fastMarching->SetSpeedConstant(1.0);
+  fastMarching->SetOutputSize(imageSize);
 
 
   //
@@ -229,29 +226,29 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[] )
   //
   using ComponentImageType = ShapeFunctionType::ImageType;
   ComponentImageType::Pointer meanImage = ComponentImageType::New();
-  meanImage->SetRegions( imageRegion );
+  meanImage->SetRegions(imageRegion);
   meanImage->Allocate();
 
   trueParameters[0] = 10.0;
   trueParameters[1] = 64.0;
   trueParameters[2] = 64.0;
 
-  sphere->SetParameters( trueParameters );
+  sphere->SetParameters(trueParameters);
 
   using ComponentIterator = itk::ImageRegionIterator<ComponentImageType>;
-  ComponentIterator citer( meanImage, imageRegion );
+  ComponentIterator citer(meanImage, imageRegion);
   citer.GoToBegin();
 
-  while( !citer.IsAtEnd() )
-    {
+  while (!citer.IsAtEnd())
+  {
     ComponentImageType::IndexType index = citer.GetIndex();
     SphereFunctionType::PointType point;
-    meanImage->TransformIndexToPhysicalPoint( index, point );
+    meanImage->TransformIndexToPhysicalPoint(index, point);
 
-    citer.Set( sphere->Evaluate( point ) );
+    citer.Set(sphere->Evaluate(point));
 
     ++citer;
-    }
+  }
 
   //
   // There is 1 PCA component image(s).
@@ -262,127 +259,123 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[] )
   ImageVectorType pca;
 
   unsigned int numberOfPCA = 1;
-  pca.resize( numberOfPCA );
+  pca.resize(numberOfPCA);
 
   pca[0] = ComponentImageType::New();
-  pca[0]->SetRegions( imageRegion );
+  pca[0]->SetRegions(imageRegion);
   pca[0]->Allocate();
-  pca[0]->FillBuffer( 1.0 );
+  pca[0]->FillBuffer(1.0);
 
 
   //
   // Set up a translation transform
   //
-  using TransformType = itk::TranslationTransform<double,ImageDimension>;
+  using TransformType = itk::TranslationTransform<double, ImageDimension>;
   TransformType::Pointer transform = TransformType::New();
 
   //
   // Set up the standard deviations
   // TODO: this parameter is not in Leventon's paper
-  TransformType::ParametersType pcaStdDev( numberOfPCA );
-  pcaStdDev.Fill( 1.0 );
+  TransformType::ParametersType pcaStdDev(numberOfPCA);
+  pcaStdDev.Fill(1.0);
 
-  shape->SetNumberOfPrincipalComponents( numberOfPCA );
-  shape->SetMeanImage( meanImage );
-  shape->SetPrincipalComponentImages( pca );
-  shape->SetTransform( transform );
-  shape->SetPrincipalComponentStandardDeviations( pcaStdDev );
+  shape->SetNumberOfPrincipalComponents(numberOfPCA);
+  shape->SetMeanImage(meanImage);
+  shape->SetPrincipalComponentImages(pca);
+  shape->SetTransform(transform);
+  shape->SetPrincipalComponentStandardDeviations(pcaStdDev);
   shape->Initialize();
 
   // Set up the cost function
-  CostFunctionType::ArrayType mean( shape->GetNumberOfShapeParameters() );
-  CostFunctionType::ArrayType stddev( shape->GetNumberOfShapeParameters() );
+  CostFunctionType::ArrayType mean(shape->GetNumberOfShapeParameters());
+  CostFunctionType::ArrayType stddev(shape->GetNumberOfShapeParameters());
 
   // Assume the pca component has a mean value of -15.0 and std dev of 3
-  mean[0]   = -15.0;
+  mean[0] = -15.0;
   stddev[0] = 3.0;
 
-  costFunction->SetShapeParameterMeans( mean );
-  costFunction->SetShapeParameterStandardDeviations( stddev );
+  costFunction->SetShapeParameterMeans(mean);
+  costFunction->SetShapeParameterStandardDeviations(stddev);
 
   CostFunctionType::WeightsType weights;
-  weights.Fill( 1.0 );
+  weights.Fill(1.0);
   weights[1] = 10.0;
-  costFunction->SetWeights( weights );
+  costFunction->SetWeights(weights);
 
   // Set up the optimizer
-  optimizer->SetFunctionConvergenceTolerance( 0.1 );
-  optimizer->SetParametersConvergenceTolerance( 0.5 );
-  optimizer->SetMaximumNumberOfIterations( 50 );
+  optimizer->SetFunctionConvergenceTolerance(0.1);
+  optimizer->SetParametersConvergenceTolerance(0.5);
+  optimizer->SetMaximumNumberOfIterations(50);
 
 
   // Set up the initial parameters
-  ParametersType parameters( shape->GetNumberOfParameters() );
+  ParametersType parameters(shape->GetNumberOfParameters());
 
   parameters[0] = mean[0]; // mean pca value
-  parameters[1] = 1.0; // center of model already located at center of image
-  parameters[2] = 1.0; // center of model already located at center of image
+  parameters[1] = 1.0;     // center of model already located at center of image
+  parameters[2] = 1.0;     // center of model already located at center of image
 
   // Set up the scaling between the level set terms
-  filter->SetPropagationScaling( 0.5 );
-  filter->SetAdvectionScaling( 1.00 );
-  filter->SetCurvatureScaling( 1.00 );
-  filter->SetShapePriorScaling( 0.1 );
+  filter->SetPropagationScaling(0.5);
+  filter->SetAdvectionScaling(1.00);
+  filter->SetCurvatureScaling(1.00);
+  filter->SetShapePriorScaling(0.1);
 
   // Hook up components to the filter
-  filter->SetInput( fastMarching->GetOutput() );  // initial level set
-  filter->SetFeatureImage( sigmoid->GetOutput() );  // edge potential map
-  filter->SetShapeFunction( shape );
-  filter->SetCostFunction( costFunction );
-  filter->SetOptimizer( optimizer );
-  filter->SetInitialParameters( parameters );
+  filter->SetInput(fastMarching->GetOutput());   // initial level set
+  filter->SetFeatureImage(sigmoid->GetOutput()); // edge potential map
+  filter->SetShapeFunction(shape);
+  filter->SetCostFunction(costFunction);
+  filter->SetOptimizer(optimizer);
+  filter->SetInitialParameters(parameters);
 
-  filter->SetNumberOfLayers( 4 );
-  filter->SetMaximumRMSError( 0.01 );
-  filter->SetNumberOfIterations( 400 );
+  filter->SetNumberOfLayers(4);
+  filter->SetMaximumRMSError(0.01);
+  filter->SetNumberOfIterations(400);
 
   //
   // Connect an observer to the filter.
   //
   using WatcherType = ShowIterationObject<FilterType>;
-  WatcherType iterationWatcher(filter);
-  itk::SimpleMemberCommand<WatcherType>::Pointer command =
-    itk::SimpleMemberCommand<WatcherType>::New();
-  command->SetCallbackFunction( &iterationWatcher,
-                                &WatcherType::ShowIteration );
-  filter->AddObserver( itk::IterationEvent(), command );
+  WatcherType                                    iterationWatcher(filter);
+  itk::SimpleMemberCommand<WatcherType>::Pointer command = itk::SimpleMemberCommand<WatcherType>::New();
+  command->SetCallbackFunction(&iterationWatcher, &WatcherType::ShowIteration);
+  filter->AddObserver(itk::IterationEvent(), command);
 
   //
   // Threshold the output level set to display the final contour.
   //
-  using ThresholdFilterType =
-      itk::BinaryThresholdImageFilter< InternalImageType, ImageType >;
+  using ThresholdFilterType = itk::BinaryThresholdImageFilter<InternalImageType, ImageType>;
   ThresholdFilterType::Pointer thresholder = ThresholdFilterType::New();
 
-  thresholder->SetInput( filter->GetOutput() );
-  thresholder->SetLowerThreshold( -1e+10 );
-  thresholder->SetUpperThreshold( 0.0 );
-  thresholder->SetOutsideValue( 0 );
-  thresholder->SetInsideValue( 255 );
+  thresholder->SetInput(filter->GetOutput());
+  thresholder->SetLowerThreshold(-1e+10);
+  thresholder->SetUpperThreshold(0.0);
+  thresholder->SetOutsideValue(0);
+  thresholder->SetInsideValue(255);
   thresholder->Update();
 
   //
   // Compute overlap between the true shape and the segmented shape.
   //
-  using OverlapCalculatorType =
-      itk::SimilarityIndexImageFilter< ImageType, ImageType >;
+  using OverlapCalculatorType = itk::SimilarityIndexImageFilter<ImageType, ImageType>;
   OverlapCalculatorType::Pointer overlap = OverlapCalculatorType::New();
 
-  overlap->SetInput1( trueShape );
-  overlap->SetInput2( thresholder->GetOutput() );
+  overlap->SetInput1(trueShape);
+  overlap->SetInput2(thresholder->GetOutput());
 
   // Run the pipeline
   try
-    {
+  {
     overlap->Update();
-    }
-  catch( itk::ExceptionObject& err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cout << err << std::endl;
     std::cout << "Caught unexpected exception." << std::endl;
     std::cout << "Test failed. " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Print useful information from the shape detection filter
   std::cout << "Max. no. iterations: " << filter->GetNumberOfIterations() << std::endl;
@@ -392,62 +385,61 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[] )
   std::cout << "Overlap: " << overlap->GetSimilarityIndex() << std::endl;
 
   // Uncomment to write out images
-/*
-  using WriterType = itk::ImageFileWriter< ImageType >;
-  WriterType::Pointer writer = WriterType::New();
+  /*
+    using WriterType = itk::ImageFileWriter< ImageType >;
+    WriterType::Pointer writer = WriterType::New();
 
-  using RescaleFilterType = itk::RescaleIntensityImageFilter< InternalImageType,
-    ImageType >;
-  RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
+    using RescaleFilterType = itk::RescaleIntensityImageFilter< InternalImageType,
+      ImageType >;
+    RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
 
-  using ComponentCasterType = itk::CastImageFilter< ComponentImageType,
-    InternalImageType >;
-  ComponentCasterType::Pointer ccaster = ComponentCasterType::New();
+    using ComponentCasterType = itk::CastImageFilter< ComponentImageType,
+      InternalImageType >;
+    ComponentCasterType::Pointer ccaster = ComponentCasterType::New();
 
-  writer->SetFileName( "inputImage.png" );
-  writer->SetInput( inputImage );
-  writer->Update();
+    writer->SetFileName( "inputImage.png" );
+    writer->SetInput( inputImage );
+    writer->Update();
 
-  rescaler->SetInput( gradMagnitude->GetOutput() );
-  rescaler->SetOutputMinimum( 0 );
-  rescaler->SetOutputMaximum( 255 );
-  writer->SetFileName( "gradMagnitude.png" );
-  writer->SetInput( rescaler->GetOutput() );
-  writer->Update();
+    rescaler->SetInput( gradMagnitude->GetOutput() );
+    rescaler->SetOutputMinimum( 0 );
+    rescaler->SetOutputMaximum( 255 );
+    writer->SetFileName( "gradMagnitude.png" );
+    writer->SetInput( rescaler->GetOutput() );
+    writer->Update();
 
-  rescaler->SetInput( sigmoid->GetOutput() );
-  writer->SetFileName( "edgePotential.png" );
-  writer->Update();
+    rescaler->SetInput( sigmoid->GetOutput() );
+    writer->SetFileName( "edgePotential.png" );
+    writer->Update();
 
-  writer->SetInput( thresholder->GetOutput() );
-  writer->SetFileName( "outputLevelSet.png" );
-  writer->Update();
+    writer->SetInput( thresholder->GetOutput() );
+    writer->SetFileName( "outputLevelSet.png" );
+    writer->Update();
 
-  thresholder->SetInput( fastMarching->GetOutput() );
-  writer->SetInput( thresholder->GetOutput() );
-  writer->SetFileName( "initialLevelSet.png" );
-  writer->Update();
+    thresholder->SetInput( fastMarching->GetOutput() );
+    writer->SetInput( thresholder->GetOutput() );
+    writer->SetFileName( "initialLevelSet.png" );
+    writer->Update();
 
-  ccaster->SetInput( meanImage );
-  rescaler->SetInput( ccaster->GetOutput() );
-  writer->SetInput( rescaler->GetOutput() );
-  writer->SetFileName( "mean.png" );
-  writer->Update();
-*/
+    ccaster->SetInput( meanImage );
+    rescaler->SetInput( ccaster->GetOutput() );
+    writer->SetInput( rescaler->GetOutput() );
+    writer->SetFileName( "mean.png" );
+    writer->Update();
+  */
 
   // Check if overlap is above threshold
-  if ( overlap->GetSimilarityIndex() > 0.93 )
-    {
+  if (overlap->GetSimilarityIndex() > 0.93)
+  {
     std::cout << "Overlap exceed threshold." << std::endl;
-    }
+  }
   else
-    {
+  {
     std::cout << "Overlap below threshold." << std::endl;
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
-
 }

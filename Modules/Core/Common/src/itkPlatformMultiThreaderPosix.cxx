@@ -32,36 +32,37 @@
 #include <unistd.h>
 
 #ifdef __APPLE__
-#include <sys/types.h>
-#include <sys/sysctl.h>
+#  include <sys/types.h>
+#  include <sys/sysctl.h>
 #endif
 
 namespace itk
 {
 extern "C"
 {
-using c_void_cast = void *( * )(void *);
+  using c_void_cast = void * (*)(void *);
 }
 
-#if !defined ( ITK_LEGACY_REMOVE )
-void PlatformMultiThreader::MultipleMethodExecute()
+#if !defined(ITK_LEGACY_REMOVE)
+void
+PlatformMultiThreader::MultipleMethodExecute()
 {
 
   pthread_t process_id[ITK_MAX_THREADS];
 
   // obey the global maximum number of threads limit
-  if( m_NumberOfWorkUnits > MultiThreaderBase::GetGlobalMaximumNumberOfThreads() )
-    {
+  if (m_NumberOfWorkUnits > MultiThreaderBase::GetGlobalMaximumNumberOfThreads())
+  {
     m_NumberOfWorkUnits = MultiThreaderBase::GetGlobalMaximumNumberOfThreads();
-    }
-  for( ThreadIdType thread_loop = 0; thread_loop < m_NumberOfWorkUnits; ++thread_loop )
+  }
+  for (ThreadIdType thread_loop = 0; thread_loop < m_NumberOfWorkUnits; ++thread_loop)
+  {
+    if (m_MultipleMethod[thread_loop] == (ThreadFunctionType) nullptr)
     {
-    if( m_MultipleMethod[thread_loop] == (ThreadFunctionType)nullptr )
-      {
       itkExceptionMacro(<< "No multiple method set for: " << thread_loop);
       return;
-      }
     }
+  }
 
   // Using POSIX threads
   //
@@ -78,66 +79,65 @@ void PlatformMultiThreader::MultipleMethodExecute()
   pthread_attr_t attr;
 
   pthread_attr_init(&attr);
-#ifndef __CYGWIN__
+#  ifndef __CYGWIN__
   pthread_attr_setscope(&attr, PTHREAD_SCOPE_PROCESS);
-#endif
-  for( ThreadIdType thread_loop = 1; thread_loop < m_NumberOfWorkUnits; ++thread_loop )
-    {
-    m_ThreadInfoArray[thread_loop].UserData =
-      m_MultipleData[thread_loop];
+#  endif
+  for (ThreadIdType thread_loop = 1; thread_loop < m_NumberOfWorkUnits; ++thread_loop)
+  {
+    m_ThreadInfoArray[thread_loop].UserData = m_MultipleData[thread_loop];
     m_ThreadInfoArray[thread_loop].NumberOfWorkUnits = m_NumberOfWorkUnits;
-    int threadError = pthread_create( &( process_id[thread_loop] ),
-                                      &attr, reinterpret_cast<c_void_cast>( m_MultipleMethod[thread_loop] ),
-                                      ( (void *)( &m_ThreadInfoArray[thread_loop] ) ) );
-    if( threadError != 0 )
-      {
-      itkExceptionMacro(<< "Unable to create a thread.  pthread_create() returned "
-                        << threadError);
-      }
+    int threadError = pthread_create(&(process_id[thread_loop]),
+                                     &attr,
+                                     reinterpret_cast<c_void_cast>(m_MultipleMethod[thread_loop]),
+                                     ((void *)(&m_ThreadInfoArray[thread_loop])));
+    if (threadError != 0)
+    {
+      itkExceptionMacro(<< "Unable to create a thread.  pthread_create() returned " << threadError);
     }
+  }
 
   // Now, the parent thread calls the last method itself
   m_ThreadInfoArray[0].UserData = m_MultipleData[0];
   m_ThreadInfoArray[0].NumberOfWorkUnits = m_NumberOfWorkUnits;
-  ( m_MultipleMethod[0] )( (void *)( &m_ThreadInfoArray[0] ) );
+  (m_MultipleMethod[0])((void *)(&m_ThreadInfoArray[0]));
   // The parent thread has finished its method - so now it
   // waits for each of the other processes to exit
-  for( ThreadIdType thread_loop = 1; thread_loop < m_NumberOfWorkUnits; ++thread_loop )
-    {
+  for (ThreadIdType thread_loop = 1; thread_loop < m_NumberOfWorkUnits; ++thread_loop)
+  {
     pthread_join(process_id[thread_loop], nullptr);
-    }
-
+  }
 }
 
-ThreadIdType PlatformMultiThreader::SpawnThread(ThreadFunctionType f, void *UserData)
+ThreadIdType
+PlatformMultiThreader::SpawnThread(ThreadFunctionType f, void * UserData)
 {
   ThreadIdType id = 0;
 
-  while( id < ITK_MAX_THREADS )
+  while (id < ITK_MAX_THREADS)
+  {
+    if (!m_SpawnedThreadActiveFlagLock[id])
     {
-    if( !m_SpawnedThreadActiveFlagLock[id]  )
-      {
-      m_SpawnedThreadActiveFlagLock[id] = std::make_shared< std::mutex >();
-      }
+      m_SpawnedThreadActiveFlagLock[id] = std::make_shared<std::mutex>();
+    }
     m_SpawnedThreadActiveFlagLock[id]->lock();
-    if( m_SpawnedThreadActiveFlag[id] == 0 )
-      {
+    if (m_SpawnedThreadActiveFlag[id] == 0)
+    {
       // We've got a useable thread id, so grab it
       m_SpawnedThreadActiveFlag[id] = 1;
       m_SpawnedThreadActiveFlagLock[id]->unlock();
       break;
-      }
+    }
     m_SpawnedThreadActiveFlagLock[id]->unlock();
 
     id++;
-    }
+  }
 
-  if( id >= ITK_MAX_THREADS )
-    {
+  if (id >= ITK_MAX_THREADS)
+  {
     itkExceptionMacro(<< "You have too many active threads!");
-    }
+  }
 
-  m_SpawnedThreadInfoArray[id].UserData        = UserData;
+  m_SpawnedThreadInfoArray[id].UserData = UserData;
   m_SpawnedThreadInfoArray[id].NumberOfWorkUnits = 1;
   m_SpawnedThreadInfoArray[id].ActiveFlag = &m_SpawnedThreadActiveFlag[id];
   m_SpawnedThreadInfoArray[id].ActiveFlagLock = m_SpawnedThreadActiveFlagLock[id];
@@ -145,28 +145,29 @@ ThreadIdType PlatformMultiThreader::SpawnThread(ThreadFunctionType f, void *User
   pthread_attr_t attr;
 
   pthread_attr_init(&attr);
-#ifndef __CYGWIN__
+#  ifndef __CYGWIN__
   pthread_attr_setscope(&attr, PTHREAD_SCOPE_PROCESS);
-#endif
+#  endif
 
-  int threadError = pthread_create( &( m_SpawnedThreadProcessID[id] ),
-                                    &attr, reinterpret_cast<c_void_cast>( f ),
-                                    ( (void *)( &m_SpawnedThreadInfoArray[id] ) ) );
-  if( threadError != 0 )
-    {
-    itkExceptionMacro(<< "Unable to create a thread.  pthread_create() returned "
-                      << threadError);
-    }
+  int threadError = pthread_create(&(m_SpawnedThreadProcessID[id]),
+                                   &attr,
+                                   reinterpret_cast<c_void_cast>(f),
+                                   ((void *)(&m_SpawnedThreadInfoArray[id])));
+  if (threadError != 0)
+  {
+    itkExceptionMacro(<< "Unable to create a thread.  pthread_create() returned " << threadError);
+  }
 
   return id;
 }
 
-void PlatformMultiThreader::TerminateThread(ThreadIdType WorkUnitID)
+void
+PlatformMultiThreader::TerminateThread(ThreadIdType WorkUnitID)
 {
-  if( !m_SpawnedThreadActiveFlag[WorkUnitID] )
-    {
+  if (!m_SpawnedThreadActiveFlag[WorkUnitID])
+  {
     return;
-    }
+  }
 
   m_SpawnedThreadActiveFlagLock[WorkUnitID]->lock();
   m_SpawnedThreadActiveFlag[WorkUnitID] = 0;
@@ -180,38 +181,34 @@ void PlatformMultiThreader::TerminateThread(ThreadIdType WorkUnitID)
 #endif
 
 void
-PlatformMultiThreader
-::SpawnWaitForSingleMethodThread(ThreadProcessIdType threadHandle)
+PlatformMultiThreader ::SpawnWaitForSingleMethodThread(ThreadProcessIdType threadHandle)
 {
   // Using POSIX threads
-  if ( pthread_join(threadHandle, nullptr) )
-    {
+  if (pthread_join(threadHandle, nullptr))
+  {
     itkExceptionMacro(<< "Unable to join thread.");
-    }
+  }
 }
 
 ThreadProcessIdType
-PlatformMultiThreader
-::SpawnDispatchSingleMethodThread(PlatformMultiThreader::WorkUnitInfo *threadInfo)
+PlatformMultiThreader ::SpawnDispatchSingleMethodThread(PlatformMultiThreader::WorkUnitInfo * threadInfo)
 {
   // Using POSIX threads
   pthread_attr_t attr;
   pthread_t      threadHandle;
 
   pthread_attr_init(&attr);
-#if !defined( __CYGWIN__ )
+#if !defined(__CYGWIN__)
   pthread_attr_setscope(&attr, PTHREAD_SCOPE_SYSTEM);
 #endif
 
   int threadError;
-  threadError =
-    pthread_create( &threadHandle, &attr, reinterpret_cast< c_void_cast >( this->SingleMethodProxy ),
-                    reinterpret_cast< void * >( threadInfo ) );
-  if ( threadError != 0 )
-    {
-    itkExceptionMacro(<< "Unable to create a thread.  pthread_create() returned "
-                      << threadError);
-    }
+  threadError = pthread_create(
+    &threadHandle, &attr, reinterpret_cast<c_void_cast>(this->SingleMethodProxy), reinterpret_cast<void *>(threadInfo));
+  if (threadError != 0)
+  {
+    itkExceptionMacro(<< "Unable to create a thread.  pthread_create() returned " << threadError);
+  }
   return threadHandle;
 }
 

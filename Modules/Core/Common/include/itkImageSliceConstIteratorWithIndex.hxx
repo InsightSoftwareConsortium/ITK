@@ -25,10 +25,9 @@ namespace itk
 //----------------------------------------------------------------------
 //  Advance to Next Line
 //----------------------------------------------------------------------
-template< typename TImage >
+template <typename TImage>
 void
-ImageSliceConstIteratorWithIndex< TImage >
-::NextLine()
+ImageSliceConstIteratorWithIndex<TImage>::NextLine()
 {
   // Move to next line
   this->m_PositionIndex[m_Direction_B]++;
@@ -36,17 +35,15 @@ ImageSliceConstIteratorWithIndex< TImage >
 
   // Move to beginning of line
   this->m_PositionIndex[m_Direction_A] = this->m_BeginIndex[m_Direction_A];
-  this->m_Position -= m_PixelJump
-                      * ( this->m_EndIndex[m_Direction_A] - this->m_BeginIndex[m_Direction_A] );
+  this->m_Position -= m_PixelJump * (this->m_EndIndex[m_Direction_A] - this->m_BeginIndex[m_Direction_A]);
 }
 
 //----------------------------------------------------------------------
 //  Advance to Previous Line
 //----------------------------------------------------------------------
-template< typename TImage >
+template <typename TImage>
 void
-ImageSliceConstIteratorWithIndex< TImage >
-::PreviousLine()
+ImageSliceConstIteratorWithIndex<TImage>::PreviousLine()
 {
   // Move to previous line
   this->m_PositionIndex[m_Direction_B]--;
@@ -54,105 +51,97 @@ ImageSliceConstIteratorWithIndex< TImage >
 
   // Move to end of line
   this->m_PositionIndex[m_Direction_A] = this->m_EndIndex[m_Direction_A] - 1;
-  this->m_Position += m_PixelJump
-                      * ( this->m_EndIndex[m_Direction_A] - this->m_BeginIndex[m_Direction_A] );
+  this->m_Position += m_PixelJump * (this->m_EndIndex[m_Direction_A] - this->m_BeginIndex[m_Direction_A]);
 }
 
 //----------------------------------------------------------------------
 //  Go to the first pixel of the current slice
 //----------------------------------------------------------------------
-template< typename TImage >
+template <typename TImage>
 void
-ImageSliceConstIteratorWithIndex< TImage >
-::GoToBeginOfSlice()
+ImageSliceConstIteratorWithIndex<TImage>::GoToBeginOfSlice()
 {
   // Move to beginning of Slice
   this->m_PositionIndex[m_Direction_B] = this->m_BeginIndex[m_Direction_B];
-  this->m_Position -= m_LineJump
-                      * ( this->m_EndIndex[m_Direction_B] - this->m_BeginIndex[m_Direction_B] );
+  this->m_Position -= m_LineJump * (this->m_EndIndex[m_Direction_B] - this->m_BeginIndex[m_Direction_B]);
 }
 
 //----------------------------------------------------------------------
 //  Advance to next slice
 //----------------------------------------------------------------------
-template< typename TImage >
+template <typename TImage>
 void
-ImageSliceConstIteratorWithIndex< TImage >
-::NextSlice()
+ImageSliceConstIteratorWithIndex<TImage>::NextSlice()
 {
   // Move to beginning of Slice
-  this->m_Position -= m_LineJump
-                      * ( this->m_PositionIndex[m_Direction_B] - this->m_BeginIndex[m_Direction_B] );
+  this->m_Position -= m_LineJump * (this->m_PositionIndex[m_Direction_B] - this->m_BeginIndex[m_Direction_B]);
   this->m_PositionIndex[m_Direction_B] = this->m_BeginIndex[m_Direction_B];
 
-  for ( unsigned int n = 0; n < TImage::ImageDimension; n++ )
-    {
+  for (unsigned int n = 0; n < TImage::ImageDimension; n++)
+  {
     this->m_Remaining = false;
 
-    if ( n == m_Direction_B || n == m_Direction_A )
-      {
+    if (n == m_Direction_B || n == m_Direction_A)
+    {
       continue;
-      }
+    }
 
     this->m_PositionIndex[n]++;
-    if ( this->m_PositionIndex[n] < this->m_EndIndex[n] )
-      {
+    if (this->m_PositionIndex[n] < this->m_EndIndex[n])
+    {
       this->m_Position += this->m_OffsetTable[n];
       this->m_Remaining = true;
       break;
-      }
+    }
     else
-      {
+    {
       this->m_Position -= this->m_OffsetTable[n + 1] - this->m_OffsetTable[n];
       this->m_PositionIndex[n] = this->m_BeginIndex[n];
-      }
     }
+  }
 }
 
 //----------------------------------------------------------------------
 //  Go Back to previous slice
 //----------------------------------------------------------------------
-template< typename TImage >
+template <typename TImage>
 void
-ImageSliceConstIteratorWithIndex< TImage >
-::PreviousSlice()
+ImageSliceConstIteratorWithIndex<TImage>::PreviousSlice()
 {
   // Move to end of Slice
   this->m_PositionIndex[m_Direction_B] = this->m_EndIndex[m_Direction_B] - 1;
-  this->m_Position += m_LineJump
-                      * ( this->m_EndIndex[m_Direction_B] - this->m_BeginIndex[m_Direction_B] );
+  this->m_Position += m_LineJump * (this->m_EndIndex[m_Direction_B] - this->m_BeginIndex[m_Direction_B]);
 
-  for ( unsigned int n = 0; n < TImage::ImageDimension; n++ )
-    {
+  for (unsigned int n = 0; n < TImage::ImageDimension; n++)
+  {
     this->m_Remaining = false;
 
-    if ( n == m_Direction_B || n == m_Direction_A )
-      {
+    if (n == m_Direction_B || n == m_Direction_A)
+    {
       continue;
-      }
+    }
 
     this->m_PositionIndex[n]--;
-    if ( this->m_PositionIndex[n] >= this->m_BeginIndex[n] )
-      {
+    if (this->m_PositionIndex[n] >= this->m_BeginIndex[n])
+    {
       this->m_Position -= this->m_OffsetTable[n];
       this->m_Remaining = true;
       break;
-      }
+    }
     else
-      {
+    {
       this->m_Position += this->m_OffsetTable[n + 1] - this->m_OffsetTable[n];
       this->m_PositionIndex[n] = this->m_EndIndex[n] - 1;
-      }
     }
+  }
 }
 
 //----------------------------------------------------------------------
 //  Test for end of line
 //----------------------------------------------------------------------
-template< typename TImage >
+template <typename TImage>
 bool
-ImageSliceConstIteratorWithIndex< TImage >
-::IsAtEndOfLine() const
+ImageSliceConstIteratorWithIndex<TImage>::IsAtEndOfLine() const
 {
   return this->m_PositionIndex[m_Direction_A] >= this->m_EndIndex[m_Direction_A];
 }
@@ -160,10 +149,9 @@ ImageSliceConstIteratorWithIndex< TImage >
 //----------------------------------------------------------------------
 //  Test for end of slice
 //----------------------------------------------------------------------
-template< typename TImage >
+template <typename TImage>
 bool
-ImageSliceConstIteratorWithIndex< TImage >
-::IsAtEndOfSlice() const
+ImageSliceConstIteratorWithIndex<TImage>::IsAtEndOfSlice() const
 {
   return this->m_PositionIndex[m_Direction_B] >= this->m_EndIndex[m_Direction_B];
 }
@@ -171,10 +159,9 @@ ImageSliceConstIteratorWithIndex< TImage >
 //----------------------------------------------------------------------
 //  Test for begin of line
 //----------------------------------------------------------------------
-template< typename TImage >
+template <typename TImage>
 bool
-ImageSliceConstIteratorWithIndex< TImage >
-::IsAtReverseEndOfLine() const
+ImageSliceConstIteratorWithIndex<TImage>::IsAtReverseEndOfLine() const
 {
   return this->m_PositionIndex[m_Direction_A] < this->m_BeginIndex[m_Direction_A];
 }
@@ -182,10 +169,9 @@ ImageSliceConstIteratorWithIndex< TImage >
 //----------------------------------------------------------------------
 //  Test for begin of slice
 //----------------------------------------------------------------------
-template< typename TImage >
+template <typename TImage>
 bool
-ImageSliceConstIteratorWithIndex< TImage >
-::IsAtReverseEndOfSlice() const
+ImageSliceConstIteratorWithIndex<TImage>::IsAtReverseEndOfSlice() const
 {
   return this->m_PositionIndex[m_Direction_B] < this->m_BeginIndex[m_Direction_B];
 }
@@ -193,16 +179,15 @@ ImageSliceConstIteratorWithIndex< TImage >
 //----------------------------------------------------------------------
 //  Select the fastest changing direction
 //----------------------------------------------------------------------
-template< typename TImage >
+template <typename TImage>
 void
-ImageSliceConstIteratorWithIndex< TImage >
-::SetFirstDirection(unsigned int direction)
+ImageSliceConstIteratorWithIndex<TImage>::SetFirstDirection(unsigned int direction)
 {
-  if ( direction >= TImage::ImageDimension )
-    {
-    itkGenericExceptionMacro(
-      << "In image of dimension " << TImage::ImageDimension << " Direction " << direction << " sas selected");
-    }
+  if (direction >= TImage::ImageDimension)
+  {
+    itkGenericExceptionMacro(<< "In image of dimension " << TImage::ImageDimension << " Direction " << direction
+                             << " sas selected");
+  }
   m_Direction_A = direction;
   m_PixelJump = this->m_OffsetTable[m_Direction_A];
 }
@@ -210,16 +195,15 @@ ImageSliceConstIteratorWithIndex< TImage >
 //----------------------------------------------------------------------
 //  Select the second fastest changing direction
 //----------------------------------------------------------------------
-template< typename TImage >
+template <typename TImage>
 void
-ImageSliceConstIteratorWithIndex< TImage >
-::SetSecondDirection(unsigned int direction)
+ImageSliceConstIteratorWithIndex<TImage>::SetSecondDirection(unsigned int direction)
 {
-  if ( direction >= TImage::ImageDimension )
-    {
-    itkGenericExceptionMacro(
-      << "In image of dimension " << TImage::ImageDimension << " Direction " << direction << " sas selected");
-    }
+  if (direction >= TImage::ImageDimension)
+  {
+    itkGenericExceptionMacro(<< "In image of dimension " << TImage::ImageDimension << " Direction " << direction
+                             << " sas selected");
+  }
   m_Direction_B = direction;
   m_LineJump = this->m_OffsetTable[m_Direction_B];
 }
@@ -227,10 +211,9 @@ ImageSliceConstIteratorWithIndex< TImage >
 //----------------------------------------------------------------------
 //  Advance along a line
 //----------------------------------------------------------------------
-template< typename TImage >
-ImageSliceConstIteratorWithIndex< TImage > &
-ImageSliceConstIteratorWithIndex< TImage >
-::operator++()
+template <typename TImage>
+ImageSliceConstIteratorWithIndex<TImage> &
+ImageSliceConstIteratorWithIndex<TImage>::operator++()
 {
   this->m_PositionIndex[m_Direction_A]++;
   this->m_Position += m_PixelJump;
@@ -240,10 +223,9 @@ ImageSliceConstIteratorWithIndex< TImage >
 //----------------------------------------------------------------------
 //  Go back along a line
 //----------------------------------------------------------------------
-template< typename TImage >
-ImageSliceConstIteratorWithIndex< TImage > &
-ImageSliceConstIteratorWithIndex< TImage >
-::operator--()
+template <typename TImage>
+ImageSliceConstIteratorWithIndex<TImage> &
+ImageSliceConstIteratorWithIndex<TImage>::operator--()
 {
   this->m_PositionIndex[m_Direction_A]--;
   this->m_Position -= m_PixelJump;

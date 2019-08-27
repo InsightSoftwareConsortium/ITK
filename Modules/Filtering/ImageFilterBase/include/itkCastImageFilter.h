@@ -26,7 +26,7 @@
 
 namespace itk
 {
-#if !defined( ITK_LEGACY_REMOVE )
+#if !defined(ITK_LEGACY_REMOVE)
 namespace Functor
 {
 /** \class Cast
@@ -35,28 +35,31 @@ namespace Functor
  * \ingroup ITKImageFilterBase
  */
 
-template< typename TInput, typename TOutput >
+template <typename TInput, typename TOutput>
 class ITK_TEMPLATE_EXPORT Cast
 {
 public:
   Cast() = default;
   virtual ~Cast() = default;
-  bool operator!=(const Cast &) const
+  bool
+  operator!=(const Cast &) const
   {
     return false;
   }
 
-  bool operator==(const Cast & other) const
+  bool
+  operator==(const Cast & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 
-  inline TOutput operator()(const TInput & A) const
+  inline TOutput
+  operator()(const TInput & A) const
   {
-    return static_cast< TOutput >( A );
+    return static_cast<TOutput>(A);
   }
 };
-}
+} // namespace Functor
 #endif
 
 
@@ -97,9 +100,8 @@ public:
  * \sphinxexample{Filtering/ImageFilterBase/CastAnImageToAnotherType,Cast An Image To Another Type}
  * \endsphinx
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT CastImageFilter:
-    public InPlaceImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT CastImageFilter : public InPlaceImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(CastImageFilter);
@@ -107,10 +109,10 @@ public:
   /** Standard class type aliases. */
   using Self = CastImageFilter;
 
-  using Superclass = InPlaceImageFilter< TInputImage, TOutputImage >;
+  using Superclass = InPlaceImageFilter<TInputImage, TOutputImage>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
 
   using OutputImageRegionType = typename Superclass::OutputImageRegionType;
@@ -128,25 +130,28 @@ protected:
   CastImageFilter();
   ~CastImageFilter() override = default;
 
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
-  template<typename TInputPixelType,
-           typename TOutputPixelType,
-           typename std::enable_if<mpl::is_static_castable<TInputPixelType, TOutputPixelType>::value, int>::type = 0>
-    void DynamicThreadedGenerateDataDispatched(const OutputImageRegionType & outputRegionForThread);
+  template <typename TInputPixelType,
+            typename TOutputPixelType,
+            typename std::enable_if<mpl::is_static_castable<TInputPixelType, TOutputPixelType>::value, int>::type = 0>
+  void
+  DynamicThreadedGenerateDataDispatched(const OutputImageRegionType & outputRegionForThread);
 
-  template<typename TInputPixelType,
-           typename TOutputPixelType,
-           typename std::enable_if<!mpl::is_static_castable<TInputPixelType, TOutputPixelType>::value, int>::type = 0>
-   void DynamicThreadedGenerateDataDispatched(const OutputImageRegionType & outputRegionForThread);
+  template <typename TInputPixelType,
+            typename TOutputPixelType,
+            typename std::enable_if<!mpl::is_static_castable<TInputPixelType, TOutputPixelType>::value, int>::type = 0>
+  void
+  DynamicThreadedGenerateDataDispatched(const OutputImageRegionType & outputRegionForThread);
 
 private:
-
-
 };
 } // end namespace itk
 

@@ -56,22 +56,21 @@ namespace itk
  */
 template <typename TInputImage, typename TCoordRep = double>
 class ITK_TEMPLATE_EXPORT BSplineControlPointImageFunction
-: public ImageFunction<TInputImage, typename TInputImage::PixelType, TCoordRep>
+  : public ImageFunction<TInputImage, typename TInputImage::PixelType, TCoordRep>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BSplineControlPointImageFunction);
 
   using Self = BSplineControlPointImageFunction;
-  using Superclass = ImageFunction<TInputImage,
-    typename TInputImage::PixelType, TCoordRep>;
+  using Superclass = ImageFunction<TInputImage, typename TInputImage::PixelType, TCoordRep>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( BSplineControlPointImageFunction, ImageFunction );
+  itkTypeMacro(BSplineControlPointImageFunction, ImageFunction);
 
   /** Extract dimension from input image. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
@@ -113,24 +112,27 @@ public:
    * Set the input image.  Note that the size, spacing, origin, and spline
    * order must be called prior to setting the input image.
    */
-  void SetInputImage( const InputImageType * ) override;
+  void
+  SetInputImage(const InputImageType *) override;
 
   /**
    * Set the spline order of the B-spline object for all parametric dimensions.
    * Default = 3.
    */
-  void SetSplineOrder( const unsigned int );
+  void
+  SetSplineOrder(const unsigned int);
 
   /**
    * Set the spline order array where each element of the array corresponds to
    * a single parametric dimension of the B-spline object.  Default = 3.
    */
-  void SetSplineOrder( const ArrayType & );
+  void
+  SetSplineOrder(const ArrayType &);
 
   /**
    * Get the spline order array of the B-spline object.  Default = 3.
    */
-  itkGetConstReferenceMacro( SplineOrder, ArrayType );
+  itkGetConstReferenceMacro(SplineOrder, ArrayType);
 
   /**
    * Set the boolean array indicating the periodicity of the B-spline object.
@@ -148,30 +150,30 @@ public:
    * they were also located at the end of the domain. The number of points to
    * be reused will depend on the spline order. As a user, you don't need to
    * replicate the points, the filter will do this for you. */
-  itkSetMacro( CloseDimension, ArrayType );
+  itkSetMacro(CloseDimension, ArrayType);
 
   /**
    * Get the boolean array indicating which dimensions are closed.
    */
-  itkGetConstReferenceMacro( CloseDimension, ArrayType );
+  itkGetConstReferenceMacro(CloseDimension, ArrayType);
 
   /**
    * Set/Get the parametric spacing of the B-spline object domain.
    */
-  itkSetMacro( Spacing, SpacingType );
-  itkGetConstMacro( Spacing, SpacingType );
+  itkSetMacro(Spacing, SpacingType);
+  itkGetConstMacro(Spacing, SpacingType);
 
   /**
    * Set/Get the parametric origin of the B-spline object domain.
    */
-  itkSetMacro( Origin, OriginType );
-  itkGetConstMacro( Origin, OriginType );
+  itkSetMacro(Origin, OriginType);
+  itkGetConstMacro(Origin, OriginType);
 
   /**
    * Set/Get the parametric size of the B-spline object domain.
    */
-  itkSetMacro( Size, SizeType );
-  itkGetConstMacro( Size, SizeType );
+  itkSetMacro(Size, SizeType);
+  itkGetConstMacro(Size, SizeType);
 
   /**
    * Set/Get the epsilon used for B-splines.  The B-spline parametric domain in
@@ -181,123 +183,130 @@ public:
    * the B-spline epsilon to push the edge of the image boundary inside the
    * B-spline parametric domain.
    */
-  itkSetMacro( BSplineEpsilon, RealType );
-  itkGetConstMacro( BSplineEpsilon, RealType );
+  itkSetMacro(BSplineEpsilon, RealType);
+  itkGetConstMacro(BSplineEpsilon, RealType);
 
   /**
    * Evaluate the resulting B-spline object at a specified point in the
    * parametric domain.
    */
-  OutputType EvaluateAtParametricPoint( const PointType & ) const;
+  OutputType
+  EvaluateAtParametricPoint(const PointType &) const;
 
   /**
    * Evaluate the resulting B-spline object at a specified index in the
    * parametric domain.
    */
-  OutputType EvaluateAtIndex( const IndexType & ) const override;
+  OutputType
+  EvaluateAtIndex(const IndexType &) const override;
 
   /**
    * Evaluate the resulting B-spline object at a specified continuous index in
    * the parametric domain.
    */
-  OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & ) const override;
+  OutputType
+  EvaluateAtContinuousIndex(const ContinuousIndexType &) const override;
 
   /**
    * Evaluate the resulting B-spline object at a specified internal parameteric
    * point.  Note that the internal parameterization over each dimension of the
    * B-spline object is [0, 1).
    */
-  OutputType Evaluate( const PointType & ) const override;
+  OutputType
+  Evaluate(const PointType &) const override;
 
   /**
    * Evaluate the gradient of the resulting B-spline object at a specified point
    * in the parametric domain.
    */
-  GradientType EvaluateGradientAtParametricPoint( const PointType & ) const;
+  GradientType
+  EvaluateGradientAtParametricPoint(const PointType &) const;
 
   /**
    * Evaluate the gradient of the resulting B-spline object at a specified index
    * in the parametric domain.
    */
-  GradientType EvaluateGradientAtIndex( const IndexType & ) const;
+  GradientType
+  EvaluateGradientAtIndex(const IndexType &) const;
 
   /**
    * Evaluate the gradient of the resulting B-spline object at a specified
    * continuous index in the parametric domain.
    */
-  GradientType EvaluateGradientAtContinuousIndex(
-    const ContinuousIndexType & ) const;
+  GradientType
+  EvaluateGradientAtContinuousIndex(const ContinuousIndexType &) const;
 
   /**
    * Evaluate the gradient of the resulting B-spline object at a specified
    * internal parameteric point.  Note that the internal parameterization over
    * each dimension of the B-spline object is [0, 1).
    */
-  GradientType EvaluateGradient( const PointType & ) const;
+  GradientType
+  EvaluateGradient(const PointType &) const;
 
   /**
    * Evaluate the Hessian of the resulting B-spline object at a specified
    * point within the parametric domain.  Since the Hessian for a vector
    * function is a 3-tensor, one must specify the component.
    */
-  HessianComponentType EvaluateHessianAtParametricPoint(
-    const PointType &, const unsigned int ) const;
+  HessianComponentType
+  EvaluateHessianAtParametricPoint(const PointType &, const unsigned int) const;
 
   /**
    * Evaluate the Hessian of the resulting B-spline object at a specified
    * index within the parametric domain.  Since the Hessian for a vector
    * function is a 3-tensor, one must specify the component.
    */
-  HessianComponentType EvaluateHessianAtIndex(
-    const IndexType &, const unsigned int ) const;
+  HessianComponentType
+  EvaluateHessianAtIndex(const IndexType &, const unsigned int) const;
 
   /**
    * Evaluate the Hessian of the resulting B-spline object at a specified con-
    * tinuous index within the parametric domain.  Since the Hessian for a vector
    * function is a 3-tensor, one must specify the component.
    */
-  HessianComponentType EvaluateHessianAtContinuousIndex(
-    const ContinuousIndexType &, const unsigned int ) const;
+  HessianComponentType
+  EvaluateHessianAtContinuousIndex(const ContinuousIndexType &, const unsigned int) const;
 
   /**
    * Evaluate the hessian of the resulting B-spline object at a specified
    * internal parameteric point.  Note that the internal parameterization over
    * each dimension of the B-spline object is [0, 1).
    */
-  HessianComponentType EvaluateHessian(
-    const PointType &, const unsigned int ) const;
+  HessianComponentType
+  EvaluateHessian(const PointType &, const unsigned int) const;
 
 protected:
   BSplineControlPointImageFunction();
   ~BSplineControlPointImageFunction() override = default;
-  void PrintSelf( std::ostream& os, Indent indent ) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /** Parameters for the B-spline object domain */
-  SizeType                                     m_Size;
-  SpacingType                                  m_Spacing;
-  OriginType                                   m_Origin;
+  SizeType    m_Size;
+  SpacingType m_Spacing;
+  OriginType  m_Origin;
 
-  ArrayType                                    m_NumberOfControlPoints;
-  ArrayType                                    m_CloseDimension;
-  ArrayType                                    m_SplineOrder;
+  ArrayType m_NumberOfControlPoints;
+  ArrayType m_CloseDimension;
+  ArrayType m_SplineOrder;
 
-  RealImagePointer                             m_NeighborhoodWeightImage;
+  RealImagePointer m_NeighborhoodWeightImage;
 
-  typename KernelType::Pointer                 m_Kernel[ImageDimension];
-  typename KernelOrder0Type::Pointer           m_KernelOrder0;
-  typename KernelOrder1Type::Pointer           m_KernelOrder1;
-  typename KernelOrder2Type::Pointer           m_KernelOrder2;
-  typename KernelOrder3Type::Pointer           m_KernelOrder3;
+  typename KernelType::Pointer       m_Kernel[ImageDimension];
+  typename KernelOrder0Type::Pointer m_KernelOrder0;
+  typename KernelOrder1Type::Pointer m_KernelOrder1;
+  typename KernelOrder2Type::Pointer m_KernelOrder2;
+  typename KernelOrder3Type::Pointer m_KernelOrder3;
 
-  CoordRepType                                 m_BSplineEpsilon;
+  CoordRepType m_BSplineEpsilon;
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBSplineControlPointImageFunction.hxx"
+#  include "itkBSplineControlPointImageFunction.hxx"
 #endif
 
 #endif

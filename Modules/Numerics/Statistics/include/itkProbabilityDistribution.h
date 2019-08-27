@@ -69,8 +69,7 @@ namespace Statistics
  * can be obtained from http://commonfund.nih.gov/bioinformatics.
  * \ingroup ITKStatistics
  */
-class ITKStatistics_EXPORT ProbabilityDistribution:
-  public Object
+class ITKStatistics_EXPORT ProbabilityDistribution : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ProbabilityDistribution);
@@ -78,19 +77,20 @@ public:
   /** Standard class type aliases */
   using Self = ProbabilityDistribution;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard macros */
   itkTypeMacro(ProbabilityDistribution, Object);
 
   /** Type of the parameter vector. */
-  using ParametersType = Array< double >;
+  using ParametersType = Array<double>;
 
   /** Return the number of parameters that describe the
    * distribution. For nonparametric distributions, this will be a
    * function of the number of samples. */
-  virtual SizeValueType GetNumberOfParameters() const = 0;
+  virtual SizeValueType
+  GetNumberOfParameters() const = 0;
 
   /** Get the parameters of the distribution. See concrete subclasses
    * for the order of parameters. Subclasses may provide convenience
@@ -100,60 +100,72 @@ public:
   /** Set the parameters of the distribution. See concrete subclasses
    * for the order of the parameters. Subclasses may provide convenience
    * methods for setting parameters, i.e. SetDegreesOfFreedom(), etc. */
-  virtual void SetParameters(const ParametersType & params);
+  virtual void
+  SetParameters(const ParametersType & params);
 
   /** Evaluate the probability density function (pdf). The parameters
    * of the distribution are  assigned via SetParameters().  */
-  virtual double EvaluatePDF(double x) const = 0;
+  virtual double
+  EvaluatePDF(double x) const = 0;
 
   /** Evaluate the probability density function (pdf). The parameters
    * for the distribution are passed as a parameters vector. See
    * concrete subclasses for the ordering of parameters. */
-  virtual double EvaluatePDF(double x, const ParametersType &) const = 0;
+  virtual double
+  EvaluatePDF(double x, const ParametersType &) const = 0;
 
   /** Evaluate the cumulative distribution function (cdf). The parameters
    * of the distribution are  assigned via SetParameters(). See
    * concrete subclasses for the ordering of parameters.  */
-  virtual double EvaluateCDF(double x) const = 0;
+  virtual double
+  EvaluateCDF(double x) const = 0;
 
   /** Evaluate the cumulative distribution function (cdf). The parameters
    * for the distribution are passed as a parameters vector. See
    * concrete subclasses for the ordering of parameters. */
-  virtual double EvaluateCDF(double x, const ParametersType &) const = 0;
+  virtual double
+  EvaluateCDF(double x, const ParametersType &) const = 0;
 
   /** Evaluate the inverse cumulative distribution function (inverse
    * cdf).  Parameter p must be between 0.0 and 1.0. The parameters
    * of the distribution are  assigned via SetParameters(). See
    * concrete subclasses for the ordering of parameters.  */
-  virtual double EvaluateInverseCDF(double p) const = 0;
+  virtual double
+  EvaluateInverseCDF(double p) const = 0;
 
   /** Evaluate the inverse cumulative distribution function (inverse
    * cdf).  Parameter p must be between 0.0 and 1.0.  The parameters
    * for the distribution are passed as a parameters vector. See
    * concrete subclasses for the ordering of parameters. */
-  virtual double EvaluateInverseCDF(double p, const ParametersType &) const = 0;
+  virtual double
+  EvaluateInverseCDF(double p, const ParametersType &) const = 0;
 
   /** Does this distribution have a mean? */
-  virtual bool HasMean() const = 0;
+  virtual bool
+  HasMean() const = 0;
 
   /** Does this distribution have a variance? */
-  virtual bool HasVariance() const = 0;
+  virtual bool
+  HasVariance() const = 0;
 
   /** Get the mean of the distribution.  If the mean does not exist,
    * then quiet_NaN may is returned. */
-  virtual double GetMean() const = 0;
+  virtual double
+  GetMean() const = 0;
 
   /** Get the variance of the distribution. If the variance does not
    * exist, then quiet_NaN is returned. */
-  virtual double GetVariance() const = 0;
+  virtual double
+  GetVariance() const = 0;
 
 protected:
   ProbabilityDistribution();
   ~ProbabilityDistribution() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   ParametersType m_Parameters;
-};                                       // end of class
+}; // end of class
 } // end of namespace Statistics
 } // end namespace itk
 

@@ -52,13 +52,8 @@ namespace itk
  *
  * \ingroup ITKMetricsv4
  */
-template <
-typename TInputPointSet,
-typename TOutput,
-typename TCoordRep = float
->
-class ITK_TEMPLATE_EXPORT PointSetFunction :
-    public FunctionBase<typename TInputPointSet::PointType, TOutput>
+template <typename TInputPointSet, typename TOutput, typename TCoordRep = float>
+class ITK_TEMPLATE_EXPORT PointSetFunction : public FunctionBase<typename TInputPointSet::PointType, TOutput>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PointSetFunction);
@@ -68,13 +63,12 @@ public:
 
   /** Standard class type aliases. */
   using Self = PointSetFunction;
-  using Superclass = FunctionBase
-    <typename TInputPointSet::PointType, TOutput>;
+  using Superclass = FunctionBase<typename TInputPointSet::PointType, TOutput>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( PointSetFunction, FunctionBase );
+  itkTypeMacro(PointSetFunction, FunctionBase);
 
   /** InputPointSetType type alias support */
   using InputPointSetType = TInputPointSet;
@@ -96,36 +90,47 @@ public:
    * \warning this method caches BufferedRegion information.
    * If the BufferedRegion has changed, user must call
    * SetInputPointSet again to update cached values. */
-  virtual void SetInputPointSet( const InputPointSetType * ptr );
+  virtual void
+  SetInputPointSet(const InputPointSetType * ptr);
 
   /** Get the input image. */
-  const InputPointSetType * GetInputPointSet() const
-    { return m_PointSet.GetPointer(); }
+  const InputPointSetType *
+  GetInputPointSet() const
+  {
+    return m_PointSet.GetPointer();
+  }
 
   /** Evaluate the function at specified Point position.
    * Subclasses must provide this method. */
-  TOutput Evaluate( const InputPointType& point ) const override = 0;
+  TOutput
+  Evaluate(const InputPointType & point) const override = 0;
 
 protected:
   PointSetFunction();
   ~PointSetFunction() override = default;
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Const pointer to the input image. */
-  InputPointSetConstPointer                             m_PointSet;
+  InputPointSetConstPointer m_PointSet;
 };
 
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_PointSetFunction(_, EXPORT, x, y) namespace itk { \
-  _(3(class EXPORT PointSetFunction< ITK_TEMPLATE_3 x >)) \
-  namespace Templates { using PointSetFunction##y = PointSetFunction< ITK_TEMPLATE_3 x >; } \
+#define ITK_TEMPLATE_PointSetFunction(_, EXPORT, x, y)                                                                 \
+  namespace itk                                                                                                        \
+  {                                                                                                                    \
+  _(3(class EXPORT PointSetFunction<ITK_TEMPLATE_3 x>))                                                                \
+  namespace Templates                                                                                                  \
+  {                                                                                                                    \
+  using PointSetFunction##y = PointSetFunction<ITK_TEMPLATE_3 x>;                                                      \
+  }                                                                                                                    \
   }
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-# include "itkPointSetFunction.hxx"
+#  include "itkPointSetFunction.hxx"
 #endif
 
 

@@ -31,10 +31,8 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template<typename TParametersValueType=float,
-  unsigned int NDimensions = 3>
-class ITK_TEMPLATE_EXPORT ScaleLogarithmicTransform :
-  public ScaleTransform<TParametersValueType, NDimensions>
+template <typename TParametersValueType = float, unsigned int NDimensions = 3>
+class ITK_TEMPLATE_EXPORT ScaleLogarithmicTransform : public ScaleTransform<TParametersValueType, NDimensions>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ScaleLogarithmicTransform);
@@ -92,18 +90,21 @@ public:
   /** Set parameters.
    * This method sets the parameters for the transform
    * value specified by the user. */
-  void SetParameters(const ParametersType & parameters) override;
+  void
+  SetParameters(const ParametersType & parameters) override;
 
   /** Get the parameters that uniquely define the transform
    * This is typically used by optimizers.
    * There are 4 parameters. The first one represents the
    * rotation, the second one the scale and the last
    * two represent the offset. */
-  const ParametersType & GetParameters() const override;
+  const ParametersType &
+  GetParameters() const override;
 
   /** Compute the Jacobian Matrix of the transformation at one point,
    *  allowing for thread-safety. */
-  void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const override;
+  void
+  ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const override;
 
 protected:
   /** Construct an ScaleLogarithmicTransform object. */
@@ -113,13 +114,14 @@ protected:
   ~ScaleLogarithmicTransform() override = default;
 
   /** Print contents of an ScaleLogarithmicTransform */
-  void PrintSelf(std::ostream & os, Indent indent) const override;
-};                                               // class
-                                                 // ScaleLogarithmicTransform
-}  // namespace itk
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
+}; // class
+   // ScaleLogarithmicTransform
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkScaleLogarithmicTransform.hxx"
+#  include "itkScaleLogarithmicTransform.hxx"
 #endif
 
 #endif /* itkScaleLogarithmicTransform_h */

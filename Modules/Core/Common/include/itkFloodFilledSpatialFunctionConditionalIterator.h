@@ -31,14 +31,14 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-template< typename TImage, typename TFunction >
-class FloodFilledSpatialFunctionConditionalIterator:public
-  FloodFilledSpatialFunctionConditionalConstIterator< TImage, TFunction >
+template <typename TImage, typename TFunction>
+class FloodFilledSpatialFunctionConditionalIterator
+  : public FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>
 {
 public:
   /** Standard class type aliases. */
   using Self = FloodFilledSpatialFunctionConditionalIterator;
-  using Superclass = FloodFilledSpatialFunctionConditionalConstIterator< TImage, TFunction >;
+  using Superclass = FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>;
 
   /** Type of function */
   using FunctionType = typename Superclass::FunctionType;
@@ -70,27 +70,37 @@ public:
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. This version of the constructor uses
    * an explicit seed pixel for the flood fill, the "startIndex" */
-  FloodFilledSpatialFunctionConditionalIterator(ImageType *imagePtr,
-                                                FunctionType *fnPtr,
-                                                IndexType startIndex):Superclass(imagePtr, fnPtr, startIndex) {}
+  FloodFilledSpatialFunctionConditionalIterator(ImageType * imagePtr, FunctionType * fnPtr, IndexType startIndex)
+    : Superclass(imagePtr, fnPtr, startIndex)
+  {}
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. This version of the constructor
    * should be used when the seed pixel is unknown. */
-  FloodFilledSpatialFunctionConditionalIterator(ImageType *imagePtr,
-                                                FunctionType *fnPtr):Superclass(imagePtr, fnPtr) {}
+  FloodFilledSpatialFunctionConditionalIterator(ImageType * imagePtr, FunctionType * fnPtr)
+    : Superclass(imagePtr, fnPtr)
+  {}
 
   /** Get the pixel value, const version to avoid overload warnings */
-  const PixelType Get() const override
-  { return const_cast< ImageType * >( this->m_Image.GetPointer() )->GetPixel( this->m_IndexStack.front() ); }
+  const PixelType
+  Get() const override
+  {
+    return const_cast<ImageType *>(this->m_Image.GetPointer())->GetPixel(this->m_IndexStack.front());
+  }
 
   /** Get the pixel value, non-const version is sometimes useful. */
-  PixelType Get()
-  { return const_cast< ImageType * >( this->m_Image.GetPointer() )->GetPixel( this->m_IndexStack.front() ); }
+  PixelType
+  Get()
+  {
+    return const_cast<ImageType *>(this->m_Image.GetPointer())->GetPixel(this->m_IndexStack.front());
+  }
 
   /** Set the pixel value */
-  void Set(const PixelType & value)
-  { const_cast< ImageType * >( this->m_Image.GetPointer() )->GetPixel( this->m_IndexStack.front() ) = value; }
+  void
+  Set(const PixelType & value)
+  {
+    const_cast<ImageType *>(this->m_Image.GetPointer())->GetPixel(this->m_IndexStack.front()) = value;
+  }
 
   /** Default Destructor. */
   ~FloodFilledSpatialFunctionConditionalIterator() override = default;

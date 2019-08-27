@@ -33,8 +33,8 @@ public:
   /** Standard class type aliases. */
   using Self = DOMTestObjectDOMReader;
   using Superclass = DOMReader<DOMTestObject>;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -49,45 +49,46 @@ protected:
    * This function is called automatically when update functions are performed.
    * It should fill the contents of the output object by pulling information from the intermediate DOM object.
    */
-  void GenerateData( const DOMNodeType* inputdom, const void* ) override;
+  void
+  GenerateData(const DOMNodeType * inputdom, const void *) override;
 };
 
 inline void
-DOMTestObjectDOMReader::GenerateData( const DOMNodeType* inputdom, const void* )
+DOMTestObjectDOMReader::GenerateData(const DOMNodeType * inputdom, const void *)
 {
-  OutputType* output = this->GetOutput();
-  if ( output == nullptr )
-    {
+  OutputType * output = this->GetOutput();
+  if (output == nullptr)
+  {
     OutputType::Pointer object = OutputType::New();
-    output = (OutputType*)object;
-    this->SetOutput( output );
-    }
+    output = (OutputType *)object;
+    this->SetOutput(output);
+  }
 
-  FancyString s;
+  FancyString   s;
   std::ifstream ifs;
 
-  if ( inputdom->GetName() != "DOMTestObject" )
-    {
-    itkExceptionMacro( "tag name DOMTestObject is expected" );
-    }
+  if (inputdom->GetName() != "DOMTestObject")
+  {
+    itkExceptionMacro("tag name DOMTestObject is expected");
+  }
 
   // read child foo
-  const DOMNodeType* foo = inputdom->GetChild( "foo" );
-  if ( foo == nullptr )
-    {
-    itkExceptionMacro( "child foo not found" );
-    }
+  const DOMNodeType * foo = inputdom->GetChild("foo");
+  if (foo == nullptr)
+  {
+    itkExceptionMacro("child foo not found");
+  }
   s = foo->GetAttribute("fname");
-  output->SetFooFileName( s );
+  output->SetFooFileName(s);
   // read the foo value from file
-  ifs.open( s.ToString().c_str() );
-  if ( !ifs.is_open() )
-    {
-    itkExceptionMacro( "cannot read foo file" );
-    }
+  ifs.open(s.ToString().c_str());
+  if (!ifs.is_open())
+  {
+    itkExceptionMacro("cannot read foo file");
+  }
   std::string fooValue;
   ifs >> fooValue;
-  output->SetFooValue( fooValue );
+  output->SetFooValue(fooValue);
   ifs.close();
 }
 

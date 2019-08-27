@@ -20,6 +20,7 @@
 #include "ITKIOGEExport.h"
 namespace itk
 {
-extern float MvtSunf(int numb);
+extern float
+MvtSunf(int numb);
 }
 #endif

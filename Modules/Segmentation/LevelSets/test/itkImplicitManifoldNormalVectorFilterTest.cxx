@@ -21,19 +21,19 @@
 #include "itkImplicitManifoldNormalVectorFilter.h"
 #include "itkNormalVectorDiffusionFunction.h"
 
-int itkImplicitManifoldNormalVectorFilterTest(int, char* [] )
+int
+itkImplicitManifoldNormalVectorFilterTest(int, char *[])
 {
-  using InputImageType = itk::Image  <float, 2>;
-  using NodeType = itk::NormalBandNode <InputImageType>;
-  using OutputImageType = itk::SparseImage <NodeType, 2>;
-  using FilterType = itk::ImplicitManifoldNormalVectorFilter<InputImageType,
-    OutputImageType>;
+  using InputImageType = itk::Image<float, 2>;
+  using NodeType = itk::NormalBandNode<InputImageType>;
+  using OutputImageType = itk::SparseImage<NodeType, 2>;
+  using FilterType = itk::ImplicitManifoldNormalVectorFilter<InputImageType, OutputImageType>;
   using FunctionType = itk::NormalVectorDiffusionFunction<OutputImageType>;
 
-  InputImageType::Pointer im_init = InputImageType::New();
+  InputImageType::Pointer    im_init = InputImageType::New();
   InputImageType::RegionType r;
-  InputImageType::SizeType   sz = {{50, 50}};
-  InputImageType::IndexType  idx = {{0,0}};
+  InputImageType::SizeType   sz = { { 50, 50 } };
+  InputImageType::IndexType  idx = { { 0, 0 } };
   r.SetSize(sz);
   r.SetIndex(idx);
   im_init->SetLargestPossibleRegion(r);
@@ -42,39 +42,39 @@ int itkImplicitManifoldNormalVectorFilterTest(int, char* [] )
   im_init->Allocate();
 
   InputImageType::IndexType index;
-  for ( index[0]=0; index[0] < 50; index[0]++ )
-    for ( index[1]=0; index[1] < 50; index[1]++ )
-      {
-      im_init->SetPixel (index, static_cast<float>(index[0]));
-      }
+  for (index[0] = 0; index[0] < 50; index[0]++)
+    for (index[1] = 0; index[1] < 50; index[1]++)
+    {
+      im_init->SetPixel(index, static_cast<float>(index[0]));
+    }
 
-  FilterType::Pointer filter = FilterType::New();
+  FilterType::Pointer   filter = FilterType::New();
   FunctionType::Pointer function = FunctionType::New();
   filter->SetInput(im_init);
   filter->SetNormalFunction(function);
-  filter->SetIsoLevelLow (15.0);
-  filter->SetIsoLevelHigh (35.0);
-  filter->SetMaxIteration (100);
-  filter->SetMinVectorNorm (0.001);
+  filter->SetIsoLevelLow(15.0);
+  filter->SetIsoLevelHigh(35.0);
+  filter->SetMaxIteration(100);
+  filter->SetMinVectorNorm(0.001);
 
-  std::cout<<"Max iteration = "<<(filter->GetMaxIteration())<<"\n";
-  std::cout<<"IsoLevelLow = "<<(filter->GetIsoLevelLow())<<"\n";
-  std::cout<<"IsoLevelHigh = "<<(filter->GetIsoLevelHigh())<<"\n";
-  std::cout<<"MinVectorNorm = "<<(filter->GetMinVectorNorm())<<"\n";
-  std::cout<<"UnsharpMaskingFlag = "<<(filter->GetUnsharpMaskingFlag())<<"\n";
-  std::cout<<"UnsharpMaskingWeight = "
-           <<(filter->GetUnsharpMaskingWeight())<<"\n";
-  std::cout<<"Precomputeflag = "<<(filter->GetPrecomputeFlag())<<"\n";
+  std::cout << "Max iteration = " << (filter->GetMaxIteration()) << "\n";
+  std::cout << "IsoLevelLow = " << (filter->GetIsoLevelLow()) << "\n";
+  std::cout << "IsoLevelHigh = " << (filter->GetIsoLevelHigh()) << "\n";
+  std::cout << "MinVectorNorm = " << (filter->GetMinVectorNorm()) << "\n";
+  std::cout << "UnsharpMaskingFlag = " << (filter->GetUnsharpMaskingFlag()) << "\n";
+  std::cout << "UnsharpMaskingWeight = " << (filter->GetUnsharpMaskingWeight()) << "\n";
+  std::cout << "Precomputeflag = " << (filter->GetPrecomputeFlag()) << "\n";
 
   filter->Print(std::cout);
   function->Print(std::cout);
-  try {
-  filter->Update();
+  try
+  {
+    filter->Update();
   }
-  catch (itk::ExceptionObject &e)
-    {
-      std::cerr << e << std::endl;
-    }
+  catch (itk::ExceptionObject & e)
+  {
+    std::cerr << e << std::endl;
+  }
 
   return EXIT_SUCCESS;
 }

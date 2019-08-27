@@ -42,15 +42,16 @@
 // Software Guide : EndCodeSnippet
 
 
-int main( int argc, char ** argv )
+int
+main(int argc, char ** argv)
 {
   // Verify the number of parameters in the command line
-  if( argc < 4 )
-    {
+  if (argc < 4)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "first last  outputRGBImageFile " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   // Software Guide : BeginLatex
@@ -64,10 +65,10 @@ int main( int argc, char ** argv )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using PixelType = itk::RGBPixel< unsigned char >;
+  using PixelType = itk::RGBPixel<unsigned char>;
   constexpr unsigned int Dimension = 3;
 
-  using ImageType = itk::Image< PixelType, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -81,16 +82,16 @@ int main( int argc, char ** argv )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using SeriesReaderType = itk::ImageSeriesReader< ImageType >;
-  using WriterType = itk::ImageFileWriter<   ImageType >;
+  using SeriesReaderType = itk::ImageSeriesReader<ImageType>;
+  using WriterType = itk::ImageFileWriter<ImageType>;
 
   SeriesReaderType::Pointer seriesReader = SeriesReaderType::New();
-  WriterType::Pointer       writer       = WriterType::New();
+  WriterType::Pointer       writer = WriterType::New();
   // Software Guide : EndCodeSnippet
 
 
-  const unsigned int first = std::stoi( argv[1] );
-  const unsigned int last  = std::stoi( argv[2] );
+  const unsigned int first = std::stoi(argv[1]);
+  const unsigned int last = std::stoi(argv[2]);
 
   const char * outputFilename = argv[3];
 
@@ -107,11 +108,11 @@ int main( int argc, char ** argv )
 
   NameGeneratorType::Pointer nameGenerator = NameGeneratorType::New();
 
-  nameGenerator->SetStartIndex( first );
-  nameGenerator->SetEndIndex( last );
-  nameGenerator->SetIncrementIndex( 1 );
+  nameGenerator->SetStartIndex(first);
+  nameGenerator->SetEndIndex(last);
+  nameGenerator->SetIncrementIndex(1);
 
-  nameGenerator->SetSeriesFormat( "vwe%03d.png" );
+  nameGenerator->SetSeriesFormat("vwe%03d.png");
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -122,7 +123,7 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  seriesReader->SetImageIO( itk::PNGImageIO::New() );
+  seriesReader->SetImageIO(itk::PNGImageIO::New());
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -133,7 +134,7 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  seriesReader->SetFileNames( nameGenerator->GetFileNames()  );
+  seriesReader->SetFileNames(nameGenerator->GetFileNames());
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -145,9 +146,9 @@ int main( int argc, char ** argv )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  writer->SetFileName( outputFilename );
+  writer->SetFileName(outputFilename);
 
-  writer->SetInput( seriesReader->GetOutput() );
+  writer->SetInput(seriesReader->GetOutput());
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -160,14 +161,14 @@ int main( int argc, char ** argv )
 
   // Software Guide : BeginCodeSnippet
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Error reading the series " << std::endl;
     std::cerr << excp << std::endl;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -182,13 +183,13 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using Image2DType = itk::Image< PixelType, 2 >;
+  using Image2DType = itk::Image<PixelType, 2>;
 
-  using SeriesWriterType = itk::ImageSeriesWriter< ImageType, Image2DType >;
+  using SeriesWriterType = itk::ImageSeriesWriter<ImageType, Image2DType>;
 
   SeriesWriterType::Pointer seriesWriter = SeriesWriterType::New();
 
-  seriesWriter->SetInput( seriesReader->GetOutput() );
+  seriesWriter->SetInput(seriesReader->GetOutput());
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -201,9 +202,9 @@ int main( int argc, char ** argv )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  nameGenerator->SetSeriesFormat( "output%03d.png" );
+  nameGenerator->SetSeriesFormat("output%03d.png");
 
-  seriesWriter->SetFileNames( nameGenerator->GetFileNames() );
+  seriesWriter->SetFileNames(nameGenerator->GetFileNames());
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -215,14 +216,14 @@ int main( int argc, char ** argv )
 
   // Software Guide : BeginCodeSnippet
   try
-    {
+  {
     seriesWriter->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Error reading the series " << std::endl;
     std::cerr << excp << std::endl;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex

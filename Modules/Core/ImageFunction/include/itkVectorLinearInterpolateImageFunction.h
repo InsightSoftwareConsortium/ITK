@@ -39,25 +39,24 @@ namespace itk
  *
  * \ingroup ITKImageFunction
  */
-template< typename TInputImage, typename TCoordRep = double >
-class ITK_TEMPLATE_EXPORT VectorLinearInterpolateImageFunction:
-  public VectorInterpolateImageFunction< TInputImage, TCoordRep >
+template <typename TInputImage, typename TCoordRep = double>
+class ITK_TEMPLATE_EXPORT VectorLinearInterpolateImageFunction
+  : public VectorInterpolateImageFunction<TInputImage, TCoordRep>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorLinearInterpolateImageFunction);
 
   /** Standard class type aliases. */
   using Self = VectorLinearInterpolateImageFunction;
-  using Superclass = VectorInterpolateImageFunction< TInputImage, TCoordRep >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = VectorInterpolateImageFunction<TInputImage, TCoordRep>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VectorLinearInterpolateImageFunction,
-               VectorInterpolateImageFunction);
+  itkTypeMacro(VectorLinearInterpolateImageFunction, VectorInterpolateImageFunction);
 
   /** InputImageType type alias support */
   using InputImageType = typename Superclass::InputImageType;
@@ -89,13 +88,14 @@ public:
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & index) const override;
+  OutputType
+  EvaluateAtContinuousIndex(const ContinuousIndexType & index) const override;
 
 protected:
   VectorLinearInterpolateImageFunction() = default;
   ~VectorLinearInterpolateImageFunction() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /** Number of neighbors used in the interpolation */
@@ -104,7 +104,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVectorLinearInterpolateImageFunction.hxx"
+#  include "itkVectorLinearInterpolateImageFunction.hxx"
 #endif
 
 #endif

@@ -41,16 +41,18 @@ namespace itk
 class ITKCommon_EXPORT ProgressTransformer
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN( ProgressTransformer );
+  ITK_DISALLOW_COPY_AND_ASSIGN(ProgressTransformer);
 
-  ProgressTransformer(float start, float end, ProcessObject* targetFilter);
+  ProgressTransformer(float start, float end, ProcessObject * targetFilter);
 
-  ProcessObject* GetProcessObject()
+  ProcessObject *
+  GetProcessObject()
   {
     return m_Dummy.GetPointer();
   }
 
-  void UpdateProgress();
+  void
+  UpdateProgress();
 
   ~ProgressTransformer();
 
@@ -58,11 +60,11 @@ private:
   float m_Start;
   float m_End;
 
-  ProcessObject* m_TargetFilter;
+  ProcessObject * m_TargetFilter;
 
   ProcessObject::Pointer m_Dummy;
 
-  using CommandType = SimpleMemberCommand< ProgressTransformer >;
+  using CommandType = SimpleMemberCommand<ProgressTransformer>;
   CommandType::Pointer m_ProgressCommand;
 
   unsigned long m_ProgressTag;

@@ -55,9 +55,9 @@ namespace itk
  *
  * \ingroup ITKOptimizersv4
  */
-template<typename TInternalComputationValueType>
+template <typename TInternalComputationValueType>
 class ITK_TEMPLATE_EXPORT GradientDescentLineSearchOptimizerv4Template
-: public GradientDescentOptimizerv4Template<TInternalComputationValueType>
+  : public GradientDescentOptimizerv4Template<TInternalComputationValueType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GradientDescentLineSearchOptimizerv4Template);
@@ -65,8 +65,8 @@ public:
   /** Standard class type aliases. */
   using Self = GradientDescentLineSearchOptimizerv4Template;
   using Superclass = GradientDescentOptimizerv4Template<TInternalComputationValueType>;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(GradientDescentLineSearchOptimizerv4Template, Superclass);
@@ -90,8 +90,8 @@ public:
   /** The epsilon determines the accuracy of the line search
    *  i.e. the energy alteration that is considered convergent.
    */
-  itkSetMacro( Epsilon , TInternalComputationValueType );
-  itkGetMacro( Epsilon , TInternalComputationValueType );
+  itkSetMacro(Epsilon, TInternalComputationValueType);
+  itkGetMacro(Epsilon, TInternalComputationValueType);
 
   /** The upper and lower limit below determine the range
    *  of values over which the learning rate can be adjusted
@@ -102,17 +102,18 @@ public:
    *     NewParams = OldParams + UpperLimit * gradient
    *  Reasonable values might be 0 and 2.
    */
-  itkSetMacro( LowerLimit , TInternalComputationValueType );
-  itkGetMacro( LowerLimit , TInternalComputationValueType );
-  itkSetMacro( UpperLimit , TInternalComputationValueType );
-  itkGetMacro( UpperLimit , TInternalComputationValueType );
-  itkSetMacro( MaximumLineSearchIterations , unsigned int );
-  itkGetMacro( MaximumLineSearchIterations , unsigned int );
+  itkSetMacro(LowerLimit, TInternalComputationValueType);
+  itkGetMacro(LowerLimit, TInternalComputationValueType);
+  itkSetMacro(UpperLimit, TInternalComputationValueType);
+  itkGetMacro(UpperLimit, TInternalComputationValueType);
+  itkSetMacro(MaximumLineSearchIterations, unsigned int);
+  itkGetMacro(MaximumLineSearchIterations, unsigned int);
 
 protected:
   /** Advance one Step following the gradient direction.
    * Includes transform update. */
-  void AdvanceOneStep() override;
+  void
+  AdvanceOneStep() override;
 
   /** Default constructor */
   GradientDescentLineSearchOptimizerv4Template();
@@ -120,12 +121,14 @@ protected:
   /** Destructor */
   ~GradientDescentLineSearchOptimizerv4Template() override = default;
 
-  void PrintSelf( std::ostream & os, Indent indent ) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  TInternalComputationValueType GoldenSectionSearch( TInternalComputationValueType a,
-                                                     TInternalComputationValueType b,
-                                                     TInternalComputationValueType c,
-                                                     TInternalComputationValueType metricb = NumericTraits<TInternalComputationValueType>::max());
+  TInternalComputationValueType
+  GoldenSectionSearch(TInternalComputationValueType a,
+                      TInternalComputationValueType b,
+                      TInternalComputationValueType c,
+                      TInternalComputationValueType metricb = NumericTraits<TInternalComputationValueType>::max());
 
   TInternalComputationValueType m_LowerLimit;
   TInternalComputationValueType m_UpperLimit;
@@ -134,9 +137,9 @@ protected:
   TInternalComputationValueType m_Epsilon;
 
   /** Controls the maximum recursion depth for the golden section search */
-  unsigned int      m_MaximumLineSearchIterations;
+  unsigned int m_MaximumLineSearchIterations;
   /** Counts the recursion depth for the golden section search */
-  unsigned int      m_LineSearchIterations;
+  unsigned int m_LineSearchIterations;
 };
 
 /** This helps to meet backward compatibility */
@@ -145,7 +148,7 @@ using GradientDescentLineSearchOptimizerv4 = GradientDescentLineSearchOptimizerv
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGradientDescentLineSearchOptimizerv4.hxx"
+#  include "itkGradientDescentLineSearchOptimizerv4.hxx"
 #endif
 
 #endif

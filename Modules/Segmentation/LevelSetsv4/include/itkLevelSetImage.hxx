@@ -24,12 +24,11 @@
 namespace itk
 {
 // ----------------------------------------------------------------------------
-template< typename TInput, unsigned int VDimension, typename TOutput >
-LevelSetImage< TInput, VDimension, TOutput >
-::LevelSetImage()
+template <typename TInput, unsigned int VDimension, typename TOutput>
+LevelSetImage<TInput, VDimension, TOutput>::LevelSetImage()
 {
-  this->m_NeighborhoodScales.Fill( NumericTraits< OutputRealType >::OneValue() );
-  this->m_DomainOffset.Fill( NumericTraits< OffsetValueType >::ZeroValue() );
+  this->m_NeighborhoodScales.Fill(NumericTraits<OutputRealType>::OneValue());
+  this->m_DomainOffset.Fill(NumericTraits<OffsetValueType>::ZeroValue());
 }
-}
+} // namespace itk
 #endif // itkLevelSetImage_hxx

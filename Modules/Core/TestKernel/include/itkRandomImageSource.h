@@ -50,17 +50,17 @@ namespace itk
  * \sphinxexample{Core/TestKernel/GenerateRandomImage,Generate Random Image}
  * \endsphinx
  */
-template< typename TOutputImage >
-class ITK_TEMPLATE_EXPORT RandomImageSource:public ImageSource< TOutputImage >
+template <typename TOutputImage>
+class ITK_TEMPLATE_EXPORT RandomImageSource : public ImageSource<TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(RandomImageSource);
 
   /** Standard class type aliases. */
   using Self = RandomImageSource;
-  using Superclass = ImageSource< TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageSource<TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Typedef for the output image PixelType. */
   using OutputImagePixelType = typename TOutputImage::PixelType;
@@ -92,39 +92,47 @@ public:
 
   /** Set/Get size of the output image */
   itkSetMacro(Size, SizeType);
-  virtual void SetSize(SizeValueArrayType sizeArray);
+  virtual void
+  SetSize(SizeValueArrayType sizeArray);
 
-  virtual const SizeValueType * GetSize() const;
+  virtual const SizeValueType *
+  GetSize() const;
 
   /** Set/Get spacing of the output image */
   itkSetMacro(Spacing, SpacingType);
-  virtual void SetSpacing(SpacingValueArrayType spacingArray);
+  virtual void
+  SetSpacing(SpacingValueArrayType spacingArray);
 
-  virtual const SpacingValueType * GetSpacing() const;
+  virtual const SpacingValueType *
+  GetSpacing() const;
 
   /** Set/Get origin of the output image */
   itkSetMacro(Origin, PointType);
-  virtual void SetOrigin(PointValueArrayType originArray);
+  virtual void
+  SetOrigin(PointValueArrayType originArray);
 
-  virtual const PointValueType * GetOrigin() const;
+  virtual const PointValueType *
+  GetOrigin() const;
 
   itkSetMacro(Direction, DirectionType);
   itkGetMacro(Direction, DirectionType);
 
   /** Set the minimum possible pixel value. By default, it is
    * NumericTraits<TOutputImage::PixelType>::min(). */
-  itkSetClampMacro( Min, OutputImagePixelType,
-                    NumericTraits< OutputImagePixelType >::NonpositiveMin(),
-                    NumericTraits< OutputImagePixelType >::max() );
+  itkSetClampMacro(Min,
+                   OutputImagePixelType,
+                   NumericTraits<OutputImagePixelType>::NonpositiveMin(),
+                   NumericTraits<OutputImagePixelType>::max());
 
   /** Get the minimum possible pixel value. */
   itkGetConstMacro(Min, OutputImagePixelType);
 
   /** Set the maximum possible pixel value. By default, it is
    * NumericTraits<TOutputImage::PixelType>::max(). */
-  itkSetClampMacro( Max, OutputImagePixelType,
-                    NumericTraits< OutputImagePixelType >::NonpositiveMin(),
-                    NumericTraits< OutputImagePixelType >::max() );
+  itkSetClampMacro(Max,
+                   OutputImagePixelType,
+                   NumericTraits<OutputImagePixelType>::NonpositiveMin(),
+                   NumericTraits<OutputImagePixelType>::max());
 
   /** Get the maximum possible pixel value. */
   itkGetConstMacro(Max, OutputImagePixelType);
@@ -132,20 +140,23 @@ public:
 protected:
   RandomImageSource();
   ~RandomImageSource() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
 private:
-  SizeType      m_Size;      //size of the output image
-  SpacingType   m_Spacing;   //spacing
-  PointType     m_Origin;    //origin
-  DirectionType m_Direction; //direction
+  SizeType      m_Size;      // size of the output image
+  SpacingType   m_Spacing;   // spacing
+  PointType     m_Origin;    // origin
+  DirectionType m_Direction; // direction
 
-  typename TOutputImage::PixelType m_Min; //minimum possible value
-  typename TOutputImage::PixelType m_Max; //maximum possible value
+  typename TOutputImage::PixelType m_Min; // minimum possible value
+  typename TOutputImage::PixelType m_Max; // maximum possible value
 
   // The following variables are deprecated, and provided here just for
   // backward compatibility. It use is discouraged.
@@ -155,7 +166,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRandomImageSource.hxx"
+#  include "itkRandomImageSource.hxx"
 #endif
 
 #endif

@@ -55,8 +55,8 @@ namespace itk
  *
  * \ingroup ITKDeprecated
  */
-template< typename TInputImage >
-class ITK_TEMPLATE_EXPORT ImageTransformer:public ProcessObject
+template <typename TInputImage>
+class ITK_TEMPLATE_EXPORT ImageTransformer : public ProcessObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageTransformer);
@@ -64,8 +64,8 @@ public:
   /** Standard class type aliases. */
   using Self = ImageTransformer;
   using Superclass = ProcessObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Smart Pointer type to a DataObject. */
   using DataObjectPointer = DataObject::Pointer;
@@ -84,11 +84,16 @@ public:
 
   /** Set/Get the image input of this process object.  */
   using Superclass::SetInput;
-  virtual void SetInput(const InputImageType *image);
-  virtual void SetInput(unsigned int, const TInputImage *image);
-  const InputImageType * GetInput() const;
-  InputImageType * GetInput();
-  const InputImageType * GetInput(unsigned int idx) const;
+  virtual void
+  SetInput(const InputImageType * image);
+  virtual void
+  SetInput(unsigned int, const TInputImage * image);
+  const InputImageType *
+  GetInput() const;
+  InputImageType *
+  GetInput();
+  const InputImageType *
+  GetInput(unsigned int idx) const;
 
   /** Push/Pop the input of this process object. These methods allow a
    * filter to model its input vector as a queue or stack.  These
@@ -109,10 +114,14 @@ public:
    * and popping inputs allow the application to temporarily replace
    * an input to a filter.
    */
-  virtual void PushBackInput(const InputImageType *image);
-  void PopBackInput() override;
-  virtual void PushFrontInput(const InputImageType *image);
-  void PopFrontInput() override;
+  virtual void
+  PushBackInput(const InputImageType * image);
+  void
+  PopBackInput() override;
+  virtual void
+  PushFrontInput(const InputImageType * image);
+  void
+  PopFrontInput() override;
 
 protected:
   ImageTransformer();
@@ -131,7 +140,8 @@ protected:
    *
    * \sa ProcessObject::GenerateInputRequestedRegion(),
    *     ImageSource::GenerateInputRequestedRegion() */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** A version of GenerateData() specific for image processing
    * filters.  This implementation will split the processing across
@@ -148,7 +158,8 @@ protected:
    * instead.
    *
    * \sa ThreadedGenerateData() */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /** If an imaging filter can be implemented as a multithreaded
    * algorithm, the filter will provide an implementation of
@@ -172,21 +183,22 @@ protected:
    * different thread).
    *
    * \sa GenerateData(), SplitRequestedRegion() */
-  virtual
-  void ThreadedGenerateData(const InputImageRegionType & inputRegionForThread,
-                            ThreadIdType threadId);
+  virtual void
+  ThreadedGenerateData(const InputImageRegionType & inputRegionForThread, ThreadIdType threadId);
 
   /** Many filters do special management of image buffer and threading,
    *  so this method provides just the multi-threaded invocation part
    *  of GenerateData() method. */
-  void ClassicMultiThread(ThreadFunctionType callbackFunction);
+  void
+  ClassicMultiThread(ThreadFunctionType callbackFunction);
 
   /** The GenerateData method normally allocates the buffers for all of the
    * outputs of a filter. Some filters may want to override this default
    * behavior. For example, a filter may have multiple outputs with
    * varying resolution. Or a filter may want to process data in place by
    * grafting its input to its output. */
-  virtual void AllocateOutputs();
+  virtual void
+  AllocateOutputs();
 
   /** If an imaging filter needs to perform processing after the buffer
    * has been allocated but before threads are spawned, the filter can
@@ -198,7 +210,9 @@ protected:
    *      4) Call AfterThreadedGenerateData()
    * Note that this flow of control is only available if a filter provides
    * a ThreadedGenerateData() method and NOT a GenerateData() method. */
-  virtual void BeforeThreadedGenerateData() {}
+  virtual void
+  BeforeThreadedGenerateData()
+  {}
 
   /** If an imaging filter needs to perform processing after all
    * processing threads have completed, the filter can can provide an
@@ -210,20 +224,23 @@ protected:
    *      4) Call AfterThreadedGenerateData()
    * Note that this flow of control is only available if a filter provides
    * a ThreadedGenerateData() method and NOT a GenerateData() method. */
-  virtual void AfterThreadedGenerateData() {}
+  virtual void
+  AfterThreadedGenerateData()
+  {}
 
   /** Split the input's RequestedRegion into "num" pieces, returning
    * region "i" as "splitRegion". This method is called "num" times. The
    * regions must not overlap. The method returns the number of pieces that
    * the routine is capable of splitting the input RequestedRegion,
    * i.e. return value is less than or equal to "num". */
-  virtual
-  unsigned int SplitRequestedRegion(unsigned int i, unsigned int num, InputImageRegionType & splitRegion);
+  virtual unsigned int
+  SplitRequestedRegion(unsigned int i, unsigned int num, InputImageRegionType & splitRegion);
 
   /** Static function used as a "callback" by the MultiThreader.  The threading
    * library will call this routine for each thread, which will delegate the
    * control to ThreadedGenerateData(). */
-  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION ThreaderCallback(void *arg);
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
+  ThreaderCallback(void * arg);
 
   /**
    * PushBackInput(), PushFrontInput() in the public section force the
@@ -234,21 +251,28 @@ protected:
    * methods from the superclass.
    * NOTE: The same code resides in ImageToImageFilter
    */
-  void PushBackInput(const DataObject *input) override
-  { Superclass::PushBackInput(input); }
-  void PushFrontInput(const DataObject *input) override
-  { Superclass::PushFrontInput(input); }
+  void
+  PushBackInput(const DataObject * input) override
+  {
+    Superclass::PushBackInput(input);
+  }
+  void
+  PushFrontInput(const DataObject * input) override
+  {
+    Superclass::PushFrontInput(input);
+  }
 
   /** Internal structure used for passing image data into the threading library
-    */
-  struct ThreadStruct {
+   */
+  struct ThreadStruct
+  {
     Pointer Filter;
   };
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageTransformer.hxx"
+#  include "itkImageTransformer.hxx"
 #endif
 
 #endif

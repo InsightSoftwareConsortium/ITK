@@ -22,15 +22,16 @@
 #include "itkImageFileWriter.h"
 #include "itkTestingMacros.h"
 
-int itkInverseDeconvolutionImageFilterTest(int argc, char * argv[])
+int
+itkInverseDeconvolutionImageFilterTest(int argc, char * argv[])
 {
 
-  if ( argc < 4 )
-    {
+  if (argc < 4)
+  {
     std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv)
-      << " inputImage kernelImage outputImage [normalizeImage]" << std::endl;
+              << " inputImage kernelImage outputImage [normalizeImage]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr int ImageDimension = 2;
 
@@ -39,79 +40,74 @@ int itkInverseDeconvolutionImageFilterTest(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<ImageType>;
 
   ReaderType::Pointer reader1 = ReaderType::New();
-  reader1->SetFileName( argv[1] );
+  reader1->SetFileName(argv[1]);
   reader1->Update();
 
   ReaderType::Pointer reader2 = ReaderType::New();
-  reader2->SetFileName( argv[2] );
+  reader2->SetFileName(argv[2]);
   reader2->Update();
 
-  itk::ConstantBoundaryCondition< ImageType > cbc;
-  cbc.SetConstant( 0.0 );
+  itk::ConstantBoundaryCondition<ImageType> cbc;
+  cbc.SetConstant(0.0);
 
   using ConvolutionFilterType = itk::FFTConvolutionImageFilter<ImageType>;
-  ConvolutionFilterType::Pointer convolutionFilter
-    = ConvolutionFilterType::New();
-  convolutionFilter->SetInput( reader1->GetOutput() );
-  convolutionFilter->SetKernelImage( reader2->GetOutput() );
-  convolutionFilter->SetBoundaryCondition( &cbc );
+  ConvolutionFilterType::Pointer convolutionFilter = ConvolutionFilterType::New();
+  convolutionFilter->SetInput(reader1->GetOutput());
+  convolutionFilter->SetKernelImage(reader2->GetOutput());
+  convolutionFilter->SetBoundaryCondition(&cbc);
 
   // Use the same SizeGreatestPrimeFactor across FFT backends to get
   // consistent results.
-  convolutionFilter->SetSizeGreatestPrimeFactor( 5 );
+  convolutionFilter->SetSizeGreatestPrimeFactor(5);
 
   bool normalize = false;
-  if( argc >= 5 )
-    {
-    normalize = static_cast< bool >( std::stoi( argv[4] ) );
-    }
+  if (argc >= 5)
+  {
+    normalize = static_cast<bool>(std::stoi(argv[4]));
+  }
 
-  convolutionFilter->SetNormalize( normalize );
+  convolutionFilter->SetNormalize(normalize);
 
   using DeconvolutionFilterType = itk::InverseDeconvolutionImageFilter<ImageType>;
   DeconvolutionFilterType::Pointer deconvolutionFilter = DeconvolutionFilterType::New();
 
-  deconvolutionFilter->SetInput( convolutionFilter->GetOutput() );
-  deconvolutionFilter->SetKernelImage( reader2->GetOutput() );
-  deconvolutionFilter->SetNormalize( normalize );
-  deconvolutionFilter->SetBoundaryCondition( &cbc );
-  deconvolutionFilter->SetSizeGreatestPrimeFactor( 5 );
+  deconvolutionFilter->SetInput(convolutionFilter->GetOutput());
+  deconvolutionFilter->SetKernelImage(reader2->GetOutput());
+  deconvolutionFilter->SetNormalize(normalize);
+  deconvolutionFilter->SetBoundaryCondition(&cbc);
+  deconvolutionFilter->SetSizeGreatestPrimeFactor(5);
 
   // Check default KernelZeroMagnitudeThreshold value
-  ITK_TEST_SET_GET_VALUE( 1.0e-4, deconvolutionFilter->GetKernelZeroMagnitudeThreshold() );
+  ITK_TEST_SET_GET_VALUE(1.0e-4, deconvolutionFilter->GetKernelZeroMagnitudeThreshold());
   double zeroMagnitudeThreshold = 1.0e-2;
-  deconvolutionFilter->SetKernelZeroMagnitudeThreshold( zeroMagnitudeThreshold );
-  ITK_TEST_SET_GET_VALUE( zeroMagnitudeThreshold,
-                      deconvolutionFilter->GetKernelZeroMagnitudeThreshold() );
+  deconvolutionFilter->SetKernelZeroMagnitudeThreshold(zeroMagnitudeThreshold);
+  ITK_TEST_SET_GET_VALUE(zeroMagnitudeThreshold, deconvolutionFilter->GetKernelZeroMagnitudeThreshold());
 
   using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName( argv[3] );
-  writer->SetInput( deconvolutionFilter->GetOutput() );
+  writer->SetFileName(argv[3]);
+  writer->SetInput(deconvolutionFilter->GetOutput());
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch ( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  deconvolutionFilter->Print( std::cout );
+  deconvolutionFilter->Print(std::cout);
 
   // Instantiate types with non-default template parameters
-  using FloatImageType = itk::Image< float, ImageDimension >;
-  using DoubleImageType = itk::Image< double, ImageDimension >;
-  using IntImageType = itk::Image< int, ImageDimension >;
+  using FloatImageType = itk::Image<float, ImageDimension>;
+  using DoubleImageType = itk::Image<double, ImageDimension>;
+  using IntImageType = itk::Image<int, ImageDimension>;
 
-  using FilterType = itk::InverseDeconvolutionImageFilter< FloatImageType,
-                                                DoubleImageType,
-                                                IntImageType,
-                                                float >;
+  using FilterType = itk::InverseDeconvolutionImageFilter<FloatImageType, DoubleImageType, IntImageType, float>;
   FilterType::Pointer filter = FilterType::New();
-  filter->Print( std::cout );
+  filter->Print(std::cout);
 
   return EXIT_SUCCESS;
 }

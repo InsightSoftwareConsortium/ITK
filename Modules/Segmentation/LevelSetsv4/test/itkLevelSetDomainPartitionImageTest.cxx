@@ -20,32 +20,33 @@
 #include "itkLevelSetDomainPartitionImage.h"
 #include "itkTestingMacros.h"
 
-int itkLevelSetDomainPartitionImageTest( int argc, char* argv[] )
+int
+itkLevelSetDomainPartitionImageTest(int argc, char * argv[])
 {
 
-  if( argc < 1 )
-    {
+  if (argc < 1)
+  {
     std::cerr << "Missing Arguments" << std::endl;
     std::cerr << "Program " << itkNameOfTestExecutableMacro(argv) << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int Dimension = 2;
 
   using InputPixelType = unsigned short;
-  using InputImageType = itk::Image< InputPixelType, Dimension >;
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
   using IdentifierType = itk::IdentifierType;
 
-  using DomainPartitionSourceType = itk::LevelSetDomainPartitionImage< InputImageType >;
+  using DomainPartitionSourceType = itk::LevelSetDomainPartitionImage<InputImageType>;
   using ListImageType = DomainPartitionSourceType::ListImageType;
   using LevelSetDomainRegionVectorType = DomainPartitionSourceType::LevelSetDomainRegionVectorType;
 
   using ListType = ListImageType::PixelType;
-  using ListImageIteratorType = itk::ImageRegionConstIteratorWithIndex< ListImageType >;
+  using ListImageIteratorType = itk::ImageRegionConstIteratorWithIndex<ListImageType>;
 
   // load binary mask
   InputImageType::SizeType size;
-  size.Fill( 50 );
+  size.Fill(50);
 
   InputImageType::PointType origin;
   origin[0] = 0.0;
@@ -56,68 +57,68 @@ int itkLevelSetDomainPartitionImageTest( int argc, char* argv[] )
   spacing[1] = 1.0;
 
   InputImageType::IndexType index;
-  index.Fill( 0 );
+  index.Fill(0);
 
   InputImageType::RegionType region;
-  region.SetIndex( index );
-  region.SetSize( size );
+  region.SetIndex(index);
+  region.SetSize(size);
 
   // Binary initialization
   InputImageType::Pointer binary = InputImageType::New();
-  binary->SetRegions( region );
-  binary->SetSpacing( spacing );
-  binary->SetOrigin( origin );
+  binary->SetRegions(region);
+  binary->SetSpacing(spacing);
+  binary->SetOrigin(origin);
   binary->Allocate();
-  binary->FillBuffer( itk::NumericTraits<InputPixelType>::ZeroValue() );
+  binary->FillBuffer(itk::NumericTraits<InputPixelType>::ZeroValue());
 
   IdentifierType numberOfLevelSetFunctions = 2;
 
   LevelSetDomainRegionVectorType regionVector;
-  regionVector.resize( numberOfLevelSetFunctions );
+  regionVector.resize(numberOfLevelSetFunctions);
   regionVector[0] = region;
   regionVector[1] = region;
 
   DomainPartitionSourceType::Pointer partitionSource = DomainPartitionSourceType::New();
-  partitionSource->SetNumberOfLevelSetFunctions( numberOfLevelSetFunctions );
-  partitionSource->SetImage( binary );
-  partitionSource->SetLevelSetDomainRegionVector( regionVector );
+  partitionSource->SetNumberOfLevelSetFunctions(numberOfLevelSetFunctions);
+  partitionSource->SetImage(binary);
+  partitionSource->SetLevelSetDomainRegionVector(regionVector);
   partitionSource->PopulateListDomain();
 
 
   bool flag = true;
 
-  ListType ll;
+  ListType                    ll;
   ListImageType::ConstPointer listImage = partitionSource->GetListDomain();
-  ListImageIteratorType It( listImage, listImage->GetLargestPossibleRegion() );
+  ListImageIteratorType       It(listImage, listImage->GetLargestPossibleRegion());
   It.GoToBegin();
-  while( !It.IsAtEnd() )
+  while (!It.IsAtEnd())
+  {
+    ll = It.Get();
+    if (ll.size() != 2)
     {
-    ll =  It.Get();
-    if ( ll.size() != 2 )
-      {
       flag = false;
       break;
-      }
+    }
 
-    auto it=ll.begin();
+    auto it = ll.begin();
 
-    while( it != ll.end() )
+    while (it != ll.end())
+    {
+      if ((*it != 0) && (*it != 1))
       {
-      if ( ( *it != 0 ) && ( *it != 1 ) )
-        {
         flag = false;
         break;
-        }
-      ++it;
       }
+      ++it;
+    }
 
     ++It;
-    }
+  }
 
-  if ( !flag )
-    {
+  if (!flag)
+  {
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

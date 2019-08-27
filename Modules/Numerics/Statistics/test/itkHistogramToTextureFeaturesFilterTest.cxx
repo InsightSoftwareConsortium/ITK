@@ -18,9 +18,10 @@
 
 #include "itkHistogramToTextureFeaturesFilter.h"
 
-int itkHistogramToTextureFeaturesFilterTest(int, char* [] )
+int
+itkHistogramToTextureFeaturesFilterTest(int, char *[])
 {
-  //Data definitions
+  // Data definitions
   constexpr unsigned int HISTOGRAM_AXIS_LEN = 25;
 
 
@@ -29,19 +30,19 @@ int itkHistogramToTextureFeaturesFilterTest(int, char* [] )
   // symmetric and normalized.
   //------------------------------------------------------
   using MeasurementType = float;
-  using HistogramType = itk::Statistics::Histogram< MeasurementType >;
+  using HistogramType = itk::Statistics::Histogram<MeasurementType>;
   HistogramType::Pointer histogram = HistogramType::New();
 
   constexpr unsigned int measurementVectorSize = 2;
 
-  histogram->SetMeasurementVectorSize( measurementVectorSize );
+  histogram->SetMeasurementVectorSize(measurementVectorSize);
 
-  HistogramType::SizeType size( measurementVectorSize );
+  HistogramType::SizeType size(measurementVectorSize);
 
   size.Fill(HISTOGRAM_AXIS_LEN);
 
-  HistogramType::MeasurementVectorType lowerBound( measurementVectorSize );
-  HistogramType::MeasurementVectorType upperBound( measurementVectorSize );
+  HistogramType::MeasurementVectorType lowerBound(measurementVectorSize);
+  HistogramType::MeasurementVectorType upperBound(measurementVectorSize);
 
   lowerBound[0] = 0;
   lowerBound[1] = 0;
@@ -49,93 +50,92 @@ int itkHistogramToTextureFeaturesFilterTest(int, char* [] )
   upperBound[0] = HISTOGRAM_AXIS_LEN + 1;
   upperBound[1] = HISTOGRAM_AXIS_LEN + 1;
 
-  histogram->Initialize(size, lowerBound, upperBound );
+  histogram->Initialize(size, lowerBound, upperBound);
 
-  HistogramType::IndexType                  index( measurementVectorSize );
+  HistogramType::IndexType index(measurementVectorSize);
 
-  HistogramType::AbsoluteFrequencyType      frequency;
-  HistogramType::InstanceIdentifier         identifier;
+  HistogramType::AbsoluteFrequencyType frequency;
+  HistogramType::InstanceIdentifier    identifier;
 
   index[0] = 0;
   index[1] = 0;
   frequency = 10;
-  identifier = histogram->GetInstanceIdentifier ( index );
+  identifier = histogram->GetInstanceIdentifier(index);
   histogram->SetFrequency(identifier, frequency);
 
   index[0] = 3;
   index[1] = 3;
   frequency = 50;
-  identifier = histogram->GetInstanceIdentifier ( index );
+  identifier = histogram->GetInstanceIdentifier(index);
   histogram->SetFrequency(identifier, frequency);
 
   index[0] = 2;
   index[1] = 1;
-  frequency= 5;
-  identifier = histogram->GetInstanceIdentifier ( index );
+  frequency = 5;
+  identifier = histogram->GetInstanceIdentifier(index);
   histogram->SetFrequency(identifier, frequency);
 
   index[0] = 1;
   index[1] = 2;
   frequency = 5;
-  identifier = histogram->GetInstanceIdentifier ( index );
+  identifier = histogram->GetInstanceIdentifier(index);
   histogram->SetFrequency(identifier, frequency);
 
   index[0] = 7;
   index[1] = 6;
   frequency = 10;
-  identifier = histogram->GetInstanceIdentifier ( index );
+  identifier = histogram->GetInstanceIdentifier(index);
   histogram->SetFrequency(identifier, frequency);
 
   index[0] = 6;
   index[1] = 7;
   frequency = 10;
-  identifier = histogram->GetInstanceIdentifier ( index );
+  identifier = histogram->GetInstanceIdentifier(index);
   histogram->SetFrequency(identifier, frequency);
 
   index[0] = 10;
   index[1] = 10;
   frequency = 10;
-  identifier = histogram->GetInstanceIdentifier ( index );
+  identifier = histogram->GetInstanceIdentifier(index);
   histogram->SetFrequency(identifier, frequency);
 
   using HistogramToTextureFeaturesFilterType = itk::Statistics::HistogramToTextureFeaturesFilter<HistogramType>;
 
-  HistogramToTextureFeaturesFilterType::Pointer filter =
-                      HistogramToTextureFeaturesFilterType::New();
+  HistogramToTextureFeaturesFilterType::Pointer filter = HistogramToTextureFeaturesFilterType::New();
 
   std::cout << filter->GetNameOfClass() << std::endl;
   filter->Print(std::cout);
 
   bool passed = true;
-  //Invoke update before adding an input. An exception should be
-  //thrown.
+  // Invoke update before adding an input. An exception should be
+  // thrown.
   try
-    {
+  {
     filter->Update();
     passed = false;
-    }
-  catch ( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception caught: " << excp << std::endl;
-    }
+  }
 
-  if ( filter->GetInput() != nullptr )
-    {
+  if (filter->GetInput() != nullptr)
+  {
     passed = false;
-    }
+  }
 
   filter->ResetPipeline();
 
-  filter->SetInput( histogram );
+  filter->SetInput(histogram);
   try
-    {
+  {
     filter->Update();
-    }
-  catch ( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception caught: " << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   double trueEnergy = 0.295;
   double trueEntropy = 2.26096;
@@ -156,178 +156,163 @@ int itkHistogramToTextureFeaturesFilterTest(int, char* [] )
   double haralickCorrelation = filter->GetHaralickCorrelation();
 
 
-  if( itk::Math::abs(energy - trueEnergy) > 0.001 )
-    {
+  if (itk::Math::abs(energy - trueEnergy) > 0.001)
+  {
     std::cerr << "Error:" << std::endl;
-    std::cerr << "Energy calculated wrong. Expected: " << trueEnergy << ", got: "
-      << energy << std::endl;
+    std::cerr << "Energy calculated wrong. Expected: " << trueEnergy << ", got: " << energy << std::endl;
     passed = false;
-    }
+  }
 
-  if( itk::Math::abs(entropy - trueEntropy) > 0.001 )
-    {
+  if (itk::Math::abs(entropy - trueEntropy) > 0.001)
+  {
     std::cerr << "Error:" << std::endl;
-    std::cerr << "Entropy calculated wrong. Expected: " << trueEntropy << ", got: "
-      << entropy << std::endl;
+    std::cerr << "Entropy calculated wrong. Expected: " << trueEntropy << ", got: " << entropy << std::endl;
     passed = false;
-    }
+  }
 
-  if( itk::Math::abs(correlation - trueCorrelation) > 0.001 )
-    {
+  if (itk::Math::abs(correlation - trueCorrelation) > 0.001)
+  {
     std::cerr << "Error:" << std::endl;
-    std::cerr << "Correlation calculated wrong. Expected: " << trueCorrelation <<
-      ", got: "  << correlation << std::endl;
+    std::cerr << "Correlation calculated wrong. Expected: " << trueCorrelation << ", got: " << correlation << std::endl;
     passed = false;
-    }
+  }
 
-  if( itk::Math::abs(inverseDifferenceMoment - trueInverseDifferenceMoment) > 0.001 )
-    {
+  if (itk::Math::abs(inverseDifferenceMoment - trueInverseDifferenceMoment) > 0.001)
+  {
     std::cerr << "Error:" << std::endl;
-    std::cerr << "InverseDifferenceMoment calculated wrong. Expected: " <<
-      trueInverseDifferenceMoment <<  ", got: "  << inverseDifferenceMoment << std::endl;
+    std::cerr << "InverseDifferenceMoment calculated wrong. Expected: " << trueInverseDifferenceMoment
+              << ", got: " << inverseDifferenceMoment << std::endl;
     passed = false;
-    }
+  }
 
-  if( itk::Math::abs(inertia - trueInertia) > 0.001 )
-    {
+  if (itk::Math::abs(inertia - trueInertia) > 0.001)
+  {
     std::cerr << "Error:" << std::endl;
-    std::cerr << "Inertia calculated wrong. Expected: " << trueInertia << ", got: "
-      << inertia << std::endl;
+    std::cerr << "Inertia calculated wrong. Expected: " << trueInertia << ", got: " << inertia << std::endl;
     passed = false;
-    }
+  }
 
-  if( itk::Math::abs(clusterShade - trueClusterShade) > 0.001 )
-    {
+  if (itk::Math::abs(clusterShade - trueClusterShade) > 0.001)
+  {
     std::cerr << "Error:" << std::endl;
-    std::cerr << "ClusterShade calculated wrong. Expected: " << trueClusterShade <<
-      ", got: "  << clusterShade << std::endl;
+    std::cerr << "ClusterShade calculated wrong. Expected: " << trueClusterShade << ", got: " << clusterShade
+              << std::endl;
     passed = false;
-    }
+  }
 
-  if( itk::Math::abs(clusterProminence - trueClusterProminence) > 0.001 )
-    {
+  if (itk::Math::abs(clusterProminence - trueClusterProminence) > 0.001)
+  {
     std::cerr << "Error:" << std::endl;
-    std::cerr << "ClusterProminence calculated wrong. Expected: "
-      << trueClusterProminence << ", got: "  << clusterProminence << std::endl;
+    std::cerr << "ClusterProminence calculated wrong. Expected: " << trueClusterProminence
+              << ", got: " << clusterProminence << std::endl;
     passed = false;
-    }
+  }
 
-  if( itk::Math::abs(haralickCorrelation - trueHaralickCorrelation) > 0.001 )
-    {
+  if (itk::Math::abs(haralickCorrelation - trueHaralickCorrelation) > 0.001)
+  {
     std::cerr << "Error:" << std::endl;
-    std::cerr << "Haralick's Correlation calculated wrong. Expected: "
-      << trueHaralickCorrelation << ", got: "  << haralickCorrelation << std::endl;
+    std::cerr << "Haralick's Correlation calculated wrong. Expected: " << trueHaralickCorrelation
+              << ", got: " << haralickCorrelation << std::endl;
     passed = false;
-    }
+  }
 
-  //Get the texture features using GetFeature() method
-  double energy2 = filter->GetFeature(
-                      HistogramToTextureFeaturesFilterType::Energy);
+  // Get the texture features using GetFeature() method
+  double energy2 = filter->GetFeature(HistogramToTextureFeaturesFilterType::Energy);
 
-  double entropy2 = filter->GetFeature(
-                      HistogramToTextureFeaturesFilterType::Entropy);
+  double entropy2 = filter->GetFeature(HistogramToTextureFeaturesFilterType::Entropy);
 
-  double correlation2 = filter->GetFeature(
-                      HistogramToTextureFeaturesFilterType::Correlation);
+  double correlation2 = filter->GetFeature(HistogramToTextureFeaturesFilterType::Correlation);
 
-  double inverseDifferenceMoment2 = filter->GetFeature(
-                      HistogramToTextureFeaturesFilterType::InverseDifferenceMoment);
+  double inverseDifferenceMoment2 = filter->GetFeature(HistogramToTextureFeaturesFilterType::InverseDifferenceMoment);
 
-  double inertia2 = filter->GetFeature(
-                      HistogramToTextureFeaturesFilterType::Inertia);
+  double inertia2 = filter->GetFeature(HistogramToTextureFeaturesFilterType::Inertia);
 
-  double clusterShade2 = filter->GetFeature(
-                      HistogramToTextureFeaturesFilterType::ClusterShade);
+  double clusterShade2 = filter->GetFeature(HistogramToTextureFeaturesFilterType::ClusterShade);
 
-  double clusterProminence2 = filter->GetFeature(
-                      HistogramToTextureFeaturesFilterType::ClusterProminence);
+  double clusterProminence2 = filter->GetFeature(HistogramToTextureFeaturesFilterType::ClusterProminence);
 
-  double haralickCorrelation2 = filter->GetFeature(
-                      HistogramToTextureFeaturesFilterType::HaralickCorrelation);
+  double haralickCorrelation2 = filter->GetFeature(HistogramToTextureFeaturesFilterType::HaralickCorrelation);
 
-  if( itk::Math::abs(energy2 - trueEnergy) > 0.001 )
-    {
+  if (itk::Math::abs(energy2 - trueEnergy) > 0.001)
+  {
     std::cerr << "Error:" << std::endl;
-    std::cerr << "Energy calculated wrong. Expected: " << trueEnergy << ", got: "
-      << energy2 << std::endl;
+    std::cerr << "Energy calculated wrong. Expected: " << trueEnergy << ", got: " << energy2 << std::endl;
     passed = false;
-    }
+  }
 
-  if( itk::Math::abs(entropy2 - trueEntropy) > 0.001 )
-    {
+  if (itk::Math::abs(entropy2 - trueEntropy) > 0.001)
+  {
     std::cerr << "Error:" << std::endl;
-    std::cerr << "Entropy calculated wrong. Expected: " << trueEntropy << ", got: "
-      << entropy2 << std::endl;
+    std::cerr << "Entropy calculated wrong. Expected: " << trueEntropy << ", got: " << entropy2 << std::endl;
     passed = false;
-    }
+  }
 
-  if( itk::Math::abs(correlation2 - trueCorrelation) > 0.001 )
-    {
+  if (itk::Math::abs(correlation2 - trueCorrelation) > 0.001)
+  {
     std::cerr << "Error:" << std::endl;
-    std::cerr << "Correlation calculated wrong. Expected: " << trueCorrelation <<
-      ", got: "  << correlation2 << std::endl;
+    std::cerr << "Correlation calculated wrong. Expected: " << trueCorrelation << ", got: " << correlation2
+              << std::endl;
     passed = false;
-    }
+  }
 
-  if( itk::Math::abs(inverseDifferenceMoment2 - trueInverseDifferenceMoment) > 0.001 )
-    {
+  if (itk::Math::abs(inverseDifferenceMoment2 - trueInverseDifferenceMoment) > 0.001)
+  {
     std::cerr << "Error:" << std::endl;
-    std::cerr << "InverseDifferenceMoment calculated wrong. Expected: " <<
-      trueInverseDifferenceMoment <<  ", got: "  << inverseDifferenceMoment2 << std::endl;
+    std::cerr << "InverseDifferenceMoment calculated wrong. Expected: " << trueInverseDifferenceMoment
+              << ", got: " << inverseDifferenceMoment2 << std::endl;
     passed = false;
-    }
+  }
 
-  if( itk::Math::abs(inertia2 - trueInertia) > 0.001 )
-    {
+  if (itk::Math::abs(inertia2 - trueInertia) > 0.001)
+  {
     std::cerr << "Error:" << std::endl;
-    std::cerr << "Inertia calculated wrong. Expected: " << trueInertia << ", got: "
-      << inertia2 << std::endl;
+    std::cerr << "Inertia calculated wrong. Expected: " << trueInertia << ", got: " << inertia2 << std::endl;
     passed = false;
-    }
+  }
 
-  if( itk::Math::abs(clusterShade2 - trueClusterShade) > 0.001 )
-    {
+  if (itk::Math::abs(clusterShade2 - trueClusterShade) > 0.001)
+  {
     std::cerr << "Error:" << std::endl;
-    std::cerr << "ClusterShade calculated wrong. Expected: " << trueClusterShade <<
-      ", got: "  << clusterShade2 << std::endl;
+    std::cerr << "ClusterShade calculated wrong. Expected: " << trueClusterShade << ", got: " << clusterShade2
+              << std::endl;
     passed = false;
-    }
+  }
 
-  if( itk::Math::abs(clusterProminence2 - trueClusterProminence) > 0.001 )
-    {
+  if (itk::Math::abs(clusterProminence2 - trueClusterProminence) > 0.001)
+  {
     std::cerr << "Error:" << std::endl;
-    std::cerr << "ClusterProminence calculated wrong. Expected: "
-      << trueClusterProminence << ", got: "  << clusterProminence2 << std::endl;
+    std::cerr << "ClusterProminence calculated wrong. Expected: " << trueClusterProminence
+              << ", got: " << clusterProminence2 << std::endl;
     passed = false;
-    }
+  }
 
-  if( itk::Math::abs(haralickCorrelation2 - trueHaralickCorrelation) > 0.001 )
-    {
+  if (itk::Math::abs(haralickCorrelation2 - trueHaralickCorrelation) > 0.001)
+  {
     std::cerr << "Error:" << std::endl;
-    std::cerr << "Haralick's Correlation calculated wrong. Expected: "
-      << trueHaralickCorrelation << ", got: "  << haralickCorrelation2 << std::endl;
+    std::cerr << "Haralick's Correlation calculated wrong. Expected: " << trueHaralickCorrelation
+              << ", got: " << haralickCorrelation2 << std::endl;
     passed = false;
-    }
+  }
 
-  //Test inquiry for invalid feature
+  // Test inquiry for invalid feature
 
-  if( filter->GetFeature( HistogramToTextureFeaturesFilterType::InvalidFeatureName ) )
-    {
+  if (filter->GetFeature(HistogramToTextureFeaturesFilterType::InvalidFeatureName))
+  {
     std::cerr << "Error: " << std::endl;
     std::cerr << "GetFeature() is returing non-zero feature value: "
               << "for invalid feature request" << std::endl;
     passed = false;
-    }
+  }
 
 
-  if( !passed )
-    {
+  if (!passed)
+  {
     std::cerr << "Test failed" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   else
-    {
+  {
     std::cerr << "Test succeeded" << std::endl;
     return EXIT_SUCCESS;
-    }
+  }
 }

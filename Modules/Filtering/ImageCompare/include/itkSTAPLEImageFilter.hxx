@@ -23,10 +23,9 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-STAPLEImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+STAPLEImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "m_MaximumIterations = " << m_MaximumIterations << std::endl;
@@ -35,132 +34,129 @@ STAPLEImageFilter< TInputImage, TOutputImage >
   os << indent << "m_ElapsedIterations = " << m_ElapsedIterations << std::endl;
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-STAPLEImageFilter< TInputImage, TOutputImage >
-::GenerateData()
+STAPLEImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   const double epsilon = 1.0e-10;
 
-  using IteratorType = ImageScanlineConstIterator< TInputImage >;
-  using FuzzyIteratorType = ImageScanlineIterator< TOutputImage >;
+  using IteratorType = ImageScanlineConstIterator<TInputImage>;
+  using FuzzyIteratorType = ImageScanlineIterator<TOutputImage>;
 
   const double min_rms_error = 1.0e-14; // 7 digits of precision
 
-  unsigned int i, iter;
+  unsigned int                                  i, iter;
   ProcessObject::DataObjectPointerArraySizeType number_of_input_files;
 
   // Allocate the output "fuzzy" image.
-  this->GetOutput()->SetBufferedRegion( this->GetOutput()->GetRequestedRegion() );
+  this->GetOutput()->SetBufferedRegion(this->GetOutput()->GetRequestedRegion());
   this->GetOutput()->Allocate();
   typename TOutputImage::Pointer W = this->GetOutput();
 
   // Initialize the output to all 0's
-  W->FillBuffer( 0.0 );
+  W->FillBuffer(0.0);
 
   // Record the number of input files.
   number_of_input_files = this->GetNumberOfIndexedInputs();
 
   auto * D_it = new IteratorType[number_of_input_files];
 
-  auto * p = new double[number_of_input_files];  // sensitivity
-  auto * q = new double[number_of_input_files];  // specificity
+  auto * p = new double[number_of_input_files]; // sensitivity
+  auto * q = new double[number_of_input_files]; // specificity
 
   auto * last_q = new double[number_of_input_files];
   auto * last_p = new double[number_of_input_files];
 
-  for ( i = 0; i < number_of_input_files; ++i )
-    {
+  for (i = 0; i < number_of_input_files; ++i)
+  {
     last_p[i] = -10.0;
     last_q[i] = -10.0;
-    }
+  }
 
   // Come up with an initial Wi which is simply the average of
   // all the segmentations.
-  IteratorType in;
+  IteratorType      in;
   FuzzyIteratorType out;
-  for ( i = 0; i < number_of_input_files; ++i )
+  for (i = 0; i < number_of_input_files; ++i)
+  {
+    if (this->GetInput(i)->GetRequestedRegion() != W->GetRequestedRegion())
     {
-    if ( this->GetInput(i)->GetRequestedRegion() != W->GetRequestedRegion() )
-      {
       itkExceptionMacro(<< "One or more input images do not contain matching RequestedRegions");
-      }
+    }
 
-    in  = IteratorType( this->GetInput(i), W->GetRequestedRegion() );
-    out = FuzzyIteratorType( W, W->GetRequestedRegion() );
+    in = IteratorType(this->GetInput(i), W->GetRequestedRegion());
+    out = FuzzyIteratorType(W, W->GetRequestedRegion());
 
-    while ( !in.IsAtEnd() )
+    while (!in.IsAtEnd())
+    {
+      while (!in.IsAtEndOfLine())
       {
-      while ( !in.IsAtEndOfLine() )
+        if (in.Get() > m_ForegroundValue - epsilon && in.Get() < m_ForegroundValue + epsilon)
         {
-        if ( in.Get() > m_ForegroundValue - epsilon && in.Get()
-             < m_ForegroundValue + epsilon )
-          {
           out.Set(out.Get() + 1.0);
-          }
+        }
         ++in;
         ++out;
-        } // end scanline
+      } // end scanline
       in.NextLine();
       out.NextLine();
-      }  // end while
-    }
+    } // end while
+  }
 
   // Divide sum by num of files, calculate the estimate of g_t
   double N = 0.0;
   double g_t = 0.0;
   out.GoToBegin();
-  while ( !out.IsAtEnd() )
+  while (!out.IsAtEnd())
+  {
+    while (!out.IsAtEndOfLine())
     {
-    while ( !out.IsAtEndOfLine() )
-      {
-      out.Set( out.Get() / static_cast< double >( number_of_input_files ) );
+      out.Set(out.Get() / static_cast<double>(number_of_input_files));
       g_t += out.Get();
       N = N + 1.0;
       ++out;
-      } // end of scanline
+    } // end of scanline
     out.NextLine();
-    }
-  g_t = ( g_t / N ) * m_ConfidenceWeight;
+  }
+  g_t = (g_t / N) * m_ConfidenceWeight;
 
   double p_num, p_denom, q_num, q_denom;
 
-  for ( iter = 0; iter < m_MaximumIterations; ++iter )
-    {
+  for (iter = 0; iter < m_MaximumIterations; ++iter)
+  {
     // Now iterate on estimating specificity and sensitivity
-    for ( i = 0; i < number_of_input_files; ++i )
-      {
-      in = IteratorType( this->GetInput(i), W->GetRequestedRegion() );
-      out = FuzzyIteratorType( W, W->GetRequestedRegion() );
+    for (i = 0; i < number_of_input_files; ++i)
+    {
+      in = IteratorType(this->GetInput(i), W->GetRequestedRegion());
+      out = FuzzyIteratorType(W, W->GetRequestedRegion());
 
       p_num = p_denom = q_num = q_denom = 0.0;
 
       // Sensitivity and specificity of this user
-      while ( !in.IsAtEnd() )
+      while (!in.IsAtEnd())
+      {
+        while (!in.IsAtEndOfLine())
         {
-        while ( !in.IsAtEndOfLine() )
+          if (in.Get() > m_ForegroundValue - epsilon && in.Get() < m_ForegroundValue + epsilon) // Dij == 1
           {
-          if ( in.Get() > m_ForegroundValue - epsilon
-               && in.Get() < m_ForegroundValue + epsilon ) // Dij == 1
-            {
             p_num += out.Get(); // out.Get() := Wi
-            }
+          }
           else //        if (in.Get() != m_ForegroundValue) // Dij == 0
-            {
-            q_num += ( 1.0 - out.Get() ); // out.Get() := Wi
-            }
+          {
+            q_num += (1.0 - out.Get()); // out.Get() := Wi
+          }
           p_denom += out.Get();
-          q_denom += ( 1.0 - out.Get() );
+          q_denom += (1.0 - out.Get());
           ++in;
           ++out;
-          } // end of scanline
+        } // end of scanline
         in.NextLine();
         out.NextLine();
-        }
+      }
 
       p[i] = p_num / p_denom;
       q[i] = q_num / q_denom;
-      }
+    }
 
     // Now recreate W using the new p's and q's
     // Need an iterator on each D
@@ -168,93 +164,92 @@ STAPLEImageFilter< TInputImage, TOutputImage >
     // segmentation
     double alpha1, beta1;
 
-    for ( i = 0; i < number_of_input_files; ++i )
-      {
-      D_it[i] = IteratorType( this->GetInput(i), W->GetRequestedRegion() );
-      }
+    for (i = 0; i < number_of_input_files; ++i)
+    {
+      D_it[i] = IteratorType(this->GetInput(i), W->GetRequestedRegion());
+    }
 
-    out = FuzzyIteratorType( W, W->GetRequestedRegion() );
+    out = FuzzyIteratorType(W, W->GetRequestedRegion());
 
     out.GoToBegin();
-    while ( !out.IsAtEnd())
+    while (!out.IsAtEnd())
+    {
+      while (!out.IsAtEndOfLine())
       {
-      while ( !out.IsAtEndOfLine() )
-        {
         alpha1 = beta1 = 1.0;
-        for ( i = 0; i < number_of_input_files; ++i )
-          {
-          if ( D_it[i].Get() > m_ForegroundValue - epsilon && D_it[i].Get() < m_ForegroundValue + epsilon )
-            // Dij == 1
-            {
-            alpha1 = alpha1 * p[i];
-            beta1  = beta1 * ( 1.0 - q[i] );
-            }
-          else //Dij == 0
-            {
-            alpha1 = alpha1 * ( 1.0 - p[i] );
-            beta1  = beta1  * q[i];
-            }
-          ++D_it[i];
-          }
-        out.Set( g_t * alpha1
-                 / ( g_t * alpha1  + ( 1.0 - g_t ) * beta1 ) );
-        ++out;
-        } // end scanline
-      for ( i = 0; i < number_of_input_files; ++i )
+        for (i = 0; i < number_of_input_files; ++i)
         {
-        D_it[i].NextLine();
+          if (D_it[i].Get() > m_ForegroundValue - epsilon && D_it[i].Get() < m_ForegroundValue + epsilon)
+          // Dij == 1
+          {
+            alpha1 = alpha1 * p[i];
+            beta1 = beta1 * (1.0 - q[i]);
+          }
+          else // Dij == 0
+          {
+            alpha1 = alpha1 * (1.0 - p[i]);
+            beta1 = beta1 * q[i];
+          }
+          ++D_it[i];
         }
-      out.NextLine();
+        out.Set(g_t * alpha1 / (g_t * alpha1 + (1.0 - g_t) * beta1));
+        ++out;
+      } // end scanline
+      for (i = 0; i < number_of_input_files; ++i)
+      {
+        D_it[i].NextLine();
       }
+      out.NextLine();
+    }
 
-    this->InvokeEvent( IterationEvent() );
+    this->InvokeEvent(IterationEvent());
 
     // Check for convergence
     bool flag = false;
-    if ( iter != 0 )  // not on the first iteration
-      {
+    if (iter != 0) // not on the first iteration
+    {
       flag = true;
-      for ( i = 0; i < number_of_input_files; ++i )
+      for (i = 0; i < number_of_input_files; ++i)
+      {
+        if (((p[i] - last_p[i]) * (p[i] - last_p[i])) > min_rms_error)
         {
-        if ( ( ( p[i] - last_p[i] ) * ( p[i] - last_p[i] ) ) > min_rms_error )
-          {
           flag = false;
           break;
-          }
-        if ( ( ( q[i] - last_q[i] ) * ( q[i] - last_q[i] ) ) > min_rms_error )
-          {
+        }
+        if (((q[i] - last_q[i]) * (q[i] - last_q[i])) > min_rms_error)
+        {
           flag = false;
           break;
-          }
         }
       }
-    for ( i = 0; i < number_of_input_files; ++i )
-      {
+    }
+    for (i = 0; i < number_of_input_files; ++i)
+    {
       last_p[i] = p[i];
       last_q[i] = q[i];
-      }
+    }
 
-    if ( this->GetAbortGenerateData() )
-      {
+    if (this->GetAbortGenerateData())
+    {
       this->ResetPipeline();
       flag = true;
-      }
-
-    if ( flag == true )
-      {
-      break;
-      }
     }
+
+    if (flag == true)
+    {
+      break;
+    }
+  }
 
   // Copy p's, q's, etc. to member variables
 
   m_Sensitivity.clear();
   m_Specificity.clear();
-  for ( i = 0; i < number_of_input_files; i++ )
-    {
+  for (i = 0; i < number_of_input_files; i++)
+  {
     m_Sensitivity.push_back(p[i]);
     m_Specificity.push_back(q[i]);
-    }
+  }
   m_ElapsedIterations = iter;
 
   delete[] q;

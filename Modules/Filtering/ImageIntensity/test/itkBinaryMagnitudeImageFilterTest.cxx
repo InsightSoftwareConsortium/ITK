@@ -22,7 +22,8 @@
 #include "itkTestingMacros.h"
 
 
-int itkBinaryMagnitudeImageFilterTest( int, char* [] )
+int
+itkBinaryMagnitudeImageFilterTest(int, char *[])
 {
 
   // Define the dimension of the images
@@ -32,18 +33,18 @@ int itkBinaryMagnitudeImageFilterTest( int, char* [] )
   using PixelType = float;
 
   // Declare the types of the images
-  using InputImageType1 = itk::Image< PixelType, Dimension>;
-  using InputImageType2 = itk::Image< PixelType, Dimension>;
-  using OutputImageType = itk::Image< PixelType, Dimension>;
+  using InputImageType1 = itk::Image<PixelType, Dimension>;
+  using InputImageType2 = itk::Image<PixelType, Dimension>;
+  using OutputImageType = itk::Image<PixelType, Dimension>;
 
   // Declare the type of the index to access images
-  using IndexType = itk::Index< Dimension >;
+  using IndexType = itk::Index<Dimension>;
 
   // Declare the type of the size
-  using SizeType = itk::Size< Dimension >;
+  using SizeType = itk::Size<Dimension>;
 
   // Declare the type of the Region
-  using RegionType = itk::ImageRegion< Dimension >;
+  using RegionType = itk::ImageRegion<Dimension>;
 
   // Create the input images
   InputImageType1::Pointer inputImageA = InputImageType1::New();
@@ -61,19 +62,19 @@ int itkBinaryMagnitudeImageFilterTest( int, char* [] )
   start[2] = 0;
 
   RegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
+  region.SetIndex(start);
+  region.SetSize(size);
 
   // Initialize Image A
-  inputImageA->SetLargestPossibleRegion( region );
-  inputImageA->SetBufferedRegion( region );
-  inputImageA->SetRequestedRegion( region );
+  inputImageA->SetLargestPossibleRegion(region);
+  inputImageA->SetBufferedRegion(region);
+  inputImageA->SetRequestedRegion(region);
   inputImageA->Allocate();
 
   // Initialize Image B
-  inputImageB->SetLargestPossibleRegion( region );
-  inputImageB->SetBufferedRegion( region );
-  inputImageB->SetRequestedRegion( region );
+  inputImageB->SetLargestPossibleRegion(region);
+  inputImageB->SetBufferedRegion(region);
+  inputImageB->SetRequestedRegion(region);
   inputImageB->Allocate();
 
   // Declare appropriate Iterator types for each image
@@ -82,46 +83,42 @@ int itkBinaryMagnitudeImageFilterTest( int, char* [] )
   using OutputImageIteratorType = itk::ImageRegionIteratorWithIndex<OutputImageType>;
 
   // Create one iterator for Image A (this is a light object)
-  InputImage1IteratorType it1( inputImageA, inputImageA->GetBufferedRegion() );
+  InputImage1IteratorType it1(inputImageA, inputImageA->GetBufferedRegion());
 
   // Initialize the content of Image A
-  constexpr InputImageType1::PixelType input1Value  = 3.0;
-  while( !it1.IsAtEnd() )
+  constexpr InputImageType1::PixelType input1Value = 3.0;
+  while (!it1.IsAtEnd())
   {
-    it1.Set( input1Value );
+    it1.Set(input1Value);
     ++it1;
   }
 
   // Create one iterator for Image B (this is a light object)
-  InputImage2IteratorType it2( inputImageB, inputImageB->GetBufferedRegion() );
+  InputImage2IteratorType it2(inputImageB, inputImageB->GetBufferedRegion());
 
   // Initialize the content of Image B
-  constexpr InputImageType2::PixelType input2Value  = 4.0;
-  while( !it2.IsAtEnd() )
+  constexpr InputImageType2::PixelType input2Value = 4.0;
+  while (!it2.IsAtEnd())
   {
-    it2.Set( input2Value );
+    it2.Set(input2Value);
     ++it2;
   }
 
   // Define the values of the output image
-  constexpr OutputImageType::PixelType outputValue  = 5.0;
+  constexpr OutputImageType::PixelType outputValue = 5.0;
 
 
   // Declare the type for the BinaryMagnitudeImageFilter
-  using FilterType = itk::BinaryMagnitudeImageFilter<
-                                InputImageType1,
-                                InputImageType2,
-                                OutputImageType >;
+  using FilterType = itk::BinaryMagnitudeImageFilter<InputImageType1, InputImageType2, OutputImageType>;
 
   // Create the BinaryMagnitudeImageFilter
   FilterType::Pointer filter = FilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, BinaryMagnitudeImageFilter,
-    BinaryGeneratorImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, BinaryMagnitudeImageFilter, BinaryGeneratorImageFilter);
 
   // Set the input images
-  filter->SetInput1( inputImageA );
-  filter->SetInput2( inputImageB );
+  filter->SetInput1(inputImageA);
+  filter->SetInput2(inputImageB);
 
 
   // Execute the filter
@@ -131,22 +128,22 @@ int itkBinaryMagnitudeImageFilterTest( int, char* [] )
   OutputImageType::Pointer outputImage = filter->GetOutput();
 
   // Create an iterator for going through the image output
-  OutputImageIteratorType oIt( outputImage, outputImage->GetBufferedRegion() );
+  OutputImageIteratorType oIt(outputImage, outputImage->GetBufferedRegion());
 
   // Check the content of the result image
   const float epsilon = 1e-6;
-  while( !oIt.IsAtEnd() )
+  while (!oIt.IsAtEnd())
+  {
+    if (!itk::Math::FloatAlmostEqual(oIt.Get(), outputValue, 10, epsilon))
     {
-    if( !itk::Math::FloatAlmostEqual( oIt.Get(), outputValue, 10, epsilon ) )
-      {
-      std::cerr.precision( static_cast< int >( itk::Math::abs( std::log10( epsilon ) ) ) );
+      std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
       std::cerr << "Error in the output" << std::endl;
       std::cerr << "Value should be  " << outputValue << std::endl;
-      std::cerr << "but is           " << oIt.Get()  << std::endl;
+      std::cerr << "but is           " << oIt.Get() << std::endl;
       return EXIT_FAILURE;
-      }
-    ++oIt;
     }
+    ++oIt;
+  }
 
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;

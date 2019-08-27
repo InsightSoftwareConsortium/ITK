@@ -27,9 +27,8 @@ namespace itk
 /**
  * Constructor
  */
-template< typename TImage >
-BinaryMinMaxCurvatureFlowFunction< TImage >
-::BinaryMinMaxCurvatureFlowFunction()
+template <typename TImage>
+BinaryMinMaxCurvatureFlowFunction<TImage>::BinaryMinMaxCurvatureFlowFunction()
 {
   m_Threshold = 0.0;
 }
@@ -38,32 +37,31 @@ BinaryMinMaxCurvatureFlowFunction< TImage >
  * Update the solution at pixels which does not lie on the
  * data boundary.
  */
-template< typename TImage >
-typename BinaryMinMaxCurvatureFlowFunction< TImage >::PixelType
-BinaryMinMaxCurvatureFlowFunction< TImage >
-::ComputeUpdate(const NeighborhoodType & it, void *globalData,
-                const FloatOffsetType & offset)
+template <typename TImage>
+typename BinaryMinMaxCurvatureFlowFunction<TImage>::PixelType
+BinaryMinMaxCurvatureFlowFunction<TImage>::ComputeUpdate(const NeighborhoodType & it,
+                                                         void *                   globalData,
+                                                         const FloatOffsetType &  offset)
 {
-  using CurvatureFlowFunctionType = CurvatureFlowFunction< TImage >;
-  PixelType update = this->CurvatureFlowFunctionType::ComputeUpdate(
-    it, globalData, offset);
+  using CurvatureFlowFunctionType = CurvatureFlowFunction<TImage>;
+  PixelType update = this->CurvatureFlowFunctionType::ComputeUpdate(it, globalData, offset);
 
-  if ( update == 0.0 )
-    {
+  if (update == 0.0)
+  {
     return update;
-    }
+  }
 
-  NeighborhoodInnerProduct< ImageType > innerProduct;
-  PixelType                             avgValue = innerProduct(it, this->m_StencilOperator);
+  NeighborhoodInnerProduct<ImageType> innerProduct;
+  PixelType                           avgValue = innerProduct(it, this->m_StencilOperator);
 
-  if ( avgValue < m_Threshold )
-    {
-    return ( std::min(update, NumericTraits< PixelType >::ZeroValue()) );
-    }
+  if (avgValue < m_Threshold)
+  {
+    return (std::min(update, NumericTraits<PixelType>::ZeroValue()));
+  }
   else
-    {
-    return ( std::max(update, NumericTraits< PixelType >::ZeroValue()) );
-    }
+  {
+    return (std::max(update, NumericTraits<PixelType>::ZeroValue()));
+  }
 }
 } // end namespace itk
 

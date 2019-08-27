@@ -30,55 +30,55 @@ using myFloatImage = itk::Image<PixelType, 2>;
 using ImageType = itk::Image<PixelType, 2>;
 using ImagePointer = ImageType::Pointer;
 
-namespace {
+namespace
+{
 
 // compare two images with an intensity tolerance
-bool SameImage(ImagePointer testImage, ImagePointer baselineImage)
+bool
+SameImage(ImagePointer testImage, ImagePointer baselineImage)
 {
-  PixelType intensityTolerance = .001;
-  int radiusTolerance = 0;
+  PixelType     intensityTolerance = .001;
+  int           radiusTolerance = 0;
   unsigned long numberOfPixelTolerance = 0;
 
-  using DiffType = itk::Testing::ComparisonImageFilter<ImageType,ImageType>;
+  using DiffType = itk::Testing::ComparisonImageFilter<ImageType, ImageType>;
   DiffType::Pointer diff = DiffType::New();
   diff->SetValidInput(baselineImage);
   diff->SetTestInput(testImage);
-  diff->SetDifferenceThreshold( intensityTolerance );
-  diff->SetToleranceRadius( radiusTolerance );
+  diff->SetDifferenceThreshold(intensityTolerance);
+  diff->SetToleranceRadius(radiusTolerance);
   diff->UpdateLargestPossibleRegion();
 
   unsigned long status = diff->GetNumberOfPixelsWithDifferences();
 
 
   if (status > numberOfPixelTolerance)
-    {
+  {
     std::cout << "Number of Different Pixels: " << status << std::endl;
     return false;
-    }
+  }
 
   return true;
 }
-}
+} // namespace
 
 
-int itkGradientAnisotropicDiffusionImageFilterTest2(int ac, char* av[] )
+int
+itkGradientAnisotropicDiffusionImageFilterTest2(int ac, char * av[])
 {
-  if(ac < 3)
-    {
+  if (ac < 3)
+  {
     std::cerr << "Usage: " << av[0] << " InputImage OutputImage\n";
     return -1;
-    }
+  }
 
 
-  itk::ImageFileReader<myFloatImage>::Pointer input
-    = itk::ImageFileReader<myFloatImage>::New();
+  itk::ImageFileReader<myFloatImage>::Pointer input = itk::ImageFileReader<myFloatImage>::New();
   input->SetFileName(av[1]);
 
   // Create a filter
-  itk::GradientAnisotropicDiffusionImageFilter<myFloatImage, myFloatImage>
-    ::Pointer filter
-    = itk::GradientAnisotropicDiffusionImageFilter<myFloatImage, myFloatImage>
-    ::New();
+  itk::GradientAnisotropicDiffusionImageFilter<myFloatImage, myFloatImage>::Pointer filter =
+    itk::GradientAnisotropicDiffusionImageFilter<myFloatImage, myFloatImage>::New();
   filter->SetNumberOfIterations(10);
   filter->SetConductanceParameter(1.0f);
   filter->SetTimeStep(0.125f);
@@ -86,26 +86,26 @@ int itkGradientAnisotropicDiffusionImageFilterTest2(int ac, char* av[] )
   filter->SetInput(input->GetOutput());
 
   using myUCharImage = itk::Image<unsigned char, 2>;
-  itk::CastImageFilter<myFloatImage, myUCharImage>::Pointer caster
-    = itk::CastImageFilter<myFloatImage, myUCharImage>::New();
+  itk::CastImageFilter<myFloatImage, myUCharImage>::Pointer caster =
+    itk::CastImageFilter<myFloatImage, myUCharImage>::New();
   caster->SetInput(filter->GetOutput());
 
   try
-    {
+  {
     caster->Update();
-    }
-  catch (itk::ExceptionObject& e)
-    {
-    std::cerr << "Exception detected: "  << e.GetDescription();
+  }
+  catch (itk::ExceptionObject & e)
+  {
+    std::cerr << "Exception detected: " << e.GetDescription();
     return -1;
-    }
+  }
 
   // Generate test image
   itk::ImageFileWriter<myUCharImage>::Pointer writer;
   writer = itk::ImageFileWriter<myUCharImage>::New();
-  writer->SetInput( caster->GetOutput() );
+  writer->SetInput(caster->GetOutput());
   std::cout << "Writing " << av[2] << std::endl;
-  writer->SetFileName( av[2] );
+  writer->SetFileName(av[2]);
   writer->Update();
 
   myFloatImage::Pointer normalImage = filter->GetOutput();
@@ -115,38 +115,38 @@ int itkGradientAnisotropicDiffusionImageFilterTest2(int ac, char* av[] )
   // perform diffusion with spacing on
   using ChangeInformationType = itk::ChangeInformationImageFilter<myFloatImage>;
   ChangeInformationType::Pointer changeInfo = ChangeInformationType::New();
-  changeInfo->SetInput( input->GetOutput() );
+  changeInfo->SetInput(input->GetOutput());
   myFloatImage::SpacingType spacing;
-  spacing[0] = input->GetOutput()->GetSpacing()[0]*100.0;
-  spacing[1] = input->GetOutput()->GetSpacing()[1]*100.0;
-  changeInfo->SetOutputSpacing( spacing );
+  spacing[0] = input->GetOutput()->GetSpacing()[0] * 100.0;
+  spacing[1] = input->GetOutput()->GetSpacing()[1] * 100.0;
+  changeInfo->SetOutputSpacing(spacing);
   changeInfo->ChangeSpacingOn();
 
 
-  filter->SetInput( changeInfo->GetOutput() );
+  filter->SetInput(changeInfo->GetOutput());
   filter->UseImageSpacingOn();
   // need to adjust the time step to the number of iterations equates
   // to the same operation
-  filter->SetTimeStep( 100.0 * filter->GetTimeStep() );
+  filter->SetTimeStep(100.0 * filter->GetTimeStep());
 
   try
-    {
+  {
     filter->Update();
-    }
-  catch (itk::ExceptionObject& e)
-    {
-    std::cerr << "Exception detected: "  << e.GetDescription();
+  }
+  catch (itk::ExceptionObject & e)
+  {
+    std::cerr << "Exception detected: " << e.GetDescription();
     return EXIT_FAILURE;
-    }
+  }
 
   // the results with spacing should be about the same as without
 
-  normalImage->CopyInformation( filter->GetOutput() );
-  if ( !SameImage( filter->GetOutput(), normalImage ) )
-    {
+  normalImage->CopyInformation(filter->GetOutput());
+  if (!SameImage(filter->GetOutput(), normalImage))
+  {
     std::cout << "Results varied with spacing enabled!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

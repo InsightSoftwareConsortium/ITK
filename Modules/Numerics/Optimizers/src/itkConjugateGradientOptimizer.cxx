@@ -25,18 +25,16 @@ namespace itk
 /**
  * Constructor
  */
-ConjugateGradientOptimizer
-::ConjugateGradientOptimizer()
+ConjugateGradientOptimizer ::ConjugateGradientOptimizer()
 {
-  m_OptimizerInitialized    = false;
-  m_VnlOptimizer            = nullptr;
+  m_OptimizerInitialized = false;
+  m_VnlOptimizer = nullptr;
 }
 
 /**
  * Destructor
  */
-ConjugateGradientOptimizer
-::~ConjugateGradientOptimizer()
+ConjugateGradientOptimizer ::~ConjugateGradientOptimizer()
 {
   delete m_VnlOptimizer;
 }
@@ -45,8 +43,7 @@ ConjugateGradientOptimizer
  * Get the Optimizer
  */
 vnl_conjugate_gradient *
-ConjugateGradientOptimizer
-::GetOptimizer()
+ConjugateGradientOptimizer ::GetOptimizer()
 {
   return m_VnlOptimizer;
 }
@@ -55,20 +52,18 @@ ConjugateGradientOptimizer
  * Connect a Cost Function
  */
 void
-ConjugateGradientOptimizer
-::SetCostFunction(SingleValuedCostFunction *costFunction)
+ConjugateGradientOptimizer ::SetCostFunction(SingleValuedCostFunction * costFunction)
 {
-  const unsigned int numberOfParameters =
-    costFunction->GetNumberOfParameters();
+  const unsigned int numberOfParameters = costFunction->GetNumberOfParameters();
 
   auto * adaptor = new CostFunctionAdaptorType(numberOfParameters);
 
   adaptor->SetCostFunction(costFunction);
 
-  if ( m_OptimizerInitialized )
-    {
+  if (m_OptimizerInitialized)
+  {
     delete m_VnlOptimizer;
-    }
+  }
 
   this->SetCostFunctionAdaptor(adaptor);
 
@@ -78,19 +73,18 @@ ConjugateGradientOptimizer
 
 /** Return Current Value */
 ConjugateGradientOptimizer::MeasureType
-ConjugateGradientOptimizer
-::GetValue() const
+ConjugateGradientOptimizer ::GetValue() const
 {
   ParametersType parameters = this->GetCurrentPosition();
 
-  if ( m_ScalesInitialized )
-    {
+  if (m_ScalesInitialized)
+  {
     const ScalesType & scales = this->GetScales();
-    for ( unsigned int i = 0; i < parameters.size(); i++ )
-      {
+    for (unsigned int i = 0; i < parameters.size(); i++)
+    {
       parameters[i] *= scales[i];
-      }
     }
+  }
   return this->GetNonConstCostFunctionAdaptor()->f(parameters);
 }
 
@@ -98,15 +92,14 @@ ConjugateGradientOptimizer
  * Start the optimization
  */
 void
-ConjugateGradientOptimizer
-::StartOptimization()
+ConjugateGradientOptimizer ::StartOptimization()
 {
-  this->InvokeEvent( StartEvent() );
+  this->InvokeEvent(StartEvent());
 
-  if ( this->GetMaximize() )
-    {
+  if (this->GetMaximize())
+  {
     this->GetNonConstCostFunctionAdaptor()->NegateCostFunctionOn();
-    }
+  }
 
   ParametersType initialPosition = this->GetInitialPosition();
 
@@ -117,33 +110,33 @@ ConjugateGradientOptimizer
   // We also scale the initial parameters up if scales are defined.
   // This compensates for later scaling them down in the cost function adaptor
   // and at the end of this function.
-  if ( m_ScalesInitialized )
-    {
+  if (m_ScalesInitialized)
+  {
     const ScalesType & scales = this->GetScales();
     this->GetNonConstCostFunctionAdaptor()->SetScales(scales);
-    for ( unsigned int i = 0; i < parameters.size(); i++ )
-      {
+    for (unsigned int i = 0; i < parameters.size(); i++)
+    {
       parameters[i] *= scales[i];
-      }
     }
+  }
 
   // vnl optimizers return the solution by reference
   // in the variable provided as initial position
   m_VnlOptimizer->minimize(parameters);
 
   // we scale the parameters down if scales are defined
-  if ( m_ScalesInitialized )
-    {
+  if (m_ScalesInitialized)
+  {
     const ScalesType & invScales = this->GetInverseScales();
-    for ( unsigned int i = 0; i < parameters.size(); ++i )
-      {
+    for (unsigned int i = 0; i < parameters.size(); ++i)
+    {
       parameters[i] *= invScales[i];
-      }
     }
+  }
 
   this->SetCurrentPosition(parameters);
 
-  this->InvokeEvent( EndEvent() );
+  this->InvokeEvent(EndEvent());
 }
 
 /**
@@ -152,8 +145,7 @@ ConjugateGradientOptimizer
  * given that an iteration could imply several evaluations.
  */
 SizeValueType
-ConjugateGradientOptimizer
-::GetNumberOfIterations() const
+ConjugateGradientOptimizer ::GetNumberOfIterations() const
 {
   return m_VnlOptimizer->get_max_function_evals();
 }
@@ -162,8 +154,7 @@ ConjugateGradientOptimizer
  * Get the number of iterations in the last optimization.
  */
 SizeValueType
-ConjugateGradientOptimizer
-::GetCurrentIteration() const
+ConjugateGradientOptimizer ::GetCurrentIteration() const
 {
   return m_VnlOptimizer->get_num_iterations();
 }

@@ -38,19 +38,17 @@ namespace itk
  * \ingroup SpatialFunctions
  * \ingroup ITKCommon
  */
-template< typename TOutput = double,
-          unsigned int VImageDimension = 3,
-          typename TInput = Point< double, VImageDimension > >
-class ITK_TEMPLATE_EXPORT GaussianDerivativeSpatialFunction:public SpatialFunction< TOutput, VImageDimension, TInput >
+template <typename TOutput = double, unsigned int VImageDimension = 3, typename TInput = Point<double, VImageDimension>>
+class ITK_TEMPLATE_EXPORT GaussianDerivativeSpatialFunction : public SpatialFunction<TOutput, VImageDimension, TInput>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GaussianDerivativeSpatialFunction);
 
   /** Standard class type aliases. */
   using Self = GaussianDerivativeSpatialFunction;
-  using Superclass = SpatialFunction< TOutput, VImageDimension, TInput >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = SpatialFunction<TOutput, VImageDimension, TInput>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -65,18 +63,20 @@ public:
   using OutputType = typename Superclass::OutputType;
 
   /** Type used to store derivatives parameters. */
-  using ArrayType = FixedArray< double, VImageDimension >;
+  using ArrayType = FixedArray<double, VImageDimension>;
 
   /** Type used to return the derivatives in each direction */
-  using VectorType = Vector< double, VImageDimension >;
+  using VectorType = Vector<double, VImageDimension>;
 
   /** Evaluate the function at a given position and return the
    *  value in the specific direction. SetDirection() should be used
    *  to set the direction. */
-  OutputType Evaluate(const TInput & position) const override;
+  OutputType
+  Evaluate(const TInput & position) const override;
 
   /** Evaluate the function at a given position and return a vector */
-  VectorType EvaluateVector(const TInput & position) const;
+  VectorType
+  EvaluateVector(const TInput & position) const;
 
   /** Gets and sets for gaussian parameters */
   itkSetMacro(Scale, double);
@@ -93,7 +93,8 @@ public:
 protected:
   GaussianDerivativeSpatialFunction();
   ~GaussianDerivativeSpatialFunction() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /** Current direction */
@@ -114,7 +115,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGaussianDerivativeSpatialFunction.hxx"
+#  include "itkGaussianDerivativeSpatialFunction.hxx"
 #endif
 
 #endif

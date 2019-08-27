@@ -68,20 +68,18 @@ namespace itk
  * \sphinxexample{Filtering/QuadEdgeMeshFiltering/ComputeNormalsOfAMesh,Compute Normals Of A Mesh}
  * \endsphinx
  */
-template< typename TInputMesh, typename TOutputMesh >
-class ITK_TEMPLATE_EXPORT NormalQuadEdgeMeshFilter:
-  public QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
+template <typename TInputMesh, typename TOutputMesh>
+class ITK_TEMPLATE_EXPORT NormalQuadEdgeMeshFilter : public QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
   using Self = NormalQuadEdgeMeshFilter;
-  using Superclass = QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  itkNewMacro (Self);
+  itkNewMacro(Self);
 
-  itkTypeMacro (NormalQuadEdgeMeshFilter,
-                QuadEdgeMeshToQuadEdgeMeshFilter);
+  itkTypeMacro(NormalQuadEdgeMeshFilter, QuadEdgeMeshToQuadEdgeMeshFilter);
 
   using InputMeshType = TInputMesh;
   using InputMeshPointer = typename InputMeshType::Pointer;
@@ -105,9 +103,9 @@ public:
   using OutputCellsContainerPointer = typename OutputMeshType::CellsContainerConstIterator;
   using OutputCellsContainerConstIterator = typename OutputMeshType::CellsContainerConstIterator;
 
-  using TriangleType = TriangleHelper< OutputPointType >;
+  using TriangleType = TriangleHelper<OutputPointType>;
 
-  using OutputPolygonType = QuadEdgeMeshPolygonCell< OutputCellType >;
+  using OutputPolygonType = QuadEdgeMeshPolygonCell<OutputCellType>;
   using OutputPolygonAutoPointer = typename OutputPolygonType::SelfAutoPointer;
 
   using OutputCellDataContainer = typename OutputMeshType::CellDataContainer;
@@ -120,66 +118,73 @@ public:
   using OutputFaceNormalType = typename OutputMeshTraits::CellPixelType;
   using OutputFaceNormalComponentType = typename OutputFaceNormalType::ValueType;
 
-  enum WeightType {
+  enum WeightType
+  {
     GOURAUD = 0, // Uniform weights
     THURMER,     // Angle on a triangle at the given vertex
     AREA
-    };
+  };
 
-  itkSetMacro (Weight, WeightType);
-  itkGetConstMacro (Weight, WeightType);
+  itkSetMacro(Weight, WeightType);
+  itkGetConstMacro(Weight, WeightType);
 
 protected:
   NormalQuadEdgeMeshFilter();
   ~NormalQuadEdgeMeshFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   WeightType m_Weight;
 
   /** \brief Compute the normal to a face iPoly. It assumes that iPoly != 0
-  * and
-  * iPoly is a Triangle, i.e. 3 points only.
-  * \note The normal computation itself can be further improved by making
-  * possible to cast a CellType into a TriangleType.
-  */
-  OutputFaceNormalType ComputeFaceNormal(OutputPolygonType *iPoly);
+   * and
+   * iPoly is a Triangle, i.e. 3 points only.
+   * \note The normal computation itself can be further improved by making
+   * possible to cast a CellType into a TriangleType.
+   */
+  OutputFaceNormalType
+  ComputeFaceNormal(OutputPolygonType * iPoly);
 
   /** \brief Compute the normal to all faces on the mesh.
-  * \note This method should be implemented in a multi-thread way in order
-  * to reduce the processing time.
-  */
-  void ComputeAllFaceNormals();
+   * \note This method should be implemented in a multi-thread way in order
+   * to reduce the processing time.
+   */
+  void
+  ComputeAllFaceNormals();
 
   /** \brief Compute the normal to all vertices on the mesh.
-  * \note This method should be implemented in a multi-thread way in order
-  * to reduce the processing time.
-  */
-  void ComputeAllVertexNormals();
+   * \note This method should be implemented in a multi-thread way in order
+   * to reduce the processing time.
+   */
+  void
+  ComputeAllVertexNormals();
 
   /** \brief Compute the normal to one vertex by a weighted sum of the faces
-  * normal in the 0-ring.
-  * \note The weight is chosen by the member m_Weight.
-  */
-  OutputVertexNormalType ComputeVertexNormal(const OutputPointIdentifier & iId, OutputMeshType *outputMesh);
+   * normal in the 0-ring.
+   * \note The weight is chosen by the member m_Weight.
+   */
+  OutputVertexNormalType
+  ComputeVertexNormal(const OutputPointIdentifier & iId, OutputMeshType * outputMesh);
 
   /** \brief Definition of the weight in the 0-ring used for the vertex
-  * normal computation. By default m_Weight = THURMER;
-  */
-  OutputVertexNormalComponentType Weight(const OutputPointIdentifier & iPId,
-                                         const OutputCellIdentifier & iCId,
-                                         OutputMeshType *outputMesh);
+   * normal computation. By default m_Weight = THURMER;
+   */
+  OutputVertexNormalComponentType
+  Weight(const OutputPointIdentifier & iPId, const OutputCellIdentifier & iCId, OutputMeshType * outputMesh);
 
   /** \note Calling Superclass::GenerateData( ) is the longest part in the
-  * filter! Something must be done in the class
-  * itkQuadEdgeMeshToQuadEdgeMeshFilter.
-  */
-  void GenerateData() override;
+   * filter! Something must be done in the class
+   * itkQuadEdgeMeshToQuadEdgeMeshFilter.
+   */
+  void
+  GenerateData() override;
 
 private:
-  NormalQuadEdgeMeshFilter (const Self &) = delete;
-  void operator=(const Self &) = delete;
+  NormalQuadEdgeMeshFilter(const Self &) = delete;
+  void
+  operator=(const Self &) = delete;
 };
-}
+} // namespace itk
 
 #include "itkNormalQuadEdgeMeshFilter.hxx"
 #endif

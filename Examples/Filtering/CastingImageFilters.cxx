@@ -96,14 +96,15 @@
 // Software Guide : EndCodeSnippet
 
 
-int main( int argc, char * argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 2 )
-    {
+  if (argc < 2)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "   inputImageFile " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   //  Software Guide : BeginLatex
   //
@@ -124,12 +125,12 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using InputImageType = itk::Image< InputPixelType,  3 >;
-  using OutputImageType = itk::Image< OutputPixelType, 3 >;
+  using InputImageType = itk::Image<InputPixelType, 3>;
+  using OutputImageType = itk::Image<OutputPixelType, 3>;
   // Software Guide : EndCodeSnippet
 
 
-  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
 
 
   //  Software Guide : BeginLatex
@@ -139,17 +140,16 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using CastFilterType = itk::CastImageFilter<
-               InputImageType, OutputImageType >;
+  using CastFilterType = itk::CastImageFilter<InputImageType, OutputImageType>;
 
-  using RescaleFilterType = itk::RescaleIntensityImageFilter<
-               InputImageType, OutputImageType >;
+  using RescaleFilterType =
+    itk::RescaleIntensityImageFilter<InputImageType, OutputImageType>;
 
-  using ShiftScaleFilterType = itk::ShiftScaleImageFilter<
-               InputImageType, OutputImageType >;
+  using ShiftScaleFilterType =
+    itk::ShiftScaleImageFilter<InputImageType, OutputImageType>;
 
-  using NormalizeFilterType = itk::NormalizeImageFilter<
-               InputImageType, OutputImageType >;
+  using NormalizeFilterType =
+    itk::NormalizeImageFilter<InputImageType, OutputImageType>;
   // Software Guide : EndCodeSnippet
 
   ReaderType::Pointer reader = ReaderType::New();
@@ -173,14 +173,14 @@ int main( int argc, char * argv[] )
 
 
   // Software Guide : BeginCodeSnippet
-  CastFilterType::Pointer       castFilter       = CastFilterType::New();
-  RescaleFilterType::Pointer    rescaleFilter    = RescaleFilterType::New();
-  ShiftScaleFilterType::Pointer shiftFilter      = ShiftScaleFilterType::New();
+  CastFilterType::Pointer       castFilter = CastFilterType::New();
+  RescaleFilterType::Pointer    rescaleFilter = RescaleFilterType::New();
+  ShiftScaleFilterType::Pointer shiftFilter = ShiftScaleFilterType::New();
   NormalizeFilterType::Pointer  normalizeFilter = NormalizeFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
 
   //  Software Guide : BeginLatex
@@ -196,10 +196,10 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  castFilter->SetInput(       reader->GetOutput() );
-  shiftFilter->SetInput(      reader->GetOutput() );
-  rescaleFilter->SetInput(    reader->GetOutput() );
-  normalizeFilter->SetInput( reader->GetOutput() );
+  castFilter->SetInput(reader->GetOutput());
+  shiftFilter->SetInput(reader->GetOutput());
+  rescaleFilter->SetInput(reader->GetOutput());
+  normalizeFilter->SetInput(reader->GetOutput());
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -220,8 +220,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  rescaleFilter->SetOutputMinimum(  10 );
-  rescaleFilter->SetOutputMaximum( 250 );
+  rescaleFilter->SetOutputMinimum(10);
+  rescaleFilter->SetOutputMaximum(250);
   // Software Guide : EndCodeSnippet
 
 
@@ -239,8 +239,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  shiftFilter->SetScale( 1.2 );
-  shiftFilter->SetShift( 25 );
+  shiftFilter->SetScale(1.2);
+  shiftFilter->SetShift(25);
   // Software Guide : EndCodeSnippet
 
 

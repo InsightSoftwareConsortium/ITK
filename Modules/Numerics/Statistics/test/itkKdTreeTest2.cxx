@@ -23,51 +23,51 @@
 #include <fstream>
 
 
-int itkKdTreeTest2( int argc, char * argv [] )
+int
+itkKdTreeTest2(int argc, char * argv[])
 {
 
-  if( argc < 4 )
-    {
+  if (argc < 4)
+  {
     std::cerr << "Missing argument" << std::endl;
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << " pointsInputFile  bucketSize graphvizDotOutputFile" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int Dimension = 2;
   using MeasurementValueType = float;
 
-  using MeasurementVectorType = itk::Vector< MeasurementValueType, Dimension >;
+  using MeasurementVectorType = itk::Vector<MeasurementValueType, Dimension>;
 
-  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
+  using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
   SampleType::Pointer sample = SampleType::New();
-  sample->SetMeasurementVectorSize( Dimension );
+  sample->SetMeasurementVectorSize(Dimension);
 
   MeasurementVectorType mv;
   MeasurementVectorType queryPoint;
 
   std::ifstream pntFile;
 
-  pntFile.open( argv[1], std::ios_base::in|std::ios_base::binary );
+  pntFile.open(argv[1], std::ios_base::in | std::ios_base::binary);
 
   pntFile >> mv[0] >> mv[1];
 
   do
-    {
-    sample->PushBack( mv );
+  {
+    sample->PushBack(mv);
     pntFile >> mv[0] >> mv[1];
-    }
-  while( !pntFile.eof() );
+  } while (!pntFile.eof());
 
   pntFile.close();
 
-  using TreeGeneratorType = itk::Statistics::KdTreeGenerator< SampleType >;
+  using TreeGeneratorType = itk::Statistics::KdTreeGenerator<SampleType>;
   TreeGeneratorType::Pointer treeGenerator = TreeGeneratorType::New();
 
-  const unsigned int bucketSize = std::stoi( argv[2] );
+  const unsigned int bucketSize = std::stoi(argv[2]);
 
-  treeGenerator->SetSample( sample );
-  treeGenerator->SetBucketSize( bucketSize );
+  treeGenerator->SetSample(sample);
+  treeGenerator->SetBucketSize(bucketSize);
   treeGenerator->Update();
 
   using TreeType = TreeGeneratorType::KdTreeType;
@@ -79,71 +79,68 @@ int itkKdTreeTest2( int argc, char * argv [] )
   using DistanceMetricType = itk::Statistics::EuclideanDistanceMetric<MeasurementVectorType>;
   DistanceMetricType::Pointer distanceMetric = DistanceMetricType::New();
 
-  DistanceMetricType::OriginType origin( Dimension );
+  DistanceMetricType::OriginType origin(Dimension);
 
   //
   // Print out the tree structure to the console
   //
-  tree->PrintTree( std::cout );
+  tree->PrintTree(std::cout);
 
 
-  for( unsigned int k = 0; k < sample->Size(); k++ )
-    {
+  for (unsigned int k = 0; k < sample->Size(); k++)
+  {
 
     queryPoint = sample->GetMeasurementVector(k);
 
-    for ( unsigned int i = 0; i < sample->GetMeasurementVectorSize(); ++i )
-      {
+    for (unsigned int i = 0; i < sample->GetMeasurementVectorSize(); ++i)
+    {
       origin[i] = queryPoint[i];
-      }
+    }
 
     std::cout << "----------------------------------" << std::endl;
 
     std::cout << "Origin = " << origin << std::endl;
 
-    distanceMetric->SetOrigin( origin );
+    distanceMetric->SetOrigin(origin);
 
-    unsigned int numberOfNeighbors = 1;
+    unsigned int                           numberOfNeighbors = 1;
     TreeType::InstanceIdentifierVectorType neighbors;
 
-    tree->Search( queryPoint, numberOfNeighbors, neighbors );
+    tree->Search(queryPoint, numberOfNeighbors, neighbors);
 
     std::cout << "kd-tree knn search result:" << std::endl
               << "query point = [" << queryPoint << "]" << std::endl
               << "k = " << numberOfNeighbors << std::endl;
     std::cout << "measurement vector : distance" << std::endl;
 
-    for ( unsigned int i = 0; i < numberOfNeighbors; ++i )
+    for (unsigned int i = 0; i < numberOfNeighbors; ++i)
+    {
+      const double distance = distanceMetric->Evaluate(tree->GetMeasurementVector(neighbors[i]));
+
+      std::cout << "[" << tree->GetMeasurementVector(neighbors[i]) << "] : " << distance << std::endl;
+
+      if (distance > itk::Math::eps)
       {
-      const double distance =
-        distanceMetric->Evaluate( tree->GetMeasurementVector( neighbors[i] ));
-
-      std::cout << "[" << tree->GetMeasurementVector( neighbors[i] )
-                << "] : "
-                << distance << std::endl;
-
-      if( distance > itk::Math::eps )
-        {
         testFailed = true;
-        }
       }
     }
+  }
 
 
   //
   // Plot out the tree structure to the console in the format used by Graphviz dot
   //
   std::ofstream plotFile;
-  plotFile.open( argv[3] );
-  tree->PlotTree( plotFile );
+  plotFile.open(argv[3]);
+  tree->PlotTree(plotFile);
   plotFile.close();
 
 
-  if( testFailed )
-    {
+  if (testFailed)
+  {
     std::cerr << "Incorrect distance was found" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

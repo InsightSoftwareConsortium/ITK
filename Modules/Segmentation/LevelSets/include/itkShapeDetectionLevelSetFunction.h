@@ -68,18 +68,18 @@ namespace itk
  * \ingroup FiniteDifferenceFunctions
  * \ingroup ITKLevelSets
  */
-template< typename TImageType, typename TFeatureImageType = TImageType >
-class ITK_TEMPLATE_EXPORT ShapeDetectionLevelSetFunction:
-  public SegmentationLevelSetFunction< TImageType, TFeatureImageType >
+template <typename TImageType, typename TFeatureImageType = TImageType>
+class ITK_TEMPLATE_EXPORT ShapeDetectionLevelSetFunction
+  : public SegmentationLevelSetFunction<TImageType, TFeatureImageType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ShapeDetectionLevelSetFunction);
 
   /** Standard class type aliases. */
   using Self = ShapeDetectionLevelSetFunction;
-  using Superclass = SegmentationLevelSetFunction< TImageType, TFeatureImageType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = SegmentationLevelSetFunction<TImageType, TFeatureImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
   using FeatureImageType = TFeatureImageType;
 
   /** Method for creation through the object factory. */
@@ -100,37 +100,42 @@ public:
   /** Extract some parameters from the superclass. */
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
-  void CalculateSpeedImage() override;
+  void
+  CalculateSpeedImage() override;
 
   /** The curvature speed is same as the propagation speed. */
-  ScalarValueType CurvatureSpeed(const NeighborhoodType & neighborhood,
-                                         const FloatOffsetType & offset, GlobalDataStruct *gd) const override
-  { return this->PropagationSpeed(neighborhood, offset, gd); }
+  ScalarValueType
+  CurvatureSpeed(const NeighborhoodType & neighborhood,
+                 const FloatOffsetType &  offset,
+                 GlobalDataStruct *       gd) const override
+  {
+    return this->PropagationSpeed(neighborhood, offset, gd);
+  }
 
-  void Initialize(const RadiusType & r) override
+  void
+  Initialize(const RadiusType & r) override
   {
     Superclass::Initialize(r);
 
-    this->SetAdvectionWeight(NumericTraits< ScalarValueType >::ZeroValue());
-    this->SetPropagationWeight(NumericTraits< ScalarValueType >::OneValue());
-    this->SetCurvatureWeight(NumericTraits< ScalarValueType >::OneValue());
+    this->SetAdvectionWeight(NumericTraits<ScalarValueType>::ZeroValue());
+    this->SetPropagationWeight(NumericTraits<ScalarValueType>::OneValue());
+    this->SetCurvatureWeight(NumericTraits<ScalarValueType>::OneValue());
   }
 
 protected:
   ShapeDetectionLevelSetFunction()
   {
-    this->SetAdvectionWeight(NumericTraits< ScalarValueType >::ZeroValue());
-    this->SetPropagationWeight(NumericTraits< ScalarValueType >::OneValue());
-    this->SetCurvatureWeight(NumericTraits< ScalarValueType >::OneValue());
+    this->SetAdvectionWeight(NumericTraits<ScalarValueType>::ZeroValue());
+    this->SetPropagationWeight(NumericTraits<ScalarValueType>::OneValue());
+    this->SetCurvatureWeight(NumericTraits<ScalarValueType>::OneValue());
   }
 
   ~ShapeDetectionLevelSetFunction() override = default;
-
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShapeDetectionLevelSetFunction.hxx"
+#  include "itkShapeDetectionLevelSetFunction.hxx"
 #endif
 
 #endif

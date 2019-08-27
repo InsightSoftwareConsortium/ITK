@@ -20,16 +20,17 @@
 #include "itkFEMSpatialObjectReader.h"
 
 
-int itkFEMSpatialObjectTest(int argc, char *argv[])
+int
+itkFEMSpatialObjectTest(int argc, char * argv[])
 {
-  if(argc < 2)
-    {
+  if (argc < 2)
+  {
     return EXIT_FAILURE;
-    }
-  //Need to register default FEM object types,
-  //and setup SpatialReader to recognize FEM types
-  //which is all currently done as a HACK in
-  //the initializaiton of the itk::FEMFactoryBase::GetFactory()
+  }
+  // Need to register default FEM object types,
+  // and setup SpatialReader to recognize FEM types
+  // which is all currently done as a HACK in
+  // the initializaiton of the itk::FEMFactoryBase::GetFactory()
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
 
 
@@ -37,23 +38,23 @@ int itkFEMSpatialObjectTest(int argc, char *argv[])
   using FEMSpatialObjectReaderType = itk::FEMSpatialObjectReader<2>;
   using FEMSpatialObjectReaderPointer = FEMSpatialObjectReaderType::Pointer;
   FEMSpatialObjectReaderPointer SpatialReader = FEMSpatialObjectReaderType::New();
-  SpatialReader->SetFileName( argv[1] );
+  SpatialReader->SetFileName(argv[1]);
   SpatialReader->Update();
 
 
-/*
-  FEMSpatialObjectReaderType::ScenePointer myScene = SpatialReader->GetScene();
+  /*
+    FEMSpatialObjectReaderType::ScenePointer myScene = SpatialReader->GetScene();
 
-  using FEMObjectSpatialObjectType = itk::FEMObjectSpatialObject<2>;
-  using FEMObjectSpatialObjectPointer = FEMObjectSpatialObjectType::Pointer;
-  FEMObjectSpatialObjectType::ChildrenListType* children = SpatialReader->GetGroup()->GetChildren();
+    using FEMObjectSpatialObjectType = itk::FEMObjectSpatialObject<2>;
+    using FEMObjectSpatialObjectPointer = FEMObjectSpatialObjectType::Pointer;
+    FEMObjectSpatialObjectType::ChildrenListType* children = SpatialReader->GetGroup()->GetChildren();
 
-  FEMObjectSpatialObjectType::Pointer femSO =
-    dynamic_cast<FEMObjectSpatialObjectType *>( (*(children->begin() ) ).GetPointer() );
+    FEMObjectSpatialObjectType::Pointer femSO =
+      dynamic_cast<FEMObjectSpatialObjectType *>( (*(children->begin() ) ).GetPointer() );
 
-  delete children;
-*/
-  //femSO->GetFEMObject()->FinalizeMesh();
+    delete children;
+  */
+  // femSO->GetFEMObject()->FinalizeMesh();
 
 
   std::cout << "Overall Test : [PASSED]" << std::endl;

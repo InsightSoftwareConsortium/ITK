@@ -25,52 +25,51 @@
 // so we don't label it as SPECIFIC_IMAGEIO_MODULE_TEST
 //
 
-int itkNrrdRGBAImageReadWriteTest( int ac, char* av[] )
+int
+itkNrrdRGBAImageReadWriteTest(int ac, char * av[])
 {
-  if(ac < 2)
-    {
+  if (ac < 2)
+  {
     std::cerr << "Usage: " << av[0] << " Input Output\n";
     return EXIT_FAILURE;
-    }
+  }
 
   using PixelType = itk::RGBAPixel<unsigned char>;
   using myImage = itk::Image<PixelType, 2>;
 
-  itk::ImageFileReader<myImage>::Pointer reader
-                                  = itk::ImageFileReader<myImage>::New();
+  itk::ImageFileReader<myImage>::Pointer reader = itk::ImageFileReader<myImage>::New();
   reader->SetFileName(av[1]);
 
   try
-    {
+  {
     reader->Update();
-    }
+  }
   catch (itk::ExceptionObject & e)
-    {
+  {
     std::cerr << "exception in file reader " << std::endl;
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   myImage::Pointer image = reader->GetOutput();
-  image->Print(std::cout );
+  image->Print(std::cout);
 
   // Generate test image
   itk::ImageFileWriter<myImage>::Pointer writer;
   writer = itk::ImageFileWriter<myImage>::New();
-  writer->SetInput( reader->GetOutput() );
+  writer->SetInput(reader->GetOutput());
   writer->SetFileName(av[2]);
   try
-    {
+  {
     writer->Update();
-    }
+  }
   catch (itk::ExceptionObject & e)
-    {
+  {
     std::cerr << "exception in file writer " << std::endl;
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   return EXIT_SUCCESS;
-
 }

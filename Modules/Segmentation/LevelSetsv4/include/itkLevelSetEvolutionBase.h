@@ -39,19 +39,19 @@ namespace itk
  *  \tparam TEquationContainer Container holding the system of level set of equations
  *   \ingroup ITKLevelSetsv4
  */
-template< typename TEquationContainer, typename TLevelSet >
+template <typename TEquationContainer, typename TLevelSet>
 class ITK_TEMPLATE_EXPORT LevelSetEvolutionBase : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolutionBase);
 
   using Self = LevelSetEvolutionBase;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
   using Superclass = Object;
 
   /** Run-time type information */
-  itkTypeMacro( LevelSetEvolutionBase, Object );
+  itkTypeMacro(LevelSetEvolutionBase, Object);
 
   using EquationContainerType = TEquationContainer;
   using EquationContainerPointer = typename EquationContainerType::Pointer;
@@ -90,82 +90,92 @@ public:
   using StoppingCriterionType = LevelSetEvolutionStoppingCriterion<LevelSetContainerType>;
   using StoppingCriterionPointer = typename StoppingCriterionType::Pointer;
 
-  itkSetObjectMacro( LevelSetContainer, LevelSetContainerType );
-  itkGetModifiableObjectMacro(LevelSetContainer, LevelSetContainerType );
+  itkSetObjectMacro(LevelSetContainer, LevelSetContainerType);
+  itkGetModifiableObjectMacro(LevelSetContainer, LevelSetContainerType);
 
   /** Set/Get the value of alpha for computing the time-step using CFL conditions */
-  itkSetMacro( Alpha, LevelSetOutputRealType );
-  itkGetMacro( Alpha, LevelSetOutputRealType );
+  itkSetMacro(Alpha, LevelSetOutputRealType);
+  itkGetMacro(Alpha, LevelSetOutputRealType);
 
   /** Set a user-specified value of the time-step */
-  void SetTimeStep( const LevelSetOutputRealType& iDt );
+  void
+  SetTimeStep(const LevelSetOutputRealType & iDt);
 
   /** Set/Get the equation container for updating all the level sets */
-  itkSetObjectMacro( EquationContainer, EquationContainerType );
-  itkGetModifiableObjectMacro( EquationContainer, EquationContainerType );
+  itkSetObjectMacro(EquationContainer, EquationContainerType);
+  itkGetModifiableObjectMacro(EquationContainer, EquationContainerType);
 
   /** Set/Get the Stopping Criterion */
-  itkSetObjectMacro( StoppingCriterion, StoppingCriterionType );
-  itkGetModifiableObjectMacro( StoppingCriterion, StoppingCriterionType );
+  itkSetObjectMacro(StoppingCriterion, StoppingCriterionType);
+  itkGetModifiableObjectMacro(StoppingCriterion, StoppingCriterionType);
 
   /** Get the number of iterations that have occurred. */
-  itkGetConstMacro( NumberOfIterations, IdentifierType );
+  itkGetConstMacro(NumberOfIterations, IdentifierType);
 
   /** Update the filter by computing the output level function
    * by calling Evolve() once the instantiation of necessary variables
    * is verified */
-  void Update();
+  void
+  Update();
 
 protected:
   LevelSetEvolutionBase();
 
   ~LevelSetEvolutionBase() override = default;
 
-  void CheckSetUp();
+  void
+  CheckSetUp();
 
   /** Initialize the iteration by computing parameters in the terms of the level set equation */
-  void InitializeIteration();
+  void
+  InitializeIteration();
 
   /** Run the iterative loops of calculating levelset function updates until
    *  the stopping criterion is satisfied.  Calls AllocateUpdateBuffer,
    *  ComputeIteration, ComputeTimeStepForNextIteration, UpdateLevelSets,
    *  UpdateEquations.  */
-  void Evolve();
+  void
+  Evolve();
 
   /** Initialize the update buffers for all level sets to hold the updates of
    *  equations in each iteration. No-op by default. */
-  virtual void AllocateUpdateBuffer();
+  virtual void
+  AllocateUpdateBuffer();
 
   /** Computer the update at each pixel and store in the update buffer. No-op by
    * default. */
-  virtual void ComputeIteration();
+  virtual void
+  ComputeIteration();
 
   /** Compute the time-step for the next iteration. No-op by default. */
-  virtual void ComputeTimeStepForNextIteration();
+  virtual void
+  ComputeTimeStepForNextIteration();
 
-  virtual void UpdateLevelSets() = 0;
+  virtual void
+  UpdateLevelSets() = 0;
 
-  virtual void UpdateEquations() = 0;
+  virtual void
+  UpdateEquations() = 0;
 
-  StoppingCriterionPointer    m_StoppingCriterion;
+  StoppingCriterionPointer m_StoppingCriterion;
 
-  EquationContainerPointer                 m_EquationContainer;
-  typename LevelSetContainerType::Pointer  m_LevelSetContainer;
+  EquationContainerPointer                m_EquationContainer;
+  typename LevelSetContainerType::Pointer m_LevelSetContainer;
 
-  LevelSetOutputRealType      m_Alpha;
-  LevelSetOutputRealType      m_Dt;
-  LevelSetOutputRealType      m_RMSChangeAccumulator;
-  bool                        m_UserGloballyDefinedTimeStep;
-  IdentifierType              m_NumberOfIterations;
+  LevelSetOutputRealType m_Alpha;
+  LevelSetOutputRealType m_Dt;
+  LevelSetOutputRealType m_RMSChangeAccumulator;
+  bool                   m_UserGloballyDefinedTimeStep;
+  IdentifierType         m_NumberOfIterations;
 
   /** Helper members for threading. */
   typename LevelSetContainerType::Iterator m_LevelSetContainerIteratorToProcessWhenThreading;
   typename LevelSetContainerType::Iterator m_LevelSetUpdateContainerIteratorToProcessWhenThreading;
 };
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetEvolutionBase.hxx"
+#  include "itkLevelSetEvolutionBase.hxx"
 #endif
 
 #endif // itkLevelSetEvolutionBase_h

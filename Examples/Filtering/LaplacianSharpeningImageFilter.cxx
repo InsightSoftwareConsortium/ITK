@@ -21,16 +21,17 @@
 #include "itkImageFileWriter.h"
 #include "itkRescaleIntensityImageFilter.h"
 
-int main(int argc, char* argv[])
+int
+main(int argc, char * argv[])
 {
-  if( argc < 3)
-    {
+  if (argc < 3)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << " inputImage outputImage " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  const char * inputFilename  = argv[1];
+  const char * inputFilename = argv[1];
   const char * outputFilename = argv[2];
 
   using CharPixelType = unsigned char;
@@ -38,49 +39,47 @@ int main(int argc, char* argv[])
 
   using CharImageType = itk::Image<CharPixelType, Dimension>;
 
-  using ReaderType = itk::ImageFileReader< CharImageType >;
-  using WriterType = itk::ImageFileWriter< CharImageType >;
+  using ReaderType = itk::ImageFileReader<CharImageType>;
+  using WriterType = itk::ImageFileWriter<CharImageType>;
 
   using RescaleFilter = itk::RescaleIntensityImageFilter<CharImageType, CharImageType>;
 
-  using LaplacianSharpeningFilter = itk::LaplacianSharpeningImageFilter<
-                              CharImageType,
-                              CharImageType >;
+  using LaplacianSharpeningFilter =
+    itk::LaplacianSharpeningImageFilter<CharImageType, CharImageType>;
 
 
-  //Setting the IO
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  // Setting the IO
+  ReaderType::Pointer    reader = ReaderType::New();
+  WriterType::Pointer    writer = WriterType::New();
   RescaleFilter::Pointer rescale = RescaleFilter::New();
 
-  //Setting the ITK pipeline filter
+  // Setting the ITK pipeline filter
 
   LaplacianSharpeningFilter::Pointer lapFilter = LaplacianSharpeningFilter::New();
 
-  reader->SetFileName( inputFilename  );
-  writer->SetFileName( outputFilename );
+  reader->SetFileName(inputFilename);
+  writer->SetFileName(outputFilename);
 
-  //Sharpen with the laplacian
-  lapFilter->SetInput( reader->GetOutput() );
+  // Sharpen with the laplacian
+  lapFilter->SetInput(reader->GetOutput());
 
   // Rescale and cast to unsigned char
-  rescale->SetInput( lapFilter->GetOutput() );
-  writer->SetInput( rescale->GetOutput() );
+  rescale->SetInput(lapFilter->GetOutput());
+  writer->SetInput(rescale->GetOutput());
 
-  rescale->SetOutputMinimum(   0 );
-  rescale->SetOutputMaximum( 255 );
+  rescale->SetOutputMinimum(0);
+  rescale->SetOutputMaximum(255);
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cout << "ExceptionObject caught !" << std::endl;
     std::cout << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
-
 }

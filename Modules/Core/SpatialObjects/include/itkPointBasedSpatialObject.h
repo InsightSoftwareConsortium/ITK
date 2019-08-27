@@ -33,23 +33,21 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 
-template< unsigned int TDimension = 3,
-  class TSpatialObjectPointType = SpatialObjectPoint< TDimension > >
-class ITK_TEMPLATE_EXPORT PointBasedSpatialObject:
-  public SpatialObject< TDimension >
+template <unsigned int TDimension = 3, class TSpatialObjectPointType = SpatialObjectPoint<TDimension>>
+class ITK_TEMPLATE_EXPORT PointBasedSpatialObject : public SpatialObject<TDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PointBasedSpatialObject);
 
   using Self = PointBasedSpatialObject;
-  using Superclass = SpatialObject< TDimension >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = SpatialObject<TDimension>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using ScalarType = double;
 
   using SpatialObjectPointType = TSpatialObjectPointType;
-  using SpatialObjectPointListType = std::vector< SpatialObjectPointType >;
+  using SpatialObjectPointListType = std::vector<SpatialObjectPointType>;
 
   using PointType = typename Superclass::PointType;
   using TransformType = typename Superclass::TransformType;
@@ -64,56 +62,75 @@ public:
 
   /** Reset the spatial object to its initial condition, yet preserves
    *   Id, Parent, and Child information */
-  void Clear( void ) override;
+  void
+  Clear(void) override;
 
   /** Assign points to this object, and assigned this object to
    * each point (for computing world coordinates) */
-  virtual void AddPoint( const SpatialObjectPointType & newPoints );
+  virtual void
+  AddPoint(const SpatialObjectPointType & newPoints);
 
   /** Removes the indicated point from this object */
-  virtual void RemovePoint( IdentifierType id );
+  virtual void
+  RemovePoint(IdentifierType id);
 
   /** Assign points to this object, and assigned this object to
    * each point (for computing world coordinates) */
-  virtual void SetPoints( const SpatialObjectPointListType & newPoints );
+  virtual void
+  SetPoints(const SpatialObjectPointListType & newPoints);
 
   /** Get the list of points assigned to this object */
-  virtual SpatialObjectPointListType & GetPoints()
-  { return m_Points; }
+  virtual SpatialObjectPointListType &
+  GetPoints()
+  {
+    return m_Points;
+  }
 
   /** Get a const list of the points assigned to this object */
-  virtual const SpatialObjectPointListType & GetPoints() const
-  { return m_Points; }
+  virtual const SpatialObjectPointListType &
+  GetPoints() const
+  {
+    return m_Points;
+  }
 
   /** Return a SpatialObjectPoint given its position in the list */
   virtual const SpatialObjectPointType *
-  GetPoint( IdentifierType id ) const
-  { return &( m_Points[id] ); }
+  GetPoint(IdentifierType id) const
+  {
+    return &(m_Points[id]);
+  }
 
   virtual SpatialObjectPointType *
-  GetPoint( IdentifierType id )
-  { return &( m_Points[id] ); }
+  GetPoint(IdentifierType id)
+  {
+    return &(m_Points[id]);
+  }
 
   /** Return the number of points in the list */
-  virtual SizeValueType GetNumberOfPoints() const
-  { return static_cast<SizeValueType>( m_Points.size() ); }
+  virtual SizeValueType
+  GetNumberOfPoints() const
+  {
+    return static_cast<SizeValueType>(m_Points.size());
+  }
 
   /** Method returns the Point closest to the given point */
-  TSpatialObjectPointType ClosestPointInWorldSpace(
-    const PointType & point) const;
+  TSpatialObjectPointType
+  ClosestPointInWorldSpace(const PointType & point) const;
 
-  TSpatialObjectPointType ClosestPointInObjectSpace(
-    const PointType & point) const;
+  TSpatialObjectPointType
+  ClosestPointInObjectSpace(const PointType & point) const;
 
   /** Returns true if the point is inside the Blob, false otherwise. */
-  bool IsInsideInObjectSpace(const PointType & point) const override;
+  bool
+  IsInsideInObjectSpace(const PointType & point) const override;
 
   /* Avoid hiding the overload that supports depth and name arguments */
   using Superclass::IsInsideInObjectSpace;
 
 protected:
   /** Compute the boundaries of the Blob. */
-  void ComputeMyBoundingBox() override;
+  void
+  ComputeMyBoundingBox() override;
 
   PointBasedSpatialObject();
   ~PointBasedSpatialObject() override = default;
@@ -121,15 +138,16 @@ protected:
   SpatialObjectPointListType m_Points;
 
   /** Method to print the object.*/
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  typename LightObject::Pointer InternalClone() const override;
-
+  typename LightObject::Pointer
+  InternalClone() const override;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPointBasedSpatialObject.hxx"
+#  include "itkPointBasedSpatialObject.hxx"
 #endif
 
 #endif // itkPointBasedSpatialObject_h

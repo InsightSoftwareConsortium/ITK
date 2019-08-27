@@ -24,84 +24,87 @@
 namespace itk
 {
 
-template< typename TInput, typename TLevelSetContainer >
-LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
-::LevelSetEquationChanAndVeseInternalTerm() :
-  m_Mean( NumericTraits< InputPixelRealType >::ZeroValue() ),
-  m_TotalValue( NumericTraits< InputPixelRealType >::ZeroValue() ),
-  m_TotalH( NumericTraits< LevelSetOutputRealType >::ZeroValue() )
+template <typename TInput, typename TLevelSetContainer>
+LevelSetEquationChanAndVeseInternalTerm<TInput, TLevelSetContainer>::LevelSetEquationChanAndVeseInternalTerm()
+  : m_Mean(NumericTraits<InputPixelRealType>::ZeroValue())
+  , m_TotalValue(NumericTraits<InputPixelRealType>::ZeroValue())
+  , m_TotalH(NumericTraits<LevelSetOutputRealType>::ZeroValue())
 {
   this->m_TermName = "Internal Chan And Vese term";
-  this->m_RequiredData.insert( "Value" );
+  this->m_RequiredData.insert("Value");
 }
 
-template< typename TInput, typename TLevelSetContainer >
-void LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
-::Update()
+template <typename TInput, typename TLevelSetContainer>
+void
+LevelSetEquationChanAndVeseInternalTerm<TInput, TLevelSetContainer>::Update()
 {
-  if( this->m_TotalH > NumericTraits< LevelSetOutputRealType >::epsilon() )
-    {
+  if (this->m_TotalH > NumericTraits<LevelSetOutputRealType>::epsilon())
+  {
     const LevelSetOutputRealType inv_total_h = 1. / this->m_TotalH;
 
     // depending on the pixel type, it may be more efficient to do
     // a multiplication than to do a division
     this->m_Mean = this->m_TotalValue * inv_total_h;
-    }
+  }
   else
-    {
-    this->m_Mean = NumericTraits< InputPixelRealType >::ZeroValue();
-    }
+  {
+    this->m_Mean = NumericTraits<InputPixelRealType>::ZeroValue();
+  }
 }
 
-template< typename TInput, typename TLevelSetContainer >
-void LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
-::InitializeParameters()
+template <typename TInput, typename TLevelSetContainer>
+void
+LevelSetEquationChanAndVeseInternalTerm<TInput, TLevelSetContainer>::InitializeParameters()
 {
-  this->m_TotalValue = NumericTraits< InputPixelRealType >::ZeroValue();
-  this->m_TotalH = NumericTraits< LevelSetOutputRealType >::ZeroValue();
+  this->m_TotalValue = NumericTraits<InputPixelRealType>::ZeroValue();
+  this->m_TotalH = NumericTraits<LevelSetOutputRealType>::ZeroValue();
   this->SetUp();
 }
 
 
-template< typename TInput, typename TLevelSetContainer >
-void LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
-::Initialize( const LevelSetInputIndexType& inputIndex )
+template <typename TInput, typename TLevelSetContainer>
+void
+LevelSetEquationChanAndVeseInternalTerm<TInput, TLevelSetContainer>::Initialize(
+  const LevelSetInputIndexType & inputIndex)
 {
-  if( this->m_Heaviside.IsNotNull() )
-    {
-    InputPixelType pixel = this->m_Input->GetPixel( inputIndex );
+  if (this->m_Heaviside.IsNotNull())
+  {
+    InputPixelType pixel = this->m_Input->GetPixel(inputIndex);
 
     LevelSetOutputRealType prod;
-    this->ComputeProduct( inputIndex, prod );
-    this->Accumulate( pixel, prod );
-    }
+    this->ComputeProduct(inputIndex, prod);
+    this->Accumulate(pixel, prod);
+  }
   else
-    {
-    itkWarningMacro( << "m_Heaviside is nullptr" );
-    }
+  {
+    itkWarningMacro(<< "m_Heaviside is nullptr");
+  }
 }
 
 
-template< typename TInput, typename TLevelSetContainer >
-void LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
-::ComputeProduct( const LevelSetInputIndexType& inputIndex, LevelSetOutputRealType& prod )
+template <typename TInput, typename TLevelSetContainer>
+void
+LevelSetEquationChanAndVeseInternalTerm<TInput, TLevelSetContainer>::ComputeProduct(
+  const LevelSetInputIndexType & inputIndex,
+  LevelSetOutputRealType &       prod)
 {
-  LevelSetOutputRealType value = this->m_CurrentLevelSetPointer->Evaluate( inputIndex );
-  prod = this->m_Heaviside->Evaluate( -value );
+  LevelSetOutputRealType value = this->m_CurrentLevelSetPointer->Evaluate(inputIndex);
+  prod = this->m_Heaviside->Evaluate(-value);
 }
 
 
-template< typename TInput, typename TLevelSetContainer >
-void LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
-::UpdatePixel( const LevelSetInputIndexType& inputIndex,
-               const LevelSetOutputRealType & oldValue,
-               const LevelSetOutputRealType & newValue )
+template <typename TInput, typename TLevelSetContainer>
+void
+LevelSetEquationChanAndVeseInternalTerm<TInput, TLevelSetContainer>::UpdatePixel(
+  const LevelSetInputIndexType & inputIndex,
+  const LevelSetOutputRealType & oldValue,
+  const LevelSetOutputRealType & newValue)
 {
   // For each affected h val: h val = new hval (this will dirty some cvals)
-  InputPixelType input = this->m_Input->GetPixel( inputIndex );
+  InputPixelType input = this->m_Input->GetPixel(inputIndex);
 
-  const LevelSetOutputRealType oldH = this->m_Heaviside->Evaluate( -oldValue );
-  const LevelSetOutputRealType newH = this->m_Heaviside->Evaluate( -newValue );
+  const LevelSetOutputRealType oldH = this->m_Heaviside->Evaluate(-oldValue);
+  const LevelSetOutputRealType newH = this->m_Heaviside->Evaluate(-newValue);
   const LevelSetOutputRealType change = newH - oldH;
 
   // update the foreground constant for current level-set function
@@ -109,71 +112,72 @@ void LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
   this->m_TotalValue += input * change;
 }
 
-template< typename TInput, typename TLevelSetContainer >
-typename LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >::LevelSetOutputRealType
-LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
-::Value( const LevelSetInputIndexType& inputIndex )
+template <typename TInput, typename TLevelSetContainer>
+typename LevelSetEquationChanAndVeseInternalTerm<TInput, TLevelSetContainer>::LevelSetOutputRealType
+LevelSetEquationChanAndVeseInternalTerm<TInput, TLevelSetContainer>::Value(const LevelSetInputIndexType & inputIndex)
 {
-  if( this->m_Heaviside.IsNotNull() )
-    {
-    const auto value = static_cast< LevelSetOutputRealType >( this->m_CurrentLevelSetPointer->Evaluate( inputIndex ) );
+  if (this->m_Heaviside.IsNotNull())
+  {
+    const auto value = static_cast<LevelSetOutputRealType>(this->m_CurrentLevelSetPointer->Evaluate(inputIndex));
 
-    const LevelSetOutputRealType d_val = this->m_Heaviside->EvaluateDerivative( -value );
+    const LevelSetOutputRealType d_val = this->m_Heaviside->EvaluateDerivative(-value);
 
-    const InputPixelType pixel = this->m_Input->GetPixel( inputIndex );
+    const InputPixelType   pixel = this->m_Input->GetPixel(inputIndex);
     LevelSetOutputRealType prod = 1;
 
-    this->ComputeProductTerm( inputIndex, prod );
+    this->ComputeProductTerm(inputIndex, prod);
 
-    const LevelSetOutputRealType oValue = d_val * prod *
-      static_cast< LevelSetOutputRealType >( ( pixel - this->m_Mean ) * ( pixel - this->m_Mean ) );
+    const LevelSetOutputRealType oValue =
+      d_val * prod * static_cast<LevelSetOutputRealType>((pixel - this->m_Mean) * (pixel - this->m_Mean));
 
     return oValue;
-    }
+  }
   else
-    {
-    itkWarningMacro( << "m_Heaviside is nullptr" );
-    }
-  return NumericTraits< LevelSetOutputPixelType >::ZeroValue();
+  {
+    itkWarningMacro(<< "m_Heaviside is nullptr");
+  }
+  return NumericTraits<LevelSetOutputPixelType>::ZeroValue();
 }
 
-template< typename TInput, typename TLevelSetContainer >
-typename LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >::LevelSetOutputRealType
-LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
-::Value( const LevelSetInputIndexType& inputIndex, const LevelSetDataType& data )
+template <typename TInput, typename TLevelSetContainer>
+typename LevelSetEquationChanAndVeseInternalTerm<TInput, TLevelSetContainer>::LevelSetOutputRealType
+LevelSetEquationChanAndVeseInternalTerm<TInput, TLevelSetContainer>::Value(const LevelSetInputIndexType & inputIndex,
+                                                                           const LevelSetDataType &       data)
 {
-  if( this->m_Heaviside.IsNotNull() )
-    {
+  if (this->m_Heaviside.IsNotNull())
+  {
     const LevelSetOutputRealType value = data.Value.m_Value;
 
-    const LevelSetOutputRealType d_val = this->m_Heaviside->EvaluateDerivative( -value );
+    const LevelSetOutputRealType d_val = this->m_Heaviside->EvaluateDerivative(-value);
 
-    const InputPixelType pixel = this->m_Input->GetPixel( inputIndex );
+    const InputPixelType pixel = this->m_Input->GetPixel(inputIndex);
 
     LevelSetOutputRealType prod = 1;
 
-    this->ComputeProductTerm( inputIndex, prod );
+    this->ComputeProductTerm(inputIndex, prod);
 
-    const LevelSetOutputRealType oValue = d_val * prod *
-      static_cast< LevelSetOutputRealType >( ( pixel - this->m_Mean ) * ( pixel - this->m_Mean ) );
+    const LevelSetOutputRealType oValue =
+      d_val * prod * static_cast<LevelSetOutputRealType>((pixel - this->m_Mean) * (pixel - this->m_Mean));
 
     return oValue;
-    }
+  }
   else
-    {
-    itkWarningMacro( << "m_Heaviside is nullptr" );
-    }
-  return NumericTraits< LevelSetOutputPixelType >::ZeroValue();
+  {
+    itkWarningMacro(<< "m_Heaviside is nullptr");
+  }
+  return NumericTraits<LevelSetOutputPixelType>::ZeroValue();
 }
 
-template< typename TInput, typename TLevelSetContainer >
-void LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
-::Accumulate( const InputPixelType& inputPixel, const LevelSetOutputRealType& heavisideValue )
+template <typename TInput, typename TLevelSetContainer>
+void
+LevelSetEquationChanAndVeseInternalTerm<TInput, TLevelSetContainer>::Accumulate(
+  const InputPixelType &         inputPixel,
+  const LevelSetOutputRealType & heavisideValue)
 {
-  this->m_TotalValue += static_cast< InputPixelRealType >( inputPixel ) *
-      static_cast< LevelSetOutputRealType >( heavisideValue );
-  this->m_TotalH += static_cast< LevelSetOutputRealType >( heavisideValue );
+  this->m_TotalValue +=
+    static_cast<InputPixelRealType>(inputPixel) * static_cast<LevelSetOutputRealType>(heavisideValue);
+  this->m_TotalH += static_cast<LevelSetOutputRealType>(heavisideValue);
 }
 
-}
+} // namespace itk
 #endif

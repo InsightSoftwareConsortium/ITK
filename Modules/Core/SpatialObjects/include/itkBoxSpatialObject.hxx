@@ -24,9 +24,8 @@
 namespace itk
 {
 /** Constructor */
-template< unsigned int TDimension >
-BoxSpatialObject< TDimension >
-::BoxSpatialObject()
+template <unsigned int TDimension>
+BoxSpatialObject<TDimension>::BoxSpatialObject()
 {
   this->SetTypeName("BoxSpatialObject");
 
@@ -35,10 +34,9 @@ BoxSpatialObject< TDimension >
   this->Update();
 }
 
-template< unsigned int TDimension >
+template <unsigned int TDimension>
 void
-BoxSpatialObject< TDimension >
-::Clear( void )
+BoxSpatialObject<TDimension>::Clear(void)
 {
   Superclass::Clear();
 
@@ -49,31 +47,29 @@ BoxSpatialObject< TDimension >
 }
 
 /** Test whether a point is inside or outside the object */
-template< unsigned int TDimension >
+template <unsigned int TDimension>
 bool
-BoxSpatialObject< TDimension >
-::IsInsideInObjectSpace(const PointType & point) const
+BoxSpatialObject<TDimension>::IsInsideInObjectSpace(const PointType & point) const
 {
   itkDebugMacro("Checking the point [" << point << "] is in the box");
 
-  return this->GetMyBoundingBoxInObjectSpace()->IsInside( point );
+  return this->GetMyBoundingBoxInObjectSpace()->IsInside(point);
 }
 
 /** Compute the bounds of the box */
-template< unsigned int TDimension >
+template <unsigned int TDimension>
 void
-BoxSpatialObject< TDimension >
-::ComputeMyBoundingBox()
+BoxSpatialObject<TDimension>::ComputeMyBoundingBox()
 {
   itkDebugMacro("Computing BoxSpatialObject bounding box");
 
-  PointType    pnt1;
-  PointType    pnt2;
-  for ( unsigned int i = 0; i < TDimension; i++ )
-    {
+  PointType pnt1;
+  PointType pnt2;
+  for (unsigned int i = 0; i < TDimension; i++)
+  {
     pnt1[i] = m_PositionInObjectSpace[i];
     pnt2[i] = m_PositionInObjectSpace[i] + m_SizeInObjectSpace[i];
-    }
+  }
 
   this->GetModifiableMyBoundingBoxInObjectSpace()->SetMinimum(pnt1);
   this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum(pnt1);
@@ -82,34 +78,29 @@ BoxSpatialObject< TDimension >
 }
 
 /** InternalClone */
-template< unsigned int TDimension >
+template <unsigned int TDimension>
 typename LightObject::Pointer
-BoxSpatialObject< TDimension >
-::InternalClone() const
+BoxSpatialObject<TDimension>::InternalClone() const
 {
   // Default implementation just copies the parameters from
   // this to new transform.
   typename LightObject::Pointer loPtr = Superclass::InternalClone();
 
-  typename Self::Pointer rval =
-    dynamic_cast<Self *>(loPtr.GetPointer());
-  if(rval.IsNull())
-    {
-    itkExceptionMacro(<< "downcast to type "
-                      << this->GetNameOfClass()
-                      << " failed.");
-    }
-  rval->SetSizeInObjectSpace( this->GetSizeInObjectSpace() );
-  rval->SetPositionInObjectSpace( this->GetPositionInObjectSpace() );
+  typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
+  if (rval.IsNull())
+  {
+    itkExceptionMacro(<< "downcast to type " << this->GetNameOfClass() << " failed.");
+  }
+  rval->SetSizeInObjectSpace(this->GetSizeInObjectSpace());
+  rval->SetPositionInObjectSpace(this->GetPositionInObjectSpace());
 
   return loPtr;
 }
 
 /** Print Self function */
-template< unsigned int TDimension >
+template <unsigned int TDimension>
 void
-BoxSpatialObject< TDimension >
-::PrintSelf(std::ostream & os, Indent indent) const
+BoxSpatialObject<TDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << "Object Size: " << m_SizeInObjectSpace << std::endl;

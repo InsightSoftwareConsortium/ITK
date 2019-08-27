@@ -19,16 +19,17 @@
 #include "itkGradientRecursiveGaussianImageFilter.h"
 
 
-int itkGradientRecursiveGaussianFilterSpeedTest(int argc, char* argv[] )
+int
+itkGradientRecursiveGaussianFilterSpeedTest(int argc, char * argv[])
 {
-  if( argc != 3 )
-    {
+  if (argc != 3)
+  {
     std::cerr << "usage: size reps" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  int imageSize = std::stoi( argv[1] );
-  int reps = std::stoi( argv[2] );
+  int imageSize = std::stoi(argv[1]);
+  int reps = std::stoi(argv[2]);
 
   std::cout << "imageSize: " << imageSize << " reps: " << reps << std::endl;
 
@@ -48,7 +49,7 @@ int itkGradientRecursiveGaussianFilterSpeedTest(int argc, char* argv[] )
   using myRegionType = itk::ImageRegion<myDimension>;
 
   // Create the image
-  myImageType::Pointer inputImage  = myImageType::New();
+  myImageType::Pointer inputImage = myImageType::New();
 
 
   // Define their size, and start index
@@ -61,29 +62,29 @@ int itkGradientRecursiveGaussianFilterSpeedTest(int argc, char* argv[] )
   start.Fill(0);
 
   myRegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
+  region.SetIndex(start);
+  region.SetSize(size);
 
   // Initialize Image A
-  inputImage->SetLargestPossibleRegion( region );
-  inputImage->SetBufferedRegion( region );
-  inputImage->SetRequestedRegion( region );
+  inputImage->SetLargestPossibleRegion(region);
+  inputImage->SetBufferedRegion(region);
+  inputImage->SetRequestedRegion(region);
   inputImage->Allocate();
 
   // Declare Iterator type for the input image
   using myIteratorType = itk::ImageRegionIteratorWithIndex<myImageType>;
 
   // Create one iterator for the Input Image A (this is a light object)
-  myIteratorType it( inputImage, inputImage->GetRequestedRegion() );
+  myIteratorType it(inputImage, inputImage->GetRequestedRegion());
 
   // Initialize the content of Image A
-  while( !it.IsAtEnd() )
-    {
-    it.Set( 0.0 );
+  while (!it.IsAtEnd())
+  {
+    it.Set(0.0);
     ++it;
-    }
+  }
 
-  size.Fill( imageSize - 4 );
+  size.Fill(imageSize - 4);
 
   start[0] = 2;
   start[1] = 2;
@@ -91,19 +92,19 @@ int itkGradientRecursiveGaussianFilterSpeedTest(int argc, char* argv[] )
 
   // Create one iterator for an internal region
   myRegionType innerRegion;
-  innerRegion.SetSize( size );
-  innerRegion.SetIndex( start );
-  myIteratorType itb( inputImage, innerRegion );
+  innerRegion.SetSize(size);
+  innerRegion.SetIndex(start);
+  myIteratorType itb(inputImage, innerRegion);
 
   // Initialize the content the internal region
-  while( !itb.IsAtEnd() )
-    {
-    itb.Set( 100.0 );
+  while (!itb.IsAtEnd())
+  {
+    itb.Set(100.0);
     ++itb;
-    }
+  }
 
   // Declare the type for the
-  using myFilterType = itk::GradientRecursiveGaussianImageFilter< myImageType >;
+  using myFilterType = itk::GradientRecursiveGaussianImageFilter<myImageType>;
 
   using myGradientImageType = myFilterType::OutputImageType;
 
@@ -113,21 +114,21 @@ int itkGradientRecursiveGaussianFilterSpeedTest(int argc, char* argv[] )
 
 
   // Connect the input images
-  filter->SetInput( inputImage );
+  filter->SetInput(inputImage);
 
 
   // loop
-  for( int i=0; i < reps; i++ )
-    {
+  for (int i = 0; i < reps; i++)
+  {
     // Select the value of Sigma
-    filter->SetSigma( 2.5 + reps/100.0 );
+    filter->SetSigma(2.5 + reps / 100.0);
 
     // Execute the filter
     filter->Update();
-    }
+  }
 
-  if( reps > 0 )
-    {
+  if (reps > 0)
+  {
     // Get the Smart Pointer to the Filter Output
     // It is important to do it AFTER the filter is Updated
     // Because the object connected to the output may be changed
@@ -138,14 +139,14 @@ int itkGradientRecursiveGaussianFilterSpeedTest(int argc, char* argv[] )
     using myOutputIteratorType = itk::ImageRegionIteratorWithIndex<myGradientImageType>;
 
     // Create an iterator for going through the output image
-    myOutputIteratorType itg( outputImage, outputImage->GetRequestedRegion() );
+    myOutputIteratorType itg(outputImage, outputImage->GetRequestedRegion());
 
     //  Print the content of the result image
     std::cout << " Result " << std::endl;
     itg.GoToBegin();
     std::cout << itg.Get();
     std::cout << std::endl;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

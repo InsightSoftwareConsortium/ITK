@@ -56,18 +56,17 @@ namespace itk
  *
  * \ingroup Segmentation ITKSuperPixel MultiThreading
  */
-template < typename TInputImage, typename TOutputImage, typename TDistancePixel = float>
-class SLICImageFilter:
-    public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage, typename TDistancePixel = float>
+class SLICImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SLICImageFilter);
 
   /** Standard class type aliases. */
   using Self = SLICImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -96,7 +95,7 @@ public:
 
   using OutputImageRegionType = typename OutputImageType::RegionType;
 
-  using SuperGridSizeType = FixedArray< unsigned int, ImageDimension >;
+  using SuperGridSizeType = FixedArray<unsigned int, ImageDimension>;
 
   /** \brief The spatial weight for the distance function.
    *
@@ -104,15 +103,15 @@ public:
    * but more varied in image values. The range of the pixel values
    * and image dimension can effect the appropriate value.
    */
-  itkSetMacro( SpatialProximityWeight, double );
-  itkGetConstMacro( SpatialProximityWeight, double );
+  itkSetMacro(SpatialProximityWeight, double);
+  itkGetConstMacro(SpatialProximityWeight, double);
 
   /** \brief Number of iterations to run
    *
    * Specify the number of iterations to run when optimizing the clusters.
    */
-  itkSetMacro( MaximumNumberOfIterations, unsigned int );
-  itkGetConstMacro( MaximumNumberOfIterations, unsigned int );
+  itkSetMacro(MaximumNumberOfIterations, unsigned int);
+  itkGetConstMacro(MaximumNumberOfIterations, unsigned int);
 
   /** \brief The expected superpixel size and shape
    *
@@ -123,8 +122,10 @@ public:
    */
   itkSetMacro(SuperGridSize, SuperGridSizeType);
   itkGetConstMacro(SuperGridSize, SuperGridSizeType);
-  void SetSuperGridSize(unsigned int factor);
-  void SetSuperGridSize(unsigned int i, unsigned int factor);
+  void
+  SetSuperGridSize(unsigned int factor);
+  void
+  SetSuperGridSize(unsigned int i, unsigned int factor);
 
   /** \brief Enable perturbation of initial cluster center location
    *
@@ -156,61 +157,73 @@ public:
    * between the current clusters and the previous. This is averaged
    * so that the value is independent of the number of clusters.
    */
-  itkGetConstMacro( AverageResidual, double );
+  itkGetConstMacro(AverageResidual, double);
 
 protected:
   SLICImageFilter();
   ~SLICImageFilter() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate full output and require full input */
-  void EnlargeOutputRequestedRegion(DataObject *output) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * output) override;
 
-  void BeforeThreadedGenerateData() override;
+  void
+  BeforeThreadedGenerateData() override;
 
-  void ThreadedUpdateDistanceAndLabel(const OutputImageRegionType & outputRegionForThread);
+  void
+  ThreadedUpdateDistanceAndLabel(const OutputImageRegionType & outputRegionForThread);
 
-  void ThreadedUpdateClusters(const OutputImageRegionType & outputRegionForThread);
+  void
+  ThreadedUpdateClusters(const OutputImageRegionType & outputRegionForThread);
 
-  void ThreadedPerturbClusters(SizeValueType idx);
+  void
+  ThreadedPerturbClusters(SizeValueType idx);
 
-  void ThreadedConnectivity(SizeValueType idx);
+  void
+  ThreadedConnectivity(SizeValueType idx);
 
-  void SingleThreadedConnectivity();
+  void
+  SingleThreadedConnectivity();
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 
-  void AfterThreadedGenerateData() override;
+  void
+  AfterThreadedGenerateData() override;
 
-  DistanceType Distance(const ClusterType &cluster1, const ClusterType &cluster2);
+  DistanceType
+  Distance(const ClusterType & cluster1, const ClusterType & cluster2);
 
-  DistanceType Distance(const ClusterType &cluster, const InputPixelType &v, const PointType &pt);
+  DistanceType
+  Distance(const ClusterType & cluster, const InputPixelType & v, const PointType & pt);
 
 private:
-
   SuperGridSizeType m_SuperGridSize;
   unsigned int      m_MaximumNumberOfIterations;
   double            m_SpatialProximityWeight{ 10.0 };
 
-  FixedArray<double,ImageDimension> m_DistanceScales;
-  std::vector<ClusterComponentType> m_Clusters;
-  std::vector<ClusterComponentType> m_OldClusters;
+  FixedArray<double, ImageDimension> m_DistanceScales;
+  std::vector<ClusterComponentType>  m_Clusters;
+  std::vector<ClusterComponentType>  m_OldClusters;
 
 
-  void RelabelConnectedRegion( const IndexType &seed,
-                               OutputPixelType requiredLabel,
-                               OutputPixelType outputLabel,
-                               std::vector<IndexType> & indexStack);
+  void
+  RelabelConnectedRegion(const IndexType &        seed,
+                         OutputPixelType          requiredLabel,
+                         OutputPixelType          outputLabel,
+                         std::vector<IndexType> & indexStack);
 
   struct UpdateCluster
   {
-    size_t count;
+    size_t                           count;
     vnl_vector<ClusterComponentType> cluster;
   };
 
-  using  UpdateClusterMap = std::map<size_t, UpdateCluster>;
+  using UpdateClusterMap = std::map<size_t, UpdateCluster>;
 
   using MarkerImageType = Image<unsigned char, ImageDimension>;
 
@@ -219,17 +232,17 @@ private:
   typename DistanceImageType::Pointer m_DistanceImage;
   typename MarkerImageType::Pointer   m_MarkerImage;
 
-  bool m_EnforceConnectivity{true};
+  bool m_EnforceConnectivity{ true };
 
-  bool m_InitializationPerturbation{true};
+  bool m_InitializationPerturbation{ true };
 
-  double               m_AverageResidual;
+  double     m_AverageResidual;
   std::mutex m_Mutex;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSLICImageFilter.hxx"
+#  include "itkSLICImageFilter.hxx"
 #endif
 
-#endif //itkSLICImageFilter_h
+#endif // itkSLICImageFilter_h

@@ -23,12 +23,12 @@
 namespace itk
 {
 
-template<typename TTransform>
-BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
-::BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor()
+template <typename TTransform>
+BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<
+  TTransform>::BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor()
 {
-  this->m_NumberOfControlPointsForTheUpdateField.Fill( 4 );
-  this->m_NumberOfControlPointsForTheTotalField.Fill( 0 );
+  this->m_NumberOfControlPointsForTheUpdateField.Fill(4);
+  this->m_NumberOfControlPointsForTheTotalField.Fill(0);
   this->m_NumberOfControlPointsForTheUpdateFieldSetTime = 0;
   this->m_NumberOfControlPointsForTheTotalFieldSetTime = 0;
 }
@@ -36,108 +36,105 @@ BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
 /**
  * set mesh size for update field
  */
-template<typename TTransform>
+template <typename TTransform>
 void
-BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
-::SetMeshSizeForTheUpdateField( const ArrayType &meshSize )
+BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>::SetMeshSizeForTheUpdateField(
+  const ArrayType & meshSize)
 {
   ArrayType numberOfControlPoints;
-  numberOfControlPoints.Fill( 0 );
-  for( unsigned int d = 0; d < SpaceDimension; d++ )
+  numberOfControlPoints.Fill(0);
+  for (unsigned int d = 0; d < SpaceDimension; d++)
+  {
+    if (meshSize[d] > 0)
     {
-    if( meshSize[d] > 0 )
-      {
       numberOfControlPoints[d] = meshSize[d] + this->m_Transform->GetSplineOrder();
-      }
     }
-  this->SetNumberOfControlPointsForTheUpdateField( numberOfControlPoints );
+  }
+  this->SetNumberOfControlPointsForTheUpdateField(numberOfControlPoints);
 }
 
 /**
  * set mesh size for total field
  */
-template<typename TTransform>
+template <typename TTransform>
 void
-BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
-::SetMeshSizeForTheTotalField( const ArrayType &meshSize )
+BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>::SetMeshSizeForTheTotalField(
+  const ArrayType & meshSize)
 {
   ArrayType numberOfControlPoints;
-  numberOfControlPoints.Fill( 0 );
-  for( unsigned int d = 0; d < SpaceDimension; d++ )
+  numberOfControlPoints.Fill(0);
+  for (unsigned int d = 0; d < SpaceDimension; d++)
+  {
+    if (meshSize[d] > 0)
     {
-    if( meshSize[d] > 0 )
-      {
       numberOfControlPoints[d] = meshSize[d] + this->m_Transform->GetSplineOrder();
-      }
     }
-  this->SetNumberOfControlPointsForTheTotalField( numberOfControlPoints );
+  }
+  this->SetNumberOfControlPointsForTheTotalField(numberOfControlPoints);
 }
 
 /**
  * set number of control points for update field
  */
-template<typename TTransform>
+template <typename TTransform>
 void
-BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
-::SetNumberOfControlPointsForTheUpdateField( const ArrayType &controlPoints )
+BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<
+  TTransform>::SetNumberOfControlPointsForTheUpdateField(const ArrayType & controlPoints)
 {
   this->m_NumberOfControlPointsForTheUpdateFieldSetTime = this->GetMTime();
-  if( controlPoints != this->m_NumberOfControlPointsForTheUpdateField )
-    {
+  if (controlPoints != this->m_NumberOfControlPointsForTheUpdateField)
+  {
     this->m_NumberOfControlPointsForTheUpdateField = controlPoints;
     this->Modified();
-    }
+  }
 }
 
 /**
  * set number of control points for total field
  */
-template<typename TTransform>
+template <typename TTransform>
 void
-BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
-::SetNumberOfControlPointsForTheTotalField( const ArrayType &controlPoints )
+BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<
+  TTransform>::SetNumberOfControlPointsForTheTotalField(const ArrayType & controlPoints)
 {
   this->m_NumberOfControlPointsForTheTotalFieldSetTime = this->GetMTime();
-  if( controlPoints != this->m_NumberOfControlPointsForTheTotalField )
-    {
+  if (controlPoints != this->m_NumberOfControlPointsForTheTotalField)
+  {
     this->m_NumberOfControlPointsForTheTotalField = controlPoints;
     this->Modified();
-    }
-}
-
-template<typename TTransform>
-void
-BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
-::AdaptTransformParameters()
-{
-  Superclass::AdaptTransformParameters();
-
-  if( this->m_NumberOfControlPointsForTheUpdateFieldSetTime > 0 )
-    {
-    this->m_Transform->SetNumberOfControlPointsForTheUpdateField(
-      this->m_NumberOfControlPointsForTheUpdateField );
-    }
-  if( this->m_NumberOfControlPointsForTheTotalFieldSetTime > 0 )
-    {
-    this->m_Transform->SetNumberOfControlPointsForTheTotalField(
-      this->m_NumberOfControlPointsForTheTotalField );
-    }
+  }
 }
 
 template <typename TTransform>
 void
-BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
-::PrintSelf( std::ostream& os, Indent indent ) const
+BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>::AdaptTransformParameters()
 {
-  Superclass::PrintSelf( os,indent );
+  Superclass::AdaptTransformParameters();
 
-  os << indent << "B-spline parameters: " << std::endl;
-  os << indent << "  number of control points for the update field = "
-    << this->m_NumberOfControlPointsForTheUpdateField << std::endl;
-  os << indent << "  number of control points for the total field = "
-    << this->m_NumberOfControlPointsForTheTotalField << std::endl;
+  if (this->m_NumberOfControlPointsForTheUpdateFieldSetTime > 0)
+  {
+    this->m_Transform->SetNumberOfControlPointsForTheUpdateField(this->m_NumberOfControlPointsForTheUpdateField);
+  }
+  if (this->m_NumberOfControlPointsForTheTotalFieldSetTime > 0)
+  {
+    this->m_Transform->SetNumberOfControlPointsForTheTotalField(this->m_NumberOfControlPointsForTheTotalField);
+  }
 }
 
-}  // namespace itk
+template <typename TTransform>
+void
+BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>::PrintSelf(std::ostream & os,
+                                                                                           Indent         indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "B-spline parameters: " << std::endl;
+  os << indent << "  number of control points for the update field = " << this->m_NumberOfControlPointsForTheUpdateField
+     << std::endl;
+  os << indent << "  number of control points for the total field = " << this->m_NumberOfControlPointsForTheTotalField
+     << std::endl;
+}
+
+} // namespace itk
 
 #endif

@@ -21,14 +21,15 @@
 #include "itkImageFileWriter.h"
 #include "itkTestingMacros.h"
 
-template< typename TPixel >
-int DoIt( int argc, char* argv[], const std::string pixelType )
+template <typename TPixel>
+int
+DoIt(int argc, char * argv[], const std::string pixelType)
 {
-  if( argc < 2 )
-    {
+  if (argc < 2)
+  {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " outputImagePrefix" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   const char * outputImageFileName = argv[1];
 
   constexpr int height = 20;
@@ -37,12 +38,12 @@ int DoIt( int argc, char* argv[], const std::string pixelType )
   constexpr unsigned int Dimension = 2;
 
   using PixelType = TPixel;
-  using InputImageType = itk::Image< bool, Dimension >;
-  using OutputImageType = itk::Image< PixelType, Dimension >;
+  using InputImageType = itk::Image<bool, Dimension>;
+  using OutputImageType = itk::Image<PixelType, Dimension>;
   using IndexType = typename InputImageType::IndexType;
 
   typename InputImageType::Pointer inputimg = InputImageType::New();
-  IndexType index;
+  IndexType                        index;
   index.Fill(0);
   typename InputImageType::RegionType region;
 
@@ -53,58 +54,58 @@ int DoIt( int argc, char* argv[], const std::string pixelType )
   region.SetSize(size);
   region.SetIndex(index);
 
-  inputimg->SetLargestPossibleRegion( region );
-  inputimg->SetBufferedRegion( region );
-  inputimg->SetRequestedRegion( region );
+  inputimg->SetLargestPossibleRegion(region);
+  inputimg->SetBufferedRegion(region);
+  inputimg->SetRequestedRegion(region);
   inputimg->Allocate();
 
-  int row, col;
+  int       row, col;
   IndexType myIndex;
-  for(row = 0;row<20;row++)
+  for (row = 0; row < 20; row++)
+  {
+    for (col = 0; col < 20; col++)
     {
-    for(col = 0;col < 20;col++)
-      {
       myIndex[1] = row;
       myIndex[0] = col;
-      inputimg->SetPixel(myIndex,false);
-      }
+      inputimg->SetPixel(myIndex, false);
     }
-  for(row = 0;row<15;row++)
+  }
+  for (row = 0; row < 15; row++)
+  {
+    for (col = 0; col < 20; col++)
     {
-    for(col = 0;col<20;col++)
-      {
       myIndex[1] = row;
       myIndex[0] = col;
-      inputimg->SetPixel(myIndex,true);
-      }
+      inputimg->SetPixel(myIndex, true);
     }
-  for(row = 0;row<10;row++)
+  }
+  for (row = 0; row < 10; row++)
+  {
+    for (col = 5; col < 15; col++)
     {
-    for(col = 5;col<15;col++)
-      {
       myIndex[1] = row;
       myIndex[0] = col;
-      inputimg->SetPixel(myIndex,false);
-      }
+      inputimg->SetPixel(myIndex, false);
     }
-  for(row = 0;row<7;row++)
+  }
+  for (row = 0; row < 7; row++)
+  {
+    for (col = 7; col < 12; col++)
     {
-    for(col = 7;col<12;col++)
-      {
       myIndex[1] = row;
       myIndex[0] = col;
-      inputimg->SetPixel(myIndex,true);
-      }
+      inputimg->SetPixel(myIndex, true);
     }
-  //InputImageType::IndexType Seed = {10,2};
+  }
+  // InputImageType::IndexType Seed = {10,2};
 
-  using FilterType = itk::HardConnectedComponentImageFilter< InputImageType, OutputImageType >;
+  using FilterType = itk::HardConnectedComponentImageFilter<InputImageType, OutputImageType>;
   typename FilterType::Pointer filter = FilterType::New();
 
   itk::SimpleFilterWatcher watcher(filter);
 
   filter->SetInput(inputimg);
-  //filter->SetObjectSeed(Seed);
+  // filter->SetObjectSeed(Seed);
   filter->Update();
 
   using inputIterator = itk::ImageRegionIterator<InputImageType>;
@@ -112,15 +113,15 @@ int DoIt( int argc, char* argv[], const std::string pixelType )
 
   std::cout << "Input Image" << std::endl;
   it.GoToBegin();
-  for(int i = 0;i < height*width; i++)
+  for (int i = 0; i < height * width; i++)
+  {
+    if ((i % width) == 0)
     {
-    if((i%width) == 0)
-      {
       std::cout << std::endl;
-      }
-    std::cout << ( it.Get() ? 1 : 0 );
-    ++it;
     }
+    std::cout << (it.Get() ? 1 : 0);
+    ++it;
+  }
   std::cout << std::endl;
 
   using outputIterator = itk::ImageRegionIterator<OutputImageType>;
@@ -128,37 +129,37 @@ int DoIt( int argc, char* argv[], const std::string pixelType )
 
   std::cout << std::endl << "Output Image" << std::endl;
   ot.GoToBegin();
-  for(int i = 0;i < height*width; i++)
+  for (int i = 0; i < height * width; i++)
+  {
+    if ((i % width) == 0)
     {
-    if((i%width) == 0)
-      {
       std::cout << std::endl;
-      }
+    }
     std::cout << ot.Get();
     ++ot;
-    }
+  }
 
   std::cout << std::endl;
 
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
   typename WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName( std::string( outputImageFileName ) + pixelType + ".png" );
-  writer->SetInput( filter->GetOutput() );
+  writer->SetFileName(std::string(outputImageFileName) + pixelType + ".png");
+  writer->SetInput(filter->GetOutput());
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & error )
-    {
+  }
+  catch (itk::ExceptionObject & error)
+  {
     std::cerr << "Error: " << error << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }
 
-int itkHardConnectedComponentImageFilterTest(int argc, char* argv[] )
+int
+itkHardConnectedComponentImageFilterTest(int argc, char * argv[])
 {
-  return DoIt< unsigned char >( argc, argv, "UnsignedChar" )
-   || DoIt< unsigned short >( argc, argv, "UnsignedShort" );
+  return DoIt<unsigned char>(argc, argv, "UnsignedChar") || DoIt<unsigned short>(argc, argv, "UnsignedShort");
 }

@@ -28,9 +28,8 @@ namespace itk
 //
 // Constructor
 //
-template<typename TVideoStream>
-DecimateFramesVideoFilter<TVideoStream>::
-DecimateFramesVideoFilter()
+template <typename TVideoStream>
+DecimateFramesVideoFilter<TVideoStream>::DecimateFramesVideoFilter()
 {
   this->TemporalProcessObject::m_UnitInputNumberOfFrames = 1;
   this->TemporalProcessObject::m_UnitOutputNumberOfFrames = 1;
@@ -45,25 +44,21 @@ DecimateFramesVideoFilter()
 //
 // PrintSelf
 //
-template<typename TVideoStream>
+template <typename TVideoStream>
 void
-DecimateFramesVideoFilter<TVideoStream>::
-PrintSelf(std::ostream & os, Indent indent) const
+DecimateFramesVideoFilter<TVideoStream>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent
-     << "NumberOfFrames: " << this->TemporalProcessObject::m_UnitInputNumberOfFrames
-     << std::endl;
+  os << indent << "NumberOfFrames: " << this->TemporalProcessObject::m_UnitInputNumberOfFrames << std::endl;
 }
 
 
 //
 // SetPreservedFrameSpacing
 //
-template<typename TVideoStream>
+template <typename TVideoStream>
 void
-DecimateFramesVideoFilter<TVideoStream>::
-SetPreservedFrameSpacing(SizeValueType numFrames)
+DecimateFramesVideoFilter<TVideoStream>::SetPreservedFrameSpacing(SizeValueType numFrames)
 {
   this->TemporalProcessObject::m_FrameSkipPerOutput = numFrames;
   this->Modified();
@@ -73,10 +68,9 @@ SetPreservedFrameSpacing(SizeValueType numFrames)
 //
 // GetPreservedFrameSpacing
 //
-template<typename TVideoStream>
+template <typename TVideoStream>
 SizeValueType
-DecimateFramesVideoFilter<TVideoStream>::
-GetPreservedFrameSpacing()
+DecimateFramesVideoFilter<TVideoStream>::GetPreservedFrameSpacing()
 {
   return this->TemporalProcessObject::m_FrameSkipPerOutput;
 }
@@ -85,24 +79,21 @@ GetPreservedFrameSpacing()
 //
 // ThreadedGenerateData
 //
-template<typename TVideoStream>
+template <typename TVideoStream>
 void
-DecimateFramesVideoFilter<TVideoStream>::
-ThreadedGenerateData(const FrameSpatialRegionType& outputRegionForThread,
-                     int itkNotUsed(threadId))
+DecimateFramesVideoFilter<TVideoStream>::ThreadedGenerateData(const FrameSpatialRegionType & outputRegionForThread,
+                                                              int                            itkNotUsed(threadId))
 {
   // Get the input and output video streams
-  const InputVideoStreamType* input = this->GetInput();
-  OutputVideoStreamType* output = this->GetOutput();
+  const InputVideoStreamType * input = this->GetInput();
+  OutputVideoStreamType *      output = this->GetOutput();
 
   // Get input and output frame numbers
-  typename OutputVideoStreamType::TemporalRegionType outReqTempRegion =
-    output->GetRequestedTemporalRegion();
-  SizeValueType outFrameNum = outReqTempRegion.GetFrameStart();
+  typename OutputVideoStreamType::TemporalRegionType outReqTempRegion = output->GetRequestedTemporalRegion();
+  SizeValueType                                      outFrameNum = outReqTempRegion.GetFrameStart();
 
-  typename InputVideoStreamType::TemporalRegionType inReqTempRegion =
-    input->GetRequestedTemporalRegion();
-  SizeValueType inFrameNum = inReqTempRegion.GetFrameStart();
+  typename InputVideoStreamType::TemporalRegionType inReqTempRegion = input->GetRequestedTemporalRegion();
+  SizeValueType                                     inFrameNum = inReqTempRegion.GetFrameStart();
 
   // Since we want to support only returning a requested spatial region of the
   // input frame, we do the pass-through the slow way using iterators rather
@@ -111,19 +102,19 @@ ThreadedGenerateData(const FrameSpatialRegionType& outputRegionForThread,
   // Get iterators for requested region of input and output frames
   using InputIterType = ImageRegionConstIterator<FrameType>;
   using OutputIterType = ImageRegionIterator<FrameType>;
-  InputIterType inIter(input->GetFrame(inFrameNum), outputRegionForThread);
+  InputIterType  inIter(input->GetFrame(inFrameNum), outputRegionForThread);
   OutputIterType outIter(output->GetFrame(outFrameNum), outputRegionForThread);
 
   // Pass the values from input to output
-  while(!outIter.IsAtEnd())
-    {
+  while (!outIter.IsAtEnd())
+  {
     // Compute the average and set the output pixel's value
     outIter.Set(inIter.Get());
 
     // Update the iterators
     ++outIter;
     ++inIter;
-    }
+  }
 }
 
 } // end namespace itk

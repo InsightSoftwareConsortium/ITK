@@ -24,76 +24,81 @@
 #include <fstream>
 
 template <typename T>
-void TestTransformIndexToPhysicalPoint(T * image)
+void
+TestTransformIndexToPhysicalPoint(T * image)
 {
   typename T::IndexType index3D;
   typename T::PointType point3D;
 
-    for (int k = 0; k < 10; k++)
-    {
+  for (int k = 0; k < 10; k++)
+  {
     index3D[2] = k;
     for (int j = 0; j < 1000; j++)
-      {
+    {
       index3D[1] = j;
       for (int i = 0; i < 1000; i++)
-        {
+      {
         index3D[0] = i;
         image->TransformIndexToPhysicalPoint(index3D, point3D);
-        }
       }
-    if (k == 5) std::cout << point3D << std::endl;
     }
+    if (k == 5)
+      std::cout << point3D << std::endl;
+  }
 }
 template <typename T>
-void TestTransformPhysicalPointToIndex(T * image)
+void
+TestTransformPhysicalPointToIndex(T * image)
 {
   typename T::IndexType index3D;
   typename T::PointType point3D;
 
-    for (int k = 0; k < 10; k++)
-    {
-    point3D[2] = static_cast <typename itk::NumericTraits <typename T::PointType>::ValueType> ( k );
+  for (int k = 0; k < 10; k++)
+  {
+    point3D[2] = static_cast<typename itk::NumericTraits<typename T::PointType>::ValueType>(k);
     for (int j = 0; j < 1000; j++)
-      {
-      point3D[1] = static_cast <typename itk::NumericTraits <typename T::PointType>::ValueType> ( j );
+    {
+      point3D[1] = static_cast<typename itk::NumericTraits<typename T::PointType>::ValueType>(j);
       for (int i = 0; i < 1000; i++)
-        {
-        point3D[0] = static_cast <typename itk::NumericTraits <typename T::PointType>::ValueType> ( i );
+      {
+        point3D[0] = static_cast<typename itk::NumericTraits<typename T::PointType>::ValueType>(i);
         image->TransformPhysicalPointToIndex(point3D, index3D);
-        }
       }
-    if (k == 5) std::cout << point3D << std::endl;
     }
+    if (k == 5)
+      std::cout << point3D << std::endl;
+  }
 }
 //-------------------------
 //
 //   This file test the interface to the TimeProbe classes
 //
 //-------------------------
-int itkTimeProbesTest(int, char* [] )
+int
+itkTimeProbesTest(int, char *[])
 {
 
-  itk::TimeProbesCollectorBase   collector;
+  itk::TimeProbesCollectorBase collector;
 
-  const unsigned int N =  1000L;
+  const unsigned int N = 1000L;
   const unsigned int M = 10000L;
 
   constexpr unsigned int iteration = 3;
 
-  for(unsigned int it=0; it<iteration; ++it)
-   {
+  for (unsigned int it = 0; it < iteration; ++it)
+  {
     collector.Start("Loop1"); // label that identify the range of the probe
 
     // Do slow stuff here...
     {
-    for(unsigned int i=0; i<N; i++)
+      for (unsigned int i = 0; i < N; i++)
       {
-      auto * dummy = new unsigned int [ M ];
-      for(unsigned int j=0; j<M; j++)
+        auto * dummy = new unsigned int[M];
+        for (unsigned int j = 0; j < M; j++)
         {
-        dummy[j] = j;
+          dummy[j] = j;
         }
-      delete[] dummy;
+        delete[] dummy;
       }
     }
     collector.Stop("Loop1");
@@ -102,45 +107,45 @@ int itkTimeProbesTest(int, char* [] )
 
     // Do other slow stuff here...
     {
-    for(unsigned int i=0; i<M; i++)
+      for (unsigned int i = 0; i < M; i++)
       {
-      auto * dummy = new unsigned int [ N ];
-      for(unsigned int j=0; j<N; j++)
+        auto * dummy = new unsigned int[N];
+        for (unsigned int j = 0; j < N; j++)
         {
-        dummy[j] = j;
+          dummy[j] = j;
         }
-      delete[] dummy;
+        delete[] dummy;
       }
     }
     collector.Stop("Loop2");
 
-    using Image3DType = itk::Image<float,3>;
+    using Image3DType = itk::Image<float, 3>;
 
     Image3DType::Pointer image3D = Image3DType::New();
     Image3DType::Pointer orientedImage3D = Image3DType::New();
 
-    using Region3DType = itk::ImageRegion< 3 >;
+    using Region3DType = itk::ImageRegion<3>;
     using Size3DType = Region3DType::SizeType;
     Region3DType region3D;
-    Size3DType size3D = {{ 1000, 1000, 1000 }};
+    Size3DType   size3D = { { 1000, 1000, 1000 } };
 
-    region3D.SetSize(  size3D );
+    region3D.SetSize(size3D);
     collector.Start("i:TransformIndexToPhysicalPoint");
-    TestTransformIndexToPhysicalPoint<Image3DType> (image3D);
+    TestTransformIndexToPhysicalPoint<Image3DType>(image3D);
     collector.Stop("i:TransformIndexToPhysicalPoint");
 
     collector.Start("i:TransformPhysicalPointToIndex");
-    TestTransformPhysicalPointToIndex<Image3DType> (image3D);
+    TestTransformPhysicalPointToIndex<Image3DType>(image3D);
     collector.Stop("i:TransformPhysicalPointToIndex");
 
     collector.Start("o:TransformIndexToPhysicalPoint");
-    TestTransformIndexToPhysicalPoint<Image3DType> (orientedImage3D);
+    TestTransformIndexToPhysicalPoint<Image3DType>(orientedImage3D);
     collector.Stop("o:TransformIndexToPhysicalPoint");
 
     collector.Start("o:TransformPhysicalPointToIndex");
-    TestTransformPhysicalPointToIndex<Image3DType> (orientedImage3D);
+    TestTransformPhysicalPointToIndex<Image3DType>(orientedImage3D);
     collector.Stop("o:TransformPhysicalPointToIndex");
-    }
+  }
 
   // Print a regualr report (including nameOfProbe, Iteration, Total, Min, Mean, Max, and STD)
   std::cout << std::endl << "Print normal reports from all probes" << std::endl;
@@ -170,9 +175,9 @@ int itkTimeProbesTest(int, char* [] )
   collector.JSONReport("o:TransformPhysicalPointToIndex");
 
   // Test writing to a ostream
-  std::ofstream  logfile;
+  std::ofstream logfile;
   logfile.open("itkTimeProbesTest.txt");
-  collector.Report( logfile );
+  collector.Report(logfile);
   logfile.close();
 
   std::ofstream jsonFile;
@@ -182,11 +187,11 @@ int itkTimeProbesTest(int, char* [] )
 
   // Print to the standard error
   std::cout << std::endl << "Print normal reports from all probes to the standard error" << std::endl;
-  collector.Report( std::cerr );
+  collector.Report(std::cerr);
 
   // Use tabs on the output
-  collector.Report( std::cout, true, true, true );
-  collector.ExpandedReport( std::cout, true, true, true );
+  collector.Report(std::cout, true, true, true);
+  collector.ExpandedReport(std::cout, true, true, true);
 
   return EXIT_SUCCESS;
 }

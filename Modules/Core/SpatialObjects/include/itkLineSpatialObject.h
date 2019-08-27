@@ -36,31 +36,29 @@ namespace itk
  *
  */
 
-template< unsigned int TDimension = 3 >
-class ITK_TEMPLATE_EXPORT LineSpatialObject:
-  public PointBasedSpatialObject<  TDimension,
-    LineSpatialObjectPoint< TDimension> >
+template <unsigned int TDimension = 3>
+class ITK_TEMPLATE_EXPORT LineSpatialObject
+  : public PointBasedSpatialObject<TDimension, LineSpatialObjectPoint<TDimension>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LineSpatialObject);
 
   using Self = LineSpatialObject;
-  using Superclass = PointBasedSpatialObject< TDimension,
-          LineSpatialObjectPoint< TDimension > >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = PointBasedSpatialObject<TDimension, LineSpatialObjectPoint<TDimension>>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using ScalarType = double;
 
-  using LinePointType = LineSpatialObjectPoint< TDimension >;
-  using LinePointListType = std::vector< LinePointType >;
+  using LinePointType = LineSpatialObjectPoint<TDimension>;
+  using LinePointListType = std::vector<LinePointType>;
 
   using SpatialObjectPointType = typename Superclass::SpatialObjectPointType;
   using PointType = typename Superclass::PointType;
   using TransformType = typename Superclass::TransformType;
   using BoundingBoxType = typename Superclass::BoundingBoxType;
-  using PointContainerType = VectorContainer< IdentifierType, PointType >;
-  using PointContainerPointer = SmartPointer< PointContainerType >;
+  using PointContainerType = VectorContainer<IdentifierType, PointType>;
+  using PointContainerPointer = SmartPointer<PointContainerType>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -70,7 +68,8 @@ public:
 
   /** Returns true if the line is evaluable at the requested point,
    *  false otherwise. */
-  bool IsInsideInObjectSpace(const PointType & point) const override;
+  bool
+  IsInsideInObjectSpace(const PointType & point) const override;
 
   /* Avoid hiding the overload that supports depth and name arguments */
   using Superclass::IsInsideInObjectSpace;
@@ -80,15 +79,16 @@ protected:
   ~LineSpatialObject() override = default;
 
   /** Method to print the object. */
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  typename LightObject::Pointer InternalClone() const override;
-
+  typename LightObject::Pointer
+  InternalClone() const override;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLineSpatialObject.hxx"
+#  include "itkLineSpatialObject.hxx"
 #endif
 
 #endif // itkLineSpatialObject_h

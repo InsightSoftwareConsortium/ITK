@@ -47,46 +47,46 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 
-template< typename TImage >
-class ITK_TEMPLATE_EXPORT ScalarImageToCooccurrenceListSampleFilter:
-  public ProcessObject
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT ScalarImageToCooccurrenceListSampleFilter : public ProcessObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ScalarImageToCooccurrenceListSampleFilter);
 
   using ImageType = TImage;
 
-  using MeasurementVectorType = FixedArray< typename TImage::PixelType, 2 >;
+  using MeasurementVectorType = FixedArray<typename TImage::PixelType, 2>;
 
-  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
+  using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
   using MeasurementVectorSizeType = typename SampleType::MeasurementVectorSizeType;
 
   /** Standard class type aliases */
   using Self = ScalarImageToCooccurrenceListSampleFilter;
   using Superclass = ProcessObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Neighborhood iterator type. */
-  using ShapedNeighborhoodIteratorType = itk::ShapedNeighborhoodIterator<
-    TImage,
-    ConstantBoundaryCondition< TImage >
-    >;
+  using ShapedNeighborhoodIteratorType = itk::ShapedNeighborhoodIterator<TImage, ConstantBoundaryCondition<TImage>>;
 
   /** Offset type used for Neighborhoods */
   using OffsetType = typename ShapedNeighborhoodIteratorType::OffsetType;
-  using OffsetTable = std::vector< OffsetType >;
+  using OffsetTable = std::vector<OffsetType>;
 
-  void UseNeighbor(const OffsetType & offset);
+  void
+  UseNeighbor(const OffsetType & offset);
 
   /** Method to set/get the image */
   using Superclass::SetInput;
-  void SetInput(const ImageType *image);
+  void
+  SetInput(const ImageType * image);
 
-  const ImageType * GetInput() const;
+  const ImageType *
+  GetInput() const;
 
   /** method to get the List sample */
-  const SampleType * GetOutput() const;
+  const SampleType *
+  GetOutput() const;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ScalarImageToCooccurrenceListSampleFilter, ProcessObject);
@@ -103,24 +103,27 @@ public:
 protected:
   ScalarImageToCooccurrenceListSampleFilter();
   ~ScalarImageToCooccurrenceListSampleFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   using DataObjectPointer = DataObject::Pointer;
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
+  DataObjectPointer
+  MakeOutput(DataObjectPointerArraySizeType idx) override;
 
   /** This method causes the filter to generate its output. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   OffsetTable m_OffsetTable;
-};  // end of class ScalarImageToListSampleFilter
+}; // end of class ScalarImageToListSampleFilter
 } // end of namespace Statistics
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkScalarImageToCooccurrenceListSampleFilter.hxx"
+#  include "itkScalarImageToCooccurrenceListSampleFilter.hxx"
 #endif
 
 #endif

@@ -42,29 +42,26 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage, typename TKernel >
-RankImageFilter< TInputImage, TOutputImage, TKernel >
-::RankImageFilter()
+template <typename TInputImage, typename TOutputImage, typename TKernel>
+RankImageFilter<TInputImage, TOutputImage, TKernel>::RankImageFilter()
 {
   m_Rank = 0.5;
 }
 
-template< typename TInputImage, typename TOutputImage, typename TKernel >
+template <typename TInputImage, typename TOutputImage, typename TKernel>
 void
-RankImageFilter< TInputImage, TOutputImage, TKernel >
-::ConfigureHistogram(HistogramType & histogram)
+RankImageFilter<TInputImage, TOutputImage, TKernel>::ConfigureHistogram(HistogramType & histogram)
 {
-  histogram.SetRank( m_Rank );
+  histogram.SetRank(m_Rank);
 }
 
-template< typename TInputImage, typename TOutputImage, typename TKernel >
+template <typename TInputImage, typename TOutputImage, typename TKernel>
 void
-RankImageFilter< TInputImage, TOutputImage, TKernel >
-::PrintSelf(std::ostream & os, Indent indent) const
+RankImageFilter<TInputImage, TOutputImage, TKernel>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Rank: " << static_cast< typename NumericTraits< float >::PrintType >( m_Rank ) << std::endl;
+  os << indent << "Rank: " << static_cast<typename NumericTraits<float>::PrintType>(m_Rank) << std::endl;
 }
 } // end namespace itk
 #endif

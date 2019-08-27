@@ -24,19 +24,18 @@
 #include "itkSubtractImageFilter.h"
 #include "itkStatisticsImageFilter.h"
 
-int itkDCMTKImageIOSlopeInterceptTest(int ac, char * av[])
+int
+itkDCMTKImageIOSlopeInterceptTest(int ac, char * av[])
 {
-  if(ac < 3)
-    {
-    std::cerr << "Usage: " << av[0]
-              << " <original image> <slope intercept image>"
-              << std::endl;
+  if (ac < 3)
+  {
+    std::cerr << "Usage: " << av[0] << " <original image> <slope intercept image>" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   using PixelType = short;
-  using ImageType = itk::Image< PixelType, 3 >;
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ImageType = itk::Image<PixelType, 3>;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   using ImageIOType = itk::DCMTKImageIO;
 
   const PixelType rescaleSlope(2);
@@ -45,24 +44,24 @@ int itkDCMTKImageIOSlopeInterceptTest(int ac, char * av[])
   ImageIOType::Pointer dcmImageIO = ImageIOType::New();
 
   ImageType::Pointer images[2];
-  for(unsigned i = 0; i < 2; ++i)
-    {
+  for (unsigned i = 0; i < 2; ++i)
+  {
     ReaderType::Pointer reader = ReaderType::New();
-    reader->SetFileName( av[i+1] );
-    reader->SetImageIO( dcmImageIO );
+    reader->SetFileName(av[i + 1]);
+    reader->SetImageIO(dcmImageIO);
 
     try
-      {
+    {
       reader->Update();
-      }
+    }
     catch (itk::ExceptionObject & e)
-      {
+    {
       std::cerr << "exception in file reader " << std::endl;
       std::cerr << e << std::endl;
       return EXIT_FAILURE;
-      }
-    images[i] = reader->GetOutput();
     }
+    images[i] = reader->GetOutput();
+  }
 
   //
   // the two inputs are a DICOM image without slope/intercept tags,
@@ -71,19 +70,19 @@ int itkDCMTKImageIOSlopeInterceptTest(int ac, char * av[])
   // from the second, then look for non-zero min/max/mean.  They
   // should be identical.
   using ItType = itk::ImageRegionConstIterator<ImageType>;
-  ItType it1(images[0],images[0]->GetLargestPossibleRegion());
-  ItType it2(images[1],images[1]->GetLargestPossibleRegion());
-  for(it1.GoToBegin(), it2.GoToBegin(); !it1.IsAtEnd() && !it2.IsAtEnd(); ++it1, ++it2)
-    {
-    PixelType pix1(it1.Get());
+  ItType it1(images[0], images[0]->GetLargestPossibleRegion());
+  ItType it2(images[1], images[1]->GetLargestPossibleRegion());
+  for (it1.GoToBegin(), it2.GoToBegin(); !it1.IsAtEnd() && !it2.IsAtEnd(); ++it1, ++it2)
+  {
+    PixelType       pix1(it1.Get());
     const PixelType pix2(it2.Get());
     pix1 = (pix1 * rescaleSlope) + rescaleIntercept;
-    if(pix1 != pix2)
-      {
-      std::cerr << "computed pixel doesn't match pixel from slopeIntercept image: computed = "
-                << pix1 << " slopeIntercept image = " << pix2 << std::endl;
+    if (pix1 != pix2)
+    {
+      std::cerr << "computed pixel doesn't match pixel from slopeIntercept image: computed = " << pix1
+                << " slopeIntercept image = " << pix2 << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
   return EXIT_SUCCESS;
 }

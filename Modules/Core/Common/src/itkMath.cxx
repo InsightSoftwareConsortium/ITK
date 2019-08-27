@@ -27,82 +27,90 @@ namespace
 
 template <typename T>
 inline bool
-IsPrime( T n )
+IsPrime(T n)
 {
-  if( n <= 1 )
+  if (n <= 1)
   {
     return false;
   }
-  const auto last = (T)std::sqrt( (double)n );
-  for( T x=2; x<=last; ++x )
+  const auto last = (T)std::sqrt((double)n);
+  for (T x = 2; x <= last; ++x)
+  {
+    if (n % x == 0)
     {
-    if( n%x == 0 )
-      {
       return false;
-      }
     }
+  }
   return true;
 }
 
 template <typename T>
 inline T
-GreatestPrimeFactor( T n )
+GreatestPrimeFactor(T n)
 {
   T v = 2;
-  while( v <= n )
+  while (v <= n)
+  {
+    if (n % v == 0 && IsPrime(v))
     {
-    if( n % v == 0 && IsPrime( v ) )
-      {
       n /= v;
-      }
-    else
-      {
-      v += 1;
-      }
     }
+    else
+    {
+      v += 1;
+    }
+  }
   return v;
 }
 
 } // end anonymous namespace
 
 
-bool IsPrime( unsigned short n )
+bool
+IsPrime(unsigned short n)
 {
   return IsPrime<unsigned short>(n);
 }
 
-bool IsPrime( unsigned int n )
+bool
+IsPrime(unsigned int n)
 {
   return IsPrime<unsigned int>(n);
 }
 
-bool IsPrime( unsigned long n )
+bool
+IsPrime(unsigned long n)
 {
   return IsPrime<unsigned long>(n);
 }
 
-bool IsPrime( unsigned long long n )
+bool
+IsPrime(unsigned long long n)
 {
   return IsPrime<unsigned long long>(n);
 }
 
 
-unsigned short GreatestPrimeFactor( unsigned short n )
+unsigned short
+GreatestPrimeFactor(unsigned short n)
 {
   return GreatestPrimeFactor<unsigned short>(n);
 }
 
-unsigned int GreatestPrimeFactor( unsigned int n )
+unsigned int
+GreatestPrimeFactor(unsigned int n)
 {
   return GreatestPrimeFactor<unsigned int>(n);
 }
 
-unsigned long GreatestPrimeFactor( unsigned long n )
+unsigned long
+GreatestPrimeFactor(unsigned long n)
 {
   return GreatestPrimeFactor<unsigned long>(n);
 }
 
-unsigned long long GreatestPrimeFactor( unsigned long long n )
+unsigned long long
+GreatestPrimeFactor(unsigned long long n)
 {
   return GreatestPrimeFactor<unsigned long long>(n);
 }

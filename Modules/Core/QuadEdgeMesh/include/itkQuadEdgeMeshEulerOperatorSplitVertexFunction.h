@@ -35,18 +35,18 @@ namespace itk
  * \ingroup QuadEdgeMeshModifierFunctions
  * \ingroup ITKQuadEdgeMesh
  */
-template< typename TMesh, typename TQEType >
-class ITK_TEMPLATE_EXPORT QuadEdgeMeshEulerOperatorSplitVertexFunction:
-  public QuadEdgeMeshFunctionBase< TMesh, TQEType * >
+template <typename TMesh, typename TQEType>
+class ITK_TEMPLATE_EXPORT QuadEdgeMeshEulerOperatorSplitVertexFunction
+  : public QuadEdgeMeshFunctionBase<TMesh, TQEType *>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshEulerOperatorSplitVertexFunction);
 
   /** Standard class type aliases. */
   using Self = QuadEdgeMeshEulerOperatorSplitVertexFunction;
-  using Superclass = QuadEdgeMeshFunctionBase< TMesh, TQEType * >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = QuadEdgeMeshFunctionBase<TMesh, TQEType *>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   itkNewMacro(Self);
   /** Run-time type information (and related methods). */
@@ -62,18 +62,17 @@ public:
   using PointIdentifier = typename MeshType::PointIdentifier;
 
   /** Evaluate at the specified input position */
-  virtual OutputType Evaluate(QEType *e, QEType *f);
+  virtual OutputType
+  Evaluate(QEType * e, QEType * f);
 
-  PointIdentifier GetNewPointID()
+  PointIdentifier
+  GetNewPointID()
   {
-    return ( this->m_NewPoint );
+    return (this->m_NewPoint);
   }
 
 protected:
-  QuadEdgeMeshEulerOperatorSplitVertexFunction()
-  {
-    m_NewPoint = (PointIdentifier)0;
-  }
+  QuadEdgeMeshEulerOperatorSplitVertexFunction() { m_NewPoint = (PointIdentifier)0; }
 
   ~QuadEdgeMeshEulerOperatorSplitVertexFunction() override = default;
 

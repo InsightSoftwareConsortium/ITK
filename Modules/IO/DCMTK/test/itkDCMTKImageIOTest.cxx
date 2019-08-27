@@ -25,69 +25,68 @@
 
 // Specific ImageIO test
 
-int itkDCMTKImageIOTest(int ac, char* av[])
+int
+itkDCMTKImageIOTest(int ac, char * av[])
 {
 
-  if(ac < 5)
-    {
+  if (ac < 5)
+  {
     std::cerr << "Usage: " << av[0] << " DicomImage OutputDicomImage OutputImage RescalDicomImage\n";
     return EXIT_FAILURE;
-    }
+  }
 
   using InputPixelType = short;
-  using InputImageType = itk::Image< InputPixelType, 2 >;
-  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using InputImageType = itk::Image<InputPixelType, 2>;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
 
   using ImageIOType = itk::DCMTKImageIO;
   ImageIOType::Pointer dcmtkImageIO = ImageIOType::New();
 
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( av[1] );
-  reader->SetImageIO( dcmtkImageIO );
+  reader->SetFileName(av[1]);
+  reader->SetImageIO(dcmtkImageIO);
   // reader->DebugOn();
 
   try
-    {
+  {
     reader->Update();
-    }
+  }
   catch (itk::ExceptionObject & e)
-    {
+  {
     std::cerr << "exception in file reader " << std::endl;
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Rescale intensities and rewrite the image in another format
   //
   using WritePixelType = unsigned char;
-  using WriteImageType = itk::Image< WritePixelType, 2 >;
-  using RescaleFilterType = itk::RescaleIntensityImageFilter<
-    InputImageType, WriteImageType >;
+  using WriteImageType = itk::Image<WritePixelType, 2>;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter<InputImageType, WriteImageType>;
 
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
-  rescaler->SetOutputMinimum(   0 );
-  rescaler->SetOutputMaximum( 255 );
-  rescaler->SetInput( reader->GetOutput() );
+  rescaler->SetOutputMinimum(0);
+  rescaler->SetOutputMaximum(255);
+  rescaler->SetInput(reader->GetOutput());
 
-  using Writer2Type = itk::ImageFileWriter< WriteImageType >;
+  using Writer2Type = itk::ImageFileWriter<WriteImageType>;
   Writer2Type::Pointer writer2 = Writer2Type::New();
   // writer2->DebugOn();
-  writer2->SetFileName( av[3] );
-  writer2->SetInput( rescaler->GetOutput() );
+  writer2->SetFileName(av[3]);
+  writer2->SetInput(rescaler->GetOutput());
 
   try
-    {
+  {
     writer2->Update();
-    }
+  }
   catch (itk::ExceptionObject & e)
-    {
+  {
     std::cerr << "exception in file writer " << std::endl;
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  dcmtkImageIO->Print( std::cout );
+  dcmtkImageIO->Print(std::cout);
 
   return EXIT_SUCCESS;
-
 }

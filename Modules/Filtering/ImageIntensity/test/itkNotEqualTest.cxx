@@ -20,7 +20,8 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkLogicTestSupport.h"
 
-int itkNotEqualTest(int, char* [] )
+int
+itkNotEqualTest(int, char *[])
 {
 
   // Define the dimension of the images
@@ -46,9 +47,7 @@ int itkNotEqualTest(int, char* [] )
     myImageType1,
     myImageType2,
     myImageType3,
-    itk::Functor::NotEqual<myImageType1::PixelType,
-                           myImageType2::PixelType,
-                           myImageType3::PixelType> >;
+    itk::Functor::NotEqual<myImageType1::PixelType, myImageType2::PixelType, myImageType3::PixelType>>;
 
   // Declare the pointers to images
   using myImageType1Pointer = myImageType1::Pointer;
@@ -57,8 +56,8 @@ int itkNotEqualTest(int, char* [] )
   using myFilterTypePointer = myFilterType::Pointer;
 
   // Create two images
-  myImageType1Pointer inputImageA  = myImageType1::New();
-  myImageType2Pointer inputImageB  = myImageType2::New();
+  myImageType1Pointer inputImageA = myImageType1::New();
+  myImageType2Pointer inputImageB = myImageType2::New();
 
   // Define their size, and start index
   mySizeType size;
@@ -72,19 +71,19 @@ int itkNotEqualTest(int, char* [] )
   start[2] = 0;
 
   myRegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
+  region.SetIndex(start);
+  region.SetSize(size);
 
   // Initialize Image A
-  inputImageA->SetLargestPossibleRegion( region );
-  inputImageA->SetBufferedRegion( region );
-  inputImageA->SetRequestedRegion( region );
+  inputImageA->SetLargestPossibleRegion(region);
+  inputImageA->SetBufferedRegion(region);
+  inputImageA->SetRequestedRegion(region);
   inputImageA->Allocate();
 
   // Initialize Image B
-  inputImageB->SetLargestPossibleRegion( region );
-  inputImageB->SetBufferedRegion( region );
-  inputImageB->SetRequestedRegion( region );
+  inputImageB->SetLargestPossibleRegion(region);
+  inputImageB->SetBufferedRegion(region);
+  inputImageB->SetRequestedRegion(region);
   inputImageB->Allocate();
 
 
@@ -93,115 +92,115 @@ int itkNotEqualTest(int, char* [] )
   using myIteratorType2 = itk::ImageRegionIteratorWithIndex<myImageType2>;
 
   // Create one iterator for Image A (this is a light object)
-  myIteratorType1 it1( inputImageA, inputImageA->GetBufferedRegion() );
+  myIteratorType1 it1(inputImageA, inputImageA->GetBufferedRegion());
 
   // Initialize the content of Image A
-  it1.Set( 3.0 );
+  it1.Set(3.0);
   ++it1;
-  while( !it1.IsAtEnd() )
-    {
-    it1.Set( 2.0 );
-    //std::cout << it1.Get() << std::endl;
+  while (!it1.IsAtEnd())
+  {
+    it1.Set(2.0);
+    // std::cout << it1.Get() << std::endl;
     ++it1;
-    }
+  }
 
   // Create one iterator for Image B (this is a light object)
-  myIteratorType2 it2( inputImageB, inputImageB->GetBufferedRegion() );
+  myIteratorType2 it2(inputImageB, inputImageB->GetBufferedRegion());
 
   // Initialize the content of Image B
-  while( !it2.IsAtEnd() )
-    {
-    it2.Set( 3.0 );
+  while (!it2.IsAtEnd())
+  {
+    it2.Set(3.0);
     ++it2;
-    }
+  }
 
   {
-  // Create a logic Filter
-  myFilterTypePointer filter = myFilterType::New();
+    // Create a logic Filter
+    myFilterTypePointer filter = myFilterType::New();
 
-  // Connect the input images
-  filter->SetInput1( inputImageA );
-  filter->SetInput2( inputImageB );
+    // Connect the input images
+    filter->SetInput1(inputImageA);
+    filter->SetInput2(inputImageB);
 
-  filter->SetFunctor(filter->GetFunctor());
+    filter->SetFunctor(filter->GetFunctor());
 
-  // Get the Smart Pointer to the Filter Output
-  myImageType3Pointer outputImage = filter->GetOutput();
+    // Get the Smart Pointer to the Filter Output
+    myImageType3Pointer outputImage = filter->GetOutput();
 
-  // Execute the filter
-  filter->GetFunctor().SetForegroundValue(3);
-  filter->Update();
+    // Execute the filter
+    filter->GetFunctor().SetForegroundValue(3);
+    filter->Update();
 
-  PixelType FG = filter->GetFunctor().GetForegroundValue();
-  PixelType BG = filter->GetFunctor().GetBackgroundValue();
+    PixelType FG = filter->GetFunctor().GetForegroundValue();
+    PixelType BG = filter->GetFunctor().GetBackgroundValue();
 
-  int status1 = checkImOnImRes < myImageType1, myImageType2, myImageType3, std::not_equal_to<myImageType1::PixelType> >
-                             (inputImageA, inputImageB, outputImage, FG, BG);
-  if (status1 == EXIT_FAILURE)
+    int status1 = checkImOnImRes<myImageType1, myImageType2, myImageType3, std::not_equal_to<myImageType1::PixelType>>(
+      inputImageA, inputImageB, outputImage, FG, BG);
+    if (status1 == EXIT_FAILURE)
     {
-    return(EXIT_FAILURE);
+      return (EXIT_FAILURE);
     }
-  else
+    else
     {
-    std::cout << "Step 1 passed" << std::endl;
+      std::cout << "Step 1 passed" << std::endl;
     }
   }
   {
-  // Create a logic Filter
-  myFilterTypePointer filter = myFilterType::New();
-  // Connect the input images
-  filter->SetInput1( inputImageA );
+    // Create a logic Filter
+    myFilterTypePointer filter = myFilterType::New();
+    // Connect the input images
+    filter->SetInput1(inputImageA);
 
-  filter->SetFunctor(filter->GetFunctor());
+    filter->SetFunctor(filter->GetFunctor());
 
-  // Get the Smart Pointer to the Filter Output
-  myImageType3Pointer outputImage = filter->GetOutput();
+    // Get the Smart Pointer to the Filter Output
+    myImageType3Pointer outputImage = filter->GetOutput();
 
-  // Now try testing with constant : Im1 != 2
-  filter->SetConstant2(2.0);
-  filter->Update();
+    // Now try testing with constant : Im1 != 2
+    filter->SetConstant2(2.0);
+    filter->Update();
 
-  PixelType FG = filter->GetFunctor().GetForegroundValue();
-  PixelType BG = filter->GetFunctor().GetBackgroundValue();
-  PixelType C = filter->GetConstant2();
-  int status2 = checkImOnConstRes < myImageType1, PixelType, myImageType3, std::not_equal_to<PixelType> >
-                                (inputImageA, C, outputImage, FG, BG);
-  if (status2 == EXIT_FAILURE)
+    PixelType FG = filter->GetFunctor().GetForegroundValue();
+    PixelType BG = filter->GetFunctor().GetBackgroundValue();
+    PixelType C = filter->GetConstant2();
+    int       status2 = checkImOnConstRes<myImageType1, PixelType, myImageType3, std::not_equal_to<PixelType>>(
+      inputImageA, C, outputImage, FG, BG);
+    if (status2 == EXIT_FAILURE)
     {
-    return(EXIT_FAILURE);
+      return (EXIT_FAILURE);
     }
-  else
+    else
     {
-    std::cout << "Step 2 passed " << std::endl;
+      std::cout << "Step 2 passed " << std::endl;
     }
   }
   {
-  // Now try testing with constant : 3 != Im2
-  // Create a logic Filter
-  myFilterTypePointer filter = myFilterType::New();
+    // Now try testing with constant : 3 != Im2
+    // Create a logic Filter
+    myFilterTypePointer filter = myFilterType::New();
 
-  // Connect the input images
-  filter->SetFunctor(filter->GetFunctor());
+    // Connect the input images
+    filter->SetFunctor(filter->GetFunctor());
 
-  // Get the Smart Pointer to the Filter Output
-  myImageType3Pointer outputImage = filter->GetOutput();
-  filter->SetConstant1(3.0);
-  filter->SetInput2(inputImageB);
-  filter->Update();
-  PixelType FG = filter->GetFunctor().GetForegroundValue();
-  PixelType BG = filter->GetFunctor().GetBackgroundValue();
+    // Get the Smart Pointer to the Filter Output
+    myImageType3Pointer outputImage = filter->GetOutput();
+    filter->SetConstant1(3.0);
+    filter->SetInput2(inputImageB);
+    filter->Update();
+    PixelType FG = filter->GetFunctor().GetForegroundValue();
+    PixelType BG = filter->GetFunctor().GetBackgroundValue();
 
-  int status3 = checkConstOnImRes < PixelType, myImageType2, myImageType3, std::not_equal_to<PixelType> >
-                                (filter->GetConstant1(),  inputImageB, outputImage, FG, BG);
-  if (status3 == EXIT_FAILURE)
+    int status3 = checkConstOnImRes<PixelType, myImageType2, myImageType3, std::not_equal_to<PixelType>>(
+      filter->GetConstant1(), inputImageB, outputImage, FG, BG);
+    if (status3 == EXIT_FAILURE)
     {
-    return(EXIT_FAILURE);
+      return (EXIT_FAILURE);
     }
-  else
+    else
     {
-    std::cout << "Step 3 passed" << std::endl;
+      std::cout << "Step 3 passed" << std::endl;
     }
   }
-// All objects should be automatically destroyed at this point
-return EXIT_SUCCESS;
+  // All objects should be automatically destroyed at this point
+  return EXIT_SUCCESS;
 }

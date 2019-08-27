@@ -22,42 +22,43 @@
 #include "itkHistogramToTextureFeaturesFilter.h"
 #include "itkMath.h"
 
-int itkHistogramToTextureFeaturesFilterNaNTest( int, char * [])
+int
+itkHistogramToTextureFeaturesFilterNaNTest(int, char *[])
 {
   constexpr unsigned int Dimension = 2;
   using PixelType = unsigned char;
-  using ImageType = itk::Image< PixelType, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
   // Build a constant image
-  ImageType::Pointer image = ImageType::New();
+  ImageType::Pointer    image = ImageType::New();
   ImageType::RegionType region;
-  ImageType::SizeType size;
-  size.Fill( 256 );
-  region.SetSize( size );
-  image->SetRegions( region );
+  ImageType::SizeType   size;
+  size.Fill(256);
+  region.SetSize(size);
+  image->SetRegions(region);
   image->Allocate();
-  image->FillBuffer( 128 );
+  image->FillBuffer(128);
 
   // Generate co-occurence matrix
-  using MatrixGeneratorType = itk::Statistics::ScalarImageToCooccurrenceMatrixFilter< ImageType >;
-  MatrixGeneratorType::Pointer generator = MatrixGeneratorType::New();
+  using MatrixGeneratorType = itk::Statistics::ScalarImageToCooccurrenceMatrixFilter<ImageType>;
+  MatrixGeneratorType::Pointer    generator = MatrixGeneratorType::New();
   MatrixGeneratorType::OffsetType offset;
-  offset.Fill( 1 );
-  generator->SetOffset( offset );
-  generator->SetInput( image );
+  offset.Fill(1);
+  generator->SetOffset(offset);
+  generator->SetInput(image);
   generator->Update();
 
-  using TextureFilterType = itk::Statistics::HistogramToTextureFeaturesFilter< MatrixGeneratorType::HistogramType >;
+  using TextureFilterType = itk::Statistics::HistogramToTextureFeaturesFilter<MatrixGeneratorType::HistogramType>;
   TextureFilterType::Pointer filter = TextureFilterType::New();
-  filter->SetInput( generator->GetOutput() );
+  filter->SetInput(generator->GetOutput());
   filter->Update();
 
   TextureFilterType::MeasurementType correlation = filter->GetCorrelation();
   std::cout << "Correlation: " << correlation << std::endl;
-  if( itk::Math::isnan( correlation ) )
-    {
+  if (itk::Math::isnan(correlation))
+  {
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

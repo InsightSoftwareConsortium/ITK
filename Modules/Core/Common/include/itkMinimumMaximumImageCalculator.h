@@ -40,8 +40,8 @@ namespace itk
  * \sphinxexample{Developer/OilPaintingImageFilter,Multi-threaded oil painting image filter}
  * \endsphinx
  */
-template< typename TInputImage >
-class ITK_TEMPLATE_EXPORT MinimumMaximumImageCalculator:public Object
+template <typename TInputImage>
+class ITK_TEMPLATE_EXPORT MinimumMaximumImageCalculator : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MinimumMaximumImageCalculator);
@@ -49,8 +49,8 @@ public:
   /** Standard class type aliases. */
   using Self = MinimumMaximumImageCalculator;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -80,13 +80,16 @@ public:
   itkSetConstObjectMacro(Image, ImageType);
 
   /** Compute the minimum value of intensity of the input image. */
-  void ComputeMinimum();
+  void
+  ComputeMinimum();
 
   /** Compute the maximum value of intensity of the input image. */
-  void ComputeMaximum();
+  void
+  ComputeMaximum();
 
   /** Compute the minimum and maximum values of intensity of the input image. */
-  void Compute();
+  void
+  Compute();
 
   /** Return the minimum intensity value. */
   itkGetConstMacro(Minimum, PixelType);
@@ -101,12 +104,14 @@ public:
   itkGetConstReferenceMacro(IndexOfMaximum, IndexType);
 
   /** Set the region over which the values will be computed */
-  void SetRegion(const RegionType & region);
+  void
+  SetRegion(const RegionType & region);
 
 protected:
   MinimumMaximumImageCalculator();
   ~MinimumMaximumImageCalculator() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   PixelType         m_Minimum;
@@ -122,7 +127,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMinimumMaximumImageCalculator.hxx"
+#  include "itkMinimumMaximumImageCalculator.hxx"
 #endif
 
 #endif /* itkMinimumMaximumImageCalculator_h */

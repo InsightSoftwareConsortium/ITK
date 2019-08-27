@@ -47,19 +47,17 @@ namespace itk
  * \sa ParameterizationQuadEdgeMeshFilter
  * \ingroup ITKQuadEdgeMeshFiltering
  */
-template< typename TInputMesh, typename TOutputMesh=TInputMesh >
-class ITK_TEMPLATE_EXPORT BorderQuadEdgeMeshFilter:
-  public QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
+template <typename TInputMesh, typename TOutputMesh = TInputMesh>
+class ITK_TEMPLATE_EXPORT BorderQuadEdgeMeshFilter : public QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BorderQuadEdgeMeshFilter);
 
   /** Basic types. */
   using Self = BorderQuadEdgeMeshFilter;
-  using Superclass = QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh,
-                                            TOutputMesh >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using InputMeshType = TInputMesh;
   using InputMeshConstPointer = typename InputMeshType::ConstPointer;
@@ -71,7 +69,7 @@ public:
   using InputIteratorGeom = typename InputQEType::IteratorGeom;
   using InputVectorType = typename InputMeshType::VectorType;
   using InputEdgeListType = typename InputMeshType::EdgeListType;
-  using InputEdgeListPointerType = AutoPointer< InputEdgeListType >;
+  using InputEdgeListPointerType = AutoPointer<InputEdgeListType>;
   using InputEdgeListIterator = typename InputEdgeListType::iterator;
   using InputEdgeCellType = typename InputMeshType::EdgeCellType;
   using InputPolygonCellType = typename InputMeshType::PolygonCellType;
@@ -100,44 +98,50 @@ public:
   itkTypeMacro(BorderQuadEdgeMeshFilter, QuadEdgeMeshToQuadEdgeMeshFilter);
   static constexpr unsigned int PointDimension = InputTraits::PointDimension;
 
-  using InputVectorPointType = std::vector< InputPointType >;
-  using MapPointIdentifier = std::map< InputPointIdentifier, OutputPointIdentifier >;
+  using InputVectorPointType = std::vector<InputPointType>;
+  using MapPointIdentifier = std::map<InputPointIdentifier, OutputPointIdentifier>;
   using MapPointIdentifierIterator = typename MapPointIdentifier::iterator;
 
-  using BoundaryRepresentativeEdgesType = QuadEdgeMeshBoundaryEdgesMeshFunction< InputMeshType >;
+  using BoundaryRepresentativeEdgesType = QuadEdgeMeshBoundaryEdgesMeshFunction<InputMeshType>;
   using BoundaryRepresentativeEdgesPointer = typename BoundaryRepresentativeEdgesType::Pointer;
 
-  enum BorderTransformType {
+  enum BorderTransformType
+  {
     SQUARE_BORDER_TRANSFORM = 0,
     DISK_BORDER_TRANSFORM
-    };
+  };
 
-  enum BorderPickType {
+  enum BorderPickType
+  {
     LONGEST = 0,
     LARGEST
-    };
+  };
 
   itkSetMacro(TransformType, BorderTransformType);
   itkGetConstMacro(TransformType, BorderTransformType);
 
-  itkSetMacro( BorderPick, BorderPickType );
-  itkGetConstMacro( BorderPick, BorderPickType );
+  itkSetMacro(BorderPick, BorderPickType);
+  itkGetConstMacro(BorderPick, BorderPickType);
 
   itkSetMacro(Radius, InputCoordRepType);
   itkGetConstMacro(Radius, InputCoordRepType);
 
-  void ComputeTransform();
+  void
+  ComputeTransform();
 
-  MapPointIdentifier GetBoundaryPtMap();
+  MapPointIdentifier
+  GetBoundaryPtMap();
 
-  InputVectorPointType GetBorder();
+  InputVectorPointType
+  GetBorder();
 
 protected:
   BorderQuadEdgeMeshFilter();
 
   ~BorderQuadEdgeMeshFilter() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   BorderTransformType m_TransformType;
   BorderPickType      m_BorderPick;
@@ -148,26 +152,34 @@ protected:
 
   MapPointIdentifier m_BoundaryPtMap;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  void ComputeBoundary();
+  void
+  ComputeBoundary();
 
-  InputQEType* ComputeLongestBorder();
+  InputQEType *
+  ComputeLongestBorder();
 
-  InputQEType* ComputeLargestBorder();
+  InputQEType *
+  ComputeLargestBorder();
 
-  void DiskTransform();
+  void
+  DiskTransform();
 
-  InputPointType GetMeshBarycentre();
+  InputPointType
+  GetMeshBarycentre();
 
-  InputCoordRepType RadiusMaxSquare();
+  InputCoordRepType
+  RadiusMaxSquare();
 
-  void ArcLengthSquareTransform();
+  void
+  ArcLengthSquareTransform();
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBorderQuadEdgeMeshFilter.hxx"
+#  include "itkBorderQuadEdgeMeshFilter.hxx"
 #endif
 
 #endif

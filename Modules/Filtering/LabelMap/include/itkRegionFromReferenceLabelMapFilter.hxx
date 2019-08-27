@@ -31,44 +31,40 @@
 
 namespace itk
 {
-template< typename TInputImage >
+template <typename TInputImage>
 void
-RegionFromReferenceLabelMapFilter< TInputImage >
-::GenerateOutputInformation()
+RegionFromReferenceLabelMapFilter<TInputImage>::GenerateOutputInformation()
 {
   Superclass::GenerateOutputInformation();
 
-  this->SetRegion( this->GetReferenceImage()->GetLargestPossibleRegion() );
-  this->GetOutput()->SetLargestPossibleRegion( this->GetRegion() );
+  this->SetRegion(this->GetReferenceImage()->GetLargestPossibleRegion());
+  this->GetOutput()->SetLargestPossibleRegion(this->GetRegion());
 }
 
-template< typename TInputImage >
+template <typename TInputImage>
 void
-RegionFromReferenceLabelMapFilter< TInputImage >
-::SetReferenceImage(const ReferenceImageType *image)
+RegionFromReferenceLabelMapFilter<TInputImage>::SetReferenceImage(const ReferenceImageType * image)
 {
   itkDebugMacro("setting input ReferenceImage to " << image);
-  if ( image != static_cast< const ReferenceImageType * >( this->GetInput(1) ) )
-    {
-    this->ProcessObject::SetNthInput( 1, const_cast< ReferenceImageType * >( image ) );
+  if (image != static_cast<const ReferenceImageType *>(this->GetInput(1)))
+  {
+    this->ProcessObject::SetNthInput(1, const_cast<ReferenceImageType *>(image));
     this->Modified();
-    }
+  }
 }
 
-template< typename TInputImage >
-const typename RegionFromReferenceLabelMapFilter< TInputImage >::ReferenceImageType *
-RegionFromReferenceLabelMapFilter< TInputImage >
-::GetReferenceImage() const
+template <typename TInputImage>
+const typename RegionFromReferenceLabelMapFilter<TInputImage>::ReferenceImageType *
+RegionFromReferenceLabelMapFilter<TInputImage>::GetReferenceImage() const
 {
-  auto * surrogate = const_cast< Self * >( this );
+  auto * surrogate = const_cast<Self *>(this);
 
   return itkDynamicCastInDebugMode<const ReferenceImageType *>(surrogate->ProcessObject::GetInput(1));
 }
 
-template< typename TInputImage >
+template <typename TInputImage>
 void
-RegionFromReferenceLabelMapFilter< TInputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+RegionFromReferenceLabelMapFilter<TInputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
 }

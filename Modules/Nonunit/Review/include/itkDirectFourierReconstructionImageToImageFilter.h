@@ -47,9 +47,9 @@ namespace itk
  * \ingroup ImageFilters
  * \ingroup ITKReview
  */
-template< typename TInputImage, typename TOutputImage=TInputImage >
-class ITK_TEMPLATE_EXPORT DirectFourierReconstructionImageToImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage = TInputImage>
+class ITK_TEMPLATE_EXPORT DirectFourierReconstructionImageToImageFilter
+  : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(DirectFourierReconstructionImageToImageFilter);
@@ -63,12 +63,12 @@ public:
   using OutputPixelType = typename OutputImageType::PixelType;
 
   /** Standard Superclass type alias */
-  using Superclass = ImageToImageFilter< InputImageType, OutputImageType >;
+  using Superclass = ImageToImageFilter<InputImageType, OutputImageType>;
 
   /** Standard Pointer type alias */
-  using Pointer = SmartPointer< Self >;
+  using Pointer = SmartPointer<Self>;
   /** Standard ConstPointer type alias */
-  using ConstPointer = SmartPointer< const Self >;
+  using ConstPointer = SmartPointer<const Self>;
 
   itkNewMacro(Self);
   itkTypeMacro(DirectFourierReconstructionImageToImageFilter, ImageToImageFilter);
@@ -122,57 +122,61 @@ protected:
   ~DirectFourierReconstructionImageToImageFilter() override {}
 
   /** Output class information */
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate metadata for output image */
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
   /** Calculate the required input region */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** Actual filter computation */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   /** Const slice iterator type of the input image */
-  using InputSliceIteratorType = ImageSliceConstIteratorWithIndex< InputImageType >;
+  using InputSliceIteratorType = ImageSliceConstIteratorWithIndex<InputImageType>;
 
   /** 1D FFT filter type */
-  using LineImageType = Image< double, 1 >;
-  using FFTLineFilterType = VnlForwardFFTImageFilter< LineImageType >;
+  using LineImageType = Image<double, 1>;
+  using FFTLineFilterType = VnlForwardFFTImageFilter<LineImageType>;
   /** Derived 1D FFT image type */
   using FFTLineType = FFTLineFilterType::OutputImageType;
   /** Derived 1D input image type */
   using ProjectionLineType = FFTLineFilterType::InputImageType;
   /** 1D FFT line iterator */
-  using FFTLineIteratorType = ImageRegionIteratorWithIndex< FFTLineType >;
+  using FFTLineIteratorType = ImageRegionIteratorWithIndex<FFTLineType>;
   /** 1D FFT line B-Spline interpolator */
-  using FFTLineInterpolatorType = ComplexBSplineInterpolateImageFunction< FFTLineType, double, double >;
+  using FFTLineInterpolatorType = ComplexBSplineInterpolateImageFunction<FFTLineType, double, double>;
 
   /** 2D inverse FFT filter type */
-  using IFFTImageType = Image< std::complex<double>, 2>;
-  using IFFTSliceFilterType = VnlInverseFFTImageFilter< IFFTImageType >;
+  using IFFTImageType = Image<std::complex<double>, 2>;
+  using IFFTSliceFilterType = VnlInverseFFTImageFilter<IFFTImageType>;
   /** Derived 2D FFT image type */
   using FFTSliceType = IFFTSliceFilterType::InputImageType;
   /** Derived 2D output slice type */
   using OutputSliceType = IFFTSliceFilterType::OutputImageType;
   /** 2D FFT slice iterator */
-  using FFTSliceIteratorType = ImageRegionIteratorWithIndex< FFTSliceType >;
+  using FFTSliceIteratorType = ImageRegionIteratorWithIndex<FFTSliceType>;
   /** 2D output slice iterator */
-  using OutputSliceIteratorType = ImageRegionIteratorWithIndex< OutputSliceType >;
+  using OutputSliceIteratorType = ImageRegionIteratorWithIndex<OutputSliceType>;
 
-  unsigned short int m_ZeroPadding;       /**< n-fold zero-padding */
-  unsigned short int m_OverSampling;      /**< n-fold oversampling */
+  unsigned short int m_ZeroPadding;  /**< n-fold zero-padding */
+  unsigned short int m_OverSampling; /**< n-fold oversampling */
 
-  double m_Cutoff;                        /**< Radial lowpass cut-off frequency
-                                            */
-  double m_AlphaRange;                    /**< Covered angular range */
+  double m_Cutoff;     /**< Radial lowpass cut-off frequency
+                        */
+  double m_AlphaRange; /**< Covered angular range */
 
   unsigned short int m_ZDirection;        /**< Axial index in the input image */
   unsigned short int m_AlphaDirection;    /**< Angular index in the input image
-                                            */
+                                           */
   unsigned short int m_RDirection;        /**< Radial index in the input image
-                                            */
+                                           */
   unsigned short int m_RadialSplineOrder; /**< Spline order for the radial
                                             BSpline interpolation  */
 
@@ -180,12 +184,11 @@ private:
 
   RegionType m_InputRequestedRegion; /**< The region requested from* the input
                                        image   */
-
 };
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDirectFourierReconstructionImageToImageFilter.hxx"
+#  include "itkDirectFourierReconstructionImageToImageFilter.hxx"
 #endif
 
 #endif /* itkDirectFourierReconstructionImageToImageFilter_h */

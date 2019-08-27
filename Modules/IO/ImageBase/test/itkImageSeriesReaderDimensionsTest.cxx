@@ -19,10 +19,11 @@
 #include "itkImageSeriesReader.h"
 
 
-int itkImageSeriesReaderDimensionsTest(int ac, char* av[])
+int
+itkImageSeriesReaderDimensionsTest(int ac, char * av[])
 {
 
-  if(ac < 3)
+  if (ac < 3)
   {
     std::cerr << "usage: itkIOTests itkImageSeriesReaderDimensionsTest inputFileName(s)" << std::endl;
     return EXIT_FAILURE;
@@ -44,109 +45,108 @@ int itkImageSeriesReaderDimensionsTest(int ac, char* av[])
 
   Reader2DType::FileNamesContainer fnames;
   for (int i = 1; i < ac; ++i)
-      fnames.push_back(av[i]);
+    fnames.push_back(av[i]);
 
 
   std::cout << "testing reading a single 2D image to 2D" << std::endl;
-   try
-    {
+  try
+  {
     Reader2DType::Pointer reader = Reader2DType::New();
     reader->SetFileNames(fname);
     reader->Update();
     std::cout << "output image size:: " << reader->GetOutput()->GetLargestPossibleRegion().GetSize() << std::endl;
-    }
-  catch (itk::ExceptionObject &ex)
-    {
+  }
+  catch (itk::ExceptionObject & ex)
+  {
     std::cout << ex;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "testing reading a single 2D image to 3D" << std::endl;
   try
-    {
+  {
     Reader3DType::Pointer reader = Reader3DType::New();
     reader->SetFileNames(fname);
     reader->Update();
     std::cout << "output image size:: " << reader->GetOutput()->GetLargestPossibleRegion().GetSize() << std::endl;
-    }
-  catch (itk::ExceptionObject &ex)
-    {
+  }
+  catch (itk::ExceptionObject & ex)
+  {
     std::cout << ex;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "testing reading a single 2D image to 4D" << std::endl;
-   try
-    {
+  try
+  {
     Reader4DType::Pointer reader = Reader4DType::New();
     reader->SetFileNames(fname);
     reader->Update();
     std::cout << "output image size:: " << reader->GetOutput()->GetLargestPossibleRegion().GetSize() << std::endl;
-    }
-  catch (itk::ExceptionObject &ex)
-    {
+  }
+  catch (itk::ExceptionObject & ex)
+  {
     std::cout << ex;
     return EXIT_FAILURE;
-    }
+  }
 
-   //////////
+  //////////
 
-   std::cout << "testing reading a series of 2D images to 2D" << std::endl;
-   try
-    {
+  std::cout << "testing reading a series of 2D images to 2D" << std::endl;
+  try
+  {
     Reader2DType::Pointer reader = Reader2DType::New();
     reader->SetFileNames(fnames);
     reader->Update();
     std::cout << "output image size:: " << reader->GetOutput()->GetLargestPossibleRegion().GetSize() << std::endl;
-    }
-  catch (itk::ExceptionObject &ex)
-    {
+  }
+  catch (itk::ExceptionObject & ex)
+  {
     std::cout << ex;
-    //return EXIT_FAILURE;
-    }
+    // return EXIT_FAILURE;
+  }
 
   std::cout << "testing reading a series of 2D images to 3D" << std::endl;
   try
-    {
+  {
     Reader3DType::Pointer reader = Reader3DType::New();
     reader->SetFileNames(fnames);
     reader->Update();
     std::cout << "output image size:: " << reader->GetOutput()->GetLargestPossibleRegion().GetSize() << std::endl;
-    }
-  catch (itk::ExceptionObject &ex)
-    {
+  }
+  catch (itk::ExceptionObject & ex)
+  {
     std::cout << ex;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "testing reading a series of 2D images to 4D" << std::endl;
-   try
-    {
+  try
+  {
     Reader4DType::Pointer reader = Reader4DType::New();
     reader->SetFileNames(fnames);
     reader->Update();
     std::cout << "output image size:: " << reader->GetOutput()->GetLargestPossibleRegion().GetSize() << std::endl;
-    }
-  catch (itk::ExceptionObject &ex)
-    {
+  }
+  catch (itk::ExceptionObject & ex)
+  {
     std::cout << ex;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "testing reading a series of 2D images to 5D" << std::endl;
-   try
-    {
+  try
+  {
     Reader5DType::Pointer reader = Reader5DType::New();
     reader->SetFileNames(fnames);
     reader->Update();
     std::cout << "output image size:: " << reader->GetOutput()->GetLargestPossibleRegion().GetSize() << std::endl;
-    }
-  catch (itk::ExceptionObject &ex)
-    {
+  }
+  catch (itk::ExceptionObject & ex)
+  {
     std::cout << ex;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
-
 }

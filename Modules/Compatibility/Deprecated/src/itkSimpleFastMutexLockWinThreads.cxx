@@ -32,7 +32,7 @@ namespace itk
 // Construct a new SimpleMutexLock
 SimpleFastMutexLock::SimpleFastMutexLock()
 {
-  //this->MutexLock = CreateMutex( nullptr, FALSE, nullptr );
+  // this->MutexLock = CreateMutex( nullptr, FALSE, nullptr );
   InitializeCriticalSection(&m_FastMutexLock);
 }
 
@@ -43,13 +43,15 @@ SimpleFastMutexLock::~SimpleFastMutexLock()
 }
 
 // Lock the FastMutexLock
-void SimpleFastMutexLock::Lock() const
+void
+SimpleFastMutexLock::Lock() const
 {
   EnterCriticalSection(&m_FastMutexLock);
 }
 
 // Non-blocking TryLock the FastMutexLock
-bool SimpleFastMutexLock::TryLock() const
+bool
+SimpleFastMutexLock::TryLock() const
 {
   const bool lockCaptured = TryEnterCriticalSection(&m_FastMutexLock);
   /*
@@ -61,8 +63,9 @@ bool SimpleFastMutexLock::TryLock() const
 }
 
 // Unlock the FastMutexLock
-void SimpleFastMutexLock::Unlock() const
+void
+SimpleFastMutexLock::Unlock() const
 {
   LeaveCriticalSection(&m_FastMutexLock);
 }
-} //end namespace itk
+} // end namespace itk

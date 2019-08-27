@@ -70,32 +70,31 @@ namespace itk
  *
  * \ingroup ITKConnectedComponents
  */
-template< typename TInputImage, typename TOutputImage = TInputImage >
-class ITK_TEMPLATE_EXPORT ThresholdMaximumConnectedComponentsImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage = TInputImage>
+class ITK_TEMPLATE_EXPORT ThresholdMaximumConnectedComponentsImageFilter
+  : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ThresholdMaximumConnectedComponentsImageFilter);
 
   /** Standard class type aliases. */
   using Self = ThresholdMaximumConnectedComponentsImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ThresholdMaximumConnectedComponentsImageFilter,
-               ImageToImageFilter);
+  itkTypeMacro(ThresholdMaximumConnectedComponentsImageFilter, ImageToImageFilter);
 
   /** Typedef to describe the type of pixel. */
   using PixelType = typename TInputImage::PixelType;
   using OutputPixelType = typename TOutputImage::PixelType;
 
   /** The pixel type must support comparison operators. */
-  itkConceptMacro( PixelTypeComparable, ( Concept::Comparable< PixelType > ) );
+  itkConceptMacro(PixelTypeComparable, (Concept::Comparable<PixelType>));
 
   /**
    * Set the minimum pixel area used to count objects on the
@@ -153,50 +152,48 @@ public:
 protected:
   ThresholdMaximumConnectedComponentsImageFilter();
   ~ThresholdMaximumConnectedComponentsImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /**
    * Runs a series of filters that thresholds the image,
    * dilates/erodes  for edge enhancement, and counts the number of
    * relabeled connected components */
-  SizeValueType ComputeConnectedComponents();
+  SizeValueType
+  ComputeConnectedComponents();
 
 private:
-
   /** Typedef for filter pixel type.  */
   using FilterPixelType = unsigned int;
 
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
-  using FilterImageType =
-      itk::Image< FilterPixelType, Self::ImageDimension >;
+  using FilterImageType = itk::Image<FilterPixelType, Self::ImageDimension>;
 
   using FilterImagePointer = typename FilterImageType::Pointer;
 
   //
   // Binary Threshold Filter
   //
-  using ThresholdFilterType =
-      BinaryThresholdImageFilter< InputImageType, OutputImageType >;
+  using ThresholdFilterType = BinaryThresholdImageFilter<InputImageType, OutputImageType>;
 
   //
   // Connected Components Filter
   //
-  using ConnectedFilterType =
-      ConnectedComponentImageFilter< OutputImageType, FilterImageType >;
+  using ConnectedFilterType = ConnectedComponentImageFilter<OutputImageType, FilterImageType>;
 
   //
   // Relabeled Components Filter
   //
-  using RelabelFilterType =
-      RelabelComponentImageFilter< FilterImageType, FilterImageType >;
+  using RelabelFilterType = RelabelComponentImageFilter<FilterImageType, FilterImageType>;
 
   //
   // Minimum maximum calculator
   //
-  using MinMaxCalculatorType = MinimumMaximumImageCalculator< InputImageType >;
+  using MinMaxCalculatorType = MinimumMaximumImageCalculator<InputImageType>;
 
   //
   // Declare member variables for the filters of the internal pipeline.
@@ -225,7 +222,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkThresholdMaximumConnectedComponentsImageFilter.hxx"
+#  include "itkThresholdMaximumConnectedComponentsImageFilter.hxx"
 #endif
 
 #endif

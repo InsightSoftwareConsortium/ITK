@@ -39,7 +39,6 @@ namespace fem
 class ITKFEM_EXPORT LinearSystemWrapperVNL : public LinearSystemWrapper
 {
 public:
-
   /* values stored in matrices & vectors */
   using Float = LinearSystemWrapper::Float;
 
@@ -53,108 +52,130 @@ public:
   using MatrixHolder = std::vector<MatrixRepresentation *>;
 
   /* constructor & destructor */
-  LinearSystemWrapperVNL() : LinearSystemWrapper(), m_Matrices(nullptr), m_Vectors(nullptr), m_Solutions(nullptr)
-  {
-  }
+  LinearSystemWrapperVNL()
+    : LinearSystemWrapper()
+    , m_Matrices(nullptr)
+    , m_Vectors(nullptr)
+    , m_Solutions(nullptr)
+  {}
   ~LinearSystemWrapperVNL() override;
 
   /* memory management routines */
-  void  InitializeMatrix(unsigned int matrixIndex) override;
+  void
+  InitializeMatrix(unsigned int matrixIndex) override;
 
-  bool  IsMatrixInitialized(unsigned int matrixIndex) override;
+  bool
+  IsMatrixInitialized(unsigned int matrixIndex) override;
 
-  void  DestroyMatrix(unsigned int matrixIndex) override;
+  void
+  DestroyMatrix(unsigned int matrixIndex) override;
 
-  void  InitializeVector(unsigned int vectorIndex) override;
+  void
+  InitializeVector(unsigned int vectorIndex) override;
 
-  bool  IsVectorInitialized(unsigned int vectorIndex) override;
+  bool
+  IsVectorInitialized(unsigned int vectorIndex) override;
 
-  void  DestroyVector(unsigned int vectorIndex) override;
+  void
+  DestroyVector(unsigned int vectorIndex) override;
 
-  void  InitializeSolution(unsigned int solutionIndex) override;
+  void
+  InitializeSolution(unsigned int solutionIndex) override;
 
-  bool  IsSolutionInitialized(unsigned int solutionIndex) override;
+  bool
+  IsSolutionInitialized(unsigned int solutionIndex) override;
 
-  void  DestroySolution(unsigned int solutionIndex) override;
+  void
+  DestroySolution(unsigned int solutionIndex) override;
 
-  virtual void  SetMaximumNonZeroValuesInMatrix(unsigned int, unsigned int)
-  {
-  }
+  virtual void
+  SetMaximumNonZeroValuesInMatrix(unsigned int, unsigned int)
+  {}
 
   /* assembly & solving routines */
-  Float GetMatrixValue(unsigned int i, unsigned int j,
-                               unsigned int matrixIndex) const override
+  Float
+  GetMatrixValue(unsigned int i, unsigned int j, unsigned int matrixIndex) const override
   {
-    return ( *( ( *m_Matrices )[matrixIndex] ) )(i, j);
+    return (*((*m_Matrices)[matrixIndex]))(i, j);
   }
-  void  SetMatrixValue(unsigned int i, unsigned int j, Float value,
-                               unsigned int matrixIndex) override
+  void
+  SetMatrixValue(unsigned int i, unsigned int j, Float value, unsigned int matrixIndex) override
   {
-    ( *( ( *m_Matrices )[matrixIndex] ) )(i, j) =  value;
+    (*((*m_Matrices)[matrixIndex]))(i, j) = value;
   }
-  void  AddMatrixValue(unsigned int i, unsigned int j, Float value,
-                               unsigned int matrixIndex) override
+  void
+  AddMatrixValue(unsigned int i, unsigned int j, Float value, unsigned int matrixIndex) override
   {
-    ( *( ( *m_Matrices )[matrixIndex] ) )(i, j) += value;
+    (*((*m_Matrices)[matrixIndex]))(i, j) += value;
   }
-  Float GetVectorValue(unsigned int i,
-                               unsigned int vectorIndex) const override
+  Float
+  GetVectorValue(unsigned int i, unsigned int vectorIndex) const override
   {
-    return ( *( ( *m_Vectors )[vectorIndex] ) )[i];
+    return (*((*m_Vectors)[vectorIndex]))[i];
   }
-  void  SetVectorValue(unsigned int i, Float value,
-                               unsigned int vectorIndex) override
+  void
+  SetVectorValue(unsigned int i, Float value, unsigned int vectorIndex) override
   {
-    ( *( ( *m_Vectors )[vectorIndex] ) )(i) =  value;
+    (*((*m_Vectors)[vectorIndex]))(i) = value;
   }
-  void  AddVectorValue(unsigned int i, Float value,
-                               unsigned int vectorIndex) override
+  void
+  AddVectorValue(unsigned int i, Float value, unsigned int vectorIndex) override
   {
-    ( *( ( *m_Vectors )[vectorIndex] ) )(i) += value;
+    (*((*m_Vectors)[vectorIndex]))(i) += value;
   }
-  Float GetSolutionValue(unsigned int i, unsigned int solutionIndex) const override;
+  Float
+  GetSolutionValue(unsigned int i, unsigned int solutionIndex) const override;
 
-  void  SetSolutionValue(unsigned int i, Float value,
-                                 unsigned int solutionIndex) override
+  void
+  SetSolutionValue(unsigned int i, Float value, unsigned int solutionIndex) override
   {
-    ( *( ( *m_Solutions )[solutionIndex] ) )(i) =  value;
+    (*((*m_Solutions)[solutionIndex]))(i) = value;
   }
-  void  AddSolutionValue(unsigned int i, Float value,
-                                 unsigned int solutionIndex) override
+  void
+  AddSolutionValue(unsigned int i, Float value, unsigned int solutionIndex) override
   {
-    ( *( ( *m_Solutions )[solutionIndex] ) )(i) += value;
+    (*((*m_Solutions)[solutionIndex]))(i) += value;
   }
-  void  Solve() override;
+  void
+  Solve() override;
 
   /* matrix & vector manipulation routines */
-  void  ScaleMatrix(Float scale, unsigned int matrixIndex) override;
+  void
+  ScaleMatrix(Float scale, unsigned int matrixIndex) override;
 
-  void  SwapMatrices(unsigned int matrixIndex1, unsigned int matrixIndex2) override;
+  void
+  SwapMatrices(unsigned int matrixIndex1, unsigned int matrixIndex2) override;
 
-  void  SwapVectors(unsigned int vectorIndex1, unsigned int vectorIndex2) override;
+  void
+  SwapVectors(unsigned int vectorIndex1, unsigned int vectorIndex2) override;
 
-  void  SwapSolutions(unsigned int solutionIndex1, unsigned int solutionIndex2) override;
+  void
+  SwapSolutions(unsigned int solutionIndex1, unsigned int solutionIndex2) override;
 
-  void  CopySolution2Vector(unsigned solutionIndex, unsigned int vectorIndex) override;
+  void
+  CopySolution2Vector(unsigned solutionIndex, unsigned int vectorIndex) override;
 
-  void  CopyVector2Solution(unsigned int vectorIndex, unsigned int solutionIndex) override;
+  void
+  CopyVector2Solution(unsigned int vectorIndex, unsigned int solutionIndex) override;
 
-  void  MultiplyMatrixMatrix(unsigned int resultMatrixIndex, unsigned int leftMatrixIndex,
-                                     unsigned int rightMatrixIndex) override;
+  void
+  MultiplyMatrixMatrix(unsigned int resultMatrixIndex,
+                       unsigned int leftMatrixIndex,
+                       unsigned int rightMatrixIndex) override;
 
-  void  MultiplyMatrixVector(unsigned int resultVectorIndex, unsigned int matrixIndex, unsigned int vectorIndex) override;
+  void
+  MultiplyMatrixVector(unsigned int resultVectorIndex, unsigned int matrixIndex, unsigned int vectorIndex) override;
 
 private:
-
   /** vector of pointers to VNL sparse matrices */
   // std::vector< vnl_sparse_matrix<Float>* > *m_Matrices;
-  MatrixHolder *m_Matrices;
+  MatrixHolder * m_Matrices;
 
   /** vector of pointers to VNL vectors  */
-  std::vector<vnl_vector<Float> *> *m_Vectors;
+  std::vector<vnl_vector<Float> *> * m_Vectors;
 
   /** vector of pointers to VNL vectors */
-  std::vector<vnl_vector<Float> *> *m_Solutions;
+  std::vector<vnl_vector<Float> *> * m_Solutions;
 };
 } // end namespace fem
 } // end namespace itk

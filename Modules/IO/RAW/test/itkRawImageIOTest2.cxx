@@ -25,14 +25,15 @@
 // Specific ImageIO test
 
 
-int itkRawImageIOTest2(int argc, char * argv [])
+int
+itkRawImageIOTest2(int argc, char * argv[])
 {
 
-  if ( argc < 2 )
-    {
-    itkGenericOutputMacro(<<"Need a file to process");
+  if (argc < 2)
+  {
+    itkGenericOutputMacro(<< "Need a file to process");
     return EXIT_FAILURE;
-    }
+  }
 
   // Comment the following if you want to use the itk text output window
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
@@ -48,15 +49,15 @@ int itkRawImageIOTest2(int argc, char * argv [])
   io->SetFileName(argv[1]);
   io->SetFileDimensionality(3);
   io->SetNumberOfDimensions(3);
-  unsigned int dim[3] = {50,50,10};
-  double spacing[3] = {1.0, 1.0, 1.0};
-  double origin[3] = {0.0,0.0,0.0};
-  for(unsigned int i=0; i<3; i++)
-    {
-    io->SetDimensions(i,dim[i]);
-    io->SetSpacing(i,spacing[i]);
-    io->SetOrigin(i,origin[i]);
-    }
+  unsigned int dim[3] = { 50, 50, 10 };
+  double       spacing[3] = { 1.0, 1.0, 1.0 };
+  double       origin[3] = { 0.0, 0.0, 0.0 };
+  for (unsigned int i = 0; i < 3; i++)
+  {
+    io->SetDimensions(i, dim[i]);
+    io->SetSpacing(i, spacing[i]);
+    io->SetOrigin(i, origin[i]);
+  }
   io->SetHeaderSize(0);
   io->SetImageMask(0x7fff);
   io->SetByteOrderToLittleEndian();
@@ -66,14 +67,14 @@ int itkRawImageIOTest2(int argc, char * argv [])
 
   std::cout << "IO: " << io << std::endl;
 
-  using RGBImage3DType = itk::Image<RGBPixelType,3>;
+  using RGBImage3DType = itk::Image<RGBPixelType, 3>;
   itk::ImageFileReader<RGBImage3DType>::Pointer reader;
   reader = itk::ImageFileReader<RGBImage3DType>::New();
   reader->SetFileName(argv[1]);
   reader->SetImageIO(io);
   reader->Update();
 
-  reader->GetOutput()->Print( std::cout );
+  reader->GetOutput()->Print(std::cout);
 
   return EXIT_SUCCESS;
 }

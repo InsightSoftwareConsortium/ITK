@@ -29,18 +29,17 @@ namespace itk
  *
  * \ingroup ITKFEM
  */
-template< unsigned int NDimensions = 3,
+template <unsigned int NDimensions = 3,
           typename PixelType = unsigned char,
-          typename TMeshTraits = DefaultStaticMeshTraits< PixelType, NDimensions, NDimensions >
-          >
-class FEMSpatialObjectWriter : public SpatialObjectWriter<NDimensions,PixelType,TMeshTraits>
+          typename TMeshTraits = DefaultStaticMeshTraits<PixelType, NDimensions, NDimensions>>
+class FEMSpatialObjectWriter : public SpatialObjectWriter<NDimensions, PixelType, TMeshTraits>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FEMSpatialObjectWriter);
 
   using Self = FEMSpatialObjectWriter;
-  using Superclass = SpatialObjectWriter<NDimensions,PixelType,TMeshTraits>;
-  using Pointer = SmartPointer< Self >;
+  using Superclass = SpatialObjectWriter<NDimensions, PixelType, TMeshTraits>;
+  using Pointer = SmartPointer<Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(Superclass, Self);
@@ -53,19 +52,14 @@ protected:
 
   FEMSpatialObjectWriter();
   ~FEMSpatialObjectWriter() override {}
-
 };
 
-template< unsigned int NDimensions,
-          typename PixelType,
-          typename TMeshTraits >
-FEMSpatialObjectWriter< NDimensions, PixelType, TMeshTraits >
-::FEMSpatialObjectWriter()
+template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
+FEMSpatialObjectWriter<NDimensions, PixelType, TMeshTraits>::FEMSpatialObjectWriter()
 {
-  this->RegisterMetaConverter("FEMObject","FEMObjectSpatialObject",
-                              MetaFEMObjectConverter<NDimensions>::New());
+  this->RegisterMetaConverter("FEMObject", "FEMObjectSpatialObject", MetaFEMObjectConverter<NDimensions>::New());
 }
 
-}
+} // namespace itk
 
 #endif // itkFEMSpatialObjectWriter_h

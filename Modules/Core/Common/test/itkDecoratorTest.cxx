@@ -23,22 +23,23 @@
 #include "itkAutoPointerDataObjectDecorator.h"
 #include "itkTestingMacros.h"
 
-namespace {
+namespace
+{
 template <typename CharType, typename TraitsType, typename MemberType, typename AllocatorType>
-std::basic_ostream<CharType, TraitsType>&
-operator<<(std::basic_ostream<CharType, TraitsType>&os, const std::vector<MemberType,AllocatorType> &p)
+std::basic_ostream<CharType, TraitsType> &
+operator<<(std::basic_ostream<CharType, TraitsType> & os, const std::vector<MemberType, AllocatorType> & p)
 {
   os << "vector<" << typeid(MemberType).name() << "> with " << p.size() << " elements " << std::endl;
   return os;
 }
-}
+} // namespace
 
-int itkDecoratorTest(int, char* [] )
+int
+itkDecoratorTest(int, char *[])
 {
   int status = 0;
 
-  std::cout << "----------------------------------------------------"
-            << std::endl;
+  std::cout << "----------------------------------------------------" << std::endl;
 
   using FloatObjectType = itk::SimpleDataObjectDecorator<float>;
 
@@ -48,28 +49,27 @@ int itkDecoratorTest(int, char* [] )
   std::cout << "Value of f: " << f->Get() << std::endl;
   std::cout << "FloatDataObject: " << f << std::endl;
 
-  std::cout << "----------------------------------------------------"
-            << std::endl;
+  std::cout << "----------------------------------------------------" << std::endl;
 
   using TransformType = itk::AffineTransform<double, 3>;
   using TransformObjectType = itk::DataObjectDecorator<TransformType>;
 
   TransformObjectType::Pointer decoratedTransform = TransformObjectType::New();
-  TransformType::Pointer transformObject = TransformType::New();
-  const TransformType * constTransformObject = transformObject;
+  TransformType::Pointer       transformObject = TransformType::New();
+  const TransformType *        constTransformObject = transformObject;
 
-  transformObject->Scale( 5.0 );
+  transformObject->Scale(5.0);
 
-  decoratedTransform->Set( constTransformObject );
+  decoratedTransform->Set(constTransformObject);
 
   const itk::ModifiedTimeType t1 = decoratedTransform->GetMTime();
   transformObject->Modified();
   ITK_TEST_EXPECT_TRUE(t1 < decoratedTransform->GetMTime());
 
   TransformObjectType::Pointer decoratedTransform2 = TransformObjectType::New();
-  decoratedTransform2->Graft( decoratedTransform );
+  decoratedTransform2->Graft(decoratedTransform);
 
-  ITK_TEST_EXPECT_EQUAL( decoratedTransform2->Get(), decoratedTransform->Get() );
+  ITK_TEST_EXPECT_EQUAL(decoratedTransform2->Get(), decoratedTransform->Get());
 
   const itk::ModifiedTimeType t2 = decoratedTransform->GetMTime();
   decoratedTransform2->GetModifiable()->Modified();
@@ -84,33 +84,32 @@ int itkDecoratorTest(int, char* [] )
   using TransformBaseObjectType = itk::DataObjectDecorator<TransformBaseType>;
 
   TransformBaseObjectType::Pointer decoratedBaseTransform = TransformBaseObjectType::New();
-  //NOTE: GetPointer is needed to force selection of the correct overloaded function signature.
-  decoratedBaseTransform->Graft( decoratedTransform.GetPointer() );
-  ITK_TEST_EXPECT_TRUE( decoratedBaseTransform->Get() != nullptr );
+  // NOTE: GetPointer is needed to force selection of the correct overloaded function signature.
+  decoratedBaseTransform->Graft(decoratedTransform.GetPointer());
+  ITK_TEST_EXPECT_TRUE(decoratedBaseTransform->Get() != nullptr);
 
   decoratedBaseTransform->ReleaseData();
-  ITK_TEST_EXPECT_TRUE( decoratedBaseTransform->Get() == nullptr );
-  //NOTE: GetPointer is needed to force selection of the correct overloaded function signature.
-  decoratedBaseTransform->Graft( f.GetPointer() );
-  ITK_TEST_EXPECT_TRUE( decoratedBaseTransform->Get() == nullptr );
+  ITK_TEST_EXPECT_TRUE(decoratedBaseTransform->Get() == nullptr);
+  // NOTE: GetPointer is needed to force selection of the correct overloaded function signature.
+  decoratedBaseTransform->Graft(f.GetPointer());
+  ITK_TEST_EXPECT_TRUE(decoratedBaseTransform->Get() == nullptr);
 
-  decoratedBaseTransform->Graft( static_cast<itk::DataObject *>(nullptr) );
-  //NOTE: GetPointer is needed to force selection of the correct overloaded function signature.
-  decoratedBaseTransform->Graft( decoratedTransform.GetPointer() );
-  ITK_TEST_EXPECT_TRUE( decoratedBaseTransform->Get() != nullptr );
+  decoratedBaseTransform->Graft(static_cast<itk::DataObject *>(nullptr));
+  // NOTE: GetPointer is needed to force selection of the correct overloaded function signature.
+  decoratedBaseTransform->Graft(decoratedTransform.GetPointer());
+  ITK_TEST_EXPECT_TRUE(decoratedBaseTransform->Get() != nullptr);
 
-  decoratedBaseTransform->Graft( static_cast<itk::DataObject *>(nullptr) );
-  ITK_TEST_EXPECT_TRUE( decoratedBaseTransform->Get() != nullptr );
+  decoratedBaseTransform->Graft(static_cast<itk::DataObject *>(nullptr));
+  ITK_TEST_EXPECT_TRUE(decoratedBaseTransform->Get() != nullptr);
 
   decoratedTransform->ReleaseData();
-  decoratedTransform->Graft( decoratedBaseTransform );
-  ITK_TEST_EXPECT_TRUE( decoratedTransform->Get() == nullptr );
+  decoratedTransform->Graft(decoratedBaseTransform);
+  ITK_TEST_EXPECT_TRUE(decoratedTransform->Get() == nullptr);
 
-  std::cout << "----------------------------------------------------"
-            << std::endl;
+  std::cout << "----------------------------------------------------" << std::endl;
 
   using VectorType = std::vector<float>;
-  using VectorPointer = VectorType*;
+  using VectorPointer = VectorType *;
   using VectorObjectType = itk::SimpleDataObjectDecorator<VectorType>;
   using VectorPointerObjectType = itk::AutoPointerDataObjectDecorator<VectorType>;
 
@@ -120,41 +119,39 @@ int itkDecoratorTest(int, char* [] )
   VectorObjectType::Pointer vo = VectorObjectType::New();
   vo->Set(v);
   std::cout << vo;
-  std::cout << "----------------------------------------------------"
-            << std::endl;
+  std::cout << "----------------------------------------------------" << std::endl;
 
   // The following code block will NOT cause a memory leak because the
   // ownership of the dynamically allocated memory is passed to the
   // AutoPointerDataObjectDecorator
   {
-  VectorPointer vp;
-  vp = new VectorType;
-  vp->resize(3);
-  std::cout << *vp << std::endl;
+    VectorPointer vp;
+    vp = new VectorType;
+    vp->resize(3);
+    std::cout << *vp << std::endl;
 
-  VectorPointerObjectType::Pointer vop = VectorPointerObjectType::New();
-  vop->Set(vp);
+    VectorPointerObjectType::Pointer vop = VectorPointerObjectType::New();
+    vop->Set(vp);
 
-  std::cout << vop;
+    std::cout << vop;
   }
 
-  std::cout << "----------------------------------------------------"
-            << std::endl;
+  std::cout << "----------------------------------------------------" << std::endl;
 
   // The following code block will cause a memory leak because the
   // decorator does not deallocate the memory that was passed in on a
   // pointer. The AutoPointerDataObjectDecorator does delete the memory.
-  //using VectorPointerObjectType2 = itk::SimpleDataObjectDecorator<VectorPointer>;
+  // using VectorPointerObjectType2 = itk::SimpleDataObjectDecorator<VectorPointer>;
   //{
-  //VectorPointer vp2;
-  //vp2 = new VectorType;
-  //vp2->resize(4);
-  //std::cout << *vp2 << std::endl;
+  // VectorPointer vp2;
+  // vp2 = new VectorType;
+  // vp2->resize(4);
+  // std::cout << *vp2 << std::endl;
 
-  //VectorPointerObjectType2::Pointer vop2 = VectorPointerObjectType2::New();
-  //vop2->Set(vp2);
+  // VectorPointerObjectType2::Pointer vop2 = VectorPointerObjectType2::New();
+  // vop2->Set(vp2);
 
-  //std::cout << vop2;
+  // std::cout << vop2;
   //}
 
   return status;

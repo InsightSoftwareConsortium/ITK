@@ -35,7 +35,7 @@ namespace itk
  *
  * \ingroup ITKIOPhilipsREC
  */
-class ITKIOPhilipsREC_EXPORT PhilipsRECImageIOFactory:public ObjectFactoryBase
+class ITKIOPhilipsREC_EXPORT PhilipsRECImageIOFactory : public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PhilipsRECImageIOFactory);
@@ -43,17 +43,20 @@ public:
   /** Standard class type aliases. */
   using Self = PhilipsRECImageIOFactory;
   using Superclass = ObjectFactoryBase;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
-  const char * GetITKSourceVersion() const override;
+  const char *
+  GetITKSourceVersion() const override;
 
-  const char * GetDescription() const override;
+  const char *
+  GetDescription() const override;
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
-  static PhilipsRECImageIOFactory * FactoryNew()
+  static PhilipsRECImageIOFactory *
+  FactoryNew()
   {
     return new PhilipsRECImageIOFactory;
   }
@@ -62,10 +65,10 @@ public:
   itkTypeMacro(PhilipsRECImageIOFactory, ObjectFactoryBase);
 
   /** Register one factory of this type  */
-  static void RegisterOneFactory()
+  static void
+  RegisterOneFactory()
   {
-    PhilipsRECImageIOFactory::Pointer factory =
-      PhilipsRECImageIOFactory::New();
+    PhilipsRECImageIOFactory::Pointer factory = PhilipsRECImageIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(factory);
   }

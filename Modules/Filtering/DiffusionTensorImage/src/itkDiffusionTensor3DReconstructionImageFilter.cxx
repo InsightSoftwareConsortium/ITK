@@ -20,10 +20,10 @@
 namespace itk
 {
 std::ostream &
-operator<<( std::ostream & out, const GradientEnumeration value )
+operator<<(std::ostream & out, const GradientEnumeration value)
 {
   const char * s = nullptr;
-  switch ( value )
+  switch (value)
   {
     case GradientEnumeration::GradientIsInASingleImage:
       s = "GradientEnumeration::GradientIsInASingleImage";

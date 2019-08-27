@@ -22,16 +22,17 @@
  * In this test, we check to see that the coefficients that are
  * derived using the Cox-DeBoor recursion algorithm
  */
-int itkCoxDeBoorBSplineKernelFunctionTest( int argc, char * argv [] )
+int
+itkCoxDeBoorBSplineKernelFunctionTest(int argc, char * argv[])
 {
-  if ( argc < 1 )
-    {
+  if (argc < 1)
+  {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   using KernelType = itk::CoxDeBoorBSplineKernelFunction<3>;
-  KernelType::Pointer kernel = KernelType::New();
+  KernelType::Pointer    kernel = KernelType::New();
   KernelType::MatrixType coefficients;
 
   /**
@@ -40,17 +41,16 @@ int itkCoxDeBoorBSplineKernelFunctionTest( int argc, char * argv [] )
   KernelType::MatrixType trueCoefficientsOrder0(1, 1);
   trueCoefficientsOrder0[0][0] = 1.0;
 
-  kernel->SetSplineOrder( 0 );
+  kernel->SetSplineOrder(0);
   coefficients = kernel->GetShapeFunctions();
-  if( coefficients != trueCoefficientsOrder0 )
-    {
+  if (coefficients != trueCoefficientsOrder0)
+  {
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "Spline order = " << kernel->GetSplineOrder() << std::endl;
   std::cout << "Shape functions = " << kernel->GetShapeFunctions() << std::endl;
-  std::cout << "Shape functions [0,1) = "
-    << kernel->GetShapeFunctionsInZeroToOneInterval() << std::endl;
-  kernel->Print( std::cout, 3 );
+  std::cout << "Shape functions [0,1) = " << kernel->GetShapeFunctionsInZeroToOneInterval() << std::endl;
+  kernel->Print(std::cout, 3);
 
   /**
    * order 1
@@ -59,17 +59,16 @@ int itkCoxDeBoorBSplineKernelFunctionTest( int argc, char * argv [] )
   trueCoefficientsOrder1[0][0] = -1.0;
   trueCoefficientsOrder1[0][1] = 1.0;
 
-  kernel->SetSplineOrder( 1 );
+  kernel->SetSplineOrder(1);
   coefficients = kernel->GetShapeFunctions();
-  if( coefficients != trueCoefficientsOrder1 )
-    {
+  if (coefficients != trueCoefficientsOrder1)
+  {
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "Spline order = " << kernel->GetSplineOrder() << std::endl;
   std::cout << "Shape functions = " << kernel->GetShapeFunctions() << std::endl;
-  std::cout << "Shape functions [0,1) = "
-    << kernel->GetShapeFunctionsInZeroToOneInterval() << std::endl;
-  kernel->Print( std::cout, 3 );
+  std::cout << "Shape functions [0,1) = " << kernel->GetShapeFunctionsInZeroToOneInterval() << std::endl;
+  kernel->Print(std::cout, 3);
 
   /**
    * order 2
@@ -82,17 +81,16 @@ int itkCoxDeBoorBSplineKernelFunctionTest( int argc, char * argv [] )
   trueCoefficientsOrder2[1][1] = -1.5;
   trueCoefficientsOrder2[1][2] = 1.125;
 
-  kernel->SetSplineOrder( 2 );
+  kernel->SetSplineOrder(2);
   coefficients = kernel->GetShapeFunctions();
-  if( coefficients != trueCoefficientsOrder2 )
-    {
+  if (coefficients != trueCoefficientsOrder2)
+  {
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "Spline order = " << kernel->GetSplineOrder() << std::endl;
   std::cout << "Shape functions = " << kernel->GetShapeFunctions() << std::endl;
-  std::cout << "Shape functions [0,1) = "
-    << kernel->GetShapeFunctionsInZeroToOneInterval() << std::endl;
-  kernel->Print( std::cout, 3 );
+  std::cout << "Shape functions [0,1) = " << kernel->GetShapeFunctionsInZeroToOneInterval() << std::endl;
+  kernel->Print(std::cout, 3);
 
   /**
    * order 3
@@ -101,23 +99,22 @@ int itkCoxDeBoorBSplineKernelFunctionTest( int argc, char * argv [] )
   trueCoefficientsOrder3[0][0] = 0.5;
   trueCoefficientsOrder3[0][1] = -1.0;
   trueCoefficientsOrder3[0][2] = 0.0;
-  trueCoefficientsOrder3[0][3] = 2.0/3.0;
-  trueCoefficientsOrder3[1][0] = -1.0/6.0;
+  trueCoefficientsOrder3[0][3] = 2.0 / 3.0;
+  trueCoefficientsOrder3[1][0] = -1.0 / 6.0;
   trueCoefficientsOrder3[1][1] = 1.0;
   trueCoefficientsOrder3[1][2] = -2.0;
-  trueCoefficientsOrder3[1][3] = 4.0/3.0;
+  trueCoefficientsOrder3[1][3] = 4.0 / 3.0;
 
-  kernel->SetSplineOrder( 3 );
+  kernel->SetSplineOrder(3);
   coefficients = kernel->GetShapeFunctions();
-  if( coefficients != trueCoefficientsOrder3 )
-    {
+  if (coefficients != trueCoefficientsOrder3)
+  {
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "Spline order = " << kernel->GetSplineOrder() << std::endl;
   std::cout << "Shape functions = " << kernel->GetShapeFunctions() << std::endl;
-  std::cout << "Shape functions [0,1) = "
-    << kernel->GetShapeFunctionsInZeroToOneInterval() << std::endl;
-  kernel->Print( std::cout, 3 );
+  std::cout << "Shape functions [0,1) = " << kernel->GetShapeFunctionsInZeroToOneInterval() << std::endl;
+  kernel->Print(std::cout, 3);
 
   return EXIT_SUCCESS;
 }

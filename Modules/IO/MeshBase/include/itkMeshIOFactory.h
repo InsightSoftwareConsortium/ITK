@@ -38,7 +38,7 @@ namespace itk
  *
  * \ingroup ITKIOMeshBase
  */
-class ITKIOMeshBase_EXPORT MeshIOFactory:public Object
+class ITKIOMeshBase_EXPORT MeshIOFactory : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MeshIOFactory);
@@ -46,8 +46,8 @@ public:
   /** Standard class type aliases. */
   using Self = MeshIOFactory;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Class Methods used to interface with the registered factories */
   itkNewMacro(Self);
@@ -62,16 +62,21 @@ public:
    *
    * \ingroup ITKIOMeshBase
    * Mode in which the files is intended to be used */
-  enum class FileModeType : uint8_t { ReadMode, WriteMode };
+  enum class FileModeType : uint8_t
+  {
+    ReadMode,
+    WriteMode
+  };
 #if !defined(ITK_LEGACY_REMOVE)
-        //We need to expose the enum values at the class level
-        // for backwards compatibility
-        static constexpr FileModeType ReadMode = FileModeType::ReadMode;
-        static constexpr FileModeType WriteMode = FileModeType::WriteMode;
+  // We need to expose the enum values at the class level
+  // for backwards compatibility
+  static constexpr FileModeType ReadMode = FileModeType::ReadMode;
+  static constexpr FileModeType WriteMode = FileModeType::WriteMode;
 #endif
 
   /** Create the appropriate MeshIO depending on the particulars of the file. */
-  static MeshIOBasePointer CreateMeshIO(const char *path, FileModeType mode);
+  static MeshIOBasePointer
+  CreateMeshIO(const char * path, FileModeType mode);
 
 protected:
   MeshIOFactory();
@@ -79,7 +84,8 @@ protected:
 };
 
 // Define how to print enumeration
-extern ITKIOMeshBase_EXPORT std::ostream& operator<<(std::ostream& out, const MeshIOFactory::FileModeType value);
+extern ITKIOMeshBase_EXPORT std::ostream &
+                            operator<<(std::ostream & out, const MeshIOFactory::FileModeType value);
 
 } // end namespace itk
 

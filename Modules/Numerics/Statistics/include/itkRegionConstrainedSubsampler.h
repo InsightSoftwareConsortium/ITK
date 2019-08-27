@@ -21,8 +21,10 @@
 #include "itkSubsamplerBase.h"
 #include "itkImageRegion.h"
 
-namespace itk {
-namespace Statistics {
+namespace itk
+{
+namespace Statistics
+{
 /** \class RegionConstrainedSubsampler
  * \brief This an abstract subsampler that constrains subsamples
  * to be contained within a given image region.
@@ -47,7 +49,7 @@ namespace Statistics {
  * \ingroup ITKStatistics
  */
 
-template < typename TSample, typename TRegion >
+template <typename TSample, typename TRegion>
 class ITK_TEMPLATE_EXPORT RegionConstrainedSubsampler : public SubsamplerBase<TSample>
 {
 public:
@@ -82,20 +84,22 @@ public:
 
   /** Method to set the sample domain.
    * This should correspond to the entire region of the input sample. */
-  void SetSampleRegion(const RegionType& region);
+  void
+  SetSampleRegion(const RegionType & region);
 
   /** Method to get the sample domain. */
-  itkGetConstReferenceMacro( SampleRegion, RegionType );
+  itkGetConstReferenceMacro(SampleRegion, RegionType);
 
   /** Method to get the flag indicating that the sample region has been initialized */
   itkGetConstReferenceMacro(SampleRegionInitialized, bool);
 
   /** Method to set the region constraint.
    * Any subsamples selected must ALSO be inside this region. */
-  void SetRegionConstraint(const RegionType& region);
+  void
+  SetRegionConstraint(const RegionType & region);
 
   /** Method to get the region constraint. */
-  itkGetConstReferenceMacro( RegionConstraint, RegionType );
+  itkGetConstReferenceMacro(RegionConstraint, RegionType);
 
   /** Method to get the flag indicating that the region constraint has been initialized */
   itkGetConstReferenceMacro(RegionConstraintInitialized, bool);
@@ -105,8 +109,8 @@ public:
    * them as a Subsample.  The definition of similar will be subclass-
    * specific.  And could mean spatial similarity or feature similarity
    * etc.  */
-  void Search(const InstanceIdentifier& query,
-                      SubsamplePointer& results) override = 0;
+  void
+  Search(const InstanceIdentifier & query, SubsamplePointer & results) override = 0;
 
 protected:
   /**
@@ -114,12 +118,14 @@ protected:
    * This does a complete copy of the subsampler state
    * to the new subsampler
    */
-  typename LightObject::Pointer InternalClone() const override;
+  typename LightObject::Pointer
+  InternalClone() const override;
 
   RegionConstrainedSubsampler();
   ~RegionConstrainedSubsampler() override = default;
 
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   RegionType m_RegionConstraint;
   bool       m_RegionConstraintInitialized;
@@ -131,7 +137,7 @@ protected:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRegionConstrainedSubsampler.hxx"
+#  include "itkRegionConstrainedSubsampler.hxx"
 #endif
 
 #endif

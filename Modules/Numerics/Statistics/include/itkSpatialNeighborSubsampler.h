@@ -21,8 +21,10 @@
 #include "itkRegionConstrainedSubsampler.h"
 #include "itkImageHelper.h"
 
-namespace itk {
-namespace Statistics {
+namespace itk
+{
+namespace Statistics
+{
 /** \class SpatialNeighborSubsampler
  * \brief A subsampler that selects all points
  * within the specified radius of the query point.
@@ -44,8 +46,8 @@ namespace Statistics {
  * \ingroup ITKStatistics
  */
 
-template < typename TSample, typename TRegion >
-  class ITK_TEMPLATE_EXPORT SpatialNeighborSubsampler : public RegionConstrainedSubsampler<TSample, TRegion>
+template <typename TSample, typename TRegion>
+class ITK_TEMPLATE_EXPORT SpatialNeighborSubsampler : public RegionConstrainedSubsampler<TSample, TRegion>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SpatialNeighborSubsampler);
@@ -83,12 +85,13 @@ public:
 
   static constexpr unsigned int ImageDimension = RegionType::ImageDimension;
   /** other helpful type alias */
-  using ImageHelperType = ImageHelper<Self::ImageDimension,
-                      Self::ImageDimension>;
+  using ImageHelperType = ImageHelper<Self::ImageDimension, Self::ImageDimension>;
 
   /** Method to set the radius */
-  void SetRadius(const RadiusType& radius);
-  void SetRadius(unsigned int radius);
+  void
+  SetRadius(const RadiusType & radius);
+  void
+  SetRadius(unsigned int radius);
 
   /** Method to get the radius */
   itkGetConstReferenceMacro(Radius, RadiusType);
@@ -101,8 +104,8 @@ public:
    * them as a Subsample.  The definition of similar will be subclass-
    * specific.  And could mean spatial similarity or feature similarity
    * etc.  */
-  void Search(const InstanceIdentifier& query,
-                      SubsamplePointer& results) override;
+  void
+  Search(const InstanceIdentifier & query, SubsamplePointer & results) override;
 
 protected:
   /**
@@ -110,12 +113,14 @@ protected:
    * This does a complete copy of the subsampler state
    * to the new subsampler
    */
-  typename LightObject::Pointer InternalClone() const override;
+  typename LightObject::Pointer
+  InternalClone() const override;
 
   SpatialNeighborSubsampler();
   ~SpatialNeighborSubsampler() override = default;
 
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   RadiusType m_Radius;
   bool       m_RadiusInitialized;
@@ -125,7 +130,7 @@ protected:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSpatialNeighborSubsampler.hxx"
+#  include "itkSpatialNeighborSubsampler.hxx"
 #endif
 
 #endif

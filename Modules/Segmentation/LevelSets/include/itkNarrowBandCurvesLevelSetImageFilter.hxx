@@ -23,9 +23,8 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TFeatureImage, typename TOutputType >
-NarrowBandCurvesLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
-::NarrowBandCurvesLevelSetImageFilter()
+template <typename TInputImage, typename TFeatureImage, typename TOutputType>
+NarrowBandCurvesLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>::NarrowBandCurvesLevelSetImageFilter()
 {
   /* Instantiate a geodesic active contour function and set it as the
     segmentation function. */
@@ -37,28 +36,27 @@ NarrowBandCurvesLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
   this->ReverseExpansionDirectionOff();
 }
 
-template< typename TInputImage, typename TFeatureImage, typename TOutputType >
+template <typename TInputImage, typename TFeatureImage, typename TOutputType>
 void
-NarrowBandCurvesLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
-::PrintSelf(std::ostream & os, Indent indent) const
+NarrowBandCurvesLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>::PrintSelf(std::ostream & os,
+                                                                                        Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << "CurvesFunction: " << m_CurvesFunction.GetPointer();
 }
 
-template< typename TInputImage, typename TFeatureImage, typename TOutputType >
+template <typename TInputImage, typename TFeatureImage, typename TOutputType>
 void
-NarrowBandCurvesLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
-::GenerateData()
+NarrowBandCurvesLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>::GenerateData()
 {
   // Make sure the SpeedImage is setup for the case when PropagationScaling
   // is zero. This image is used by the curvature term.
-  if ( this->GetSegmentationFunction()
-       && Math::ExactlyEquals(this->GetSegmentationFunction()->GetPropagationWeight(), 0) )
-    {
+  if (this->GetSegmentationFunction() &&
+      Math::ExactlyEquals(this->GetSegmentationFunction()->GetPropagationWeight(), 0))
+  {
     this->GetSegmentationFunction()->AllocateSpeedImage();
     this->GetSegmentationFunction()->CalculateSpeedImage();
-    }
+  }
 
   // Continue with Superclass implementation
   Superclass::GenerateData();

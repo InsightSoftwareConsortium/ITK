@@ -41,8 +41,7 @@ namespace itk
  * \ingroup ITKImageSources
  */
 template <typename TOutputImage>
-class ITK_TEMPLATE_EXPORT ParametricImageSource
-  : public GenerateImageSource< TOutputImage >
+class ITK_TEMPLATE_EXPORT ParametricImageSource : public GenerateImageSource<TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ParametricImageSource);
@@ -62,9 +61,9 @@ public:
   using OutputImagePixelType = typename OutputImageType::PixelType;
 
   using ParametersValueType = double;
-  using ParametersType = Array< ParametersValueType >;
+  using ParametersType = Array<ParametersValueType>;
 
-   /** ImageDimension constant */
+  /** ImageDimension constant */
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
   /** Run-time type information (and related methods). */
@@ -74,24 +73,28 @@ public:
    * not mark the image source as modified; subclasses should override
    * this method to forward parameters through setters that call
    * Modified(). */
-  virtual void SetParameters( const ParametersType & parameters ) = 0;
+  virtual void
+  SetParameters(const ParametersType & parameters) = 0;
 
   /** Get the parameters for this source. */
-  virtual ParametersType GetParameters() const = 0;
+  virtual ParametersType
+  GetParameters() const = 0;
 
   /** Get the number of parameters. */
-  virtual unsigned int GetNumberOfParameters() const = 0;
+  virtual unsigned int
+  GetNumberOfParameters() const = 0;
 
 protected:
   ParametricImageSource() = default;
   ~ParametricImageSource() override = default;
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 };
 } // end namespace itk
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkParametricImageSource.hxx"
+#  include "itkParametricImageSource.hxx"
 #endif
 
 #endif

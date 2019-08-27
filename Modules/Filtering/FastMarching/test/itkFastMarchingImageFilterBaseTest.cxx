@@ -27,47 +27,45 @@
  * @tparam VDimension
  * @return EXIT_SUCCESS if all test passs, EXIT_FAILURE otherwise
  */
-template< unsigned int VDimension >
-static int FastMarchingImageFilterBaseTestFunction()
+template <unsigned int VDimension>
+static int
+FastMarchingImageFilterBaseTestFunction()
 {
   using PixelType = float;
 
-  using ImageType = itk::Image< PixelType, VDimension >;
+  using ImageType = itk::Image<PixelType, VDimension>;
   typename ImageType::Pointer input = ImageType::New();
 
-  using FastMarchingImageFilterType =
-      itk::FastMarchingImageFilterBase< ImageType, ImageType >;
-  typename FastMarchingImageFilterType::Pointer fastMarchingFilter =
-      FastMarchingImageFilterType::New();
+  using FastMarchingImageFilterType = itk::FastMarchingImageFilterBase<ImageType, ImageType>;
+  typename FastMarchingImageFilterType::Pointer fastMarchingFilter = FastMarchingImageFilterType::New();
 
   bool overrideOutputInformation = true;
-  ITK_TEST_SET_GET_BOOLEAN( fastMarchingFilter, OverrideOutputInformation,
-    overrideOutputInformation );
+  ITK_TEST_SET_GET_BOOLEAN(fastMarchingFilter, OverrideOutputInformation, overrideOutputInformation);
 
   typename FastMarchingImageFilterType::OutputSizeType outputSize;
-  outputSize.Fill( 32 );
-  fastMarchingFilter->SetOutputSize( outputSize );
-  ITK_TEST_SET_GET_VALUE( outputSize, fastMarchingFilter->GetOutputSize() );
+  outputSize.Fill(32);
+  fastMarchingFilter->SetOutputSize(outputSize);
+  ITK_TEST_SET_GET_VALUE(outputSize, fastMarchingFilter->GetOutputSize());
 
   typename FastMarchingImageFilterType::OutputRegionType outputRegion;
-  outputRegion.SetSize( outputSize );
-  fastMarchingFilter->SetOutputRegion( outputRegion );
-  ITK_TEST_SET_GET_VALUE( outputRegion, fastMarchingFilter->GetOutputRegion() );
+  outputRegion.SetSize(outputSize);
+  fastMarchingFilter->SetOutputRegion(outputRegion);
+  ITK_TEST_SET_GET_VALUE(outputRegion, fastMarchingFilter->GetOutputRegion());
 
   typename FastMarchingImageFilterType::OutputSpacingType outputSpacing;
-  outputSpacing.Fill( 1.0 );
-  fastMarchingFilter->SetOutputSpacing( outputSpacing );
-  ITK_TEST_SET_GET_VALUE( outputSpacing, fastMarchingFilter->GetOutputSpacing() );
+  outputSpacing.Fill(1.0);
+  fastMarchingFilter->SetOutputSpacing(outputSpacing);
+  ITK_TEST_SET_GET_VALUE(outputSpacing, fastMarchingFilter->GetOutputSpacing());
 
   typename FastMarchingImageFilterType::OutputDirectionType outputDirection;
   outputDirection.SetIdentity();
-  fastMarchingFilter->SetOutputDirection( outputDirection );
-  ITK_TEST_SET_GET_VALUE( outputDirection, fastMarchingFilter->GetOutputDirection() );
+  fastMarchingFilter->SetOutputDirection(outputDirection);
+  ITK_TEST_SET_GET_VALUE(outputDirection, fastMarchingFilter->GetOutputDirection());
 
   typename FastMarchingImageFilterType::OutputPointType outputOrigin;
-  outputOrigin.Fill( 0.0 );
-  fastMarchingFilter->SetOutputOrigin( outputOrigin );
-  ITK_TEST_SET_GET_VALUE( outputOrigin, fastMarchingFilter->GetOutputOrigin() );
+  outputOrigin.Fill(0.0);
+  fastMarchingFilter->SetOutputOrigin(outputOrigin);
+  ITK_TEST_SET_GET_VALUE(outputOrigin, fastMarchingFilter->GetOutputOrigin());
 
   // DO NOT ATTEMPT TO UPDATE the base class filter.
   // the base class filter is not sufficiently configured
@@ -81,36 +79,35 @@ static int FastMarchingImageFilterBaseTestFunction()
 }
 
 
-int itkFastMarchingImageFilterBaseTest( int , char * [] )
+int
+itkFastMarchingImageFilterBaseTest(int, char *[])
 {
   // Exercise basic object methods
   // Done outside the helper function in the test because GCC is limited
   // when calling overloaded base class functions.
   const unsigned int Dimension = 2;
   using PixelType = float;
-  using ImageType = itk::Image< PixelType, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
-  using FastMarchingImageFilterType = itk::FastMarchingImageFilterBase< ImageType, ImageType >;
+  using FastMarchingImageFilterType = itk::FastMarchingImageFilterBase<ImageType, ImageType>;
 
-  FastMarchingImageFilterType::Pointer fastMarchingFilter =
-    FastMarchingImageFilterType::New();
+  FastMarchingImageFilterType::Pointer fastMarchingFilter = FastMarchingImageFilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( fastMarchingFilter,
-    FastMarchingImageFilterBase, FastMarchingBase );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(fastMarchingFilter, FastMarchingImageFilterBase, FastMarchingBase);
 
 
-  if(FastMarchingImageFilterBaseTestFunction<2>() == EXIT_FAILURE )
-    {
+  if (FastMarchingImageFilterBaseTestFunction<2>() == EXIT_FAILURE)
+  {
     std::cerr << "Test failed!" << std::endl;
     return EXIT_FAILURE;
-    }
-  if(FastMarchingImageFilterBaseTestFunction<3>() == EXIT_FAILURE )
-    {
+  }
+  if (FastMarchingImageFilterBaseTestFunction<3>() == EXIT_FAILURE)
+  {
     std::cerr << "Test failed!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
-  std::cout << "Test finished." <<std::endl;
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

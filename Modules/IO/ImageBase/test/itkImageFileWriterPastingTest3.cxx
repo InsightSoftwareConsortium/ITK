@@ -23,58 +23,61 @@
 #include "itkExtractImageFilter.h"
 
 using PixelType = unsigned char;
-using ImageType = itk::Image<PixelType,3>;
+using ImageType = itk::Image<PixelType, 3>;
 using ImagePointer = ImageType::Pointer;
 
-namespace {
-
-bool SameImage(ImagePointer testImage, ImagePointer baselineImage)
+namespace
 {
-  PixelType intensityTolerance = 0;
-  int radiusTolerance = 0;
+
+bool
+SameImage(ImagePointer testImage, ImagePointer baselineImage)
+{
+  PixelType     intensityTolerance = 0;
+  int           radiusTolerance = 0;
   unsigned long numberOfPixelTolerance = 0;
 
-  using DiffType = itk::Testing::ComparisonImageFilter<ImageType,ImageType>;
+  using DiffType = itk::Testing::ComparisonImageFilter<ImageType, ImageType>;
   DiffType::Pointer diff = DiffType::New();
   diff->SetValidInput(baselineImage);
   diff->SetTestInput(testImage);
-  diff->SetDifferenceThreshold( intensityTolerance );
-  diff->SetToleranceRadius( radiusTolerance );
+  diff->SetDifferenceThreshold(intensityTolerance);
+  diff->SetToleranceRadius(radiusTolerance);
   diff->UpdateLargestPossibleRegion();
 
   unsigned long status = diff->GetNumberOfPixelsWithDifferences();
 
   if (status > numberOfPixelTolerance)
-    {
+  {
     return false;
-    }
+  }
 
   return true;
 }
-}
+} // namespace
 
-int itkImageFileWriterPastingTest3(int argc, char* argv[])
+int
+itkImageFileWriterPastingTest3(int argc, char * argv[])
 {
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Usage: " << argv[0] << " input output" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // We remove the output file
   if (argc == 3)
-    {
+  {
     itksys::SystemTools::RemoveFile(argv[2]);
-    }
+  }
   else
-    {
+  {
     // copy this file to over write
     itksys::SystemTools::CopyAFile(argv[3], argv[2]);
-    }
+  }
 
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using WriterType = itk::ImageFileWriter<ImageType>;
 
 
   ImageType::Pointer image;
@@ -83,28 +86,28 @@ int itkImageFileWriterPastingTest3(int argc, char* argv[])
   // Then let the reader go out of scope to orphan the image to have
   // no source.
   {
-  ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
-  reader->SetUseStreaming( true );
-  reader->UpdateOutputInformation();
+    ReaderType::Pointer reader = ReaderType::New();
+    reader->SetFileName(argv[1]);
+    reader->SetUseStreaming(true);
+    reader->UpdateOutputInformation();
 
-  ImageType::RegionType largestRegion = reader->GetOutput()->GetLargestPossibleRegion();
+    ImageType::RegionType largestRegion = reader->GetOutput()->GetLargestPossibleRegion();
 
-  ImageType::RegionType ioRegion;
-  ImageType::IndexType ioIndex;
-  ioIndex[0] = largestRegion.GetIndex()[0]+largestRegion.GetSize()[0]/3;
-  ioIndex[1] = largestRegion.GetIndex()[1]+largestRegion.GetSize()[1]/3;
-  ioIndex[2] = largestRegion.GetIndex()[2]+largestRegion.GetSize()[2]/3;
-  ImageType::SizeType ioSize;
-  ioSize[0] = largestRegion.GetSize()[0]/3;
-  ioSize[1] = largestRegion.GetSize()[1]/3;
-  ioSize[2] = largestRegion.GetSize()[2]/3;
-  ioRegion = ImageType::RegionType(ioIndex, ioSize);
+    ImageType::RegionType ioRegion;
+    ImageType::IndexType  ioIndex;
+    ioIndex[0] = largestRegion.GetIndex()[0] + largestRegion.GetSize()[0] / 3;
+    ioIndex[1] = largestRegion.GetIndex()[1] + largestRegion.GetSize()[1] / 3;
+    ioIndex[2] = largestRegion.GetIndex()[2] + largestRegion.GetSize()[2] / 3;
+    ImageType::SizeType ioSize;
+    ioSize[0] = largestRegion.GetSize()[0] / 3;
+    ioSize[1] = largestRegion.GetSize()[1] / 3;
+    ioSize[2] = largestRegion.GetSize()[2] / 3;
+    ioRegion = ImageType::RegionType(ioIndex, ioSize);
 
-  image = reader->GetOutput();
+    image = reader->GetOutput();
 
-  image->SetRequestedRegion( ioRegion );
-  image->Update();
+    image->SetRequestedRegion(ioRegion);
+    image->Update();
   }
 
   // Setup the writer with an image which doesn't have a source
@@ -112,72 +115,69 @@ int itkImageFileWriterPastingTest3(int argc, char* argv[])
   // We expect that the writer should respect the LargestPossibleRegion
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName(argv[2]);
-  writer->SetInput( image );
+  writer->SetInput(image);
 
   // convert the buffered region of the image into an io region
-  itk::ImageIORegion  ioRegion(3);
-  itk::ImageIORegionAdaptor< ImageType::ImageDimension >::Convert( image->GetBufferedRegion(),
-                                                                   ioRegion,
-                                                                   image->GetLargestPossibleRegion().GetIndex() );
+  itk::ImageIORegion ioRegion(3);
+  itk::ImageIORegionAdaptor<ImageType::ImageDimension>::Convert(
+    image->GetBufferedRegion(), ioRegion, image->GetLargestPossibleRegion().GetIndex());
   writer->SetIORegion(ioRegion);
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
 
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
     if (argc > 3)
-      {
+    {
       return EXIT_SUCCESS;
-      }
-    return EXIT_FAILURE;
     }
+    return EXIT_FAILURE;
+  }
 
 
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
   reader->UpdateOutputInformation();
 
   ReaderType::Pointer readerTestImage = ReaderType::New();
-  readerTestImage->SetFileName( argv[2] );
+  readerTestImage->SetFileName(argv[2]);
   readerTestImage->UpdateOutputInformation();
 
   // Test that the size of the two images are the same
-  if ( reader->GetOutput()->GetLargestPossibleRegion() !=
-       readerTestImage->GetOutput()->GetLargestPossibleRegion() )
-    {
+  if (reader->GetOutput()->GetLargestPossibleRegion() != readerTestImage->GetOutput()->GetLargestPossibleRegion())
+  {
     std::cerr << "Image size don't match!" << std::endl;
     std::cerr << "Input size: " << reader->GetOutput()->GetLargestPossibleRegion()
-              << "Output size: " << readerTestImage->GetOutput()->GetLargestPossibleRegion()
-              << std::endl;
+              << "Output size: " << readerTestImage->GetOutput()->GetLargestPossibleRegion() << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // compare the two subregions
   using ExtractImageFilterType = itk::ExtractImageFilter<ImageType, ImageType>;
   ExtractImageFilterType::Pointer extractTestImage = ExtractImageFilterType::New();
   extractTestImage->SetInput(readerTestImage->GetOutput());
   extractTestImage->SetDirectionCollapseToSubmatrix();
-  extractTestImage->SetExtractionRegion( image->GetBufferedRegion() );
+  extractTestImage->SetExtractionRegion(image->GetBufferedRegion());
   extractTestImage->InPlaceOn();
 
   using ExtractImageFilterType = itk::ExtractImageFilter<ImageType, ImageType>;
   ExtractImageFilterType::Pointer extractBaselineImage = ExtractImageFilterType::New();
   extractBaselineImage->SetInput(reader->GetOutput());
   extractBaselineImage->SetDirectionCollapseToSubmatrix();
-  extractBaselineImage->SetExtractionRegion( image->GetBufferedRegion() );
+  extractBaselineImage->SetExtractionRegion(image->GetBufferedRegion());
   extractBaselineImage->InPlaceOn();
 
 
   if (!SameImage(extractTestImage->GetOutput(), extractBaselineImage->GetOutput()))
-    {
+  {
     std::cerr << "input paste and output paste regions don't match!\n";
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

@@ -38,25 +38,23 @@ namespace itk
  * \ingroup FiniteDifferenceFunctions
  * \ingroup ITKCurvatureFlow
  */
-template< typename TImage >
-class ITK_TEMPLATE_EXPORT BinaryMinMaxCurvatureFlowFunction:
-  public MinMaxCurvatureFlowFunction< TImage >
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT BinaryMinMaxCurvatureFlowFunction : public MinMaxCurvatureFlowFunction<TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryMinMaxCurvatureFlowFunction);
 
   /**  Standard class type aliases. */
   using Self = BinaryMinMaxCurvatureFlowFunction;
-  using Superclass = MinMaxCurvatureFlowFunction< TImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = MinMaxCurvatureFlowFunction<TImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(BinaryMinMaxCurvatureFlowFunction,
-               MinMaxCurvatureFlowFunction);
+  itkTypeMacro(BinaryMinMaxCurvatureFlowFunction, MinMaxCurvatureFlowFunction);
 
   /** Inherit some parameters from the superclass type. */
   using PixelType = typename Superclass::PixelType;
@@ -69,17 +67,23 @@ public:
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Set/Get the threshold value. */
-  void SetThreshold(const double thresh)
-  { m_Threshold = thresh; }
-  const double & GetThreshold() const
-  { return m_Threshold; }
+  void
+  SetThreshold(const double thresh)
+  {
+    m_Threshold = thresh;
+  }
+  const double &
+  GetThreshold() const
+  {
+    return m_Threshold;
+  }
 
   /** This method computes the solution update for each pixel that does not
    * lie on a the data set boundary. */
-  PixelType ComputeUpdate(const NeighborhoodType & neighborhood,
-                                  void *globalData,
-                                  const FloatOffsetType & offset = FloatOffsetType(0.0)
-                                  ) override;
+  PixelType
+  ComputeUpdate(const NeighborhoodType & neighborhood,
+                void *                   globalData,
+                const FloatOffsetType &  offset = FloatOffsetType(0.0)) override;
 
 protected:
   BinaryMinMaxCurvatureFlowFunction();
@@ -91,7 +95,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryMinMaxCurvatureFlowFunction.hxx"
+#  include "itkBinaryMinMaxCurvatureFlowFunction.hxx"
 #endif
 
 #endif

@@ -99,9 +99,8 @@ namespace itk
  * \sa ImageToImageFilter BinaryErodeImageFilter BinaryDilateImageFilter
  * \ingroup ITKBinaryMathematicalMorphology
  */
-template< typename TInputImage, typename TOutputImage, typename TKernel >
-class ITK_TEMPLATE_EXPORT BinaryMorphologyImageFilter:
-  public KernelImageFilter< TInputImage, TOutputImage, TKernel >
+template <typename TInputImage, typename TOutputImage, typename TKernel>
+class ITK_TEMPLATE_EXPORT BinaryMorphologyImageFilter : public KernelImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryMorphologyImageFilter);
@@ -119,9 +118,9 @@ public:
 
   /** Standard class type aliases. */
   using Self = BinaryMorphologyImageFilter;
-  using Superclass = KernelImageFilter< InputImageType, OutputImageType, TKernel >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = KernelImageFilter<InputImageType, OutputImageType, TKernel>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -138,7 +137,7 @@ public:
   /** Image type alias support */
   using InputPixelType = typename InputImageType::PixelType;
   using OutputPixelType = typename OutputImageType::PixelType;
-  using InputRealType = typename NumericTraits< InputPixelType >::RealType;
+  using InputRealType = typename NumericTraits<InputPixelType>::RealType;
   using OffsetType = typename InputImageType::OffsetType;
   using IndexType = typename InputImageType::IndexType;
   using IndexValueType = typename InputImageType::IndexValueType;
@@ -149,9 +148,7 @@ public:
   using InputSizeValueType = typename InputImageType::SizeValueType;
 
   /** Input and output images must be the same dimension. */
-  itkConceptMacro( ImageDimensionCheck,
-                   ( Concept::SameDimension< Self::InputImageDimension,
-                                             Self::OutputImageDimension > ) );
+  itkConceptMacro(ImageDimensionCheck, (Concept::SameDimension<Self::InputImageDimension, Self::OutputImageDimension>));
 
   /** Set the value in the image to consider as "foreground". Defaults to
    * maximum value of PixelType. Subclasses may alias this to
@@ -181,43 +178,55 @@ public:
   itkBooleanMacro(BoundaryToForeground);
 
   /** Set kernel (structuring element). */
-  void SetKernel(const KernelType & kernel) override;
+  void
+  SetKernel(const KernelType & kernel) override;
 
 protected:
   BinaryMorphologyImageFilter();
   ~BinaryMorphologyImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**
    * Analyze kernel and prepare data for GenerateData() function */
-  void AnalyzeKernel();
+  void
+  AnalyzeKernel();
 
   /** Type definition of container of neighbourhood index */
-  using NeighborIndexContainer = std::vector< OffsetType >;
+  using NeighborIndexContainer = std::vector<OffsetType>;
 
   /** Type definition of container of container of neighbourhood index */
-  using NeighborIndexContainerContainer = std::vector< NeighborIndexContainer >;
+  using NeighborIndexContainerContainer = std::vector<NeighborIndexContainer>;
 
   /** Type definition of the container for indices */
-  using ComponentVectorType = std::vector< OffsetType >;
+  using ComponentVectorType = std::vector<OffsetType>;
 
   /** Iterator for ComponentVectorType */
   using ComponentVectorConstIterator = typename ComponentVectorType::const_iterator;
 
   /**
    * Get the difference set for a particular offset */
-  NeighborIndexContainer & GetDifferenceSet(unsigned int code)
-  { return m_KernelDifferenceSets[code]; }
+  NeighborIndexContainer &
+  GetDifferenceSet(unsigned int code)
+  {
+    return m_KernelDifferenceSets[code];
+  }
 
   /**
    * Get an iterator to the start of the connected component vector */
-  ComponentVectorConstIterator KernelCCVectorBegin()
-  { return m_KernelCCVector.begin(); }
+  ComponentVectorConstIterator
+  KernelCCVectorBegin()
+  {
+    return m_KernelCCVector.begin();
+  }
 
   /**
    * Get an iterator to the end of the connected component vector */
-  ComponentVectorConstIterator KernelCCVectorEnd()
-  { return m_KernelCCVector.end(); }
+  ComponentVectorConstIterator
+  KernelCCVectorEnd()
+  {
+    return m_KernelCCVector.end();
+  }
 
   bool m_BoundaryToForeground;
 
@@ -234,12 +243,12 @@ private:
   /** For each Connected Component ( CC ) of structuring element we
    * store the position of one element, arbitrary chosen, which belongs
    * to the CC */
-  std::vector< OffsetType > m_KernelCCVector;
+  std::vector<OffsetType> m_KernelCCVector;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryMorphologyImageFilter.hxx"
+#  include "itkBinaryMorphologyImageFilter.hxx"
 #endif
 
 #endif

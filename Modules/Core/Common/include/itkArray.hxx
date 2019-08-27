@@ -24,124 +24,116 @@
 namespace itk
 {
 /** Default constructor */
-template< typename TValue >
-Array< TValue >
-::Array():vnl_vector< TValue >()
+template <typename TValue>
+Array<TValue>::Array()
+  : vnl_vector<TValue>()
 {
   m_LetArrayManageMemory = true;
 }
 
 /** Copy constructor */
-template < typename TValue >
-Array<TValue>
-::Array(const Self & rhs)
-  : vnl_vector<TValue>(rhs),
-    // The vnl vector copy constructor creates new memory
-    // no matter the setting of let array manage memory of rhs
-    m_LetArrayManageMemory(true)
-{
-}
-
-/** Constructor with size */
-template< typename TValue >
-Array< TValue >
-::Array(SizeValueType dimension)
-  : vnl_vector< TValue >(dimension),
-    // The vnl vector copy constructor creates new memory
-    // no matter the setting of let array manage memory of rhs
-    m_LetArrayManageMemory(true)
-{
-}
-
-/** Constructor with user specified data */
-template< typename TValue >
-Array< TValue >
-::Array(ValueType *datain, SizeValueType sz, bool LetArrayManageMemory):
-  m_LetArrayManageMemory(LetArrayManageMemory)
-{
-  vnl_vector< TValue >::data = datain;
-  vnl_vector< TValue >::num_elmts = sz;
-}
-
-#if defined ( ITK_LEGACY_REMOVE )
-/** Constructor with user specified const data */
-template< typename TValue >
-Array< TValue >
-::Array(const ValueType *datain, SizeValueType sz):
-  vnl_vector< TValue >( datain, sz),
+template <typename TValue>
+Array<TValue>::Array(const Self & rhs)
+  : vnl_vector<TValue>(rhs)
+  ,
   // The vnl vector copy constructor creates new memory
   // no matter the setting of let array manage memory of rhs
   m_LetArrayManageMemory(true)
+{}
+
+/** Constructor with size */
+template <typename TValue>
+Array<TValue>::Array(SizeValueType dimension)
+  : vnl_vector<TValue>(dimension)
+  ,
+  // The vnl vector copy constructor creates new memory
+  // no matter the setting of let array manage memory of rhs
+  m_LetArrayManageMemory(true)
+{}
+
+/** Constructor with user specified data */
+template <typename TValue>
+Array<TValue>::Array(ValueType * datain, SizeValueType sz, bool LetArrayManageMemory)
+  : m_LetArrayManageMemory(LetArrayManageMemory)
 {
+  vnl_vector<TValue>::data = datain;
+  vnl_vector<TValue>::num_elmts = sz;
 }
+
+#if defined(ITK_LEGACY_REMOVE)
+/** Constructor with user specified const data */
+template <typename TValue>
+Array<TValue>::Array(const ValueType * datain, SizeValueType sz)
+  : vnl_vector<TValue>(datain, sz)
+  ,
+  // The vnl vector copy constructor creates new memory
+  // no matter the setting of let array manage memory of rhs
+  m_LetArrayManageMemory(true)
+{}
 
 #else // defined ( ITK_LEGACY_REMOVE )
 /** Constructor with user specified const data */
-template< typename TValue >
-Array< TValue >
-::Array(const ValueType *datain, SizeValueType sz, bool /* LetArrayManageMemory */):
-  /* NOTE: The 3rd argument "LetArrayManageMemory, was never valid to use, but is
-   * preserved to maintain backwards compatibility*/
-  vnl_vector< TValue >( datain, sz),
+template <typename TValue>
+Array<TValue>::Array(const ValueType * datain, SizeValueType sz, bool /* LetArrayManageMemory */)
+  : /* NOTE: The 3rd argument "LetArrayManageMemory, was never valid to use, but is
+     * preserved to maintain backwards compatibility*/
+  vnl_vector<TValue>(datain, sz)
+  ,
   // The vnl vector copy constructor creates new memory
   // no matter the setting of let array manage memory of rhs
   m_LetArrayManageMemory(true)
-{
-}
+{}
 #endif
 
 
 /** Destructor */
-template< typename TValue >
-Array< TValue >
-::~Array()
+template <typename TValue>
+Array<TValue>::~Array()
 {
-  if ( !m_LetArrayManageMemory )
-    {
-    vnl_vector< TValue >::data = nullptr;
-    }
+  if (!m_LetArrayManageMemory)
+  {
+    vnl_vector<TValue>::data = nullptr;
+  }
 }
 
-template< typename TValue >
+template <typename TValue>
 void
-Array< TValue >
-::SetDataSameSize(TValue *datain, bool LetArrayManageMemory)
+Array<TValue>::SetDataSameSize(TValue * datain, bool LetArrayManageMemory)
 {
-  if ( m_LetArrayManageMemory )
-    {
-    vnl_vector< TValue >::destroy();
-    }
-  vnl_vector< TValue >::data = datain;
+  if (m_LetArrayManageMemory)
+  {
+    vnl_vector<TValue>::destroy();
+  }
+  vnl_vector<TValue>::data = datain;
   // NOTE: Required to have same size vnl_vector< TValue >::num_elmts = sz;
   m_LetArrayManageMemory = LetArrayManageMemory;
 }
 
-template< typename TValue >
+template <typename TValue>
 void
-Array< TValue >
-::SetData(TValue *datain, SizeValueType sz, bool LetArrayManageMemory)
+Array<TValue>::SetData(TValue * datain, SizeValueType sz, bool LetArrayManageMemory)
 {
-  if ( m_LetArrayManageMemory )
-    {
-    vnl_vector< TValue >::destroy();
-    }
-  vnl_vector< TValue >::data = datain;
-  vnl_vector< TValue >::num_elmts = sz;
+  if (m_LetArrayManageMemory)
+  {
+    vnl_vector<TValue>::destroy();
+  }
+  vnl_vector<TValue>::data = datain;
+  vnl_vector<TValue>::num_elmts = sz;
   m_LetArrayManageMemory = LetArrayManageMemory;
 }
 
-template< typename TValue >
-void Array< TValue >
-::SetSize(SizeValueType sz)
+template <typename TValue>
+void
+Array<TValue>::SetSize(SizeValueType sz)
 {
-  if ( this->size() != sz )
-    {
+  if (this->size() != sz)
+  {
     // If the array doesn't own the data we do not want to erase it
     // on a resize
-    if ( !m_LetArrayManageMemory )
-      {
-      vnl_vector< TValue >::data = nullptr;
-      }
+    if (!m_LetArrayManageMemory)
+    {
+      vnl_vector<TValue>::data = nullptr;
+    }
 
     // Call the superclass's set_size
     this->set_size(sz);
@@ -149,48 +141,44 @@ void Array< TValue >
     // Size we have allocated new data we need to take
     // responsibility for deleting it
     m_LetArrayManageMemory = true;
-    }
+  }
 }
 
-template< typename TValue >
-const typename Array< TValue >
-::Self &
-Array< TValue >
-::operator=(const Self & rhs)
+template <typename TValue>
+const typename Array<TValue>::Self &
+Array<TValue>::operator=(const Self & rhs)
 {
-  if ( this != &rhs )
-    {
+  if (this != &rhs)
+  {
 
     // Set the size the same as rhs.
     // The SetSize method takes care of who is responsible
     // for memory management
     //
-    this->SetSize( rhs.GetSize() );
+    this->SetSize(rhs.GetSize());
 
     // Call the superclass implementation
     this->VnlVectorType::operator=(rhs);
-    }
+  }
   return *this;
 }
 
-template< typename TValue >
-const typename Array< TValue >
-::Self &
-Array< TValue >
-::operator=(const VnlVectorType & rhs)
+template <typename TValue>
+const typename Array<TValue>::Self &
+Array<TValue>::operator=(const VnlVectorType & rhs)
 {
-  if ( this != &rhs )
-    {
+  if (this != &rhs)
+  {
 
     // Set the size the same as rhs.
     // The SetSize method takes care of who is responsible
     // for memory management
     //
-    this->SetSize( rhs.size() );
+    this->SetSize(rhs.size());
 
     // Call the superclass implementation
     this->VnlVectorType::operator=(rhs);
-    }
+  }
   return *this;
 }
 } // namespace itk

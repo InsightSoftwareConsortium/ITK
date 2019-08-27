@@ -24,138 +24,123 @@
 namespace itk
 {
 /** Default contstructor */
-template<typename TParametersValueType>
-OptimizerParameters<TParametersValueType>
-::OptimizerParameters()
-  : Array<TParametersValueType>(),
-    m_Helper(nullptr)
+template <typename TParametersValueType>
+OptimizerParameters<TParametersValueType>::OptimizerParameters()
+  : Array<TParametersValueType>()
+  , m_Helper(nullptr)
 {
   this->Initialize();
 }
 
 /** Copy constructor */
-template<typename TParametersValueType>
-OptimizerParameters<TParametersValueType>
-::OptimizerParameters(const OptimizerParameters& rhs)
-  : Array<TParametersValueType>(rhs),
-    m_Helper(nullptr)
+template <typename TParametersValueType>
+OptimizerParameters<TParametersValueType>::OptimizerParameters(const OptimizerParameters & rhs)
+  : Array<TParametersValueType>(rhs)
+  , m_Helper(nullptr)
 {
-  //Note: don't copy the OptimizerParametersHelper.
-  //The Array copy constructor will allocate new memory
-  //and copy the data to it. So we end up here with a generic
-  //OptimizerParameters data object even if 'rhs' points to
-  //something different.
+  // Note: don't copy the OptimizerParametersHelper.
+  // The Array copy constructor will allocate new memory
+  // and copy the data to it. So we end up here with a generic
+  // OptimizerParameters data object even if 'rhs' points to
+  // something different.
   this->Initialize();
 }
 
 /** Constructor with size */
-template<typename TParametersValueType>
-OptimizerParameters<TParametersValueType>
-::OptimizerParameters(SizeValueType dimension)
-  : Array<TParametersValueType>(dimension),
-    m_Helper(nullptr)
+template <typename TParametersValueType>
+OptimizerParameters<TParametersValueType>::OptimizerParameters(SizeValueType dimension)
+  : Array<TParametersValueType>(dimension)
+  , m_Helper(nullptr)
 {
   this->Initialize();
 }
 
 /** Constructor with Array assignment */
-template<typename TParametersValueType>
-OptimizerParameters<TParametersValueType>
-::OptimizerParameters(const ArrayType& array)
-  : Array<TParametersValueType>(array),
-    m_Helper(nullptr)
+template <typename TParametersValueType>
+OptimizerParameters<TParametersValueType>::OptimizerParameters(const ArrayType & array)
+  : Array<TParametersValueType>(array)
+  , m_Helper(nullptr)
 {
   this->Initialize();
 }
 
-template<typename TParametersValueType>
+template <typename TParametersValueType>
 void
-OptimizerParameters<TParametersValueType>
-::Initialize()
+OptimizerParameters<TParametersValueType>::Initialize()
 {
   // Set the default OptimizerParametersHelper
   auto * helper = new OptimizerParametersHelperType;
   // OptimizerParameters will manage this memory.
-  this->SetHelper( helper );
+  this->SetHelper(helper);
 }
 
 /** Destructor */
-template<typename TParametersValueType>
-OptimizerParameters<TParametersValueType>
-::~OptimizerParameters()
+template <typename TParametersValueType>
+OptimizerParameters<TParametersValueType>::~OptimizerParameters()
 {
   delete this->m_Helper;
 }
 
-template<typename TParametersValueType>
+template <typename TParametersValueType>
 void
-OptimizerParameters<TParametersValueType>
-::SetHelper( OptimizerParametersHelperType* helper )
+OptimizerParameters<TParametersValueType>::SetHelper(OptimizerParametersHelperType * helper)
 {
   delete this->m_Helper;
   this->m_Helper = helper;
 }
 
 /** Copy operator for self */
-template<typename TParametersValueType>
-const typename OptimizerParameters<TParametersValueType>
-::Self &
-OptimizerParameters<TParametersValueType>
-::operator=(const Self & rhs)
+template <typename TParametersValueType>
+const typename OptimizerParameters<TParametersValueType>::Self &
+OptimizerParameters<TParametersValueType>::operator=(const Self & rhs)
 {
-  //Note: there's no need to copy the OptimizerParametersHelper.
+  // Note: there's no need to copy the OptimizerParametersHelper.
   // Call the superclass implementation.
   this->ArrayType::operator=(rhs);
   return *this;
 }
 
-template<typename TParametersValueType>
-const typename OptimizerParameters<TParametersValueType>
-::Self &
-OptimizerParameters<TParametersValueType>
-::operator=(const ArrayType & rhs)
+template <typename TParametersValueType>
+const typename OptimizerParameters<TParametersValueType>::Self &
+OptimizerParameters<TParametersValueType>::operator=(const ArrayType & rhs)
 {
   // Call the superclass implementation
   this->ArrayType::operator=(rhs);
   return *this;
 }
 
-template<typename TParametersValueType>
-const typename OptimizerParameters<TParametersValueType>
-::Self &
-OptimizerParameters<TParametersValueType>
-::operator=(const VnlVectorType & rhs)
+template <typename TParametersValueType>
+const typename OptimizerParameters<TParametersValueType>::Self &
+OptimizerParameters<TParametersValueType>::operator=(const VnlVectorType & rhs)
 {
   // Call the superclass implementation
   this->ArrayType::operator=(rhs);
   return *this;
 }
 
-template<typename TParametersValueType>
+template <typename TParametersValueType>
 void
-OptimizerParameters<TParametersValueType>
-::MoveDataPointer( TParametersValueType * pointer )
+OptimizerParameters<TParametersValueType>::MoveDataPointer(TParametersValueType * pointer)
 {
-  if( m_Helper == nullptr )
-    {
+  if (m_Helper == nullptr)
+  {
     itkGenericExceptionMacro("OptimizerParameters::MoveDataPointer: "
-      "m_Helper must be set.");
-    }
-  this->m_Helper->MoveDataPointer( this, pointer );
+                             "m_Helper must be set.");
+  }
+  this->m_Helper->MoveDataPointer(this, pointer);
 }
 
-template<typename TParametersValueType>
+template <typename TParametersValueType>
 void
-OptimizerParameters<TParametersValueType>
-::SetParametersObject( LightObject * object )
+OptimizerParameters<TParametersValueType>::SetParametersObject(LightObject * object)
 {
-  if( m_Helper == nullptr )
-    {
+  if (m_Helper == nullptr)
+  {
     itkGenericExceptionMacro("OptimizerParameters::SetParameterObject: "
-      "m_Helper must be set.");
-    }
-    this->m_Helper->SetParametersObject( this, object );
+                             "m_Helper must be set.");
+  }
+  this->m_Helper->SetParametersObject(this, object);
 }
 
-}//namespace itk
+} // namespace itk
 #endif

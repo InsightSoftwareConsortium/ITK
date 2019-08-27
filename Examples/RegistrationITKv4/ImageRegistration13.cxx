@@ -54,7 +54,7 @@ public:
   using Self = CommandIterationUpdate;
   using Superclass = itk::Command;
   using Pointer = itk::SmartPointer<Self>;
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
 protected:
   CommandIterationUpdate() = default;
@@ -63,41 +63,44 @@ public:
   using OptimizerType = itk::RegularStepGradientDescentOptimizerv4<double>;
   using OptimizerPointer = const OptimizerType *;
 
-  void Execute(itk::Object *caller, const itk::EventObject & event) override
-    {
-    Execute( (const itk::Object *)caller, event);
-    }
+  void
+  Execute(itk::Object * caller, const itk::EventObject & event) override
+  {
+    Execute((const itk::Object *)caller, event);
+  }
 
-  void Execute(const itk::Object * object, const itk::EventObject & event) override
+  void
+  Execute(const itk::Object * object, const itk::EventObject & event) override
+  {
+    auto optimizer = static_cast<OptimizerPointer>(object);
+    if (!itk::IterationEvent().CheckEvent(&event))
     {
-    auto optimizer = static_cast< OptimizerPointer >( object );
-    if( ! itk::IterationEvent().CheckEvent( &event ) )
-      {
       return;
-      }
+    }
     std::cout << optimizer->GetCurrentIteration() << "   ";
     std::cout << optimizer->GetValue() << "   ";
     std::cout << optimizer->GetCurrentPosition() << std::endl;
-    }
+  }
 };
 
 
-int main( int argc, char *argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
     std::cerr << "outputImagefile " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int Dimension = 2;
   using PixelType = float;
 
-  using FixedImageType = itk::Image< PixelType, Dimension >;
-  using MovingImageType = itk::Image< PixelType, Dimension >;
+  using FixedImageType = itk::Image<PixelType, Dimension>;
+  using MovingImageType = itk::Image<PixelType, Dimension>;
 
   // Software Guide : BeginLatex
   //
@@ -106,58 +109,55 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using TransformType = itk::Euler2DTransform< double >;
+  using TransformType = itk::Euler2DTransform<double>;
   // Software Guide : EndCodeSnippet
 
   using OptimizerType = itk::RegularStepGradientDescentOptimizerv4<double>;
 
-  using RegistrationType = itk::ImageRegistrationMethodv4<
-                                    FixedImageType,
-                                    MovingImageType,
-                                    TransformType >;
+  using RegistrationType =
+    itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType, TransformType>;
 
 
   // Software Guide : BeginCodeSnippet
-  using MetricType = itk::MattesMutualInformationImageToImageMetricv4<
-                                          FixedImageType,
-                                          MovingImageType >;
+  using MetricType =
+    itk::MattesMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType>;
   // Software Guide : EndCodeSnippet
 
-  TransformType::Pointer      transform     = TransformType::New();
-  MetricType::Pointer         metric        = MetricType::New();
-  OptimizerType::Pointer      optimizer     = OptimizerType::New();
-  RegistrationType::Pointer   registration  = RegistrationType::New();
+  TransformType::Pointer    transform = TransformType::New();
+  MetricType::Pointer       metric = MetricType::New();
+  OptimizerType::Pointer    optimizer = OptimizerType::New();
+  RegistrationType::Pointer registration = RegistrationType::New();
 
-  registration->SetOptimizer(     optimizer     );
-  registration->SetMetric( metric  );
+  registration->SetOptimizer(optimizer);
+  registration->SetMetric(metric);
 
   // For consistent results when regression testing.
   registration->MetricSamplingReinitializeSeed(121212);
 
   // Software Guide : BeginCodeSnippet
-  metric->SetNumberOfHistogramBins( 20 );
+  metric->SetNumberOfHistogramBins(20);
 
 
   double samplingPercentage = 0.20;
-  registration->SetMetricSamplingPercentage( samplingPercentage );
+  registration->SetMetricSamplingPercentage(samplingPercentage);
 
-  RegistrationType::MetricSamplingStrategyType  samplingStrategy  =
-                                                      RegistrationType::RANDOM;
-  registration->SetMetricSamplingStrategy( samplingStrategy );
+  RegistrationType::MetricSamplingStrategyType samplingStrategy =
+    RegistrationType::RANDOM;
+  registration->SetMetricSamplingStrategy(samplingStrategy);
   // Software Guide : EndCodeSnippet
 
 
-  using FixedImageReaderType = itk::ImageFileReader< FixedImageType  >;
-  using MovingImageReaderType = itk::ImageFileReader< MovingImageType >;
+  using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
+  using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer  fixedImageReader  = FixedImageReaderType::New();
+  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
   MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
 
-  fixedImageReader->SetFileName(  argv[1] );
-  movingImageReader->SetFileName( argv[2] );
+  fixedImageReader->SetFileName(argv[1]);
+  movingImageReader->SetFileName(argv[2]);
 
-  registration->SetFixedImage(    fixedImageReader->GetOutput()    );
-  registration->SetMovingImage(   movingImageReader->GetOutput()   );
+  registration->SetFixedImage(fixedImageReader->GetOutput());
+  registration->SetMovingImage(movingImageReader->GetOutput());
 
   fixedImageReader->Update();
 
@@ -182,23 +182,20 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using TransformInitializerType = itk::CenteredTransformInitializer<
-    TransformType,
-    FixedImageType,
-    MovingImageType >;
-  TransformInitializerType::Pointer initializer
-    = TransformInitializerType::New();
-  initializer->SetTransform(   transform );
+  using TransformInitializerType =
+    itk::CenteredTransformInitializer<TransformType, FixedImageType, MovingImageType>;
+  TransformInitializerType::Pointer initializer = TransformInitializerType::New();
+  initializer->SetTransform(transform);
 
-  initializer->SetFixedImage(  fixedImageReader->GetOutput() );
-  initializer->SetMovingImage( movingImageReader->GetOutput() );
+  initializer->SetFixedImage(fixedImageReader->GetOutput());
+  initializer->SetMovingImage(movingImageReader->GetOutput());
   initializer->GeometryOn();
   initializer->InitializeTransform();
   // Software Guide : EndCodeSnippet
 
-  transform->SetAngle( 0.0 );
+  transform->SetAngle(0.0);
 
-  registration->SetInitialTransform( transform );
+  registration->SetInitialTransform(transform);
   registration->InPlaceOn();
 
   // Software Guide : BeginLatex
@@ -212,7 +209,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   using OptimizerScalesType = OptimizerType::ScalesType;
-  OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
+  OptimizerScalesType optimizerScales(transform->GetNumberOfParameters());
 
   const double translationScale = 1.0 / 128.0;
 
@@ -220,11 +217,11 @@ int main( int argc, char *argv[] )
   optimizerScales[1] = translationScale;
   optimizerScales[2] = translationScale;
 
-  optimizer->SetScales( optimizerScales );
+  optimizer->SetScales(optimizerScales);
 
-  optimizer->SetLearningRate( 0.5 );
-  optimizer->SetMinimumStepLength( 0.0001 );
-  optimizer->SetNumberOfIterations( 400 );
+  optimizer->SetLearningRate(0.5);
+  optimizer->SetMinimumStepLength(0.0001);
+  optimizer->SetNumberOfIterations(400);
   // Software Guide : EndCodeSnippet
 
   // One level registration process without shrinking and smoothing.
@@ -232,46 +229,48 @@ int main( int argc, char *argv[] )
   constexpr unsigned int numberOfLevels = 1;
 
   RegistrationType::ShrinkFactorsArrayType shrinkFactorsPerLevel;
-  shrinkFactorsPerLevel.SetSize( 1 );
+  shrinkFactorsPerLevel.SetSize(1);
   shrinkFactorsPerLevel[0] = 1;
 
   RegistrationType::SmoothingSigmasArrayType smoothingSigmasPerLevel;
-  smoothingSigmasPerLevel.SetSize( 1 );
+  smoothingSigmasPerLevel.SetSize(1);
   smoothingSigmasPerLevel[0] = 0;
 
-  registration->SetNumberOfLevels ( numberOfLevels );
-  registration->SetSmoothingSigmasPerLevel( smoothingSigmasPerLevel );
-  registration->SetShrinkFactorsPerLevel( shrinkFactorsPerLevel );
+  registration->SetNumberOfLevels(numberOfLevels);
+  registration->SetSmoothingSigmasPerLevel(smoothingSigmasPerLevel);
+  registration->SetShrinkFactorsPerLevel(shrinkFactorsPerLevel);
 
   // Create the Command observer and register it with the optimizer.
   //
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
-  optimizer->AddObserver( itk::IterationEvent(), observer );
+  optimizer->AddObserver(itk::IterationEvent(), observer);
 
 
   try
-    {
+  {
     registration->Update();
     std::cout << "Optimizer stop condition = "
               << registration->GetOptimizer()->GetStopConditionDescription()
               << std::endl;
-    }
-  catch( itk::ExceptionObject & err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cout << "ExceptionObject caught !" << std::endl;
     std::cout << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   using ParametersType = TransformType::ParametersType;
   ParametersType finalParameters = transform->GetParameters();
 
-  const double finalAngle           = finalParameters[0];
-  const double finalTranslationX    = finalParameters[1];
-  const double finalTranslationY    = finalParameters[2];
+  const double finalAngle = finalParameters[0];
+  const double finalTranslationX = finalParameters[1];
+  const double finalTranslationY = finalParameters[2];
 
-  const double rotationCenterX = registration->GetOutput()->Get()->GetFixedParameters()[0];
-  const double rotationCenterY = registration->GetOutput()->Get()->GetFixedParameters()[1];
+  const double rotationCenterX =
+    registration->GetOutput()->Get()->GetFixedParameters()[0];
+  const double rotationCenterY =
+    registration->GetOutput()->Get()->GetFixedParameters()[1];
 
   unsigned int numberOfIterations = optimizer->GetCurrentIteration();
 
@@ -283,50 +282,46 @@ int main( int argc, char *argv[] )
   const double finalAngleInDegrees = finalAngle * 180 / itk::Math::pi;
 
   std::cout << "Result = " << std::endl;
-  std::cout << " Angle (radians) " << finalAngle  << std::endl;
-  std::cout << " Angle (degrees) " << finalAngleInDegrees  << std::endl;
-  std::cout << " Translation X  = " << finalTranslationX  << std::endl;
-  std::cout << " Translation Y  = " << finalTranslationY  << std::endl;
-  std::cout << " Fixed Center X = " << rotationCenterX  << std::endl;
-  std::cout << " Fixed Center Y = " << rotationCenterY  << std::endl;
+  std::cout << " Angle (radians) " << finalAngle << std::endl;
+  std::cout << " Angle (degrees) " << finalAngleInDegrees << std::endl;
+  std::cout << " Translation X  = " << finalTranslationX << std::endl;
+  std::cout << " Translation Y  = " << finalTranslationY << std::endl;
+  std::cout << " Fixed Center X = " << rotationCenterX << std::endl;
+  std::cout << " Fixed Center Y = " << rotationCenterY << std::endl;
   std::cout << " Iterations     = " << numberOfIterations << std::endl;
-  std::cout << " Metric value   = " << bestValue          << std::endl;
+  std::cout << " Metric value   = " << bestValue << std::endl;
 
 
-  using ResampleFilterType = itk::ResampleImageFilter<
-                            MovingImageType,
-                            FixedImageType >;
+  using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
-  resample->SetTransform( transform );
-  resample->SetInput( movingImageReader->GetOutput() );
+  resample->SetTransform(transform);
+  resample->SetInput(movingImageReader->GetOutput());
 
   FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
-  resample->SetSize(    fixedImage->GetLargestPossibleRegion().GetSize() );
-  resample->SetOutputOrigin(  fixedImage->GetOrigin() );
-  resample->SetOutputSpacing( fixedImage->GetSpacing() );
-  resample->SetOutputDirection( fixedImage->GetDirection() );
-  resample->SetDefaultPixelValue( 100 );
+  resample->SetSize(fixedImage->GetLargestPossibleRegion().GetSize());
+  resample->SetOutputOrigin(fixedImage->GetOrigin());
+  resample->SetOutputSpacing(fixedImage->GetSpacing());
+  resample->SetOutputDirection(fixedImage->GetDirection());
+  resample->SetDefaultPixelValue(100);
 
   using OutputPixelType = unsigned char;
 
-  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  using CastFilterType = itk::CastImageFilter<
-                        FixedImageType,
-                        OutputImageType >;
+  using CastFilterType = itk::CastImageFilter<FixedImageType, OutputImageType>;
 
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  WriterType::Pointer      writer =  WriterType::New();
-  CastFilterType::Pointer  caster =  CastFilterType::New();
+  WriterType::Pointer     writer = WriterType::New();
+  CastFilterType::Pointer caster = CastFilterType::New();
 
-  writer->SetFileName( argv[3] );
+  writer->SetFileName(argv[3]);
 
-  caster->SetInput( resample->GetOutput() );
-  writer->SetInput( caster->GetOutput()   );
+  caster->SetInput(resample->GetOutput());
+  writer->SetInput(caster->GetOutput());
   writer->Update();
 
   return EXIT_SUCCESS;

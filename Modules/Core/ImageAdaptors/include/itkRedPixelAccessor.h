@@ -34,7 +34,7 @@ namespace itk
  * \ingroup ITKImageAdaptors
  */
 
-template< typename T >
+template <typename T>
 class RedPixelAccessor
 {
 public:
@@ -42,35 +42,39 @@ public:
   using Self = RedPixelAccessor;
 
   /** External type alias. It defines the external aspect
-    * that this class will exhibit */
+   * that this class will exhibit */
   using ExternalType = T;
 
   /** Internal type alias. It defines the internal real
    * representation of data */
-  using InternalType = RGBPixel< T >;
+  using InternalType = RGBPixel<T>;
 
   /** Write access to the Red component */
-  inline void Set(InternalType & output, const ExternalType & input) const
+  inline void
+  Set(InternalType & output, const ExternalType & input) const
   {
     output.SetRed(input);
   }
 
   /** Read access to the Red component */
-  inline const ExternalType & Get(const InternalType & input) const
+  inline const ExternalType &
+  Get(const InternalType & input) const
   {
     return input.GetRed();
   }
 
-  bool operator!=(const Self &) const
+  bool
+  operator!=(const Self &) const
   {
     return false;
   }
 
-  bool operator==(const Self & other) const
+  bool
+  operator==(const Self & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 };
-}  // end namespace itk
+} // end namespace itk
 
 #endif

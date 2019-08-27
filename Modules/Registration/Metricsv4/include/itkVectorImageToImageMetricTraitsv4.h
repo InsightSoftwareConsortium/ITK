@@ -39,13 +39,11 @@ namespace itk
  *
  * \ingroup ITKMetricsv4
  */
-template<
-  typename    TFixedImageType,
-  typename    TMovingImageType,
-  typename    TVirtualImageType,
-  unsigned int NumberOfComponents,
-  typename TCoordRep = typename ObjectToObjectMetricBase::CoordinateRepresentationType
-  >
+template <typename TFixedImageType,
+          typename TMovingImageType,
+          typename TVirtualImageType,
+          unsigned int NumberOfComponents,
+          typename TCoordRep = typename ObjectToObjectMetricBase::CoordinateRepresentationType>
 class VectorImageToImageMetricTraitsv4
 {
 public:
@@ -67,57 +65,49 @@ public:
   static constexpr ImageDimensionType MovingImageDimension = MovingImageType::ImageDimension;
   static constexpr ImageDimensionType VirtualImageDimension = VirtualImageType::ImageDimension;
 
-  using FixedImageGradientType = Vector< CoordinateRepresentationType, FixedImageDimension*NumberOfComponents >;
-  using MovingImageGradientType = Vector< CoordinateRepresentationType, MovingImageDimension*NumberOfComponents >;
-  using VirtualImageGradientType = Vector< CoordinateRepresentationType, VirtualImageDimension*NumberOfComponents >;
+  using FixedImageGradientType = Vector<CoordinateRepresentationType, FixedImageDimension * NumberOfComponents>;
+  using MovingImageGradientType = Vector<CoordinateRepresentationType, MovingImageDimension * NumberOfComponents>;
+  using VirtualImageGradientType = Vector<CoordinateRepresentationType, VirtualImageDimension * NumberOfComponents>;
 
-  using FixedImageGradientConvertType = DefaultConvertPixelTraits< FixedImageGradientType >;
-  using MovingImageGradientConvertType = DefaultConvertPixelTraits< MovingImageGradientType >;
+  using FixedImageGradientConvertType = DefaultConvertPixelTraits<FixedImageGradientType>;
+  using MovingImageGradientConvertType = DefaultConvertPixelTraits<MovingImageGradientType>;
 
   /** Type of the filter used to calculate the gradients. */
-  using FixedRealType = typename NumericTraits< FixedImagePixelType >::RealType;
-  using MovingRealType = typename NumericTraits< MovingImagePixelType >::RealType;
+  using FixedRealType = typename NumericTraits<FixedImagePixelType>::RealType;
+  using MovingRealType = typename NumericTraits<MovingImagePixelType>::RealType;
 
   using FixedGradientPixelType = FixedImageGradientType;
   using MovingGradientPixelType = MovingImageGradientType;
 
-  using FixedImageGradientImageType = Image< FixedGradientPixelType,
-                 Self::FixedImageDimension >;
+  using FixedImageGradientImageType = Image<FixedGradientPixelType, Self::FixedImageDimension>;
 
-  using FixedImageGradientFilterType =
-      ImageToImageFilter< FixedImageType, FixedImageGradientImageType >;
+  using FixedImageGradientFilterType = ImageToImageFilter<FixedImageType, FixedImageGradientImageType>;
 
-  using MovingImageGradientImageType = Image< MovingGradientPixelType,
-                 Self::MovingImageDimension >;
+  using MovingImageGradientImageType = Image<MovingGradientPixelType, Self::MovingImageDimension>;
 
-  using MovingImageGradientFilterType =
-      ImageToImageFilter< MovingImageType, MovingImageGradientImageType >;
+  using MovingImageGradientFilterType = ImageToImageFilter<MovingImageType, MovingImageGradientImageType>;
 
   using FixedImageComponentGradientType = CovariantVector<CoordinateRepresentationType, FixedImageDimension>;
   using MovingImageComponentGradientType = CovariantVector<CoordinateRepresentationType, MovingImageDimension>;
   using VirtualImageComponentGradientType = CovariantVector<CoordinateRepresentationType, VirtualImageDimension>;
 
   /** Default image gradient filter types */
-  using DefaultFixedImageGradientFilter = GradientRecursiveGaussianImageFilter< FixedImageType,
-                                                FixedImageGradientImageType >;
-  using DefaultMovingImageGradientFilter = GradientRecursiveGaussianImageFilter< MovingImageType,
-                                                MovingImageGradientImageType >;
+  using DefaultFixedImageGradientFilter =
+    GradientRecursiveGaussianImageFilter<FixedImageType, FixedImageGradientImageType>;
+  using DefaultMovingImageGradientFilter =
+    GradientRecursiveGaussianImageFilter<MovingImageType, MovingImageGradientImageType>;
 
   /** Image gradient calculator types. The TOutput template parameter
    * is chosen to match that of CentralDiffererenceImageFunction. */
-  using FixedImageGradientCalculatorType = ImageFunction<FixedImageType,
-                        FixedImageGradientType,
-                        CoordinateRepresentationType>;
-  using MovingImageGradientCalculatorType = ImageFunction<MovingImageType,
-                        MovingImageGradientType,
-                        CoordinateRepresentationType>;
+  using FixedImageGradientCalculatorType =
+    ImageFunction<FixedImageType, FixedImageGradientType, CoordinateRepresentationType>;
+  using MovingImageGradientCalculatorType =
+    ImageFunction<MovingImageType, MovingImageGradientType, CoordinateRepresentationType>;
 
-  using DefaultFixedImageGradientCalculator = CentralDifferenceImageFunction<FixedImageType,
-                                         CoordinateRepresentationType,
-                                         FixedImageGradientType>;
-  using DefaultMovingImageGradientCalculator = CentralDifferenceImageFunction<MovingImageType,
-                                         CoordinateRepresentationType,
-                                         MovingImageGradientType>;
+  using DefaultFixedImageGradientCalculator =
+    CentralDifferenceImageFunction<FixedImageType, CoordinateRepresentationType, FixedImageGradientType>;
+  using DefaultMovingImageGradientCalculator =
+    CentralDifferenceImageFunction<MovingImageType, CoordinateRepresentationType, MovingImageGradientType>;
 };
 } // end namespace itk
 

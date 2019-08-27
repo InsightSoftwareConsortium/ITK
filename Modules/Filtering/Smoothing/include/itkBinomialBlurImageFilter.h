@@ -39,18 +39,17 @@ namespace itk
  * \sphinxexample{Filtering/Smoothing/BlurringAnImageUsingABinomialKernel,Blurring An Image Using A Binomial Kernel}
  * \endsphinx
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT BinomialBlurImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT BinomialBlurImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinomialBlurImageFilter);
 
   /** Standard class type aliases. */
   using Self = BinomialBlurImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -70,7 +69,7 @@ public:
   using InputImageConstPointer = typename InputImageType::ConstPointer;
 
   /** Image size type alias */
-  using SizeType = Size< Self::NDimensions >;
+  using SizeType = Size<Self::NDimensions>;
 
   /** Image index type alias */
   using IndexType = typename TOutputImage::IndexType;
@@ -89,27 +88,26 @@ public:
    * If this filter runs "Repetitions" iterations, then it needs an input
    * that is 2*Repetitions larger than the output. In other words, this
    * filter needs a border of "Repetitions" pixels. */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( SameDimensionCheck,
-                   ( Concept::SameDimension< Self::NDimensions,
-                                             Self::NOutputDimensions > ) );
-  itkConceptMacro( InputConvertibleToDoubleCheck,
-                   ( Concept::Convertible< typename TInputImage::PixelType, double > ) );
-  itkConceptMacro( DoubleConvertibleToOutputCheck,
-                   ( Concept::Convertible< double, PixelType > ) );
+  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<Self::NDimensions, Self::NOutputDimensions>));
+  itkConceptMacro(InputConvertibleToDoubleCheck, (Concept::Convertible<typename TInputImage::PixelType, double>));
+  itkConceptMacro(DoubleConvertibleToOutputCheck, (Concept::Convertible<double, PixelType>));
   // End concept checking
 #endif
 
 protected:
   BinomialBlurImageFilter();
   ~BinomialBlurImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Method for evaluating the implicit function over the image. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   /** How many times should we apply the blur? */
@@ -118,7 +116,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinomialBlurImageFilter.hxx"
+#  include "itkBinomialBlurImageFilter.hxx"
 #endif
 
 #endif

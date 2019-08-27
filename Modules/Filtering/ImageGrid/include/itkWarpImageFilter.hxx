@@ -31,9 +31,8 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
-WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
-::WarpImageFilter()
+template <typename TInputImage, typename TOutputImage, typename TDisplacementField>
+WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::WarpImageFilter()
 {
   // #0 implicit "Primary" input required
   // #1 "DisplacementField" required
@@ -44,20 +43,19 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
   m_OutputOrigin.Fill(0.0);
   m_OutputDirection.SetIdentity();
   m_OutputSize.Fill(0);
-  m_EdgePaddingValue = NumericTraits< PixelType >::ZeroValue(m_EdgePaddingValue);
+  m_EdgePaddingValue = NumericTraits<PixelType>::ZeroValue(m_EdgePaddingValue);
   m_OutputStartIndex.Fill(0);
 
   typename DefaultInterpolatorType::Pointer interp = DefaultInterpolatorType::New();
-  m_Interpolator = static_cast< InterpolatorType * >( interp.GetPointer() );
+  m_Interpolator = static_cast<InterpolatorType *>(interp.GetPointer());
 
   m_DefFieldSameInformation = false;
   this->DynamicMultiThreadingOn();
 }
 
-template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
+template <typename TInputImage, typename TOutputImage, typename TDisplacementField>
 void
-WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
-::PrintSelf(std::ostream & os, Indent indent) const
+WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -66,54 +64,48 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
   os << indent << "OutputDirection: " << m_OutputDirection << std::endl;
   os << indent << "OutputSize: " << m_OutputSize << std::endl;
   os << indent << "OutputStartIndex: " << m_OutputStartIndex << std::endl;
-  os << indent << "EdgePaddingValue: "
-     << static_cast< typename NumericTraits< PixelType >::PrintType >( m_EdgePaddingValue )
+  os << indent << "EdgePaddingValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_EdgePaddingValue)
      << std::endl;
   os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
 }
 
 
-template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
+template <typename TInputImage, typename TOutputImage, typename TDisplacementField>
 void
-WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
-::SetOutputSpacing(
-  const double *spacing)
+WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::SetOutputSpacing(const double * spacing)
 {
   this->SetOutputSpacing(SpacingType(spacing));
 }
 
 
-template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
+template <typename TInputImage, typename TOutputImage, typename TDisplacementField>
 void
-WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
-::SetOutputOrigin(
-  const double *origin)
+WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::SetOutputOrigin(const double * origin)
 {
   this->SetOutputOrigin(PointType(origin));
 }
 
 /** Helper method to set the output parameters based on this image */
-template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
+template <typename TInputImage, typename TOutputImage, typename TDisplacementField>
 void
-WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
-::SetOutputParametersFromImage(const ImageBaseType *image)
+WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::SetOutputParametersFromImage(
+  const ImageBaseType * image)
 {
-  this->SetOutputOrigin ( image->GetOrigin() );
-  this->SetOutputSpacing ( image->GetSpacing() );
-  this->SetOutputDirection ( image->GetDirection() );
-  this->SetOutputStartIndex ( image->GetLargestPossibleRegion().GetIndex() );
-  this->SetOutputSize ( image->GetLargestPossibleRegion().GetSize() );
+  this->SetOutputOrigin(image->GetOrigin());
+  this->SetOutputSpacing(image->GetSpacing());
+  this->SetOutputDirection(image->GetDirection());
+  this->SetOutputStartIndex(image->GetLargestPossibleRegion().GetIndex());
+  this->SetOutputSize(image->GetLargestPossibleRegion().GetSize());
 }
 
-template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
+template <typename TInputImage, typename TOutputImage, typename TDisplacementField>
 void
-WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
-::VerifyInputInformation() ITKv5_CONST
+WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::VerifyInputInformation() ITKv5_CONST
 {
   if (ImageDimension != GetDisplacementField()->GetNumberOfComponentsPerPixel())
-    {
+  {
     itkExceptionMacro("Expected number of components of displacement field to match image dimensions!");
-    }
+  }
 }
 
 /**
@@ -121,82 +113,79 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
  * InterpolatorType::SetInputImage is not thread-safe and hence
  * has to be setup before ThreadedGenerateData
  */
-template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
+template <typename TInputImage, typename TOutputImage, typename TDisplacementField>
 void
-WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
-::BeforeThreadedGenerateData()
+WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::BeforeThreadedGenerateData()
 {
-  if ( !m_Interpolator )
-    {
+  if (!m_Interpolator)
+  {
     itkExceptionMacro(<< "Interpolator not set");
-    }
-  const DisplacementFieldType *fieldPtr = this->GetDisplacementField();
+  }
+  const DisplacementFieldType * fieldPtr = this->GetDisplacementField();
 
   unsigned int numberOfComponents = DefaultConvertPixelTraits<PixelType>::GetNumberOfComponents(m_EdgePaddingValue);
 
-  if( numberOfComponents != this->GetInput()->GetNumberOfComponentsPerPixel() )
-    {
+  if (numberOfComponents != this->GetInput()->GetNumberOfComponentsPerPixel())
+  {
     PixelComponentType zeroComponent = NumericTraits<PixelComponentType>::ZeroValue(zeroComponent);
     numberOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
-    NumericTraits<PixelType>::SetLength(m_EdgePaddingValue,numberOfComponents);
+    NumericTraits<PixelType>::SetLength(m_EdgePaddingValue, numberOfComponents);
 
-    for( unsigned int n = 0; n < numberOfComponents; ++n )
-      {
-      DefaultConvertPixelTraits<PixelType>::SetNthComponent(n,m_EdgePaddingValue,zeroComponent);
-      }
-    }
-
-  if( NumericTraits<PixelType>::GetLength(m_EdgePaddingValue) != this->GetInput()->GetNumberOfComponentsPerPixel() )
+    for (unsigned int n = 0; n < numberOfComponents; ++n)
     {
+      DefaultConvertPixelTraits<PixelType>::SetNthComponent(n, m_EdgePaddingValue, zeroComponent);
+    }
+  }
+
+  if (NumericTraits<PixelType>::GetLength(m_EdgePaddingValue) != this->GetInput()->GetNumberOfComponentsPerPixel())
+  {
     // Assume EdgePaddingValue has not been set externally
     // initialize it here with ZeroValue, when we know the number of components
-    const PixelType& pixel = this->GetInput()->GetPixel( this->GetInput()->GetBufferedRegion().GetIndex() );
-    m_EdgePaddingValue = NumericTraits<PixelType>::ZeroValue( pixel );
-    }
+    const PixelType & pixel = this->GetInput()->GetPixel(this->GetInput()->GetBufferedRegion().GetIndex());
+    m_EdgePaddingValue = NumericTraits<PixelType>::ZeroValue(pixel);
+  }
 
   // Connect input image to interpolator
-  m_Interpolator->SetInputImage( this->GetInput() );
+  m_Interpolator->SetInputImage(this->GetInput());
 
-  if ( !m_DefFieldSameInformation )
-    {
+  if (!m_DefFieldSameInformation)
+  {
     m_StartIndex = fieldPtr->GetBufferedRegion().GetIndex();
-    for ( unsigned i = 0; i < ImageDimension; i++ )
-      {
-      m_EndIndex[i] = m_StartIndex[i]
-                      + fieldPtr->GetBufferedRegion().GetSize()[i] - 1;
-      }
+    for (unsigned i = 0; i < ImageDimension; i++)
+    {
+      m_EndIndex[i] = m_StartIndex[i] + fieldPtr->GetBufferedRegion().GetSize()[i] - 1;
     }
+  }
 }
 
 
-template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
+template <typename TInputImage, typename TOutputImage, typename TDisplacementField>
 void
-WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
-::AfterThreadedGenerateData()
+WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::AfterThreadedGenerateData()
 {
   // Disconnect input image from interpolator
   m_Interpolator->SetInputImage(nullptr);
 }
 
-template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
+template <typename TInputImage, typename TOutputImage, typename TDisplacementField>
 void
-WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
-::EvaluateDisplacementAtPhysicalPoint(const PointType & point, DisplacementType & output)
-{
-    this->EvaluateDisplacementAtPhysicalPoint(point, this->GetDisplacementField(), output);
-}
-
-template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
-void
-WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
-::EvaluateDisplacementAtPhysicalPoint(
-  const PointType & point,
-  const DisplacementFieldType * fieldPtr,
+WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::EvaluateDisplacementAtPhysicalPoint(
+  const PointType &  point,
   DisplacementType & output)
 {
-  ContinuousIndex< double, ImageDimension > index;
+  this->EvaluateDisplacementAtPhysicalPoint(point, this->GetDisplacementField(), output);
+}
+
+template <typename TInputImage, typename TOutputImage, typename TDisplacementField>
+void
+WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::EvaluateDisplacementAtPhysicalPoint(
+  const PointType &             point,
+  const DisplacementFieldType * fieldPtr,
+  DisplacementType &            output)
+{
+  ContinuousIndex<double, ImageDimension> index;
   fieldPtr->TransformPhysicalPointToContinuousIndex(point, index);
-  unsigned int dim;  // index over dimension
+  unsigned int dim; // index over dimension
   /**
    * Compute base index = closest index below point
    * Compute distance from point to base index
@@ -205,28 +194,28 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
   IndexType neighIndex;
   double    distance[ImageDimension];
 
-  for ( dim = 0; dim < ImageDimension; dim++ )
-    {
-    baseIndex[dim] = Math::Floor< IndexValueType >(index[dim]);
+  for (dim = 0; dim < ImageDimension; dim++)
+  {
+    baseIndex[dim] = Math::Floor<IndexValueType>(index[dim]);
 
-    if ( baseIndex[dim] >=  m_StartIndex[dim] )
+    if (baseIndex[dim] >= m_StartIndex[dim])
+    {
+      if (baseIndex[dim] < m_EndIndex[dim])
       {
-      if ( baseIndex[dim] <  m_EndIndex[dim] )
-        {
-        distance[dim] = index[dim] - static_cast< double >( baseIndex[dim] );
-        }
+        distance[dim] = index[dim] - static_cast<double>(baseIndex[dim]);
+      }
       else
-        {
+      {
         baseIndex[dim] = m_EndIndex[dim];
         distance[dim] = 0.0;
-        }
-      }
-    else
-      {
-      baseIndex[dim] = m_StartIndex[dim];
-      distance[dim] = 0.0;
       }
     }
+    else
+    {
+      baseIndex[dim] = m_StartIndex[dim];
+      distance[dim] = 0.0;
+    }
+  }
 
   /**
    * Interpolated value is the weight some of each of the surrounding
@@ -238,74 +227,72 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
   double       totalOverlap = 0.0;
   unsigned int numNeighbors(1 << TInputImage::ImageDimension);
 
-  for ( unsigned int counter = 0; counter < numNeighbors; counter++ )
-    {
-    double       overlap = 1.0;    // fraction overlap
-    unsigned int upper = counter;  // each bit indicates upper/lower neighbour
+  for (unsigned int counter = 0; counter < numNeighbors; counter++)
+  {
+    double       overlap = 1.0;   // fraction overlap
+    unsigned int upper = counter; // each bit indicates upper/lower neighbour
 
     // get neighbor index and overlap fraction
-    for ( dim = 0; dim < ImageDimension; dim++ )
+    for (dim = 0; dim < ImageDimension; dim++)
+    {
+      if (upper & 1)
       {
-      if ( upper & 1 )
-        {
         neighIndex[dim] = baseIndex[dim] + 1;
         overlap *= distance[dim];
-        }
+      }
       else
-        {
+      {
         neighIndex[dim] = baseIndex[dim];
         overlap *= 1.0 - distance[dim];
-        }
+      }
 
       upper >>= 1;
-      }
+    }
 
     // get neighbor value only if overlap is not zero
-    if ( overlap )
-      {
+    if (overlap)
+    {
       const DisplacementType input = fieldPtr->GetPixel(neighIndex);
-      const unsigned int displacementComponent = NumericTraits<DisplacementType>::GetLength(input);
-      for ( unsigned int k = 0; k < displacementComponent; ++k )
-        {
-        output[k] += overlap * static_cast< double >( input[k] );
-        }
-      totalOverlap += overlap;
-      }
-
-    if ( totalOverlap == 1.0 )
+      const unsigned int     displacementComponent = NumericTraits<DisplacementType>::GetLength(input);
+      for (unsigned int k = 0; k < displacementComponent; ++k)
       {
+        output[k] += overlap * static_cast<double>(input[k]);
+      }
+      totalOverlap += overlap;
+    }
+
+    if (totalOverlap == 1.0)
+    {
       // finished
       break;
-      }
     }
+  }
 }
 
 /**
  * Compute the output for the region specified by outputRegionForThread.
  */
-template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
+template <typename TInputImage, typename TOutputImage, typename TDisplacementField>
 void
-WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
-::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
+WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::DynamicThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
 {
-  OutputImageType             *outputPtr = this->GetOutput();
-  const DisplacementFieldType *fieldPtr = this->GetDisplacementField();
+  OutputImageType *             outputPtr = this->GetOutput();
+  const DisplacementFieldType * fieldPtr = this->GetDisplacementField();
 
   // iterator for the output image
-  ImageRegionIteratorWithIndex< OutputImageType > outputIt(
-    outputPtr, outputRegionForThread);
-  IndexType        index;
-  PointType        point;
-  DisplacementType displacement;
-  NumericTraits<DisplacementType>::SetLength(displacement,ImageDimension);
-  if ( this->m_DefFieldSameInformation )
-    {
+  ImageRegionIteratorWithIndex<OutputImageType> outputIt(outputPtr, outputRegionForThread);
+  IndexType                                     index;
+  PointType                                     point;
+  DisplacementType                              displacement;
+  NumericTraits<DisplacementType>::SetLength(displacement, ImageDimension);
+  if (this->m_DefFieldSameInformation)
+  {
     // iterator for the deformation field
-    ImageRegionConstIterator< DisplacementFieldType >
-    fieldIt(fieldPtr, outputRegionForThread);
+    ImageRegionConstIterator<DisplacementFieldType> fieldIt(fieldPtr, outputRegionForThread);
 
-    while ( !outputIt.IsAtEnd() )
-      {
+    while (!outputIt.IsAtEnd())
+    {
       // get the output image index
       index = outputIt.GetIndex();
       outputPtr->TransformIndexToPhysicalPoint(index, point);
@@ -314,70 +301,69 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
       displacement = fieldIt.Get();
 
       // compute the required input image point
-      for ( unsigned int j = 0; j < ImageDimension; j++ )
-        {
+      for (unsigned int j = 0; j < ImageDimension; j++)
+      {
         point[j] += displacement[j];
-        }
+      }
 
       // get the interpolated value
-      if ( m_Interpolator->IsInsideBuffer(point) )
-        {
-        auto value = static_cast< PixelType >( m_Interpolator->Evaluate(point) );
+      if (m_Interpolator->IsInsideBuffer(point))
+      {
+        auto value = static_cast<PixelType>(m_Interpolator->Evaluate(point));
         outputIt.Set(value);
-        }
+      }
       else
-        {
+      {
         outputIt.Set(m_EdgePaddingValue);
-        }
+      }
       ++outputIt;
       ++fieldIt;
-      }
     }
+  }
   else
+  {
+    while (!outputIt.IsAtEnd())
     {
-    while ( !outputIt.IsAtEnd() )
-      {
       // get the output image index
       index = outputIt.GetIndex();
       outputPtr->TransformIndexToPhysicalPoint(index, point);
 
       this->EvaluateDisplacementAtPhysicalPoint(point, fieldPtr, displacement);
       // compute the required input image point
-      for ( unsigned int j = 0; j < ImageDimension; j++ )
-        {
+      for (unsigned int j = 0; j < ImageDimension; j++)
+      {
         point[j] += displacement[j];
-        }
+      }
 
       // get the interpolated value
-      if ( m_Interpolator->IsInsideBuffer(point) )
-        {
-        auto value = static_cast< PixelType >( m_Interpolator->Evaluate(point) );
+      if (m_Interpolator->IsInsideBuffer(point))
+      {
+        auto value = static_cast<PixelType>(m_Interpolator->Evaluate(point));
         outputIt.Set(value);
-        }
-      else
-        {
-        outputIt.Set(m_EdgePaddingValue);
-        }
-      ++outputIt;
       }
+      else
+      {
+        outputIt.Set(m_EdgePaddingValue);
+      }
+      ++outputIt;
     }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
+template <typename TInputImage, typename TOutputImage, typename TDisplacementField>
 void
-WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
-::GenerateInputRequestedRegion()
+WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::GenerateInputRequestedRegion()
 {
   // call the superclass's implementation
   Superclass::GenerateInputRequestedRegion();
 
   // request the largest possible region for the input image
-  auto * inputPtr = const_cast< InputImageType * >( this->GetInput() );
+  auto * inputPtr = const_cast<InputImageType *>(this->GetInput());
 
-  if ( inputPtr )
-    {
+  if (inputPtr)
+  {
     inputPtr->SetRequestedRegionToLargestPossibleRegion();
-    }
+  }
 
   // If the output and the deformation field have the same
   // information, just propagate up the output requested region for the
@@ -385,45 +371,45 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
   // the smallest region of the deformation field that fully
   // contains the physical space covered by the output's requested
   // region, se we do the easy thing and request the largest possible region
-  auto * fieldPtr = const_cast<DisplacementFieldType *>(this->GetDisplacementField());
-  const OutputImageType *outputPtr = this->GetOutput();
-  if ( fieldPtr != nullptr )
-    {
+  auto *                  fieldPtr = const_cast<DisplacementFieldType *>(this->GetDisplacementField());
+  const OutputImageType * outputPtr = this->GetOutput();
+  if (fieldPtr != nullptr)
+  {
     // tolerance for origin and spacing depends on the size of pixel
     // tolerance for direction is a fraction of the unit cube.
-    const SpacePrecisionType coordinateTol = this->GetCoordinateTolerance() * outputPtr->GetSpacing()[0]; // use first dimension spacing
+    const SpacePrecisionType coordinateTol =
+      this->GetCoordinateTolerance() * outputPtr->GetSpacing()[0]; // use first dimension spacing
 
     this->m_DefFieldSameInformation =
-       (outputPtr->GetOrigin().GetVnlVector().is_equal(fieldPtr->GetOrigin().GetVnlVector(), coordinateTol))
-    && (outputPtr->GetSpacing().GetVnlVector().is_equal(fieldPtr->GetSpacing().GetVnlVector(), coordinateTol))
-    && (outputPtr->GetDirection().GetVnlMatrix().as_ref().is_equal(fieldPtr->GetDirection().GetVnlMatrix(), this->GetDirectionTolerance()));
+      (outputPtr->GetOrigin().GetVnlVector().is_equal(fieldPtr->GetOrigin().GetVnlVector(), coordinateTol)) &&
+      (outputPtr->GetSpacing().GetVnlVector().is_equal(fieldPtr->GetSpacing().GetVnlVector(), coordinateTol)) &&
+      (outputPtr->GetDirection().GetVnlMatrix().as_ref().is_equal(fieldPtr->GetDirection().GetVnlMatrix(),
+                                                                  this->GetDirectionTolerance()));
 
     if (this->m_DefFieldSameInformation)
-      {
-      fieldPtr->SetRequestedRegion( outputPtr->GetRequestedRegion() );
-      }
-    else
-      {
-      using DisplacementRegionType = typename TDisplacementField::RegionType;
-      using TransformType = itk::Transform< SpacePrecisionType, OutputImageType::ImageDimension, OutputImageType::ImageDimension >;
-
-      DisplacementRegionType fieldRequestedRegion = ImageAlgorithm::EnlargeRegionOverBox(outputPtr->GetRequestedRegion(),
-                                                                                         outputPtr,
-                                                                                         fieldPtr,
-                                                                                         static_cast< TransformType *>(nullptr));
-      fieldPtr->SetRequestedRegion( fieldRequestedRegion );
-      }
-    if ( !fieldPtr->VerifyRequestedRegion() )
-      {
-      fieldPtr->SetRequestedRegion( fieldPtr->GetLargestPossibleRegion() );
-      }
+    {
+      fieldPtr->SetRequestedRegion(outputPtr->GetRequestedRegion());
     }
+    else
+    {
+      using DisplacementRegionType = typename TDisplacementField::RegionType;
+      using TransformType =
+        itk::Transform<SpacePrecisionType, OutputImageType::ImageDimension, OutputImageType::ImageDimension>;
+
+      DisplacementRegionType fieldRequestedRegion = ImageAlgorithm::EnlargeRegionOverBox(
+        outputPtr->GetRequestedRegion(), outputPtr, fieldPtr, static_cast<TransformType *>(nullptr));
+      fieldPtr->SetRequestedRegion(fieldRequestedRegion);
+    }
+    if (!fieldPtr->VerifyRequestedRegion())
+    {
+      fieldPtr->SetRequestedRegion(fieldPtr->GetLargestPossibleRegion());
+    }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
+template <typename TInputImage, typename TOutputImage, typename TDisplacementField>
 void
-WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
-::GenerateOutputInformation()
+WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::GenerateOutputInformation()
 {
   // call the superclass's implementation of this method
   Superclass::GenerateOutputInformation();
@@ -434,20 +420,18 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
   outputPtr->SetOrigin(m_OutputOrigin);
   outputPtr->SetDirection(m_OutputDirection);
 
-  const DisplacementFieldType* fieldPtr = this->GetDisplacementField();
-  if ( this->m_OutputSize[0] == 0
-       && fieldPtr != nullptr )
-    {
-    outputPtr->SetLargestPossibleRegion( fieldPtr->
-                                         GetLargestPossibleRegion() );
-    }
+  const DisplacementFieldType * fieldPtr = this->GetDisplacementField();
+  if (this->m_OutputSize[0] == 0 && fieldPtr != nullptr)
+  {
+    outputPtr->SetLargestPossibleRegion(fieldPtr->GetLargestPossibleRegion());
+  }
   else
-    {
+  {
     OutputImageRegionType region;
     region.SetSize(this->m_OutputSize);
     region.SetIndex(this->m_OutputStartIndex);
     outputPtr->SetLargestPossibleRegion(region);
-    }
+  }
 }
 } // end namespace itk
 

@@ -23,11 +23,8 @@ namespace itk
 {
 PNGImageIOFactory::PNGImageIOFactory()
 {
-  this->RegisterOverride( "itkImageIOBase",
-                          "itkPNGImageIO",
-                          "PNG Image IO",
-                          true,
-                          CreateObjectFunction< PNGImageIO >::New() );
+  this->RegisterOverride(
+    "itkImageIOBase", "itkPNGImageIO", "PNG Image IO", true, CreateObjectFunction<PNGImageIO>::New());
 }
 
 PNGImageIOFactory::~PNGImageIOFactory() = default;
@@ -49,13 +46,14 @@ PNGImageIOFactory::GetDescription() const
 
 static bool PNGImageIOFactoryHasBeenRegistered;
 
-void ITKIOPNG_EXPORT PNGImageIOFactoryRegister__Private()
+void ITKIOPNG_EXPORT
+     PNGImageIOFactoryRegister__Private()
 {
-  if( ! PNGImageIOFactoryHasBeenRegistered )
-    {
+  if (!PNGImageIOFactoryHasBeenRegistered)
+  {
     PNGImageIOFactoryHasBeenRegistered = true;
     PNGImageIOFactory::RegisterOneFactory();
-    }
+  }
 }
 
 } // end namespace itk

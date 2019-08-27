@@ -60,18 +60,17 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKMathematicalMorphology
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT GrayscaleGeodesicDilateImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT GrayscaleGeodesicDilateImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleGeodesicDilateImageFilter);
 
   /** Standard class type aliases. */
   using Self = GrayscaleGeodesicDilateImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Some convenient type alias. */
   using MarkerImageType = TInputImage;
@@ -99,22 +98,25 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(GrayscaleGeodesicDilateImageFilter,
-               ImageToImageFilter);
+  itkTypeMacro(GrayscaleGeodesicDilateImageFilter, ImageToImageFilter);
 
   /** Set/Get the marker image. The marker image must be pixelwise
    * less than or equal to the mask image. The marker image the
    * image that is dilated by this filter. */
-  void SetMarkerImage(const MarkerImageType *);
+  void
+  SetMarkerImage(const MarkerImageType *);
 
-  const MarkerImageType * GetMarkerImage();
+  const MarkerImageType *
+  GetMarkerImage();
 
   /** Set/Get the mask image. The mask image is used to "mask" the
    * dilated marker image. The mask operation is a pixelwise
    * minimum. */
-  void SetMaskImage(const MaskImageType *);
+  void
+  SetMaskImage(const MaskImageType *);
 
-  const MaskImageType * GetMaskImage();
+  const MaskImageType *
+  GetMaskImage();
 
   /** Set/Get whether the filter should run one iteration or until
    * convergence. When run to convergence, this filter is equivalent
@@ -139,19 +141,17 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( SameDimensionCheck,
-                   ( Concept::SameDimension< MarkerImageDimension, OutputImageDimension > ) );
-  itkConceptMacro( InputComparableCheck,
-                   ( Concept::Comparable< MarkerImagePixelType > ) );
-  itkConceptMacro( InputConvertibleToOutputCheck,
-                   ( Concept::Convertible< MarkerImagePixelType, OutputImagePixelType > ) );
+  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<MarkerImageDimension, OutputImageDimension>));
+  itkConceptMacro(InputComparableCheck, (Concept::Comparable<MarkerImagePixelType>));
+  itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<MarkerImagePixelType, OutputImagePixelType>));
   // End concept checking
 #endif
 
 protected:
   GrayscaleGeodesicDilateImageFilter();
   ~GrayscaleGeodesicDilateImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** GrayscaleGeodesicDilateImageFilter needs to request enough of the
    * marker image to account for the elementary structuring element.
@@ -159,13 +159,15 @@ protected:
    * the filter is configured to run a single iteration or until
    * convergence, this method may request all of the marker and mask
    * image be provided. */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** This filter will enlarge the output requested region to produce
    * all of the output if the filter is configured to run to
    * convergence.
    * \sa ProcessObject::EnlargeOutputRequestedRegion() */
-  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * itkNotUsed(output)) override;
 
   /** Single-threaded version of GenerateData.  This version is used
    * when the filter is configured to run to convergence. This method
@@ -173,13 +175,15 @@ protected:
    * configured to run a single iteration.  Otherwise, it will
    * delegate to a separate instance to run each iteration until the
    * filter converges. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /** Multi-thread version GenerateData. This version is used when the
    * filter is configured to run a single iteration. When the filter
    * is configured to run to convergence, the GenerateData() method is
    * called. */
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 
 private:
@@ -190,7 +194,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGrayscaleGeodesicDilateImageFilter.hxx"
+#  include "itkGrayscaleGeodesicDilateImageFilter.hxx"
 #endif
 
 #endif

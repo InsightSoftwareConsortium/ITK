@@ -21,34 +21,35 @@
 #include "itkImageFunction.h"
 #include "itkTestingMacros.h"
 
-int itkCovarianceImageFunctionTest( int, char* [] )
+int
+itkCovarianceImageFunctionTest(int, char *[])
 {
 
   constexpr unsigned int Dimension = 3;
   using PixelComponentType = unsigned char;
   constexpr unsigned int VectorDimension = 4;
 
-  using PixelType = itk::FixedArray< PixelComponentType, VectorDimension >;
-  using ImageType = itk::Image< PixelType, Dimension >;
-  using FunctionType = itk::CovarianceImageFunction< ImageType >;
+  using PixelType = itk::FixedArray<PixelComponentType, VectorDimension>;
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using FunctionType = itk::CovarianceImageFunction<ImageType>;
 
   // Create and allocate the image
-  ImageType::Pointer      image = ImageType::New();
-  ImageType::SizeType     size;
-  ImageType::IndexType    start;
-  ImageType::RegionType   region;
+  ImageType::Pointer    image = ImageType::New();
+  ImageType::SizeType   size;
+  ImageType::IndexType  start;
+  ImageType::RegionType region;
 
   size[0] = 20;
   size[1] = 20;
   size[2] = 20;
 
   ImageType::IndexValueType imageValue = 0;
-  start.Fill( imageValue );
+  start.Fill(imageValue);
 
-  region.SetIndex( start );
-  region.SetSize( size );
+  region.SetIndex(start);
+  region.SetSize(size);
 
-  image->SetRegions( region );
+  image->SetRegions(region);
   image->Allocate();
 
   ImageType::PixelType initialValue;
@@ -58,17 +59,16 @@ int itkCovarianceImageFunctionTest( int, char* [] )
   initialValue[2] = 17;
   initialValue[3] = 19;
 
-  image->FillBuffer( initialValue );
+  image->FillBuffer(initialValue);
 
   FunctionType::Pointer function = FunctionType::New();
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( function, CovarianceImageFunction,
-    ImageFunction );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(function, CovarianceImageFunction, ImageFunction);
 
-  function->SetInputImage( image );
+  function->SetInputImage(image);
 
   unsigned int neighborhoodRadius = 5;
-  function->SetNeighborhoodRadius( neighborhoodRadius );
-  ITK_TEST_SET_GET_VALUE( neighborhoodRadius, function->GetNeighborhoodRadius() );
+  function->SetNeighborhoodRadius(neighborhoodRadius);
+  ITK_TEST_SET_GET_VALUE(neighborhoodRadius, function->GetNeighborhoodRadius());
 
   ImageType::IndexType index;
 
@@ -78,7 +78,7 @@ int itkCovarianceImageFunctionTest( int, char* [] )
 
   FunctionType::OutputType covariance;
 
-  covariance = function->EvaluateAtIndex( index );
+  covariance = function->EvaluateAtIndex(index);
   std::cout << "function->EvaluateAtIndex( index ): " << covariance << std::endl;
 
   // Test Evaluate
@@ -102,19 +102,21 @@ int itkCovarianceImageFunctionTest( int, char* [] )
 
   // Since the input image is constant, the covariance should be equal to
   // the initial value
-  for( unsigned int ix = 0; ix < VectorDimension; ++ix )
+  for (unsigned int ix = 0; ix < VectorDimension; ++ix)
+  {
+    for (unsigned int iy = 0; iy < VectorDimension; ++iy)
     {
-    for( unsigned int iy = 0; iy < VectorDimension; ++iy )
-      {
       // Covariance must be zero in this image with constant values
-      if( ! itk::Math::FloatAlmostEqual( itk::Math::abs( covariance[ix][iy] ),
-        static_cast< FunctionType::OutputType::element_type >( imageValue ), 10, 10e-7 ) )
-        {
+      if (!itk::Math::FloatAlmostEqual(itk::Math::abs(covariance[ix][iy]),
+                                       static_cast<FunctionType::OutputType::element_type>(imageValue),
+                                       10,
+                                       10e-7))
+      {
         std::cerr << "Error in covariance computation" << std::endl;
         return EXIT_FAILURE;
-        }
       }
     }
+  }
 
   std::cout << "Test PASSED ! " << std::endl;
   return EXIT_SUCCESS;

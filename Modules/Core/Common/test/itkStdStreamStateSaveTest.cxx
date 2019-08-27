@@ -22,7 +22,8 @@
 #include <sstream>
 #include <cstdlib>
 
-int itkStdStreamStateSaveTest(int, char* [] )
+int
+itkStdStreamStateSaveTest(int, char *[])
 {
   // Set the fillch of std::cout with an explicit default fill character
   std::cout.fill(' ');
@@ -34,23 +35,23 @@ int itkStdStreamStateSaveTest(int, char* [] )
   std::ios_base::fmtflags defaultFlags = std::cout.flags();
 
   {
-  itk::StdStreamStateSave coutState(std::cout);
+    itk::StdStreamStateSave coutState(std::cout);
 
-  // Change some representative state variables
-  std::cout.precision(14);
-  std::cout.width(25);
-  int anInt = 123;
-  std::cout.fill('%');
-  std::cout << std::left << anInt << std::endl;
-  std::cout << std::showpos << anInt << std::endl;
-  std::cout << std::hex << anInt << std::endl;
-  std::cout << std::showbase << std::hex << anInt << std::endl;
-  bool aBool = false;
-  std::cout << aBool << std::endl;
-  std::cout << std::boolalpha << aBool << std::endl;
-  double aDouble = 123.e-5;
-  std::cout << aDouble << std::endl;
-  std::cout << std::scientific << aDouble << std::endl;
+    // Change some representative state variables
+    std::cout.precision(14);
+    std::cout.width(25);
+    int anInt = 123;
+    std::cout.fill('%');
+    std::cout << std::left << anInt << std::endl;
+    std::cout << std::showpos << anInt << std::endl;
+    std::cout << std::hex << anInt << std::endl;
+    std::cout << std::showbase << std::hex << anInt << std::endl;
+    bool aBool = false;
+    std::cout << aBool << std::endl;
+    std::cout << std::boolalpha << aBool << std::endl;
+    double aDouble = 123.e-5;
+    std::cout << aDouble << std::endl;
+    std::cout << std::scientific << aDouble << std::endl;
 
   } // coutState goes out of scope and will restore original format state
 
@@ -60,23 +61,23 @@ int itkStdStreamStateSaveTest(int, char* [] )
 
   int originalInt = 10;
   {
-  itk::StdStreamStateSave sstreamState(stream);
+    itk::StdStreamStateSave sstreamState(stream);
 
-  // Change some representative state variables
-  stream.precision(14);
-  stream.width(25);
-  int anInt = originalInt;
-  stream.fill('%');
-  stream << std::left << anInt << std::endl;
-  stream << std::showpos << anInt << std::endl;
-  stream << std::hex << anInt << std::endl;
-  stream << std::showbase << std::hex << anInt << std::endl;
-  bool aBool = false;
-  stream << aBool << std::endl;
-  stream << std::boolalpha << aBool << std::endl;
-  double aDouble = 123.e-5;
-  stream << aDouble << std::endl;
-  stream << std::scientific << aDouble << std::endl;
+    // Change some representative state variables
+    stream.precision(14);
+    stream.width(25);
+    int anInt = originalInt;
+    stream.fill('%');
+    stream << std::left << anInt << std::endl;
+    stream << std::showpos << anInt << std::endl;
+    stream << std::hex << anInt << std::endl;
+    stream << std::showbase << std::hex << anInt << std::endl;
+    bool aBool = false;
+    stream << aBool << std::endl;
+    stream << std::boolalpha << aBool << std::endl;
+    double aDouble = 123.e-5;
+    stream << aDouble << std::endl;
+    stream << std::scientific << aDouble << std::endl;
 
   } // sstreamState goes out of scope and will restore original format state
 

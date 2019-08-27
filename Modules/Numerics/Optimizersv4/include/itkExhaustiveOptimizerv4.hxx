@@ -23,34 +23,31 @@
 namespace itk
 {
 
-template<typename TInternalComputationValueType>
-ExhaustiveOptimizerv4<TInternalComputationValueType>
-::ExhaustiveOptimizerv4() :
-  m_CurrentValue(0),
-  m_NumberOfSteps(0),
-  m_CurrentIndex(0),
-  m_MaximumMetricValue(0.0),
-  m_MinimumMetricValue(0.0),
-  m_StopConditionDescription("")
+template <typename TInternalComputationValueType>
+ExhaustiveOptimizerv4<TInternalComputationValueType>::ExhaustiveOptimizerv4()
+  : m_CurrentValue(0)
+  , m_NumberOfSteps(0)
+  , m_CurrentIndex(0)
+  , m_MaximumMetricValue(0.0)
+  , m_MinimumMetricValue(0.0)
+  , m_StopConditionDescription("")
 {
   this->m_NumberOfIterations = 0;
 }
 
-template<typename TInternalComputationValueType>
+template <typename TInternalComputationValueType>
 void
-ExhaustiveOptimizerv4<TInternalComputationValueType>
-::StartOptimization(bool /* doOnlyInitialization */)
+ExhaustiveOptimizerv4<TInternalComputationValueType>::StartOptimization(bool /* doOnlyInitialization */)
 {
   this->StartWalking();
 }
 
-template<typename TInternalComputationValueType>
+template <typename TInternalComputationValueType>
 void
-ExhaustiveOptimizerv4<TInternalComputationValueType>
-::StartWalking()
+ExhaustiveOptimizerv4<TInternalComputationValueType>::StartWalking()
 {
   itkDebugMacro("StartWalking");
-  this->InvokeEvent( StartEvent() );
+  this->InvokeEvent(StartEvent());
   m_StopConditionDescription.str("");
   m_StopConditionDescription << this->GetNameOfClass() << ": Running";
 
@@ -58,7 +55,7 @@ ExhaustiveOptimizerv4<TInternalComputationValueType>
   m_MinimumMetricValuePosition = initialPos;
   m_MaximumMetricValuePosition = initialPos;
 
-  this->SetInitialPosition( initialPos ); // store the initial position
+  this->SetInitialPosition(initialPos); // store the initial position
 
   MeasureType initialValue = this->m_Metric->GetValue();
   m_MaximumMetricValue = initialValue;
@@ -69,31 +66,28 @@ ExhaustiveOptimizerv4<TInternalComputationValueType>
 
   const unsigned int spaceDimension = this->m_Metric->GetParameters().GetSize();
 
-  for ( unsigned int i = 0; i < spaceDimension; i++ )
-    {
-    this->m_NumberOfIterations *= ( 2 * m_NumberOfSteps[i] + 1 );
-    }
+  for (unsigned int i = 0; i < spaceDimension; i++)
+  {
+    this->m_NumberOfIterations *= (2 * m_NumberOfSteps[i] + 1);
+  }
 
   m_CurrentIndex.SetSize(spaceDimension);
   m_CurrentIndex.Fill(0);
 
   const ScalesType & scales = this->GetScales();
   // Make sure the scales have been set properly
-  if ( scales.size() != spaceDimension )
-    {
-    itkExceptionMacro(<< "The size of Scales is "
-                      << scales.size()
-                      << ", but the NumberOfParameters is "
-                      << spaceDimension
-                      << ".");
-    }
+  if (scales.size() != spaceDimension)
+  {
+    itkExceptionMacro(<< "The size of Scales is " << scales.size() << ", but the NumberOfParameters is "
+                      << spaceDimension << ".");
+  }
 
   // Setup first grid position.
   ParametersType position(spaceDimension);
-  for ( unsigned int i = 0; i < spaceDimension; i++ )
-    {
+  for (unsigned int i = 0; i < spaceDimension; i++)
+  {
     position[i] = this->GetCurrentPosition()[i] - m_NumberOfSteps[i] * m_StepLength * scales[i];
-    }
+  }
   this->m_Metric->SetParameters(position);
 
   itkDebugMacro("Calling ResumeWalking");
@@ -101,68 +95,65 @@ ExhaustiveOptimizerv4<TInternalComputationValueType>
   this->ResumeWalking();
 }
 
-template<typename TInternalComputationValueType>
+template <typename TInternalComputationValueType>
 void
-ExhaustiveOptimizerv4<TInternalComputationValueType>
-::ResumeWalking()
+ExhaustiveOptimizerv4<TInternalComputationValueType>::ResumeWalking()
 {
   itkDebugMacro("ResumeWalk");
   m_Stop = false;
 
-  while ( !m_Stop )
-    {
+  while (!m_Stop)
+  {
     ParametersType currentPosition = this->GetCurrentPosition();
 
-    if ( m_Stop )
-      {
+    if (m_Stop)
+    {
       StopWalking();
       break;
-      }
+    }
 
     m_CurrentValue = this->m_Metric->GetValue();
 
-    if ( m_CurrentValue > m_MaximumMetricValue )
-      {
+    if (m_CurrentValue > m_MaximumMetricValue)
+    {
       m_MaximumMetricValue = m_CurrentValue;
       m_MaximumMetricValuePosition = currentPosition;
-      }
-    if ( m_CurrentValue < m_MinimumMetricValue )
-      {
+    }
+    if (m_CurrentValue < m_MinimumMetricValue)
+    {
       m_MinimumMetricValue = m_CurrentValue;
       m_MinimumMetricValuePosition = currentPosition;
-      }
+    }
 
-    if ( m_Stop )
-      {
+    if (m_Stop)
+    {
       this->StopWalking();
       break;
-      }
+    }
 
     m_StopConditionDescription.str("");
     m_StopConditionDescription << this->GetNameOfClass() << ": Running. ";
     m_StopConditionDescription << "@ index " << this->GetCurrentIndex() << " value is " << m_CurrentValue;
 
-    this->InvokeEvent( IterationEvent() );
+    this->InvokeEvent(IterationEvent());
     this->AdvanceOneStep();
     this->m_CurrentIteration++;
-    }
+  }
 }
 
-template<typename TInternalComputationValueType>
+template <typename TInternalComputationValueType>
 void
-ExhaustiveOptimizerv4<TInternalComputationValueType>
-::StopWalking()
+ExhaustiveOptimizerv4<TInternalComputationValueType>::StopWalking()
 {
   itkDebugMacro("StopWalking");
 
   m_Stop = true;
-  this->InvokeEvent( EndEvent() );
+  this->InvokeEvent(EndEvent());
 }
 
-template<typename TInternalComputationValueType>
+template <typename TInternalComputationValueType>
 void
-ExhaustiveOptimizerv4<TInternalComputationValueType>
-::AdvanceOneStep()
+ExhaustiveOptimizerv4<TInternalComputationValueType>::AdvanceOneStep()
 {
   itkDebugMacro("AdvanceOneStep");
 
@@ -176,67 +167,62 @@ ExhaustiveOptimizerv4<TInternalComputationValueType>
   this->m_Metric->SetParameters(newPosition);
 }
 
-template<typename TInternalComputationValueType>
+template <typename TInternalComputationValueType>
 void
-ExhaustiveOptimizerv4<TInternalComputationValueType>
-::IncrementIndex(ParametersType & newPosition)
+ExhaustiveOptimizerv4<TInternalComputationValueType>::IncrementIndex(ParametersType & newPosition)
 {
   unsigned int       idx = 0;
   const unsigned int spaceDimension = this->m_Metric->GetParameters().GetSize();
 
-  while ( idx < spaceDimension )
-    {
+  while (idx < spaceDimension)
+  {
     m_CurrentIndex[idx]++;
 
-    if ( m_CurrentIndex[idx] > ( 2 * m_NumberOfSteps[idx] ) )
-      {
+    if (m_CurrentIndex[idx] > (2 * m_NumberOfSteps[idx]))
+    {
       m_CurrentIndex[idx] = 0;
       idx++;
-      }
-    else
-      {
-      break;
-      }
     }
-
-  if ( idx == spaceDimension )
+    else
     {
+      break;
+    }
+  }
+
+  if (idx == spaceDimension)
+  {
     m_Stop = true;
     m_StopConditionDescription.str("");
     m_StopConditionDescription << this->GetNameOfClass() << ": ";
     m_StopConditionDescription << "Completed sampling of parametric space of size " << spaceDimension;
-    }
+  }
 
   const ScalesType & scales = this->GetScales();
-  for ( unsigned int i = 0; i < spaceDimension; i++ )
-    {
-    newPosition[i] = ( m_CurrentIndex[i] - m_NumberOfSteps[i] )
-                     * m_StepLength * scales[i]
-                     + this->GetInitialPosition()[i];
-    }
+  for (unsigned int i = 0; i < spaceDimension; i++)
+  {
+    newPosition[i] =
+      (m_CurrentIndex[i] - m_NumberOfSteps[i]) * m_StepLength * scales[i] + this->GetInitialPosition()[i];
+  }
 }
 
-template<typename TInternalComputationValueType>
+template <typename TInternalComputationValueType>
 const std::string
-ExhaustiveOptimizerv4<TInternalComputationValueType>
-::GetStopConditionDescription() const
+ExhaustiveOptimizerv4<TInternalComputationValueType>::GetStopConditionDescription() const
 {
   return m_StopConditionDescription.str();
 }
 
-template<typename TInternalComputationValueType>
+template <typename TInternalComputationValueType>
 void
-ExhaustiveOptimizerv4<TInternalComputationValueType>
-::SetInitialPosition(const ParametersType & param)
+ExhaustiveOptimizerv4<TInternalComputationValueType>::SetInitialPosition(const ParametersType & param)
 {
   m_InitialPosition = param;
   this->Modified();
 }
 
-template<typename TInternalComputationValueType>
+template <typename TInternalComputationValueType>
 void
-ExhaustiveOptimizerv4<TInternalComputationValueType>
-::PrintSelf(std::ostream & os, Indent indent) const
+ExhaustiveOptimizerv4<TInternalComputationValueType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

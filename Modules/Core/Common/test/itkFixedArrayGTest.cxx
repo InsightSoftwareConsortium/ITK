@@ -19,200 +19,208 @@
 // Enable testing legacy member functions rBegin() and rEnd().
 #define ITK_LEGACY_TEST
 
- // First include the header file to be tested:
+// First include the header file to be tested:
 #include "itkFixedArray.h"
 #include <gtest/gtest.h>
 
 #include <array>
-#include <numeric>  // For iota.
+#include <numeric> // For iota.
 
 
 namespace
 {
-  template< typename TValue, unsigned int VLength >
-  void Check_FixedArray_supports_retrieving_values_by_range_based_for_loop()
+template <typename TValue, unsigned int VLength>
+void
+Check_FixedArray_supports_retrieving_values_by_range_based_for_loop()
+{
+  std::array<TValue, VLength> stdArray;
+
+  // Assign a different value (1, 2, 3, ...) to each element.
+  std::iota(stdArray.begin(), stdArray.end(), 1);
+
+  // Test retrieving the values from a const FixedArray:
+  const itk::FixedArray<TValue, VLength> constFixedArray{ stdArray };
+
+  auto stdArrayIterator = stdArray.cbegin();
+
+  for (auto value : constFixedArray)
   {
-    std::array<TValue, VLength> stdArray;
-
-    // Assign a different value (1, 2, 3, ...) to each element.
-    std::iota(stdArray.begin(), stdArray.end(), 1);
-
-    // Test retrieving the values from a const FixedArray:
-    const itk::FixedArray<TValue, VLength> constFixedArray{ stdArray };
-
-    auto stdArrayIterator = stdArray.cbegin();
-
-    for (auto value : constFixedArray)
-    {
-      // Expect the same value as the corresponding std::array element.
-      EXPECT_EQ(value, *stdArrayIterator);
-      ++stdArrayIterator;
-    }
-
-    // Expect that all values are checked, "up to the end".
-    EXPECT_EQ(stdArrayIterator, stdArray.cend());
-
-    // Now test retrieving the values from a non-const FixedArray:
-    itk::FixedArray<TValue, VLength> nonConstFixedArray{ stdArray };
-
-    stdArrayIterator = stdArray.cbegin();
-
-    for (auto value : nonConstFixedArray)
-    {
-      // Again, expect the same value as the corresponding std::array element.
-      EXPECT_EQ(value, *stdArrayIterator);
-      ++stdArrayIterator;
-    }
-
-    // Again, expect that all values are checked.
-    EXPECT_EQ(stdArrayIterator, stdArray.cend());
+    // Expect the same value as the corresponding std::array element.
+    EXPECT_EQ(value, *stdArrayIterator);
+    ++stdArrayIterator;
   }
 
+  // Expect that all values are checked, "up to the end".
+  EXPECT_EQ(stdArrayIterator, stdArray.cend());
 
-  template< typename TValue, unsigned int VLength >
-  void Check_FixedArray_supports_modifying_elements_by_range_based_for_loop()
+  // Now test retrieving the values from a non-const FixedArray:
+  itk::FixedArray<TValue, VLength> nonConstFixedArray{ stdArray };
+
+  stdArrayIterator = stdArray.cbegin();
+
+  for (auto value : nonConstFixedArray)
   {
-    itk::FixedArray<TValue, VLength> fixedArray{};
-
-    TValue value{};
-
-    // Assign the values 1, 2, 3, etc.
-    for (auto& ref : fixedArray)
-    {
-      ++value;
-      ref = value;
-    }
-
-    // Now check if the array has got the expected values.
-    TValue expectedValue{};
-
-    for (std::size_t i = 0; i < VLength; ++i)
-    {
-      ++expectedValue;
-      EXPECT_EQ(fixedArray[i], expectedValue);
-    }
+    // Again, expect the same value as the corresponding std::array element.
+    EXPECT_EQ(value, *stdArrayIterator);
+    ++stdArrayIterator;
   }
 
+  // Again, expect that all values are checked.
+  EXPECT_EQ(stdArrayIterator, stdArray.cend());
+}
 
-#if ! defined (ITK_LEGACY_REMOVE)
-  template< typename TValue, unsigned int VLength >
-  void Check_new_reverse_iterator_behaves_like_old_ReverseIterator()
+
+template <typename TValue, unsigned int VLength>
+void
+Check_FixedArray_supports_modifying_elements_by_range_based_for_loop()
+{
+  itk::FixedArray<TValue, VLength> fixedArray{};
+
+  TValue value{};
+
+  // Assign the values 1, 2, 3, etc.
+  for (auto & ref : fixedArray)
   {
-    using FixedArrayType = itk::FixedArray<TValue, VLength>;
-    FixedArrayType fixedArray{};
-
-    // Assign a different value (1, 2, 3, ...) to each element.
-    std::iota(fixedArray.begin(), fixedArray.end(), 1);
-
-    auto newIterator = fixedArray.rbegin();
-    auto oldIterator = fixedArray.rBegin();
-
-    const auto newEnd = fixedArray.rend();
-    const auto oldEnd = fixedArray.rEnd();
-
-    while((newIterator != newEnd) && (oldIterator != oldEnd))
-    {
-      EXPECT_EQ(*newIterator, *oldIterator);
-      ++newIterator;
-      ++oldIterator;
-    }
-    EXPECT_EQ(newIterator, newEnd);
-    EXPECT_EQ(oldIterator, oldEnd);
+    ++value;
+    ref = value;
   }
+
+  // Now check if the array has got the expected values.
+  TValue expectedValue{};
+
+  for (std::size_t i = 0; i < VLength; ++i)
+  {
+    ++expectedValue;
+    EXPECT_EQ(fixedArray[i], expectedValue);
+  }
+}
+
+
+#if !defined(ITK_LEGACY_REMOVE)
+template <typename TValue, unsigned int VLength>
+void
+Check_new_reverse_iterator_behaves_like_old_ReverseIterator()
+{
+  using FixedArrayType = itk::FixedArray<TValue, VLength>;
+  FixedArrayType fixedArray{};
+
+  // Assign a different value (1, 2, 3, ...) to each element.
+  std::iota(fixedArray.begin(), fixedArray.end(), 1);
+
+  auto newIterator = fixedArray.rbegin();
+  auto oldIterator = fixedArray.rBegin();
+
+  const auto newEnd = fixedArray.rend();
+  const auto oldEnd = fixedArray.rEnd();
+
+  while ((newIterator != newEnd) && (oldIterator != oldEnd))
+  {
+    EXPECT_EQ(*newIterator, *oldIterator);
+    ++newIterator;
+    ++oldIterator;
+  }
+  EXPECT_EQ(newIterator, newEnd);
+  EXPECT_EQ(oldIterator, oldEnd);
+}
 #endif
 
-  template< typename TValue, unsigned int VLength >
-  void Check_const_and_non_const_reverse_iterators_retrieve_same_values()
+template <typename TValue, unsigned int VLength>
+void
+Check_const_and_non_const_reverse_iterators_retrieve_same_values()
+{
+  using FixedArrayType = itk::FixedArray<TValue, VLength>;
+  using ConstIteratorType = typename FixedArrayType::const_reverse_iterator;
+  using NonConstIteratorType = typename FixedArrayType::reverse_iterator;
+
+  static_assert(!std::is_same<ConstIteratorType, NonConstIteratorType>::value,
+                "Const and non-const reverse_iterator types must be different!");
+
+  FixedArrayType fixedArray{};
+
+  // Assign a different value (1, 2, 3, ...) to each element.
+  std::iota(fixedArray.begin(), fixedArray.end(), 1);
+
+  ConstIteratorType    constIterator = fixedArray.crbegin();
+  NonConstIteratorType nonConstIterator = fixedArray.rbegin();
+
+  const ConstIteratorType    constEnd = fixedArray.crend();
+  const NonConstIteratorType nonConstEnd = fixedArray.rend();
+
+  while ((constIterator != constEnd) && (nonConstIterator != nonConstEnd))
   {
-    using FixedArrayType = itk::FixedArray<TValue, VLength>;
-    using ConstIteratorType = typename FixedArrayType::const_reverse_iterator;
-    using NonConstIteratorType = typename FixedArrayType::reverse_iterator;
+    EXPECT_EQ(*constIterator, *nonConstIterator);
+    ++constIterator;
+    ++nonConstIterator;
+  }
+  EXPECT_EQ(constIterator, constEnd);
+  EXPECT_EQ(nonConstIterator, nonConstEnd);
+}
 
-    static_assert(!std::is_same<ConstIteratorType, NonConstIteratorType>::value,
-      "Const and non-const reverse_iterator types must be different!");
 
-    FixedArrayType fixedArray{};
+template <typename TValue, unsigned int VLength>
+void
+Check_reverse_iterators_allow_filling_a_FixedArray()
+{
+  using FixedArrayType = itk::FixedArray<TValue, VLength>;
+  FixedArrayType fixedArray{};
 
-    // Assign a different value (1, 2, 3, ...) to each element.
-    std::iota(fixedArray.begin(), fixedArray.end(), 1);
+  // Fill with ones, and then check the result.
+  std::fill(fixedArray.rbegin(), fixedArray.rend(), 1);
+  EXPECT_EQ(fixedArray, FixedArrayType::Filled(1));
+}
 
-    ConstIteratorType constIterator = fixedArray.crbegin();
-    NonConstIteratorType nonConstIterator = fixedArray.rbegin();
 
-    const ConstIteratorType constEnd = fixedArray.crend();
-    const NonConstIteratorType nonConstEnd = fixedArray.rend();
+template <typename TValue, unsigned int VLength>
+void
+Check_iterators_increment_return_value()
+{
+  using FixedArrayType = itk::FixedArray<TValue, VLength>;
+  FixedArrayType fixedArray{};
 
-    while ((constIterator != constEnd) && (nonConstIterator != nonConstEnd))
-    {
-      EXPECT_EQ(*constIterator, *nonConstIterator);
-      ++constIterator;
-      ++nonConstIterator;
-    }
-    EXPECT_EQ(constIterator, constEnd);
-    EXPECT_EQ(nonConstIterator, nonConstEnd);
+  std::iota(fixedArray.begin(), fixedArray.end(), 1);
+
+  typename FixedArrayType::iterator         newIterator = fixedArray.begin();
+  typename FixedArrayType::Iterator         oldIterator = fixedArray.Begin();
+  typename FixedArrayType::reverse_iterator newReverseIterator = fixedArray.rbegin();
+#if !defined(ITK_LEGACY_REMOVE)
+  typename FixedArrayType::ReverseIterator oldReverseIterator = fixedArray.rBegin();
+#endif
+
+  unsigned int index = 0;
+  unsigned int reverseIndex = VLength - 1;
+  for (unsigned int i = 0; i < VLength; ++i)
+  {
+    EXPECT_EQ(*newIterator++, fixedArray[index]);
+    EXPECT_EQ(*newReverseIterator++, fixedArray[reverseIndex]);
+    EXPECT_EQ(*oldIterator++, fixedArray[index]);
+#if !defined(ITK_LEGACY_REMOVE)
+    EXPECT_EQ(*oldReverseIterator++, fixedArray[reverseIndex]);
+#endif
+    index++;
+    reverseIndex--;
   }
 
+  newIterator = fixedArray.begin();
+  oldIterator = fixedArray.Begin();
+  newReverseIterator = fixedArray.rbegin();
+#if !defined(ITK_LEGACY_REMOVE)
+  oldReverseIterator = fixedArray.rBegin();
+#endif
 
-  template< typename TValue, unsigned int VLength >
-  void Check_reverse_iterators_allow_filling_a_FixedArray()
+  index = 0;
+  reverseIndex = VLength - 1;
+  for (unsigned int i = 0; i < VLength - 1; ++i)
   {
-    using FixedArrayType = itk::FixedArray<TValue, VLength>;
-    FixedArrayType fixedArray{};
-
-    // Fill with ones, and then check the result.
-    std::fill(fixedArray.rbegin(), fixedArray.rend(), 1);
-    EXPECT_EQ(fixedArray, FixedArrayType::Filled(1));
+    index++;
+    reverseIndex--;
+    EXPECT_EQ(*++newIterator, fixedArray[index]);
+    EXPECT_EQ(*++newReverseIterator, fixedArray[reverseIndex]);
+    EXPECT_EQ(*++oldIterator, fixedArray[index]);
+#if !defined(ITK_LEGACY_REMOVE)
+    EXPECT_EQ(*++oldReverseIterator, fixedArray[reverseIndex]);
+#endif
   }
-
-
-  template< typename TValue, unsigned int VLength >
-  void Check_iterators_increment_return_value()
-  {
-    using FixedArrayType = itk::FixedArray<TValue, VLength>;
-    FixedArrayType fixedArray{};
-
-    std::iota(fixedArray.begin(), fixedArray.end(), 1);
-
-    typename FixedArrayType::iterator newIterator = fixedArray.begin();
-    typename FixedArrayType::Iterator oldIterator = fixedArray.Begin();
-    typename FixedArrayType::reverse_iterator newReverseIterator = fixedArray.rbegin();
-#if ! defined (ITK_LEGACY_REMOVE)
-    typename FixedArrayType::ReverseIterator oldReverseIterator = fixedArray.rBegin();
-#endif
-
-    unsigned int index = 0;
-    unsigned int reverseIndex = VLength - 1;
-    for (unsigned int i = 0; i < VLength; ++i){
-      EXPECT_EQ(*newIterator++, fixedArray[index]);
-      EXPECT_EQ(*newReverseIterator++, fixedArray[reverseIndex]);
-      EXPECT_EQ(*oldIterator++, fixedArray[index]);
-#if ! defined (ITK_LEGACY_REMOVE)
-      EXPECT_EQ(*oldReverseIterator++, fixedArray[reverseIndex]);
-#endif
-      index++;
-      reverseIndex--;
-    }
-
-    newIterator = fixedArray.begin();
-    oldIterator = fixedArray.Begin();
-    newReverseIterator = fixedArray.rbegin();
-#if ! defined (ITK_LEGACY_REMOVE)
-    oldReverseIterator = fixedArray.rBegin();
-#endif
-
-    index = 0;
-    reverseIndex = VLength - 1;
-    for (unsigned int i = 0; i < VLength - 1; ++i){
-      index++;
-      reverseIndex--;
-      EXPECT_EQ(*++newIterator, fixedArray[index]);
-      EXPECT_EQ(*++newReverseIterator, fixedArray[reverseIndex]);
-      EXPECT_EQ(*++oldIterator, fixedArray[index]);
-#if ! defined (ITK_LEGACY_REMOVE)
-      EXPECT_EQ(*++oldReverseIterator, fixedArray[reverseIndex]);
-#endif
-    }
-  }
+}
 
 } // End of namespace
 
@@ -234,7 +242,7 @@ TEST(FixedArray, SupportsModifyingElementsByRangeBasedForLoop)
 }
 
 
-#if ! defined (ITK_LEGACY_REMOVE)
+#if !defined(ITK_LEGACY_REMOVE)
 // Tests that the new reverse iterators (`rbegin()` and `rend()`, introduced with ITK 5.0)
 // behave just like the old ones (`rBegin()` and `rEnd()`, originally from 2002).
 TEST(FixedArray, NewReverseIteratorBehavesLikeOldReverseIterator)

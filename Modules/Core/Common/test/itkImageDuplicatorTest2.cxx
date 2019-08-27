@@ -22,13 +22,14 @@
 #include "itkImageDuplicator.h"
 #include "itkAbsImageFilter.h"
 
-int itkImageDuplicatorTest2( int argc, char* argv[] )
+int
+itkImageDuplicatorTest2(int argc, char * argv[])
 {
-  if(argc < 3)
-    {
+  if (argc < 3)
+  {
     std::cerr << "Usage: " << argv[0] << " Input Output\n";
     return EXIT_FAILURE;
-    }
+  }
 
   using PixelType = float;
   constexpr unsigned int Dimension = 3;
@@ -46,23 +47,23 @@ int itkImageDuplicatorTest2( int argc, char* argv[] )
   reader->SetFileName(argv[1]);
 
   try
-    {
+  {
     reader->Update();
     ImageType::Pointer inImage = reader->GetOutput();
 
     ImageType::RegionType lpr = inImage->GetLargestPossibleRegion();
     ImageType::RegionType region = lpr;
     for (unsigned d = 0; d < Dimension; d++)
-      {
+    {
       itk::IndexValueType size = region.GetSize(d);
-      region.SetIndex(d, size/4);
+      region.SetIndex(d, size / 4);
       region.SetSize(d, size / 2);
-      }
+    }
 
     absF->SetInput(inImage);
     absF->GetOutput()->SetRequestedRegion(region);
     absF->Update();
-    ImageType::Pointer absImage = absF->GetOutput(); //different buffered and largest regions
+    ImageType::Pointer absImage = absF->GetOutput(); // different buffered and largest regions
 
     dup->SetInputImage(absF->GetOutput());
     dup->Update();
@@ -72,12 +73,12 @@ int itkImageDuplicatorTest2( int argc, char* argv[] )
     writer->SetFileName(argv[2]);
     writer->Update();
     std::cout << "Test SUCCESS" << std::endl;
-    }
+  }
   catch (itk::ExceptionObject & e)
-    {
+  {
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

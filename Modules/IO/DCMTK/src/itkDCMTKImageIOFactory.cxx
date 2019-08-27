@@ -23,15 +23,11 @@ namespace itk
 {
 DCMTKImageIOFactory::DCMTKImageIOFactory()
 {
-  this->RegisterOverride( "itkImageIOBase",
-                          "itkDCMTKImageIO",
-                          "DICOM Image IO",
-                          true,
-                          CreateObjectFunction< DCMTKImageIO >::New() );
+  this->RegisterOverride(
+    "itkImageIOBase", "itkDCMTKImageIO", "DICOM Image IO", true, CreateObjectFunction<DCMTKImageIO>::New());
 }
 
-DCMTKImageIOFactory::~DCMTKImageIOFactory()
-{}
+DCMTKImageIOFactory::~DCMTKImageIOFactory() {}
 
 const char *
 DCMTKImageIOFactory::GetITKSourceVersion() const
@@ -50,13 +46,14 @@ DCMTKImageIOFactory::GetDescription() const
 
 static bool DCMTKImageIOFactoryHasBeenRegistered;
 
-void ITKIODCMTK_EXPORT DCMTKImageIOFactoryRegister__Private()
+void ITKIODCMTK_EXPORT
+     DCMTKImageIOFactoryRegister__Private()
 {
-  if( ! DCMTKImageIOFactoryHasBeenRegistered )
-    {
+  if (!DCMTKImageIOFactoryHasBeenRegistered)
+  {
     DCMTKImageIOFactoryHasBeenRegistered = true;
     DCMTKImageIOFactory::RegisterOneFactory();
-    }
+  }
 }
 
 } // end namespace itk

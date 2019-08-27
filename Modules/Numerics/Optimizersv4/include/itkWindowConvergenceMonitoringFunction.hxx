@@ -31,57 +31,53 @@ namespace itk
 namespace Function
 {
 
-template<typename TScalar>
-WindowConvergenceMonitoringFunction<TScalar>
-::WindowConvergenceMonitoringFunction() :
-  m_WindowSize( 10 ),
-  m_TotalEnergy( 0 )
+template <typename TScalar>
+WindowConvergenceMonitoringFunction<TScalar>::WindowConvergenceMonitoringFunction()
+  : m_WindowSize(10)
+  , m_TotalEnergy(0)
 {}
 
-template<typename TScalar>
+template <typename TScalar>
 void
-WindowConvergenceMonitoringFunction<TScalar>
-::AddEnergyValue( const EnergyValueType value )
+WindowConvergenceMonitoringFunction<TScalar>::AddEnergyValue(const EnergyValueType value)
 {
-  itkDebugMacro( "Adding energy value " << value );
+  itkDebugMacro("Adding energy value " << value);
 
-  this->m_EnergyValues.push_back( value );
-  if( this->GetNumberOfEnergyValues() > this->m_WindowSize )
-    {
+  this->m_EnergyValues.push_back(value);
+  if (this->GetNumberOfEnergyValues() > this->m_WindowSize)
+  {
     this->m_EnergyValues.pop_front();
-    }
-  this->m_TotalEnergy += itk::Math::abs( value );
+  }
+  this->m_TotalEnergy += itk::Math::abs(value);
 
   this->Modified();
 }
 
-template<typename TScalar>
+template <typename TScalar>
 void
-WindowConvergenceMonitoringFunction<TScalar>
-::ClearEnergyValues()
+WindowConvergenceMonitoringFunction<TScalar>::ClearEnergyValues()
 {
   Superclass::ClearEnergyValues();
   this->m_TotalEnergy = NumericTraits<RealType>::ZeroValue();
 }
 
-template<typename TScalar>
+template <typename TScalar>
 typename WindowConvergenceMonitoringFunction<TScalar>::RealType
-WindowConvergenceMonitoringFunction<TScalar>
-::GetConvergenceValue() const
+WindowConvergenceMonitoringFunction<TScalar>::GetConvergenceValue() const
 {
-  if( this->GetNumberOfEnergyValues() < this->m_WindowSize )
-    {
+  if (this->GetNumberOfEnergyValues() < this->m_WindowSize)
+  {
     return NumericTraits<RealType>::max();
-    }
+  }
 
   using ProfilePointDataType = Vector<RealType, 1>;
   using CurveType = Image<ProfilePointDataType, 1>;
   using EnergyProfileType = PointSet<ProfilePointDataType, 1>;
   using ProfilePointType = typename EnergyProfileType::PointType;
 
-  typename CurveType::PointType    origin;
-  typename CurveType::SizeType     size;
-  typename CurveType::SpacingType  spacing;
+  typename CurveType::PointType   origin;
+  typename CurveType::SizeType    size;
+  typename CurveType::SpacingType spacing;
 
   origin[0] = 0.0;
   size[0] = 11;
@@ -89,43 +85,42 @@ WindowConvergenceMonitoringFunction<TScalar>
 
   using BSplinerType = BSplineScatteredDataPointSetToImageFilter<EnergyProfileType, CurveType>;
   typename BSplinerType::Pointer bspliner = BSplinerType::New();
-  bspliner->SetOrigin( origin );
-  bspliner->SetSpacing( spacing );
-  bspliner->SetSize( size );
-  bspliner->SetNumberOfLevels( 1 );
-  bspliner->SetSplineOrder( 1 );
+  bspliner->SetOrigin(origin);
+  bspliner->SetSpacing(spacing);
+  bspliner->SetSize(size);
+  bspliner->SetNumberOfLevels(1);
+  bspliner->SetSplineOrder(1);
   typename BSplinerType::ArrayType ncps;
-  ncps.Fill( bspliner->GetSplineOrder()[0] + 1 );
-  bspliner->SetNumberOfControlPoints( ncps );
+  ncps.Fill(bspliner->GetSplineOrder()[0] + 1);
+  bspliner->SetNumberOfControlPoints(ncps);
   bspliner->SetNumberOfWorkUnits(1);
 
   typename EnergyProfileType::Pointer energyProfileWindow = EnergyProfileType::New();
   energyProfileWindow->Initialize();
 
-  for( unsigned int n = 0; n < this->m_WindowSize; n++ )
-    {
+  for (unsigned int n = 0; n < this->m_WindowSize; n++)
+  {
     ProfilePointType windowPoint;
-    windowPoint[0] = static_cast<typename ProfilePointType::CoordRepType>( n ) /
-      static_cast<typename ProfilePointType::CoordRepType>( this->m_WindowSize - 1 );
-    energyProfileWindow->SetPoint( n, windowPoint );
-    energyProfileWindow->SetPointData( n, ProfilePointDataType( this->m_EnergyValues[n] / this->m_TotalEnergy ) );
-    }
+    windowPoint[0] = static_cast<typename ProfilePointType::CoordRepType>(n) /
+                     static_cast<typename ProfilePointType::CoordRepType>(this->m_WindowSize - 1);
+    energyProfileWindow->SetPoint(n, windowPoint);
+    energyProfileWindow->SetPointData(n, ProfilePointDataType(this->m_EnergyValues[n] / this->m_TotalEnergy));
+  }
 
-  bspliner->SetInput( energyProfileWindow );
+  bspliner->SetInput(energyProfileWindow);
   bspliner->Update();
 
   using BSplinerFunctionType = BSplineControlPointImageFunction<CurveType>;
   typename BSplinerFunctionType::Pointer bsplinerFunction = BSplinerFunctionType::New();
-  bsplinerFunction->SetOrigin( origin );
-  bsplinerFunction->SetSpacing( spacing );
-  bsplinerFunction->SetSize( size );
-  bsplinerFunction->SetSplineOrder( bspliner->GetSplineOrder() );
-  bsplinerFunction->SetInputImage( bspliner->GetPhiLattice() );
+  bsplinerFunction->SetOrigin(origin);
+  bsplinerFunction->SetSpacing(spacing);
+  bsplinerFunction->SetSize(size);
+  bsplinerFunction->SetSplineOrder(bspliner->GetSplineOrder());
+  bsplinerFunction->SetInputImage(bspliner->GetPhiLattice());
 
   ProfilePointType endPoint;
   endPoint[0] = NumericTraits<RealType>::OneValue();
-  typename BSplinerFunctionType::GradientType gradient =
-    bsplinerFunction->EvaluateGradientAtParametricPoint( endPoint );
+  typename BSplinerFunctionType::GradientType gradient = bsplinerFunction->EvaluateGradientAtParametricPoint(endPoint);
 
   RealType convergenceValue = -gradient[0][0];
 
@@ -135,12 +130,11 @@ WindowConvergenceMonitoringFunction<TScalar>
 /**
  * Standard "PrintSelf" method
  */
-template<typename TScalar>
+template <typename TScalar>
 void
-WindowConvergenceMonitoringFunction<TScalar>
-::PrintSelf( std::ostream& os, Indent indent) const
+WindowConvergenceMonitoringFunction<TScalar>::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf( os, indent );
+  Superclass::PrintSelf(os, indent);
 
   os << "Window size: " << this->m_WindowSize << std::endl;
 }

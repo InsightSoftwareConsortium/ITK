@@ -22,55 +22,56 @@
 #include "itkProgressReporter.h"
 
 
-namespace itk {
+namespace itk
+{
 
 template <typename TImage, typename TMarkerImage, typename TAttributeAccessor>
-BinaryReconstructionLabelMapFilter<TImage, TMarkerImage, TAttributeAccessor>
-::BinaryReconstructionLabelMapFilter()
+BinaryReconstructionLabelMapFilter<TImage, TMarkerImage, TAttributeAccessor>::BinaryReconstructionLabelMapFilter()
 {
   this->SetNumberOfRequiredInputs(2);
-  m_ForegroundValue = NumericTraits< MarkerImagePixelType >::max();
+  m_ForegroundValue = NumericTraits<MarkerImagePixelType>::max();
 }
 
 
 template <typename TImage, typename TMarkerImage, typename TAttributeAccessor>
 void
-BinaryReconstructionLabelMapFilter<TImage, TMarkerImage, TAttributeAccessor>
-::ThreadedProcessLabelObject( LabelObjectType * labelObject )
+BinaryReconstructionLabelMapFilter<TImage, TMarkerImage, TAttributeAccessor>::ThreadedProcessLabelObject(
+  LabelObjectType * labelObject)
 {
   AttributeAccessorType accessor;
 
   const MarkerImageType * maskImage = this->GetMarkerImage();
 
-  typename LabelObjectType::ConstIndexIterator it( labelObject );
-  while( ! it.IsAtEnd() )
+  typename LabelObjectType::ConstIndexIterator it(labelObject);
+  while (!it.IsAtEnd())
+  {
+    const IndexType &            idx = it.GetIndex();
+    const MarkerImagePixelType & v = maskImage->GetPixel(idx);
+    if (v == m_ForegroundValue)
     {
-    const IndexType & idx = it.GetIndex();
-    const MarkerImagePixelType & v = maskImage->GetPixel( idx );
-    if( v == m_ForegroundValue )
-      {
       // keep the object
-      accessor( labelObject, true );
+      accessor(labelObject, true);
       return;
-      }
-    ++it;
     }
+    ++it;
+  }
 
   // remove the object
-  accessor( labelObject, false );
-
+  accessor(labelObject, false);
 }
 
 
 template <typename TImage, typename TMarkerImage, typename TAttributeAccessor>
 void
-BinaryReconstructionLabelMapFilter<TImage, TMarkerImage, TAttributeAccessor>
-::PrintSelf(std::ostream &os, Indent indent) const
+BinaryReconstructionLabelMapFilter<TImage, TMarkerImage, TAttributeAccessor>::PrintSelf(std::ostream & os,
+                                                                                        Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ForegroundValue: "  << static_cast<typename NumericTraits<MarkerImagePixelType>::PrintType>(m_ForegroundValue) << std::endl;
+  os << indent
+     << "ForegroundValue: " << static_cast<typename NumericTraits<MarkerImagePixelType>::PrintType>(m_ForegroundValue)
+     << std::endl;
 }
 
-}// end namespace itk
+} // end namespace itk
 #endif

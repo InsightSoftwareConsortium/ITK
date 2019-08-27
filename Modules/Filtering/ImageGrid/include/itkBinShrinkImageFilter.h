@@ -54,15 +54,14 @@ namespace itk
  * \ingroup Streamed
  */
 template <typename TInputImage, typename TOutputImage>
-class ITK_TEMPLATE_EXPORT BinShrinkImageFilter :
-  public ImageToImageFilter<TInputImage,TOutputImage>
+class ITK_TEMPLATE_EXPORT BinShrinkImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinShrinkImageFilter);
 
   /** Standard class type aliases. */
   using Self = BinShrinkImageFilter;
-  using Superclass = ImageToImageFilter<TInputImage,TOutputImage>;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -90,67 +89,72 @@ public:
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
-  using ShrinkFactorsType = FixedArray< unsigned int, ImageDimension >;
+  using ShrinkFactorsType = FixedArray<unsigned int, ImageDimension>;
 
   /** Set the shrink factors. Values are clamped to
    * a minimum value of 1. Default is 1 for all dimensions. */
   itkSetMacro(ShrinkFactors, ShrinkFactorsType);
-  void SetShrinkFactors(unsigned int factor);
-  void SetShrinkFactor(unsigned int i, unsigned int factor);
+  void
+  SetShrinkFactors(unsigned int factor);
+  void
+  SetShrinkFactor(unsigned int i, unsigned int factor);
 
   /** Get the shrink factors. */
   itkGetConstReferenceMacro(ShrinkFactors, ShrinkFactorsType);
 
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
   /** BinShrinkImageFilter needs a larger input requested region than the output
    * requested region.  As such, BinShrinkImageFilter needs to provide an
    * implementation for GenerateInputRequestedRegion() in order to inform the
    * pipeline execution model.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(InputConvertibleToOutputCheck,
-    (Concept::Convertible<typename TInputImage::PixelType, typename TOutputImage::PixelType>));
-  itkConceptMacro(SameDimensionCheck,
-    (Concept::SameDimension<ImageDimension, OutputImageDimension>));
+                  (Concept::Convertible<typename TInputImage::PixelType, typename TOutputImage::PixelType>));
+  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
   /** End concept checking */
 #endif
 
 protected:
   BinShrinkImageFilter();
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 private:
   ShrinkFactorsType m_ShrinkFactors;
 
   /** Round different pixel types. */
-  template< class TOutputType, class TInputType >
-    typename std::enable_if<std::numeric_limits<TOutputType>::is_integer, TOutputType>::type
-  RoundIfInteger( TInputType input )
-    {
-      return Math::Round< TOutputType >( input );
-    }
+  template <class TOutputType, class TInputType>
+  typename std::enable_if<std::numeric_limits<TOutputType>::is_integer, TOutputType>::type
+  RoundIfInteger(TInputType input)
+  {
+    return Math::Round<TOutputType>(input);
+  }
 
   // For Non-fundamental types numeric_limits is not specialized, and
   // is_integer defaults to false.
-  template< class TOutputType, class TInputType >
-    typename std::enable_if<!std::numeric_limits<TOutputType>::is_integer, TOutputType>::type
-  RoundIfInteger( const TInputType & input, ...)
-    {
-      return static_cast<TOutputType>(input);
-    }
+  template <class TOutputType, class TInputType>
+  typename std::enable_if<!std::numeric_limits<TOutputType>::is_integer, TOutputType>::type
+  RoundIfInteger(const TInputType & input, ...)
+  {
+    return static_cast<TOutputType>(input);
+  }
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinShrinkImageFilter.hxx"
+#  include "itkBinShrinkImageFilter.hxx"
 #endif
 
 #endif

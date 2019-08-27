@@ -27,11 +27,11 @@
 #include "itkConstNeighborhoodIterator.h"
 #include "itkNeighborhoodIterator.h"
 
-namespace itk {
+namespace itk
+{
 
-template<typename TInputImage, typename TKernel>
-BinaryClosingByReconstructionImageFilter<TInputImage, TKernel>
-::BinaryClosingByReconstructionImageFilter()
+template <typename TInputImage, typename TKernel>
+BinaryClosingByReconstructionImageFilter<TInputImage, TKernel>::BinaryClosingByReconstructionImageFilter()
 {
   m_ForegroundValue = NumericTraits<InputPixelType>::max();
   m_FullyConnected = false;
@@ -39,24 +39,22 @@ BinaryClosingByReconstructionImageFilter<TInputImage, TKernel>
 
 template <typename TInputImage, typename TKernel>
 void
-BinaryClosingByReconstructionImageFilter<TInputImage, TKernel>
-::GenerateInputRequestedRegion()
+BinaryClosingByReconstructionImageFilter<TInputImage, TKernel>::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the input.
   InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
-  if( input )
-    {
-    input->SetRequestedRegion( input->GetLargestPossibleRegion() );
-    }
+  if (input)
+  {
+    input->SetRequestedRegion(input->GetLargestPossibleRegion());
+  }
 }
 
-template<typename TInputImage, typename TKernel>
+template <typename TInputImage, typename TKernel>
 void
-BinaryClosingByReconstructionImageFilter<TInputImage, TKernel>
-::GenerateData()
+BinaryClosingByReconstructionImageFilter<TInputImage, TKernel>::GenerateData()
 {
   // Allocate the outputs
   this->AllocateOutputs();
@@ -65,35 +63,35 @@ BinaryClosingByReconstructionImageFilter<TInputImage, TKernel>
   // because closing is extensive so no background pixels will be added
   // it is just needed for internal erosion filter and constant padder
   InputPixelType backgroundValue = NumericTraits<InputPixelType>::ZeroValue();
-  if ( m_ForegroundValue == backgroundValue )
-    {
+  if (m_ForegroundValue == backgroundValue)
+  {
     // current background value is already used for foreground value
     // choose another one
     backgroundValue = NumericTraits<InputPixelType>::max();
-    }
+  }
 
   /** set up erosion and dilation methods */
-  typename BinaryDilateImageFilter<TInputImage, TInputImage, TKernel>::Pointer
-    dilate = BinaryDilateImageFilter<TInputImage, TInputImage, TKernel>::New();
+  typename BinaryDilateImageFilter<TInputImage, TInputImage, TKernel>::Pointer dilate =
+    BinaryDilateImageFilter<TInputImage, TInputImage, TKernel>::New();
 
-  typename BinaryReconstructionByErosionImageFilter<OutputImageType>::Pointer
-    erode = BinaryReconstructionByErosionImageFilter<OutputImageType>::New();
+  typename BinaryReconstructionByErosionImageFilter<OutputImageType>::Pointer erode =
+    BinaryReconstructionByErosionImageFilter<OutputImageType>::New();
 
   // create the pipeline without input and output image
   dilate->ReleaseDataFlagOn();
-  dilate->SetKernel( this->GetKernel() );
-  dilate->SetDilateValue( m_ForegroundValue );
-  dilate->SetBackgroundValue( backgroundValue );
-  dilate->SetInput( this->GetInput() );
-  dilate->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
+  dilate->SetKernel(this->GetKernel());
+  dilate->SetDilateValue(m_ForegroundValue);
+  dilate->SetBackgroundValue(backgroundValue);
+  dilate->SetInput(this->GetInput());
+  dilate->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
 
   erode->ReleaseDataFlagOn();
-  erode->SetForegroundValue( m_ForegroundValue );
-  erode->SetBackgroundValue( backgroundValue );
-  erode->SetMarkerImage( dilate->GetOutput() );
-  erode->SetFullyConnected( m_FullyConnected );
-  erode->SetMaskImage( this->GetInput() );
-  erode->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
+  erode->SetForegroundValue(m_ForegroundValue);
+  erode->SetBackgroundValue(backgroundValue);
+  erode->SetMarkerImage(dilate->GetOutput());
+  erode->SetFullyConnected(m_FullyConnected);
+  erode->SetMaskImage(this->GetInput());
+  erode->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
 
 
   /** set up the minipipeline */
@@ -103,21 +101,22 @@ BinaryClosingByReconstructionImageFilter<TInputImage, TKernel>
   progress->RegisterInternalFilter(dilate, .2f);
 
   /** execute the minipipeline */
-  erode->GraftOutput( this->GetOutput() );
+  erode->GraftOutput(this->GetOutput());
   erode->Update();
-  this->GraftOutput( erode->GetOutput() );
+  this->GraftOutput(erode->GetOutput());
 }
 
-template<typename TInputImage, typename TKernel>
+template <typename TInputImage, typename TKernel>
 void
-BinaryClosingByReconstructionImageFilter<TInputImage, TKernel>
-::PrintSelf(std::ostream &os, Indent indent) const
+BinaryClosingByReconstructionImageFilter<TInputImage, TKernel>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ForegroundValue: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_ForegroundValue) << std::endl;
-  os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
+  os << indent
+     << "ForegroundValue: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_ForegroundValue)
+     << std::endl;
+  os << indent << "FullyConnected: " << m_FullyConnected << std::endl;
 }
 
-}// end namespace itk
+} // end namespace itk
 #endif

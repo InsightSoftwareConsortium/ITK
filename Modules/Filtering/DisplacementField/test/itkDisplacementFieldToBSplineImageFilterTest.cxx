@@ -18,7 +18,8 @@
 
 #include "itkDisplacementFieldToBSplineImageFilter.h"
 
-int itkDisplacementFieldToBSplineImageFilterTest( int, char * [] )
+int
+itkDisplacementFieldToBSplineImageFilterTest(int, char *[])
 {
   constexpr unsigned int ImageDimension = 2;
 
@@ -33,71 +34,70 @@ int itkDisplacementFieldToBSplineImageFilterTest( int, char * [] )
   DisplacementFieldType::DirectionType direction;
 
   direction.SetIdentity();
-  origin.Fill( 0.0 );
-  spacing.Fill( 0.5 );
-  size.Fill( 100 );
+  origin.Fill(0.0);
+  spacing.Fill(0.5);
+  size.Fill(100);
 
-  VectorType ones( 1 );
+  VectorType ones(1);
 
   DisplacementFieldType::Pointer field = DisplacementFieldType::New();
-  field->SetOrigin( origin );
-  field->SetSpacing( spacing );
-  field->SetRegions( size );
-  field->SetDirection( direction );
+  field->SetOrigin(origin);
+  field->SetSpacing(spacing);
+  field->SetRegions(size);
+  field->SetDirection(direction);
   field->Allocate();
-  field->FillBuffer( ones );
+  field->FillBuffer(ones);
 
-  using BSplineFilterType = itk::DisplacementFieldToBSplineImageFilter
-    <DisplacementFieldType, PointSetType>;
+  using BSplineFilterType = itk::DisplacementFieldToBSplineImageFilter<DisplacementFieldType, PointSetType>;
   using RealImageType = BSplineFilterType::RealImageType;
 
   RealImageType::Pointer confidenceImage = RealImageType::New();
-  confidenceImage->CopyInformation( field );
-  confidenceImage->SetRegions( size );
+  confidenceImage->CopyInformation(field);
+  confidenceImage->SetRegions(size);
   confidenceImage->Allocate();
-  confidenceImage->FillBuffer( 1.0 );
+  confidenceImage->FillBuffer(1.0);
 
   PointSetType::Pointer pointSet = PointSetType::New();
   pointSet->Initialize();
 
-  VectorType ones_points( 1.0 );
+  VectorType ones_points(1.0);
 
   // Assign some random points within the b-spline domain
   PointSetType::PointType point1;
   point1[0] = 23.75;
   point1[1] = 5.125;
-  pointSet->SetPoint( 0, point1 );
-  pointSet->SetPointData( 0, ones_points );
+  pointSet->SetPoint(0, point1);
+  pointSet->SetPointData(0, ones_points);
 
   PointSetType::PointType point2;
   point2[0] = 1.75;
   point2[1] = 45.125;
-  pointSet->SetPoint( 1, point2 );
-  pointSet->SetPointData( 1, ones_points );
+  pointSet->SetPoint(1, point2);
+  pointSet->SetPointData(1, ones_points);
 
   PointSetType::PointType point3;
   point3[0] = 45.75;
   point3[1] = 2.125;
-  pointSet->SetPoint( 2, point3 );
-  pointSet->SetPointData( 2, ones_points );
+  pointSet->SetPoint(2, point3);
+  pointSet->SetPointData(2, ones_points);
 
   BSplineFilterType::ArrayType numberOfControlPoints;
-  numberOfControlPoints.Fill( 4 );
+  numberOfControlPoints.Fill(4);
 
   BSplineFilterType::Pointer bspliner = BSplineFilterType::New();
-  bspliner->SetDisplacementField( field );
-  bspliner->SetConfidenceImage( confidenceImage );
-  bspliner->SetPointSet( pointSet );
-  bspliner->SetUseInputFieldToDefineTheBSplineDomain( true );
-  bspliner->SetNumberOfControlPoints( numberOfControlPoints );
-  bspliner->SetSplineOrder( 3 );
-  bspliner->SetNumberOfFittingLevels( 8 );
+  bspliner->SetDisplacementField(field);
+  bspliner->SetConfidenceImage(confidenceImage);
+  bspliner->SetPointSet(pointSet);
+  bspliner->SetUseInputFieldToDefineTheBSplineDomain(true);
+  bspliner->SetNumberOfControlPoints(numberOfControlPoints);
+  bspliner->SetSplineOrder(3);
+  bspliner->SetNumberOfFittingLevels(8);
   bspliner->EnforceStationaryBoundaryOff();
   bspliner->EnforceStationaryBoundaryOn();
-  bspliner->SetEnforceStationaryBoundary( false );
+  bspliner->SetEnforceStationaryBoundary(false);
   bspliner->EstimateInverseOff();
   bspliner->EstimateInverseOn();
-  bspliner->SetEstimateInverse( false );
+  bspliner->SetEstimateInverse(false);
   bspliner->Update();
   std::cout << "spline order: " << bspliner->GetSplineOrder() << std::endl;
   std::cout << "number of control points: " << bspliner->GetNumberOfControlPoints() << std::endl;
@@ -106,73 +106,73 @@ int itkDisplacementFieldToBSplineImageFilterTest( int, char * [] )
   std::cout << "estimate inverse: " << bspliner->GetEstimateInverse() << std::endl;
 
   try
-    {
+  {
     bspliner->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception thrown " << std::endl;
     std::cerr << excp << std::endl;
-    }
+  }
 
   DisplacementFieldType::IndexType index;
   index[0] = 50;
   index[1] = 50;
 
-  VectorType v = bspliner->GetOutput()->GetPixel( index );
+  VectorType v = bspliner->GetOutput()->GetPixel(index);
 
-  if( itk::Math::abs( v.GetNorm() - 1.414214 ) >= 0.01 )
-    {
+  if (itk::Math::abs(v.GetNorm() - 1.414214) >= 0.01)
+  {
     std::cerr << "Failed to find the correct forward displacement vector." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  bspliner->SetNumberOfControlPoints( numberOfControlPoints );
-  bspliner->SetSplineOrder( 3 );
-  bspliner->SetNumberOfFittingLevels( 5 );
+  bspliner->SetNumberOfControlPoints(numberOfControlPoints);
+  bspliner->SetSplineOrder(3);
+  bspliner->SetNumberOfFittingLevels(5);
   bspliner->EnforceStationaryBoundaryOff();
   bspliner->EnforceStationaryBoundaryOn();
-  bspliner->SetEnforceStationaryBoundary( false );
-  bspliner->SetEstimateInverse( true );
+  bspliner->SetEnforceStationaryBoundary(false);
+  bspliner->SetEstimateInverse(true);
   bspliner->Update();
 
-  v = bspliner->GetOutput()->GetPixel( index );
+  v = bspliner->GetOutput()->GetPixel(index);
 
-  if( itk::Math::abs( v.GetNorm() - 1.414214 ) >= 0.01 )
-    {
+  if (itk::Math::abs(v.GetNorm() - 1.414214) >= 0.01)
+  {
     std::cerr << "Failed to find the correct inverse displacement vector." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  bspliner->Print( std::cout, 3 );
+  bspliner->Print(std::cout, 3);
 
 
   /** do a second run using only the point set. */
 
   BSplineFilterType::Pointer bspliner2 = BSplineFilterType::New();
-  bspliner2->SetPointSet( pointSet );
-  bspliner2->SetUseInputFieldToDefineTheBSplineDomain( false );
-  bspliner2->SetBSplineDomainFromImage( field );
-  bspliner2->SetNumberOfControlPoints( numberOfControlPoints );
-  bspliner2->SetSplineOrder( 3 );
-  bspliner2->SetNumberOfFittingLevels( 8 );
+  bspliner2->SetPointSet(pointSet);
+  bspliner2->SetUseInputFieldToDefineTheBSplineDomain(false);
+  bspliner2->SetBSplineDomainFromImage(field);
+  bspliner2->SetNumberOfControlPoints(numberOfControlPoints);
+  bspliner2->SetSplineOrder(3);
+  bspliner2->SetNumberOfFittingLevels(8);
   bspliner2->EnforceStationaryBoundaryOff();
   bspliner2->EnforceStationaryBoundaryOn();
-  bspliner2->SetEnforceStationaryBoundary( false );
+  bspliner2->SetEnforceStationaryBoundary(false);
   bspliner2->EstimateInverseOff();
   bspliner2->EstimateInverseOn();
-  bspliner2->SetEstimateInverse( false );
+  bspliner2->SetEstimateInverse(false);
   bspliner2->Update();
 
   try
-    {
+  {
     bspliner2->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception thrown " << std::endl;
     std::cerr << excp << std::endl;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

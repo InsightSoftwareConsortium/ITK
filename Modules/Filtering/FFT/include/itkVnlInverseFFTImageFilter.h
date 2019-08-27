@@ -18,10 +18,10 @@
 #include "itkInverseFFTImageFilter.h"
 
 #ifndef itkVnlInverseFFTImageFilter_h
-#define itkVnlInverseFFTImageFilter_h
+#  define itkVnlInverseFFTImageFilter_h
 
-#include "itkImage.h"
-#include "vnl/algo/vnl_fft_base.h"
+#  include "itkImage.h"
+#  include "vnl/algo/vnl_fft_base.h"
 
 namespace itk
 {
@@ -40,9 +40,9 @@ namespace itk
  *
  *
  */
-template< typename TInputImage, typename TOutputImage=Image< typename TInputImage::PixelType::value_type, TInputImage::ImageDimension> >
-class ITK_TEMPLATE_EXPORT VnlInverseFFTImageFilter:
-  public InverseFFTImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage,
+          typename TOutputImage = Image<typename TInputImage::PixelType::value_type, TInputImage::ImageDimension>>
+class ITK_TEMPLATE_EXPORT VnlInverseFFTImageFilter : public InverseFFTImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VnlInverseFFTImageFilter);
@@ -57,16 +57,15 @@ public:
   using OutputSizeType = typename OutputImageType::SizeType;
 
   using Self = VnlInverseFFTImageFilter;
-  using Superclass = InverseFFTImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = InverseFFTImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VnlInverseFFTImageFilter,
-               InverseFFTImageFilter);
+  itkTypeMacro(VnlInverseFFTImageFilter, InverseFFTImageFilter);
 
   /** Extract the dimensionality of the images. They must be the
    * same. */
@@ -74,30 +73,30 @@ public:
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
-  SizeValueType GetSizeGreatestPrimeFactor() const override;
+  SizeValueType
+  GetSizeGreatestPrimeFactor() const override;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
+#  ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( PixelUnsignedIntDivisionOperatorsCheck,
-                   ( Concept::DivisionOperators< OutputPixelType, unsigned int > ) );
-  itkConceptMacro( ImageDimensionsMatchCheck,
-                   ( Concept::SameDimension< InputImageDimension, OutputImageDimension > ) );
+  itkConceptMacro(PixelUnsignedIntDivisionOperatorsCheck, (Concept::DivisionOperators<OutputPixelType, unsigned int>));
+  itkConceptMacro(ImageDimensionsMatchCheck, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
   // End concept checking
-#endif
+#  endif
 
 protected:
-  VnlInverseFFTImageFilter()  = default;
+  VnlInverseFFTImageFilter() = default;
   ~VnlInverseFFTImageFilter() override = default;
 
-  void GenerateData() override;  // generates output from input
+  void
+  GenerateData() override; // generates output from input
 
 private:
-  using SignalVectorType = vnl_vector< InputPixelType  >;
+  using SignalVectorType = vnl_vector<InputPixelType>;
 };
-}
+} // namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVnlInverseFFTImageFilter.hxx"
-#endif
+#  ifndef ITK_MANUAL_INSTANTIATION
+#    include "itkVnlInverseFFTImageFilter.hxx"
+#  endif
 
 #endif

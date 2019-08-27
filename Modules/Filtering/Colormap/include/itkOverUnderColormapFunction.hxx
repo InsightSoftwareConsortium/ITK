@@ -24,10 +24,9 @@ namespace itk
 {
 namespace Function
 {
-template< typename TScalar, typename TRGBPixel >
-typename OverUnderColormapFunction< TScalar, TRGBPixel >::RGBPixelType
-OverUnderColormapFunction< TScalar, TRGBPixel >
-::operator()(const TScalar & v) const
+template <typename TScalar, typename TRGBPixel>
+typename OverUnderColormapFunction<TScalar, TRGBPixel>::RGBPixelType
+OverUnderColormapFunction<TScalar, TRGBPixel>::operator()(const TScalar & v) const
 {
   // Map the input scalar between [0, 1].
   RealType value = this->RescaleInputValue(v);
@@ -37,20 +36,20 @@ OverUnderColormapFunction< TScalar, TRGBPixel >
   RealType green = value;
   RealType blue = value;
 
-  if ( value == 0.0 )
-    {
+  if (value == 0.0)
+  {
     // pixel is saturated in the dark
     red = 0.0;
     green = 0.0;
     blue = 1.0;
-    }
-  else if ( value == 1.0 )
-    {
+  }
+  else if (value == 1.0)
+  {
     // pixel is saturated in the white
     red = 1.0;
     green = 0.0;
     blue = 0.0;
-    }
+  }
 
   // Set the rgb components after rescaling the values.
   RGBPixelType pixel;

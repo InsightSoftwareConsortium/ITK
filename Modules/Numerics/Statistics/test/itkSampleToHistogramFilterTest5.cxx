@@ -21,18 +21,19 @@
 #include "itkImageToListSampleFilter.h"
 #include "itkImageFileReader.h"
 
-int itkSampleToHistogramFilterTest5(int argc, char *argv[] )
+int
+itkSampleToHistogramFilterTest5(int argc, char * argv[])
 {
 
   constexpr unsigned int imageDimension = 2;
 
-  if( argc < 2 )
-    {
+  if (argc < 2)
+  {
     std::cerr << "Missing arguments" << std::endl;
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFilename " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   //
   // Note:
@@ -41,119 +42,115 @@ int itkSampleToHistogramFilterTest5(int argc, char *argv[] )
   // SampleToHistogramFilter can be used for generating the
   // histogram of an image.
   //
-  using VMeasurementType = unsigned char;  // type for the samples
-  using HMeasurementType = float;  // type for the histogram
+  using VMeasurementType = unsigned char; // type for the samples
+  using HMeasurementType = float;         // type for the histogram
 
 
-  using PixelType = itk::RGBPixel< VMeasurementType >;
+  using PixelType = itk::RGBPixel<VMeasurementType>;
 
   constexpr unsigned int numberOfComponents = 3;
 
-  using ImageType = itk::Image< PixelType, imageDimension >;
+  using ImageType = itk::Image<PixelType, imageDimension>;
 
   using ImageToListSampleFilterType = itk::Statistics::ImageToListSampleFilter<ImageType>;
 
   using SampleType = ImageToListSampleFilterType::ListSampleType;
 
-  using HistogramType = itk::Statistics::Histogram< HMeasurementType,
-          itk::Statistics::DenseFrequencyContainer2 >;
+  using HistogramType = itk::Statistics::Histogram<HMeasurementType, itk::Statistics::DenseFrequencyContainer2>;
 
-  using FilterType = itk::Statistics::SampleToHistogramFilter<
-    SampleType, HistogramType >;
+  using FilterType = itk::Statistics::SampleToHistogramFilter<SampleType, HistogramType>;
 
   using MeasurementVectorType = HistogramType::MeasurementVectorType;
 
   using HistogramSizeType = FilterType::HistogramSizeType;
 
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
 
-  ImageToListSampleFilterType::Pointer imageToSampleFilter =
-    ImageToListSampleFilterType::New();
+  ImageToListSampleFilterType::Pointer imageToSampleFilter = ImageToListSampleFilterType::New();
 
   FilterType::Pointer filter = FilterType::New();
 
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
-  imageToSampleFilter->SetInput( reader->GetOutput() );
+  imageToSampleFilter->SetInput(reader->GetOutput());
 
-  filter->SetInput( imageToSampleFilter->GetOutput() );
+  filter->SetInput(imageToSampleFilter->GetOutput());
 
   // Test exception when calling Update() without having
   // defined the size of the histogram in the filter.
   try
-    {
+  {
     filter->Update();
     std::cerr << "Failure to throw expected exception due to lack";
     std::cerr << " of calling SetHistogramSize() in the filter ";
     return EXIT_FAILURE;
-    }
-  catch( itk::ExceptionObject & )
-    {
+  }
+  catch (itk::ExceptionObject &)
+  {
     std::cout << "Expected exception received" << std::endl;
-    }
+  }
 
 
   const HistogramType * histogram = filter->GetOutput();
 
-  if( histogram->Size() != 0 )
-    {
+  if (histogram->Size() != 0)
+  {
     std::cerr << "Histogram Size should have been zero" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  HistogramSizeType histogramSize( numberOfComponents );
+  HistogramSizeType histogramSize(numberOfComponents);
 
   histogramSize[0] = 256;
   histogramSize[1] = 256;
   histogramSize[2] = 256;
 
-  filter->SetHistogramSize( histogramSize );
+  filter->SetHistogramSize(histogramSize);
 
   try
-    {
+  {
     filter->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  const unsigned int expectedHistogramSize =
-    histogramSize[0] * histogramSize[1] * histogramSize[2];
+  const unsigned int expectedHistogramSize = histogramSize[0] * histogramSize[1] * histogramSize[2];
 
-  if( histogram->Size() != expectedHistogramSize )
-    {
+  if (histogram->Size() != expectedHistogramSize)
+  {
     std::cerr << "Histogram Size should have been " << expectedHistogramSize << std::endl;
     std::cerr << " but it actually is " << histogram->Size() << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   HistogramType::ConstIterator histogramItr = histogram->Begin();
   HistogramType::ConstIterator histogramEnd = histogram->End();
 
-  using PrintType = itk::NumericTraits< VMeasurementType >::PrintType;
+  using PrintType = itk::NumericTraits<VMeasurementType>::PrintType;
 
   unsigned int count = 0;
-  while( histogramItr != histogramEnd )
+  while (histogramItr != histogramEnd)
+  {
+    if (histogramItr.GetFrequency() != 0)
     {
-    if( histogramItr.GetFrequency() != 0 )
-      {
       count++;
       if (count % 1000)
-        {
+      {
         MeasurementVectorType measurementVector = histogramItr.GetMeasurementVector();
-        std::cout << static_cast< PrintType >( measurementVector[0] ) << "  ";
-        std::cout << static_cast< PrintType >( measurementVector[1] ) << "  ";
-        std::cout << static_cast< PrintType >( measurementVector[2] ) << "  ";
+        std::cout << static_cast<PrintType>(measurementVector[0]) << "  ";
+        std::cout << static_cast<PrintType>(measurementVector[1]) << "  ";
+        std::cout << static_cast<PrintType>(measurementVector[2]) << "  ";
         std::cout << "frequency: " << histogramItr.GetFrequency() << std::endl;
-        }
       }
-    ++histogramItr;
     }
+    ++histogramItr;
+  }
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;

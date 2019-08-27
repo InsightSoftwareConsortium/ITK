@@ -19,22 +19,20 @@
 #define itkPathIterator_hxx
 
 #include "itkPathIterator.h"
-#include "itkOffset.h"        // for operator++
+#include "itkOffset.h" // for operator++
 
 namespace itk
 {
-template< typename TImage, typename TPath >
-PathIterator< TImage, TPath >
-::PathIterator(ImageType *imagePtr, const PathType  *pathPtr):
-  PathConstIterator< TImage, TPath >(imagePtr, pathPtr)
+template <typename TImage, typename TPath>
+PathIterator<TImage, TPath>::PathIterator(ImageType * imagePtr, const PathType * pathPtr)
+  : PathConstIterator<TImage, TPath>(imagePtr, pathPtr)
 {}
 
-template< typename TImage, typename TPath >
-PathIterator< TImage, TPath > &
-PathIterator< TImage, TPath >
-::operator=(const Self & it)
+template <typename TImage, typename TPath>
+PathIterator<TImage, TPath> &
+PathIterator<TImage, TPath>::operator=(const Self & it)
 {
-  this->PathConstIterator< TImage, TPath >::operator=(it);
+  this->PathConstIterator<TImage, TPath>::operator=(it);
   return *this;
 }
 } // end namespace itk

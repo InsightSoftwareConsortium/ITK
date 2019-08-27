@@ -49,7 +49,7 @@ namespace itk
  * \ingroup MeshObjects
  * \ingroup ITKMesh
  */
-class ITKMesh_EXPORT MeshRegion:public Region
+class ITKMesh_EXPORT MeshRegion : public Region
 {
 public:
   /** Standard class type aliases. */
@@ -68,27 +68,44 @@ public:
   ~MeshRegion() override;
 
   /** Return the region type. Meshes are described with unstructured regions. */
-  RegionType GetRegionType() const override
-  { return Superclass::ITK_UNSTRUCTURED_REGION; }
+  RegionType
+  GetRegionType() const override
+  {
+    return Superclass::ITK_UNSTRUCTURED_REGION;
+  }
 
   /** Get the number of regions. */
-  SizeValueType GetNumberOfRegions() const
-  { return m_NumberOfRegions; }
+  SizeValueType
+  GetNumberOfRegions() const
+  {
+    return m_NumberOfRegions;
+  }
 
   /** Set the number of regions. */
-  void SetNumberOfRegions(SizeValueType num)
+  void
+  SetNumberOfRegions(SizeValueType num)
   {
-    if ( num >= 1 ) { m_NumberOfRegions = num; }
+    if (num >= 1)
+    {
+      m_NumberOfRegions = num;
+    }
   }
 
   /** Get the current region. */
-  SizeValueType GetRegion() const
-  { return m_Region; }
+  SizeValueType
+  GetRegion() const
+  {
+    return m_Region;
+  }
 
   /** Set the number of regions. */
-  void SetRegion(SizeValueType region)
+  void
+  SetRegion(SizeValueType region)
   {
-    if ( region >= 1 ) { m_Region = region; }
+    if (region >= 1)
+    {
+      m_Region = region;
+    }
   }
 
 private:

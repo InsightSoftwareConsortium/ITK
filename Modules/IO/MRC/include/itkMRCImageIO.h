@@ -55,8 +55,7 @@ namespace itk
  * \sa ImageFileWriter ImageFileReader ImageIOBase
  * \ingroup ITKIOMRC
  */
-class ITKIOMRC_EXPORT MRCImageIO :
-  public StreamingImageIOBase
+class ITKIOMRC_EXPORT MRCImageIO : public StreamingImageIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MRCImageIO);
@@ -64,7 +63,7 @@ public:
   /** Standard class type aliases. */
   using Self = MRCImageIO;
   using Superclass = StreamingImageIOBase;
-  using Pointer = SmartPointer< Self >;
+  using Pointer = SmartPointer<Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -73,18 +72,23 @@ public:
   itkTypeMacro(MRCImageIO, StreamingImageIOBase);
 
   // we don't use this method
-  void WriteImageInformation() override {}
+  void
+  WriteImageInformation() override
+  {}
 
   //-------- This part of the interface deals with reading data. ------
 
   // See super class for documentation
-  bool CanReadFile(const char *) override;
+  bool
+  CanReadFile(const char *) override;
 
   // See super class for documentation
-  void ReadImageInformation() override;
+  void
+  ReadImageInformation() override;
 
   // See super class for documentation
-  void Read(void *buffer) override;
+  void
+  Read(void * buffer) override;
 
   // -------- This part of the interfaces deals with writing data. -----
 
@@ -94,45 +98,53 @@ public:
    * The methods verifies that the file extension is known to be
    * supported by this class.
    */
-  bool CanWriteFile(const char *) override;
+  bool
+  CanWriteFile(const char *) override;
 
   // see super class for documentation
-  void Write(const void *buffer) override;
+  void
+  Write(const void * buffer) override;
 
   /** \todo Move to itkIOCommon with the other MetaDataDictionary
    * keys, likely rename the symbol to something like
    * ITK_MRCHHeader. (remember to fix class doc too)
    */
-  static const char *m_MetaDataHeaderName;
+  static const char * m_MetaDataHeaderName;
 
 protected:
   MRCImageIO();
   // ~MRCImageIO(); // default works
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Overloaded to return the actually header size of the file
    * specified. The header must be read before this methods is
    * called.
    */
-  SizeType GetHeaderSize() const override;
+  SizeType
+  GetHeaderSize() const override;
 
 private:
-
   // internal methods to update the min and max in the header based on
   // the data, in the image buffer to be written
-  template< typename TPixelType >
-  void UpdateHeaderWithMinMaxMean(const TPixelType *bufferBegin);
+  template <typename TPixelType>
+  void
+  UpdateHeaderWithMinMaxMean(const TPixelType * bufferBegin);
 
-  void UpdateHeaderWithMinMaxMean(const void *bufferBegin);
+  void
+  UpdateHeaderWithMinMaxMean(const void * bufferBegin);
 
   // internal methods to update the header object from the ImageIO's
   // set member variables
-  void UpdateHeaderFromImageIO();
+  void
+  UpdateHeaderFromImageIO();
 
   // reimplemented
-  void InternalReadImageInformation(std::ifstream & is);
+  void
+  InternalReadImageInformation(std::ifstream & is);
 
-  virtual void WriteImageInformation(const void *bufferBegin);
+  virtual void
+  WriteImageInformation(const void * bufferBegin);
 
   MRCHeaderObject::Pointer m_MRCHeader;
 };

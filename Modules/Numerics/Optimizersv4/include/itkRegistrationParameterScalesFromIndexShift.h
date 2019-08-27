@@ -30,24 +30,24 @@ namespace itk
  *
  * \ingroup ITKOptimizersv4
  */
-template < typename TMetric >
-class ITK_TEMPLATE_EXPORT RegistrationParameterScalesFromIndexShift :
-  public RegistrationParameterScalesFromShiftBase< TMetric >
+template <typename TMetric>
+class ITK_TEMPLATE_EXPORT RegistrationParameterScalesFromIndexShift
+  : public RegistrationParameterScalesFromShiftBase<TMetric>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(RegistrationParameterScalesFromIndexShift);
 
   /** Standard class type aliases. */
   using Self = RegistrationParameterScalesFromIndexShift;
-  using Superclass = RegistrationParameterScalesFromShiftBase< TMetric >;
+  using Superclass = RegistrationParameterScalesFromShiftBase<TMetric>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( RegistrationParameterScalesFromIndexShift, RegistrationParameterScalesFromShiftBase );
+  itkTypeMacro(RegistrationParameterScalesFromIndexShift, RegistrationParameterScalesFromShiftBase);
 
   /** Type of scales */
   using ScalesType = typename Superclass::ScalesType;
@@ -73,36 +73,41 @@ public:
   using FixedIndexType = typename FixedImageType::IndexType;
   using FixedPointValueType = typename FixedImageType::PointValueType;
 
-  using FixedContinuousIndexType = typename itk::ContinuousIndex< FixedPointValueType, FixedImageType::ImageDimension >;
+  using FixedContinuousIndexType = typename itk::ContinuousIndex<FixedPointValueType, FixedImageType::ImageDimension>;
 
   using MovingPointType = typename MovingImageType::PointType;
   using MovingIndexType = typename MovingImageType::IndexType;
   using MovingPointValueType = typename MovingImageType::PointValueType;
 
-  using MovingContinuousIndexType = typename itk::ContinuousIndex< MovingPointValueType, MovingImageType::ImageDimension >;
+  using MovingContinuousIndexType =
+    typename itk::ContinuousIndex<MovingPointValueType, MovingImageType::ImageDimension>;
 
 protected:
   RegistrationParameterScalesFromIndexShift() = default;
   ~RegistrationParameterScalesFromIndexShift() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void ComputeSampleShifts(const ParametersType &deltaParameters, ScalesType &localShifts) override;
+  void
+  ComputeSampleShifts(const ParametersType & deltaParameters, ScalesType & localShifts) override;
 
-  template<typename TContinuousIndexType>
-  void TransformPointToContinuousIndex(const VirtualPointType &point, TContinuousIndexType &mappedIndex);
+  template <typename TContinuousIndexType>
+  void
+  TransformPointToContinuousIndex(const VirtualPointType & point, TContinuousIndexType & mappedIndex);
 
 private:
   template <typename TTransform>
-  void ComputeSampleShiftsInternal(const ParametersType &deltaParameters, ScalesType &localShifts);
+  void
+  ComputeSampleShiftsInternal(const ParametersType & deltaParameters, ScalesType & localShifts);
 
-}; //class RegistrationParameterScalesFromIndexShift
+}; // class RegistrationParameterScalesFromIndexShift
 
-}  // namespace itk
+} // namespace itk
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRegistrationParameterScalesFromIndexShift.hxx"
+#  include "itkRegistrationParameterScalesFromIndexShift.hxx"
 #endif
 
 #endif /* itkRegistrationParameterScalesFromIndexShift_h */

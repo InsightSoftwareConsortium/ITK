@@ -21,91 +21,87 @@
 #include "itkAbsoluteValueDifferenceImageFilter.h"
 #include "itkImageFileReader.h"
 
-template< typename TForwardFFT, typename TInverseFFT >
-bool ForwardInverseFullFFTTest(const char * inputFileName)
+template <typename TForwardFFT, typename TInverseFFT>
+bool
+ForwardInverseFullFFTTest(const char * inputFileName)
 {
   double tolerance = 1.e-3;
   using ImageType = typename TForwardFFT::InputImageType;
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   typename ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( inputFileName );
+  reader->SetFileName(inputFileName);
 
   typename TForwardFFT::Pointer fft = TForwardFFT::New();
-  fft->SetInput( reader->GetOutput() );
+  fft->SetInput(reader->GetOutput());
 
   typename TInverseFFT::Pointer ifft = TInverseFFT::New();
-  ifft->SetInput( fft->GetOutput() );
+  ifft->SetInput(fft->GetOutput());
 
-  using AbsDiffFilterType =
-      itk::AbsoluteValueDifferenceImageFilter< ImageType, ImageType, ImageType >;
+  using AbsDiffFilterType = itk::AbsoluteValueDifferenceImageFilter<ImageType, ImageType, ImageType>;
   typename AbsDiffFilterType::Pointer diffFilter = AbsDiffFilterType::New();
-  diffFilter->SetInput1( reader->GetOutput() );
-  diffFilter->SetInput2( ifft->GetOutput() );
+  diffFilter->SetInput1(reader->GetOutput());
+  diffFilter->SetInput2(ifft->GetOutput());
   diffFilter->UpdateLargestPossibleRegion();
 
   bool success = true;
-  using IteratorType = itk::ImageRegionConstIteratorWithIndex< ImageType >;
-  IteratorType it( diffFilter->GetOutput(),
-                   diffFilter->GetOutput()->GetLargestPossibleRegion() );
-  while ( !it.IsAtEnd() )
+  using IteratorType = itk::ImageRegionConstIteratorWithIndex<ImageType>;
+  IteratorType it(diffFilter->GetOutput(), diffFilter->GetOutput()->GetLargestPossibleRegion());
+  while (!it.IsAtEnd())
+  {
+    if (it.Get() > tolerance)
     {
-    if ( it.Get() > tolerance )
-      {
       std::cerr << "Error found at pixel " << it.GetIndex() << "." << std::endl;
-      std::cerr << "Absolute difference is " << it.Get()
-                << ", which is greater than the acceptable tolerance of"
+      std::cerr << "Absolute difference is " << it.Get() << ", which is greater than the acceptable tolerance of"
                 << tolerance << "." << std::endl;
       success = false;
       break;
-      }
-    ++it;
     }
+    ++it;
+  }
 
   return success;
 }
 
-template< typename TForwardFFT, typename TInverseFFT >
-bool ForwardInverseHalfFFTTest(const char * inputFileName)
+template <typename TForwardFFT, typename TInverseFFT>
+bool
+ForwardInverseHalfFFTTest(const char * inputFileName)
 {
   double tolerance = 1.e-3;
   using ImageType = typename TForwardFFT::InputImageType;
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   typename ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( inputFileName );
+  reader->SetFileName(inputFileName);
   reader->UpdateLargestPossibleRegion();
 
   typename TForwardFFT::Pointer fft = TForwardFFT::New();
-  fft->SetInput( reader->GetOutput() );
+  fft->SetInput(reader->GetOutput());
 
   typename TInverseFFT::Pointer ifft = TInverseFFT::New();
-  bool xIsOdd = reader->GetOutput()->GetLargestPossibleRegion().GetSize()[0] % 2 == 1;
-  ifft->SetActualXDimensionIsOdd( xIsOdd );
-  ifft->SetInput( fft->GetOutput() );
+  bool                          xIsOdd = reader->GetOutput()->GetLargestPossibleRegion().GetSize()[0] % 2 == 1;
+  ifft->SetActualXDimensionIsOdd(xIsOdd);
+  ifft->SetInput(fft->GetOutput());
 
-  using AbsDiffFilterType =
-      itk::AbsoluteValueDifferenceImageFilter< ImageType, ImageType, ImageType >;
+  using AbsDiffFilterType = itk::AbsoluteValueDifferenceImageFilter<ImageType, ImageType, ImageType>;
   typename AbsDiffFilterType::Pointer diffFilter = AbsDiffFilterType::New();
-  diffFilter->SetInput1( reader->GetOutput() );
-  diffFilter->SetInput2( ifft->GetOutput() );
+  diffFilter->SetInput1(reader->GetOutput());
+  diffFilter->SetInput2(ifft->GetOutput());
   diffFilter->UpdateLargestPossibleRegion();
 
   bool success = true;
-  using IteratorType = itk::ImageRegionConstIteratorWithIndex< ImageType >;
-  IteratorType it( diffFilter->GetOutput(),
-                   diffFilter->GetOutput()->GetLargestPossibleRegion() );
-  while ( !it.IsAtEnd() )
+  using IteratorType = itk::ImageRegionConstIteratorWithIndex<ImageType>;
+  IteratorType it(diffFilter->GetOutput(), diffFilter->GetOutput()->GetLargestPossibleRegion());
+  while (!it.IsAtEnd())
+  {
+    if (it.Get() > tolerance)
     {
-    if ( it.Get() > tolerance )
-      {
       std::cerr << "ForwardInverseHalfFFTTest: Error found at pixel " << it.GetIndex() << "." << std::endl;
-      std::cerr << "Absolute difference is " << it.Get()
-                << ", which is greater than the acceptable tolerance of"
+      std::cerr << "Absolute difference is " << it.Get() << ", which is greater than the acceptable tolerance of"
                 << tolerance << "." << std::endl;
       success = false;
       break;
-      }
-    ++it;
     }
+    ++it;
+  }
 
   return success;
 }

@@ -32,7 +32,7 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-template< typename TVector >
+template <typename TVector>
 class CrossHelper
 {
 public:
@@ -46,33 +46,33 @@ public:
    * \param[in] iV
    * \return \f$ \boldsymbol{iU} \cdot \boldsymbol{iV} \f$
    */
-  VectorType operator()(const VectorType & iU,
-                        const VectorType & iV) const
+  VectorType
+  operator()(const VectorType & iU, const VectorType & iV) const
   {
     VectorType oCross;
 
-    if ( Dimension > 2 )
-      {
+    if (Dimension > 2)
+    {
       oCross[0] = iU[1] * iV[2] - iV[1] * iU[2];
       oCross[1] = iV[0] * iU[2] - iU[0] * iV[2];
       oCross[2] = iU[0] * iV[1] - iV[0] * iU[1];
 
       if (Dimension > 3)
+      {
+        for (unsigned int dim = 3; dim < Dimension; dim++)
         {
-        for ( unsigned int dim = 3; dim < Dimension; dim++ )
-          {
           oCross[dim] = 0.0;
-          }
         }
       }
+    }
     else
-      {
+    {
       oCross.Fill(0.);
-      }
+    }
 
     return oCross;
   }
 };
-}
+} // namespace itk
 
 #endif

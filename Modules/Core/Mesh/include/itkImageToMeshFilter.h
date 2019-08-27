@@ -32,17 +32,17 @@ namespace itk
  * \ingroup ImageFilters
  * \ingroup ITKMesh
  */
-template< typename TInputImage, typename TOutputMesh >
-class ITK_TEMPLATE_EXPORT ImageToMeshFilter:public MeshSource< TOutputMesh >
+template <typename TInputImage, typename TOutputMesh>
+class ITK_TEMPLATE_EXPORT ImageToMeshFilter : public MeshSource<TOutputMesh>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageToMeshFilter);
 
   /** Standard class type aliases. */
   using Self = ImageToMeshFilter;
-  using Superclass = MeshSource< TOutputMesh >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = MeshSource<TOutputMesh>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageToMeshFilter, MeshSource);
@@ -50,7 +50,8 @@ public:
   /** Create a valid output. */
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  DataObject::Pointer  MakeOutput(DataObjectPointerArraySizeType idx) override;
+  DataObject::Pointer
+  MakeOutput(DataObjectPointerArraySizeType idx) override;
 
   /** Some Image related type alias. */
   using InputImageType = TInputImage;
@@ -65,24 +66,30 @@ public:
 
   /** Set the input image of this process object.  */
   using Superclass::SetInput;
-  void SetInput(unsigned int idx, const InputImageType *input);
-  void SetInput(const InputImageType *input)
-    {
+  void
+  SetInput(unsigned int idx, const InputImageType * input);
+  void
+  SetInput(const InputImageType * input)
+  {
     this->SetInput(0, input);
-    }
+  }
 
   /** Get the input image of this process object.  */
-  const InputImageType * GetInput(unsigned int idx);
-  const InputImageType * GetInput()
-    {
+  const InputImageType *
+  GetInput(unsigned int idx);
+  const InputImageType *
+  GetInput()
+  {
     return this->GetInput(0);
-    }
+  }
 
   /** Get the output Mesh of this process object.  */
-  OutputMeshType * GetOutput();
+  OutputMeshType *
+  GetOutput();
 
   /** Prepare the output */
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
 protected:
   ImageToMeshFilter();
@@ -91,7 +98,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageToMeshFilter.hxx"
+#  include "itkImageToMeshFilter.hxx"
 #endif
 
 #endif

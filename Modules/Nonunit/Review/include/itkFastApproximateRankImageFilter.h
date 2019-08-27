@@ -41,23 +41,25 @@ namespace itk
  * \ingroup ITKReview
  */
 
-template< typename TInputImage, typename TOutputImage >
-class FastApproximateRankImageFilter:
-  public MiniPipelineSeparableImageFilter< TInputImage, TOutputImage,
-                                           RankImageFilter< TInputImage, TInputImage,
-                                                            FlatStructuringElement< TInputImage::ImageDimension > > >
+template <typename TInputImage, typename TOutputImage>
+class FastApproximateRankImageFilter
+  : public MiniPipelineSeparableImageFilter<
+      TInputImage,
+      TOutputImage,
+      RankImageFilter<TInputImage, TInputImage, FlatStructuringElement<TInputImage::ImageDimension>>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FastApproximateRankImageFilter);
 
   /** Standard class type aliases. */
   using Self = FastApproximateRankImageFilter;
-  using Superclass = MiniPipelineSeparableImageFilter< TInputImage, TOutputImage,
-          RankImageFilter< TInputImage, TInputImage,
-                      FlatStructuringElement< TInputImage::ImageDimension > > >;
+  using Superclass = MiniPipelineSeparableImageFilter<
+    TInputImage,
+    TOutputImage,
+    RankImageFilter<TInputImage, TInputImage, FlatStructuringElement<TInputImage::ImageDimension>>>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -79,17 +81,18 @@ public:
   /** n-dimensional Kernel radius. */
   using RadiusType = typename TInputImage::SizeType;
 
-  void SetRank(float rank)
+  void
+  SetRank(float rank)
   {
-    if ( m_Rank != rank )
-      {
+    if (m_Rank != rank)
+    {
       m_Rank = rank;
-      for ( unsigned i = 0; i < TInputImage::ImageDimension - 1; i++ )
-        {
+      for (unsigned i = 0; i < TInputImage::ImageDimension - 1; i++)
+      {
         this->m_Filters[i]->SetRank(m_Rank);
-        }
-      this->Modified();
       }
+      this->Modified();
+    }
   }
 
   itkGetConstMacro(Rank, float);
@@ -104,7 +107,8 @@ protected:
 
   ~FastApproximateRankImageFilter() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const override
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
     os << indent << "Rank: " << m_Rank << std::endl;
@@ -113,6 +117,6 @@ protected:
 private:
   float m_Rank;
 };
-}
+} // namespace itk
 
 #endif

@@ -26,35 +26,33 @@
 namespace itk
 {
 
-template< typename TInputImage, typename TOutputImage >
-CyclicShiftImageFilter< TInputImage, TOutputImage >
-::CyclicShiftImageFilter()
+template <typename TInputImage, typename TOutputImage>
+CyclicShiftImageFilter<TInputImage, TOutputImage>::CyclicShiftImageFilter()
 {
-  m_Shift.Fill( NumericTraits< OffsetValueType >::ZeroValue() );
+  m_Shift.Fill(NumericTraits<OffsetValueType>::ZeroValue());
   this->DynamicMultiThreadingOn();
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-CyclicShiftImageFilter< TInputImage, TOutputImage >
-::GenerateInputRequestedRegion()
+CyclicShiftImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   // Call the superclass' implementation of this method.
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the input.
-  InputImagePointer input = const_cast< InputImageType * >( this->GetInput() );
-  if ( !input )
-    {
+  InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
+  if (!input)
+  {
     return;
-    }
+  }
   input->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-CyclicShiftImageFilter< TInputImage, TOutputImage >
-::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
+CyclicShiftImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
 {
   const InputImageType * inputImage = this->GetInput();
 
@@ -63,30 +61,28 @@ CyclicShiftImageFilter< TInputImage, TOutputImage >
   const SizeType  outSize = this->GetOutput()->GetLargestPossibleRegion().GetSize();
 
   // Now iterate over the pixels of the output region for this thread.
-  ImageRegionIteratorWithIndex< OutputImageType > outIt(this->GetOutput(), outputRegionForThread);
-  for ( outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt )
-    {
+  ImageRegionIteratorWithIndex<OutputImageType> outIt(this->GetOutput(), outputRegionForThread);
+  for (outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt)
+  {
     IndexType index = outIt.GetIndex();
 
-    for ( unsigned int i = 0; i < ImageDimension; ++i )
+    for (unsigned int i = 0; i < ImageDimension; ++i)
+    {
+      IndexValueType shiftedIdx = (index[i] - outIdx[i] - m_Shift[i]) % static_cast<OffsetValueType>(outSize[i]);
+      if (shiftedIdx < 0)
       {
-      IndexValueType shiftedIdx = ( index[i] - outIdx[i] - m_Shift[i] )
-        % static_cast< OffsetValueType >(outSize[i]);
-      if ( shiftedIdx < 0 )
-        {
         shiftedIdx += outSize[i];
-        }
-      index[i] = shiftedIdx + outIdx[i];
       }
-
-    outIt.Set( static_cast< OutputImagePixelType >( inputImage->GetPixel( index ) ) );
+      index[i] = shiftedIdx + outIdx[i];
     }
+
+    outIt.Set(static_cast<OutputImagePixelType>(inputImage->GetPixel(index)));
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-CyclicShiftImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+CyclicShiftImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

@@ -49,41 +49,49 @@ public:
    *
    * \sa Disable, SetEnabled, GetEnabled
    */
-  static void Enable();
+  static void
+  Enable();
 
   /** Disable floating point exceptions.
    *
    * \sa Enable, SetEnabled, GetEnabled
    */
-  static void Disable();
+  static void
+  Disable();
 
   /** Return the current state of FP Exceptions */
-  static bool GetEnabled();
+  static bool
+  GetEnabled();
 
   /** Set the state to specified value.
    *
    * \sa Enable, Disable, GetEnabled
    */
-  static void SetEnabled(bool val);
+  static void
+  SetEnabled(bool val);
 
   /** Control whether exit(255) or abort() is called on an exception */
-  static void SetExceptionAction(ExceptionAction a);
+  static void
+  SetExceptionAction(ExceptionAction a);
 
   /** Access current ExceptionAction */
-  static ExceptionAction GetExceptionAction();
+  static ExceptionAction
+  GetExceptionAction();
 
   /** Return if floating point exceptions are supported on this platform */
-  static bool HasFloatingPointExceptionsSupport();
+  static bool
+  HasFloatingPointExceptionsSupport();
 
 private:
   FloatingPointExceptions() = default;
   FloatingPointExceptions(const FloatingPointExceptions &) = delete;
-  void operator=(const FloatingPointExceptions &) = delete;
+  void
+  operator=(const FloatingPointExceptions &) = delete;
 
   itkGetGlobalDeclarationMacro(ExceptionGlobals, PimplGlobals);
   /** static member that controls what happens during an exception */
   static ExceptionGlobals * m_PimplGlobals;
 };
-}
+} // namespace itk
 
 #endif

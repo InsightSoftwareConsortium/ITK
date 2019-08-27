@@ -20,130 +20,132 @@
 #include "itkTestingMacros.h"
 #include <type_traits> // For std::is_same.
 
-template< typename TPixel >
-int TestGaussianDerivativeImageFunction()
+template <typename TPixel>
+int
+TestGaussianDerivativeImageFunction()
 {
   constexpr unsigned int Dimension = 2;
   using PixelType = TPixel;
-  using ImageType = itk::Image< PixelType, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
   // Create and allocate the image
-  typename ImageType::Pointer      image = ImageType::New();
-  typename ImageType::SizeType     size;
-  typename ImageType::IndexType    start;
-  typename ImageType::RegionType   region;
+  typename ImageType::Pointer    image = ImageType::New();
+  typename ImageType::SizeType   size;
+  typename ImageType::IndexType  start;
+  typename ImageType::RegionType region;
 
   size[0] = 50;
   size[1] = 50;
 
-  start.Fill( 0 );
-  region.SetIndex( start );
-  region.SetSize( size );
+  start.Fill(0);
+  region.SetIndex(start);
+  region.SetSize(size);
 
-  image->SetRegions( region );
+  image->SetRegions(region);
   image->Allocate(true); // initialize buffer to zero
 
   // Fill the image with a straight line
-  for( unsigned int i = 0; i < 50; ++i )
-    {
+  for (unsigned int i = 0; i < 50; ++i)
+  {
     typename ImageType::IndexType ind;
     ind[0] = i;
     ind[1] = 25;
-    image->SetPixel(ind,1);
+    image->SetPixel(ind, 1);
     ind[1] = 26;
-    image->SetPixel(ind,1);
-    }
+    image->SetPixel(ind, 1);
+  }
 
   // Test the derivative of Gaussian image function
-  using DoGFunctionType = itk::GaussianDerivativeImageFunction< ImageType >;
+  using DoGFunctionType = itk::GaussianDerivativeImageFunction<ImageType>;
   typename DoGFunctionType::Pointer DoG = DoGFunctionType::New();
 
-  DoG->SetInputImage( image );
+  DoG->SetInputImage(image);
 
   std::cout << "Testing Set/GetSigma(): ";
 
   DoG->SetSigma(2.0);
-  const double* sigma = DoG->GetSigma();
-  for(unsigned int i = 0; i < Dimension; ++i)
+  const double * sigma = DoG->GetSigma();
+  for (unsigned int i = 0; i < Dimension; ++i)
+  {
+    if (sigma[i] != 2.0)
     {
-    if( sigma[i] != 2.0)
-      {
       std::cerr << "[FAILED]" << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
   std::cout << "[PASSED] " << std::endl;
 
 
   std::cout << "Testing Set/GetExtent(): ";
 
   DoG->SetExtent(4.0);
-  const double* ext = DoG->GetExtent();
-  for( unsigned int i = 0; i < Dimension; ++i )
+  const double * ext = DoG->GetExtent();
+  for (unsigned int i = 0; i < Dimension; ++i)
+  {
+    if (ext[i] != 4.0)
     {
-    if( ext[i] != 4.0)
-      {
       std::cerr << "[FAILED]" << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
   std::cout << "[PASSED] " << std::endl;
 
   std::cout << "Testing consistency within Index/Point/ContinuousIndex: ";
-  itk::Index< Dimension > index;
+  itk::Index<Dimension> index;
   index.Fill(25);
   typename DoGFunctionType::OutputType gradientIndex;
-  gradientIndex = DoG->EvaluateAtIndex( index );
+  gradientIndex = DoG->EvaluateAtIndex(index);
 
   typename DoGFunctionType::PointType pt;
   pt[0] = 25.0;
   pt[1] = 25.0;
   typename DoGFunctionType::OutputType gradientPoint;
-  gradientPoint = DoG->Evaluate( pt );
+  gradientPoint = DoG->Evaluate(pt);
 
   typename DoGFunctionType::ContinuousIndexType continuousIndex;
   continuousIndex.Fill(25);
   typename DoGFunctionType::OutputType gradientContinuousIndex;
-  gradientContinuousIndex = DoG->EvaluateAtContinuousIndex( continuousIndex );
+  gradientContinuousIndex = DoG->EvaluateAtContinuousIndex(continuousIndex);
 
-  if( gradientIndex != gradientPoint || gradientIndex != gradientContinuousIndex )
-    {
+  if (gradientIndex != gradientPoint || gradientIndex != gradientContinuousIndex)
+  {
     std::cerr << "[FAILED] : " << gradientIndex << " : " << gradientPoint << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "[PASSED] " << std::endl;
   gradientPoint.Normalize(); // normalize the vector
 
   std::cout << "Testing Evaluate() : ";
 
-  if( (gradientPoint[0] > 0.1) || ( std::fabs(gradientPoint[1] + 1.0 ) > 10e-4 ) )
-    {
+  if ((gradientPoint[0] > 0.1) || (std::fabs(gradientPoint[1] + 1.0) > 10e-4))
+  {
     std::cerr << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "[PASSED] " << std::endl;
 
   pt[0] = 25.0;
   pt[1] = 26.0;
-  gradientPoint = DoG->Evaluate( pt );
+  gradientPoint = DoG->Evaluate(pt);
 
   gradientPoint.Normalize(); // normalize the vector;
 
   std::cout << "Testing Evaluate() : ";
 
-  if( (gradientPoint[0] > 0.1) || ( std::fabs(gradientPoint[1] - 1.0 ) > 10e-4 ) )
-    {
+  if ((gradientPoint[0] > 0.1) || (std::fabs(gradientPoint[1] - 1.0) > 10e-4))
+  {
     std::cerr << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "[PASSED] " << std::endl;
   return EXIT_SUCCESS;
 }
 
-int itkGaussianDerivativeImageFunctionTest( int, char* [] )
+int
+itkGaussianDerivativeImageFunctionTest(int, char *[])
 {
 
   // Exercise basic object methods
@@ -151,91 +153,89 @@ int itkGaussianDerivativeImageFunctionTest( int, char* [] )
   // when calling overloaded base class functions.
   constexpr unsigned int Dimension = 2;
   using PixelType = float;
-  using ImageType = itk::Image< PixelType, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
-  using DoGFunctionType = itk::GaussianDerivativeImageFunction< ImageType >;
+  using DoGFunctionType = itk::GaussianDerivativeImageFunction<ImageType>;
 
-#if !defined( ITK_LEGACY_REMOVE )
+#if !defined(ITK_LEGACY_REMOVE)
   static_assert(DoGFunctionType::ImageDimension2 == DoGFunctionType::ImageDimension,
-    "Check legacy support for ImageDimension2");
-  static_assert(std::is_same<
-    DoGFunctionType::GaussianDerivativeFunctionType,
-    DoGFunctionType::GaussianDerivativeSpatialFunctionType>::value,
-    "Check legacy support for GaussianDerivativeFunctionType");
-  static_assert(std::is_same<
-    DoGFunctionType::GaussianDerivativeFunctionPointer,
-    DoGFunctionType::GaussianDerivativeSpatialFunctionPointer>::value,
-    "Check legacy support for GaussianDerivativeFunctionPointer");
+                "Check legacy support for ImageDimension2");
+  static_assert(std::is_same<DoGFunctionType::GaussianDerivativeFunctionType,
+                             DoGFunctionType::GaussianDerivativeSpatialFunctionType>::value,
+                "Check legacy support for GaussianDerivativeFunctionType");
+  static_assert(std::is_same<DoGFunctionType::GaussianDerivativeFunctionPointer,
+                             DoGFunctionType::GaussianDerivativeSpatialFunctionPointer>::value,
+                "Check legacy support for GaussianDerivativeFunctionPointer");
 #endif
 
   DoGFunctionType::Pointer DoG = DoGFunctionType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( DoG, GaussianDerivativeImageFunction, ImageFunction );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(DoG, GaussianDerivativeImageFunction, ImageFunction);
 
 
   std::cout << "\nTesting derivative of Gaussian image function for float" << std::endl;
-  if( TestGaussianDerivativeImageFunction< float >() == EXIT_FAILURE )
-    {
+  if (TestGaussianDerivativeImageFunction<float>() == EXIT_FAILURE)
+  {
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "\nTesting derivative of Gaussian image function for unsigned short" << std::endl;
-  if( TestGaussianDerivativeImageFunction< unsigned short >() == EXIT_FAILURE )
-    {
+  if (TestGaussianDerivativeImageFunction<unsigned short>() == EXIT_FAILURE)
+  {
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "\nTesting Gaussian Derivative Spatial Function:";
 
-  using GaussianDerivativeFunctionType = itk::GaussianDerivativeSpatialFunction<double,1>;
+  using GaussianDerivativeFunctionType = itk::GaussianDerivativeSpatialFunction<double, 1>;
   GaussianDerivativeFunctionType::Pointer f = GaussianDerivativeFunctionType::New();
 
   f->SetScale(1.0);
-  if(f->GetScale() != 1.0)
-    {
+  if (f->GetScale() != 1.0)
+  {
     std::cerr << "Get Scale : [FAILED]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   f->SetNormalized(true);
-  if(!f->GetNormalized())
-    {
+  if (!f->GetNormalized())
+  {
     std::cerr << "GetNormalized : [FAILED]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   GaussianDerivativeFunctionType::ArrayType s;
   s[0] = 1.0;
   f->SetSigma(s);
-  if(f->GetSigma()[0] != 1.0)
-    {
+  if (f->GetSigma()[0] != 1.0)
+  {
     std::cerr << "GetSigma : [FAILED]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   GaussianDerivativeFunctionType::ArrayType m;
   m[0] = 0.0;
   f->SetMean(m);
-  if(f->GetMean()[0] != 0.0)
-    {
+  if (f->GetMean()[0] != 0.0)
+  {
     std::cerr << "GetMean : [FAILED]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   f->SetDirection(0);
-  if(f->GetDirection() != 0)
-    {
+  if (f->GetDirection() != 0)
+  {
     std::cerr << "GetDirection : [FAILED]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   GaussianDerivativeFunctionType::InputType point;
   point[0] = 0.0;
 
-  if(f->Evaluate(point) != 0.0)
-    {
+  if (f->Evaluate(point) != 0.0)
+  {
     std::cerr << "Evaluate: [FAILED]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << f << std::endl;
   std::cout << "[PASSED] " << std::endl;

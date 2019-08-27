@@ -26,10 +26,10 @@
 namespace itk
 {
 /** \class GEAdwImageIOFactory
-   * \brief Create instances of GEAdwImageIO objects using an object factory.
-   * \ingroup ITKIOGE
-   */
-class ITKIOGE_EXPORT GEAdwImageIOFactory:public ObjectFactoryBase
+ * \brief Create instances of GEAdwImageIO objects using an object factory.
+ * \ingroup ITKIOGE
+ */
+class ITKIOGE_EXPORT GEAdwImageIOFactory : public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GEAdwImageIOFactory);
@@ -37,13 +37,15 @@ public:
   /** Standard class type aliases. */
   using Self = GEAdwImageIOFactory;
   using Superclass = ObjectFactoryBase;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
-  const char * GetITKSourceVersion() const override;
+  const char *
+  GetITKSourceVersion() const override;
 
-  const char * GetDescription() const override;
+  const char *
+  GetDescription() const override;
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
@@ -52,7 +54,8 @@ public:
   itkTypeMacro(GEAdwImageIOFactory, ObjectFactoryBase);
 
   /** Register one factory of this type  */
-  static void RegisterOneFactory()
+  static void
+  RegisterOneFactory()
   {
     GEAdwImageIOFactory::Pointer metaFactory = GEAdwImageIOFactory::New();
 
@@ -62,7 +65,8 @@ public:
 protected:
   GEAdwImageIOFactory();
   ~GEAdwImageIOFactory() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 };
 } // end namespace itk
 

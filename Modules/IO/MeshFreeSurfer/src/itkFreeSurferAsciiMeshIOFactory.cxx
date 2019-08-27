@@ -24,33 +24,28 @@
 namespace itk
 {
 void
-FreeSurferAsciiMeshIOFactory
-::PrintSelf(std::ostream &, Indent) const
+FreeSurferAsciiMeshIOFactory ::PrintSelf(std::ostream &, Indent) const
 {}
 
-FreeSurferAsciiMeshIOFactory
-::FreeSurferAsciiMeshIOFactory()
+FreeSurferAsciiMeshIOFactory ::FreeSurferAsciiMeshIOFactory()
 {
-  this->RegisterOverride( "itkMeshIOBase",
+  this->RegisterOverride("itkMeshIOBase",
                          "itkFreeSurferAsciiMeshIO",
                          "Freesurfer Mesh IO",
                          true,
-                         CreateObjectFunction< FreeSurferAsciiMeshIO >::New() );
+                         CreateObjectFunction<FreeSurferAsciiMeshIO>::New());
 }
 
-FreeSurferAsciiMeshIOFactory
-::~FreeSurferAsciiMeshIOFactory() = default;
+FreeSurferAsciiMeshIOFactory ::~FreeSurferAsciiMeshIOFactory() = default;
 
 const char *
-FreeSurferAsciiMeshIOFactory
-::GetITKSourceVersion() const
+FreeSurferAsciiMeshIOFactory ::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
 
 const char *
-FreeSurferAsciiMeshIOFactory
-::GetDescription() const
+FreeSurferAsciiMeshIOFactory ::GetDescription() const
 {
   return "FreeSurfer ASCII Mesh IO Factory, allows the loading of FreeSurfer Ascii mesh into insight";
 }
@@ -59,13 +54,14 @@ FreeSurferAsciiMeshIOFactory
 // DO NOT CALL DIRECTLY.
 static bool FreeSurferAsciiMeshIOFactoryHasBeenRegistered;
 
-void ITKIOMeshFreeSurfer_EXPORT FreeSurferAsciiMeshIOFactoryRegister__Private()
+void ITKIOMeshFreeSurfer_EXPORT
+     FreeSurferAsciiMeshIOFactoryRegister__Private()
 {
-  if( ! FreeSurferAsciiMeshIOFactoryHasBeenRegistered )
-    {
+  if (!FreeSurferAsciiMeshIOFactoryHasBeenRegistered)
+  {
     FreeSurferAsciiMeshIOFactoryHasBeenRegistered = true;
     FreeSurferAsciiMeshIOFactory::RegisterOneFactory();
-    }
+  }
 }
 
 } // end namespace itk

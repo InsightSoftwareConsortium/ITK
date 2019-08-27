@@ -34,18 +34,16 @@ namespace itk
  * \author: Arnaud Gelas, Alexandre Gouaillard
  * \ingroup ITKQuadEdgeMeshFiltering
  */
-template< typename TInputMesh, typename TOutputMesh=TInputMesh >
-class DiscreteGaussianCurvatureQuadEdgeMeshFilter:
-  public DiscreteCurvatureQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
+template <typename TInputMesh, typename TOutputMesh = TInputMesh>
+class DiscreteGaussianCurvatureQuadEdgeMeshFilter : public DiscreteCurvatureQuadEdgeMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(DiscreteGaussianCurvatureQuadEdgeMeshFilter);
 
   using Self = DiscreteGaussianCurvatureQuadEdgeMeshFilter;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using Superclass = DiscreteCurvatureQuadEdgeMeshFilter<
-    TInputMesh, TOutputMesh >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using Superclass = DiscreteCurvatureQuadEdgeMeshFilter<TInputMesh, TOutputMesh>;
 
   using InputMeshType = typename Superclass::InputMeshType;
   using InputMeshPointer = typename Superclass::InputMeshPointer;
@@ -72,8 +70,7 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( OutputIsFloatingPointCheck,
-                   ( Concept::IsFloatingPoint< OutputCurvatureType > ) );
+  itkConceptMacro(OutputIsFloatingPointCheck, (Concept::IsFloatingPoint<OutputCurvatureType>));
   // End concept checking
 #endif
 
@@ -81,16 +78,17 @@ protected:
   DiscreteGaussianCurvatureQuadEdgeMeshFilter() = default;
   ~DiscreteGaussianCurvatureQuadEdgeMeshFilter() override = default;
 
-  OutputCurvatureType EstimateCurvature(const OutputPointType & iP) override
+  OutputCurvatureType
+  EstimateCurvature(const OutputPointType & iP) override
   {
     OutputMeshPointer output = this->GetOutput();
 
-    OutputQEType *qe = iP.GetEdge();
+    OutputQEType * qe = iP.GetEdge();
 
-    if ( qe != nullptr )
-      {
-      OutputQEType *qe_it = qe;
-      OutputQEType *qe_it2;
+    if (qe != nullptr)
+    {
+      OutputQEType * qe_it = qe;
+      OutputQEType * qe_it2;
 
       OutputPointType q0, q1;
 
@@ -98,26 +96,24 @@ protected:
       OutputCurvatureType area = 0.;
 
       do
-        {
+      {
         // cell_id = qe_it->GetLeft();
         qe_it2 = qe_it->GetOnext();
-        q0 = output->GetPoint( qe_it->GetDestination() );
-        q1 = output->GetPoint( qe_it2->GetDestination() );
+        q0 = output->GetPoint(qe_it->GetDestination());
+        q1 = output->GetPoint(qe_it2->GetDestination());
 
         // Compute Angle;
-        sum_theta += static_cast< OutputCurvatureType >(
-          TriangleType::ComputeAngle(q0, iP, q1) );
+        sum_theta += static_cast<OutputCurvatureType>(TriangleType::ComputeAngle(q0, iP, q1));
         area += this->ComputeMixedArea(qe_it, qe_it2);
         qe_it = qe_it2;
-        }
-      while ( qe_it != qe );
+      } while (qe_it != qe);
 
-      return ( 2.0 * itk::Math::pi - sum_theta ) / area;
-      }
+      return (2.0 * itk::Math::pi - sum_theta) / area;
+    }
 
     return 0.;
   }
 };
-}
+} // namespace itk
 
 #endif

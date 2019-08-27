@@ -38,18 +38,17 @@ namespace itk
  * \sa TransformMeshFilter
  * \ingroup ITKMesh
  */
-template< typename TInputMesh, typename TOutputMesh, typename TDisplacementField >
-class ITK_TEMPLATE_EXPORT WarpMeshFilter:
-  public MeshToMeshFilter< TInputMesh, TOutputMesh >
+template <typename TInputMesh, typename TOutputMesh, typename TDisplacementField>
+class ITK_TEMPLATE_EXPORT WarpMeshFilter : public MeshToMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(WarpMeshFilter);
 
   /** Standard class type aliases. */
   using Self = WarpMeshFilter;
-  using Superclass = MeshToMeshFilter< TInputMesh, TOutputMesh >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = MeshToMeshFilter<TInputMesh, TOutputMesh>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using InputMeshType = TInputMesh;
   using InputMeshPointer = typename InputMeshType::Pointer;
@@ -72,23 +71,27 @@ public:
   itkTypeMacro(WarpMeshFilter, MeshToMeshFilter);
 
   /** Set the deformation field. */
-  void SetDisplacementField(const DisplacementFieldType *field);
+  void
+  SetDisplacementField(const DisplacementFieldType * field);
 
   /** Get a pointer the deformation field. */
-  const DisplacementFieldType * GetDisplacementField() const;
+  const DisplacementFieldType *
+  GetDisplacementField() const;
 
 protected:
   WarpMeshFilter();
   ~WarpMeshFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate Requested Data */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkWarpMeshFilter.hxx"
+#  include "itkWarpMeshFilter.hxx"
 #endif
 
 #endif

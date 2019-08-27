@@ -42,18 +42,17 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKMathematicalMorphology
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT GrayscaleConnectedOpeningImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT GrayscaleConnectedOpeningImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleConnectedOpeningImageFilter);
 
   /** Standard class type aliases. */
   using Self = GrayscaleConnectedOpeningImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Some convenient type alias. */
   using InputImageType = TInputImage;
@@ -76,8 +75,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(GrayscaleConnectedOpeningImageFilter,
-               ImageToImageFilter);
+  itkTypeMacro(GrayscaleConnectedOpeningImageFilter, ImageToImageFilter);
 
   /** Set/Get the seed pixel for the segmentation */
   itkSetMacro(Seed, InputImageIndexType);
@@ -95,34 +93,35 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputEqualityComparableCheck,
-                   ( Concept::EqualityComparable< InputImagePixelType > ) );
-  itkConceptMacro( InputConvertibleToOutputCheck,
-                   ( Concept::Convertible< InputImagePixelType, OutputImagePixelType > ) );
-  itkConceptMacro( InputOStreamWritableCheck,
-                   ( Concept::OStreamWritable< InputImagePixelType > ) );
+  itkConceptMacro(InputEqualityComparableCheck, (Concept::EqualityComparable<InputImagePixelType>));
+  itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
+  itkConceptMacro(InputOStreamWritableCheck, (Concept::OStreamWritable<InputImagePixelType>));
   // End concept checking
 #endif
 
 protected:
   GrayscaleConnectedOpeningImageFilter();
   ~GrayscaleConnectedOpeningImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** GrayscaleConnectedOpeningImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
    * GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** GrayscaleConnectedOpeningImageFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * itkNotUsed(output)) override;
 
   /** Single-threaded version of GenerateData.  This filter delegates
    * to GrayscaleGeodesicDilateImageFilter. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
-  unsigned long       m_NumberOfIterationsUsed{1};
+  unsigned long       m_NumberOfIterationsUsed{ 1 };
   InputImageIndexType m_Seed;
 
   bool m_FullyConnected;
@@ -130,7 +129,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGrayscaleConnectedOpeningImageFilter.hxx"
+#  include "itkGrayscaleConnectedOpeningImageFilter.hxx"
 #endif
 
 #endif

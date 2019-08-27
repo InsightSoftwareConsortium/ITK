@@ -24,68 +24,58 @@ namespace itk
 /**
  *
  */
-template< typename TInputImage, typename TOutputMesh >
-ImageToMeshFilter< TInputImage, TOutputMesh >
-::ImageToMeshFilter()
+template <typename TInputImage, typename TOutputMesh>
+ImageToMeshFilter<TInputImage, TOutputMesh>::ImageToMeshFilter()
 {
   this->ProcessObject::SetNumberOfRequiredInputs(1);
 
-  OutputMeshPointer output =
-    dynamic_cast< OutputMeshType * >( this->MakeOutput(0).GetPointer() );
+  OutputMeshPointer output = dynamic_cast<OutputMeshType *>(this->MakeOutput(0).GetPointer());
 
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
-  this->ProcessObject::SetNthOutput( 0, output.GetPointer() );
+  this->ProcessObject::SetNthOutput(0, output.GetPointer());
 }
 
 /**
  *   Make Ouput
  */
-template< typename TInputImage, typename TOutputMesh >
-DataObject::Pointer
-ImageToMeshFilter< TInputImage, TOutputMesh >
-::MakeOutput(DataObjectPointerArraySizeType)
+template <typename TInputImage, typename TOutputMesh>
+DataObject::Pointer ImageToMeshFilter<TInputImage, TOutputMesh>::MakeOutput(DataObjectPointerArraySizeType)
 {
   OutputMeshPointer outputMesh = OutputMeshType::New();
 
-  return dynamic_cast< DataObject * >( outputMesh.GetPointer() );
+  return dynamic_cast<DataObject *>(outputMesh.GetPointer());
 }
 
 /**
  *
  */
-template< typename TInputImage, typename TOutputMesh >
+template <typename TInputImage, typename TOutputMesh>
 void
-ImageToMeshFilter< TInputImage, TOutputMesh >
-::SetInput(unsigned int idx, const InputImageType *input)
+ImageToMeshFilter<TInputImage, TOutputMesh>::SetInput(unsigned int idx, const InputImageType * input)
 {
   // process object is not const-correct, the const_cast
   // is required here.
-  this->ProcessObject::SetNthInput( idx,
-                                    const_cast< InputImageType * >( input ) );
+  this->ProcessObject::SetNthInput(idx, const_cast<InputImageType *>(input));
 }
 
 /**
  *
  */
-template< typename TInputImage, typename TOutputMesh >
-const typename ImageToMeshFilter< TInputImage, TOutputMesh >::InputImageType *
-ImageToMeshFilter< TInputImage, TOutputMesh >
-::GetInput(unsigned int idx)
+template <typename TInputImage, typename TOutputMesh>
+const typename ImageToMeshFilter<TInputImage, TOutputMesh>::InputImageType *
+ImageToMeshFilter<TInputImage, TOutputMesh>::GetInput(unsigned int idx)
 {
-  return dynamic_cast< const InputImageType * >
-         ( this->ProcessObject::GetInput(idx) );
+  return dynamic_cast<const InputImageType *>(this->ProcessObject::GetInput(idx));
 }
 
 /**
  *
  */
-template< typename TInputImage, typename TOutputMesh >
-typename ImageToMeshFilter< TInputImage, TOutputMesh >::OutputMeshType *
-ImageToMeshFilter< TInputImage, TOutputMesh >
-::GetOutput()
+template <typename TInputImage, typename TOutputMesh>
+typename ImageToMeshFilter<TInputImage, TOutputMesh>::OutputMeshType *
+ImageToMeshFilter<TInputImage, TOutputMesh>::GetOutput()
 {
-  return dynamic_cast< OutputMeshType * >
-         ( this->ProcessObject::GetOutput(0) );
+  return dynamic_cast<OutputMeshType *>(this->ProcessObject::GetOutput(0));
 }
 
 /**
@@ -93,10 +83,9 @@ ImageToMeshFilter< TInputImage, TOutputMesh >
  * This is a void implementation to prevent the
  * ProcessObject version to be called
  */
-template< typename TInputImage, typename TOutputMesh >
+template <typename TInputImage, typename TOutputMesh>
 void
-ImageToMeshFilter< TInputImage, TOutputMesh >
-::GenerateOutputInformation()
+ImageToMeshFilter<TInputImage, TOutputMesh>::GenerateOutputInformation()
 {}
 } // end namespace itk
 

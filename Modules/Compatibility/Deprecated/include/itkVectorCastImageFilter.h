@@ -41,72 +41,73 @@ namespace itk
  */
 namespace Functor
 {
-template< typename TInput, typename TOutput >
+template <typename TInput, typename TOutput>
 class VectorCast
 {
 public:
   VectorCast() = default;
   ~VectorCast() = default;
-  bool operator!=(const VectorCast &) const
+  bool
+  operator!=(const VectorCast &) const
   {
     return false;
   }
 
-  bool operator==(const VectorCast & other) const
+  bool
+  operator==(const VectorCast & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 
-  inline TOutput operator()(const TInput & A) const
+  inline TOutput
+  operator()(const TInput & A) const
   {
     using OutputValueType = typename TOutput::ValueType;
 
     TOutput value;
-    for ( unsigned int k = 0; k < TOutput::Dimension; k++ )
-      {
-      value[k] = static_cast< OutputValueType >( A[k] );
-      }
+    for (unsigned int k = 0; k < TOutput::Dimension; k++)
+    {
+      value[k] = static_cast<OutputValueType>(A[k]);
+    }
     return value;
   }
 };
-}
+} // namespace Functor
 
-template< typename TInputImage, typename TOutputImage >
-class VectorCastImageFilter:
-  public
-  UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                           Functor::VectorCast< typename TInputImage::PixelType,
-                                                typename TOutputImage::PixelType >   >
+template <typename TInputImage, typename TOutputImage>
+class VectorCastImageFilter
+  : public UnaryFunctorImageFilter<
+      TInputImage,
+      TOutputImage,
+      Functor::VectorCast<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorCastImageFilter);
 
   /** Standard class type aliases. */
   using Self = VectorCastImageFilter;
-  using Superclass = UnaryFunctorImageFilter<
-    TInputImage, TOutputImage,
-    Functor::VectorCast< typename TInputImage::PixelType,
-                         typename TOutputImage::PixelType > >;
+  using Superclass =
+    UnaryFunctorImageFilter<TInputImage,
+                            TOutputImage,
+                            Functor::VectorCast<typename TInputImage::PixelType, typename TOutputImage::PixelType>>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(VectorCastImageFilter,
-               UnaryFunctorImageFilter);
+  itkTypeMacro(VectorCastImageFilter, UnaryFunctorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< typename TInputImage::PixelType::ValueType > ) );
-  itkConceptMacro( OutputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< typename TOutputImage::PixelType::ValueType > ) );
-  itkConceptMacro( InputConvertibleToOutputCheck,
-                   ( Concept::Convertible< typename TInputImage::PixelType::ValueType,
-                                           typename TOutputImage::PixelType::ValueType > ) );
+  itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<typename TInputImage::PixelType::ValueType>));
+  itkConceptMacro(OutputHasNumericTraitsCheck,
+                  (Concept::HasNumericTraits<typename TOutputImage::PixelType::ValueType>));
+  itkConceptMacro(
+    InputConvertibleToOutputCheck,
+    (Concept::Convertible<typename TInputImage::PixelType::ValueType, typename TOutputImage::PixelType::ValueType>));
   // End concept checking
 #endif
 

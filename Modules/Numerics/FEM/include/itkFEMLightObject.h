@@ -59,33 +59,36 @@ public:
   /**
    * Set the global number of the object
    */
-  void SetGlobalNumber(int);
+  void
+  SetGlobalNumber(int);
 
   /**
-  * Get the global number of the object
-  */
-  int GetGlobalNumber() const;
+   * Get the global number of the object
+   */
+  int
+  GetGlobalNumber() const;
 
 protected:
-
   /**
    * Default constructor
    */
-  FEMLightObject() : m_GlobalNumber(-1)
-  {
-  }
+  FEMLightObject()
+    : m_GlobalNumber(-1)
+  {}
 
   /**
    * Virtual destructor
    */
   ~FEMLightObject() override {}
 
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**
    * Copy constructor must be available for the FEM objects...
    */
-  FEMLightObject(const FEMLightObject & o) : itk::LightObject()
+  FEMLightObject(const FEMLightObject & o)
+    : itk::LightObject()
   {
     m_GlobalNumber = o.m_GlobalNumber;
   }

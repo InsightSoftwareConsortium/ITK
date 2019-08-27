@@ -54,18 +54,17 @@ namespace itk
  * \ingroup ITKImageFilterBase
  */
 
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT VectorNeighborhoodOperatorImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT VectorNeighborhoodOperatorImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorNeighborhoodOperatorImageFilter);
 
   /** Standard class type aliases. */
   using Self = VectorNeighborhoodOperatorImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -79,8 +78,8 @@ public:
   using OutputImagePointer = typename TOutputImage::Pointer;
   using OutputPixelType = typename TOutputImage::PixelType;
   using OutputInternalPixelType = typename TOutputImage::InternalPixelType;
-  using InputPixelType = typename  TInputImage::PixelType;
-  using InputInternalPixelType = typename  TInputImage::InternalPixelType;
+  using InputPixelType = typename TInputImage::PixelType;
+  using InputInternalPixelType = typename TInputImage::InternalPixelType;
   using ScalarValueType = typename OutputPixelType::ValueType;
 
   /** Determine image dimension. */
@@ -99,8 +98,8 @@ public:
   /** Sets the operator that is used to filter the image. Note
    * that the operator is stored as an internal COPY (it
    * is not part of the pipeline). */
-  void SetOperator(const Neighborhood< ScalarValueType,
-                                       Self::ImageDimension > & p)
+  void
+  SetOperator(const Neighborhood<ScalarValueType, Self::ImageDimension> & p)
   {
     m_Operator = p;
     this->Modified();
@@ -111,8 +110,11 @@ public:
    * object during the time it is referenced.  The overriding condition
    * can be of a different type than the default type as long as it is
    * a subclass of ImageBoundaryCondition. */
-  void OverrideBoundaryCondition(const ImageBoundaryConditionPointerType i)
-  { m_BoundsCondition = i; }
+  void
+  OverrideBoundaryCondition(const ImageBoundaryConditionPointerType i)
+  {
+    m_BoundsCondition = i;
+  }
 
   /** VectorNeighborhoodOperatorImageFilter needs a larger input requested
    * region than the output requested region.  As such,
@@ -121,20 +123,20 @@ public:
    * execution model.
    *
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< typename TInputImage::PixelType::ValueType > ) );
-  itkConceptMacro( OutputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< typename TOutputImage::PixelType::ValueType > ) );
+  itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<typename TInputImage::PixelType::ValueType>));
+  itkConceptMacro(OutputHasNumericTraitsCheck,
+                  (Concept::HasNumericTraits<typename TOutputImage::PixelType::ValueType>));
   // End concept checking
 #endif
 
 protected:
-  VectorNeighborhoodOperatorImageFilter() :
-    m_BoundsCondition(nullptr)
+  VectorNeighborhoodOperatorImageFilter()
+    : m_BoundsCondition(nullptr)
   {
     this->DynamicMultiThreadingOn();
   }
@@ -151,15 +153,19 @@ protected:
    * "outputRegionForThread"
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 
-  void PrintSelf(std::ostream & os, Indent indent) const override
-  { Superclass::PrintSelf(os, indent);  }
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override
+  {
+    Superclass::PrintSelf(os, indent);
+  }
 
 private:
   /** Pointer to the internal operator used to filter the image. */
-  Neighborhood< ScalarValueType, Self::ImageDimension > m_Operator;
+  Neighborhood<ScalarValueType, Self::ImageDimension> m_Operator;
 
   /** Pointer to a persistent boundary condition object used
    * for the image iterator. */
@@ -168,7 +174,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVectorNeighborhoodOperatorImageFilter.hxx"
+#  include "itkVectorNeighborhoodOperatorImageFilter.hxx"
 #endif
 
 #endif

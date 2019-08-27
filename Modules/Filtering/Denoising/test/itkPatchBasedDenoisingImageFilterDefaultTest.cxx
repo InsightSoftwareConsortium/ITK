@@ -24,54 +24,54 @@
 #include "itkTestingMacros.h"
 
 
-template< typename ImageT >
-int doDenoising( const std::string & inputFileName, const std::string & outputFileName )
+template <typename ImageT>
+int
+doDenoising(const std::string & inputFileName, const std::string & outputFileName)
 {
-  using ReaderType = itk::ImageFileReader< ImageT >;
+  using ReaderType = itk::ImageFileReader<ImageT>;
 
-  using FilterType = itk::PatchBasedDenoisingImageFilter< ImageT, ImageT >;
+  using FilterType = itk::PatchBasedDenoisingImageFilter<ImageT, ImageT>;
 
   using OutputImageType = typename FilterType::OutputImageType;
 
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   // Read the noisy image to be denoised
   typename ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( inputFileName );
+  reader->SetFileName(inputFileName);
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
 
   // Create filter and initialize
   typename FilterType::Pointer filter = FilterType::New();
-  filter->SetInput( reader->GetOutput() );
+  filter->SetInput(reader->GetOutput());
 
   // Use 2 threads for consistency
-  filter->SetNumberOfWorkUnits( 2 );
+  filter->SetNumberOfWorkUnits(2);
 
   // Denoise the image
-  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
 
   // Write the denoised image to file
   typename WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName( outputFileName );
-  writer->SetInput( filter->GetOutput() );
+  writer->SetFileName(outputFileName);
+  writer->SetInput(filter->GetOutput());
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   return EXIT_SUCCESS;
 }
 
-int itkPatchBasedDenoisingImageFilterDefaultTest( int argc, char * argv [] )
+int
+itkPatchBasedDenoisingImageFilterDefaultTest(int argc, char * argv[])
 {
-  if( argc < 3 )
+  if (argc < 3)
   {
     std::cerr << "Missing command line arguments" << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << " inputImageFileName outputImageFileName"
-              << " numDimensions"
-              << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputImageFileName outputImageFileName"
+              << " numDimensions" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -79,43 +79,40 @@ int itkPatchBasedDenoisingImageFilterDefaultTest( int argc, char * argv [] )
   // Done outside the helper function in the test because GCC is limited
   // when calling overloaded base class functions.
   using PixelType = float;
-  using ImageType = itk::Image< PixelType, 3 >;
-  using FilterType = itk::PatchBasedDenoisingImageFilter< ImageType, ImageType >;
+  using ImageType = itk::Image<PixelType, 3>;
+  using FilterType = itk::PatchBasedDenoisingImageFilter<ImageType, ImageType>;
 
   FilterType::Pointer filter = FilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, PatchBasedDenoisingImageFilter,
-    PatchBasedDenoisingBaseImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, PatchBasedDenoisingImageFilter, PatchBasedDenoisingBaseImageFilter);
 
 
-  const std::string inFileName( argv[1] );
+  const std::string inFileName(argv[1]);
 
-  const std::string outFileName( argv[2] );
+  const std::string outFileName(argv[2]);
 
-  const unsigned int numDimensions = std::stoi( argv[3] );
+  const unsigned int numDimensions = std::stoi(argv[3]);
 
   using PixelComponentType = float;
 
   using OneComponentType = PixelComponentType;
 
-  using OneComponent2DImage = itk::Image< OneComponentType, 2 >;
-  using OneComponent3DImage = itk::Image< OneComponentType, 3 >;
+  using OneComponent2DImage = itk::Image<OneComponentType, 2>;
+  using OneComponent3DImage = itk::Image<OneComponentType, 3>;
 
-  if( numDimensions == 2 )
-    {
-    return doDenoising< OneComponent2DImage >( inFileName, outFileName );
-    }
-  else if( numDimensions == 3 )
-    {
-    return doDenoising< OneComponent3DImage >( inFileName, outFileName );
-    }
+  if (numDimensions == 2)
+  {
+    return doDenoising<OneComponent2DImage>(inFileName, outFileName);
+  }
+  else if (numDimensions == 3)
+  {
+    return doDenoising<OneComponent3DImage>(inFileName, outFileName);
+  }
   else
-    {
+  {
     std::cout << "Test failed!" << std::endl;
     std::cout << numDimensions << " dimensions "
-              << "isn't supported in this test driver."
-              << std::endl;
+              << "isn't supported in this test driver." << std::endl;
     return EXIT_FAILURE;
-    }
-
+  }
 }

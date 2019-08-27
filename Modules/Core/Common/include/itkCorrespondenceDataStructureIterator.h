@@ -28,7 +28,7 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-template< typename TStructureType >
+template <typename TStructureType>
 class ITK_TEMPLATE_EXPORT CorrespondenceDataStructureIterator
 {
 public:
@@ -36,32 +36,45 @@ public:
   using Self = CorrespondenceDataStructureIterator;
 
   /** Get the dimension (size) of the index. */
-  static unsigned int GetIteratorDimension()
+  static unsigned int
+  GetIteratorDimension()
   {
     return TStructureType::dim;
   }
 
   /** Is the iterator at the end of the region? */
-  bool IsAtEnd() const;
+  bool
+  IsAtEnd() const;
 
   /** Walk forward one index. (prefix) */
-  void operator++(){ GoToNext(); }
+  void
+  operator++()
+  {
+    GoToNext();
+  }
 
   /** Walk forward one index. (postfix) */
-  void operator++(int){ GoToNext(); }
+  void
+  operator++(int)
+  {
+    GoToNext();
+  }
 
   /** Goes to the next corresponding node clique in the structure,
    *  moving on to the next base node clique if necessary. */
-  void GoToNext();
+  void
+  GoToNext();
 
   /** Goes to the next base node clique. */
-  void GoToNextBaseGroup();
+  void
+  GoToNextBaseGroup();
 
   /** Resets the iterator. */
-  void Reset();
+  void
+  Reset();
 
   /** Constructor */
-  CorrespondenceDataStructureIterator(TStructureType *StructurePtr);
+  CorrespondenceDataStructureIterator(TStructureType * StructurePtr);
 
   /** Destructor */
   virtual ~CorrespondenceDataStructureIterator() = default;
@@ -76,7 +89,8 @@ public:
   using NodeListIterator = typename NodeListType::iterator;
 
   /** Get m_CorrespondingListPointer.  */
-  CorrespondingListType * GetCorrespondingListPointer()
+  CorrespondingListType *
+  GetCorrespondingListPointer()
   {
     return m_CorrespondingListPointer;
   }
@@ -87,19 +101,18 @@ public:
   typename TStructureType::NodeListType::iterator m_NodeListIterator;
 
 protected:
-
   /** Is the iterator at the end of its walk? */
-  bool                   m_IsAtEnd;
-  TStructureType *       m_Structure;
-  ItemType *             m_CorrespondingNodePointer;
-  CorrespondingListType *m_CorrespondingListPointer;
-  SecondaryNodeListType *m_SecondaryListPointer;
-  NodeListType *         m_NodeListPointer;
+  bool                    m_IsAtEnd;
+  TStructureType *        m_Structure;
+  ItemType *              m_CorrespondingNodePointer;
+  CorrespondingListType * m_CorrespondingListPointer;
+  SecondaryNodeListType * m_SecondaryListPointer;
+  NodeListType *          m_NodeListPointer;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCorrespondenceDataStructureIterator.hxx"
+#  include "itkCorrespondenceDataStructureIterator.hxx"
 #endif
 
 #endif

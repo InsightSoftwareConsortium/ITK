@@ -19,85 +19,85 @@
 #include "itkVectorCentralDifferenceImageFunction.h"
 #include "itkImageRegionIterator.h"
 
-int itkVectorCentralDifferenceImageFunctionTest(int, char* [] )
+int
+itkVectorCentralDifferenceImageFunctionTest(int, char *[])
 {
   constexpr unsigned int ImageDimension = 2;
   constexpr unsigned int VectorDimension = 3;
-  using PixelType = itk::Vector<short,VectorDimension>;
-  using ImageType = itk::Image<PixelType,ImageDimension>;
+  using PixelType = itk::Vector<short, VectorDimension>;
+  using ImageType = itk::Image<PixelType, ImageDimension>;
 
-  ImageType::Pointer image = ImageType::New();
+  ImageType::Pointer  image = ImageType::New();
   ImageType::SizeType size;
-  size.Fill( 16 );
-  ImageType::RegionType region( size );
+  size.Fill(16);
+  ImageType::RegionType region(size);
 
-  image->SetRegions( region );
+  image->SetRegions(region);
   image->Allocate();
 
   // make a test image
   using Iterator = itk::ImageRegionIterator<ImageType>;
-  Iterator iter( image, region );
+  Iterator iter(image, region);
   iter.GoToBegin();
   unsigned int counter = 0;
 
-  while ( !iter.IsAtEnd() )
-    {
-    iter.Set( counter++ );
+  while (!iter.IsAtEnd())
+  {
+    iter.Set(counter++);
     ++iter;
-    }
+  }
 
   // set up central difference calculator
   using CoordRepType = float;
-  using FunctionType = itk::VectorCentralDifferenceImageFunction<ImageType,CoordRepType>;
+  using FunctionType = itk::VectorCentralDifferenceImageFunction<ImageType, CoordRepType>;
   FunctionType::Pointer function = FunctionType::New();
 
-  function->SetInputImage( image );
+  function->SetInputImage(image);
 
   ImageType::IndexType index;
 
   // pick an index inside the image
-  index.Fill( 8 );
+  index.Fill(8);
   std::cout << "Index: " << index << " Derivative:" << std::endl;
-  std::cout << function->EvaluateAtIndex( index ) << std::endl;
+  std::cout << function->EvaluateAtIndex(index) << std::endl;
 
-  if ( function->IsInsideBuffer( index ) )
-    {
+  if (function->IsInsideBuffer(index))
+  {
     std::cout << "Index: " << index << " is inside the BufferedRegion." << std::endl;
-    }
+  }
 
   FunctionType::ContinuousIndexType cindex;
-  cindex.Fill( 8.0 );
+  cindex.Fill(8.0);
   std::cout << "ContinuousIndex: " << cindex << " Derivative:" << std::endl;
-  std::cout << function->EvaluateAtContinuousIndex( cindex ) << std::endl;
+  std::cout << function->EvaluateAtContinuousIndex(cindex) << std::endl;
 
   FunctionType::PointType point;
-  point.Fill( 8.0 );
+  point.Fill(8.0);
   std::cout << "Point: " << cindex << " Derivative:" << std::endl;
-  std::cout << function->Evaluate( point ) << std::endl;
+  std::cout << function->Evaluate(point) << std::endl;
 
   // pick an index on the image edge
-  index.Fill( 8 );
+  index.Fill(8);
   index[0] = 15;
   std::cout << "Index: " << index << " Derivative:" << std::endl;
-  std::cout << function->EvaluateAtIndex( index ) << std::endl;
+  std::cout << function->EvaluateAtIndex(index) << std::endl;
 
-  if ( function->IsInsideBuffer( index ) )
-    {
+  if (function->IsInsideBuffer(index))
+  {
     std::cout << "Index: " << index << " is inside the BufferedRegion." << std::endl;
-    }
+  }
 
-  cindex.Fill( 8.0 );
+  cindex.Fill(8.0);
   cindex[0] = 15.0;
   std::cout << "ContinuousIndex: " << cindex << " Derivative:" << std::endl;
-  std::cout << function->EvaluateAtContinuousIndex( cindex ) << std::endl;
+  std::cout << function->EvaluateAtContinuousIndex(cindex) << std::endl;
 
-  point.Fill( 8.0 );
+  point.Fill(8.0);
   point[0] = 15.0;
   std::cout << "Point: " << cindex << " Derivative:" << std::endl;
-  std::cout << function->Evaluate( point ) << std::endl;
+  std::cout << function->Evaluate(point) << std::endl;
 
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
-
 }

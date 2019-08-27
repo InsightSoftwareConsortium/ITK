@@ -31,13 +31,9 @@ namespace itk
  *  \tparam TMesh Input mesh type of the level set function
  *  \ingroup ITKLevelSetsv4
  */
-template< typename TMesh >
-class ITK_TEMPLATE_EXPORT LevelSetQuadEdgeMesh :
-    public LevelSetBase<
-      typename TMesh::PointIdentifier,
-      TMesh::PointDimension,
-      typename TMesh::PixelType,
-      TMesh >
+template <typename TMesh>
+class ITK_TEMPLATE_EXPORT LevelSetQuadEdgeMesh
+  : public LevelSetBase<typename TMesh::PointIdentifier, TMesh::PointDimension, typename TMesh::PixelType, TMesh>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetQuadEdgeMesh);
@@ -46,18 +42,16 @@ public:
   using MeshPointer = typename TMesh::Pointer;
 
   using Self = LevelSetQuadEdgeMesh;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using Superclass = LevelSetBase< typename MeshType::PointIdentifier,
-    MeshType::PointDimension,
-    typename MeshType::PixelType,
-    MeshType                    >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using Superclass =
+    LevelSetBase<typename MeshType::PointIdentifier, MeshType::PointDimension, typename MeshType::PixelType, MeshType>;
 
   /** Method for creation through object factory */
-  itkNewMacro ( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information */
-  itkTypeMacro ( LevelSetQuadEdgeMesh, LevelSetBase );
+  itkTypeMacro(LevelSetQuadEdgeMesh, LevelSetBase);
 
   using InputType = typename Superclass::InputType;
   using OutputType = typename Superclass::OutputType;
@@ -66,43 +60,52 @@ public:
   using HessianType = typename Superclass::HessianType;
   using LevelSetDataType = typename Superclass::LevelSetDataType;
 
-  itkSetObjectMacro( Mesh, MeshType );
-  itkGetModifiableObjectMacro(Mesh, MeshType );
+  itkSetObjectMacro(Mesh, MeshType);
+  itkGetModifiableObjectMacro(Mesh, MeshType);
 
   /** Returns the value of the level set function at a given location iP */
-  virtual OutputType Evaluate( const InputType& iP ) const;
+  virtual OutputType
+  Evaluate(const InputType & iP) const;
 
   /** Returns the image gradient of the level set function at a given location iP
    * \todo to be implemented */
-  virtual GradientType EvaluateGradient( const InputType& iP ) const;
+  virtual GradientType
+  EvaluateGradient(const InputType & iP) const;
 
   /** Returns the image hessian of the level set function at a given location iP
    * \todo to be implemented */
-  virtual HessianType EvaluateHessian( const InputType& iP ) const;
+  virtual HessianType
+  EvaluateHessian(const InputType & iP) const;
 
 
   /** Returns the value of the level set function at a given location iP
    * as part of the LevelSetDataType*/
-  virtual void Evaluate( const InputType& iP, LevelSetDataType& ioData ) const;
+  virtual void
+  Evaluate(const InputType & iP, LevelSetDataType & ioData) const;
 
   /** Returns the gradient of the level set function at a given location iP
    * as part of the LevelSetDataType
    * \todo to be implemented */
-  virtual void EvaluateGradient( const InputType& iP, LevelSetDataType& ioData ) const;
+  virtual void
+  EvaluateGradient(const InputType & iP, LevelSetDataType & ioData) const;
 
   /** Returns the Hessian of the level set function at a given location iP
    * as part of the LevelSetDataType
    * \todo to be implemented */
-  virtual void EvaluateHessian( const InputType& iP, LevelSetDataType& ioData ) const;
+  virtual void
+  EvaluateHessian(const InputType & iP, LevelSetDataType & ioData) const;
 
   /** Initial the level set pointer */
-  virtual void Initialize();
+  virtual void
+  Initialize();
 
   /** Copy level set information from data object */
-  virtual void CopyInformation(const DataObject *data);
+  virtual void
+  CopyInformation(const DataObject * data);
 
   /** Graft data object as level set object */
-  virtual void Graft( const DataObject* data );
+  virtual void
+  Graft(const DataObject * data);
 
 protected:
   LevelSetQuadEdgeMesh() = default;
@@ -111,9 +114,9 @@ protected:
 private:
   MeshPointer m_Mesh;
 };
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetQuadEdgeMesh.hxx"
+#  include "itkLevelSetQuadEdgeMesh.hxx"
 #endif
 #endif // itkLevelSetQuadEdgeMesh_h

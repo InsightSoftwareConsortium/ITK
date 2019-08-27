@@ -20,14 +20,12 @@
 #include "itkShapedNeighborhoodIterator.h"
 namespace itk
 {
-template< typename TImage, typename TBoundaryCondition >
+template <typename TImage, typename TBoundaryCondition>
 void
-ShapedNeighborhoodIterator< TImage, TBoundaryCondition >
-::PrintSelf(std::ostream & os, Indent indent) const
+ShapedNeighborhoodIterator<TImage, TBoundaryCondition>::PrintSelf(std::ostream & os, Indent indent) const
 {
-  os << indent <<  "ShapedNeighborhoodIterator = " << this
-     << std::endl;
-  Superclass::PrintSelf( os, indent.GetNextIndent() );
+  os << indent << "ShapedNeighborhoodIterator = " << this << std::endl;
+  Superclass::PrintSelf(os, indent.GetNextIndent());
 }
 } // namespace itk
 

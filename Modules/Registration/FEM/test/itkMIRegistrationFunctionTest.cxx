@@ -30,68 +30,65 @@
  *
  */
 
-int itkMIRegistrationFunctionTest( int, char* [] )
+int
+itkMIRegistrationFunctionTest(int, char *[])
 {
 
   constexpr unsigned int ImageDimension = 2;
 
   using PixelType = double;
-  using DeformationPixelType = itk::Vector< PixelType, ImageDimension >;
+  using DeformationPixelType = itk::Vector<PixelType, ImageDimension>;
 
-  using MovingImageType = itk::Image< PixelType,ImageDimension >;
-  using FixedImageType = itk::Image< PixelType,ImageDimension >;
-  using DisplacementFieldType =
-      itk::Image< DeformationPixelType, ImageDimension >;
+  using MovingImageType = itk::Image<PixelType, ImageDimension>;
+  using FixedImageType = itk::Image<PixelType, ImageDimension>;
+  using DisplacementFieldType = itk::Image<DeformationPixelType, ImageDimension>;
 
   // Declare Gaussian image sources
-  using MovingImageSourceType = itk::GaussianImageSource< MovingImageType >;
-  using FixedImageSourceType = itk::GaussianImageSource< FixedImageType  >;
+  using MovingImageSourceType = itk::GaussianImageSource<MovingImageType>;
+  using FixedImageSourceType = itk::GaussianImageSource<FixedImageType>;
 
   // Create the two images
-  FixedImageType::SizeValueType fixedImageSize[] = { 100, 100 };
+  FixedImageType::SizeValueType  fixedImageSize[] = { 100, 100 };
   MovingImageType::SizeValueType movingImageSize[] = { 100, 100 };
 
-  FixedImageType::SpacingValueType fixedImageSpacing[] = { 1.0f, 1.0f };
+  FixedImageType::SpacingValueType  fixedImageSpacing[] = { 1.0f, 1.0f };
   MovingImageType::SpacingValueType movingImageSpacing[] = { 1.0f, 1.0f };
 
-  FixedImageType::PointValueType fixedImageOrigin[] = { 0.0f, 0.0f };
+  FixedImageType::PointValueType  fixedImageOrigin[] = { 0.0f, 0.0f };
   MovingImageType::PointValueType movingImageOrigin[] = { 0.0f, 0.0f };
 
   MovingImageSourceType::Pointer movingImageSource = MovingImageSourceType::New();
-  FixedImageSourceType::Pointer  fixedImageSource  = FixedImageSourceType::New();
+  FixedImageSourceType::Pointer  fixedImageSource = FixedImageSourceType::New();
 
-  fixedImageSource->SetSize( fixedImageSize );
-  fixedImageSource->SetOrigin( fixedImageOrigin );
-  fixedImageSource->SetSpacing( fixedImageSpacing );
-  fixedImageSource->SetNormalized( false );
-  fixedImageSource->SetScale( 250.0f );
+  fixedImageSource->SetSize(fixedImageSize);
+  fixedImageSource->SetOrigin(fixedImageOrigin);
+  fixedImageSource->SetSpacing(fixedImageSpacing);
+  fixedImageSource->SetNormalized(false);
+  fixedImageSource->SetScale(250.0f);
 
-  movingImageSource->SetSize( movingImageSize );
-  movingImageSource->SetOrigin( movingImageOrigin );
-  movingImageSource->SetSpacing( movingImageSpacing );
-  movingImageSource->SetNormalized( false );
-  movingImageSource->SetScale( 250.0f );
+  movingImageSource->SetSize(movingImageSize);
+  movingImageSource->SetOrigin(movingImageOrigin);
+  movingImageSource->SetSpacing(movingImageSpacing);
+  movingImageSource->SetNormalized(false);
+  movingImageSource->SetScale(250.0f);
 
   movingImageSource->Update();
   fixedImageSource->Update();
 
   MovingImageType::Pointer movingImage = movingImageSource->GetOutput();
-  FixedImageType::Pointer  fixedImage  = fixedImageSource->GetOutput();
+  FixedImageType::Pointer  fixedImage = fixedImageSource->GetOutput();
 
   // Set up the metric
-  using MetricFunctionType = itk::MIRegistrationFunction< FixedImageType,
-                                       MovingImageType,
-                                       DisplacementFieldType >;
+  using MetricFunctionType = itk::MIRegistrationFunction<FixedImageType, MovingImageType, DisplacementFieldType>;
 
   MetricFunctionType::Pointer metricFunction = MetricFunctionType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( metricFunction, MIRegistrationFunction,
-    PDEDeformableRegistrationFunction );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(metricFunction, MIRegistrationFunction, PDEDeformableRegistrationFunction);
 
 
   // Plug the images into the metric function
-  metricFunction->SetFixedImage( fixedImage );
-  metricFunction->SetMovingImage( movingImage );
+  metricFunction->SetFixedImage(fixedImage);
+  metricFunction->SetMovingImage(movingImage);
 
 
   std::cout << "Test finished." << std::endl;

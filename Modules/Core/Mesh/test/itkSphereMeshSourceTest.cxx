@@ -19,14 +19,17 @@
 #include "itkSphereMeshSource.h"
 #include <iostream>
 
-int itkSphereMeshSourceTest(int, char* [] ){
+int
+itkSphereMeshSourceTest(int, char *[])
+{
 
-  using fPointType = itk::Point<float,3>;
-  using fSphereMeshSourceType = itk::SphereMeshSource<itk::Mesh<float> >;
-  fSphereMeshSourceType::Pointer  mySphereMeshSource = fSphereMeshSourceType::New();
-  fPointType center; center.Fill(0);
-  fPointType::ValueType scaleInit[3] = {1,1,1};
-  fPointType scale = scaleInit;
+  using fPointType = itk::Point<float, 3>;
+  using fSphereMeshSourceType = itk::SphereMeshSource<itk::Mesh<float>>;
+  fSphereMeshSourceType::Pointer mySphereMeshSource = fSphereMeshSourceType::New();
+  fPointType                     center;
+  center.Fill(0);
+  fPointType::ValueType scaleInit[3] = { 1, 1, 1 };
+  fPointType            scale = scaleInit;
 
   mySphereMeshSource->SetCenter(center);
   mySphereMeshSource->SetResolutionX(1);
@@ -39,20 +42,20 @@ int itkSphereMeshSourceTest(int, char* [] ){
   std::cout << "mySphereMeshSource: " << mySphereMeshSource;
 
   using IPT = itk::Mesh<float>::PointType;
-//  itk::Mesh<float>::PointsContainerPointer      myoutput = mySphereMeshSource->GetOutput()->GetPoints();
-//  itk::Mesh<float>::PointsContainer::Iterator   m_output = myoutput->Begin();
+  //  itk::Mesh<float>::PointsContainerPointer      myoutput = mySphereMeshSource->GetOutput()->GetPoints();
+  //  itk::Mesh<float>::PointsContainer::Iterator   m_output = myoutput->Begin();
 
-  IPT*  pt_ptr;
-  IPT   pt; pt.Fill(0.0);
+  IPT * pt_ptr;
+  IPT   pt;
+  pt.Fill(0.0);
   pt_ptr = &pt;
 
-  std::cout << "Testing itk::SphereMeshSource "<< std::endl;
-  for(int i=0; i<12; i++)
-    {
+  std::cout << "Testing itk::SphereMeshSource " << std::endl;
+  for (int i = 0; i < 12; i++)
+  {
     mySphereMeshSource->GetOutput()->GetPoint(i, pt_ptr);
-    std::cout << "Point1: " << pt[0] << ", " << pt[1] << ", "<< pt[2] << std::endl;
-    }
-  std::cout << "Test End "<< std::endl;
+    std::cout << "Point1: " << pt[0] << ", " << pt[1] << ", " << pt[2] << std::endl;
+  }
+  std::cout << "Test End " << std::endl;
   return EXIT_SUCCESS;
-
 }

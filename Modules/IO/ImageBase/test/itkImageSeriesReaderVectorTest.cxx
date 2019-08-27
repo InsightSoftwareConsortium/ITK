@@ -18,50 +18,50 @@
 
 #include "itkImageSeriesReader.h"
 
-int itkImageSeriesReaderVectorTest(int ac, char* av[])
+int
+itkImageSeriesReaderVectorTest(int ac, char * av[])
 {
 
-  if(ac < 3)
+  if (ac < 3)
   {
     std::cerr << "usage: itkIOTests itkImageSeriesReaderDimensionsTest inputFileName(s)" << std::endl;
     return EXIT_FAILURE;
   }
 
-  using VectorImageType = itk::VectorImage< unsigned short, 3>;
+  using VectorImageType = itk::VectorImage<unsigned short, 3>;
 
   using VectorImageSeriesReader = itk::ImageSeriesReader<VectorImageType>;
 
   VectorImageSeriesReader::FileNamesContainer fnames;
   for (int i = 1; i < ac; ++i)
-      fnames.push_back(av[i]);
+    fnames.push_back(av[i]);
 
 
   std::cout << "testing reading a image series into VecorImage" << std::endl;
-   try
-    {
+  try
+  {
     VectorImageSeriesReader::Pointer reader = VectorImageSeriesReader::New();
     reader->SetFileNames(fnames);
     reader->Update();
-    }
-  catch (itk::ExceptionObject &ex)
-    {
+  }
+  catch (itk::ExceptionObject & ex)
+  {
     std::cout << ex;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "testing reading image series into ImageOfVectors " << std::endl;
   try
-    {
+  {
     VectorImageSeriesReader::Pointer reader = VectorImageSeriesReader::New();
     reader->SetFileNames(fnames);
     reader->Update();
-    }
-  catch (itk::ExceptionObject &ex)
-    {
+  }
+  catch (itk::ExceptionObject & ex)
+  {
     std::cout << ex;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
-
 }

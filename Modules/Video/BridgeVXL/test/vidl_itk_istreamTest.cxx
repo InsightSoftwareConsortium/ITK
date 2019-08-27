@@ -26,33 +26,34 @@
 //
 // Helper function to test pixel type
 //
-template<typename TPixelType>
-bool TestFormat(vidl_pixel_format expectedFormat)
+template <typename TPixelType>
+bool
+TestFormat(vidl_pixel_format expectedFormat)
 {
   using PixelType = TPixelType;
   using FrameType = itk::Image<PixelType, 2>;
   using VideoType = itk::VideoStream<FrameType>;
   using StreamType = itk::vidl_itk_istream<VideoType>;
 
-  StreamType* stream = new StreamType();
-  bool out = (stream->format() == expectedFormat);
+  StreamType * stream = new StreamType();
+  bool         out = (stream->format() == expectedFormat);
   delete stream;
   return out;
 }
 
-#define TestFormatMacro(PixelType, expectedFormat)                          \
-  if (!TestFormat<PixelType>(expectedFormat))                               \
-    {                                                                       \
-    std::cerr << "format() did not return expected result for pixel type "  \
-              << typeid(PixelType).name() << std::endl;                     \
-      return EXIT_FAILURE;                                                  \
-    }
+#define TestFormatMacro(PixelType, expectedFormat)                                                                     \
+  if (!TestFormat<PixelType>(expectedFormat))                                                                          \
+  {                                                                                                                    \
+    std::cerr << "format() did not return expected result for pixel type " << typeid(PixelType).name() << std::endl;   \
+    return EXIT_FAILURE;                                                                                               \
+  }
 
 //
 // Templated test
 //
-template<typename TPixelType>
-int vidl_itk_istreamTestWithPixelType(char* argv[], vidl_pixel_format expectedFormat)
+template <typename TPixelType>
+int
+vidl_itk_istreamTestWithPixelType(char * argv[], vidl_pixel_format expectedFormat)
 {
   // type alias
   using PixelType = TPixelType;
@@ -63,32 +64,29 @@ int vidl_itk_istreamTestWithPixelType(char* argv[], vidl_pixel_format expectedFo
 
   // Test the pixel format
   if (!TestFormat<PixelType>(expectedFormat))
-    {
-    std::cerr << "format() did not return expected result for pixel type "
-              << typeid(PixelType).name() << std::endl;
-      return EXIT_FAILURE;
-    }
+  {
+    std::cerr << "format() did not return expected result for pixel type " << typeid(PixelType).name() << std::endl;
+    return EXIT_FAILURE;
+  }
 
   // Set up VideoFileReader
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   // Set up new istream and connect it
-  StreamType* istream = new StreamType();
+  StreamType * istream = new StreamType();
   istream->open(reader->GetOutput());
 
   // Check width and height
   unsigned int width = istream->width();
   unsigned int height = istream->height();
-  if (width != static_cast<unsigned int>(std::stoi(argv[3])) ||
-      height != static_cast<unsigned int>(std::stoi(argv[4])))
-    {
-    std::cerr << "(px: " << typeid(PixelType).name()
-              << ") dimensions not reporting correctly. Got [" << width << "," << height
-              << "] Expected [" << std::stoi(argv[3]) << "," << std::stoi(argv[4]) << "]" << std::endl;
+  if (width != static_cast<unsigned int>(std::stoi(argv[3])) || height != static_cast<unsigned int>(std::stoi(argv[4])))
+  {
+    std::cerr << "(px: " << typeid(PixelType).name() << ") dimensions not reporting correctly. Got [" << width << ","
+              << height << "] Expected [" << std::stoi(argv[3]) << "," << std::stoi(argv[4]) << "]" << std::endl;
     delete istream;
     return EXIT_FAILURE;
-    }
+  }
 
   // Set up vidl_ffmpeg_ostream
   vidl_ffmpeg_ostream_params parameters;
@@ -96,52 +94,53 @@ int vidl_itk_istreamTestWithPixelType(char* argv[], vidl_pixel_format expectedFo
   parameters.ni_ = istream->width();
   parameters.nj_ = istream->height();
   parameters.encoder_ = vidl_ffmpeg_ostream_params::MSMPEG4V2;
-  vidl_ffmpeg_ostream* ostream = new vidl_ffmpeg_ostream(argv[2], parameters);
+  vidl_ffmpeg_ostream * ostream = new vidl_ffmpeg_ostream(argv[2], parameters);
 
   // Read the entire video and write it back out
   bool keepReading = true;
-  while(keepReading)
-    {
+  while (keepReading)
+  {
     vidl_frame_sptr outFrame = istream->read_frame();
     if (outFrame)
-      {
+    {
       ostream->write_frame(outFrame);
-      }
-    else
-      {
-      keepReading = false;
-      }
     }
+    else
+    {
+      keepReading = false;
+    }
+  }
 
   // Return success
   delete istream;
-  //delete ostream;   //BUG?  Can not close ostream
+  // delete ostream;   //BUG?  Can not close ostream
   return EXIT_SUCCESS;
 }
 
-#define TemplatedTestMacro(PixelType, expectedFormat)                                         \
-  if ( vidl_itk_istreamTestWithPixelType<PixelType>( argv, expectedFormat ) == EXIT_FAILURE ) \
-    {                                                                                         \
-    return EXIT_FAILURE;                                                                      \
-    }
+#define TemplatedTestMacro(PixelType, expectedFormat)                                                                  \
+  if (vidl_itk_istreamTestWithPixelType<PixelType>(argv, expectedFormat) == EXIT_FAILURE)                              \
+  {                                                                                                                    \
+    return EXIT_FAILURE;                                                                                               \
+  }
 
 //
 // Main test body
 //
-int vidl_itk_istreamTest ( int argc, char *argv[] )
+int
+vidl_itk_istreamTest(int argc, char * argv[])
 {
   //
   // Check parameters
   //
   if (argc < 5)
-    {
+  {
     std::cerr << "Usage: " << argv[0] << " input_file output_file width height" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   // Register a VXLVideoIO. This should be fixed eventually
-  itk::ObjectFactoryBase::RegisterFactory( itk::VXLVideoIOFactory::New() );
+  itk::ObjectFactoryBase::RegisterFactory(itk::VXLVideoIOFactory::New());
 
   //
   // Test all supported pixel formats

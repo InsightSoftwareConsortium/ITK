@@ -48,16 +48,15 @@ namespace itk
  * \ingroup ITKThresholding
  */
 
-template<typename TInputImage, typename TOutputImage, typename TMaskImage=TOutputImage>
-class IntermodesThresholdImageFilter :
-    public HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
+template <typename TInputImage, typename TOutputImage, typename TMaskImage = TOutputImage>
+class IntermodesThresholdImageFilter : public HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(IntermodesThresholdImageFilter);
 
   /** Standard Self type alias */
   using Self = IntermodesThresholdImageFilter;
-  using Superclass = HistogramThresholdImageFilter<TInputImage,TOutputImage,TMaskImage>;
+  using Superclass = HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -91,28 +90,32 @@ public:
   using MaskImageRegionType = typename MaskImageType::RegionType;
 
   using HistogramType = typename Superclass::HistogramType;
-  using CalculatorType = IntermodesThresholdCalculator< HistogramType, InputPixelType >;
+  using CalculatorType = IntermodesThresholdCalculator<HistogramType, InputPixelType>;
 
-  void SetMaximumSmoothingIterations(SizeValueType maxSmoothingIterations)
+  void
+  SetMaximumSmoothingIterations(SizeValueType maxSmoothingIterations)
   {
     m_IntermodesCalculator->SetMaximumSmoothingIterations(maxSmoothingIterations);
   }
 
-  SizeValueType GetMaximumSmoothingIterations()
+  SizeValueType
+  GetMaximumSmoothingIterations()
   {
-    return(m_IntermodesCalculator->GetMaximumSmoothingIterations());
+    return (m_IntermodesCalculator->GetMaximumSmoothingIterations());
   }
 
   /** Select whether midpoint (intermode=true) or minimum between
      peaks is used. */
-  void SetUseInterMode(bool useIntermode)
+  void
+  SetUseInterMode(bool useIntermode)
   {
     m_IntermodesCalculator->SetUseInterMode(useIntermode);
   }
 
-  bool GetUseInterMode()
+  bool
+  GetUseInterMode()
   {
-    return(m_IntermodesCalculator->GetUseInterMode());
+    return (m_IntermodesCalculator->GetUseInterMode());
   }
 
   /** Image related type alias. */
@@ -120,26 +123,25 @@ public:
   static constexpr unsigned int OutputImageDimension = OutputImageType::ImageDimension;
 
 protected:
-
   IntermodesThresholdImageFilter()
-    {
+  {
     m_IntermodesCalculator = CalculatorType::New();
-    this->SetCalculator( m_IntermodesCalculator );
+    this->SetCalculator(m_IntermodesCalculator);
     m_IntermodesCalculator->SetMaximumSmoothingIterations(10000);
     m_IntermodesCalculator->SetUseInterMode(true);
-    }
+  }
   ~IntermodesThresholdImageFilter() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override
-    {
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override
+  {
     Superclass::PrintSelf(os, indent);
 
-    itkPrintSelfObjectMacro( IntermodesCalculator );
-    }
+    itkPrintSelfObjectMacro(IntermodesCalculator);
+  }
 
 private:
   typename CalculatorType::Pointer m_IntermodesCalculator;
-
 };
 
 } // end namespace itk

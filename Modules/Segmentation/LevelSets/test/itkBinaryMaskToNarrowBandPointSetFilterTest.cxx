@@ -20,15 +20,14 @@
 #include "itkPointSet.h"
 #include "itkImageRegionIterator.h"
 
-int itkBinaryMaskToNarrowBandPointSetFilterTest(int , char *[] )
+int
+itkBinaryMaskToNarrowBandPointSetFilterTest(int, char *[])
 {
   constexpr unsigned int Dimension = 2;
 
   using BinaryMaskPixelType = unsigned char;
 
-  using BinaryMaskImageType = itk::Image<
-                        BinaryMaskPixelType,
-                        Dimension  >;
+  using BinaryMaskImageType = itk::Image<BinaryMaskPixelType, Dimension>;
 
 
   //
@@ -36,9 +35,9 @@ int itkBinaryMaskToNarrowBandPointSetFilterTest(int , char *[] )
   //
   BinaryMaskImageType::Pointer binaryMask = BinaryMaskImageType::New();
 
-  BinaryMaskImageType::SizeType     size;
-  BinaryMaskImageType::IndexType    index;
-  BinaryMaskImageType::RegionType   region;
+  BinaryMaskImageType::SizeType   size;
+  BinaryMaskImageType::IndexType  index;
+  BinaryMaskImageType::RegionType region;
 
   size[0] = 100;
   size[1] = 100;
@@ -46,10 +45,10 @@ int itkBinaryMaskToNarrowBandPointSetFilterTest(int , char *[] )
   index[0] = 0;
   index[1] = 0;
 
-  region.SetIndex( index );
-  region.SetSize(  size );
+  region.SetIndex(index);
+  region.SetSize(size);
 
-  binaryMask->SetRegions( region );
+  binaryMask->SetRegions(region);
   binaryMask->Allocate(true); // initialize buffer to zero
 
   size[0] = 60;
@@ -58,42 +57,39 @@ int itkBinaryMaskToNarrowBandPointSetFilterTest(int , char *[] )
   index[0] = 20;
   index[1] = 20;
 
-  region.SetIndex( index );
-  region.SetSize(  size );
+  region.SetIndex(index);
+  region.SetSize(size);
 
-  itk::ImageRegionIterator< BinaryMaskImageType > it( binaryMask, region );
+  itk::ImageRegionIterator<BinaryMaskImageType> it(binaryMask, region);
 
   it.GoToBegin();
-  while( !it.IsAtEnd() )
-    {
-    it.Set( 255 );
+  while (!it.IsAtEnd())
+  {
+    it.Set(255);
     ++it;
-    }
+  }
 
   //
   //  Set up the filter
   //
-  using PointSetType = itk::PointSet< float, Dimension >;
+  using PointSetType = itk::PointSet<float, Dimension>;
 
-  using GeneratorType = itk::BinaryMaskToNarrowBandPointSetFilter<
-                                BinaryMaskImageType,
-                                PointSetType
-                                            >;
+  using GeneratorType = itk::BinaryMaskToNarrowBandPointSetFilter<BinaryMaskImageType, PointSetType>;
 
   GeneratorType::Pointer narrowBandGenerator = GeneratorType::New();
 
-  narrowBandGenerator->SetInput( binaryMask );
+  narrowBandGenerator->SetInput(binaryMask);
 
   try
-    {
+  {
     narrowBandGenerator->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception thrown during the execution of the generator " << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   //
   //  Checking the output
@@ -108,34 +104,33 @@ int itkBinaryMaskToNarrowBandPointSetFilterTest(int , char *[] )
   using PointDataContainerPointer = PointDataContainer::Pointer;
   using PointDataIterator = PointDataContainer::ConstIterator;
 
-  PointSetType::Pointer                     pointSet  = narrowBandGenerator->GetOutput();
+  PointSetType::Pointer pointSet = narrowBandGenerator->GetOutput();
 
-  PointsContainerPointer      points    = pointSet->GetPoints();
-  PointDataContainerPointer   pointData = pointSet->GetPointData();
+  PointsContainerPointer    points = pointSet->GetPoints();
+  PointDataContainerPointer pointData = pointSet->GetPointData();
 
-  PointsIterator point     = points->Begin();
+  PointsIterator point = points->Begin();
   PointsIterator lastPoint = points->End();
 
-  PointDataIterator  data     = pointData->Begin();
-  PointDataIterator  lastData = pointData->End();
+  PointDataIterator data = pointData->Begin();
+  PointDataIterator lastData = pointData->End();
 
-  while( point != lastPoint  && data != lastData )
-    {
+  while (point != lastPoint && data != lastData)
+  {
 
     const PointType & p = point.Value();
 
-    binaryMask->TransformPhysicalPointToIndex( p, index );
+    binaryMask->TransformPhysicalPointToIndex(p, index);
 
-    if( ( !binaryMask->GetPixel( index ) && data.Value() > 0 ) ||
-        (  binaryMask->GetPixel( index ) && data.Value() < 0 )    )
-      {
+    if ((!binaryMask->GetPixel(index) && data.Value() > 0) || (binaryMask->GetPixel(index) && data.Value() < 0))
+    {
       std::cerr << "Pixel " << index << " shouldn't be in the narrow band" << std::endl;
       return EXIT_FAILURE;
-      }
+    }
 
     ++point;
     ++data;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

@@ -40,26 +40,24 @@ namespace itk
  * \ingroup ITKMathematicalMorphology
  */
 
-template< typename TInputImage, typename TOutputImage, typename TKernel, typename THistogram >
-class ITK_TEMPLATE_EXPORT MovingHistogramMorphologyImageFilter:
-  public MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel, THistogram >
+template <typename TInputImage, typename TOutputImage, typename TKernel, typename THistogram>
+class ITK_TEMPLATE_EXPORT MovingHistogramMorphologyImageFilter
+  : public MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MovingHistogramMorphologyImageFilter);
 
   /** Standard class type aliases. */
   using Self = MovingHistogramMorphologyImageFilter;
-  using Superclass =
-      MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel, THistogram >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard New method. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(MovingHistogramMorphologyImageFilter,
-               MovingHistogramImageFilter);
+  itkTypeMacro(MovingHistogramMorphologyImageFilter, MovingHistogramImageFilter);
 
   /** Image related type alias. */
   using InputImageType = TInputImage;
@@ -84,9 +82,9 @@ public:
   /** n-dimensional Kernel radius. */
   using RadiusType = typename KernelType::SizeType;
 
-  using OffsetListType = typename std::list< OffsetType >;
+  using OffsetListType = typename std::list<OffsetType>;
 
-  using OffsetMapType = typename std::map< OffsetType, OffsetListType, Functor::LexicographicCompare >;
+  using OffsetMapType = typename std::map<OffsetType, OffsetListType, Functor::LexicographicCompare>;
 
   /** Set/Get the boundary value.
    *  Subclasses should set their own values. */
@@ -95,29 +93,34 @@ public:
 
   /** Return true if the vector based algorithm is used, and
    * false if the map based algorithm is used */
-  static bool GetUseVectorBasedAlgorithm()
-  { return THistogram::UseVectorBasedAlgorithm(); }
+  static bool
+  GetUseVectorBasedAlgorithm()
+  {
+    return THistogram::UseVectorBasedAlgorithm();
+  }
 
 protected:
   MovingHistogramMorphologyImageFilter();
   ~MovingHistogramMorphologyImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Multi-thread version GenerateData. */
-//   void  ThreadedGenerateData (const OutputImageRegionType&
-//                               outputRegionForThread,
-//                               ThreadIdType threadId);
+  //   void  ThreadedGenerateData (const OutputImageRegionType&
+  //                               outputRegionForThread,
+  //                               ThreadIdType threadId);
 
   /** Configure the histogram.
    *  Used by this class to pass the boundary value to the histogram object. */
-  void ConfigureHistogram(THistogram & histogram) override;
+  void
+  ConfigureHistogram(THistogram & histogram) override;
 
   PixelType m_Boundary;
-};                                                    // end of class
+}; // end of class
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMovingHistogramMorphologyImageFilter.hxx"
+#  include "itkMovingHistogramMorphologyImageFilter.hxx"
 #endif
 
 #endif

@@ -65,16 +65,16 @@ namespace itk
  * \ingroup ITKOptimizersv4
  */
 
-template<typename TInternalComputationValueType>
-class ITK_TEMPLATE_EXPORT OnePlusOneEvolutionaryOptimizerv4:
-  public ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
+template <typename TInternalComputationValueType>
+class ITK_TEMPLATE_EXPORT OnePlusOneEvolutionaryOptimizerv4
+  : public ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 {
 public:
   /** Standard "Self" type alias. */
   using Self = OnePlusOneEvolutionaryOptimizerv4;
   using Superclass = ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -122,7 +122,8 @@ public:
   /** Get the current Frobenius norm of covariance matrix */
   itkGetConstReferenceMacro(FrobeniusNorm, double);
 
-  void SetNormalVariateGenerator(NormalVariateGeneratorType *generator);
+  void
+  SetNormalVariateGenerator(NormalVariateGeneratorType * generator);
 
   /** Initializes the optimizer.
    * Before running this optimizer, this function should have been called.
@@ -130,11 +131,13 @@ public:
    * initialRadius: search radius in parameter space
    * grow: search radius grow factor
    * shrink: searhc radius shrink factor */
-  void Initialize(double initialRadius, double grow = -1, double shrink = -1);
+  void
+  Initialize(double initialRadius, double grow = -1, double shrink = -1);
 
   /** Return Current Value */
   itkGetConstReferenceMacro(CurrentCost, MeasureType);
-  const MeasureType & GetValue() const override;
+  const MeasureType &
+  GetValue() const override;
 
   /** Return if optimizer has been initialized */
   itkGetConstReferenceMacro(Initialized, bool);
@@ -142,13 +145,17 @@ public:
   /** Start optimization.
    * Optimization will stop when it meets either of two termination conditions,
    * the maximum iteration limit or epsilon (minimal search radius)  */
-  void StartOptimization(bool doOnlyInitialization = false) override;
+  void
+  StartOptimization(bool doOnlyInitialization = false) override;
 
   /** when users call StartOptimization, this value will be set false.
    * By calling StopOptimization, this flag will be set true, and
    * optimization will stop at the next iteration. */
-  void StopOptimization()
-  { m_Stop = true; }
+  void
+  StopOptimization()
+  {
+    m_Stop = true;
+  }
 
   itkGetConstReferenceMacro(CatchGetValueException, bool);
   itkSetMacro(CatchGetValueException, bool);
@@ -156,16 +163,17 @@ public:
   itkGetConstReferenceMacro(MetricWorstPossibleValue, double);
   itkSetMacro(MetricWorstPossibleValue, double);
 
-  const std::string GetStopConditionDescription() const override;
+  const std::string
+  GetStopConditionDescription() const override;
 
 protected:
   OnePlusOneEvolutionaryOptimizerv4();
   OnePlusOneEvolutionaryOptimizerv4(const OnePlusOneEvolutionaryOptimizerv4 &);
   ~OnePlusOneEvolutionaryOptimizerv4() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-
   /** Smart pointer to the normal random variate generator. */
   NormalVariateGeneratorType::Pointer m_RandomGenerator;
 
@@ -210,7 +218,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkOnePlusOneEvolutionaryOptimizerv4.hxx"
+#  include "itkOnePlusOneEvolutionaryOptimizerv4.hxx"
 #endif
 
 #endif

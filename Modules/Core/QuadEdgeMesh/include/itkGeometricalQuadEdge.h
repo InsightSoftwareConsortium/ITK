@@ -56,10 +56,8 @@ namespace itk
  * \ingroup MeshObjects
  * \ingroup ITKQuadEdgeMesh
  */
-template< typename TVRef,  typename TFRef,
-          typename TPrimalData, typename TDualData,
-          bool PrimalDual = true >
-class ITK_TEMPLATE_EXPORT GeometricalQuadEdge:public QuadEdge
+template <typename TVRef, typename TFRef, typename TPrimalData, typename TDualData, bool PrimalDual = true>
+class ITK_TEMPLATE_EXPORT GeometricalQuadEdge : public QuadEdge
 {
 public:
   /** Hierarchy type alias. */
@@ -72,8 +70,7 @@ public:
    * parameters.
    *
    */
-  using DualType = GeometricalQuadEdge< TFRef, TVRef,
-                               TDualData, TPrimalData, !PrimalDual >;
+  using DualType = GeometricalQuadEdge<TFRef, TVRef, TDualData, TPrimalData, !PrimalDual>;
 
   /** Input template parameters & values convenient renaming. */
   using OriginRefType = TVRef;
@@ -85,10 +82,9 @@ public:
   using LineCellIdentifier = TFRef;
 
 public:
-
   /** Iterator types. */
-  using IteratorGeom = QuadEdgeMeshIteratorGeom< Self >;
-  using ConstIteratorGeom = QuadEdgeMeshConstIteratorGeom< Self >;
+  using IteratorGeom = QuadEdgeMeshIteratorGeom<Self>;
+  using ConstIteratorGeom = QuadEdgeMeshConstIteratorGeom<Self>;
 
   /** Basic iterators methods. */
   inline itkQEDefineIteratorGeomMethodsMacro(Onext);
@@ -112,22 +108,36 @@ public:
   GeometricalQuadEdge();
   GeometricalQuadEdge(const GeometricalQuadEdge &) = default;
   GeometricalQuadEdge(GeometricalQuadEdge &&) = default;
-  GeometricalQuadEdge & operator=(const GeometricalQuadEdge &) = default;
-  GeometricalQuadEdge & operator=(GeometricalQuadEdge &&) = default;
+  GeometricalQuadEdge &
+  operator=(const GeometricalQuadEdge &) = default;
+  GeometricalQuadEdge &
+  operator=(GeometricalQuadEdge &&) = default;
   virtual ~GeometricalQuadEdge() override = default;
 
   /** Set methods. */
-  inline void SetOrigin(const OriginRefType v)
-  { m_Origin = v; }
+  inline void
+  SetOrigin(const OriginRefType v)
+  {
+    m_Origin = v;
+  }
 
-  inline void SetDestination(const OriginRefType v)
-  { this->GetSym()->SetOrigin(v); }
+  inline void
+  SetDestination(const OriginRefType v)
+  {
+    this->GetSym()->SetOrigin(v);
+  }
 
-  inline void SetRight(const DualOriginRefType v)
-  { this->GetRot()->SetOrigin(v); }
+  inline void
+  SetRight(const DualOriginRefType v)
+  {
+    this->GetRot()->SetOrigin(v);
+  }
 
-  inline void SetLeft(const DualOriginRefType v)
-  { this->GetInvRot()->SetOrigin(v); }
+  inline void
+  SetLeft(const DualOriginRefType v)
+  {
+    this->GetInvRot()->SetOrigin(v);
+  }
 
   /**
    * Set the Left() of all the edges in the Lnext() ring of "this"
@@ -136,125 +146,226 @@ public:
    * @param  maxSize Sets at most maxSize edges in the Lnext() ring.
    * @return Returns true on success. False otherwise.
    */
-  bool SetLnextRingWithSameLeftFace(const DualOriginRefType faceGeom,
-                                    int maxSize = 100);
+  bool
+  SetLnextRingWithSameLeftFace(const DualOriginRefType faceGeom, int maxSize = 100);
 
-  inline void UnsetOrigin()   { m_Origin = m_NoPoint; }
-  inline void UnsetDestination()  { this->GetSym()->UnsetOrigin(); }
-  inline void UnsetRight() { this->GetRot()->UnsetOrigin(); }
-  inline void UnsetLeft()  { this->GetInvRot()->UnsetOrigin(); }
+  inline void
+  UnsetOrigin()
+  {
+    m_Origin = m_NoPoint;
+  }
+  inline void
+  UnsetDestination()
+  {
+    this->GetSym()->UnsetOrigin();
+  }
+  inline void
+  UnsetRight()
+  {
+    this->GetRot()->UnsetOrigin();
+  }
+  inline void
+  UnsetLeft()
+  {
+    this->GetInvRot()->UnsetOrigin();
+  }
 
   /** Get methods. */
-  //ORIENTATION_NOTE: this definition of GetLeft (or GetRight)
+  // ORIENTATION_NOTE: this definition of GetLeft (or GetRight)
   // implicitely assumes that the Onext order is counter-clockwise !
-  inline const OriginRefType GetOrigin() const { return ( m_Origin ); }
-  inline const OriginRefType GetDestination()  const { return ( GetSym()->GetOrigin() ); }
-  inline const DualOriginRefType GetRight() const { return ( GetRot()->GetOrigin() ); }
-  inline const DualOriginRefType GetLeft() const { return ( GetInvRot()->GetOrigin() ); }
+  inline const OriginRefType
+  GetOrigin() const
+  {
+    return (m_Origin);
+  }
+  inline const OriginRefType
+  GetDestination() const
+  {
+    return (GetSym()->GetOrigin());
+  }
+  inline const DualOriginRefType
+  GetRight() const
+  {
+    return (GetRot()->GetOrigin());
+  }
+  inline const DualOriginRefType
+  GetLeft() const
+  {
+    return (GetInvRot()->GetOrigin());
+  }
 
   /** Boolean accessors. */
-  bool IsOriginSet() const;
+  bool
+  IsOriginSet() const;
 
-  bool IsDestinationSet() const;
+  bool
+  IsDestinationSet() const;
 
-  bool IsRightSet() const;
+  bool
+  IsRightSet() const;
 
-  bool IsLeftSet() const;
+  bool
+  IsLeftSet() const;
 
   /** Extra data set methods. */
-  inline void SetPrimalData(const PrimalDataType data)
-  { m_Data = data; this->SetPrimalData(); }
-  inline void SetDualData(const DualDataType data)
-  { this->GetRot()->SetPrimalData(data); }
+  inline void
+  SetPrimalData(const PrimalDataType data)
+  {
+    m_Data = data;
+    this->SetPrimalData();
+  }
+  inline void
+  SetDualData(const DualDataType data)
+  {
+    this->GetRot()->SetPrimalData(data);
+  }
 
-  inline void SetPrimalData() { m_DataSet = true; }
-  inline void SetDualData()   { this->GetRot()->SetPrimalData(); }
+  inline void
+  SetPrimalData()
+  {
+    m_DataSet = true;
+  }
+  inline void
+  SetDualData()
+  {
+    this->GetRot()->SetPrimalData();
+  }
 
-  inline void UnsetPrimalData() { m_Data = false; }
-  inline void UnsetDualData()   { this->GetRot()->UnsetPrimalData(); }
+  inline void
+  UnsetPrimalData()
+  {
+    m_Data = false;
+  }
+  inline void
+  UnsetDualData()
+  {
+    this->GetRot()->UnsetPrimalData();
+  }
 
   /** Extra data get methods. */
-  inline PrimalDataType GetPrimalData() { return ( m_Data ); }
-  inline DualDataType   GetDualData()
-  { return ( this->GetRot()->GetPrimalData() ); }
+  inline PrimalDataType
+  GetPrimalData()
+  {
+    return (m_Data);
+  }
+  inline DualDataType
+  GetDualData()
+  {
+    return (this->GetRot()->GetPrimalData());
+  }
 
   /** Boolean accessors. */
-  inline bool IsPrimalDataSet() { return ( m_DataSet ); }
-  inline bool IsDualDataSet()
-  { return ( this->GetRot()->IsPrimalDataSet() ); }
+  inline bool
+  IsPrimalDataSet()
+  {
+    return (m_DataSet);
+  }
+  inline bool
+  IsDualDataSet()
+  {
+    return (this->GetRot()->IsPrimalDataSet());
+  }
 
   /**
    * @return Returns true when "this" has no faces set on both sides.
    *         Return false otherwise.
    */
-  inline bool IsWire()
-  { return ( !( this->IsLeftSet() ) && !( this->IsRightSet() ) ); }
+  inline bool
+  IsWire()
+  {
+    return (!(this->IsLeftSet()) && !(this->IsRightSet()));
+  }
 
   /**
    * @return Returns true when "this" is on the boundary i.e.
    *         one and only one of the faces is set. Return false
    *         otherwise.
    */
-  inline bool IsAtBorder()
+  inline bool
+  IsAtBorder()
   {
-    return ( ( this->IsLeftSet() && !this->IsRightSet() )
-             || ( !this->IsLeftSet() && this->IsRightSet() ) );
+    return ((this->IsLeftSet() && !this->IsRightSet()) || (!this->IsLeftSet() && this->IsRightSet()));
   }
 
   /**
    * @return Returns true when "this" has faces set on both sides.
    *         Return false otherwise.
    */
-  inline bool IsInternal() const
-  { return ( this->IsLeftSet() && this->IsRightSet() ); }
-
-  bool IsOriginInternal() const;
-
-  bool IsLnextSharingSameFace(int maxSize = 100);
-
-  bool IsLnextOfTriangle();
-
-  bool IsInOnextRing(Self *);
-
-  bool IsInLnextRing(Self *);
-
-  Self * GetNextBorderEdgeWithUnsetLeft(Self *edgeTest = nullptr);
-
-  bool InsertAfterNextBorderEdgeWithUnsetLeft(Self *isol,
-                                              Self *hint = nullptr);
-
-  bool ReorderOnextRingBeforeAddFace(Self *second);
-
-  /** Disconnection methods. */
-  inline bool IsOriginDisconnected()
-  { return ( this == this->GetOnext() ); }
-  inline bool IsDestinationDisconnected()
-  { return ( this->GetSym()->IsOriginDisconnected() ); }
-  inline bool IsDisconnected()
+  inline bool
+  IsInternal() const
   {
-    return ( this->IsOriginDisconnected()
-             && this->IsDestinationDisconnected() );
+    return (this->IsLeftSet() && this->IsRightSet());
   }
 
-  void Disconnect();
+  bool
+  IsOriginInternal() const;
 
-  inline void SetIdent(const LineCellIdentifier & User_Value) { this->m_LineCellIdent = User_Value; }
-  inline LineCellIdentifier GetIdent() { return ( this->m_LineCellIdent ); }
+  bool
+  IsLnextSharingSameFace(int maxSize = 100);
+
+  bool
+  IsLnextOfTriangle();
+
+  bool
+  IsInOnextRing(Self *);
+
+  bool
+  IsInLnextRing(Self *);
+
+  Self *
+  GetNextBorderEdgeWithUnsetLeft(Self * edgeTest = nullptr);
+
+  bool
+  InsertAfterNextBorderEdgeWithUnsetLeft(Self * isol, Self * hint = nullptr);
+
+  bool
+  ReorderOnextRingBeforeAddFace(Self * second);
+
+  /** Disconnection methods. */
+  inline bool
+  IsOriginDisconnected()
+  {
+    return (this == this->GetOnext());
+  }
+  inline bool
+  IsDestinationDisconnected()
+  {
+    return (this->GetSym()->IsOriginDisconnected());
+  }
+  inline bool
+  IsDisconnected()
+  {
+    return (this->IsOriginDisconnected() && this->IsDestinationDisconnected());
+  }
+
+  void
+  Disconnect();
+
+  inline void
+  SetIdent(const LineCellIdentifier & User_Value)
+  {
+    this->m_LineCellIdent = User_Value;
+  }
+  inline LineCellIdentifier
+  GetIdent()
+  {
+    return (this->m_LineCellIdent);
+  }
 
 public:
   // Reserved OriginRefType designated to represent the absence of Origin
   static const OriginRefType m_NoPoint;
 
 protected:
-  OriginRefType      m_Origin;    // Geometrical information
-  PrimalDataType     m_Data;      // User data associated to this edge.
-  bool               m_DataSet{false};   // Indicates if the data is set.
+  OriginRefType      m_Origin;           // Geometrical information
+  PrimalDataType     m_Data;             // User data associated to this edge.
+  bool               m_DataSet{ false }; // Indicates if the data is set.
   LineCellIdentifier m_LineCellIdent;
 };
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGeometricalQuadEdge.hxx"
+#  include "itkGeometricalQuadEdge.hxx"
 #endif
 
 #endif

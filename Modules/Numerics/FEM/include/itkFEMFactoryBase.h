@@ -52,9 +52,11 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
-  const char * GetITKSourceVersion() const override;
+  const char *
+  GetITKSourceVersion() const override;
 
-  const char * GetDescription() const override;
+  const char *
+  GetDescription() const override;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(FEMFactoryBase, ObjectFactoryBase);
@@ -63,45 +65,50 @@ public:
   itkFactorylessNewMacro(Self);
 
   /** Register all builtin transforms */
-  static void RegisterDefaultTypes();  //HACK: This should not have a public interface since it does nothing except during instantiation of the class.
+  static void
+  RegisterDefaultTypes(); // HACK: This should not have a public interface since it does nothing except during
+                          // instantiation of the class.
 
   /** Register this transform */
-  static FEMFactoryBase * GetFactory()
+  static FEMFactoryBase *
+  GetFactory()
   {
-    if( m_Factory == nullptr )
-      {
+    if (m_Factory == nullptr)
+    {
       m_CreationLock.lock();
-      //Need to make sure that during gaining access
-      //to the lock that some other thread did not
-      //initialize the singleton.
-      if( m_Factory == nullptr )
-        {
+      // Need to make sure that during gaining access
+      // to the lock that some other thread did not
+      // initialize the singleton.
+      if (m_Factory == nullptr)
+      {
         // Make and register the factory
         FEMFactoryBase::Pointer p = FEMFactoryBase::New();
-        if( p.IsNull() )
-          {
+        if (p.IsNull())
+        {
           std::ostringstream message;
-          message << "itk::ERROR: " << "FEMFactoryBase"
-            << " instance not created";
+          message << "itk::ERROR: "
+                  << "FEMFactoryBase"
+                  << " instance not created";
           ::itk::ExceptionObject e_(__FILE__, __LINE__, message.str().c_str(), ITK_LOCATION);
           throw e_; /* Explicit naming to work around for Intel compiler bug. */
-          }
-        ObjectFactoryBase::RegisterFactory( p );
-        m_Factory = p.GetPointer();
         }
-      m_CreationLock.unlock();
-      m_Factory->RegisterDefaultTypes(); //Not initialzie all default types.
+        ObjectFactoryBase::RegisterFactory(p);
+        m_Factory = p.GetPointer();
       }
+      m_CreationLock.unlock();
+      m_Factory->RegisterDefaultTypes(); // Not initialzie all default types.
+    }
     return m_Factory;
   }
 
-  void RegisterType(const char* classOverride,
-                    const char* overrideClassName,
-                    const char* description,
-                    bool enableFlag,
-                    CreateObjectFunctionBase* createFunction)
+  void
+  RegisterType(const char *               classOverride,
+               const char *               overrideClassName,
+               const char *               description,
+               bool                       enableFlag,
+               CreateObjectFunctionBase * createFunction)
   {
-    this->RegisterOverride( classOverride, overrideClassName, description, enableFlag, createFunction );
+    this->RegisterOverride(classOverride, overrideClassName, description, enableFlag, createFunction);
   }
 
 protected:
@@ -109,8 +116,8 @@ protected:
   ~FEMFactoryBase() override;
 
 private:
-  static std::mutex      m_CreationLock;
-  static FEMFactoryBase* m_Factory;
+  static std::mutex       m_CreationLock;
+  static FEMFactoryBase * m_Factory;
 };
 } // end namespace itk
 

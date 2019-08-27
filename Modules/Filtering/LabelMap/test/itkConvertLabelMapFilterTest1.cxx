@@ -23,50 +23,51 @@
 #include "itkTestingMacros.h"
 #include "itkSimpleFilterWatcher.h"
 
-int itkConvertLabelMapFilterTest1(int argc, char * argv[])
+int
+itkConvertLabelMapFilterTest1(int argc, char * argv[])
 {
-  if( argc != 3 )
-    {
+  if (argc != 3)
+  {
     std::cerr << "Usage: " << argv[0];
     std::cerr << " inputLabelImage outputLabelImage";
     std::cerr << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int dim = 2;
 
   using PixelType = unsigned char;
 
-  using ImageType = itk::Image< PixelType, dim >;
+  using ImageType = itk::Image<PixelType, dim>;
 
 
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
-  using L2SType = itk::LabelImageToShapeLabelMapFilter< ImageType >;
+  using L2SType = itk::LabelImageToShapeLabelMapFilter<ImageType>;
   L2SType::Pointer l2s = L2SType::New();
-  l2s->SetInput( reader->GetOutput() );
+  l2s->SetInput(reader->GetOutput());
 
-  using LabelObjectType = itk::LabelObject< PixelType, dim >;
-  using LabelMapType = itk::LabelMap< LabelObjectType >;
+  using LabelObjectType = itk::LabelObject<PixelType, dim>;
+  using LabelMapType = itk::LabelMap<LabelObjectType>;
 
-  using CastType = itk::ConvertLabelMapFilter< L2SType::OutputImageType, LabelMapType >;
+  using CastType = itk::ConvertLabelMapFilter<L2SType::OutputImageType, LabelMapType>;
   CastType::Pointer cast = CastType::New();
-  cast->SetInput( l2s->GetOutput() );
+  cast->SetInput(l2s->GetOutput());
   itk::SimpleFilterWatcher watcher(cast, "cast");
 
-  using L2IType = itk::LabelMapToLabelImageFilter< LabelMapType, ImageType>;
+  using L2IType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
   L2IType::Pointer l2i = L2IType::New();
-  l2i->SetInput( cast->GetOutput() );
+  l2i->SetInput(cast->GetOutput());
 
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( l2i->GetOutput() );
-  writer->SetFileName( argv[2] );
+  writer->SetInput(l2i->GetOutput());
+  writer->SetFileName(argv[2]);
   writer->UseCompressionOn();
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   // for visual validation
   std::cout << " ============ original label map ============" << std::endl;

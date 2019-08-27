@@ -49,18 +49,17 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template< typename TInputImage >
-class ITK_TEMPLATE_EXPORT AutoCropLabelMapFilter:
-  public ChangeRegionLabelMapFilter< TInputImage >
+template <typename TInputImage>
+class ITK_TEMPLATE_EXPORT AutoCropLabelMapFilter : public ChangeRegionLabelMapFilter<TInputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(AutoCropLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = AutoCropLabelMapFilter;
-  using Superclass = ChangeRegionLabelMapFilter< TInputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ChangeRegionLabelMapFilter<TInputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -104,17 +103,19 @@ protected:
   AutoCropLabelMapFilter();
   ~AutoCropLabelMapFilter() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
 private:
-  SizeType  m_CropBorder;
+  SizeType m_CropBorder;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAutoCropLabelMapFilter.hxx"
+#  include "itkAutoCropLabelMapFilter.hxx"
 #endif
 
 #endif

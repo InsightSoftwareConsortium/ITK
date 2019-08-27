@@ -44,7 +44,7 @@ namespace itk
  * \ingroup Operators
  * \ingroup ITKThresholding
  */
-template <typename THistogram, typename TOutput=double>
+template <typename THistogram, typename TOutput = double>
 class ITK_TEMPLATE_EXPORT ShanbhagThresholdCalculator : public HistogramThresholdCalculator<THistogram, TOutput>
 {
 public:
@@ -69,14 +69,15 @@ public:
 protected:
   ShanbhagThresholdCalculator() = default;
   ~ShanbhagThresholdCalculator() override = default;
-  void GenerateData() override;
+  void
+  GenerateData() override;
 };
 
 } // end namespace itk
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShanbhagThresholdCalculator.hxx"
+#  include "itkShanbhagThresholdCalculator.hxx"
 #endif
 
 #endif

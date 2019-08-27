@@ -33,18 +33,16 @@ namespace itk
  *  \tparam VDimension Dimension of the input space
  *  \ingroup ITKLevelSetsv4
  */
-template< unsigned int VDimension >
-class ITK_TEMPLATE_EXPORT ShiSparseLevelSetImage :
-    public LevelSetSparseImage< int8_t, VDimension >
+template <unsigned int VDimension>
+class ITK_TEMPLATE_EXPORT ShiSparseLevelSetImage : public LevelSetSparseImage<int8_t, VDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ShiSparseLevelSetImage);
 
   using Self = ShiSparseLevelSetImage;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using Superclass =
-      LevelSetSparseImage< int8_t, VDimension >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using Superclass = LevelSetSparseImage<int8_t, VDimension>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -81,44 +79,67 @@ public:
 
   /** Returns the value of the level set function at a given location inputIndex */
   using Superclass::Evaluate;
-  OutputType Evaluate( const InputType& inputIndex ) const override;
+  OutputType
+  Evaluate(const InputType & inputIndex) const override;
 
   /** Returns the Hessian of the level set function at a given location inputIndex */
-  HessianType EvaluateHessian( const InputType& inputIndex ) const override;
+  HessianType
+  EvaluateHessian(const InputType & inputIndex) const override;
 
   /** Returns the Laplacian of the level set function at a given location inputIndex */
-  OutputRealType EvaluateLaplacian( const InputType& inputIndex ) const override;
+  OutputRealType
+  EvaluateLaplacian(const InputType & inputIndex) const override;
 
   /** Returns the Laplacian of the level set function at a given location inputIndex */
-  OutputRealType EvaluateMeanCurvature( const InputType& inputIndex ) const override;
+  OutputRealType
+  EvaluateMeanCurvature(const InputType & inputIndex) const override;
 
-  void EvaluateHessian( const InputType& inputIndex, LevelSetDataType& data ) const override;
-  void EvaluateLaplacian( const InputType& inputIndex, LevelSetDataType& data ) const override;
-  void EvaluateMeanCurvature( const InputType& inputIndex, LevelSetDataType& data ) const override;
+  void
+  EvaluateHessian(const InputType & inputIndex, LevelSetDataType & data) const override;
+  void
+  EvaluateLaplacian(const InputType & inputIndex, LevelSetDataType & data) const override;
+  void
+  EvaluateMeanCurvature(const InputType & inputIndex, LevelSetDataType & data) const override;
 
-  static inline LayerIdType MinusThreeLayer() { return -3; }
-  static inline LayerIdType MinusOneLayer() { return -1; }
-  static inline LayerIdType PlusOneLayer() { return 1; }
-  static inline LayerIdType PlusThreeLayer() { return 3; }
+  static inline LayerIdType
+  MinusThreeLayer()
+  {
+    return -3;
+  }
+  static inline LayerIdType
+  MinusOneLayer()
+  {
+    return -1;
+  }
+  static inline LayerIdType
+  PlusOneLayer()
+  {
+    return 1;
+  }
+  static inline LayerIdType
+  PlusThreeLayer()
+  {
+    return 3;
+  }
 
 protected:
-
   ShiSparseLevelSetImage();
 
   ~ShiSparseLevelSetImage() override = default;
 
   /** Initialize the sparse field layers */
-  void InitializeLayers() override;
+  void
+  InitializeLayers() override;
 
-  void InitializeInternalLabelList() override;
+  void
+  InitializeInternalLabelList() override;
 
 private:
-
 };
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShiSparseLevelSetImage.hxx"
+#  include "itkShiSparseLevelSetImage.hxx"
 #endif
 
 #endif // itkShiSparseLevelSetImage_h

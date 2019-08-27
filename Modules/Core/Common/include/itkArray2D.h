@@ -41,79 +41,92 @@ namespace itk
  * \ingroup DataRepresentation
  * \ingroup ITKCommon
  */
-template< typename TValue >
-class ITK_TEMPLATE_EXPORT Array2D: public vnl_matrix< TValue >
+template <typename TValue>
+class ITK_TEMPLATE_EXPORT Array2D : public vnl_matrix<TValue>
 {
 public:
-
   /** The element type stored at each location in the Array2D. */
   using ValueType = TValue;
   using Self = Array2D;
-  using VnlMatrixType = vnl_matrix< TValue >;
+  using VnlMatrixType = vnl_matrix<TValue>;
 
   Array2D() = default;
   Array2D(unsigned int rows, unsigned int cols);
   Array2D(const Self & array);
   Array2D(const VnlMatrixType & matrix);
 
-  const Self & operator=(const Self & array);
+  const Self &
+  operator=(const Self & array);
 
-  const Self & operator=(const VnlMatrixType & matrix);
+  const Self &
+  operator=(const VnlMatrixType & matrix);
 
-  void Fill(TValue const & v) { this->fill(v); }
+  void
+  Fill(TValue const & v)
+  {
+    this->fill(v);
+  }
 
   /** Get one element */
-  const TValue & GetElement(SizeValueType row, SizeValueType col) const
+  const TValue &
+  GetElement(SizeValueType row, SizeValueType col) const
   {
     return this->operator()(static_cast<unsigned int>(row), static_cast<unsigned int>(col));
   }
 
   /** Set one element */
-  void SetElement(SizeValueType row, SizeValueType col, const TValue & value)
+  void
+  SetElement(SizeValueType row, SizeValueType col, const TValue & value)
   {
     this->operator()(static_cast<unsigned int>(row), static_cast<unsigned int>(col)) = value;
   }
 
   /** Destructively set the size to that given.  Will lose data.  */
-  void SetSize(unsigned int m, unsigned int n);
+  void
+  SetSize(unsigned int m, unsigned int n);
 
   /** This destructor is not virtual for performance reasons. However, this
    * means that subclasses cannot allocate memory. */
   ~Array2D() = default;
 };
 
-template< typename TValue >
-std::ostream & operator<<(std::ostream & os, const Array2D< TValue > & arr)
+template <typename TValue>
+std::ostream &
+operator<<(std::ostream & os, const Array2D<TValue> & arr)
 {
-  const unsigned int numberOfRows    = arr.rows();
+  const unsigned int numberOfRows = arr.rows();
   const unsigned int numberOfColumns = arr.cols();
 
-  for ( unsigned int r = 0; r < numberOfRows; ++r )
-    {
+  for (unsigned int r = 0; r < numberOfRows; ++r)
+  {
     os << "[";
-    if ( numberOfColumns >= 1 )
-      {
+    if (numberOfColumns >= 1)
+    {
       const unsigned int lastColumn = numberOfColumns - 1;
-      for ( unsigned int c = 0; c < lastColumn; ++c )
-        {
+      for (unsigned int c = 0; c < lastColumn; ++c)
+      {
         os << arr(r, c) << ", ";
-        }
-      os << arr(r, lastColumn);
       }
-    os << "]" << std::endl;
+      os << arr(r, lastColumn);
     }
+    os << "]" << std::endl;
+  }
 
   return os;
 }
 
 // declaration of specialization
-template<> ITKCommon_EXPORT std::ostream & operator<<(std::ostream & os, const Array2D< float > & arr);
-template<> ITKCommon_EXPORT std::ostream & operator<<(std::ostream & os, const Array2D< double > & arr);
+template <>
+ITKCommon_EXPORT std::ostream &
+                 operator<<(std::ostream & os, const Array2D<float> & arr);
+template <>
+ITKCommon_EXPORT std::ostream &
+                 operator<<(std::ostream & os, const Array2D<double> & arr);
 
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkArray2D.hxx"
+#  include "itkArray2D.hxx"
 #endif
 
 #endif

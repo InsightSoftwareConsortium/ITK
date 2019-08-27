@@ -25,44 +25,42 @@ namespace itk
 {
 
 // ----------------------------------------------------------------------------
-template< typename TImage >
+template <typename TImage>
 void
-LevelSetDenseImage< TImage >
-::SetImage( ImageType* inputImage )
+LevelSetDenseImage<TImage>::SetImage(ImageType * inputImage)
 {
   this->m_Image = inputImage;
   typename ImageType::SpacingType spacing = m_Image->GetSpacing();
 
-  for( unsigned int dim = 0; dim < Dimension; dim++ )
-    {
+  for (unsigned int dim = 0; dim < Dimension; dim++)
+  {
     this->m_NeighborhoodScales[dim] =
-      NumericTraits< OutputRealType >::OneValue() / static_cast< OutputRealType >( spacing[dim ] );
-    }
+      NumericTraits<OutputRealType>::OneValue() / static_cast<OutputRealType>(spacing[dim]);
+  }
   this->Modified();
 }
 
 // ----------------------------------------------------------------------------
-template< typename TImage >
-typename LevelSetDenseImage< TImage >::OutputType
-LevelSetDenseImage< TImage >::Evaluate( const InputType& inputIndex ) const
+template <typename TImage>
+typename LevelSetDenseImage<TImage>::OutputType
+LevelSetDenseImage<TImage>::Evaluate(const InputType & inputIndex) const
 {
   InputType mapIndex = inputIndex - this->m_DomainOffset;
-  return this->m_Image->GetPixel( mapIndex );
+  return this->m_Image->GetPixel(mapIndex);
 }
 
 // ----------------------------------------------------------------------------
-template< typename TImage >
+template <typename TImage>
 void
-LevelSetDenseImage< TImage >::Evaluate( const InputType& inputIndex, LevelSetDataType& data ) const
+LevelSetDenseImage<TImage>::Evaluate(const InputType & inputIndex, LevelSetDataType & data) const
 {
-  Superclass::Evaluate( inputIndex, data );
+  Superclass::Evaluate(inputIndex, data);
 }
 
 // ----------------------------------------------------------------------------
-template< typename TImage >
+template <typename TImage>
 void
-LevelSetDenseImage< TImage >
-::Initialize()
+LevelSetDenseImage<TImage>::Initialize()
 {
   Superclass::Initialize();
 
@@ -70,55 +68,50 @@ LevelSetDenseImage< TImage >
 }
 
 // ----------------------------------------------------------------------------
-template< typename TImage >
+template <typename TImage>
 void
-LevelSetDenseImage< TImage >
-::CopyInformation(const DataObject *data)
+LevelSetDenseImage<TImage>::CopyInformation(const DataObject * data)
 {
-  Superclass::CopyInformation( data );
+  Superclass::CopyInformation(data);
 
-  const auto * LevelSet = dynamic_cast< const Self * >( data );
+  const auto * LevelSet = dynamic_cast<const Self *>(data);
 
-  if ( !LevelSet )
-    {
+  if (!LevelSet)
+  {
     // pointer could not be cast back down
-    itkExceptionMacro( << "itk::LevelSetDenseImage::CopyInformation() cannot cast "
-                       << typeid( data ).name() << " to "
-                       << typeid( Self * ).name() );
-    }
+    itkExceptionMacro(<< "itk::LevelSetDenseImage::CopyInformation() cannot cast " << typeid(data).name() << " to "
+                      << typeid(Self *).name());
+  }
 }
 
 // ----------------------------------------------------------------------------
-template< typename TImage >
+template <typename TImage>
 void
-LevelSetDenseImage< TImage >
-::Graft( const DataObject* data )
+LevelSetDenseImage<TImage>::Graft(const DataObject * data)
 {
-  Superclass::Graft( data );
-  const auto * LevelSet = dynamic_cast< const Self* >( data );
+  Superclass::Graft(data);
+  const auto * LevelSet = dynamic_cast<const Self *>(data);
 
-  if ( !LevelSet )
-    {
+  if (!LevelSet)
+  {
     // pointer could not be cast back down
-    itkExceptionMacro( << "itk::LevelSetDenseImage::CopyInformation() cannot cast "
-                       << typeid( data ).name() << " to "
-                       << typeid( Self * ).name() );
-    }
+    itkExceptionMacro(<< "itk::LevelSetDenseImage::CopyInformation() cannot cast " << typeid(data).name() << " to "
+                      << typeid(Self *).name());
+  }
 
   this->m_Image = LevelSet->m_Image;
   this->m_NeighborhoodScales = LevelSet->m_NeighborhoodScales;
 }
 
 // ----------------------------------------------------------------------------
-template< typename TImage >
+template <typename TImage>
 bool
-LevelSetDenseImage< TImage >
-::IsInsideDomain(const InputType &inputIndex) const
+LevelSetDenseImage<TImage>::IsInsideDomain(const InputType & inputIndex) const
 {
   const RegionType largestRegion = this->m_Image->GetLargestPossibleRegion();
-  InputType mapIndex = inputIndex - this->m_DomainOffset;
-  return largestRegion.IsInside( mapIndex );
+  InputType        mapIndex = inputIndex - this->m_DomainOffset;
+  return largestRegion.IsInside(mapIndex);
 }
 
-}
+} // namespace itk
 #endif // itkLevelSetDenseImage_hxx

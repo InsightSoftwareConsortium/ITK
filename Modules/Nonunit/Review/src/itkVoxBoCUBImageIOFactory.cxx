@@ -32,15 +32,11 @@ namespace itk
 
 VoxBoCUBImageIOFactory::VoxBoCUBImageIOFactory()
 {
-  this->RegisterOverride( "itkImageIOBase",
-                          "itkVoxBoCUBImageIO",
-                          "VoxBo CUB Image IO",
-                          true,
-                          CreateObjectFunction< VoxBoCUBImageIO >::New() );
+  this->RegisterOverride(
+    "itkImageIOBase", "itkVoxBoCUBImageIO", "VoxBo CUB Image IO", true, CreateObjectFunction<VoxBoCUBImageIO>::New());
 }
 
-VoxBoCUBImageIOFactory::~VoxBoCUBImageIOFactory()
-{}
+VoxBoCUBImageIOFactory::~VoxBoCUBImageIOFactory() {}
 
 const char *
 VoxBoCUBImageIOFactory::GetITKSourceVersion() const

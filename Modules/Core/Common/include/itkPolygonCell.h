@@ -49,8 +49,8 @@ namespace itk
  * \ingroup MeshObjects
  * \ingroup ITKCommon
  */
-template< typename TCellInterface >
-class ITK_TEMPLATE_EXPORT PolygonCell:public TCellInterface
+template <typename TCellInterface>
+class ITK_TEMPLATE_EXPORT PolygonCell : public TCellInterface
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PolygonCell);
@@ -66,83 +66,104 @@ public:
   static constexpr unsigned int CellDimension = 2;
 
   /** The type of boundary for this triangle's vertices. */
-  using VertexType = VertexCell< TCellInterface >;
+  using VertexType = VertexCell<TCellInterface>;
   using VertexAutoPointer = typename VertexType::SelfAutoPointer;
 
   /** The type of boundary for this triangle's edges. */
-  using EdgeType = LineCell< TCellInterface >;
+  using EdgeType = LineCell<TCellInterface>;
   using EdgeAutoPointer = typename EdgeType::SelfAutoPointer;
 
-  using EdgeInfo = FixedArray< int, 2 >;
-  using EdgeInfoDQ = std::deque< EdgeInfo >;
+  using EdgeInfo = FixedArray<int, 2>;
+  using EdgeInfoDQ = std::deque<EdgeInfo>;
 
   /** Need to add POLYGON_CELL into CellInterface. */
   itkCellVisitMacro(Superclass::POLYGON_CELL);
 
   /** Implement the standard CellInterface. */
-  CellGeometry GetType() const override
-  { return Superclass::POLYGON_CELL; }
-  void MakeCopy(CellAutoPointer &) const override;
+  CellGeometry
+  GetType() const override
+  {
+    return Superclass::POLYGON_CELL;
+  }
+  void
+  MakeCopy(CellAutoPointer &) const override;
 
-  unsigned int GetDimension() const override;
+  unsigned int
+  GetDimension() const override;
 
-  unsigned int GetNumberOfPoints() const override;
+  unsigned int
+  GetNumberOfPoints() const override;
 
-  CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const override;
+  CellFeatureCount
+  GetNumberOfBoundaryFeatures(int dimension) const override;
 
-  bool GetBoundaryFeature(int dimension, CellFeatureIdentifier, CellAutoPointer &) override;
+  bool
+  GetBoundaryFeature(int dimension, CellFeatureIdentifier, CellAutoPointer &) override;
 
-  void SetPointIds(PointIdConstIterator first) override;
+  void
+  SetPointIds(PointIdConstIterator first) override;
 
-  void SetPointIds(PointIdConstIterator first,
-                           PointIdConstIterator last) override;
+  void
+  SetPointIds(PointIdConstIterator first, PointIdConstIterator last) override;
 
   void AddPointId(PointIdentifier);
   void RemovePointId(PointIdentifier);
-  void SetPointIds(int dummy, int num, PointIdConstIterator first);
+  void
+  SetPointIds(int dummy, int num, PointIdConstIterator first);
 
-  void BuildEdges();
+  void
+  BuildEdges();
 
-  void ClearPoints();
+  void
+  ClearPoints();
 
-  void SetPointId(int localId, PointIdentifier) override;
-  PointIdIterator      PointIdsBegin() override;
+  void
+  SetPointId(int localId, PointIdentifier) override;
+  PointIdIterator
+  PointIdsBegin() override;
 
-  PointIdConstIterator PointIdsBegin() const override;
+  PointIdConstIterator
+  PointIdsBegin() const override;
 
-  PointIdIterator      PointIdsEnd() override;
+  PointIdIterator
+  PointIdsEnd() override;
 
-  PointIdConstIterator PointIdsEnd() const override;
+  PointIdConstIterator
+  PointIdsEnd() const override;
 
   /** Polygon-specific interface. */
-  virtual CellFeatureCount GetNumberOfVertices() const;
+  virtual CellFeatureCount
+  GetNumberOfVertices() const;
 
-  virtual CellFeatureCount GetNumberOfEdges() const;
+  virtual CellFeatureCount
+  GetNumberOfEdges() const;
 
-  virtual bool GetVertex(CellFeatureIdentifier, VertexAutoPointer &);
-  virtual bool GetEdge(CellFeatureIdentifier, EdgeAutoPointer &);
+  virtual bool
+  GetVertex(CellFeatureIdentifier, VertexAutoPointer &);
+  virtual bool
+  GetEdge(CellFeatureIdentifier, EdgeAutoPointer &);
 
   /** Constructor and destructor */
   PolygonCell() = default;
   PolygonCell(PointIdentifier NumberOfPoints)
   {
-    for ( PointIdentifier i = 0; i < NumberOfPoints; i++ )
-      {
-      m_PointIds.push_back( NumericTraits< PointIdentifier >::max() );
-      }
+    for (PointIdentifier i = 0; i < NumberOfPoints; i++)
+    {
+      m_PointIds.push_back(NumericTraits<PointIdentifier>::max());
+    }
     this->BuildEdges();
   }
 
   ~PolygonCell() override = default;
 
 protected:
-  std::vector< EdgeInfo >        m_Edges;
-  std::vector< PointIdentifier > m_PointIds;
+  std::vector<EdgeInfo>        m_Edges;
+  std::vector<PointIdentifier> m_PointIds;
 };
-} //end namespace
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPolygonCell.hxx"
+#  include "itkPolygonCell.hxx"
 #endif
 
 #endif

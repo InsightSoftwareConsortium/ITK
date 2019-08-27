@@ -26,9 +26,8 @@
 namespace itk
 {
 
-template< typename TInputImage, typename TOutputImage >
-FFTWHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
-::FFTWHalfHermitianToRealInverseFFTImageFilter()
+template <typename TInputImage, typename TOutputImage>
+FFTWHalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::FFTWHalfHermitianToRealInverseFFTImageFilter()
 {
 #ifndef ITK_USE_CUFFTW
   m_PlanRigor = FFTWGlobalConfiguration::GetPlanRigor();
@@ -36,29 +35,28 @@ FFTWHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
   this->DynamicMultiThreadingOn();
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-FFTWHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
-::BeforeThreadedGenerateData()
+FFTWHalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
   // Get pointers to the input and output.
-  typename InputImageType::ConstPointer inputPtr  = this->GetInput();
-  typename OutputImageType::Pointer outputPtr = this->GetOutput();
+  typename InputImageType::ConstPointer inputPtr = this->GetInput();
+  typename OutputImageType::Pointer     outputPtr = this->GetOutput();
 
-  if ( !inputPtr || !outputPtr )
-    {
+  if (!inputPtr || !outputPtr)
+  {
     return;
-    }
+  }
 
   // We don't have a nice progress to report, but at least this simple line
   // reports the beginning and the end of the process.
-  ProgressReporter progress( this, 0, 1 );
+  ProgressReporter progress(this, 0, 1);
 
   // Allocate output buffer memory.
-  outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
+  outputPtr->SetBufferedRegion(outputPtr->GetRequestedRegion());
   outputPtr->Allocate();
 
-  const InputSizeType inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
+  const InputSizeType  inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
   const OutputSizeType outputSize = outputPtr->GetLargestPossibleRegion().GetSize();
 
   // Figure out sizes.
@@ -68,101 +66,102 @@ FFTWHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
   unsigned int totalOutputSize = 1;
   unsigned int totalInputSize = 1;
 
-  for ( unsigned i = 0; i < ImageDimension; i++ )
-    {
+  for (unsigned i = 0; i < ImageDimension; i++)
+  {
     totalOutputSize *= outputSize[i];
     totalInputSize *= inputSize[i];
-    }
+  }
 
   typename FFTWProxyType::ComplexType * in;
   // The complex-to-real transform doesn't support the
   // FFTW_PRESERVE_INPUT flag at this time. So if the input can't be
   // destroyed, we have to copy the input data to a buffer before
   // running the IFFT.
-  if( m_CanUseDestructiveAlgorithm )
-    {
+  if (m_CanUseDestructiveAlgorithm)
+  {
     // Ok, so lets use the input buffer directly, to save some memory.
-    in = (typename FFTWProxyType::ComplexType*)inputPtr->GetBufferPointer();
-    }
+    in = (typename FFTWProxyType::ComplexType *)inputPtr->GetBufferPointer();
+  }
   else
-    {
+  {
     // We must use a buffer where fftw can work and destroy what it wants.
     in = new typename FFTWProxyType::ComplexType[totalInputSize];
-    }
-  OutputPixelType * out = outputPtr->GetBufferPointer();
+  }
+  OutputPixelType *                out = outputPtr->GetBufferPointer();
   typename FFTWProxyType::PlanType plan;
 
   int sizes[ImageDimension];
-  for( unsigned int i = 0; i < ImageDimension; i++ )
-    {
+  for (unsigned int i = 0; i < ImageDimension; i++)
+  {
     sizes[(ImageDimension - 1) - i] = outputSize[i];
-    }
-  plan = FFTWProxyType::Plan_dft_c2r( ImageDimension, sizes, in, out, m_PlanRigor,
-                                      MultiThreaderBase::GetGlobalDefaultNumberOfThreads(),
-                                      !m_CanUseDestructiveAlgorithm );
-  if( !m_CanUseDestructiveAlgorithm )
-    {
+  }
+  plan = FFTWProxyType::Plan_dft_c2r(ImageDimension,
+                                     sizes,
+                                     in,
+                                     out,
+                                     m_PlanRigor,
+                                     MultiThreaderBase::GetGlobalDefaultNumberOfThreads(),
+                                     !m_CanUseDestructiveAlgorithm);
+  if (!m_CanUseDestructiveAlgorithm)
+  {
     // complex<double> and double[2] types are compatible memory layouts.
     // The reinterpret_cast is used here to
     // make the "C" fftw libary compatible with the c++ complex<double>.
-    std::copy_n( inputPtr->GetBufferPointer(),
-                 totalInputSize,
-                 reinterpret_cast< typename InputImageType::PixelType * > (in) );
-    }
-  FFTWProxyType::Execute( plan );
+    std::copy_n(
+      inputPtr->GetBufferPointer(), totalInputSize, reinterpret_cast<typename InputImageType::PixelType *>(in));
+  }
+  FFTWProxyType::Execute(plan);
 
   // Some cleanup.
-  FFTWProxyType::DestroyPlan( plan );
-  if( !m_CanUseDestructiveAlgorithm )
-    {
+  FFTWProxyType::DestroyPlan(plan);
+  if (!m_CanUseDestructiveAlgorithm)
+  {
     delete[] in;
-    }
+  }
 }
 
 template <typename TInputImage, typename TOutputImage>
 void
-FFTWHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
-::DynamicThreadedGenerateData(const OutputRegionType& outputRegionForThread)
+FFTWHalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
+  const OutputRegionType & outputRegionForThread)
 {
-  using IteratorType = ImageRegionIterator< OutputImageType >;
+  using IteratorType = ImageRegionIterator<OutputImageType>;
   unsigned long totalOutputSize = this->GetOutput()->GetRequestedRegion().GetNumberOfPixels();
-  IteratorType it( this->GetOutput(), outputRegionForThread );
-  while( !it.IsAtEnd() )
-    {
-    it.Set( it.Value() / totalOutputSize );
+  IteratorType  it(this->GetOutput(), outputRegionForThread);
+  while (!it.IsAtEnd())
+  {
+    it.Set(it.Value() / totalOutputSize);
     ++it;
-    }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-FFTWHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
-::UpdateOutputData(DataObject * output)
+FFTWHalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::UpdateOutputData(DataObject * output)
 {
   // We need to catch that information now, because it is changed
   // later during the pipeline execution, and thus can't be grabbed in
   // GenerateData().
   m_CanUseDestructiveAlgorithm = this->GetInput()->GetReleaseDataFlag();
-  Superclass::UpdateOutputData( output );
+  Superclass::UpdateOutputData(output);
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-FFTWHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+FFTWHalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os,
+                                                                                   Indent         indent) const
 {
-  Superclass::PrintSelf( os, indent );
+  Superclass::PrintSelf(os, indent);
 
 #ifndef ITK_USE_CUFFTW
-  os << indent << "PlanRigor: " << FFTWGlobalConfiguration::GetPlanRigorName( m_PlanRigor )
-     << " (" << m_PlanRigor << ")" << std::endl;
+  os << indent << "PlanRigor: " << FFTWGlobalConfiguration::GetPlanRigorName(m_PlanRigor) << " (" << m_PlanRigor << ")"
+     << std::endl;
 #endif
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 SizeValueType
-FFTWHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
-::GetSizeGreatestPrimeFactor() const
+FFTWHalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::GetSizeGreatestPrimeFactor() const
 {
   return FFTWProxyType::GREATEST_PRIME_FACTOR;
 }

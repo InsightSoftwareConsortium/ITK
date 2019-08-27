@@ -19,13 +19,13 @@
 #include <iostream>
 #include "itkDistanceToCentroidMembershipFunction.h"
 
-int itkDistanceToCentroidMembershipFunctionTest(int, char* [] )
+int
+itkDistanceToCentroidMembershipFunctionTest(int, char *[])
 {
 
   constexpr unsigned int MeasurementVectorSize = 3;
 
-  using MeasurementVectorType = itk::FixedArray<
-    float, MeasurementVectorSize >;
+  using MeasurementVectorType = itk::FixedArray<float, MeasurementVectorSize>;
 
   using MembershipFunctionType = itk::Statistics::DistanceToCentroidMembershipFunction<MeasurementVectorType>;
 
@@ -34,84 +34,85 @@ int itkDistanceToCentroidMembershipFunctionTest(int, char* [] )
   std::cout << function->GetNameOfClass() << std::endl;
 
 
-  //set the distance metric type
-  using DistanceMetricType = itk::Statistics::EuclideanDistanceMetric< MeasurementVectorType >;
+  // set the distance metric type
+  using DistanceMetricType = itk::Statistics::EuclideanDistanceMetric<MeasurementVectorType>;
   using MeasurementVectorSizeType = DistanceMetricType::MeasurementVectorSizeType;
 
   DistanceMetricType::Pointer distanceMetric = DistanceMetricType::New();
-  function->SetDistanceMetric( distanceMetric );
+  function->SetDistanceMetric(distanceMetric);
 
-  if( function->GetDistanceMetric() != distanceMetric )
-    {
+  if (function->GetDistanceMetric() != distanceMetric)
+  {
     std::cerr << "Error in GetDistanceMetric() " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   function->Print(std::cout);
 
-  function->SetMeasurementVectorSize( MeasurementVectorSize ); // for code coverage
+  function->SetMeasurementVectorSize(MeasurementVectorSize); // for code coverage
 
-  if( function->GetMeasurementVectorSize() != MeasurementVectorSize )
-    {
+  if (function->GetMeasurementVectorSize() != MeasurementVectorSize)
+  {
     std::cerr << "GetMeasurementVectorSize() Failed !" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  //Test if an exception will be thrown if we try to resize the measurement vector
-  //size
+  // Test if an exception will be thrown if we try to resize the measurement vector
+  // size
   try
-    {
+  {
     MeasurementVectorSizeType measurementVector2 = MeasurementVectorSize + 1;
-    function->SetMeasurementVectorSize( measurementVector2 );
+    function->SetMeasurementVectorSize(measurementVector2);
     std::cerr << "Exception should have been thrown since we are trying to resize\
-                  non-resizeable measurement vector type " << std::endl;
+                  non-resizeable measurement vector type "
+              << std::endl;
     return EXIT_FAILURE;
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Caughted expected exception: " << excp << std::endl;
-    }
+  }
 
 
-  //Test if the distance computed is correct
+  // Test if the distance computed is correct
   MembershipFunctionType::CentroidType origin;
-  ::itk::NumericTraits<MembershipFunctionType::CentroidType>::SetLength( origin, 3);
+  ::itk::NumericTraits<MembershipFunctionType::CentroidType>::SetLength(origin, 3);
   origin[0] = 1.5;
   origin[1] = 2.3;
   origin[2] = 1.0;
-  function->SetCentroid( origin );
+  function->SetCentroid(origin);
 
   constexpr double tolerance = 0.001;
 
-  if( std::fabs( function->GetCentroid()[0] - origin[0]) > tolerance ||
-      std::fabs( function->GetCentroid()[1] - origin[1]) > tolerance ||
-      std::fabs( function->GetCentroid()[2] - origin[2]) > tolerance )
-    {
+  if (std::fabs(function->GetCentroid()[0] - origin[0]) > tolerance ||
+      std::fabs(function->GetCentroid()[1] - origin[1]) > tolerance ||
+      std::fabs(function->GetCentroid()[2] - origin[2]) > tolerance)
+  {
     std::cerr << "Error in GetCentroid() method" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   MeasurementVectorType measurement;
-  ::itk::NumericTraits<MeasurementVectorType>::SetLength( measurement, 3);
+  ::itk::NumericTraits<MeasurementVectorType>::SetLength(measurement, 3);
   measurement[0] = 2.5;
   measurement[1] = 3.3;
   measurement[2] = 4.0;
 
   double trueValue = 3.31662;
-  double distanceComputed = function->Evaluate( measurement );
+  double distanceComputed = function->Evaluate(measurement);
 
-  if( std::fabs( distanceComputed - trueValue) > tolerance )
-    {
-    std::cerr << "Distance computed not correct: " << "truevalue= " << trueValue
-              << "ComputedValue=" << distanceComputed << std::endl;
+  if (std::fabs(distanceComputed - trueValue) > tolerance)
+  {
+    std::cerr << "Distance computed not correct: "
+              << "truevalue= " << trueValue << "ComputedValue=" << distanceComputed << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Exercise the Clone method.
   MembershipFunctionType::Pointer clonedFunction = function->Clone();
-  if( clonedFunction.IsNull() )
-    {
+  if (clonedFunction.IsNull())
+  {
     return EXIT_FAILURE;
-    }
+  }
   return EXIT_SUCCESS;
 }

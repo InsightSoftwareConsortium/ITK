@@ -40,87 +40,87 @@
 
 // Software Guide : EndCodeSnippet
 
-int main( int , char *[] )
+int
+main(int, char *[])
 {
 
-// Software Guide : BeginLatex
-//
-// Next, we create a SpatialObjectWriter that is templated over the dimension
-// of the object(s) we want to write.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // Next, we create a SpatialObjectWriter that is templated over the dimension
+  // of the object(s) we want to write.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   using WriterType = itk::SpatialObjectWriter<3>;
   WriterType::Pointer writer = WriterType::New();
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// For this example, we create an \doxygen{EllipseSpatialObject}.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // For this example, we create an \doxygen{EllipseSpatialObject}.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   using EllipseType = itk::EllipseSpatialObject<3>;
   EllipseType::Pointer ellipse = EllipseType::New();
   ellipse->SetRadiusInObjectSpace(3);
-// Software Guide : EndCodeSnippet
-// Software Guide : BeginLatex
-//
-// Finally, we set to the writer the object to write using the
-// \code{SetInput()} method and we set the name of the file with
-// \code{SetFileName()} and call the \code{Update()} method to actually write
-// the information.
-//
-// Software Guide : EndLatex
+  // Software Guide : EndCodeSnippet
+  // Software Guide : BeginLatex
+  //
+  // Finally, we set to the writer the object to write using the
+  // \code{SetInput()} method and we set the name of the file with
+  // \code{SetFileName()} and call the \code{Update()} method to actually write
+  // the information.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   writer->SetInput(ellipse);
   writer->SetFileName("ellipse.meta");
   writer->Update();
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// Now we are ready to open the freshly created object. We first create a
-// SpatialObjectReader which is also templated over the dimension of the
-// object in the file. This means that the file should contain only objects
-// with the same dimension.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // Now we are ready to open the freshly created object. We first create a
+  // SpatialObjectReader which is also templated over the dimension of the
+  // object in the file. This means that the file should contain only objects
+  // with the same dimension.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   using ReaderType = itk::SpatialObjectReader<3>;
   ReaderType::Pointer reader = ReaderType::New();
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// Next we set the name of the file to read using \code{SetFileName()} and we
-// call the \code{Update()} method to read the file.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // Next we set the name of the file to read using \code{SetFileName()} and we
+  // call the \code{Update()} method to read the file.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   reader->SetFileName("ellipse.meta");
   reader->Update();
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// To get the objects in the file you can call the \code{GetGroup()} method.
-// Calls to \code{GetGroup()} returns a pointer to a
-// \doxygen{GroupSpatialObject}.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // To get the objects in the file you can call the \code{GetGroup()} method.
+  // Calls to \code{GetGroup()} returns a pointer to a
+  // \doxygen{GroupSpatialObject}.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   ReaderType::GroupType * group = reader->GetGroup();
   std::cout << "Number of objects in the group: ";
   std::cout << group->GetNumberOfChildren() << std::endl;
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;
-
 }

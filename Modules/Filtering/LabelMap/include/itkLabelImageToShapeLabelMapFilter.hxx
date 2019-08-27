@@ -23,45 +23,40 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage >
-LabelImageToShapeLabelMapFilter< TInputImage, TOutputImage >
-::LabelImageToShapeLabelMapFilter()
+template <typename TInputImage, typename TOutputImage>
+LabelImageToShapeLabelMapFilter<TInputImage, TOutputImage>::LabelImageToShapeLabelMapFilter()
 {
-  m_BackgroundValue = NumericTraits< OutputImagePixelType >::NonpositiveMin();
+  m_BackgroundValue = NumericTraits<OutputImagePixelType>::NonpositiveMin();
   m_ComputeFeretDiameter = false;
   m_ComputePerimeter = true;
   m_ComputeOrientedBoundingBox = false;
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-LabelImageToShapeLabelMapFilter< TInputImage, TOutputImage >
-::GenerateInputRequestedRegion()
+LabelImageToShapeLabelMapFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   // Call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the inputs
-  InputImagePointer input = const_cast< InputImageType * >( this->GetInput() );
-  if ( input )
-    {
-    input->SetRequestedRegion( input->GetLargestPossibleRegion() );
-    }
+  InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
+  if (input)
+  {
+    input->SetRequestedRegion(input->GetLargestPossibleRegion());
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-LabelImageToShapeLabelMapFilter< TInputImage, TOutputImage >
-::EnlargeOutputRequestedRegion(DataObject *)
+LabelImageToShapeLabelMapFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject *)
 {
-  this->GetOutput()
-  ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
+  this->GetOutput()->SetRequestedRegion(this->GetOutput()->GetLargestPossibleRegion());
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-LabelImageToShapeLabelMapFilter< TInputImage, TOutputImage >
-::GenerateData()
+LabelImageToShapeLabelMapFilter<TInputImage, TOutputImage>::GenerateData()
 {
   // Create a process accumulator for tracking the progress of this minipipeline
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
@@ -72,33 +67,33 @@ LabelImageToShapeLabelMapFilter< TInputImage, TOutputImage >
   this->AllocateOutputs();
 
   typename LabelizerType::Pointer labelizer = LabelizerType::New();
-  labelizer->SetInput( this->GetInput() );
+  labelizer->SetInput(this->GetInput());
   labelizer->SetBackgroundValue(m_BackgroundValue);
-  labelizer->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
+  labelizer->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   progress->RegisterInternalFilter(labelizer, .5f);
 
   typename LabelObjectValuatorType::Pointer valuator = LabelObjectValuatorType::New();
-  valuator->SetInput( labelizer->GetOutput() );
-  valuator->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
+  valuator->SetInput(labelizer->GetOutput());
+  valuator->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   valuator->SetComputePerimeter(m_ComputePerimeter);
   valuator->SetComputeFeretDiameter(m_ComputeFeretDiameter);
   valuator->SetComputeOrientedBoundingBox(m_ComputeOrientedBoundingBox);
   progress->RegisterInternalFilter(valuator, .5f);
 
-  valuator->GraftOutput( this->GetOutput() );
+  valuator->GraftOutput(this->GetOutput());
   valuator->Update();
-  this->GraftOutput( valuator->GetOutput() );
+  this->GraftOutput(valuator->GetOutput());
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-LabelImageToShapeLabelMapFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+LabelImageToShapeLabelMapFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "BackgroundValue: "
-     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_BackgroundValue ) << std::endl;
+  os << indent
+     << "BackgroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
+     << std::endl;
   os << indent << "ComputeFeretDiameter: " << m_ComputeFeretDiameter << std::endl;
   os << indent << "ComputePerimeter: " << m_ComputePerimeter << std::endl;
   os << indent << "ComputeOrientedBoundingBox: " << m_ComputeOrientedBoundingBox << std::endl;

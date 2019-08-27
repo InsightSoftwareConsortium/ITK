@@ -24,42 +24,48 @@ namespace fem
 {
 
 // Overload the CreateAnother() method.
-::itk::LightObject::Pointer LoadNode::CreateAnother() const
+::itk::LightObject::Pointer
+LoadNode::CreateAnother() const
 {
   ::itk::LightObject::Pointer smartPtr;
-  Pointer copyPtr = Self::New();
+  Pointer                     copyPtr = Self::New();
 
   copyPtr->m_Element = this->m_Element;
   copyPtr->m_Point = this->m_Point;
   copyPtr->m_Force = this->m_Force;
-  copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
+  copyPtr->SetGlobalNumber(this->GetGlobalNumber());
 
   smartPtr = static_cast<Pointer>(copyPtr);
 
   return smartPtr;
 }
 
-void LoadNode::SetNode(int num)
+void
+LoadNode::SetNode(int num)
 {
   this->m_Point = num;
 }
 
-int LoadNode::GetNode() const
+int
+LoadNode::GetNode() const
 {
   return this->m_Point;
 }
 
-void LoadNode::SetForce(const vnl_vector<Float> force)
+void
+LoadNode::SetForce(const vnl_vector<Float> force)
 {
   this->m_Force = force;
 }
 
-vnl_vector<itk::fem::Element::Float> LoadNode::GetForce() const
+vnl_vector<itk::fem::Element::Float>
+LoadNode::GetForce() const
 {
   return this->m_Force;
 }
 
-void LoadNode::PrintSelf(std::ostream& os, Indent indent) const
+void
+LoadNode::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Element: " << this->m_Element << std::endl;

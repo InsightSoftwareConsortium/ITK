@@ -31,8 +31,8 @@
 #include <vector>
 
 #include "itkImageLinearIteratorWithIndex.h"
-#include "itkImageRegionIterator.h"   // Used for the output iterator needs to
-                                      // match filter program
+#include "itkImageRegionIterator.h" // Used for the output iterator needs to
+                                    // match filter program
 #include "itkProgressReporter.h"
 #include "itkImageToImageFilter.h"
 
@@ -78,18 +78,17 @@ namespace itk
  * \ingroup CannotBeStreamed
  * \ingroup ITKImageGrid
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT BSplineResampleImageFilterBase:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT BSplineResampleImageFilterBase : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BSplineResampleImageFilterBase);
 
   /** Standard class type aliases. */
   using Self = BSplineResampleImageFilterBase;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(BSplineResampleImageFilterBase, ImageToImageFilter);
@@ -116,80 +115,85 @@ public:
   using OutputImagePixelType = typename Superclass::OutputImagePixelType;
 
   /** Iterator type alias support */
-  using ConstInputImageIterator = itk::ImageLinearConstIteratorWithIndex< TInputImage >;
+  using ConstInputImageIterator = itk::ImageLinearConstIteratorWithIndex<TInputImage>;
 
   /** Iterator type alias support */
-  using ConstOutputImageIterator = itk::ImageLinearConstIteratorWithIndex< TOutputImage >;
+  using ConstOutputImageIterator = itk::ImageLinearConstIteratorWithIndex<TOutputImage>;
 
   /** Output Iterator type alias support */
-  using OutputImageIterator = itk::ImageLinearIteratorWithIndex< TOutputImage >;
+  using OutputImageIterator = itk::ImageLinearIteratorWithIndex<TOutputImage>;
 
   /** Set the spline order for interpolation.  Value must be between 0 and 3 with a
    * default of 0. */
-  void SetSplineOrder(int SplineOrder);
+  void
+  SetSplineOrder(int SplineOrder);
 
   /** Get the spline order */
   itkGetConstMacro(SplineOrder, int);
 
 protected:
   /** Reduces an N-dimension image by a factor of 2 in each dimension. */
-  void ReduceNDImage(OutputImageIterator & OutItr);
+  void
+  ReduceNDImage(OutputImageIterator & OutItr);
 
   /** Expands an N-dimension image by a factor of 2 in each dimension. */
-  void ExpandNDImage(OutputImageIterator & OutItr);
+  void
+  ExpandNDImage(OutputImageIterator & OutItr);
 
   /** Initializes the pyramid spline coefficients.  Called when Spline order
    *   has been set. */
-  virtual void InitializePyramidSplineFilter(int SplineOrder);
+  virtual void
+  InitializePyramidSplineFilter(int SplineOrder);
 
   /** The basic operator for reducing a line of data by a factor of 2 */
-  virtual void Reduce1DImage(
-    const std::vector< double > & In,
-    OutputImageIterator & Iter,
-    unsigned int traverseSize,
-    ProgressReporter & progress
-    );
+  virtual void
+  Reduce1DImage(const std::vector<double> & In,
+                OutputImageIterator &       Iter,
+                unsigned int                traverseSize,
+                ProgressReporter &          progress);
 
   /** The basic operator for expanding a line of data by a factor of 2 */
-  virtual void Expand1DImage(
-    const std::vector< double > & In,
-    OutputImageIterator & Iter,
-    unsigned int traverseSize,
-    ProgressReporter & progress
-    );
+  virtual void
+  Expand1DImage(const std::vector<double> & In,
+                OutputImageIterator &       Iter,
+                unsigned int                traverseSize,
+                ProgressReporter &          progress);
 
   BSplineResampleImageFilterBase();
   ~BSplineResampleImageFilterBase() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  int m_SplineOrder;                      // User specified spline order
-  int m_GSize;                            // downsampling filter size
-  int m_HSize;                            // upsampling filter size
+  int m_SplineOrder; // User specified spline order
+  int m_GSize;       // downsampling filter size
+  int m_HSize;       // upsampling filter size
 
-  std::vector< double >       m_G;        // downsampling filter coefficients
-  std::vector< double >       m_H;        // upsampling filter coefficients
+  std::vector<double> m_G; // downsampling filter coefficients
+  std::vector<double> m_H; // upsampling filter coefficients
 
 private:
-
   // Resizes m_Scratch Variable based on image sizes
-  void InitializeScratch(SizeType DataLength);
+  void
+  InitializeScratch(SizeType DataLength);
 
   // Copies a line of data from the input to the m_Scratch for subsequent
   // processing
-  void CopyInputLineToScratch(ConstInputImageIterator & Iter);
+  void
+  CopyInputLineToScratch(ConstInputImageIterator & Iter);
 
-  void CopyOutputLineToScratch(ConstOutputImageIterator & Iter);
+  void
+  CopyOutputLineToScratch(ConstOutputImageIterator & Iter);
 
-  void CopyLineToScratch(ConstInputImageIterator & Iter);
+  void
+  CopyLineToScratch(ConstInputImageIterator & Iter);
 
-  std::vector< double >       m_Scratch;        // temp storage for processing
-                                                // of Coefficients
-
+  std::vector<double> m_Scratch; // temp storage for processing
+                                 // of Coefficients
 };
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBSplineResampleImageFilterBase.hxx"
+#  include "itkBSplineResampleImageFilterBase.hxx"
 #endif
 
 #endif

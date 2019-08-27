@@ -25,14 +25,12 @@ namespace itk
 /**
  * Constructor
  */
-MultipleValuedNonLinearVnlOptimizer
-::MultipleValuedNonLinearVnlOptimizer()
+MultipleValuedNonLinearVnlOptimizer ::MultipleValuedNonLinearVnlOptimizer()
 {
   m_CostFunctionAdaptor = nullptr;
   m_UseGradient = true;
   m_Command = CommandType::New();
-  m_Command->SetCallbackFunction(this,
-                                 &MultipleValuedNonLinearVnlOptimizer::IterationReport);
+  m_Command->SetCallbackFunction(this, &MultipleValuedNonLinearVnlOptimizer::IterationReport);
   m_CachedValue.Fill(0);
   m_CachedCurrentPosition.Fill(0);
   m_CachedDerivative.Fill(0);
@@ -41,21 +39,19 @@ MultipleValuedNonLinearVnlOptimizer
 /**
  * Destructor
  */
-MultipleValuedNonLinearVnlOptimizer
-::~MultipleValuedNonLinearVnlOptimizer()
+MultipleValuedNonLinearVnlOptimizer ::~MultipleValuedNonLinearVnlOptimizer()
 {
   delete m_CostFunctionAdaptor;
   m_CostFunctionAdaptor = nullptr;
 }
 
 void
-MultipleValuedNonLinearVnlOptimizer
-::SetCostFunctionAdaptor(CostFunctionAdaptorType *adaptor)
+MultipleValuedNonLinearVnlOptimizer ::SetCostFunctionAdaptor(CostFunctionAdaptorType * adaptor)
 {
-  if ( m_CostFunctionAdaptor == adaptor )
-    {
+  if (m_CostFunctionAdaptor == adaptor)
+  {
     return;
-    }
+  }
 
   delete m_CostFunctionAdaptor;
 
@@ -67,15 +63,13 @@ MultipleValuedNonLinearVnlOptimizer
 }
 
 const MultipleValuedNonLinearVnlOptimizer::CostFunctionAdaptorType *
-MultipleValuedNonLinearVnlOptimizer
-::GetCostFunctionAdaptor() const
+MultipleValuedNonLinearVnlOptimizer ::GetCostFunctionAdaptor() const
 {
   return m_CostFunctionAdaptor;
 }
 
 MultipleValuedNonLinearVnlOptimizer::CostFunctionAdaptorType *
-MultipleValuedNonLinearVnlOptimizer
-::GetCostFunctionAdaptor()
+MultipleValuedNonLinearVnlOptimizer ::GetCostFunctionAdaptor()
 {
   return m_CostFunctionAdaptor;
 }
@@ -83,38 +77,35 @@ MultipleValuedNonLinearVnlOptimizer
 /** The purpose of this method is to get around the lack of const
  * correctness in vnl cost_functions and optimizers */
 MultipleValuedNonLinearVnlOptimizer::CostFunctionAdaptorType *
-MultipleValuedNonLinearVnlOptimizer
-::GetNonConstCostFunctionAdaptor() const
+MultipleValuedNonLinearVnlOptimizer ::GetNonConstCostFunctionAdaptor() const
 {
   return m_CostFunctionAdaptor;
 }
 
 void
-MultipleValuedNonLinearVnlOptimizer
-::SetUseCostFunctionGradient(bool useGradient)
+MultipleValuedNonLinearVnlOptimizer ::SetUseCostFunctionGradient(bool useGradient)
 {
-  if ( m_CostFunctionAdaptor )
-    {
+  if (m_CostFunctionAdaptor)
+  {
     m_CostFunctionAdaptor->SetUseGradient(useGradient);
-    }
+  }
   else
-    {
+  {
     m_UseGradient = useGradient;
-    }
+  }
 }
 
 bool
-MultipleValuedNonLinearVnlOptimizer
-::GetUseCostFunctionGradient() const
+MultipleValuedNonLinearVnlOptimizer ::GetUseCostFunctionGradient() const
 {
-  if ( m_CostFunctionAdaptor )
-    {
+  if (m_CostFunctionAdaptor)
+  {
     return m_CostFunctionAdaptor->GetUseGradient();
-    }
+  }
   else
-    {
+  {
     return m_UseGradient;
-    }
+  }
 }
 
 /** The purpose of this method is to get around the lack of iteration reporting
@@ -124,10 +115,9 @@ MultipleValuedNonLinearVnlOptimizer
  * vnl optimizer. Optimizers that evaluate the metric multiple times at each
  * iteration will generate a lot more of Iteration events here. */
 void
-MultipleValuedNonLinearVnlOptimizer
-::IterationReport(const EventObject & event)
+MultipleValuedNonLinearVnlOptimizer ::IterationReport(const EventObject & event)
 {
-  const CostFunctionAdaptorType *adaptor = this->GetCostFunctionAdaptor();
+  const CostFunctionAdaptorType * adaptor = this->GetCostFunctionAdaptor();
 
   m_CachedValue = adaptor->GetCachedValue();
   m_CachedDerivative = adaptor->GetCachedDerivative();
@@ -139,14 +129,12 @@ MultipleValuedNonLinearVnlOptimizer
  * PrintSelf
  */
 void
-MultipleValuedNonLinearVnlOptimizer
-::PrintSelf(std::ostream & os, Indent indent) const
+MultipleValuedNonLinearVnlOptimizer ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Cached Value: " << m_CachedValue << std::endl;
   os << indent << "Cached Derivative: " << m_CachedDerivative << std::endl;
-  os << indent << "Cached current positiion: "
-     << m_CachedCurrentPosition << std::endl;
+  os << indent << "Cached current positiion: " << m_CachedCurrentPosition << std::endl;
   os << "Command observer " << m_Command.GetPointer() << std::endl;
   os << "Cost Function adaptor" << m_CostFunctionAdaptor << std::endl;
 }

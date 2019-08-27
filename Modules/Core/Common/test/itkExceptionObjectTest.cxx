@@ -20,59 +20,66 @@
 #include <iostream>
 
 class mammal
- {
- public:
-   virtual int GetType()=0;
-   virtual bool operator== (mammal &);
-   mammal() = default;
-   virtual ~mammal() = default;
- };
+{
+public:
+  virtual int
+  GetType() = 0;
+  virtual bool
+  operator==(mammal &);
+  mammal() = default;
+  virtual ~mammal() = default;
+};
 
 class human : public mammal
 {
-  public:
-    int GetType() override
-    {
-      return 32;
-    }
+public:
+  int
+  GetType() override
+  {
+    return 32;
+  }
 };
 
 class naked_mole_rat : public mammal
 {
-  public:
-    int GetType() override
-    {
-      return 2;
-    }
+public:
+  int
+  GetType() override
+  {
+    return 2;
+  }
 };
 
-bool mammal::operator== (mammal &o)
+bool
+mammal::operator==(mammal & o)
 {
-  if ( this->GetType() != o.GetType() )
-    {
+  if (this->GetType() != o.GetType())
+  {
     itk::IncompatibleOperandsError e(__FILE__, __LINE__);
     e.SetLocation("bool mammal::operator==(mammal&, mammal&)");
     e.SetDescription("Cannot compare mammals of unequal type");
     throw e;
-    }
+  }
   return true;
 }
 
-int lookup(const int& i)
+int
+lookup(const int & i)
 {
-  static int table[5] = { 23,42,42,32,12 };
-  if ( ! ( 0 <= i && i < 5 ) )
-    {
+  static int table[5] = { 23, 42, 42, 32, 12 };
+  if (!(0 <= i && i < 5))
+  {
     itk::RangeError e(__FILE__, __LINE__);
     e.SetLocation("int lookup(const int& )");
     e.SetDescription("Attempted to access out-of-bounds array element");
     throw e;
-    }
+  }
   return table[i];
 }
 
 
-int itkExceptionObjectTest(int, char* [] )
+int
+itkExceptionObjectTest(int, char *[])
 {
   // SOME BASIC TESTS OF THE itk::ExceptionObject 's
 
@@ -85,10 +92,10 @@ int itkExceptionObjectTest(int, char* [] )
   itk::RangeError G;
   G.SetLocation("itkExceptionObjectTest(int, char**)");
   G.SetDescription("G");
-  std::cout << "F==G? " << (F==G) << std::endl;
+  std::cout << "F==G? " << (F == G) << std::endl;
   E = F = G;
   std::cout << F << std::endl;
-  std::cout << "F==G? " << (F==G) << std::endl;
+  std::cout << "F==G? " << (F == G) << std::endl;
 
   auto * Ep = new itk::RangeError;
   Ep->SetLocation("itkExceptionObjectTest(int, char**)");
@@ -100,42 +107,43 @@ int itkExceptionObjectTest(int, char* [] )
 
   // ** BE SURE TO CATCH BY REFERENCE TO AVOID SLICING **
   bool raised = false;
-  try {
+  try
+  {
     lookup(4);  // OK
     lookup(12); // ERROR
-    }
-  catch (itk::ExceptionObject &e)
-    {
+  }
+  catch (itk::ExceptionObject & e)
+  {
     std::cout << e << std::endl;
     raised = true;
-    }
-  if( !raised )
-    {
+  }
+  if (!raised)
+  {
     return EXIT_FAILURE;
-    }
+  }
 
   raised = false;
-  bool OneShouldFail=true;
+  bool OneShouldFail = true;
   try
-    {
-    human john, jane;
+  {
+    human          john, jane;
     naked_mole_rat hal;
-    OneShouldFail &= (john == john);  // OK
-    OneShouldFail &= (jane == john);  // OK
-    //NOTE:  (hal == john) throws an exception, and does not actually return false!
+    OneShouldFail &= (john == john); // OK
+    OneShouldFail &= (jane == john); // OK
+    // NOTE:  (hal == john) throws an exception, and does not actually return false!
     //       This means that the &= operator below is never executed, and
     //       the OneShouldFail variable is never actually set to false!
-    OneShouldFail &= (hal == john);   // ERROR
-    }
-  catch (itk::IncompatibleOperandsError &e)
-    {
+    OneShouldFail &= (hal == john); // ERROR
+  }
+  catch (itk::IncompatibleOperandsError & e)
+  {
     std::cout << e << std::endl;
     raised = true;
-    }
-  if( !raised || OneShouldFail==false )
-    {
+  }
+  if (!raised || OneShouldFail == false)
+  {
     return EXIT_FAILURE;
-    }
+  }
 
   /*
   // SAMPLE ERROR STUFF
@@ -161,5 +169,4 @@ int itkExceptionObjectTest(int, char* [] )
   delete Fp;
 
   return EXIT_SUCCESS;
-
 }

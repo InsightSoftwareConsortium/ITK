@@ -44,7 +44,7 @@ namespace Functor
  * cases, the join value type is promoted to a float.
  * \ingroup ITKImageCompose
  */
-template< typename TPixel1, typename TPixel2 >
+template <typename TPixel1, typename TPixel2>
 class JoinFunctor
 {
 public:
@@ -55,30 +55,33 @@ public:
   using Self = JoinFunctor;
 
   /** Typedefs for the output join type. */
-  using ValueType1 = typename PixelTraits< TPixel1 >::ValueType;
-  using ValueType2 = typename PixelTraits< TPixel2 >::ValueType;
-  using JoinValueType = typename JoinTraits< ValueType1, ValueType2 >::ValueType;
+  using ValueType1 = typename PixelTraits<TPixel1>::ValueType;
+  using ValueType2 = typename PixelTraits<TPixel2>::ValueType;
+  using JoinValueType = typename JoinTraits<ValueType1, ValueType2>::ValueType;
 
   /** Capture the dimensions of the image. */
-  static constexpr unsigned int Dimension1 = PixelTraits< TPixel1 >::Dimension;
-  static constexpr unsigned int Dimension2 = PixelTraits< TPixel2 >::Dimension;
+  static constexpr unsigned int Dimension1 = PixelTraits<TPixel1>::Dimension;
+  static constexpr unsigned int Dimension2 = PixelTraits<TPixel2>::Dimension;
   static constexpr unsigned int JoinDimension = Dimension1 + Dimension2;
 
   /** A vector of the join dimension. */
-  using JoinType = Vector< JoinValueType, Self::JoinDimension >;
+  using JoinType = Vector<JoinValueType, Self::JoinDimension>;
 
-  bool operator!=(const JoinFunctor &) const
+  bool
+  operator!=(const JoinFunctor &) const
   {
     return false;
   }
 
-  bool operator==(const JoinFunctor & other) const
+  bool
+  operator==(const JoinFunctor & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 
   /** operator().  This is the "call" method of the functor. */
-  inline JoinType operator()(const TPixel1 & A, const TPixel2 & B) const
+  inline JoinType
+  operator()(const TPixel1 & A, const TPixel2 & B) const
   {
     JoinType out;
 
@@ -98,9 +101,11 @@ private:
    * work around for the lack of partial specialization (VC++) and lack of
    * templated member functions that are templated over an integer
    * value. */
-  struct CopierDispatchBase {};
-  template< unsigned int VDimension >
-  struct CopierDispatch:public CopierDispatchBase {};
+  struct CopierDispatchBase
+  {};
+  template <unsigned int VDimension>
+  struct CopierDispatch : public CopierDispatchBase
+  {};
 
   /** Copier function to copy the first pixel to the output pixel
    * casting as necessary. The contents of the source pixel are
@@ -112,65 +117,67 @@ private:
    * overloaded on the last parameter type or pixel type) to avoid
    * "already declared/defined" errors for the case where TPixel1
    * and TPixel2 are the same types. */
-  void FirstCopier(JoinType & out, unsigned int idx, const TPixel1 & A) const
+  void
+  FirstCopier(JoinType & out, unsigned int idx, const TPixel1 & A) const
   {
-    FirstCopier(CopierDispatch< Dimension1 >(), out, idx, A);
+    FirstCopier(CopierDispatch<Dimension1>(), out, idx, A);
   }
 
   /** Copier function specific to a vector type first pixel. */
-  void FirstCopier(CopierDispatchBase,
-                   JoinType & out, unsigned int idx, const TPixel1 & A) const
+  void
+  FirstCopier(CopierDispatchBase, JoinType & out, unsigned int idx, const TPixel1 & A) const
   {
-    for ( unsigned int i = 0; i < Dimension1; i++, idx++ )
-      {
-      out[idx] = static_cast< JoinValueType >( A[i] );
-      }
+    for (unsigned int i = 0; i < Dimension1; i++, idx++)
+    {
+      out[idx] = static_cast<JoinValueType>(A[i]);
+    }
   }
 
   /** Copier function specific to a scalar first pixel. */
-  void FirstCopier(CopierDispatch< 1 >,
-                   JoinType & out, unsigned int idx, const TPixel1 & A) const
-  { out[idx] = static_cast< JoinValueType >( A ); }
+  void FirstCopier(CopierDispatch<1>, JoinType & out, unsigned int idx, const TPixel1 & A) const
+  {
+    out[idx] = static_cast<JoinValueType>(A);
+  }
 
   /** Copier function to copy the second pixel to the output pixel casting
    * as necessary. The contents of the source pixel are placed in the
    * output pixel at position idx.  This method simply delegates to
    * one of two overloaded implementations based on the dimension
    * (or number of components) of the second pixel. */
-  void SecondCopier(JoinType & out, unsigned int idx, const TPixel2 & B) const
+  void
+  SecondCopier(JoinType & out, unsigned int idx, const TPixel2 & B) const
   {
-    SecondCopier(CopierDispatch< Dimension2 >(), out, idx, B);
+    SecondCopier(CopierDispatch<Dimension2>(), out, idx, B);
   }
 
   /** Copier function specific to a vector type second pixel. */
-  void SecondCopier(CopierDispatchBase,
-                    JoinType & out, unsigned int idx, const TPixel2 & B) const
+  void
+  SecondCopier(CopierDispatchBase, JoinType & out, unsigned int idx, const TPixel2 & B) const
   {
-    for ( unsigned int i = 0; i < Dimension2; i++, idx++ )
-      {
-      out[idx] = static_cast< JoinValueType >( B[i] );
-      }
+    for (unsigned int i = 0; i < Dimension2; i++, idx++)
+    {
+      out[idx] = static_cast<JoinValueType>(B[i]);
+    }
   }
 
   /** Copier function specific to a scalar second pixel. */
-  void SecondCopier(CopierDispatch< 1 >,
-                    JoinType & out, unsigned int idx, const TPixel2 & B) const
+  void SecondCopier(CopierDispatch<1>, JoinType & out, unsigned int idx, const TPixel2 & B) const
   {
-    out[idx] = static_cast< JoinValueType >( B );
+    out[idx] = static_cast<JoinValueType>(B);
   }
-};  //class JoinFunction
+}; // class JoinFunction
 
-template< typename TImage1, typename TImage2 >
-struct MakeJoin {
-  using FunctorType = JoinFunctor< typename TImage1::PixelType,
-                       typename TImage2::PixelType >;
-  using ImageType = Image< typename FunctorType::JoinType,
-                  TImage1 ::ImageDimension >;
+template <typename TImage1, typename TImage2>
+struct MakeJoin
+{
+  using FunctorType = JoinFunctor<typename TImage1::PixelType, typename TImage2::PixelType>;
+  using ImageType = Image<typename FunctorType::JoinType, TImage1 ::ImageDimension>;
 };
-} //namespace functor
+} // namespace Functor
 
 /** \class JoinImageFilter
- * \brief Join two images, resulting in an image where each pixel has the components of the first image followed by the components of the second image.
+ * \brief Join two images, resulting in an image where each pixel has the components of the first image followed by the
+ * components of the second image.
  *
  * JoinImageFilter combines two images by appending the components of one
  * image to the components of another image. The output image type is always
@@ -197,13 +204,11 @@ struct MakeJoin {
  * \sphinxexample{Filtering/ImageCompose/JoinImages,Join Images}
  * \endsphinx
  */
-template< typename TInputImage1, typename TInputImage2 >
-class JoinImageFilter:
-  public BinaryGeneratorImageFilter< TInputImage1,
-                                   TInputImage2,
-                                   typename
-                                   Functor::MakeJoin< TInputImage1,
-                                                      TInputImage2 >::ImageType >
+template <typename TInputImage1, typename TInputImage2>
+class JoinImageFilter
+  : public BinaryGeneratorImageFilter<TInputImage1,
+                                      TInputImage2,
+                                      typename Functor::MakeJoin<TInputImage1, TInputImage2>::ImageType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(JoinImageFilter);
@@ -215,17 +220,15 @@ public:
   using Self = JoinImageFilter;
 
   /** Output type alias. */
-  using FunctorType = typename Functor::MakeJoin< TInputImage1,
-                                                  TInputImage2 >::FunctorType;
-  using OutputImageType = typename Functor::MakeJoin< TInputImage1,
-                                                      TInputImage2 >::ImageType;
+  using FunctorType = typename Functor::MakeJoin<TInputImage1, TInputImage2>::FunctorType;
+  using OutputImageType = typename Functor::MakeJoin<TInputImage1, TInputImage2>::ImageType;
   using OutputImagePixelType = typename FunctorType::JoinType;
 
   /** Standard class type aliases. */
-  using Superclass = BinaryGeneratorImageFilter< TInputImage1, TInputImage2, OutputImageType >;
+  using Superclass = BinaryGeneratorImageFilter<TInputImage1, TInputImage2, OutputImageType>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -235,18 +238,16 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( Input1HasPixelTraitsCheck,
-                   ( Concept::HasPixelTraits< typename TInputImage1::PixelType > ) );
-  itkConceptMacro( Input2HasPixelTraitsCheck,
-                   ( Concept::HasPixelTraits< typename TInputImage2::PixelType > ) );
-  itkConceptMacro( Input1Input2HasJoinTraitsCheck,
-                   ( Concept::HasJoinTraits< typename PixelTraits< typename TInputImage1::PixelType >::ValueType,
-                                             typename PixelTraits< typename TInputImage2::PixelType >::ValueType > ) );
+  itkConceptMacro(Input1HasPixelTraitsCheck, (Concept::HasPixelTraits<typename TInputImage1::PixelType>));
+  itkConceptMacro(Input2HasPixelTraitsCheck, (Concept::HasPixelTraits<typename TInputImage2::PixelType>));
+  itkConceptMacro(Input1Input2HasJoinTraitsCheck,
+                  (Concept::HasJoinTraits<typename PixelTraits<typename TInputImage1::PixelType>::ValueType,
+                                          typename PixelTraits<typename TInputImage2::PixelType>::ValueType>));
   // End concept checking
 #endif
 
 protected:
-  JoinImageFilter() {Superclass::SetFunctor(FunctorType());}
+  JoinImageFilter() { Superclass::SetFunctor(FunctorType()); }
   ~JoinImageFilter() override = default;
 };
 } // end namespace itk

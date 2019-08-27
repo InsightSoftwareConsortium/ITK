@@ -63,164 +63,166 @@
 // Software Guide : EndCodeSnippet
 
 
-int main(int argc, char * argv[] )
+int
+main(int argc, char * argv[])
 {
 
-  if( argc < 3 )
-    {
-    std::cerr << "Usage: IsoSurfaceExtraction  inputImageFile   objectValue " << std::endl;
+  if (argc < 3)
+  {
+    std::cerr << "Usage: IsoSurfaceExtraction  inputImageFile   objectValue "
+              << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
-// Software Guide : BeginLatex
-//
-// We define then the pixel type and dimension of the image from which we are
-// going to extract the surface.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // We define then the pixel type and dimension of the image from which we are
+  // going to extract the surface.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   constexpr unsigned int Dimension = 3;
   using PixelType = unsigned char;
 
-  using ImageType = itk::Image< PixelType, Dimension >;
-// Software Guide : EndCodeSnippet
+  using ImageType = itk::Image<PixelType, Dimension>;
+  // Software Guide : EndCodeSnippet
 
 
-// Software Guide : BeginLatex
-//
-// With the same image type we instantiate the type of an ImageFileReader and
-// construct one with the purpose of reading in the input image.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // With the same image type we instantiate the type of an ImageFileReader and
+  // construct one with the purpose of reading in the input image.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  // Software Guide : BeginCodeSnippet
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
-// Software Guide : EndCodeSnippet
+  reader->SetFileName(argv[1]);
+  // Software Guide : EndCodeSnippet
 
   try
-    {
+  {
     reader->Update();
-    }
-  catch( itk::ExceptionObject & exp )
-    {
+  }
+  catch (itk::ExceptionObject & exp)
+  {
     std::cerr << "Exception thrown while reading the input file " << std::endl;
     std::cerr << exp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
-// Software Guide : BeginLatex
-//
-// The type of the \doxygen{Mesh} is instantiated by specifying the type to be
-// associated with the pixel value of the Mesh nodes. This particular pixel
-// type happens to be irrelevant for the purpose of extracting the surface.
-//
-// \index{BinaryMask3DMeshSource!Instantiation}
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // The type of the \doxygen{Mesh} is instantiated by specifying the type to be
+  // associated with the pixel value of the Mesh nodes. This particular pixel
+  // type happens to be irrelevant for the purpose of extracting the surface.
+  //
+  // \index{BinaryMask3DMeshSource!Instantiation}
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   using MeshType = itk::Mesh<double>;
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
 
-// Software Guide : BeginLatex
-//
-// Having declared the Image and Mesh types we can now instantiate the
-// surface extraction filter, and construct one by invoking its \code{New()}
-// method.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // Having declared the Image and Mesh types we can now instantiate the
+  // surface extraction filter, and construct one by invoking its \code{New()}
+  // method.
+  //
+  // Software Guide : EndLatex
 
 
-// Software Guide : BeginCodeSnippet
-  using MeshSourceType = itk::BinaryMask3DMeshSource< ImageType, MeshType >;
+  // Software Guide : BeginCodeSnippet
+  using MeshSourceType = itk::BinaryMask3DMeshSource<ImageType, MeshType>;
 
   MeshSourceType::Pointer meshSource = MeshSourceType::New();
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
 
-// Software Guide : BeginLatex
-//
-// In this example, the pixel value associated with the object
-// to be extracted is read from the command line arguments and it is passed to
-// the filter by using the \code{SetObjectValue()} method. Note that this is
-// different from the traditional isovalue used in the Marching Cubes
-// algorithm.  In the case of the \code{BinaryMask3DMeshSource} filter, the
-// object values define the membership of pixels to the object from which the
-// surface will be extracted. In other words, the surface will be surrounding
-// all pixels with value equal to the ObjectValue parameter.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // In this example, the pixel value associated with the object
+  // to be extracted is read from the command line arguments and it is passed to
+  // the filter by using the \code{SetObjectValue()} method. Note that this is
+  // different from the traditional isovalue used in the Marching Cubes
+  // algorithm.  In the case of the \code{BinaryMask3DMeshSource} filter, the
+  // object values define the membership of pixels to the object from which the
+  // surface will be extracted. In other words, the surface will be surrounding
+  // all pixels with value equal to the ObjectValue parameter.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
-  const auto objectValue = static_cast<PixelType>( std::stod( argv[2] ) );
+  // Software Guide : BeginCodeSnippet
+  const auto objectValue = static_cast<PixelType>(std::stod(argv[2]));
 
-  meshSource->SetObjectValue( objectValue );
-// Software Guide : EndCodeSnippet
-
-
-// Software Guide : BeginLatex
-//
-// The input to the surface extraction filter is taken from the output of
-// the image reader.
-//
-// \index{BinaryMask3DMeshSource!SetInput}
-//
-// Software Guide : EndLatex
+  meshSource->SetObjectValue(objectValue);
+  // Software Guide : EndCodeSnippet
 
 
-// Software Guide : BeginCodeSnippet
-  meshSource->SetInput( reader->GetOutput() );
-// Software Guide : EndCodeSnippet
+  // Software Guide : BeginLatex
+  //
+  // The input to the surface extraction filter is taken from the output of
+  // the image reader.
+  //
+  // \index{BinaryMask3DMeshSource!SetInput}
+  //
+  // Software Guide : EndLatex
 
 
-// Software Guide : BeginLatex
-//
-// Finally we trigger the execution of the pipeline by invoking the
-// \code{Update()} method. Given that the pipeline may throw an exception this
-// call must be place inside a \code{try/catch} block.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginCodeSnippet
+  meshSource->SetInput(reader->GetOutput());
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginCodeSnippet
+
+  // Software Guide : BeginLatex
+  //
+  // Finally we trigger the execution of the pipeline by invoking the
+  // \code{Update()} method. Given that the pipeline may throw an exception this
+  // call must be place inside a \code{try/catch} block.
+  //
+  // Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
   try
-    {
+  {
     meshSource->Update();
-    }
-  catch( itk::ExceptionObject & exp )
-    {
+  }
+  catch (itk::ExceptionObject & exp)
+  {
     std::cerr << "Exception thrown during Update() " << std::endl;
     std::cerr << exp << std::endl;
     return EXIT_FAILURE;
-    }
-// Software Guide : EndCodeSnippet
+  }
+  // Software Guide : EndCodeSnippet
 
 
-// Software Guide : BeginLatex
-//
-// We print out the number of nodes and cells in order to inspect the
-// output mesh.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // We print out the number of nodes and cells in order to inspect the
+  // output mesh.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   std::cout << "Nodes = " << meshSource->GetNumberOfNodes() << std::endl;
   std::cout << "Cells = " << meshSource->GetNumberOfCells() << std::endl;
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
 
-// Software Guide : BeginLatex
-//
-// This resulting Mesh could be used as input for a deformable model
-// segmentation algorithm, or it could be converted to a format suitable for
-// visualization in an interactive application.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // This resulting Mesh could be used as input for a deformable model
+  // segmentation algorithm, or it could be converted to a format suitable for
+  // visualization in an interactive application.
+  //
+  // Software Guide : EndLatex
 
 
   return EXIT_SUCCESS;

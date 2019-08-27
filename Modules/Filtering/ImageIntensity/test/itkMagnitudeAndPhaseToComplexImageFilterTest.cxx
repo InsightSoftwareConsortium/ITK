@@ -35,13 +35,15 @@
 #include "itkMagnitudeAndPhaseToComplexImageFilter.h"
 #include "itkTestingMacros.h"
 
-int itkMagnitudeAndPhaseToComplexImageFilterTest( int argc, char * argv[] )
+int
+itkMagnitudeAndPhaseToComplexImageFilterTest(int argc, char * argv[])
 {
-  if( argc != 4 )
-    {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputMagnitude inputPhase outputComplex" << std::endl;
+  if (argc != 4)
+  {
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputMagnitude inputPhase outputComplex"
+              << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   const char * magnitudeImageFileName = argv[1];
   const char * phaseImageFileName = argv[2];
   const char * complexImageFileName = argv[3];
@@ -49,43 +51,43 @@ int itkMagnitudeAndPhaseToComplexImageFilterTest( int argc, char * argv[] )
   constexpr unsigned int Dimension = 2;
 
   using InputPixelType = float;
-  using OutputPixelType = std::complex< InputPixelType >;
+  using OutputPixelType = std::complex<InputPixelType>;
 
-  using InputImageType = itk::Image< InputPixelType, Dimension >;
-  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
   ReaderType::Pointer magnitudeReader = ReaderType::New();
   ReaderType::Pointer phaseReader = ReaderType::New();
-  magnitudeReader->SetFileName( magnitudeImageFileName );
-  phaseReader->SetFileName( phaseImageFileName );
+  magnitudeReader->SetFileName(magnitudeImageFileName);
+  phaseReader->SetFileName(phaseImageFileName);
 
-  using MagnitudeAndPhaseToComplexFilterType = itk::MagnitudeAndPhaseToComplexImageFilter <
-    InputImageType, InputImageType, OutputImageType >;
+  using MagnitudeAndPhaseToComplexFilterType =
+    itk::MagnitudeAndPhaseToComplexImageFilter<InputImageType, InputImageType, OutputImageType>;
 
   MagnitudeAndPhaseToComplexFilterType::Pointer magnitudeAndPhaseToComplexFilter =
     MagnitudeAndPhaseToComplexFilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( magnitudeAndPhaseToComplexFilter,
-    MagnitudeAndPhaseToComplexImageFilter, BinaryGeneratorImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    magnitudeAndPhaseToComplexFilter, MagnitudeAndPhaseToComplexImageFilter, BinaryGeneratorImageFilter);
 
-  magnitudeAndPhaseToComplexFilter->SetInput1( magnitudeReader->GetOutput() );
-  magnitudeAndPhaseToComplexFilter->SetInput2( phaseReader->GetOutput() );
+  magnitudeAndPhaseToComplexFilter->SetInput1(magnitudeReader->GetOutput());
+  magnitudeAndPhaseToComplexFilter->SetInput2(phaseReader->GetOutput());
 
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName( complexImageFileName );
-  writer->SetInput( magnitudeAndPhaseToComplexFilter->GetOutput() );
+  writer->SetFileName(complexImageFileName);
+  writer->SetInput(magnitudeAndPhaseToComplexFilter->GetOutput());
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   // Check that the default template parameters work
-  using DefaultParametersFilterType = itk::MagnitudeAndPhaseToComplexImageFilter< InputImageType >;
+  using DefaultParametersFilterType = itk::MagnitudeAndPhaseToComplexImageFilter<InputImageType>;
   DefaultParametersFilterType::Pointer temp = DefaultParametersFilterType::New();
-  if( temp.IsNull() )
-    {
+  if (temp.IsNull())
+  {
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

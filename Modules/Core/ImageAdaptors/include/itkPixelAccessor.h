@@ -50,7 +50,7 @@ namespace itk
  * \ingroup ImageAdaptors
  * \ingroup ITKImageAdaptors
  */
-template< typename TInternalType, typename TExternalType >
+template <typename TInternalType, typename TExternalType>
 class PixelAccessor
 {
 public:
@@ -62,11 +62,17 @@ public:
    * representation of data. */
   using InternalType = TInternalType;
 
-  inline void Set(TInternalType & output, const TExternalType & input) const
-  { output = (TInternalType)input; }
+  inline void
+  Set(TInternalType & output, const TExternalType & input) const
+  {
+    output = (TInternalType)input;
+  }
 
-  inline TExternalType Get(const TInternalType & input) const
-  { return (TExternalType)input; }
+  inline TExternalType
+  Get(const TInternalType & input) const
+  {
+    return (TExternalType)input;
+  }
 };
 } // end namespace itk
 

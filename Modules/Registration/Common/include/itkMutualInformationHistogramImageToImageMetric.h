@@ -34,25 +34,24 @@ namespace itk
  * \ingroup RegistrationMetrics
  * \ingroup ITKRegistrationCommon
  */
-template< typename TFixedImage, typename TMovingImage >
-class ITK_TEMPLATE_EXPORT MutualInformationHistogramImageToImageMetric:
-  public HistogramImageToImageMetric< TFixedImage, TMovingImage >
+template <typename TFixedImage, typename TMovingImage>
+class ITK_TEMPLATE_EXPORT MutualInformationHistogramImageToImageMetric
+  : public HistogramImageToImageMetric<TFixedImage, TMovingImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MutualInformationHistogramImageToImageMetric);
 
   /** Standard class type aliases. */
   using Self = MutualInformationHistogramImageToImageMetric;
-  using Superclass = HistogramImageToImageMetric< TFixedImage, TMovingImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = HistogramImageToImageMetric<TFixedImage, TMovingImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MutualInformationHistogramImageToImageMetric,
-               HistogramImageToImageMetric);
+  itkTypeMacro(MutualInformationHistogramImageToImageMetric, HistogramImageToImageMetric);
 
   /** Types transferred from the base class */
   using RealType = typename Superclass::RealType;
@@ -77,16 +76,17 @@ public:
 protected:
   /** Constructor is protected to ensure that \c New() function is used to
       create instances. */
-  MutualInformationHistogramImageToImageMetric()= default;
+  MutualInformationHistogramImageToImageMetric() = default;
   ~MutualInformationHistogramImageToImageMetric() override = default;
 
   /** Evaluates the mutual information from the histogram. */
-  MeasureType EvaluateMeasure(HistogramType & histogram) const override;
+  MeasureType
+  EvaluateMeasure(HistogramType & histogram) const override;
 };
 } // End namespace itk.
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMutualInformationHistogramImageToImageMetric.hxx"
+#  include "itkMutualInformationHistogramImageToImageMetric.hxx"
 #endif
 
 #endif // itkMutualInformationHistogramImageToImageMetric_h

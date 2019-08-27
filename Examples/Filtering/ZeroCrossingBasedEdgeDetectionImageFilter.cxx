@@ -51,14 +51,16 @@
 #include "itkRescaleIntensityImageFilter.h"
 
 
-int main( int argc, char * argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 5 )
-    {
+  if (argc < 5)
+  {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile   outputImageFile variance maxerror" << std::endl;
+    std::cerr << argv[0] << "  inputImageFile   outputImageFile variance maxerror"
+              << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Software Guide : BeginCodeSnippet
   using InputPixelType = double;
@@ -67,26 +69,27 @@ int main( int argc, char * argv[] )
 
   constexpr unsigned int Dimension = 2;
 
-  using InputImageType = itk::Image< InputPixelType,  Dimension >;
-  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
-  using CharImageType = itk::Image< CharPixelType, Dimension >;
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
+  using CharImageType = itk::Image<CharPixelType, Dimension>;
   // Software Guide : EndCodeSnippet
 
-  using ReaderType = itk::ImageFileReader< InputImageType  >;
-  using WriterType = itk::ImageFileWriter< CharImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using WriterType = itk::ImageFileWriter<CharImageType>;
 
   using RescaleFilterType =
-      itk::RescaleIntensityImageFilter< OutputImageType, CharImageType>;
+    itk::RescaleIntensityImageFilter<OutputImageType, CharImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
 
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
 
-  reader->SetFileName( argv[1] );
-  writer->SetFileName( argv[2] );
+  reader->SetFileName(argv[1]);
+  writer->SetFileName(argv[2]);
 
-  using FilterType = itk::ZeroCrossingBasedEdgeDetectionImageFilter< InputImageType, OutputImageType>;
+  using FilterType =
+    itk::ZeroCrossingBasedEdgeDetectionImageFilter<InputImageType, OutputImageType>;
   FilterType::Pointer filter = FilterType::New();
 
 
@@ -106,8 +109,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  filter->SetVariance( std::stod( argv[3] ) );
-  filter->SetMaximumError( std::stod( argv[4] ) );
+  filter->SetVariance(std::stod(argv[3]));
+  filter->SetMaximumError(std::stod(argv[4]));
   // Software Guide : EndCodeSnippet
 
 
@@ -123,19 +126,19 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  filter->SetInput( reader->GetOutput() );
-  rescaler->SetInput( filter->GetOutput() );
-  writer->SetInput( rescaler->GetOutput() );
+  filter->SetInput(reader->GetOutput());
+  rescaler->SetInput(filter->GetOutput());
+  writer->SetInput(rescaler->GetOutput());
   // Software Guide : EndCodeSnippet
 
-  rescaler->SetOutputMinimum(   0 );
-  rescaler->SetOutputMaximum( 255 );
+  rescaler->SetOutputMinimum(0);
+  rescaler->SetOutputMaximum(255);
 
   try
   {
-  writer->Update();
+    writer->Update();
   }
-  catch( itk::ExceptionObject & excp )
+  catch (itk::ExceptionObject & excp)
   {
     std::cerr << excp << std::endl;
   }

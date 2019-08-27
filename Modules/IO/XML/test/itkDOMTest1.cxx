@@ -27,63 +27,64 @@ This program tests operations on a DOM node.
 #include <iostream>
 #include "itkMacro.h"
 
-int itkDOMTest1( int, char*[] )
+int
+itkDOMTest1(int, char *[])
 {
   try
-    {
+  {
     // create a DOM object
     itk::DOMNode::Pointer dom = itk::DOMNode::New();
-    dom->SetName( "SimpleTestObject" );
+    dom->SetName("SimpleTestObject");
 
     // add some attributes
-    dom->SetAttribute( "weight", "10 kg" );
-    dom->SetAttribute( "owner", "ITK" );
+    dom->SetAttribute("weight", "10 kg");
+    dom->SetAttribute("owner", "ITK");
 
     // add some children
     // 1st child
     itk::DOMNode::Pointer child1 = itk::DOMNode::New();
-    child1->SetName( "city" );
-    child1->SetAttribute( "name", "New York" );
-    dom->AddChild( child1 );
+    child1->SetName("city");
+    child1->SetAttribute("name", "New York");
+    dom->AddChild(child1);
     // 2nd child
     itk::DOMNode::Pointer child2 = itk::DOMNode::New();
-    child2->SetName( "city" );
-    child2->SetAttribute( "id", "dc" );
-    child2->SetAttribute( "name", "District of Columbia" );
-    dom->AddChild( child2 );
+    child2->SetName("city");
+    child2->SetAttribute("id", "dc");
+    child2->SetAttribute("name", "District of Columbia");
+    dom->AddChild(child2);
     // 3rd child
     itk::DOMNode::Pointer child3 = itk::DOMNode::New();
-    child3->SetName( "country" );
-    child3->SetAttribute( "id", "usa" );
-    child3->AddTextChild( "United States of America" );
-    dom->AddChildAtEnd( child3 );
+    child3->SetName("country");
+    child3->SetAttribute("id", "usa");
+    child3->AddTextChild("United States of America");
+    dom->AddChildAtEnd(child3);
 
     // display the created DOM object
     std::cout << "DOM object created: " << std::endl;
     std::cout << *dom << std::endl;
 
     // delete/modify some attributes from the children
-    child2->RemoveAttribute( "name" );
-    child3->SetAttribute( "id", "United States of America" );
+    child2->RemoveAttribute("name");
+    child3->SetAttribute("id", "United States of America");
 
     // delete some children
     child3->RemoveChild();
-    dom->RemoveChild( 1 );
+    dom->RemoveChild(1);
 
     // display the modified DOM object
     std::cout << "DOM object modified: " << std::endl;
     std::cout << *dom << std::endl;
-    }
-  catch ( const itk::ExceptionObject& eo )
-    {
-    eo.Print( std::cerr );
+  }
+  catch (const itk::ExceptionObject & eo)
+  {
+    eo.Print(std::cerr);
     return EXIT_FAILURE;
-    }
-  catch ( ... )
-    {
+  }
+  catch (...)
+  {
     std::cerr << "Unknown exception caught!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

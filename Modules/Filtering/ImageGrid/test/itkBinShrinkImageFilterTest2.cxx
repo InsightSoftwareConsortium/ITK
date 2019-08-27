@@ -26,43 +26,45 @@ namespace
 // This function checks that all values in an image are equivalent to
 // the physical point of the image.
 template <typename TImageType>
-bool CheckValueIsPhysicalPoint( const TImageType *img )
+bool
+CheckValueIsPhysicalPoint(const TImageType * img)
 {
 
   using IteratorType = itk::ImageRegionConstIterator<TImageType>;
-  IteratorType it(img, img->GetBufferedRegion() );
+  IteratorType it(img, img->GetBufferedRegion());
 
   bool match = true;
 
   typename TImageType::PointType pt;
-  img->TransformIndexToPhysicalPoint( it.GetIndex(), pt );
-  while( !it.IsAtEnd() )
+  img->TransformIndexToPhysicalPoint(it.GetIndex(), pt);
+  while (!it.IsAtEnd())
+  {
+    for (unsigned int i = 0; i < TImageType::ImageDimension; ++i)
     {
-    for ( unsigned int i = 0; i < TImageType::ImageDimension; ++i )
+      img->TransformIndexToPhysicalPoint(it.GetIndex(), pt);
+      if (!itk::Math::FloatAlmostEqual(pt[i], it.Get()[i]))
       {
-      img->TransformIndexToPhysicalPoint( it.GetIndex(), pt );
-      if ( !itk::Math::FloatAlmostEqual(pt[i], it.Get()[i]) )
-        {
         typename TImageType::PointType::VectorType diff;
-        for( unsigned int j = 0; j <  TImageType::ImageDimension; ++j )
-          {
+        for (unsigned int j = 0; j < TImageType::ImageDimension; ++j)
+        {
           diff[j] = pt[j] - it.Get()[j];
-          }
-
-        std::cout << "Index: " << it.GetIndex() << " Point: " << pt << " Value: " << it.Get() << " Difference:" <<
-          diff << std::endl;
-        match = false;
         }
+
+        std::cout << "Index: " << it.GetIndex() << " Point: " << pt << " Value: " << it.Get() << " Difference:" << diff
+                  << std::endl;
+        match = false;
       }
+    }
 
     ++it;
-    }
+  }
   return match;
 }
 
-}
+} // namespace
 
-int itkBinShrinkImageFilterTest2( int , char *[] )
+int
+itkBinShrinkImageFilterTest2(int, char *[])
 {
 
   constexpr unsigned int ImageDimension = 2;
@@ -73,20 +75,20 @@ int itkBinShrinkImageFilterTest2( int , char *[] )
   using SourceType = itk::PhysicalPointImageSource<ImageType>;
   SourceType::Pointer source = SourceType::New();
 
-  SourceType::SizeValueType size[] = {512,509};
-  source->SetSize( size );
+  SourceType::SizeValueType size[] = { 512, 509 };
+  source->SetSize(size);
 
-  float origin[] = {1.1f, 2.22f};
-  source->SetOrigin( origin );
+  float origin[] = { 1.1f, 2.22f };
+  source->SetOrigin(origin);
 
-  unsigned int factors[] = {1,1};
+  unsigned int factors[] = { 1, 1 };
   bool         pass = true;
 
-  for( unsigned int xf = 1; xf < 5; ++xf )
-    {
+  for (unsigned int xf = 1; xf < 5; ++xf)
+  {
     factors[0] = xf;
-    for( unsigned int yf = 1; yf < 5; ++yf )
-      {
+    for (unsigned int yf = 1; yf < 5; ++yf)
+    {
       factors[1] = yf;
 
       std::cout << "Testing with shrink factors:" << xf << " " << yf << std::endl;
@@ -94,26 +96,25 @@ int itkBinShrinkImageFilterTest2( int , char *[] )
       using FilterType = itk::BinShrinkImageFilter<ImageType, ImageType>;
       FilterType::Pointer shrink = FilterType::New();
 
-      shrink->SetInput(source->GetOutput() );
+      shrink->SetInput(source->GetOutput());
 
       std::cout << "Testing with shrink factors:" << xf << " " << yf << std::endl;
-      shrink->SetShrinkFactors( factors );
+      shrink->SetShrinkFactors(factors);
       shrink->UpdateLargestPossibleRegion();
-      if ( !CheckValueIsPhysicalPoint( shrink->GetOutput() ) )
-        {
+      if (!CheckValueIsPhysicalPoint(shrink->GetOutput()))
+      {
         pass = false;
         std::cout << "== Failed with shrink factors " << factors[0] << " " << factors[1] << " == " << std::endl;
-        }
       }
     }
+  }
 
-  if ( pass )
-    {
+  if (pass)
+  {
     return EXIT_SUCCESS;
-    }
+  }
   else
-    {
+  {
     return EXIT_FAILURE;
-    }
-
+  }
 }

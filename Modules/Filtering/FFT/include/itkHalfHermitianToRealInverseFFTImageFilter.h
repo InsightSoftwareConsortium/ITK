@@ -50,9 +50,10 @@ namespace itk
  * \sa ForwardFFTImageFilter, HalfHermitianToRealInverseFFTImageFilter
  * \ingroup ITKFFT
  */
-template< typename TInputImage, typename TOutputImage=Image< typename TInputImage::PixelType::value_type, TInputImage::ImageDimension> >
-class ITK_TEMPLATE_EXPORT HalfHermitianToRealInverseFFTImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage,
+          typename TOutputImage = Image<typename TInputImage::PixelType::value_type, TInputImage::ImageDimension>>
+class ITK_TEMPLATE_EXPORT HalfHermitianToRealInverseFFTImageFilter
+  : public ImageToImageFilter<TInputImage, TOutputImage>
 
 {
 public:
@@ -65,17 +66,18 @@ public:
   using OutputPixelType = typename OutputImageType::PixelType;
 
   using Self = HalfHermitianToRealInverseFFTImageFilter;
-  using Superclass = ImageToImageFilter< InputImageType, OutputImageType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<InputImageType, OutputImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
 
   /** Customized object creation methods that support configuration-based
-  * selection of FFT implementation.
-  *
-  * Default implementation is VnlFFT. */
-  static Pointer New();
+   * selection of FFT implementation.
+   *
+   * Default implementation is VnlFFT. */
+  static Pointer
+  New();
 
   /** Was the original truncated dimension size odd? */
   itkSetGetDecoratedInputMacro(ActualXDimensionIsOdd, bool);
@@ -85,7 +87,8 @@ public:
    * size. Defaults to 2 as many implementations work only for sizes that are
    * power of 2.
    */
-  virtual SizeValueType GetSizeGreatestPrimeFactor() const;
+  virtual SizeValueType
+  GetSizeGreatestPrimeFactor() const;
 
 protected:
   HalfHermitianToRealInverseFFTImageFilter();
@@ -93,19 +96,22 @@ protected:
 
   /** The output may be a different size from the input if complex conjugate
    * symmetry is implicit. */
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
   /** This class requires the entire input. */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** Sets the output requested region to the largest possible output
    * region. */
-  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * itkNotUsed(output)) override;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkHalfHermitianToRealInverseFFTImageFilter.hxx"
+#  include "itkHalfHermitianToRealInverseFFTImageFilter.hxx"
 #endif
 
 #endif

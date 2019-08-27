@@ -25,7 +25,8 @@
 namespace itk
 {
 
-template <typename TPixelType, unsigned int VImageDimension > class VectorImage;
+template <typename TPixelType, unsigned int VImageDimension>
+class VectorImage;
 
 
 /** \class ImageAlgorithm
@@ -41,68 +42,76 @@ template <typename TPixelType, unsigned int VImageDimension > class VectorImage;
 struct ImageAlgorithm
 {
 
-    using TrueType = std::true_type;
-    using FalseType = std::false_type;
+  using TrueType = std::true_type;
+  using FalseType = std::false_type;
 
-/**
- * \brief This generic function copies a region from one image to
- * another. It may perform optimizations on the copy for efficiency.
- *
- * This method performs the equivalent to the following:
-   \code
-       itk::ImageRegionConstIterator<TInputImage> it( inImage, inRegion );
-       itk::ImageRegionIterator<TOutputImage> ot( outImage, outRegion );
+  /**
+   * \brief This generic function copies a region from one image to
+   * another. It may perform optimizations on the copy for efficiency.
+   *
+   * This method performs the equivalent to the following:
+     \code
+         itk::ImageRegionConstIterator<TInputImage> it( inImage, inRegion );
+         itk::ImageRegionIterator<TOutputImage> ot( outImage, outRegion );
 
-       while( !it.IsAtEnd() )
-         {
-         ot.Set( static_cast< typename TInputImage::PixelType >( it.Get() ) );
-         ++ot;
-         ++it;
-         }
-   \endcode
- *
- * \note: It is important not to explicitly pass the template
- * arguments to this method as it may not result in an optimized
- * method being called.
- */
-  template<typename InputImageType, typename OutputImageType>
-  static void Copy( const InputImageType *inImage, OutputImageType *outImage,
-                    const typename InputImageType::RegionType &inRegion,
-                    const typename OutputImageType::RegionType &outRegion )
+         while( !it.IsAtEnd() )
+           {
+           ot.Set( static_cast< typename TInputImage::PixelType >( it.Get() ) );
+           ++ot;
+           ++it;
+           }
+     \endcode
+   *
+   * \note: It is important not to explicitly pass the template
+   * arguments to this method as it may not result in an optimized
+   * method being called.
+   */
+  template <typename InputImageType, typename OutputImageType>
+  static void
+  Copy(const InputImageType *                       inImage,
+       OutputImageType *                            outImage,
+       const typename InputImageType::RegionType &  inRegion,
+       const typename OutputImageType::RegionType & outRegion)
   {
-    ImageAlgorithm::DispatchedCopy( inImage, outImage, inRegion, outRegion );
+    ImageAlgorithm::DispatchedCopy(inImage, outImage, inRegion, outRegion);
   }
 
-/// \cond HIDE_SPECIALIZATION_DOCUMENTATION
-  template<typename TPixel1, typename TPixel2, unsigned int VImageDimension>
-  static void Copy( const Image<TPixel1, VImageDimension> * inImage,
-                               Image<TPixel2, VImageDimension> * outImage,
-                               const typename Image<TPixel1, VImageDimension>::RegionType &inRegion,
-                               const typename Image<TPixel2, VImageDimension>::RegionType &outRegion )
+  /// \cond HIDE_SPECIALIZATION_DOCUMENTATION
+  template <typename TPixel1, typename TPixel2, unsigned int VImageDimension>
+  static void
+  Copy(const Image<TPixel1, VImageDimension> *                      inImage,
+       Image<TPixel2, VImageDimension> *                            outImage,
+       const typename Image<TPixel1, VImageDimension>::RegionType & inRegion,
+       const typename Image<TPixel2, VImageDimension>::RegionType & outRegion)
   {
     using _ImageType1 = Image<TPixel1, VImageDimension>;
     using _ImageType2 = Image<TPixel2, VImageDimension>;
-    ImageAlgorithm::DispatchedCopy( inImage, outImage, inRegion, outRegion,
-                                    std::is_convertible<typename _ImageType1::PixelType,
-                                    typename _ImageType2::PixelType>()
-                                   );
+    ImageAlgorithm::DispatchedCopy(
+      inImage,
+      outImage,
+      inRegion,
+      outRegion,
+      std::is_convertible<typename _ImageType1::PixelType, typename _ImageType2::PixelType>());
   }
 
-  template<typename TPixel1, typename TPixel2, unsigned int VImageDimension>
-  static void Copy( const VectorImage<TPixel1, VImageDimension> * inImage,
-                               VectorImage<TPixel2, VImageDimension> * outImage,
-                               const typename VectorImage<TPixel1, VImageDimension>::RegionType &inRegion,
-                               const typename VectorImage<TPixel2, VImageDimension>::RegionType &outRegion )
+  template <typename TPixel1, typename TPixel2, unsigned int VImageDimension>
+  static void
+  Copy(const VectorImage<TPixel1, VImageDimension> *                      inImage,
+       VectorImage<TPixel2, VImageDimension> *                            outImage,
+       const typename VectorImage<TPixel1, VImageDimension>::RegionType & inRegion,
+       const typename VectorImage<TPixel2, VImageDimension>::RegionType & outRegion)
   {
     using _ImageType1 = VectorImage<TPixel1, VImageDimension>;
     using _ImageType2 = VectorImage<TPixel2, VImageDimension>;
-    ImageAlgorithm::DispatchedCopy( inImage, outImage, inRegion, outRegion,
-                                    std::is_convertible<typename _ImageType1::PixelType,
-                                    typename _ImageType2::PixelType>()
-                                   );
+    ImageAlgorithm::DispatchedCopy(
+      inImage,
+      outImage,
+      inRegion,
+      outRegion,
+      std::is_convertible<typename _ImageType1::PixelType, typename _ImageType2::PixelType>());
   }
 
-/// \endcond
+  /// \endcond
 
   /**
    * \brief Sets the output region to the smallest
@@ -110,35 +119,40 @@ struct ImageAlgorithm
    * the physical space covered by the input
    * region of the input image
    */
-  template<typename InputImageType, typename OutputImageType>
+  template <typename InputImageType, typename OutputImageType>
   static typename OutputImageType::RegionType
   EnlargeRegionOverBox(const typename InputImageType::RegionType & inputRegion,
-                       const InputImageType* inputImage,
-                       const OutputImageType* outputImage);
+                       const InputImageType *                      inputImage,
+                       const OutputImageType *                     outputImage);
 
-  template<typename InputImageType, typename OutputImageType, typename TransformType>
+  template <typename InputImageType, typename OutputImageType, typename TransformType>
   static typename OutputImageType::RegionType
   EnlargeRegionOverBox(const typename InputImageType::RegionType & inputRegion,
-                       const InputImageType* inputImage,
-                       const OutputImageType* outputImage,
-                       const TransformType* transform);
+                       const InputImageType *                      inputImage,
+                       const OutputImageType *                     outputImage,
+                       const TransformType *                       transform);
 
 private:
-
   /** This is an optimized method which requires the input and
    * output images to be the same, and the pixel being POD (Plain Old
    * Data).
    */
-  template<typename InputImageType, typename OutputImageType>
-  static void DispatchedCopy( const InputImageType *inImage, OutputImageType *outImage,
-                              const typename InputImageType::RegionType &inRegion,
-                              const typename OutputImageType::RegionType &outRegion, TrueType isSpecialized );
+  template <typename InputImageType, typename OutputImageType>
+  static void
+  DispatchedCopy(const InputImageType *                       inImage,
+                 OutputImageType *                            outImage,
+                 const typename InputImageType::RegionType &  inRegion,
+                 const typename OutputImageType::RegionType & outRegion,
+                 TrueType                                     isSpecialized);
 
   /** this is the reference image iterator implementation */
-  template<typename InputImageType, typename OutputImageType>
-  static void DispatchedCopy( const InputImageType *inImage, OutputImageType *outImage,
-                              const typename InputImageType::RegionType &inRegion,
-                              const typename OutputImageType::RegionType &outRegion, FalseType isSpecialized = FalseType() );
+  template <typename InputImageType, typename OutputImageType>
+  static void
+  DispatchedCopy(const InputImageType *                       inImage,
+                 OutputImageType *                            outImage,
+                 const typename InputImageType::RegionType &  inRegion,
+                 const typename OutputImageType::RegionType & outRegion,
+                 FalseType                                    isSpecialized = FalseType());
 
 
   /** A utility class to get the number of internal pixels to make up
@@ -147,59 +161,65 @@ private:
   template <typename TImageType>
   struct PixelSize
   {
-    static size_t Get( const TImageType *)
-      {
+    static size_t
+    Get(const TImageType *)
+    {
       return 1;
-      }
+    }
   };
 
-/// \cond HIDE_SPECIALIZATION_DOCUMENTATION
+  /// \cond HIDE_SPECIALIZATION_DOCUMENTATION
   template <typename TPixelType, unsigned int VImageDimension>
-  struct PixelSize< VectorImage<TPixelType, VImageDimension> >
+  struct PixelSize<VectorImage<TPixelType, VImageDimension>>
   {
     using ImageType = VectorImage<TPixelType, VImageDimension>;
-    static size_t Get( const  ImageType * i )
-      {
+    static size_t
+    Get(const ImageType * i)
+    {
       const size_t vectorLength = ImageType::AccessorFunctorType::GetVectorLength(i);
       return vectorLength;
-      }
+    }
   };
-/// \endcond
+  /// \endcond
 
   /** Unary functor just for static_cast operator */
-  template<typename TInputType, typename TOutputType>
+  template <typename TInputType, typename TOutputType>
   struct StaticCast
+  {
+    TOutputType
+    operator()(const TInputType i)
     {
-    TOutputType operator() (const TInputType i) { return static_cast<TOutputType>(i); }
-    };
+      return static_cast<TOutputType>(i);
+    }
+  };
 
 
   /** Function to dispatch to std::copy or std::transform. */
-  template<typename TType>
-  static TType* CopyHelper(const TType *first, const TType *last, TType *result)
-    {
+  template <typename TType>
+  static TType *
+  CopyHelper(const TType * first, const TType * last, TType * result)
+  {
     // Note: On some MS compilers the following may generate a
     // warning. Please include itkMacro.h before <algorithm> or
     // another stl header to avoid.
     return std::copy(first, last, result);
-    }
+  }
 
-/// \cond HIDE_SPECIALIZATION_DOCUMENTATION
-  template<typename TInputType, typename TOutputType>
-  static TOutputType* CopyHelper(const TInputType *first, const TInputType *last, TOutputType *result)
-    {
-    return std::transform(first, last, result, StaticCast<TInputType,TOutputType>());
-    }
-/// \endcond
-
-
+  /// \cond HIDE_SPECIALIZATION_DOCUMENTATION
+  template <typename TInputType, typename TOutputType>
+  static TOutputType *
+  CopyHelper(const TInputType * first, const TInputType * last, TOutputType * result)
+  {
+    return std::transform(first, last, result, StaticCast<TInputType, TOutputType>());
+  }
+  /// \endcond
 };
 } // end namespace itk
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageAlgorithm.hxx"
+#  include "itkImageAlgorithm.hxx"
 #endif
 
 
-#endif //itkImageAlgorithm_h
+#endif // itkImageAlgorithm_h

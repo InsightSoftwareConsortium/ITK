@@ -22,23 +22,23 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType >
+template <typename TInputImage, typename TFeatureImage, typename TOutputPixelType>
 void
-ShapePriorSegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
-::PrintSelf(std::ostream & os, Indent indent) const
+ShapePriorSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>::PrintSelf(std::ostream & os,
+                                                                                                   Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "ShapeFunction: "        << m_ShapeFunction.GetPointer() << std::endl;
-  os << indent << "Optimizer: "            << m_Optimizer.GetPointer() << std::endl;
-  os << indent << "CostFunction: "         << m_CostFunction.GetPointer() << std::endl;
-  os << indent << "InitialParameters: "    << m_InitialParameters << std::endl;
-  os << indent << "CurrentParameters: "    << m_CurrentParameters << std::endl;
+  os << indent << "ShapeFunction: " << m_ShapeFunction.GetPointer() << std::endl;
+  os << indent << "Optimizer: " << m_Optimizer.GetPointer() << std::endl;
+  os << indent << "CostFunction: " << m_CostFunction.GetPointer() << std::endl;
+  os << indent << "InitialParameters: " << m_InitialParameters << std::endl;
+  os << indent << "CurrentParameters: " << m_CurrentParameters << std::endl;
   os << indent << "ShapePriorSegmentationFunction: " << m_ShapePriorSegmentationFunction << std::endl;
 }
 
-template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType >
-ShapePriorSegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
-::ShapePriorSegmentationLevelSetImageFilter()
+template <typename TInputImage, typename TFeatureImage, typename TOutputPixelType>
+ShapePriorSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>::
+  ShapePriorSegmentationLevelSetImageFilter()
 {
   m_ShapeFunction = nullptr;
   m_Optimizer = nullptr;
@@ -46,38 +46,37 @@ ShapePriorSegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPi
   m_ShapePriorSegmentationFunction = nullptr;
 }
 
-template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType >
+template <typename TInputImage, typename TFeatureImage, typename TOutputPixelType>
 void
-ShapePriorSegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
-::SetShapePriorSegmentationFunction(ShapePriorSegmentationFunctionType *s)
+ShapePriorSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>::
+  SetShapePriorSegmentationFunction(ShapePriorSegmentationFunctionType * s)
 {
-  if ( s != m_ShapePriorSegmentationFunction )
-    {
+  if (s != m_ShapePriorSegmentationFunction)
+  {
     m_ShapePriorSegmentationFunction = s;
     this->SetSegmentationFunction(s);
     this->Modified();
-    }
+  }
 }
 
-template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType >
+template <typename TInputImage, typename TFeatureImage, typename TOutputPixelType>
 void
-ShapePriorSegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
-::SetShapeFunction(ShapeFunctionType *s)
+ShapePriorSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>::SetShapeFunction(
+  ShapeFunctionType * s)
 {
-  if ( s != m_ShapeFunction )
-    {
+  if (s != m_ShapeFunction)
+  {
     m_ShapeFunction = s;
     this->Modified();
-    }
+  }
 }
 
-template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType >
+template <typename TInputImage, typename TFeatureImage, typename TOutputPixelType>
 void
-ShapePriorSegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
-::InitializeIteration()
+ShapePriorSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>::InitializeIteration()
 {
-  if ( this->GetShapePriorScaling() != 0.0 )
-    {
+  if (this->GetShapePriorScaling() != 0.0)
+  {
     /**
      * Estimate the shape and pose parameters.
      */
@@ -90,7 +89,7 @@ ShapePriorSegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPi
     m_CostFunction->SetShapeFunction(m_ShapeFunction);
     m_Optimizer->SetCostFunction(m_CostFunction);
     m_CostFunction->SetActiveRegion(nodes);
-    m_CostFunction->SetFeatureImage( this->GetFeatureImage() );
+    m_CostFunction->SetFeatureImage(this->GetFeatureImage());
     m_CostFunction->Initialize();
 
     // Setup and start the optimization
@@ -99,20 +98,19 @@ ShapePriorSegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPi
 
     m_CurrentParameters = m_Optimizer->GetCurrentPosition();
     m_ShapeFunction->SetParameters(m_CurrentParameters);
-    }
+  }
 
   Superclass::InitializeIteration();
 }
 
-template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType >
+template <typename TInputImage, typename TFeatureImage, typename TOutputPixelType>
 void
-ShapePriorSegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
-::GenerateData()
+ShapePriorSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>::GenerateData()
 {
-  if ( !m_ShapeFunction )
-    {
+  if (!m_ShapeFunction)
+  {
     itkExceptionMacro(<< "ShapeFunction is not present");
-    }
+  }
 
   m_ShapeFunction->Initialize();
 
@@ -120,22 +118,21 @@ ShapePriorSegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPi
   m_ShapePriorSegmentationFunction->SetShapeFunction(m_ShapeFunction);
 
   // Check if cost function and optimizers are present
-  if ( !m_CostFunction )
-    {
+  if (!m_CostFunction)
+  {
     itkExceptionMacro(<< "CostFunction is not present");
-    }
+  }
 
-  if ( !m_Optimizer )
-    {
+  if (!m_Optimizer)
+  {
     itkExceptionMacro(<< "Optimizer is not present");
-    }
+  }
 
-  if ( m_InitialParameters.Size() != m_ShapeFunction->GetNumberOfParameters() )
-    {
-    itkExceptionMacro(
-      << "InitialParameters size does not match "
-      << "the number of parameters required by ShapeFunction");
-    }
+  if (m_InitialParameters.Size() != m_ShapeFunction->GetNumberOfParameters())
+  {
+    itkExceptionMacro(<< "InitialParameters size does not match "
+                      << "the number of parameters required by ShapeFunction");
+  }
 
   m_CurrentParameters = m_InitialParameters;
 
@@ -146,33 +143,32 @@ ShapePriorSegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPi
 /**
  * Populate a NodeContainer with nodes at each layer of the sparse field.
  */
-template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType >
+template <typename TInputImage, typename TFeatureImage, typename TOutputPixelType>
 void
-ShapePriorSegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
-::ExtractActiveRegion(NodeContainerType *ptr)
+ShapePriorSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>::ExtractActiveRegion(
+  NodeContainerType * ptr)
 {
   // clear the container
   ptr->Initialize();
 
-  const typename Superclass::FiniteDifferenceFunctionType::Pointer df =
-    this->GetDifferenceFunction();
+  const typename Superclass::FiniteDifferenceFunctionType::Pointer df = this->GetDifferenceFunction();
 
   typename Superclass::LayerType::ConstIterator layerIt;
-  NeighborhoodIterator< OutputImageType > outputIt( df->GetRadius(),
-                                                    this->GetOutput(), this->GetOutput()->GetRequestedRegion() );
+  NeighborhoodIterator<OutputImageType>         outputIt(
+    df->GetRadius(), this->GetOutput(), this->GetOutput()->GetRequestedRegion());
 
   unsigned int counter = 0;
-  for ( unsigned int k = 0; k < this->GetNumberOfLayers(); k++ )
+  for (unsigned int k = 0; k < this->GetNumberOfLayers(); k++)
+  {
+    for (layerIt = this->m_Layers[k]->Begin(); layerIt != this->m_Layers[k]->End(); ++layerIt)
     {
-    for ( layerIt = this->m_Layers[k]->Begin(); layerIt != this->m_Layers[k]->End(); ++layerIt )
-      {
       NodeType node;
       outputIt.SetLocation(layerIt->m_Value);
-      node.SetIndex( outputIt.GetIndex() );
-      node.SetValue( outputIt.GetCenterPixel() );
+      node.SetIndex(outputIt.GetIndex());
+      node.SetValue(outputIt.GetCenterPixel());
       ptr->InsertElement(counter++, node);
-      }
     }
+  }
 }
 } // end namespace itk
 

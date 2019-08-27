@@ -99,26 +99,24 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template<typename TParametersValueType=double,
-          unsigned int NDimensions = 3,
-          unsigned int VSplineOrder = 3>
-class ITK_TEMPLATE_EXPORT BSplineTransform :
-  public BSplineBaseTransform<TParametersValueType,NDimensions,VSplineOrder>
+template <typename TParametersValueType = double, unsigned int NDimensions = 3, unsigned int VSplineOrder = 3>
+class ITK_TEMPLATE_EXPORT BSplineTransform
+  : public BSplineBaseTransform<TParametersValueType, NDimensions, VSplineOrder>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BSplineTransform);
 
   /** Standard class type aliases. */
   using Self = BSplineTransform;
-  using Superclass = BSplineBaseTransform<TParametersValueType,NDimensions,VSplineOrder>;
+  using Superclass = BSplineBaseTransform<TParametersValueType, NDimensions, VSplineOrder>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
   /** New macro for creation of through the object factory. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( BSplineTransform, BSplineBaseTransform );
+  itkTypeMacro(BSplineTransform, BSplineBaseTransform);
 
   /** Dimension of the domain space. */
   static constexpr unsigned int SpaceDimension = NDimensions;
@@ -160,7 +158,8 @@ public:
   using OutputPointType = typename Superclass::OutputPointType;
 
 
-  std::string GetTransformTypeAsString() const override;
+  std::string
+  GetTransformTypeAsString() const override;
 
   /** This method sets the fixed parameters of the transform.
    * For a BSpline deformation transform, the fixed parameters are the
@@ -184,7 +183,8 @@ public:
    * itkTransformReader/Writer I/O filters.
    *
    */
-  void SetFixedParameters( const FixedParametersType & parameters ) override;
+  void
+  SetFixedParameters(const FixedParametersType & parameters) override;
 
   /** Parameters as SpaceDimension number of images. */
   using ImageType = typename Superclass::ImageType;
@@ -202,7 +202,8 @@ public:
    * Warning: use either the SetParameters() or SetCoefficientImages()
    * API. Mixing the two modes may results in unexpected results.
    */
-  void SetCoefficientImages( const CoefficientImageArray & images ) override;
+  void
+  SetCoefficientImages(const CoefficientImageArray & images) override;
 
   /** Typedefs for specifying the extent of the grid. */
   using RegionType = typename Superclass::RegionType;
@@ -231,17 +232,24 @@ public:
    * ( i * this->GetNumberOfParametersPerDimension() ) to the indices array.
    */
   using Superclass::TransformPoint;
-  void TransformPoint( const InputPointType & inputPoint, OutputPointType & outputPoint,
-    WeightsType & weights, ParameterIndexArrayType & indices, bool & inside ) const override;
+  void
+  TransformPoint(const InputPointType &    inputPoint,
+                 OutputPointType &         outputPoint,
+                 WeightsType &             weights,
+                 ParameterIndexArrayType & indices,
+                 bool &                    inside) const override;
 
   /** Compute the Jacobian in one position. */
-  void ComputeJacobianWithRespectToParameters( const InputPointType &, JacobianType & ) const override;
+  void
+  ComputeJacobianWithRespectToParameters(const InputPointType &, JacobianType &) const override;
 
   /** Return the number of parameters that completely define the Transfom. */
-  NumberOfParametersType GetNumberOfParameters() const override;
+  NumberOfParametersType
+  GetNumberOfParameters() const override;
 
   /** Return the number of parameters per dimension. */
-  NumberOfParametersType GetNumberOfParametersPerDimension() const override;
+  NumberOfParametersType
+  GetNumberOfParametersPerDimension() const override;
 
   using PhysicalDimensionsType = typename Superclass::SpacingType;
   using PixelType = typename Superclass::PixelType;
@@ -249,62 +257,79 @@ public:
   using MeshSizeType = typename Superclass::MeshSizeType;
 
   /** Function to specify the transform domain origin. */
-  virtual void SetTransformDomainOrigin( const OriginType & );
+  virtual void
+  SetTransformDomainOrigin(const OriginType &);
 
   /** Function to retrieve the transform domain origin. */
-  virtual OriginType GetTransformDomainOrigin( void ) const;
+  virtual OriginType
+  GetTransformDomainOrigin(void) const;
 
   /** Function to specify the transform domain physical dimensions. */
-  virtual void SetTransformDomainPhysicalDimensions( const PhysicalDimensionsType & );
+  virtual void
+  SetTransformDomainPhysicalDimensions(const PhysicalDimensionsType &);
 
   /** Function to retrieve the transform domain physical dimensions. */
-  virtual PhysicalDimensionsType GetTransformDomainPhysicalDimensions(void) const;
+  virtual PhysicalDimensionsType
+  GetTransformDomainPhysicalDimensions(void) const;
 
   /** Function to specify the transform domain direction. */
-  virtual void SetTransformDomainDirection( const DirectionType & );
+  virtual void
+  SetTransformDomainDirection(const DirectionType &);
 
   /** Function to retrieve the transform domain direction. */
-  virtual DirectionType GetTransformDomainDirection( void ) const;
+  virtual DirectionType
+  GetTransformDomainDirection(void) const;
 
   /** Function to specify the transform domain mesh size. */
-  virtual void SetTransformDomainMeshSize( const MeshSizeType & );
+  virtual void
+  SetTransformDomainMeshSize(const MeshSizeType &);
 
   /** Function to retrieve the transform domain mesh size. */
-  virtual MeshSizeType GetTransformDomainMeshSize( void ) const;
+  virtual MeshSizeType
+  GetTransformDomainMeshSize(void) const;
 
 protected:
   /** Print contents of an BSplineTransform. */
-  void PrintSelf( std::ostream & os, Indent indent ) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   BSplineTransform();
   ~BSplineTransform() override = default;
 
 private:
-
   /** Construct control point grid size from transform domain information in the fixed parameters. */
-  void SetCoefficientImageInformationFromFixedParameters() override;
+  void
+  SetCoefficientImageInformationFromFixedParameters() override;
 
   /** Methods have empty implementations */
-  virtual void SetFixedParametersGridSizeFromTransformDomainInformation() const override { };
-  virtual void SetFixedParametersGridOriginFromTransformDomainInformation() const override { };
-  virtual void SetFixedParametersGridSpacingFromTransformDomainInformation() const override { }
-  virtual void SetFixedParametersGridDirectionFromTransformDomainInformation() const override { };
+  virtual void
+  SetFixedParametersGridSizeFromTransformDomainInformation() const override{};
+  virtual void
+  SetFixedParametersGridOriginFromTransformDomainInformation() const override{};
+  virtual void
+  SetFixedParametersGridSpacingFromTransformDomainInformation() const override
+  {}
+  virtual void
+  SetFixedParametersGridDirectionFromTransformDomainInformation() const override{};
 
   /** Check if a continuous index is inside the valid region. */
-  bool InsideValidRegion( ContinuousIndexType & ) const override;
+  bool
+  InsideValidRegion(ContinuousIndexType &) const override;
 
-  void SetFixedParametersFromCoefficientImageInformation();
+  void
+  SetFixedParametersFromCoefficientImageInformation();
 
-  void SetFixedParametersFromTransformDomainInformation( const OriginType &meshOrigin,
-                                                         const PhysicalDimensionsType & meshPhysical,
-                                                         const DirectionType &meshDirection,
-                                                         const MeshSizeType &meshSize);
+  void
+  SetFixedParametersFromTransformDomainInformation(const OriginType &             meshOrigin,
+                                                   const PhysicalDimensionsType & meshPhysical,
+                                                   const DirectionType &          meshDirection,
+                                                   const MeshSizeType &           meshSize);
 
 }; // class BSplineTransform
-}  // namespace itk
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBSplineTransform.hxx"
+#  include "itkBSplineTransform.hxx"
 #endif
 
 #endif /* itkBSplineTransform_h */

@@ -38,24 +38,27 @@
  */
 
 constexpr unsigned int ObjectToObjectMultiMetricv4TestDimension = 2;
-using ObjectToObjectMultiMetricv4TestMultiMetricType = itk::ObjectToObjectMultiMetricv4<ObjectToObjectMultiMetricv4TestDimension,ObjectToObjectMultiMetricv4TestDimension>;
+using ObjectToObjectMultiMetricv4TestMultiMetricType =
+  itk::ObjectToObjectMultiMetricv4<ObjectToObjectMultiMetricv4TestDimension, ObjectToObjectMultiMetricv4TestDimension>;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-int itkObjectToObjectMultiMetricv4TestEvaluate( ObjectToObjectMultiMetricv4TestMultiMetricType::Pointer & multiVariateMetric, bool useDisplacementTransform )
+int
+itkObjectToObjectMultiMetricv4TestEvaluate(ObjectToObjectMultiMetricv4TestMultiMetricType::Pointer & multiVariateMetric,
+                                           bool useDisplacementTransform)
 {
   int testStatus = EXIT_SUCCESS;
   using MultiMetricType = ObjectToObjectMultiMetricv4TestMultiMetricType;
 
   // Setup weights
-  MultiMetricType::WeightsArrayType origMetricWeights( multiVariateMetric->GetNumberOfMetrics() );
-  MultiMetricType::WeightValueType weightSum = 0;
-  for( itk::SizeValueType n = 0; n < multiVariateMetric->GetNumberOfMetrics(); n++ )
-    {
-    origMetricWeights[n] = static_cast<MultiMetricType::WeightValueType>( n + 1 );
+  MultiMetricType::WeightsArrayType origMetricWeights(multiVariateMetric->GetNumberOfMetrics());
+  MultiMetricType::WeightValueType  weightSum = 0;
+  for (itk::SizeValueType n = 0; n < multiVariateMetric->GetNumberOfMetrics(); n++)
+  {
+    origMetricWeights[n] = static_cast<MultiMetricType::WeightValueType>(n + 1);
     weightSum += origMetricWeights[n];
-    }
-  multiVariateMetric->SetMetricWeights( origMetricWeights );
+  }
+  multiVariateMetric->SetMetricWeights(origMetricWeights);
 
   // Initialize. This initializes all the component metrics.
   std::cout << "Initialize" << std::endl;
@@ -63,132 +66,138 @@ int itkObjectToObjectMultiMetricv4TestEvaluate( ObjectToObjectMultiMetricv4TestM
 
   // Print out metric value and derivative.
   using MeasureType = MultiMetricType::MeasureType;
-  MeasureType measure = 0;
+  MeasureType                     measure = 0;
   MultiMetricType::DerivativeType DerivResultOfGetValueAndDerivative;
   std::cout << "GetValueAndDerivative" << std::endl;
   try
-    {
-    multiVariateMetric->GetValueAndDerivative( measure, DerivResultOfGetValueAndDerivative );
-    }
-  catch (itk::ExceptionObject& exp)
-    {
+  {
+    multiVariateMetric->GetValueAndDerivative(measure, DerivResultOfGetValueAndDerivative);
+  }
+  catch (itk::ExceptionObject & exp)
+  {
     std::cerr << "Exception caught during call to GetValueAndDerivative:" << std::endl;
     std::cerr << exp << std::endl;
     testStatus = EXIT_FAILURE;
-    }
+  }
   std::cout << "Multivariate measure: " << measure << std::endl;
-  if( ! useDisplacementTransform )
-    {
+  if (!useDisplacementTransform)
+  {
     std::cout << "  Derivative : " << DerivResultOfGetValueAndDerivative << std::endl << std::endl;
-    }
+  }
 
   // Test GetDerivative
   MultiMetricType::DerivativeType ResultOfGetDerivative;
-  multiVariateMetric->GetDerivative( ResultOfGetDerivative );
-  for( MultiMetricType::NumberOfParametersType p = 0; p < multiVariateMetric->GetNumberOfParameters(); p++ )
+  multiVariateMetric->GetDerivative(ResultOfGetDerivative);
+  for (MultiMetricType::NumberOfParametersType p = 0; p < multiVariateMetric->GetNumberOfParameters(); p++)
+  {
+    // When accumulation is done accross multiple threads, the accumulations can be done
+    // in different orders resulting in slightly different numerical results.
+    // The FloatAlmostEqual is used to address the multi-threaded accumulation differences
+    if (!itk::Math::FloatAlmostEqual(ResultOfGetDerivative[p], DerivResultOfGetValueAndDerivative[p], 8, 1e-15))
     {
-    //When accumulation is done accross multiple threads, the accumulations can be done
-    //in different orders resulting in slightly different numerical results.
-    //The FloatAlmostEqual is used to address the multi-threaded accumulation differences
-    if( !itk::Math::FloatAlmostEqual( ResultOfGetDerivative[p], DerivResultOfGetValueAndDerivative[p], 8, 1e-15 ) )
-      {
       std::cerr << "Results do not match between GetValueAndDerivative and GetDerivative." << std::endl;
       std::cout << ResultOfGetDerivative << " != " << DerivResultOfGetValueAndDerivative << std::endl;
       std::cout << "DIFF: " << ResultOfGetDerivative - DerivResultOfGetValueAndDerivative << std::endl;
       testStatus = EXIT_FAILURE;
-      }
     }
+  }
 
   // Test GetValue method
   MeasureType measure2 = 0;
   std::cout << "GetValue" << std::endl;
   try
-    {
+  {
     measure2 = multiVariateMetric->GetValue();
-    }
-  catch (itk::ExceptionObject& exp)
-    {
+  }
+  catch (itk::ExceptionObject & exp)
+  {
     std::cerr << "Exception caught during call to GetValue:" << std::endl;
     std::cerr << exp << std::endl;
     testStatus = EXIT_FAILURE;
-    }
-  if( ! itk::Math::FloatAlmostEqual( measure2, measure ) )
-    {
+  }
+  if (!itk::Math::FloatAlmostEqual(measure2, measure))
+  {
     std::cerr << "measure does not match between calls to GetValue and GetValueAndDerivative: "
               << "measure: " << measure << " measure2: " << measure2 << std::endl;
     testStatus = EXIT_FAILURE;
-    }
+  }
 
   // Evaluate individually
-  MeasureType metricValue = itk::NumericTraits<MeasureType>::ZeroValue();
-  MeasureType weightedMetricValue = itk::NumericTraits<MeasureType>::ZeroValue();
+  MeasureType                     metricValue = itk::NumericTraits<MeasureType>::ZeroValue();
+  MeasureType                     weightedMetricValue = itk::NumericTraits<MeasureType>::ZeroValue();
   MultiMetricType::DerivativeType metricDerivative;
-  MultiMetricType::DerivativeType DerivResultOfGetValueAndDerivativeTruth( multiVariateMetric->GetNumberOfParameters() );
-  DerivResultOfGetValueAndDerivativeTruth.Fill( itk::NumericTraits<MultiMetricType::DerivativeValueType>::ZeroValue() );
-  MultiMetricType::DerivativeValueType totalMagnitude = itk::NumericTraits<MultiMetricType::DerivativeValueType>::ZeroValue();
+  MultiMetricType::DerivativeType DerivResultOfGetValueAndDerivativeTruth(multiVariateMetric->GetNumberOfParameters());
+  DerivResultOfGetValueAndDerivativeTruth.Fill(itk::NumericTraits<MultiMetricType::DerivativeValueType>::ZeroValue());
+  MultiMetricType::DerivativeValueType totalMagnitude =
+    itk::NumericTraits<MultiMetricType::DerivativeValueType>::ZeroValue();
 
   for (itk::SizeValueType i = 0; i < multiVariateMetric->GetNumberOfMetrics(); i++)
-    {
+  {
     std::cout << "GetValueAndDerivative on component metrics" << std::endl;
-    multiVariateMetric->GetMetricQueue()[i]->GetValueAndDerivative( metricValue, metricDerivative );
+    multiVariateMetric->GetMetricQueue()[i]->GetValueAndDerivative(metricValue, metricDerivative);
     std::cout << " Metric " << i << " value : " << metricValue << std::endl;
-    if( ! useDisplacementTransform )
-      {
+    if (!useDisplacementTransform)
+    {
       std::cout << " Metric " << i << " derivative : " << metricDerivative << std::endl << std::endl;
-      }
-    if( ! itk::Math::FloatAlmostEqual( metricValue, multiVariateMetric->GetValueArray()[i]  ) )
-      {
+    }
+    if (!itk::Math::FloatAlmostEqual(metricValue, multiVariateMetric->GetValueArray()[i]))
+    {
       std::cerr << "Individual metric value " << metricValue
                 << " does not match that returned from multi-variate metric: " << multiVariateMetric->GetValueArray()[i]
                 << std::endl;
       testStatus = EXIT_FAILURE;
-      }
+    }
     weightedMetricValue += metricValue * origMetricWeights[i] / weightSum;
-    for( MultiMetricType::NumberOfParametersType p = 0; p < multiVariateMetric->GetNumberOfParameters(); p++ )
-      {
-      DerivResultOfGetValueAndDerivativeTruth[p] += metricDerivative[p] * ( origMetricWeights[i] / weightSum ) / metricDerivative.magnitude();
-      }
+    for (MultiMetricType::NumberOfParametersType p = 0; p < multiVariateMetric->GetNumberOfParameters(); p++)
+    {
+      DerivResultOfGetValueAndDerivativeTruth[p] +=
+        metricDerivative[p] * (origMetricWeights[i] / weightSum) / metricDerivative.magnitude();
+    }
     totalMagnitude += metricDerivative.magnitude();
-    }
+  }
   totalMagnitude /= multiVariateMetric->GetNumberOfMetrics();
-  for( MultiMetricType::NumberOfParametersType p = 0; p < multiVariateMetric->GetNumberOfParameters(); p++ )
-    {
+  for (MultiMetricType::NumberOfParametersType p = 0; p < multiVariateMetric->GetNumberOfParameters(); p++)
+  {
     DerivResultOfGetValueAndDerivativeTruth[p] *= totalMagnitude;
-    }
+  }
 
-  if( std::fabs( weightedMetricValue - multiVariateMetric->GetWeightedValue() ) > 1e-6 )
-    {
+  if (std::fabs(weightedMetricValue - multiVariateMetric->GetWeightedValue()) > 1e-6)
+  {
     std::cerr << "Computed weighted metric value " << weightedMetricValue << " does match returned value "
               << multiVariateMetric->GetWeightedValue() << std::endl;
     testStatus = EXIT_FAILURE;
-    }
+  }
 
-  for( MultiMetricType::NumberOfParametersType p = 0; p < multiVariateMetric->GetNumberOfParameters(); p++ )
+  for (MultiMetricType::NumberOfParametersType p = 0; p < multiVariateMetric->GetNumberOfParameters(); p++)
+  {
+    auto tolerance = static_cast<MultiMetricType::DerivativeValueType>(1e-6);
+    if (std::fabs(DerivResultOfGetValueAndDerivativeTruth[p] - DerivResultOfGetValueAndDerivative[p]) > tolerance)
     {
-    auto tolerance = static_cast<MultiMetricType::DerivativeValueType> (1e-6);
-    if( std::fabs(DerivResultOfGetValueAndDerivativeTruth[p] - DerivResultOfGetValueAndDerivative[p]) > tolerance )
-      {
       std::cerr << "Error: DerivResultOfGetValueAndDerivative does not match expected result." << std::endl;
-      if( useDisplacementTransform )
-        {
-         std::cerr << "  DerivResultOfGetValueAndDerivative[" << p << "]: " << DerivResultOfGetValueAndDerivative[p] << std::endl
-                   << "  DerivResultOfGetValueAndDerivativeTruth[" << p << "]: " << DerivResultOfGetValueAndDerivativeTruth[p] << std::endl;
-        }
-      else
-        {
-        std::cerr << "  DerivResultOfGetValueAndDerivative: " << DerivResultOfGetValueAndDerivative << std::endl
-                  << "  DerivResultOfGetValueAndDerivativeTruth: " << DerivResultOfGetValueAndDerivativeTruth << std::endl;
-        }
-      testStatus = EXIT_FAILURE;
+      if (useDisplacementTransform)
+      {
+        std::cerr << "  DerivResultOfGetValueAndDerivative[" << p << "]: " << DerivResultOfGetValueAndDerivative[p]
+                  << std::endl
+                  << "  DerivResultOfGetValueAndDerivativeTruth[" << p
+                  << "]: " << DerivResultOfGetValueAndDerivativeTruth[p] << std::endl;
       }
+      else
+      {
+        std::cerr << "  DerivResultOfGetValueAndDerivative: " << DerivResultOfGetValueAndDerivative << std::endl
+                  << "  DerivResultOfGetValueAndDerivativeTruth: " << DerivResultOfGetValueAndDerivativeTruth
+                  << std::endl;
+      }
+      testStatus = EXIT_FAILURE;
     }
+  }
 
   return testStatus;
 }
 
 ////////////////////////////////////////////////////////////
 
-int itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform )
+int
+itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform)
 {
   // Create two simple images
   const unsigned int Dimension = ObjectToObjectMultiMetricv4TestDimension;
@@ -196,30 +205,30 @@ int itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform )
   using CoordinateRepresentationType = double;
 
   // Allocate Images
-  using FixedImageType = itk::Image<PixelType,Dimension>;
-  using MovingImageType = itk::Image<PixelType,Dimension>;
+  using FixedImageType = itk::Image<PixelType, Dimension>;
+  using MovingImageType = itk::Image<PixelType, Dimension>;
 
-   // Declare Gaussian Sources
-  using FixedImageSourceType = itk::GaussianImageSource< FixedImageType  >;
+  // Declare Gaussian Sources
+  using FixedImageSourceType = itk::GaussianImageSource<FixedImageType>;
 
   // Note: the following declarations are classical arrays
-  FixedImageType::SizeValueType     fixedImageSize[]     = {  100,  100 };
-  FixedImageType::SpacingValueType  fixedImageSpacing[]  = { 1.0f, 1.0f };
-  FixedImageType::PointValueType    fixedImageOrigin[]   = { 0.0f, 0.0f };
-  FixedImageSourceType::Pointer     fixedImageSource     = FixedImageSourceType::New();
+  FixedImageType::SizeValueType    fixedImageSize[] = { 100, 100 };
+  FixedImageType::SpacingValueType fixedImageSpacing[] = { 1.0f, 1.0f };
+  FixedImageType::PointValueType   fixedImageOrigin[] = { 0.0f, 0.0f };
+  FixedImageSourceType::Pointer    fixedImageSource = FixedImageSourceType::New();
 
-  fixedImageSource->SetSize(    fixedImageSize    );
-  fixedImageSource->SetOrigin(  fixedImageOrigin  );
-  fixedImageSource->SetSpacing( fixedImageSpacing );
-  fixedImageSource->SetNormalized( false );
-  fixedImageSource->SetScale( 1.0f );
-  fixedImageSource->Update();   // Force the filter to run
-  FixedImageType::Pointer  fixedImage  = fixedImageSource->GetOutput();
+  fixedImageSource->SetSize(fixedImageSize);
+  fixedImageSource->SetOrigin(fixedImageOrigin);
+  fixedImageSource->SetSpacing(fixedImageSpacing);
+  fixedImageSource->SetNormalized(false);
+  fixedImageSource->SetScale(1.0f);
+  fixedImageSource->Update(); // Force the filter to run
+  FixedImageType::Pointer fixedImage = fixedImageSource->GetOutput();
 
   using ShiftScaleFilterType = itk::ShiftScaleImageFilter<FixedImageType, MovingImageType>;
   ShiftScaleFilterType::Pointer shiftFilter = ShiftScaleFilterType::New();
-  shiftFilter->SetInput( fixedImage );
-  shiftFilter->SetShift( 2.0 );
+  shiftFilter->SetInput(fixedImage);
+  shiftFilter->SetShift(2.0);
   shiftFilter->Update();
   MovingImageType::Pointer movingImage = shiftFilter->GetOutput();
 
@@ -228,24 +237,26 @@ int itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform )
   MultiMetricType::Pointer multiVariateMetric = MultiMetricType::New();
 
   // Instantiate and Add metrics to the queue
-  using JointHistorgramMetrictype = itk::JointHistogramMutualInformationImageToImageMetricv4<FixedImageType,MovingImageType>;
-  using MeanSquaresMetricType = itk::MeanSquaresImageToImageMetricv4<FixedImageType,MovingImageType>;
-  using MattesMutualInformationMetricType = itk::MattesMutualInformationImageToImageMetricv4 <FixedImageType,MovingImageType>;
-  using ANTSNCMetricType = itk::ANTSNeighborhoodCorrelationImageToImageMetricv4<FixedImageType,MovingImageType>;
+  using JointHistorgramMetrictype =
+    itk::JointHistogramMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType>;
+  using MeanSquaresMetricType = itk::MeanSquaresImageToImageMetricv4<FixedImageType, MovingImageType>;
+  using MattesMutualInformationMetricType =
+    itk::MattesMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType>;
+  using ANTSNCMetricType = itk::ANTSNeighborhoodCorrelationImageToImageMetricv4<FixedImageType, MovingImageType>;
 
-  MeanSquaresMetricType::Pointer              m1 = MeanSquaresMetricType::New();
-  MattesMutualInformationMetricType::Pointer  m2 = MattesMutualInformationMetricType::New();
-  JointHistorgramMetrictype::Pointer          m3 = JointHistorgramMetrictype::New();
-  ANTSNCMetricType::Pointer                   m4 = ANTSNCMetricType::New();
+  MeanSquaresMetricType::Pointer             m1 = MeanSquaresMetricType::New();
+  MattesMutualInformationMetricType::Pointer m2 = MattesMutualInformationMetricType::New();
+  JointHistorgramMetrictype::Pointer         m3 = JointHistorgramMetrictype::New();
+  ANTSNCMetricType::Pointer                  m4 = ANTSNCMetricType::New();
 
   // Set up a transform
   using TransformType = itk::Transform<CoordinateRepresentationType, Dimension, Dimension>;
   using DisplacementTransformType = itk::DisplacementFieldTransform<double, Dimension>;
-  using TranslationTransformType = itk::TranslationTransform<CoordinateRepresentationType,Dimension>;
+  using TranslationTransformType = itk::TranslationTransform<CoordinateRepresentationType, Dimension>;
   TransformType::Pointer transform;
 
-  if( useDisplacementTransform )
-    {
+  if (useDisplacementTransform)
+  {
     using FieldType = DisplacementTransformType::DisplacementFieldType;
     using VectorType = itk::Vector<double, Dimension>;
 
@@ -253,37 +264,37 @@ int itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform )
     zero.Fill(0.0);
 
     FieldType::Pointer field = FieldType::New();
-    field->SetRegions( fixedImage->GetBufferedRegion() );
-    field->SetSpacing( fixedImage->GetSpacing() );
-    field->SetOrigin(  fixedImage->GetOrigin() );
+    field->SetRegions(fixedImage->GetBufferedRegion());
+    field->SetSpacing(fixedImage->GetSpacing());
+    field->SetOrigin(fixedImage->GetOrigin());
     field->Allocate();
     field->FillBuffer(zero);
 
     DisplacementTransformType::Pointer displacementTransform = DisplacementTransformType::New();
     displacementTransform->SetDisplacementField(field);
     transform = displacementTransform;
-    }
+  }
   else
-    {
+  {
     TranslationTransformType::Pointer translationTransform = TranslationTransformType::New();
     translationTransform->SetIdentity();
     transform = translationTransform;
-    }
+  }
 
   // Plug the images and transform into the metrics
   std::cout << "Setup metrics" << std::endl;
   m1->SetFixedImage(fixedImage);
   m1->SetMovingImage(movingImage);
-  m1->SetMovingTransform( transform );
+  m1->SetMovingTransform(transform);
   m2->SetFixedImage(fixedImage);
   m2->SetMovingImage(movingImage);
-  m2->SetMovingTransform( transform );
+  m2->SetMovingTransform(transform);
   m3->SetFixedImage(fixedImage);
   m3->SetMovingImage(movingImage);
-  m3->SetMovingTransform( transform );
+  m3->SetMovingTransform(transform);
   m4->SetFixedImage(fixedImage);
   m4->SetMovingImage(movingImage);
-  m4->SetMovingTransform( transform );
+  m4->SetMovingTransform(transform);
 
   // Add the component metrics
   std::cout << "Add component metrics" << std::endl;
@@ -292,89 +303,92 @@ int itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform )
   multiVariateMetric->AddMetric(m3);
   multiVariateMetric->AddMetric(m4);
 
-  if( multiVariateMetric->GetMetricQueue()[0] != m1 || multiVariateMetric->GetMetricQueue()[3] != m4 )
-    {
+  if (multiVariateMetric->GetMetricQueue()[0] != m1 || multiVariateMetric->GetMetricQueue()[3] != m4)
+  {
     std::cerr << "AddMetric or GetMetricQueue failed." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Expect return true because all image metrics
-  if( multiVariateMetric->SupportsArbitraryVirtualDomainSamples() == false )
-    {
+  if (multiVariateMetric->SupportsArbitraryVirtualDomainSamples() == false)
+  {
     std::cerr << "Expected SupportsArbitraryVirtualDomainSamples() to return false, but got true. " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Test Set/Get Transform mechanics
   multiVariateMetric->Initialize();
-  if( multiVariateMetric->GetMovingTransform() != transform.GetPointer() )
-    {
-    std::cerr << "Automatic transform assignment failed. transform: " << transform.GetPointer() << " GetMovingTranform: " << multiVariateMetric->GetMovingTransform() << std::endl;
+  if (multiVariateMetric->GetMovingTransform() != transform.GetPointer())
+  {
+    std::cerr << "Automatic transform assignment failed. transform: " << transform.GetPointer()
+              << " GetMovingTranform: " << multiVariateMetric->GetMovingTransform() << std::endl;
     return EXIT_FAILURE;
-    }
-  multiVariateMetric->SetMovingTransform( nullptr );
-  for( itk::SizeValueType n = 0; n < multiVariateMetric->GetNumberOfMetrics(); n++ )
+  }
+  multiVariateMetric->SetMovingTransform(nullptr);
+  for (itk::SizeValueType n = 0; n < multiVariateMetric->GetNumberOfMetrics(); n++)
+  {
+    if (multiVariateMetric->GetMovingTransform() != nullptr ||
+        multiVariateMetric->GetMetricQueue()[n]->GetMovingTransform() != nullptr)
     {
-    if( multiVariateMetric->GetMovingTransform() != nullptr || multiVariateMetric->GetMetricQueue()[n]->GetMovingTransform() != nullptr )
-      {
-      std::cerr << "Assignment of null transform failed. multiVariateMetric->GetMovingTransform(): " << multiVariateMetric->GetMovingTransform()
-                << " multiVariateMetric->GetMetricQueue()[" << n << "]->GetMovingTransform(): "
-                << multiVariateMetric->GetMetricQueue()[n]->GetMovingTransform() << std::endl;
+      std::cerr << "Assignment of null transform failed. multiVariateMetric->GetMovingTransform(): "
+                << multiVariateMetric->GetMovingTransform() << " multiVariateMetric->GetMetricQueue()[" << n
+                << "]->GetMovingTransform(): " << multiVariateMetric->GetMetricQueue()[n]->GetMovingTransform()
+                << std::endl;
       return EXIT_FAILURE;
-      }
     }
-  multiVariateMetric->SetMovingTransform( transform );
-  for( itk::SizeValueType n = 0; n < multiVariateMetric->GetNumberOfMetrics(); n++ )
+  }
+  multiVariateMetric->SetMovingTransform(transform);
+  for (itk::SizeValueType n = 0; n < multiVariateMetric->GetNumberOfMetrics(); n++)
+  {
+    if (multiVariateMetric->GetMovingTransform() != transform.GetPointer() ||
+        multiVariateMetric->GetMetricQueue()[0]->GetMovingTransform() != transform.GetPointer())
     {
-    if( multiVariateMetric->GetMovingTransform() != transform.GetPointer() ||
-        multiVariateMetric->GetMetricQueue()[0]->GetMovingTransform() != transform.GetPointer() )
-      {
       std::cerr << "Assignment of transform failed." << std::endl;
       return EXIT_FAILURE;
-      }
     }
-  if( multiVariateMetric->GetMovingTransform() != transform.GetPointer() )
-    {
+  }
+  if (multiVariateMetric->GetMovingTransform() != transform.GetPointer())
+  {
     std::cerr << "Retrieval of transform failed." << std::endl;
-    }
+  }
 
   // Test with images
   std::cout << "*** Test image metrics *** " << std::endl;
-  if( itkObjectToObjectMultiMetricv4TestEvaluate( multiVariateMetric, useDisplacementTransform ) != EXIT_SUCCESS )
-    {
+  if (itkObjectToObjectMultiMetricv4TestEvaluate(multiVariateMetric, useDisplacementTransform) != EXIT_SUCCESS)
+  {
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "*** Test with mismatched transforms *** " << std::endl;
   TranslationTransformType::Pointer transform2 = TranslationTransformType::New();
-  m4->SetMovingTransform( transform2 );
-  ITK_TRY_EXPECT_EXCEPTION( multiVariateMetric->Initialize() );
-  m4->SetMovingTransform( transform );
+  m4->SetMovingTransform(transform2);
+  ITK_TRY_EXPECT_EXCEPTION(multiVariateMetric->Initialize());
+  m4->SetMovingTransform(transform);
 
   std::cout << "*** Test with proper CompositeTransform ***" << std::endl;
-  using CompositeTransformType = itk::CompositeTransform<CoordinateRepresentationType,Dimension>;
+  using CompositeTransformType = itk::CompositeTransform<CoordinateRepresentationType, Dimension>;
   CompositeTransformType::Pointer compositeTransform = CompositeTransformType::New();
-  compositeTransform->AddTransform( transform2 );
-  compositeTransform->AddTransform( transform );
+  compositeTransform->AddTransform(transform2);
+  compositeTransform->AddTransform(transform);
   compositeTransform->SetOnlyMostRecentTransformToOptimizeOn();
-  m4->SetMovingTransform( compositeTransform );
-  if( itkObjectToObjectMultiMetricv4TestEvaluate( multiVariateMetric, useDisplacementTransform ) != EXIT_SUCCESS )
-    {
+  m4->SetMovingTransform(compositeTransform);
+  if (itkObjectToObjectMultiMetricv4TestEvaluate(multiVariateMetric, useDisplacementTransform) != EXIT_SUCCESS)
+  {
     std::cerr << "Failed with proper CompositeTransform." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "*** Test with CompositeTransform - too many active transforms ***" << std::endl;
   compositeTransform->SetAllTransformsToOptimizeOn();
-  ITK_TRY_EXPECT_EXCEPTION( multiVariateMetric->Initialize() );
+  ITK_TRY_EXPECT_EXCEPTION(multiVariateMetric->Initialize());
 
   std::cout << "*** Test with CompositeTransform - one active transform, but wrong one ***" << std::endl;
   compositeTransform->SetAllTransformsToOptimizeOff();
-  compositeTransform->SetNthTransformToOptimizeOn( 0 );
-  ITK_TRY_EXPECT_EXCEPTION( multiVariateMetric->Initialize() );
+  compositeTransform->SetNthTransformToOptimizeOn(0);
+  ITK_TRY_EXPECT_EXCEPTION(multiVariateMetric->Initialize());
 
   // Reset transform
-  m4->SetMovingTransform( transform );
+  m4->SetMovingTransform(transform);
 
   //
   // Test with adding point set metrics
@@ -386,64 +400,64 @@ int itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform )
   movingPoints->Initialize();
 
   PointSetType::PointType point;
-  for( itk::SizeValueType n = 0; n < 100; n++ )
-    {
+  for (itk::SizeValueType n = 0; n < 100; n++)
+  {
     point[0] = n * 1.0;
     point[1] = n * 2.0;
-    fixedPoints->SetPoint( n, point );
+    fixedPoints->SetPoint(n, point);
     point[0] += 0.5;
     point[1] += 0.5;
-    movingPoints->SetPoint( n, point );
-    }
+    movingPoints->SetPoint(n, point);
+  }
 
   using ExpectationPointSetMetricType = itk::ExpectationBasedPointSetToPointSetMetricv4<PointSetType>;
   using EuclideanPointSetMetricType = itk::EuclideanDistancePointSetToPointSetMetricv4<PointSetType>;
   ExpectationPointSetMetricType::Pointer expectationPointSetMetric = ExpectationPointSetMetricType::New();
   EuclideanPointSetMetricType::Pointer   euclideanPointSetMetric = EuclideanPointSetMetricType::New();
 
-  expectationPointSetMetric->SetFixedPointSet( fixedPoints );
-  expectationPointSetMetric->SetMovingPointSet( movingPoints );
-  expectationPointSetMetric->SetMovingTransform( transform );
-  euclideanPointSetMetric->SetFixedPointSet( fixedPoints );
-  euclideanPointSetMetric->SetMovingPointSet( movingPoints );
-  euclideanPointSetMetric->SetMovingTransform( transform );
+  expectationPointSetMetric->SetFixedPointSet(fixedPoints);
+  expectationPointSetMetric->SetMovingPointSet(movingPoints);
+  expectationPointSetMetric->SetMovingTransform(transform);
+  euclideanPointSetMetric->SetFixedPointSet(fixedPoints);
+  euclideanPointSetMetric->SetMovingPointSet(movingPoints);
+  euclideanPointSetMetric->SetMovingTransform(transform);
 
-  multiVariateMetric->AddMetric( expectationPointSetMetric );
-  multiVariateMetric->AddMetric( euclideanPointSetMetric );
+  multiVariateMetric->AddMetric(expectationPointSetMetric);
+  multiVariateMetric->AddMetric(euclideanPointSetMetric);
 
 
   // Expect return false because of point set metrics
-  if( multiVariateMetric->SupportsArbitraryVirtualDomainSamples() == true )
-    {
+  if (multiVariateMetric->SupportsArbitraryVirtualDomainSamples() == true)
+  {
     std::cerr << "Expected SupportsArbitraryVirtualDomainSamples() to return true, but got false. " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Test
   std::cout << "*** Test with PointSet metrics and Image metrics *** " << std::endl;
-  if( itkObjectToObjectMultiMetricv4TestEvaluate( multiVariateMetric, useDisplacementTransform ) != EXIT_SUCCESS )
-    {
+  if (itkObjectToObjectMultiMetricv4TestEvaluate(multiVariateMetric, useDisplacementTransform) != EXIT_SUCCESS)
+  {
     return EXIT_FAILURE;
-    }
+  }
 
   //
   // Exercise basic operation with a scales estimator
   //
-  using ScalesEstimatorMultiType = itk::RegistrationParameterScalesFromPhysicalShift< MultiMetricType >;
+  using ScalesEstimatorMultiType = itk::RegistrationParameterScalesFromPhysicalShift<MultiMetricType>;
   ScalesEstimatorMultiType::Pointer shiftScaleEstimator = ScalesEstimatorMultiType::New();
   shiftScaleEstimator->SetMetric(multiVariateMetric);
   // Have to assign virtual domain sampling points when using a point set with scales estimator
-  shiftScaleEstimator->SetVirtualDomainPointSet( expectationPointSetMetric->GetVirtualTransformedPointSet() );
+  shiftScaleEstimator->SetVirtualDomainPointSet(expectationPointSetMetric->GetVirtualTransformedPointSet());
 
   ScalesEstimatorMultiType::ScalesType scales;
-  shiftScaleEstimator->EstimateScales( scales );
+  shiftScaleEstimator->EstimateScales(scales);
   std::cout << "Estimated scales: " << scales << std::endl;
 
-  ScalesEstimatorMultiType::FloatType stepScale;
+  ScalesEstimatorMultiType::FloatType      stepScale;
   ScalesEstimatorMultiType::ParametersType step;
-  step.SetSize( multiVariateMetric->GetNumberOfParameters() );
-  step.Fill( itk::NumericTraits<ScalesEstimatorMultiType::ParametersType::ValueType>::OneValue() );
-  stepScale = shiftScaleEstimator->EstimateStepScale( step );
+  step.SetSize(multiVariateMetric->GetNumberOfParameters());
+  step.Fill(itk::NumericTraits<ScalesEstimatorMultiType::ParametersType::ValueType>::OneValue());
+  stepScale = shiftScaleEstimator->EstimateStepScale(step);
   std::cout << "Estimated stepScale: " << stepScale << std::endl;
 
   //
@@ -452,93 +466,94 @@ int itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform )
   //
   ScalesEstimatorMultiType::ScalesType singleScales, multiSingleScales, multiDoubleScales;
   ScalesEstimatorMultiType::FloatType  singleStep, multiSingleStep, multiDoubleStep;
-  step.SetSize( m1->GetNumberOfParameters() );
-  step.Fill( itk::NumericTraits<ScalesEstimatorMultiType::ParametersType::ValueType>::OneValue() );
+  step.SetSize(m1->GetNumberOfParameters());
+  step.Fill(itk::NumericTraits<ScalesEstimatorMultiType::ParametersType::ValueType>::OneValue());
 
   using ScalesEstimatorMeanSquaresType = itk::RegistrationParameterScalesFromPhysicalShift<MeanSquaresMetricType>;
   ScalesEstimatorMeanSquaresType::Pointer singleShiftScaleEstimator = ScalesEstimatorMeanSquaresType::New();
   singleShiftScaleEstimator->SetMetric(m1);
   m1->Initialize();
-  singleShiftScaleEstimator->EstimateScales( singleScales );
+  singleShiftScaleEstimator->EstimateScales(singleScales);
   std::cout << "Single metric estimated scales: " << singleScales << std::endl;
-  singleStep = singleShiftScaleEstimator->EstimateStepScale( step );
+  singleStep = singleShiftScaleEstimator->EstimateStepScale(step);
   std::cout << "Single metric estimated stepScale: " << singleStep << std::endl;
 
   MultiMetricType::Pointer multiSingleMetric = MultiMetricType::New();
-  multiSingleMetric->AddMetric( m1 );
+  multiSingleMetric->AddMetric(m1);
   multiSingleMetric->Initialize();
-  shiftScaleEstimator->SetMetric( multiSingleMetric );
-  shiftScaleEstimator->EstimateScales( multiSingleScales );
+  shiftScaleEstimator->SetMetric(multiSingleMetric);
+  shiftScaleEstimator->EstimateScales(multiSingleScales);
   std::cout << "multi-single estimated scales: " << multiSingleScales << std::endl;
-  multiSingleStep = shiftScaleEstimator->EstimateStepScale( step );
+  multiSingleStep = shiftScaleEstimator->EstimateStepScale(step);
   std::cout << "multi-single estimated stepScale: " << multiSingleStep << std::endl;
 
   MultiMetricType::Pointer multiDoubleMetric = MultiMetricType::New();
-  multiDoubleMetric->AddMetric( m1 );
-  multiDoubleMetric->AddMetric( m1 );
+  multiDoubleMetric->AddMetric(m1);
+  multiDoubleMetric->AddMetric(m1);
   multiDoubleMetric->Initialize();
-  shiftScaleEstimator->SetMetric( multiDoubleMetric );
-  shiftScaleEstimator->EstimateScales( multiDoubleScales );
+  shiftScaleEstimator->SetMetric(multiDoubleMetric);
+  shiftScaleEstimator->EstimateScales(multiDoubleScales);
   std::cout << "multi-double estimated scales: " << multiDoubleScales << std::endl;
-  multiDoubleStep = shiftScaleEstimator->EstimateStepScale( step );
+  multiDoubleStep = shiftScaleEstimator->EstimateStepScale(step);
   std::cout << "multi-double estimated stepScale: " << multiDoubleStep << std::endl;
 
   // Check that results are the same for all three estimations
   bool passedEstimation = true;
   auto tolerance = static_cast<ScalesEstimatorMultiType::FloatType>(1e-6);
-  if( std::fabs(singleStep - multiSingleStep) > tolerance || std::fabs(singleStep - multiDoubleStep) > tolerance )
-    {
+  if (std::fabs(singleStep - multiSingleStep) > tolerance || std::fabs(singleStep - multiDoubleStep) > tolerance)
+  {
     std::cerr << "Steps do not match as expected between estimation on same metric." << std::endl;
     passedEstimation = false;
-    }
-  if( std::fabs(singleScales[0] - multiSingleScales[0] ) > tolerance ||
-      std::fabs(singleScales[1] - multiSingleScales[1] ) > tolerance ||
-      std::fabs(singleScales[0] - multiDoubleScales[0] ) > tolerance ||
-      std::fabs(singleScales[1] - multiDoubleScales[1] ) > tolerance   )
-    {
+  }
+  if (std::fabs(singleScales[0] - multiSingleScales[0]) > tolerance ||
+      std::fabs(singleScales[1] - multiSingleScales[1]) > tolerance ||
+      std::fabs(singleScales[0] - multiDoubleScales[0]) > tolerance ||
+      std::fabs(singleScales[1] - multiDoubleScales[1]) > tolerance)
+  {
     std::cerr << "Scales do not match as expected between estimation on same metric." << std::endl;
     passedEstimation = false;
-    }
-  if( ! passedEstimation )
-    {
+  }
+  if (!passedEstimation)
+  {
     return EXIT_FAILURE;
-    }
+  }
 
-  if( ! useDisplacementTransform )
-    {
+  if (!useDisplacementTransform)
+  {
     // Exercising the Print function
     std::cout << "Print: " << std::endl;
     multiVariateMetric->Print(std::cout);
 
     // Test ClearMetricQueue
     multiVariateMetric->ClearMetricQueue();
-    if( multiVariateMetric->GetNumberOfMetrics() != 0 )
-      {
+    if (multiVariateMetric->GetNumberOfMetrics() != 0)
+    {
       std::cerr << "ClearMetricQueue() failed. Number of metrics is not zero." << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
 
   return EXIT_SUCCESS;
 }
 
-int itkObjectToObjectMultiMetricv4Test (int , char *[])
+int
+itkObjectToObjectMultiMetricv4Test(int, char *[])
 {
   std::cout << "XXX Test with TranslationTransform XXX" << std::endl << std::endl;
-  int result = itkObjectToObjectMultiMetricv4TestRun( false );
-  if( result == EXIT_FAILURE )
-    {
+  int result = itkObjectToObjectMultiMetricv4TestRun(false);
+  if (result == EXIT_FAILURE)
+  {
     std::cerr << "Failed test with translation transform. See message above." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << std::endl << std::endl << "XXX Test with DisplacementFieldTransform XXX" << std::endl << std::endl;
-  result = itkObjectToObjectMultiMetricv4TestRun( true );
-  if( result == EXIT_FAILURE )
-    {
+  result = itkObjectToObjectMultiMetricv4TestRun(true);
+  if (result == EXIT_FAILURE)
+  {
     std::cerr << "Failed test with displacement field transform. See message above." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

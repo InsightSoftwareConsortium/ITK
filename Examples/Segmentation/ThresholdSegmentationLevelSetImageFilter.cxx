@@ -103,10 +103,11 @@
 #include "itkZeroCrossingImageFilter.h"
 
 
-int main( int argc, char *argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 8 )
-    {
+  if (argc < 8)
+  {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " inputImage  outputImage";
@@ -116,7 +117,7 @@ int main( int argc, char *argv[] )
     std::cerr << " [CurvatureScaling == 1.0]";
     std::cerr << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   //  Software Guide : BeginLatex
   //
@@ -128,30 +129,30 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   using InternalPixelType = float;
   constexpr unsigned int Dimension = 2;
-  using InternalImageType = itk::Image< InternalPixelType, Dimension >;
+  using InternalImageType = itk::Image<InternalPixelType, Dimension>;
   // Software Guide : EndCodeSnippet
 
   using OutputPixelType = unsigned char;
-  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
   using ThresholdingFilterType =
-      itk::BinaryThresholdImageFilter<InternalImageType, OutputImageType>;
+    itk::BinaryThresholdImageFilter<InternalImageType, OutputImageType>;
 
   ThresholdingFilterType::Pointer thresholder = ThresholdingFilterType::New();
 
-  thresholder->SetLowerThreshold( -1000.0 );
-  thresholder->SetUpperThreshold(     0.0 );
+  thresholder->SetLowerThreshold(-1000.0);
+  thresholder->SetUpperThreshold(0.0);
 
-  thresholder->SetOutsideValue(  0  );
-  thresholder->SetInsideValue(  255 );
+  thresholder->SetOutsideValue(0);
+  thresholder->SetInsideValue(255);
 
-  using ReaderType = itk::ImageFileReader< InternalImageType >;
-  using WriterType = itk::ImageFileWriter<  OutputImageType  >;
+  using ReaderType = itk::ImageFileReader<InternalImageType>;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
 
-  reader->SetFileName( argv[1] );
-  writer->SetFileName( argv[2] );
+  reader->SetFileName(argv[1]);
+  writer->SetFileName(argv[2]);
 
 
   //  We now declare the type of the \doxygen{FastMarchingImageFilter} that
@@ -159,9 +160,9 @@ int main( int argc, char *argv[] )
   //  map.
   //
   using FastMarchingFilterType =
-      itk::FastMarchingImageFilter< InternalImageType, InternalImageType >;
+    itk::FastMarchingImageFilter<InternalImageType, InternalImageType>;
 
-  FastMarchingFilterType::Pointer  fastMarching = FastMarchingFilterType::New();
+  FastMarchingFilterType::Pointer fastMarching = FastMarchingFilterType::New();
 
   //  Software Guide : BeginLatex
   //
@@ -172,8 +173,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   using ThresholdSegmentationLevelSetImageFilterType =
-    itk::ThresholdSegmentationLevelSetImageFilter< InternalImageType,
-                                                   InternalImageType >;
+    itk::ThresholdSegmentationLevelSetImageFilter<InternalImageType, InternalImageType>;
   ThresholdSegmentationLevelSetImageFilterType::Pointer thresholdSegmentation =
     ThresholdSegmentationLevelSetImageFilterType::New();
   // Software Guide : EndCodeSnippet
@@ -197,15 +197,15 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  thresholdSegmentation->SetPropagationScaling( 1.0 );
-  if ( argc > 8 )
-    {
-    thresholdSegmentation->SetCurvatureScaling( std::stod(argv[8]) );
-    }
+  thresholdSegmentation->SetPropagationScaling(1.0);
+  if (argc > 8)
+  {
+    thresholdSegmentation->SetCurvatureScaling(std::stod(argv[8]));
+  }
   else
-    {
-    thresholdSegmentation->SetCurvatureScaling( 1.0 );
-    }
+  {
+    thresholdSegmentation->SetCurvatureScaling(1.0);
+  }
 
   //  Software Guide : EndCodeSnippet
 
@@ -215,8 +215,8 @@ int main( int argc, char *argv[] )
   //  change in the level set function. When RMS change for an iteration is
   //  below a user-specified threshold, the solution is considered to have
   //  converged.
-    thresholdSegmentation->SetMaximumRMSError( 0.02 );
-    thresholdSegmentation->SetNumberOfIterations( 1200 );
+  thresholdSegmentation->SetMaximumRMSError(0.02);
+  thresholdSegmentation->SetNumberOfIterations(1200);
 
   //    thresholdSegmentation->SetMaximumRMSError( std::stod(argv[8]) );
   //    thresholdSegmentation->SetNumberOfIterations( std::stoi(argv[9]) );
@@ -231,8 +231,8 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  thresholdSegmentation->SetUpperThreshold( ::std::stod(argv[7]) );
-  thresholdSegmentation->SetLowerThreshold( ::std::stod(argv[6]) );
+  thresholdSegmentation->SetUpperThreshold(::std::stod(argv[7]));
+  thresholdSegmentation->SetLowerThreshold(::std::stod(argv[6]));
   thresholdSegmentation->SetIsoSurfaceValue(0.0);
   // Software Guide : EndCodeSnippet
 
@@ -248,10 +248,10 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  thresholdSegmentation->SetInput( fastMarching->GetOutput() );
-  thresholdSegmentation->SetFeatureImage( reader->GetOutput() );
-  thresholder->SetInput( thresholdSegmentation->GetOutput() );
-  writer->SetInput( thresholder->GetOutput() );
+  thresholdSegmentation->SetInput(fastMarching->GetOutput());
+  thresholdSegmentation->SetFeatureImage(reader->GetOutput());
+  thresholder->SetInput(thresholdSegmentation->GetOutput());
+  writer->SetInput(thresholder->GetOutput());
   // Software Guide : EndCodeSnippet
 
   //
@@ -271,10 +271,10 @@ int main( int argc, char *argv[] )
 
   NodeContainer::Pointer seeds = NodeContainer::New();
 
-  InternalImageType::IndexType  seedPosition;
+  InternalImageType::IndexType seedPosition;
 
-  seedPosition[0] = std::stoi( argv[3] );
-  seedPosition[1] = std::stoi( argv[4] );
+  seedPosition[0] = std::stoi(argv[3]);
+  seedPosition[1] = std::stoi(argv[4]);
 
   //  Nodes are created as stack variables and initialized with a value and an
   //  \doxygen{Index} position. Note that here we assign the value of minus the
@@ -287,26 +287,26 @@ int main( int argc, char *argv[] )
   //  value as the distance from the seed points at which he want the initial
   //  contour to be.
 
-  const double initialDistance = std::stod( argv[5] );
+  const double initialDistance = std::stod(argv[5]);
 
   NodeType node;
 
-  const double seedValue = - initialDistance;
+  const double seedValue = -initialDistance;
 
-  node.SetValue( seedValue );
-  node.SetIndex( seedPosition );
+  node.SetValue(seedValue);
+  node.SetIndex(seedPosition);
 
   //
   //  The list of nodes is initialized and then every node is inserted using
   //  the \code{InsertElement()}.
   seeds->Initialize();
-  seeds->InsertElement( 0, node );
+  seeds->InsertElement(0, node);
 
 
   //  The set of seed nodes is passed now to the
   //  FastMarchingImageFilter with the method
   //  \code{SetTrialPoints()}.
-  fastMarching->SetTrialPoints(  seeds  );
+  fastMarching->SetTrialPoints(seeds);
 
   //
   //  Since the FastMarchingImageFilter is used here just as a
@@ -314,7 +314,7 @@ int main( int argc, char *argv[] )
   //  Instead the constant value $1.0$ is passed using the
   //  \code{SetSpeedConstant()} method.
 
-  fastMarching->SetSpeedConstant( 1.0 );
+  fastMarching->SetSpeedConstant(1.0);
 
 
   //  The FastMarchingImageFilter requires the user to specify the size of the
@@ -336,44 +336,47 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   try
-    {
+  {
     reader->Update();
     const InternalImageType * inputImage = reader->GetOutput();
-    fastMarching->SetOutputRegion( inputImage->GetBufferedRegion() );
-    fastMarching->SetOutputSpacing( inputImage->GetSpacing() );
-    fastMarching->SetOutputOrigin( inputImage->GetOrigin() );
-    fastMarching->SetOutputDirection( inputImage->GetDirection() );
+    fastMarching->SetOutputRegion(inputImage->GetBufferedRegion());
+    fastMarching->SetOutputSpacing(inputImage->GetSpacing());
+    fastMarching->SetOutputOrigin(inputImage->GetOrigin());
+    fastMarching->SetOutputDirection(inputImage->GetDirection());
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excep )
-    {
+  }
+  catch (itk::ExceptionObject & excep)
+  {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
   // Print out some useful information
   std::cout << std::endl;
-  std::cout << "Max. no. iterations: " << thresholdSegmentation->GetNumberOfIterations() << std::endl;
-  std::cout << "Max. RMS error: " << thresholdSegmentation->GetMaximumRMSError() << std::endl;
+  std::cout << "Max. no. iterations: " << thresholdSegmentation->GetNumberOfIterations()
+            << std::endl;
+  std::cout << "Max. RMS error: " << thresholdSegmentation->GetMaximumRMSError()
+            << std::endl;
   std::cout << std::endl;
-  std::cout << "No. elpased iterations: " << thresholdSegmentation->GetElapsedIterations() << std::endl;
+  std::cout << "No. elpased iterations: "
+            << thresholdSegmentation->GetElapsedIterations() << std::endl;
   std::cout << "RMS change: " << thresholdSegmentation->GetRMSChange() << std::endl;
 
 
   // We write out some intermediate images for debugging.  These images can
   // help tune parameters.
   //
-  using InternalWriterType = itk::ImageFileWriter< InternalImageType >;
+  using InternalWriterType = itk::ImageFileWriter<InternalImageType>;
 
   InternalWriterType::Pointer mapWriter = InternalWriterType::New();
-  mapWriter->SetInput( fastMarching->GetOutput() );
+  mapWriter->SetInput(fastMarching->GetOutput());
   mapWriter->SetFileName("fastMarchingImage.mha");
   mapWriter->Update();
 
   InternalWriterType::Pointer speedWriter = InternalWriterType::New();
-  speedWriter->SetInput( thresholdSegmentation->GetSpeedImage() );
+  speedWriter->SetInput(thresholdSegmentation->GetSpeedImage());
   speedWriter->SetFileName("speedTermImage.mha");
   speedWriter->Update();
 

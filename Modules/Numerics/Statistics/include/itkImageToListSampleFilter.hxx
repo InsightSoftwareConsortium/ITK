@@ -25,185 +25,169 @@ namespace itk
 {
 namespace Statistics
 {
-template< typename TImage, typename TMaskImage >
-ImageToListSampleFilter< TImage, TMaskImage >
-::ImageToListSampleFilter()
+template <typename TImage, typename TMaskImage>
+ImageToListSampleFilter<TImage, TMaskImage>::ImageToListSampleFilter()
 {
-  this->m_MaskValue = itk::NumericTraits< MaskPixelType >::max();
+  this->m_MaskValue = itk::NumericTraits<MaskPixelType>::max();
   this->SetNumberOfRequiredInputs(1);
   this->SetNumberOfRequiredOutputs(1);
 
-  this->ProcessObject::SetNthOutput( 0, this->MakeOutput(0) );
+  this->ProcessObject::SetNthOutput(0, this->MakeOutput(0));
 }
 
-template< typename TImage, typename TMaskImage >
+template <typename TImage, typename TMaskImage>
 void
-ImageToListSampleFilter< TImage, TMaskImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+ImageToListSampleFilter<TImage, TMaskImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "MaskValue: "
-     << static_cast< typename NumericTraits< MaskPixelType >::PrintType >(
-    this->GetMaskValue() )
+  os << indent << "MaskValue: " << static_cast<typename NumericTraits<MaskPixelType>::PrintType>(this->GetMaskValue())
      << std::endl;
 }
 
-template< typename TImage, typename TMaskImage >
+template <typename TImage, typename TMaskImage>
 void
-ImageToListSampleFilter< TImage, TMaskImage >
-::SetInput(const ImageType *image)
+ImageToListSampleFilter<TImage, TMaskImage>::SetInput(const ImageType * image)
 {
   // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput( 0,
-                                    const_cast< ImageType * >( image ) );
+  this->ProcessObject::SetNthInput(0, const_cast<ImageType *>(image));
 }
 
-template< typename TImage, typename TMaskImage >
+template <typename TImage, typename TMaskImage>
 void
-ImageToListSampleFilter< TImage, TMaskImage >
-::SetMaskImage(const MaskImageType *image)
+ImageToListSampleFilter<TImage, TMaskImage>::SetMaskImage(const MaskImageType * image)
 {
   // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput( 1,
-                                    const_cast< MaskImageType * >( image ) );
+  this->ProcessObject::SetNthInput(1, const_cast<MaskImageType *>(image));
 }
 
-template< typename TImage, typename TMaskImage >
+template <typename TImage, typename TMaskImage>
 const TImage *
-ImageToListSampleFilter< TImage, TMaskImage >
-::GetInput() const
+ImageToListSampleFilter<TImage, TMaskImage>::GetInput() const
 {
-  return itkDynamicCastInDebugMode< const ImageType * >( this->GetPrimaryInput() );
+  return itkDynamicCastInDebugMode<const ImageType *>(this->GetPrimaryInput());
 }
 
-template< typename TImage, typename TMaskImage >
+template <typename TImage, typename TMaskImage>
 const TMaskImage *
-ImageToListSampleFilter< TImage, TMaskImage >
-::GetMaskImage() const
+ImageToListSampleFilter<TImage, TMaskImage>::GetMaskImage() const
 {
-  return itkDynamicCastInDebugMode< const MaskImageType * >( this->ProcessObject::GetInput(1) );
+  return itkDynamicCastInDebugMode<const MaskImageType *>(this->ProcessObject::GetInput(1));
 }
 
-template< typename TImage, typename TMaskImage >
-typename ImageToListSampleFilter< TImage, TMaskImage >::DataObjectPointer
-ImageToListSampleFilter< TImage, TMaskImage >
-::MakeOutput( DataObjectPointerArraySizeType itkNotUsed(idx) )
+template <typename TImage, typename TMaskImage>
+typename ImageToListSampleFilter<TImage, TMaskImage>::DataObjectPointer
+ImageToListSampleFilter<TImage, TMaskImage>::MakeOutput(DataObjectPointerArraySizeType itkNotUsed(idx))
 {
   return ListSampleType::New().GetPointer();
 }
 
-template< typename TImage, typename TMaskImage >
+template <typename TImage, typename TMaskImage>
 unsigned int
-ImageToListSampleFilter< TImage, TMaskImage >
-::GetMeasurementVectorSize() const
+ImageToListSampleFilter<TImage, TMaskImage>::GetMeasurementVectorSize() const
 {
-  const ImageType *input = this->GetInput();
+  const ImageType * input = this->GetInput();
 
-  if ( input == nullptr )
-    {
+  if (input == nullptr)
+  {
     itkExceptionMacro("Input image has not been set yet");
-    }
+  }
 
   MeasurementVectorType m;
   unsigned int          measurementVectorSize;
 
-  if ( !MeasurementVectorTraits::IsResizable(m) )
-    {
+  if (!MeasurementVectorTraits::IsResizable(m))
+  {
     measurementVectorSize = NumericTraits<MeasurementVectorType>::GetLength(m);
-    }
+  }
   else
-    {
+  {
     measurementVectorSize = input->GetNumberOfComponentsPerPixel();
-    }
+  }
 
   return measurementVectorSize;
 }
 
-template< typename TImage, typename TMaskImage >
+template <typename TImage, typename TMaskImage>
 void
-ImageToListSampleFilter< TImage, TMaskImage >
-::GenerateData()
+ImageToListSampleFilter<TImage, TMaskImage>::GenerateData()
 {
-  auto * output = static_cast< ListSampleType * >( this->ProcessObject::GetOutput(0) );
+  auto * output = static_cast<ListSampleType *>(this->ProcessObject::GetOutput(0));
 
-  const ImageType *    input = this->GetInput();
-  const MaskImageType *maskImage = nullptr;
+  const ImageType *     input = this->GetInput();
+  const MaskImageType * maskImage = nullptr;
 
   // Verify whether the image and the mask have the same LargestPossibleRegion.
   // Otherwise, throw an exception.
   //
-  if ( this->GetNumberOfIndexedInputs() > 1 )
-    {
+  if (this->GetNumberOfIndexedInputs() > 1)
+  {
     maskImage = this->GetMaskImage();
 
-    if ( input->GetLargestPossibleRegion() != maskImage->GetLargestPossibleRegion() )
-      {
+    if (input->GetLargestPossibleRegion() != maskImage->GetLargestPossibleRegion())
+    {
       itkExceptionMacro("LargestPossibleRegion of the mask does not match the one for the image");
-      }
     }
+  }
 
   output->Clear();
 
-  using IteratorType = ImageRegionConstIterator< ImageType >;
-  IteratorType it( input, input->GetBufferedRegion() );
+  using IteratorType = ImageRegionConstIterator<ImageType>;
+  IteratorType it(input, input->GetBufferedRegion());
   it.GoToBegin();
 
-  if ( maskImage ) // mask specified
-    {
-    using MaskIteratorType = ImageRegionConstIterator< MaskImageType >;
-    MaskIteratorType mit( maskImage, maskImage->GetBufferedRegion() );
+  if (maskImage) // mask specified
+  {
+    using MaskIteratorType = ImageRegionConstIterator<MaskImageType>;
+    MaskIteratorType mit(maskImage, maskImage->GetBufferedRegion());
     mit.GoToBegin();
-    while ( !it.IsAtEnd() )
+    while (!it.IsAtEnd())
+    {
+      if (mit.Get() == this->m_MaskValue)
       {
-      if ( mit.Get() == this->m_MaskValue )
-        {
         MeasurementVectorType m;
-        MeasurementVectorTraits::Assign( m, it.Get() );
+        MeasurementVectorTraits::Assign(m, it.Get());
         output->PushBack(m);
-        }
+      }
       ++mit;
       ++it;
-      }
     }
+  }
   else // no mask specified
+  {
+    while (!it.IsAtEnd())
     {
-    while ( !it.IsAtEnd() )
-      {
       MeasurementVectorType m;
-      MeasurementVectorTraits::Assign( m, it.Get() );
+      MeasurementVectorTraits::Assign(m, it.Get());
       output->PushBack(m);
       ++it;
-      }
     }
+  }
 }
 
-template< typename TImage, typename TMaskImage >
+template <typename TImage, typename TMaskImage>
 void
-ImageToListSampleFilter< TImage, TMaskImage >
-::GenerateOutputInformation()
+ImageToListSampleFilter<TImage, TMaskImage>::GenerateOutputInformation()
 {
   Superclass::GenerateOutputInformation();
 
-  auto * output = static_cast< ListSampleType * >( this->ProcessObject::GetOutput(0) );
-  output->SetMeasurementVectorSize( this->GetMeasurementVectorSize() );
+  auto * output = static_cast<ListSampleType *>(this->ProcessObject::GetOutput(0));
+  output->SetMeasurementVectorSize(this->GetMeasurementVectorSize());
 }
 
-template< typename TImage, typename TMaskImage >
+template <typename TImage, typename TMaskImage>
 void
-ImageToListSampleFilter< TImage, TMaskImage >
-::GenerateInputRequestedRegion()
+ImageToListSampleFilter<TImage, TMaskImage>::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method. this should
   // copy the output requested region to the input requested region
   Superclass::GenerateInputRequestedRegion();
 }
 
-template< typename TImage, typename TMaskImage >
-const typename ImageToListSampleFilter< TImage, TMaskImage >::ListSampleType *
-ImageToListSampleFilter< TImage, TMaskImage >
-::GetOutput() const
+template <typename TImage, typename TMaskImage>
+const typename ImageToListSampleFilter<TImage, TMaskImage>::ListSampleType *
+ImageToListSampleFilter<TImage, TMaskImage>::GetOutput() const
 {
-  const auto * output = static_cast< const ListSampleType * >( this->ProcessObject::GetOutput(0) );
+  const auto * output = static_cast<const ListSampleType *>(this->ProcessObject::GetOutput(0));
 
   return output;
 }

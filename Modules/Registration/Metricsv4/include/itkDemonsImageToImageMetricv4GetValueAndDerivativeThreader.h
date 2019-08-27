@@ -29,22 +29,23 @@ namespace itk
  *
  * \ingroup ITKMetricsv4
  */
-template < typename TDomainPartitioner, typename TImageToImageMetric, typename TDemonsMetric >
+template <typename TDomainPartitioner, typename TImageToImageMetric, typename TDemonsMetric>
 class ITK_TEMPLATE_EXPORT DemonsImageToImageMetricv4GetValueAndDerivativeThreader
-  : public ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >
+  : public ImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner, TImageToImageMetric>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(DemonsImageToImageMetricv4GetValueAndDerivativeThreader);
 
   /** Standard class type aliases. */
   using Self = DemonsImageToImageMetricv4GetValueAndDerivativeThreader;
-  using Superclass = ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner, TImageToImageMetric>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  itkTypeMacro( DemonsImageToImageMetricv4GetValueAndDerivativeThreader, ImageToImageMetricv4GetValueAndDerivativeThreader );
+  itkTypeMacro(DemonsImageToImageMetricv4GetValueAndDerivativeThreader,
+               ImageToImageMetricv4GetValueAndDerivativeThreader);
 
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   using DomainType = typename Superclass::DomainType;
   using AssociateType = typename Superclass::AssociateType;
@@ -66,30 +67,31 @@ public:
   using ImageDimensionType = typename Superclass::ImageDimensionType;
 
 protected:
-  DemonsImageToImageMetricv4GetValueAndDerivativeThreader() :
-    m_DemonsAssociate(nullptr)
+  DemonsImageToImageMetricv4GetValueAndDerivativeThreader()
+    : m_DemonsAssociate(nullptr)
   {}
 
   /** Overload.
    *  Get pointer to metric object.
    */
-  void BeforeThreadedExecution() override;
+  void
+  BeforeThreadedExecution() override;
 
   /** This function computes the local voxel-wise contribution of
    *  the metric to the global integral of the metric/derivative.
    */
-  bool ProcessPoint(
-        const VirtualIndexType &          virtualIndex,
-        const VirtualPointType &          virtualPoint,
-        const FixedImagePointType &       mappedFixedPoint,
-        const FixedImagePixelType &       mappedFixedPixelValue,
-        const FixedImageGradientType &    mappedFixedImageGradient,
-        const MovingImagePointType &      mappedMovingPoint,
-        const MovingImagePixelType &      mappedMovingPixelValue,
-        const MovingImageGradientType &   mappedMovingImageGradient,
-        MeasureType &                     metricValueReturn,
-        DerivativeType &                  localDerivativeReturn,
-        const ThreadIdType                threadId ) const override;
+  bool
+  ProcessPoint(const VirtualIndexType &        virtualIndex,
+               const VirtualPointType &        virtualPoint,
+               const FixedImagePointType &     mappedFixedPoint,
+               const FixedImagePixelType &     mappedFixedPixelValue,
+               const FixedImageGradientType &  mappedFixedImageGradient,
+               const MovingImagePointType &    mappedMovingPoint,
+               const MovingImagePixelType &    mappedMovingPixelValue,
+               const MovingImageGradientType & mappedMovingImageGradient,
+               MeasureType &                   metricValueReturn,
+               DerivativeType &                localDerivativeReturn,
+               const ThreadIdType              threadId) const override;
 
 private:
   /** Internal pointer to the Mattes metric object in use by this threader.
@@ -100,7 +102,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDemonsImageToImageMetricv4GetValueAndDerivativeThreader.hxx"
+#  include "itkDemonsImageToImageMetricv4GetValueAndDerivativeThreader.hxx"
 #endif
 
 #endif

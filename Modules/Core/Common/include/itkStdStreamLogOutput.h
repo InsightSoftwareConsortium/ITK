@@ -39,14 +39,13 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-class ITKCommon_EXPORT StdStreamLogOutput:public LogOutput
+class ITKCommon_EXPORT StdStreamLogOutput : public LogOutput
 {
 public:
-
   using Self = StdStreamLogOutput;
   using Superclass = LogOutput;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using StreamType = std::ostream;
 
@@ -59,19 +58,24 @@ public:
   itkGetConstMacro(Stream, StreamPointerType);
 
   /** Set a standard stream pointer */
-  void SetStream(StreamType & Stream);
+  void
+  SetStream(StreamType & Stream);
 
   /** flush a buffer */
-  void Flush() override;
+  void
+  Flush() override;
 
   /** Write to multiple outputs */
-  void Write(double timestamp) override;
+  void
+  Write(double timestamp) override;
 
   /** Write to a buffer */
-  void Write(std::string const & content) override;
+  void
+  Write(std::string const & content) override;
 
   /** Write to a buffer */
-  void Write(std::string const & content, double timestamp) override;
+  void
+  Write(std::string const & content, double timestamp) override;
 
 protected:
   /** Constructor */
@@ -80,14 +84,14 @@ protected:
   /** Destructor */
   ~StdStreamLogOutput() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-
   StreamPointerType m_Stream;
 
   std::mutex m_Mutex;
 };
-}
+} // namespace itk
 
-#endif //itkStdStreamLogOutput_h
+#endif // itkStdStreamLogOutput_h

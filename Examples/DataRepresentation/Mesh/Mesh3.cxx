@@ -45,7 +45,8 @@
 // Software Guide : EndCodeSnippet
 
 
-int main(int, char *[])
+int
+main(int, char *[])
 {
   //  Software Guide : BeginLatex
   //
@@ -59,7 +60,7 @@ int main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   using PixelType = float;
-  using MeshType = itk::Mesh< PixelType, 2 >;
+  using MeshType = itk::Mesh<PixelType, 2>;
   // Software Guide : EndCodeSnippet
 
 
@@ -74,7 +75,7 @@ int main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   using CellType = MeshType::CellType;
-  using LineType = itk::LineCell< CellType >;
+  using LineType = itk::LineCell<CellType>;
   // Software Guide : EndCodeSnippet
 
 
@@ -96,18 +97,18 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  MeshType::Pointer  mesh = MeshType::New();
+  MeshType::Pointer mesh = MeshType::New();
 
   using PointType = MeshType::PointType;
   PointType point;
 
   constexpr unsigned int numberOfPoints = 10;
-  for(unsigned int id=0; id<numberOfPoints; id++)
-    {
-    point[0] = static_cast<PointType::ValueType>( id ); // x
-    point[1] = std::log( static_cast<double>( id ) + itk::Math::eps );    // y
-    mesh->SetPoint( id, point );
-    }
+  for (unsigned int id = 0; id < numberOfPoints; id++)
+  {
+    point[0] = static_cast<PointType::ValueType>(id);              // x
+    point[1] = std::log(static_cast<double>(id) + itk::Math::eps); // y
+    mesh->SetPoint(id, point);
+  }
   // Software Guide : EndCodeSnippet
 
 
@@ -127,19 +128,19 @@ int main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   CellType::CellAutoPointer line;
-  const unsigned int numberOfCells = numberOfPoints-1;
-  for(unsigned int cellId=0; cellId<numberOfCells; cellId++)
-    {
-    line.TakeOwnership(  new LineType  );
-    line->SetPointId( 0, cellId   ); // first point
-    line->SetPointId( 1, cellId+1 ); // second point
-    mesh->SetCell( cellId, line );   // insert the cell
-    }
+  const unsigned int        numberOfCells = numberOfPoints - 1;
+  for (unsigned int cellId = 0; cellId < numberOfCells; cellId++)
+  {
+    line.TakeOwnership(new LineType);
+    line->SetPointId(0, cellId);     // first point
+    line->SetPointId(1, cellId + 1); // second point
+    mesh->SetCell(cellId, line);     // insert the cell
+  }
   // Software Guide : EndCodeSnippet
 
 
   std::cout << "Points = " << mesh->GetNumberOfPoints() << std::endl;
-  std::cout << "Cells  = " << mesh->GetNumberOfCells()  << std::endl;
+  std::cout << "Cells  = " << mesh->GetNumberOfCells() << std::endl;
 
 
   //  Software Guide : BeginLatex
@@ -154,10 +155,10 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  for(unsigned int cellId=0; cellId<numberOfCells; cellId++)
-    {
-    mesh->SetCellData( cellId, static_cast<PixelType>( cellId * cellId ) );
-    }
+  for (unsigned int cellId = 0; cellId < numberOfCells; cellId++)
+  {
+    mesh->SetCellData(cellId, static_cast<PixelType>(cellId * cellId));
+  }
 
   // Software Guide : EndCodeSnippet
 
@@ -175,12 +176,12 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  for(unsigned int cellId=0; cellId<numberOfCells; ++cellId)
-    {
+  for (unsigned int cellId = 0; cellId < numberOfCells; ++cellId)
+  {
     auto value = static_cast<PixelType>(0.0);
-    mesh->GetCellData( cellId, &value );
+    mesh->GetCellData(cellId, &value);
     std::cout << "Cell " << cellId << " = " << value << std::endl;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
 
@@ -217,8 +218,8 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  CellDataIterator cellDataIterator  = mesh->GetCellData()->Begin();
-  CellDataIterator end               = mesh->GetCellData()->End();
+  CellDataIterator cellDataIterator = mesh->GetCellData()->Begin();
+  CellDataIterator end = mesh->GetCellData()->End();
   // Software Guide : EndCodeSnippet
 
 
@@ -226,8 +227,8 @@ int main(int, char *[])
   //
   //  Finally, a standard loop is used to iterate over all the cell data
   //  entries. Note the use of the \code{Value()} method to get the
-  //  value associated with the data entry. \code{PixelType} elements are copied into the
-  //  local variable \code{cellValue}.
+  //  value associated with the data entry. \code{PixelType} elements are copied into
+  //  the local variable \code{cellValue}.
   //
   //  \index{CellDataIterator!Value()}
   //  \index{CellDataIterator!increment}
@@ -235,12 +236,12 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  while( cellDataIterator != end )
-    {
+  while (cellDataIterator != end)
+  {
     PixelType cellValue = cellDataIterator.Value();
     std::cout << cellValue << std::endl;
     ++cellDataIterator;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;

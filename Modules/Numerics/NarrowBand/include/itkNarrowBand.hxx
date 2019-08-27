@@ -32,48 +32,46 @@
 
 namespace itk
 {
-#if !defined( ITK_WRAPPING_PARSER )
-template< typename NodeType >
-std::vector< typename NarrowBand< NodeType >::RegionType >
-NarrowBand< NodeType >
-::SplitBand(const SizeType& n)
+#if !defined(ITK_WRAPPING_PARSER)
+template <typename NodeType>
+std::vector<typename NarrowBand<NodeType>::RegionType>
+NarrowBand<NodeType>::SplitBand(const SizeType & n)
 {
   SizeType t_n = n;
   SizeType t_size = m_NodeContainer.size();
 
-  std::vector< RegionType > regionList;
-  if ( t_n > t_size )
-    {
+  std::vector<RegionType> regionList;
+  if (t_n > t_size)
+  {
     t_n = t_size;
-    }
+  }
 
-  auto regionsize = static_cast< SizeType >(
-        std::floor( static_cast< float >( t_size ) / static_cast< float >( t_n ) ) );
+  auto regionsize = static_cast<SizeType>(std::floor(static_cast<float>(t_size) / static_cast<float>(t_n)));
 
-  if ( regionsize == 0 )
-    {
+  if (regionsize == 0)
+  {
     regionsize = 1;
-    }
+  }
 
   RegionType region;
-  auto pos = this->Begin();
+  auto       pos = this->Begin();
 
-  for ( SizeType i = 0; i < t_n; ++i )
-    {
+  for (SizeType i = 0; i < t_n; ++i)
+  {
     region.Begin = pos;
     pos += regionsize;
 
-    if ( i != t_n - 1 )
-      {
+    if (i != t_n - 1)
+    {
       region.End = pos;
-      }
+    }
     else
-      {
+    {
       region.End = this->End();
-      }
+    }
 
     regionList.push_back(region);
-    }
+  }
 
   return regionList;
 }

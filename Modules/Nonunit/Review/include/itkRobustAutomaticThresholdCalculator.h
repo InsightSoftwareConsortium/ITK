@@ -37,8 +37,8 @@ namespace itk
  * \ingroup Operators
  * \ingroup ITKReview
  */
-template< typename TInputImage, typename TGradientImage >
-class ITK_TEMPLATE_EXPORT RobustAutomaticThresholdCalculator:public Object
+template <typename TInputImage, typename TGradientImage>
+class ITK_TEMPLATE_EXPORT RobustAutomaticThresholdCalculator : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(RobustAutomaticThresholdCalculator);
@@ -46,8 +46,8 @@ public:
   /** Standard class type aliases. */
   using Self = RobustAutomaticThresholdCalculator;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -71,24 +71,26 @@ public:
   using GradientPixelType = typename GradientImageType::PixelType;
 
   /** Set the input image. */
-  virtual void SetInput(const InputImageType *image)
+  virtual void
+  SetInput(const InputImageType * image)
   {
-    if ( m_Input != image )
-      {
+    if (m_Input != image)
+    {
       m_Input = image;
       this->Modified();
       m_Valid = false;
-      }
+    }
   }
 
-  virtual void SetGradient(const GradientImageType *image)
+  virtual void
+  SetGradient(const GradientImageType * image)
   {
-    if ( m_Gradient != image )
-      {
+    if (m_Gradient != image)
+    {
       m_Gradient = image;
       this->Modified();
       m_Valid = false;
-      }
+    }
   }
 
   itkSetMacro(Pow, double);
@@ -99,14 +101,17 @@ public:
    * parameter and stores them in the object.  The values of these
    * moments and related parameters can then be retrieved by using
    * other methods of this object. */
-  void Compute();
+  void
+  Compute();
 
-  const InputPixelType & GetOutput() const;
+  const InputPixelType &
+  GetOutput() const;
 
 protected:
   RobustAutomaticThresholdCalculator();
   ~RobustAutomaticThresholdCalculator() override {}
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   bool           m_Valid; // Have moments been computed yet?
@@ -119,7 +124,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRobustAutomaticThresholdCalculator.hxx"
+#  include "itkRobustAutomaticThresholdCalculator.hxx"
 #endif
 
 #endif

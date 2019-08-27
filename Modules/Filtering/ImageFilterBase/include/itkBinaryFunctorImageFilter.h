@@ -44,23 +44,22 @@ namespace itk
  * \ingroup ITKImageFilterBase
  *
  * \sphinx
- * \sphinxexample{Filtering/ImageFilterBase/PredefinedOperationToCorrespondingPixelsInTwoImages,Predefined Operation To Corresponding Pixels In Two Images}
- * \sphinxexample{Filtering/ImageFilterBase/CustomOperationToCorrespondingPixelsInTwoImages,Custom Operation To Corresponding Pixels In Two Images}
- * \endsphinx
+ * \sphinxexample{Filtering/ImageFilterBase/PredefinedOperationToCorrespondingPixelsInTwoImages,Predefined Operation To
+ * Corresponding Pixels In Two Images}
+ * \sphinxexample{Filtering/ImageFilterBase/CustomOperationToCorrespondingPixelsInTwoImages,Custom Operation To
+ * Corresponding Pixels In Two Images} \endsphinx
  */
-template< typename TInputImage1, typename TInputImage2,
-          typename TOutputImage, typename TFunction    >
-class ITK_TEMPLATE_EXPORT BinaryFunctorImageFilter:
-  public InPlaceImageFilter< TInputImage1, TOutputImage >
+template <typename TInputImage1, typename TInputImage2, typename TOutputImage, typename TFunction>
+class ITK_TEMPLATE_EXPORT BinaryFunctorImageFilter : public InPlaceImageFilter<TInputImage1, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryFunctorImageFilter);
 
   /** Standard class type aliases. */
   using Self = BinaryFunctorImageFilter;
-  using Superclass = InPlaceImageFilter< TInputImage1, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = InPlaceImageFilter<TInputImage1, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -88,48 +87,65 @@ public:
   using OutputImagePixelType = typename OutputImageType::PixelType;
 
   /** Connect the first operand for pixel-wise operation. */
-  virtual void SetInput1(const TInputImage1 *image1);
-  virtual void SetInput1(const DecoratedInput1ImagePixelType *input1);
-  virtual void SetInput1(const Input1ImagePixelType &input1);
+  virtual void
+  SetInput1(const TInputImage1 * image1);
+  virtual void
+  SetInput1(const DecoratedInput1ImagePixelType * input1);
+  virtual void
+  SetInput1(const Input1ImagePixelType & input1);
 
   /** Set the first operand as a constant. */
-  virtual void SetConstant1(const Input1ImagePixelType &input1);
+  virtual void
+  SetConstant1(const Input1ImagePixelType & input1);
 
   /** Get the constant value of the first operand. An exception is sent if
    * the first operand is not a constant. */
-  virtual const Input1ImagePixelType & GetConstant1() const;
+  virtual const Input1ImagePixelType &
+  GetConstant1() const;
 
   /** Connect the second operand for pixel-wise operation. */
-  virtual void SetInput2(const TInputImage2 *image2);
-  virtual void SetInput2(const DecoratedInput2ImagePixelType *input2);
-  virtual void SetInput2(const Input2ImagePixelType &input2);
+  virtual void
+  SetInput2(const TInputImage2 * image2);
+  virtual void
+  SetInput2(const DecoratedInput2ImagePixelType * input2);
+  virtual void
+  SetInput2(const Input2ImagePixelType & input2);
 
   /** Set the second operand as a constant. */
-  virtual void SetConstant2(const Input2ImagePixelType &input2);
-  void SetConstant(Input2ImagePixelType ct)
+  virtual void
+  SetConstant2(const Input2ImagePixelType & input2);
+  void
+  SetConstant(Input2ImagePixelType ct)
   {
     this->SetConstant2(ct);
   }
-  const Input2ImagePixelType & GetConstant() const
+  const Input2ImagePixelType &
+  GetConstant() const
   {
     return this->GetConstant2();
   }
 
   /** Get the constant value of the second operand. An exception is sent if
    * the second operand is not a constant. */
-  virtual const Input2ImagePixelType & GetConstant2() const;
+  virtual const Input2ImagePixelType &
+  GetConstant2() const;
 
   /** Get the functor object. The functor is returned by reference.
    * (Functors do not have to derive from itk::LightObject, so they do
    * not necessarily have a reference count. So we cannot return a
    * SmartPointer.). */
-  FunctorType & GetFunctor() { return m_Functor; }
+  FunctorType &
+  GetFunctor()
+  {
+    return m_Functor;
+  }
 
   /** Get the functor object. The functor is returned by reference.
    * (Functors do not have to derive from itk::LightObject, so they do
    * not necessarily have a reference count. So we cannot return a
    * SmartPointer.). */
-  const FunctorType & GetFunctor() const
+  const FunctorType &
+  GetFunctor() const
   {
     return m_Functor;
   }
@@ -140,13 +156,14 @@ public:
    * This method requires an operator!=() be defined on the functor
    * (or the compiler's default implementation of operator!=() being
    * appropriate). */
-  void SetFunctor(const FunctorType & functor)
+  void
+  SetFunctor(const FunctorType & functor)
   {
-    if ( m_Functor != functor )
-      {
+    if (m_Functor != functor)
+    {
       m_Functor = functor;
       this->Modified();
-      }
+    }
   }
 
   /** ImageDimension constants */
@@ -156,12 +173,10 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( SameDimensionCheck1,
-                   ( Concept::SameDimension< Self::InputImage1Dimension,
-                                             Self::InputImage2Dimension > ) );
-  itkConceptMacro( SameDimensionCheck2,
-                   ( Concept::SameDimension< Self::InputImage1Dimension,
-                                             Self::OutputImageDimension > ) );
+  itkConceptMacro(SameDimensionCheck1,
+                  (Concept::SameDimension<Self::InputImage1Dimension, Self::InputImage2Dimension>));
+  itkConceptMacro(SameDimensionCheck2,
+                  (Concept::SameDimension<Self::InputImage1Dimension, Self::OutputImageDimension>));
   // End concept checking
 #endif
 
@@ -179,12 +194,14 @@ protected:
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 
   // Needed to take the image information from the 2nd input, if the first one is
   // a simple decorated object.
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
 private:
   FunctorType m_Functor;
@@ -192,7 +209,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryFunctorImageFilter.hxx"
+#  include "itkBinaryFunctorImageFilter.hxx"
 #endif
 
 #endif

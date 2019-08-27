@@ -39,7 +39,7 @@ namespace itk
  *
  * \ingroup ITKVideoCore
  */
-template< typename TOutputVideoStream >
+template <typename TOutputVideoStream>
 class ITK_TEMPLATE_EXPORT VideoSource : public TemporalProcessObject
 {
 public:
@@ -50,9 +50,9 @@ public:
   /** Standard class type aliases */
   using Self = VideoSource;
   using Superclass = TemporalProcessObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using ConstWeakPointer = WeakPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using ConstWeakPointer = WeakPointer<const Self>;
   using OutputVideoStreamType = TOutputVideoStream;
 
   using OutputFrameType = typename OutputVideoStreamType::FrameType;
@@ -73,7 +73,8 @@ public:
 
   /** Access the spacial dimensionality of the frames */
   static constexpr unsigned int OutputFrameDimension = OutputFrameType::ImageDimension;
-  static unsigned int GetOutputFrameDimension()
+  static unsigned int
+  GetOutputFrameDimension()
   {
     return OutputFrameType::ImageDimension;
   }
@@ -82,28 +83,32 @@ public:
    * is analogous to the GetOutput on ImageSource and will be used to pass
    * VideoStream data between TemporalProcessObjects (typically video filters)
    */
-  OutputVideoStreamType* GetOutput();
+  OutputVideoStreamType *
+  GetOutput();
 
-  OutputVideoStreamType* GetOutput(unsigned int idx);
+  OutputVideoStreamType *
+  GetOutput(unsigned int idx);
 
   /** Graft the provided VideoStream onto the TemporalProcessObject's idx'th
    * output using VideoStream's Graft implementation */
-  virtual void GraftNthOutput(unsigned int idx, OutputVideoStreamType* output);
+  virtual void
+  GraftNthOutput(unsigned int idx, OutputVideoStreamType * output);
 
   /** Graft the provided VideoStream onto the 0th output. This is useful for
    * ImageSources that use a mini-pipeline internally. See comment in
    * ImageSource for more information. */
-  virtual void GraftOutput(OutputVideoStreamType* output);
+  virtual void
+  GraftOutput(OutputVideoStreamType * output);
 
   /** Make a DataObject of the correct type for the specified output port. The
    * default always creates an OutputVideoStreamType object, so subclasses with
    * multiple types of output must override this to return the proper type. */
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
+  DataObjectPointer
+  MakeOutput(DataObjectPointerArraySizeType idx) override;
 
 protected:
-
   /** Override GenerateOutputRequestedTemporalRegion to make sure that if the
    * requested temporal region is not set, it gets set to the largest possible
    * temporal region (using TemporalProcessObject's implementation) and the
@@ -115,14 +120,16 @@ protected:
    * mid-pipeline filters will always have their outputs' requested spatial
    * regions set by the GenerateInputRequestedRegion call from the filter one
    * further down the pipeline. */
-  void GenerateOutputRequestedTemporalRegion(TemporalDataObject* output) override;
+  void
+  GenerateOutputRequestedTemporalRegion(TemporalDataObject * output) override;
 
   /** We override the default implementation of TemporalStreamingGenerateData
    * from TemporalProcessObject to provide functionality for spatial streaming.
    * This implementation works exactly the same way as the implementation of
    * GenerateData in ImageSource. The filter-specific implementation of
    * ThreadedGenerateData will be responsible of accessing the correct frames. */
-  void TemporalStreamingGenerateData() override;
+  void
+  TemporalStreamingGenerateData() override;
 
   /** ThreadedGenerateData here serves the same symnatic purpose as
    * ThreadedGenerateData in ProcessObjects that handle Images. This is to say
@@ -135,55 +142,59 @@ protected:
    * WARNING: subclasses may need to handle the case where different frames
    * have different spatial dimensions and thus some frames may not be
    * accessible at the requested spatial region. */
-  virtual void ThreadedGenerateData(
-    const OutputFrameSpatialRegionType& outputRegionForThread,
-    int threadId);
+  virtual void
+  ThreadedGenerateData(const OutputFrameSpatialRegionType & outputRegionForThread, int threadId);
 
   /** The GenerateData method normally allocates the buffers for all of the
    * outputs of a filter. Some filters may want to override this default
    * behavior. For example, a filter may have multiple outputs with
    * varying resolution. Or a filter may want to process data in place by
    * grafting its input to its output. */
-  virtual void AllocateOutputs();
+  virtual void
+  AllocateOutputs();
 
   /** Method that gets called before threads are dispatched from
    * TemporalStreamingGeneratData */
-  virtual void BeforeThreadedGenerateData() {
-  }
+  virtual void
+  BeforeThreadedGenerateData()
+  {}
 
   /** Method that gets called after all threads finish in
    * TemporalStreamingGenerateData */
-  virtual void AfterThreadedGenerateData() {
-  }
+  virtual void
+  AfterThreadedGenerateData()
+  {}
 
   /** This method functions like SplitRequestedRegion in ImageSource and is
    * used by the implementation of TemporalStreamingGenerateData to dispatch
    * threads that call ThreadedGenerateData. */
-  virtual int SplitRequestedSpatialRegion(int i, int num,
-                                          OutputFrameSpatialRegionType& splitRegion);
+  virtual int
+  SplitRequestedSpatialRegion(int i, int num, OutputFrameSpatialRegionType & splitRegion);
 
   /** Static thread callback function for the MultiThreaderBase. This gives control
    * to ThreadedGenerateData(). */
-  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION ThreaderCallback(void* arg);
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
+  ThreaderCallback(void * arg);
 
   /** Internal structure used for passing image data into the threading library
-    */
-  struct ThreadStruct {
+   */
+  struct ThreadStruct
+  {
     Pointer Filter;
-    };
+  };
 
   VideoSource();
   ~VideoSource() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-
-};  // end class VideoSource
+}; // end class VideoSource
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVideoSource.hxx"
+#  include "itkVideoSource.hxx"
 #endif
 
 #endif

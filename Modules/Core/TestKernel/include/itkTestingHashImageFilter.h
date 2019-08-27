@@ -41,18 +41,17 @@ namespace Testing
  *
  * \ingroup ITKTestKernel
  */
-template < typename TImageType >
-class ITK_TEMPLATE_EXPORT HashImageFilter:
-    public InPlaceImageFilter< TImageType, TImageType >
+template <typename TImageType>
+class ITK_TEMPLATE_EXPORT HashImageFilter : public InPlaceImageFilter<TImageType, TImageType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(HashImageFilter);
 
   /** Standard Self type alias */
   using Self = HashImageFilter;
-  using Superclass = InPlaceImageFilter< TImageType, TImageType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = InPlaceImageFilter<TImageType, TImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using RegionType = typename TImageType::RegionType;
 
@@ -66,53 +65,71 @@ public:
   using DataObjectPointer = typename DataObject::Pointer;
 
   /** Type of DataObjects used for scalar outputs */
-  using HashObjectType = SimpleDataObjectDecorator< std::string >;
+  using HashObjectType = SimpleDataObjectDecorator<std::string>;
 
   /** Get the computed Hash values */
-  std::string GetHash() const
-  { return this->GetHashOutput()->Get(); }
-  HashObjectType* GetHashOutput()
-  { return static_cast< HashObjectType *>( this->ProcessObject::GetOutput(1) ); }
-  const HashObjectType* GetHashOutput() const
-  { return static_cast<const HashObjectType *>( this->ProcessObject::GetOutput(1) ); }
+  std::string
+  GetHash() const
+  {
+    return this->GetHashOutput()->Get();
+  }
+  HashObjectType *
+  GetHashOutput()
+  {
+    return static_cast<HashObjectType *>(this->ProcessObject::GetOutput(1));
+  }
+  const HashObjectType *
+  GetHashOutput() const
+  {
+    return static_cast<const HashObjectType *>(this->ProcessObject::GetOutput(1));
+  }
 
   /** Make a DataObject of the correct type to be used as the specified
    * output. */
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
+  DataObjectPointer
+  MakeOutput(DataObjectPointerArraySizeType idx) override;
 
-  enum  HashFunction { MD5 };
+  enum HashFunction
+  {
+    MD5
+  };
 
   /** Set/Get The hash function type. Currently only MD5 is supported
    * and this value is ignores.
-  */
-  itkSetMacro( HashFunction, HashFunction );
-  itkGetMacro( HashFunction, HashFunction );
+   */
+  itkSetMacro(HashFunction, HashFunction);
+  itkGetMacro(HashFunction, HashFunction);
 
 protected:
-
   HashImageFilter();
 
   // virtual ~HashImageFilter(); // implementation not needed
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** All work is done by AfterThreadedGenerateData(). */
-  void ThreadedGenerateData(const typename Superclass::OutputImageRegionType &,
-                              ThreadIdType) override {}
-  void DynamicThreadedGenerateData(const typename Superclass::OutputImageRegionType &) override {}
+  void
+  ThreadedGenerateData(const typename Superclass::OutputImageRegionType &, ThreadIdType) override
+  {}
+  void
+  DynamicThreadedGenerateData(const typename Superclass::OutputImageRegionType &) override
+  {}
 
   // See superclass for doxygen documentation
   //
   // This method is to do work after the superclass potential threaded
   // copy.
-  void AfterThreadedGenerateData() override;
+  void
+  AfterThreadedGenerateData() override;
 
   // See superclass for doxygen documentation
   //
   // Override since the filter produces all of its output
-  void EnlargeOutputRequestedRegion(DataObject *data) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * data) override;
 
 private:
   HashFunction m_HashFunction;

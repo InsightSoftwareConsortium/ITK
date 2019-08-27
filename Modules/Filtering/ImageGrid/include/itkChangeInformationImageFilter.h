@@ -45,18 +45,17 @@ namespace itk
  *
  * \ingroup ITKImageGrid
  */
-template< typename TInputImage >
-class ITK_TEMPLATE_EXPORT ChangeInformationImageFilter:
-  public ImageToImageFilter< TInputImage, TInputImage >
+template <typename TInputImage>
+class ITK_TEMPLATE_EXPORT ChangeInformationImageFilter : public ImageToImageFilter<TInputImage, TInputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ChangeInformationImageFilter);
 
   /** Standard class type aliases. */
   using Self = ChangeInformationImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TInputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TInputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -100,14 +99,15 @@ public:
 
   /** Copy the information from another Image.  By default,
    *  the information is copied from the input image. */
-  void SetReferenceImage(InputImageType *image)
+  void
+  SetReferenceImage(InputImageType * image)
   {
-    if ( image != m_ReferenceImage )
-      {
+    if (image != m_ReferenceImage)
+    {
       m_ReferenceImage = image;
-      this->ProcessObject::SetNthInput(1, const_cast< InputImageType *>( image ) );
+      this->ProcessObject::SetNthInput(1, const_cast<InputImageType *>(image));
       this->Modified();
-      }
+    }
   }
 
   itkGetModifiableObjectMacro(ReferenceImage, TInputImage);
@@ -147,7 +147,8 @@ public:
   itkSetVectorMacro(OutputOffset, OutputImageOffsetValueType, ImageDimension);
 
   /** Change the origin, spacing and region of the output image. */
-  void ChangeAll()
+  void
+  ChangeAll()
   {
     this->ChangeSpacingOn();
     this->ChangeOriginOn();
@@ -157,7 +158,8 @@ public:
 
   /** Do not change the origin, spacing, direction or region of the
    * output image. */
-  void ChangeNone()
+  void
+  ChangeNone()
   {
     this->ChangeSpacingOff();
     this->ChangeOriginOff();
@@ -209,26 +211,32 @@ public:
   itkGetConstMacro(CenterImage, bool);
 
   /** Apply changes to the output image information. */
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
   /** Apply changes to the input image requested region. */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** Copy the input buffer. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 protected:
   ChangeInformationImageFilter();
   ~ChangeInformationImageFilter() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Override VerifyInputInformation() since this filter's inputs do
    * not need to occoupy the same physical space.
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  void VerifyInputInformation() ITKv5_CONST override {}
+  void
+  VerifyInputInformation() ITKv5_CONST override
+  {}
 
 private:
   InputImagePointer m_ReferenceImage;
@@ -250,7 +258,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkChangeInformationImageFilter.hxx"
+#  include "itkChangeInformationImageFilter.hxx"
 #endif
 
 #endif

@@ -33,16 +33,16 @@ namespace itk
  *
  * \ingroup ITKQuadEdgeMesh
  */
-template< typename TMesh >
-class ITK_TEMPLATE_EXPORT QuadEdgeMeshScalarDataVTKPolyDataWriter:public VTKPolyDataWriter< TMesh >
+template <typename TMesh>
+class ITK_TEMPLATE_EXPORT QuadEdgeMeshScalarDataVTKPolyDataWriter : public VTKPolyDataWriter<TMesh>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshScalarDataVTKPolyDataWriter);
 
   using Self = QuadEdgeMeshScalarDataVTKPolyDataWriter;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using Superclass = VTKPolyDataWriter< TMesh >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using Superclass = VTKPolyDataWriter<TMesh>;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(QuadEdgeMeshScalarDataVTKPolyDataWriter, VTKPolyDataWriter);
@@ -88,16 +88,19 @@ protected:
   std::string m_CellDataName;
   std::string m_PointDataName;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  void WriteCellData();
+  void
+  WriteCellData();
 
-  void WritePointData();
+  void
+  WritePointData();
 };
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkQuadEdgeMeshScalarDataVTKPolyDataWriter.hxx"
+#  include "itkQuadEdgeMeshScalarDataVTKPolyDataWriter.hxx"
 #endif
 
 #endif

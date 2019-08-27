@@ -51,18 +51,17 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 
-template< typename TMeasurementVector >
-class ITK_TEMPLATE_EXPORT GaussianMembershipFunction:
-  public MembershipFunctionBase< TMeasurementVector >
+template <typename TMeasurementVector>
+class ITK_TEMPLATE_EXPORT GaussianMembershipFunction : public MembershipFunctionBase<TMeasurementVector>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GaussianMembershipFunction);
 
   /** Standard class type aliases */
   using Self = GaussianMembershipFunction;
-  using Superclass = MembershipFunctionBase< TMeasurementVector >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = MembershipFunctionBase<TMeasurementVector>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard macros */
   itkTypeMacro(GaussianMembershipFunction, MembershipFunction);
@@ -79,15 +78,16 @@ public:
 
   /** Type of the mean vector. RealType on a vector-type is the same
    * vector-type but with a real element type.  */
-  using MeasurementVectorRealType = typename itk::NumericTraits< MeasurementVectorType >::RealType;
+  using MeasurementVectorRealType = typename itk::NumericTraits<MeasurementVectorType>::RealType;
   using MeanVectorType = MeasurementVectorRealType;
 
   /** Type of the covariance matrix */
-  using CovarianceMatrixType = VariableSizeMatrix< double >;
+  using CovarianceMatrixType = VariableSizeMatrix<double>;
 
   /** Set the mean of the Gaussian distribution. Mean is a vector type
    * similar to the measurement type but with a real element type. */
-  void SetMean(const MeanVectorType & mean);
+  void
+  SetMean(const MeanVectorType & mean);
 
   /** Get the mean of the Gaussian distribution. Mean is a vector type
    * similar to the measurement type but with a real element type. */
@@ -97,7 +97,8 @@ public:
    * VariableSizeMatrix of doubles. The inverse of the covariance
    * matrix and the normlization term for the multivariate Gaussian
    * are calculate whenever the covaraince matrix is changed. */
-  void SetCovariance(const CovarianceMatrixType & cov);
+  void
+  SetCovariance(const CovarianceMatrixType & cov);
 
   /* Get the covariance matrix. Covariance matrix is a
   VariableSizeMatrix of doubles. */
@@ -108,21 +109,24 @@ public:
   itkGetConstReferenceMacro(InverseCovariance, CovarianceMatrixType);
 
   /** Evaluate the probability density of a measurement vector. */
-  double Evaluate(const MeasurementVectorType & measurement) const override;
+  double
+  Evaluate(const MeasurementVectorType & measurement) const override;
 
   /** Method to clone a membership function, i.e. create a new instance of
    * the same type of membership function and configure its ivars to
    * match. */
-  typename LightObject::Pointer InternalClone() const override;
+  typename LightObject::Pointer
+  InternalClone() const override;
 
 protected:
   GaussianMembershipFunction();
   ~GaussianMembershipFunction() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  MeanVectorType       m_Mean;            // mean
-  CovarianceMatrixType m_Covariance;      // covariance matrix
+  MeanVectorType       m_Mean;       // mean
+  CovarianceMatrixType m_Covariance; // covariance matrix
 
   // inverse covariance matrix. automatically calculated
   // when covariace matirx is set.
@@ -139,7 +143,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGaussianMembershipFunction.hxx"
+#  include "itkGaussianMembershipFunction.hxx"
 #endif
 
 #endif

@@ -90,18 +90,17 @@ namespace itk
  * \sphinxexample{Core/Transform/MutualInformationAffine,Mutual Information Affine}
  * \endsphinx
  */
-template< typename TFixedImage, typename TMovingImage >
-class ITK_TEMPLATE_EXPORT MutualInformationImageToImageMetric:
-  public ImageToImageMetric< TFixedImage, TMovingImage >
+template <typename TFixedImage, typename TMovingImage>
+class ITK_TEMPLATE_EXPORT MutualInformationImageToImageMetric : public ImageToImageMetric<TFixedImage, TMovingImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MutualInformationImageToImageMetric);
 
   /** Standard class type aliases. */
   using Self = MutualInformationImageToImageMetric;
-  using Superclass = ImageToImageMetric< TFixedImage, TMovingImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageMetric<TFixedImage, TMovingImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -135,22 +134,25 @@ public:
   static constexpr unsigned int MovingImageDimension = MovingImageType::ImageDimension;
 
   /** Get the derivatives of the match measure. */
-  void GetDerivative(
-    const ParametersType & parameters,
-    DerivativeType & Derivative) const override;
+  void
+  GetDerivative(const ParametersType & parameters, DerivativeType & Derivative) const override;
 
   /**  Get the value. */
-  MeasureType GetValue(const ParametersType & parameters) const override;
+  MeasureType
+  GetValue(const ParametersType & parameters) const override;
 
   /**  Get the value and derivatives for single valued optimizers. */
-  void GetValueAndDerivative(const ParametersType & parameters,
-                             MeasureType & Value, DerivativeType & Derivative) const override;
+  void
+  GetValueAndDerivative(const ParametersType & parameters,
+                        MeasureType &          Value,
+                        DerivativeType &       Derivative) const override;
 
   /** Set the number of spatial samples. This is the number of image
    * samples used to calculate the joint probability distribution.
    * The number of spatial samples is clamped to be a minimum of 1.
    * Default value is 50. */
-  void SetNumberOfSpatialSamples(unsigned int num);
+  void
+  SetNumberOfSpatialSamples(unsigned int num);
 
   /** Get the number of spatial samples. */
   itkGetConstReferenceMacro(NumberOfSpatialSamples, unsigned int);
@@ -160,8 +162,10 @@ public:
    * calculation. Default value is 0.4 which works well for image intensities
    * normalized to a mean of 0 and standard deviation of 1.0.
    * Value is clamped to be always greater than zero. */
-  itkSetClampMacro( MovingImageStandardDeviation, double,
-                    NumericTraits< double >::NonpositiveMin(), NumericTraits< double >::max() );
+  itkSetClampMacro(MovingImageStandardDeviation,
+                   double,
+                   NumericTraits<double>::NonpositiveMin(),
+                   NumericTraits<double>::max());
   itkGetConstReferenceMacro(MovingImageStandardDeviation, double);
 
   /** Set/Get the fixed image intensitiy standard deviation. This defines
@@ -169,8 +173,10 @@ public:
    * calculation. Default value is 0.4 which works well for image intensities
    * normalized to a mean of 0 and standard deviation of 1.0.
    * Value is clamped to be always greater than zero. */
-  itkSetClampMacro( FixedImageStandardDeviation, double,
-                    NumericTraits< double >::NonpositiveMin(), NumericTraits< double >::max() );
+  itkSetClampMacro(FixedImageStandardDeviation,
+                   double,
+                   NumericTraits<double>::NonpositiveMin(),
+                   NumericTraits<double>::max());
   itkGetConstMacro(FixedImageStandardDeviation, double);
 
   /** Set/Get the kernel function. This is used to calculate the joint
@@ -182,7 +188,8 @@ public:
 protected:
   MutualInformationImageToImageMetric();
   ~MutualInformationImageToImageMetric() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /** \class SpatialSample
@@ -192,18 +199,17 @@ private:
    */
   class SpatialSample
   {
-public:
-    SpatialSample()
-    { FixedImagePointValue.Fill(0.0); }
-    ~SpatialSample()= default;
+  public:
+    SpatialSample() { FixedImagePointValue.Fill(0.0); }
+    ~SpatialSample() = default;
 
     FixedImagePointType FixedImagePointValue;
-    double              FixedImageValue{0.0};
-    double              MovingImageValue{0.0};
+    double              FixedImageValue{ 0.0 };
+    double              MovingImageValue{ 0.0 };
   };
 
   /** SpatialSampleContainer type alias support */
-  using SpatialSampleContainer = std::vector< SpatialSample >;
+  using SpatialSampleContainer = std::vector<SpatialSample>;
 
   /** Container to store sample set  A - used to approximate the probability
    * density function (pdf). */
@@ -225,24 +231,24 @@ public:
    * the base OptImageToImageMetric and therefore they are not intended to
    * provide polymorphism. That is, this function is not overriding the one in
    * the base class. */
-  virtual void SampleFixedImageDomain(SpatialSampleContainer & samples) const;
+  virtual void
+  SampleFixedImageDomain(SpatialSampleContainer & samples) const;
 
   /**
    * Calculate the intensity derivatives at a point
    */
-  void CalculateDerivatives(const FixedImagePointType &, DerivativeType &, TransformJacobianType &) const;
+  void
+  CalculateDerivatives(const FixedImagePointType &, DerivativeType &, TransformJacobianType &) const;
 
   using CoordinateRepresentationType = typename Superclass::CoordinateRepresentationType;
-  using DerivativeFunctionType = CentralDifferenceImageFunction< MovingImageType,
-                                          CoordinateRepresentationType >;
+  using DerivativeFunctionType = CentralDifferenceImageFunction<MovingImageType, CoordinateRepresentationType>;
 
   typename DerivativeFunctionType::Pointer m_DerivativeCalculator;
-
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMutualInformationImageToImageMetric.hxx"
+#  include "itkMutualInformationImageToImageMetric.hxx"
 #endif
 
 #endif

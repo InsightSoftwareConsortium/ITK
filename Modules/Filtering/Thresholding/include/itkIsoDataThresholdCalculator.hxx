@@ -26,78 +26,77 @@
 namespace itk
 {
 
-template<typename THistogram, typename TOutput>
+template <typename THistogram, typename TOutput>
 void
-IsoDataThresholdCalculator<THistogram, TOutput>
-::GenerateData()
+IsoDataThresholdCalculator<THistogram, TOutput>::GenerateData()
 {
   const HistogramType * histogram = this->GetInput();
 
-  if ( histogram->GetTotalFrequency() == 0 )
-    {
+  if (histogram->GetTotalFrequency() == 0)
+  {
     itkExceptionMacro(<< "Histogram is empty");
-    }
-  SizeValueType size = histogram->GetSize(0);
-  ProgressReporter progress(this, 0, size );
-  if( size == 1 )
-    {
-    this->GetOutput()->Set( static_cast< OutputType >( histogram->GetMeasurement(0,0) ) );
+  }
+  SizeValueType    size = histogram->GetSize(0);
+  ProgressReporter progress(this, 0, size);
+  if (size == 1)
+  {
+    this->GetOutput()->Set(static_cast<OutputType>(histogram->GetMeasurement(0, 0)));
     return;
-    }
+  }
 
   InstanceIdentifier currentPos = 0;
   while (true)
-    {
+  {
     // Skip the empty bins to speed up things
-    for( InstanceIdentifier i = currentPos; i < size; i++)
+    for (InstanceIdentifier i = currentPos; i < size; i++)
+    {
+      if (histogram->GetFrequency(i, 0) > 0)
       {
-      if( histogram->GetFrequency(i, 0) > 0 )
-        {
         currentPos = i;
         break;
-        }
+      }
       progress.CompletedPixel();
-      }
-    if( currentPos >= size )
-      {
+    }
+    if (currentPos >= size)
+    {
       // Can't compute the isodata value - use the mean instead
-      this->GetOutput()->Set( static_cast<OutputType>( histogram->Mean(0) ) );
+      this->GetOutput()->Set(static_cast<OutputType>(histogram->Mean(0)));
       return;
-      }
+    }
     // Compute the mean of the lower values
     double l = 0;
     double totl = 0;
 
-    for( InstanceIdentifier i = 0; i <= currentPos; i++ )
-      {
-      totl += static_cast< double >( histogram->GetFrequency(i, 0) );
-      l += static_cast< double >( histogram->GetMeasurement(i, 0) ) * static_cast< double >( histogram->GetFrequency(i, 0) );
-      }
+    for (InstanceIdentifier i = 0; i <= currentPos; i++)
+    {
+      totl += static_cast<double>(histogram->GetFrequency(i, 0));
+      l += static_cast<double>(histogram->GetMeasurement(i, 0)) * static_cast<double>(histogram->GetFrequency(i, 0));
+    }
     // Compute the mean of the higher values
     double h = 0;
     double toth = 0;
 
-    for( InstanceIdentifier i = currentPos + 1; i < size; i++ )
-      {
-      toth += static_cast< double >( histogram->GetFrequency(i, 0) );
-      h += static_cast< double >( histogram->GetMeasurement(i, 0) ) * static_cast< double >( histogram->GetFrequency(i, 0) );
-      }
+    for (InstanceIdentifier i = currentPos + 1; i < size; i++)
+    {
+      toth += static_cast<double>(histogram->GetFrequency(i, 0));
+      h += static_cast<double>(histogram->GetMeasurement(i, 0)) * static_cast<double>(histogram->GetFrequency(i, 0));
+    }
     // Avoid a potential division by 0
-    if( ( totl > itk::Math::eps ) && ( toth > itk::Math::eps ) )
-      {
+    if ((totl > itk::Math::eps) && (toth > itk::Math::eps))
+    {
       l /= totl;
       h /= toth;
 
-      if( histogram->GetMeasurement( currentPos, 0 ) >= (l + h) * 0.5 )
-        {
-        this->GetOutput()->Set( static_cast<OutputType>( histogram->GetMeasurement( currentPos, 0 ) ) );
+      if (histogram->GetMeasurement(currentPos, 0) >= (l + h) * 0.5)
+      {
+        this->GetOutput()->Set(static_cast<OutputType>(histogram->GetMeasurement(currentPos, 0)));
         return;
-        }
       }
+    }
 
     ++currentPos;
     progress.CompletedPixel();
-    }
+  }
 }
 
 } // end namespace itk

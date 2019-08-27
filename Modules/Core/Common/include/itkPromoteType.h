@@ -21,12 +21,15 @@
 #include "itkMacro.h"
 
 // Simplification of boost::common_type
-namespace itk {
+namespace itk
+{
 
 /// \cond HIDE_META_PROGRAMMING
-namespace mpl {
+namespace mpl
+{
 
-namespace Details {
+namespace Details
+{
 
 /** Helper class to implement \c itk::PromoteType<>.
  * This struct is meant to be specialized with \c ITK_ASSOCIATE macros for the
@@ -34,38 +37,47 @@ namespace Details {
  * \ingroup MetaProgrammingLibrary
  * \ingroup ITKCommon
  */
-template <int N, typename TA, typename TB> struct SizeToType;
+template <int N, typename TA, typename TB>
+struct SizeToType;
 
 /** Helper class to implement \c itk::PromoteType<>.
  * \ingroup MetaProgrammingLibrary
  * \ingroup ITKCommon
  */
-template <int N> struct Identity { using Type = char[N]; };
+template <int N>
+struct Identity
+{
+  using Type = char[N];
+};
 
 /** Helper macro to implement \c itk::PromoteType<>.
  * This macros helps specializing \c SizeToType<> for any pair of type.
  * \ingroup MetaProgrammingLibrary
  * \ingroup ITKCommon
  */
-#define ITK_ASSOCIATE(N, Typed)\
-  template <typename TA, typename TB> struct SizeToType<N,TA,TB> { using Type = Typed; };
+#define ITK_ASSOCIATE(N, Typed)                                                                                        \
+  template <typename TA, typename TB>                                                                                  \
+  struct SizeToType<N, TA, TB>                                                                                         \
+  {                                                                                                                    \
+    using Type = Typed;                                                                                                \
+  };
 
-  ITK_ASSOCIATE(1, TA);
-  ITK_ASSOCIATE(2, TB);
+ITK_ASSOCIATE(1, TA);
+ITK_ASSOCIATE(2, TB);
 
-  ITK_ASSOCIATE(3,  short);
-  ITK_ASSOCIATE(4,  unsigned short);
-  ITK_ASSOCIATE(5,  int);
-  ITK_ASSOCIATE(6,  unsigned int);
-  ITK_ASSOCIATE(7,  long);
-  ITK_ASSOCIATE(8,  unsigned long);
-  ITK_ASSOCIATE(9,  long long);
-  ITK_ASSOCIATE(10, unsigned long long);
-  ITK_ASSOCIATE(11, float);
-  ITK_ASSOCIATE(12, double);
-  ITK_ASSOCIATE(13, long double);
+ITK_ASSOCIATE(3, short);
+ITK_ASSOCIATE(4, unsigned short);
+ITK_ASSOCIATE(5, int);
+ITK_ASSOCIATE(6, unsigned int);
+ITK_ASSOCIATE(7, long);
+ITK_ASSOCIATE(8, unsigned long);
+ITK_ASSOCIATE(9, long long);
+ITK_ASSOCIATE(10, unsigned long long);
+ITK_ASSOCIATE(11, float);
+ITK_ASSOCIATE(12, double);
+ITK_ASSOCIATE(13, long double);
 #undef ITK_ASSOCIATE
-} // Details namespace
+} // namespace Details
 
 /** Helper class to deduce, in C++98, the resulting type of an operation between two input types.
  * \tparam TA Input type 1
@@ -87,27 +99,31 @@ template <int N> struct Identity { using Type = char[N]; };
  * \ingroup MetaProgrammingLibrary
  * \ingroup ITKCommon
  */
-template <typename TA, typename TB> struct PromoteType
+template <typename TA, typename TB>
+struct PromoteType
 {
   static TA a;
   static TB b;
 
   // Aimed at supporting overloads
-  template <typename T> static Details::Identity<1>::Type& Check(typename Details::SizeToType<1,  TA, TB>::Type, T);
-  template <typename T> static Details::Identity<2>::Type& Check(typename Details::SizeToType<2,  TA, TB>::Type, T);
+  template <typename T>
+  static Details::Identity<1>::Type & Check(typename Details::SizeToType<1, TA, TB>::Type, T);
+  template <typename T>
+  static Details::Identity<2>::Type & Check(typename Details::SizeToType<2, TA, TB>::Type, T);
 
   // Common numeric types
-  static Details::Identity<3 >::Type& Check(typename Details::SizeToType<3,  TA, TB>::Type, int);
-  static Details::Identity<4 >::Type& Check(typename Details::SizeToType<4,  TA, TB>::Type, int);
-  static Details::Identity<5 >::Type& Check(typename Details::SizeToType<5,  TA, TB>::Type, int);
-  static Details::Identity<6 >::Type& Check(typename Details::SizeToType<6,  TA, TB>::Type, int);
-  static Details::Identity<7 >::Type& Check(typename Details::SizeToType<7,  TA, TB>::Type, int);
-  static Details::Identity<8 >::Type& Check(typename Details::SizeToType<8,  TA, TB>::Type, int);
-  static Details::Identity<9 >::Type& Check(typename Details::SizeToType<9,  TA, TB>::Type, int);
-  static Details::Identity<10>::Type& Check(typename Details::SizeToType<10, TA, TB>::Type, int);
-  static Details::Identity<11>::Type& Check(typename Details::SizeToType<11, TA, TB>::Type, int);
-  static Details::Identity<12>::Type& Check(typename Details::SizeToType<12, TA, TB>::Type, int);
-  static Details::Identity<13>::Type& Check(typename Details::SizeToType<13, TA, TB>::Type, int);
+  static Details::Identity<3>::Type &  Check(typename Details::SizeToType<3, TA, TB>::Type, int);
+  static Details::Identity<4>::Type &  Check(typename Details::SizeToType<4, TA, TB>::Type, int);
+  static Details::Identity<5>::Type &  Check(typename Details::SizeToType<5, TA, TB>::Type, int);
+  static Details::Identity<6>::Type &  Check(typename Details::SizeToType<6, TA, TB>::Type, int);
+  static Details::Identity<7>::Type &  Check(typename Details::SizeToType<7, TA, TB>::Type, int);
+  static Details::Identity<8>::Type &  Check(typename Details::SizeToType<8, TA, TB>::Type, int);
+  static Details::Identity<9>::Type &  Check(typename Details::SizeToType<9, TA, TB>::Type, int);
+  static Details::Identity<10>::Type & Check(typename Details::SizeToType<10, TA, TB>::Type, int);
+  static Details::Identity<11>::Type & Check(typename Details::SizeToType<11, TA, TB>::Type, int);
+  static Details::Identity<12>::Type & Check(typename Details::SizeToType<12, TA, TB>::Type, int);
+  static Details::Identity<13>::Type & Check(typename Details::SizeToType<13, TA, TB>::Type, int);
+
 public:
   /** Type result of operations between \c TA and \c TB.
    * \internal
@@ -124,7 +140,7 @@ public:
    * Finally, \c Details::SizeToType<> returns the type that holds the result
    * of `a+b`.
    */
-  using Type = typename Details::SizeToType<sizeof Check(a+b, 0), TA, TB>::Type;
+  using Type = typename Details::SizeToType<sizeof Check(a + b, 0), TA, TB>::Type;
 };
 } // end namespace mpl
 

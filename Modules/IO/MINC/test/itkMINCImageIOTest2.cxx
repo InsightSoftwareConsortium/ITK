@@ -24,49 +24,50 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
-int itkMINCImageIOTest2( int argc, char * argv [] )
+int
+itkMINCImageIOTest2(int argc, char * argv[])
 {
 
-  if ( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Missing Arguments " << std::endl;
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << " inputfile outputfile " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  using ImageType = itk::Image< unsigned short, 3 >;
+  using ImageType = itk::Image<unsigned short, 3>;
 
   itk::MINCImageIO::Pointer mincIO1 = itk::MINCImageIO::New();
   itk::MINCImageIO::Pointer mincIO2 = itk::MINCImageIO::New();
 
-  using ReaderType = itk::ImageFileReader< ImageType >;
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  using WriterType = itk::ImageFileWriter<ImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
 
-  reader->SetImageIO( mincIO1 );
-  writer->SetImageIO( mincIO2 );
+  reader->SetImageIO(mincIO1);
+  writer->SetImageIO(mincIO2);
 
-  reader->SetFileName( argv[1] );
-  writer->SetFileName( argv[2] );
+  reader->SetFileName(argv[1]);
+  writer->SetFileName(argv[2]);
 
-  writer->SetInput( reader->GetOutput() );
+  writer->SetInput(reader->GetOutput());
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   ImageType::ConstPointer image = reader->GetOutput();
 
-  image->Print( std::cout );
+  image->Print(std::cout);
 
   return EXIT_SUCCESS;
 }

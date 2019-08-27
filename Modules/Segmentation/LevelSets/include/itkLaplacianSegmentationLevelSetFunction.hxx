@@ -24,21 +24,21 @@
 
 namespace itk
 {
-template< typename TImageType, typename TFeatureImageType >
-void LaplacianSegmentationLevelSetFunction< TImageType, TFeatureImageType >
-::CalculateSpeedImage()
+template <typename TImageType, typename TFeatureImageType>
+void
+LaplacianSegmentationLevelSetFunction<TImageType, TFeatureImageType>::CalculateSpeedImage()
 {
-  typename LaplacianImageFilter< ImageType, ImageType >::Pointer
-  filter = LaplacianImageFilter< ImageType, ImageType >::New();
+  typename LaplacianImageFilter<ImageType, ImageType>::Pointer filter =
+    LaplacianImageFilter<ImageType, ImageType>::New();
 
-  typename CastImageFilter< FeatureImageType, ImageType >::Pointer
-  caster = CastImageFilter< FeatureImageType, ImageType >::New();
+  typename CastImageFilter<FeatureImageType, ImageType>::Pointer caster =
+    CastImageFilter<FeatureImageType, ImageType>::New();
 
-  caster->SetInput( this->GetFeatureImage() );
-  filter->SetInput( caster->GetOutput() );
+  caster->SetInput(this->GetFeatureImage());
+  filter->SetInput(caster->GetOutput());
 
   // make the laplacian filter use the pixel container from the speed image
-  filter->GraftOutput( this->GetSpeedImage() );
+  filter->GraftOutput(this->GetSpeedImage());
 
   filter->Update();
 
@@ -46,7 +46,7 @@ void LaplacianSegmentationLevelSetFunction< TImageType, TFeatureImageType >
   // the speed image.
   //
   // unfortunately functions are not filters so we can't graft back
-  this->GetSpeedImage()->Graft( filter->GetOutput() );
+  this->GetSpeedImage()->Graft(filter->GetOutput());
 }
 } // end namespace itk
 

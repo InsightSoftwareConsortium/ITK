@@ -70,18 +70,17 @@ namespace itk
  * \sphinxexample{IO/ImageBase/ReadAnImage,Read An Image}
  * \endsphinx
  */
-template< typename TOutputImage,
-          typename ConvertPixelTraits = DefaultConvertPixelTraits<
-            typename TOutputImage::IOPixelType > >
-class ITK_TEMPLATE_EXPORT ImageFileReader:public ImageSource< TOutputImage >
+template <typename TOutputImage,
+          typename ConvertPixelTraits = DefaultConvertPixelTraits<typename TOutputImage::IOPixelType>>
+class ITK_TEMPLATE_EXPORT ImageFileReader : public ImageSource<TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageFileReader);
 
   /** Standard class type aliases. */
   using Self = ImageFileReader;
-  using Superclass = ImageSource< TOutputImage >;
-  using Pointer = SmartPointer< Self >;
+  using Superclass = ImageSource<TOutputImage>;
+  using Pointer = SmartPointer<Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -110,7 +109,8 @@ public:
    * instance that is created. Or you can directly specify the ImageIO
    * to use to read a particular file in case the factory mechanism will
    * not work properly (e.g., unknown or unusual extension). */
-  void  SetImageIO(ImageIOBase *imageIO);
+  void
+  SetImageIO(ImageIOBase * imageIO);
   itkGetModifiableObjectMacro(ImageIO, ImageIOBase);
 
   /** Set the stream On or Off */
@@ -121,31 +121,37 @@ public:
 protected:
   ImageFileReader();
   ~ImageFileReader() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Convert a block of pixels from one type to another. */
-  void DoConvertBuffer(void *buffer, size_t numberOfPixels);
+  void
+  DoConvertBuffer(void * buffer, size_t numberOfPixels);
 
   /** Test whether the given filename exist and it is readable, this
-    * is intended to be called before attempting to use  ImageIO
-    * classes for actually reading the file. If the file doesn't exist
-    * or it is not readable, and exception with an approriate message
-    * will be thrown. */
-  void TestFileExistanceAndReadability();
+   * is intended to be called before attempting to use  ImageIO
+   * classes for actually reading the file. If the file doesn't exist
+   * or it is not readable, and exception with an approriate message
+   * will be thrown. */
+  void
+  TestFileExistanceAndReadability();
 
   /** Prepare the allocation of the output image during the first back
    * propagation of the pipeline. */
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
   /** Give the reader a chance to indicate that it will produce more
    * output than it was requested to produce. ImageFileReader cannot
    * currently read a portion of an image (since the ImageIO objects
    * cannot read a portion of an image), so the ImageFileReader must
    * enlarge the RequestedRegion to the size of the image on disk. */
-  void EnlargeOutputRequestedRegion(DataObject *output) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * output) override;
 
   /** Does the real work. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   ImageIOBase::Pointer m_ImageIO;
 
@@ -161,14 +167,14 @@ private:
   // produce the requested region.
   ImageIORegion m_ActualIORegion;
 };
-} //namespace ITK
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageFileReader.hxx"
+#  include "itkImageFileReader.hxx"
 #endif
 
 #ifdef ITK_IO_FACTORY_REGISTER_MANAGER
-#include "itkImageIOFactoryRegisterManager.h"
+#  include "itkImageIOFactoryRegisterManager.h"
 #endif
 
 #endif // itkImageFileReader_h

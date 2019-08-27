@@ -77,9 +77,7 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template<typename TParametersValueType,
-          unsigned int NInputDimensions = 3,
-          unsigned int NOutputDimensions = 3>
+template <typename TParametersValueType, unsigned int NInputDimensions = 3, unsigned int NOutputDimensions = 3>
 class ITK_TEMPLATE_EXPORT Transform : public TransformBaseTemplate<TParametersValueType>
 {
 public:
@@ -102,13 +100,15 @@ public:
   itkCloneMacro(Self);
 
   /** Get the size of the input space */
-  unsigned int GetInputSpaceDimension() const override
+  unsigned int
+  GetInputSpaceDimension() const override
   {
     return NInputDimensions;
   }
 
   /** Get the size of the output space */
-  unsigned int GetOutputSpaceDimension() const override
+  unsigned int
+  GetOutputSpaceDimension() const override
   {
     return NOutputDimensions;
   }
@@ -138,20 +138,16 @@ public:
   using OutputVectorPixelType = VariableLengthVector<TParametersValueType>;
 
   /* Standard symmetric second rank tenosr type for this class */
-  using InputSymmetricSecondRankTensorType =
-      SymmetricSecondRankTensor<TParametersValueType,NInputDimensions>;
-  using OutputSymmetricSecondRankTensorType =
-      SymmetricSecondRankTensor<TParametersValueType,NOutputDimensions>;
+  using InputSymmetricSecondRankTensorType = SymmetricSecondRankTensor<TParametersValueType, NInputDimensions>;
+  using OutputSymmetricSecondRankTensorType = SymmetricSecondRankTensor<TParametersValueType, NOutputDimensions>;
 
   /* Standard tensor type for this class */
   using InputDiffusionTensor3DType = DiffusionTensor3D<TParametersValueType>;
   using OutputDiffusionTensor3DType = DiffusionTensor3D<TParametersValueType>;
 
   /** Standard covariant vector type for this class */
-  using InputCovariantVectorType =
-      CovariantVector<TParametersValueType, NInputDimensions>;
-  using OutputCovariantVectorType =
-      CovariantVector<TParametersValueType, NOutputDimensions>;
+  using InputCovariantVectorType = CovariantVector<TParametersValueType, NInputDimensions>;
+  using OutputCovariantVectorType = CovariantVector<TParametersValueType, NOutputDimensions>;
 
   /** Standard vnl_vector type for this class. */
   using InputVnlVectorType = vnl_vector_fixed<TParametersValueType, NInputDimensions>;
@@ -163,24 +159,15 @@ public:
 
   /** Base inverse transform type. This type should not be changed to the
    * concrete inverse transform type or inheritance would be lost. */
-  using InverseTransformBaseType = Transform<TParametersValueType,
-                     NOutputDimensions, NInputDimensions>;
+  using InverseTransformBaseType = Transform<TParametersValueType, NOutputDimensions, NInputDimensions>;
 
   using InverseTransformBasePointer = typename InverseTransformBaseType::Pointer;
 
-  using MatrixType = Matrix<TParametersValueType,
-                 Self::OutputSpaceDimension,
-                 Self::InputSpaceDimension>;
+  using MatrixType = Matrix<TParametersValueType, Self::OutputSpaceDimension, Self::InputSpaceDimension>;
 
-  using OutputDirectionMatrix = Matrix<double,
-                 Self::OutputSpaceDimension,
-                 Self::OutputSpaceDimension>;
-  using InputDirectionMatrix = Matrix<double,
-                 Self::InputSpaceDimension,
-                 Self::InputSpaceDimension>;
-  using DirectionChangeMatrix = Matrix<double,
-                 Self::OutputSpaceDimension,
-                 Self::InputSpaceDimension>;
+  using OutputDirectionMatrix = Matrix<double, Self::OutputSpaceDimension, Self::OutputSpaceDimension>;
+  using InputDirectionMatrix = Matrix<double, Self::InputSpaceDimension, Self::InputSpaceDimension>;
+  using DirectionChangeMatrix = Matrix<double, Self::OutputSpaceDimension, Self::InputSpaceDimension>;
 
   using NumberOfParametersType = typename Superclass::NumberOfParametersType;
 
@@ -188,76 +175,81 @@ public:
    * \warning This method must be thread-safe. See, e.g., its use
    * in ResampleImageFilter.
    */
-  virtual OutputPointType TransformPoint(const InputPointType  &) const = 0;
+  virtual OutputPointType
+  TransformPoint(const InputPointType &) const = 0;
 
   /**  Method to transform a vector. */
-  virtual OutputVectorType  TransformVector(const InputVectorType &) const
+  virtual OutputVectorType
+  TransformVector(const InputVectorType &) const
   {
-    itkExceptionMacro( "TransformVector(const InputVectorType &)"
-                       "is unimplemented for " << this->GetNameOfClass() );
+    itkExceptionMacro("TransformVector(const InputVectorType &)"
+                      "is unimplemented for "
+                      << this->GetNameOfClass());
   }
 
   /** Method to transform a vector at a given location.
    * For global transforms, \c point is ignored and \c TransformVector( vector )
    * is called. Local transforms (e.g. deformation
    * field transform) must override and provide required behavior. */
-  virtual OutputVectorType    TransformVector(
-    const InputVectorType & vector,
-    const InputPointType & point ) const;
+  virtual OutputVectorType
+  TransformVector(const InputVectorType & vector, const InputPointType & point) const;
 
   /**  Method to transform a vnl_vector. */
-  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType &) const
+  virtual OutputVnlVectorType
+  TransformVector(const InputVnlVectorType &) const
   {
-    itkExceptionMacro( "TransformVector( const InputVnlVectorType & ) is "
-                       "unimplemented for " << this->GetNameOfClass() );
+    itkExceptionMacro("TransformVector( const InputVnlVectorType & ) is "
+                      "unimplemented for "
+                      << this->GetNameOfClass());
   }
 
   /** Method to transform a vnl_vector, at a point.
    * For global transforms, \c point is ignored and \c TransformVector( vector )
    * is called. Local transforms (e.g. deformation
    * field transform) must override and provide required behavior. */
-  virtual OutputVnlVectorType TransformVector(
-    const InputVnlVectorType & vector,
-    const InputPointType & point ) const;
+  virtual OutputVnlVectorType
+  TransformVector(const InputVnlVectorType & vector, const InputPointType & point) const;
 
   /** Method to transform a vector stored in a VectorImage.  */
-  virtual OutputVectorPixelType TransformVector(
-    const InputVectorPixelType & itkNotUsed(vector) ) const
+  virtual OutputVectorPixelType
+  TransformVector(const InputVectorPixelType & itkNotUsed(vector)) const
   {
-    itkExceptionMacro( "TransformVector( const InputVectorPixelType & ) is "
-                       "unimplemented for " << this->GetNameOfClass() );
+    itkExceptionMacro("TransformVector( const InputVectorPixelType & ) is "
+                      "unimplemented for "
+                      << this->GetNameOfClass());
   }
 
   /** Method to transform a vector stored in a VectorImage, at a point.
    * For global transforms, \c point is ignored and \c TransformVector( vector )
    * is called. Local transforms (e.g. deformation
    * field transform) must override and provide required behavior. */
-  virtual OutputVectorPixelType TransformVector(
-    const InputVectorPixelType & vector,
-    const InputPointType & point ) const;
+  virtual OutputVectorPixelType
+  TransformVector(const InputVectorPixelType & vector, const InputPointType & point) const;
 
   /**  Method to transform a CovariantVector. */
-  virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType &) const
+  virtual OutputCovariantVectorType
+  TransformCovariantVector(const InputCovariantVectorType &) const
   {
-    itkExceptionMacro( "TransformCovariantVector( const InputCovariantVectorType & ) is "
-                       "unimplemented for " << this->GetNameOfClass() );
+    itkExceptionMacro("TransformCovariantVector( const InputCovariantVectorType & ) is "
+                      "unimplemented for "
+                      << this->GetNameOfClass());
   }
   /** Method to transform a CovariantVector, using a point. Global transforms
    * can ignore the \c point parameter. Local transforms (e.g. deformation
    * field transform) must override and provide required behavior.
    * By default, \c point is ignored and
    * \c TransformCovariantVector(vector) is called */
-  virtual OutputCovariantVectorType TransformCovariantVector(
-    const InputCovariantVectorType & vector,
-    const InputPointType & point ) const;
+  virtual OutputCovariantVectorType
+  TransformCovariantVector(const InputCovariantVectorType & vector, const InputPointType & point) const;
 
 
   /**  Method to transform a CovariantVector stored in a VectorImage. */
-  virtual OutputVectorPixelType TransformCovariantVector(
-    const InputVectorPixelType & itkNotUsed(vector) ) const
+  virtual OutputVectorPixelType
+  TransformCovariantVector(const InputVectorPixelType & itkNotUsed(vector)) const
   {
-    itkExceptionMacro( "TransformCovariantVector(const InputVectorPixelType &)"
-                       "is unimplemented for " << this->GetNameOfClass() );
+    itkExceptionMacro("TransformCovariantVector(const InputVectorPixelType &)"
+                      "is unimplemented for "
+                      << this->GetNameOfClass());
   }
 
   /** Method to transform a CovariantVector, using a point. Global transforms
@@ -265,18 +257,16 @@ public:
    * field transform) must override and provide required behavior.
    * By default, \c point is ignored and \c TransformCovariantVector(vector) is
    * called */
-  virtual OutputVectorPixelType TransformCovariantVector(
-    const InputVectorPixelType & vector,
-    const InputPointType & point ) const;
+  virtual OutputVectorPixelType
+  TransformCovariantVector(const InputVectorPixelType & vector, const InputPointType & point) const;
 
   /** Method to transform a diffusion tensor */
-  virtual OutputDiffusionTensor3DType TransformDiffusionTensor3D(
-    const InputDiffusionTensor3DType & itkNotUsed(tensor) )
-  const
+  virtual OutputDiffusionTensor3DType
+  TransformDiffusionTensor3D(const InputDiffusionTensor3DType & itkNotUsed(tensor)) const
   {
-    itkExceptionMacro(
-      "TransformDiffusionTensor3D( const InputDiffusionTensor3DType & ) is "
-      "unimplemented for " << this->GetNameOfClass() );
+    itkExceptionMacro("TransformDiffusionTensor3D( const InputDiffusionTensor3DType & ) is "
+                      "unimplemented for "
+                      << this->GetNameOfClass());
   }
 
   /** Method to transform a diffusion tensor at a point. Global transforms
@@ -284,48 +274,46 @@ public:
    * field transform) must override and provide required behavior.
    * By default, \c point is ignored and \c TransformDiffusionTensor(tensor) is
    * called */
-  virtual OutputDiffusionTensor3DType TransformDiffusionTensor3D(
-    const InputDiffusionTensor3DType & tensor,
-    const InputPointType & point ) const;
+  virtual OutputDiffusionTensor3DType
+  TransformDiffusionTensor3D(const InputDiffusionTensor3DType & tensor, const InputPointType & point) const;
 
   /** Method to transform a diffusion tensor stored in a VectorImage */
-  virtual OutputVectorPixelType TransformDiffusionTensor3D(
-    const InputVectorPixelType & itkNotUsed(tensor) ) const
+  virtual OutputVectorPixelType
+  TransformDiffusionTensor3D(const InputVectorPixelType & itkNotUsed(tensor)) const
   {
-    itkExceptionMacro(
-      "TransformDiffusionTensor( const InputVectorPixelType & ) is "
-      "unimplemented for " << this->GetNameOfClass() );
+    itkExceptionMacro("TransformDiffusionTensor( const InputVectorPixelType & ) is "
+                      "unimplemented for "
+                      << this->GetNameOfClass());
   }
 
-  virtual OutputVectorPixelType TransformDiffusionTensor3D(
-    const InputVectorPixelType & tensor,
-    const InputPointType & point ) const;
+  virtual OutputVectorPixelType
+  TransformDiffusionTensor3D(const InputVectorPixelType & tensor, const InputPointType & point) const;
 
   /** Method to transform a diffusion tensor at a point. Global transforms
    * can ignore the \c point parameter. Local transforms (e.g. deformation
    * field transform) must override and provide required behavior.
    * By default, \c point is ignored and \c TransformSymmetricSecondRankTensor(tensor) is
    * called */
-  virtual OutputSymmetricSecondRankTensorType TransformSymmetricSecondRankTensor(
-    const InputSymmetricSecondRankTensorType & tensor,
-    const InputPointType & point ) const;
+  virtual OutputSymmetricSecondRankTensorType
+  TransformSymmetricSecondRankTensor(const InputSymmetricSecondRankTensorType & tensor,
+                                     const InputPointType &                     point) const;
 
   /** Method to transform a ssr tensor stored in a VectorImage */
-  virtual OutputSymmetricSecondRankTensorType TransformSymmetricSecondRankTensor(
-    const InputSymmetricSecondRankTensorType & itkNotUsed(tensor) ) const
+  virtual OutputSymmetricSecondRankTensorType
+  TransformSymmetricSecondRankTensor(const InputSymmetricSecondRankTensorType & itkNotUsed(tensor)) const
   {
-    itkExceptionMacro(
-      "TransformSymmetricSecondRankTensor( const InputSymmetricSecondRankTensorType & ) is "
-      "unimplemented for " << this->GetNameOfClass() );
+    itkExceptionMacro("TransformSymmetricSecondRankTensor( const InputSymmetricSecondRankTensorType & ) is "
+                      "unimplemented for "
+                      << this->GetNameOfClass());
   }
 
   /** Method to transform a ssr tensor stored in a VectorImage */
-  virtual OutputVectorPixelType TransformSymmetricSecondRankTensor(
-    const InputVectorPixelType & itkNotUsed(tensor) ) const
+  virtual OutputVectorPixelType
+  TransformSymmetricSecondRankTensor(const InputVectorPixelType & itkNotUsed(tensor)) const
   {
-    itkExceptionMacro(
-      "TransformSymmetricSecondRankTensor( const InputVectorPixelType & ) is "
-      "unimplemented for " << this->GetNameOfClass() );
+    itkExceptionMacro("TransformSymmetricSecondRankTensor( const InputVectorPixelType & ) is "
+                      "unimplemented for "
+                      << this->GetNameOfClass());
   }
 
   /** Method to transform a diffusion tensor stored in a VectorImage, at
@@ -334,9 +322,8 @@ public:
    * field transform) must override and provide required behavior.
    * By default, \c point is ignored and \c TransformDiffusionTensor(tensor) is
    * called */
-  virtual OutputVectorPixelType TransformSymmetricSecondRankTensor(
-    const InputVectorPixelType & tensor,
-    const InputPointType & point ) const;
+  virtual OutputVectorPixelType
+  TransformSymmetricSecondRankTensor(const InputVectorPixelType & tensor, const InputPointType & point) const;
 
   /** Set the transformation parameters and update internal transformation.
    * SetParameters gives the transform the option to set it's
@@ -345,7 +332,8 @@ public:
    * SetParametersByValue.
    * \sa SetParametersByValue
    */
-  void SetParameters(const ParametersType &) override = 0;
+  void
+  SetParameters(const ParametersType &) override = 0;
 
   /** Set the transformation parameters and update internal transformation.
    * This method forces the transform to copy the parameters.  The
@@ -354,36 +342,41 @@ public:
    * by keeping a reference to the parameters.
    * \sa SetParameters
    */
-  void SetParametersByValue(const ParametersType & p) override
+  void
+  SetParametersByValue(const ParametersType & p) override
   {
     this->SetParameters(p);
   }
 
   /** This function allow copying a range of values into the Parameters
-    * The range of values must conform to std::copy(begin, end, m_Parameters)
-    * requirements.
-    */
-  void CopyInParameters(const ParametersValueType * const begin,
-                                const ParametersValueType * const end) override;
+   * The range of values must conform to std::copy(begin, end, m_Parameters)
+   * requirements.
+   */
+  void
+  CopyInParameters(const ParametersValueType * const begin, const ParametersValueType * const end) override;
 
   /** This function allow copying a range of values into the FixedParameters
-    * The range of values must conform to std::copy(begin, end, m_FixedParameters)
-    * requirements.
-    */
-  void CopyInFixedParameters(const FixedParametersValueType * const begin,
-                                     const FixedParametersValueType * const end) override;
+   * The range of values must conform to std::copy(begin, end, m_FixedParameters)
+   * requirements.
+   */
+  void
+  CopyInFixedParameters(const FixedParametersValueType * const begin,
+                        const FixedParametersValueType * const end) override;
 
   /** Get the Transformation Parameters. */
-  const ParametersType & GetParameters() const override
+  const ParametersType &
+  GetParameters() const override
   {
     return m_Parameters;
   }
 
   /** Set the fixed parameters and update internal transformation. */
-  void SetFixedParameters(const FixedParametersType &) override = 0;
+  void
+  SetFixedParameters(const FixedParametersType &) override = 0;
 
   /** Get the Fixed Parameters. */
-  const FixedParametersType & GetFixedParameters() const override
+  const FixedParametersType &
+  GetFixedParameters() const override
   {
     return m_FixedParameters;
   }
@@ -395,8 +388,8 @@ public:
    * SetParameters is called at the end of this method, to allow the transform
    * to perform any required operations on the updated parameters - typically
    * a conversion to member variables for use in TransformPoint. */
-  virtual void UpdateTransformParameters( const DerivativeType & update,
-                                          ParametersValueType factor = 1.0 );
+  virtual void
+  UpdateTransformParameters(const DerivativeType & update, ParametersValueType factor = 1.0);
 
   /** Return the number of local parameters that completely defines the
    *  Transform at an individual voxel.
@@ -406,22 +399,25 @@ public:
    *  the number of image dimensions. If it is an affine transform, this will
    *  be the same as the GetNumberOfParameters().
    */
-  virtual NumberOfParametersType GetNumberOfLocalParameters() const
+  virtual NumberOfParametersType
+  GetNumberOfLocalParameters() const
   {
     return this->GetNumberOfParameters();
   }
 
   /** Return the number of parameters that completely define the Transfom  */
-  NumberOfParametersType GetNumberOfParameters() const override
+  NumberOfParametersType
+  GetNumberOfParameters() const override
   {
     return this->m_Parameters.Size();
   }
 
   /** Return the number of parameters that define the constant elements of a Transfom  */
-  virtual NumberOfParametersType GetNumberOfFixedParameters() const
-    {
+  virtual NumberOfParametersType
+  GetNumberOfFixedParameters() const
+  {
     return this->m_FixedParameters.Size();
-    }
+  }
 
   /** Returns a boolean indicating whether it is possible or not to compute the
    * inverse of this current Transform. If it is possible, then the inverse of
@@ -431,7 +427,8 @@ public:
    * This method is intended to be overriden as needed by derived classes.
    *
    */
-  bool GetInverse( Self *itkNotUsed(inverseTransform) ) const
+  bool
+  GetInverse(Self * itkNotUsed(inverseTransform)) const
   {
     return false;
   }
@@ -442,27 +439,31 @@ public:
    *  transform. This allows one to return a numeric inverse transform
    *  instead.
    */
-  virtual InverseTransformBasePointer GetInverseTransform() const
+  virtual InverseTransformBasePointer
+  GetInverseTransform() const
   {
     return nullptr;
   }
 
   /** Generate a platform independent name */
-  std::string GetTransformTypeAsString() const override;
+  std::string
+  GetTransformTypeAsString() const override;
 
   using TransformCategoryType = typename Superclass::TransformCategoryType;
 
   /** Indicates the category transform.
    *  e.g. an affine transform, or a local one, e.g. a deformation field.
    */
-  TransformCategoryType GetTransformCategory() const override
+  TransformCategoryType
+  GetTransformCategory() const override
   {
     return Superclass::TransformCategoryType::UnknownTransformCategory;
   }
 
-  virtual bool IsLinear() const
+  virtual bool
+  IsLinear() const
   {
-    return ( this->GetTransformCategory() == Superclass::TransformCategoryType::Linear );
+    return (this->GetTransformCategory() == Superclass::TransformCategoryType::Linear);
   }
 
   /**
@@ -499,11 +500,16 @@ public:
    *  will most likely occur during multi-threading.
    *  To avoid repeatitive memory allocation, pass in 'jacobian' with its size
    *  already set. */
-  virtual void ComputeJacobianWithRespectToParameters(const InputPointType  & itkNotUsed(p), JacobianType & itkNotUsed(jacobian) ) const = 0;
+  virtual void
+  ComputeJacobianWithRespectToParameters(const InputPointType & itkNotUsed(p),
+                                         JacobianType &         itkNotUsed(jacobian)) const = 0;
 
-  virtual void ComputeJacobianWithRespectToParametersCachedTemporaries(const InputPointType  & p, JacobianType & jacobian, JacobianType & itkNotUsed(cachedJacobian) ) const
+  virtual void
+  ComputeJacobianWithRespectToParametersCachedTemporaries(const InputPointType & p,
+                                                          JacobianType &         jacobian,
+                                                          JacobianType &         itkNotUsed(cachedJacobian)) const
   {
-    //NOTE: default implementation is not optimized, and just falls back to original methods.
+    // NOTE: default implementation is not optimized, and just falls back to original methods.
     this->ComputeJacobianWithRespectToParameters(p, jacobian);
   }
 
@@ -513,13 +519,16 @@ public:
    *  transforms it would be unclear what parameters would refer to.
    *  Generally, global transforms should return an indentity jacobian
    *  since there is no change with respect to position. */
-  virtual void ComputeJacobianWithRespectToPosition(const InputPointType & itkNotUsed(x), JacobianPositionType & itkNotUsed(jacobian) ) const
+  virtual void
+  ComputeJacobianWithRespectToPosition(const InputPointType & itkNotUsed(x),
+                                       JacobianPositionType & itkNotUsed(jacobian)) const
   {
-    itkExceptionMacro(
-      "ComputeJacobianWithRespectToPosition( InputPointType, JacobianType )"
-      " is unimplemented for " << this->GetNameOfClass() );
+    itkExceptionMacro("ComputeJacobianWithRespectToPosition( InputPointType, JacobianType )"
+                      " is unimplemented for "
+                      << this->GetNameOfClass());
   }
-  itkLegacyMacro(virtual void ComputeJacobianWithRespectToPosition(const InputPointType & x, JacobianType & jacobian ) const);
+  itkLegacyMacro(virtual void ComputeJacobianWithRespectToPosition(const InputPointType & x, JacobianType & jacobian)
+                   const);
 
 
   /** This provides the ability to get a local jacobian value
@@ -527,9 +536,10 @@ public:
    *  transforms it would be unclear what parameters would refer to.
    *  Generally, global transforms should return an indentity jacobian
    *  since there is no change with respect to position. */
-  virtual void ComputeInverseJacobianWithRespectToPosition(const InputPointType & x,
-                                                           InverseJacobianPositionType & jacobian ) const;
-  itkLegacyMacro(virtual void ComputeInverseJacobianWithRespectToPosition(const InputPointType & x, JacobianType & jacobian ) const);
+  virtual void
+  ComputeInverseJacobianWithRespectToPosition(const InputPointType & x, InverseJacobianPositionType & jacobian) const;
+  itkLegacyMacro(virtual void ComputeInverseJacobianWithRespectToPosition(const InputPointType & x,
+                                                                          JacobianType &         jacobian) const);
 
 protected:
   /**
@@ -537,52 +547,55 @@ protected:
    * This does a complete copy of the transform
    * state to the new transform
    */
-  typename LightObject::Pointer InternalClone() const override;
+  typename LightObject::Pointer
+  InternalClone() const override;
 
   Transform();
   Transform(NumberOfParametersType NumberOfParameters);
 #if defined(__GNUC__) && __GNUC__ < 6
-  ~Transform() override {};
+  ~Transform() override{};
 #else
   ~Transform() override = default;
 #endif
   mutable ParametersType      m_Parameters;
   mutable FixedParametersType m_FixedParameters;
 
-  OutputDiffusionTensor3DType PreservationOfPrincipalDirectionDiffusionTensor3DReorientation(
-    const InputDiffusionTensor3DType &,
-    const InverseJacobianPositionType &) const;
+  OutputDiffusionTensor3DType
+  PreservationOfPrincipalDirectionDiffusionTensor3DReorientation(const InputDiffusionTensor3DType &,
+                                                                 const InverseJacobianPositionType &) const;
 
   mutable DirectionChangeMatrix m_DirectionChange;
 
 private:
   template <typename TType>
-  static std::string GetTransformTypeAsString(TType *)
+  static std::string
+  GetTransformTypeAsString(TType *)
   {
     std::string rval("other");
 
     return rval;
   }
 
-  static std::string GetTransformTypeAsString(float *)
+  static std::string
+  GetTransformTypeAsString(float *)
   {
     std::string rval("float");
 
     return rval;
   }
 
-  static std::string GetTransformTypeAsString(double *)
+  static std::string
+  GetTransformTypeAsString(double *)
   {
     std::string rval("double");
 
     return rval;
   }
-
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTransform.hxx"
+#  include "itkTransform.hxx"
 #endif
 
 #endif

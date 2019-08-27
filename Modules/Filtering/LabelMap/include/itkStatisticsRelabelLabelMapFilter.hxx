@@ -24,25 +24,21 @@
 
 namespace itk
 {
-template< typename TImage >
-StatisticsRelabelLabelMapFilter< TImage >
-::StatisticsRelabelLabelMapFilter()
+template <typename TImage>
+StatisticsRelabelLabelMapFilter<TImage>::StatisticsRelabelLabelMapFilter()
 {
   this->m_Attribute = LabelObjectType::MEAN;
 }
 
-template< typename TImage >
+template <typename TImage>
 void
-StatisticsRelabelLabelMapFilter< TImage >
-::GenerateData()
+StatisticsRelabelLabelMapFilter<TImage>::GenerateData()
 {
-  switch ( this->m_Attribute )
-    {
-    itkStatisticsLabelMapFilterDispatchMacro()
-    default:
-      Superclass::GenerateData();
-      break;
-    }
+  switch (this->m_Attribute)
+  {
+    itkStatisticsLabelMapFilterDispatchMacro() default : Superclass::GenerateData();
+    break;
+  }
 }
 } // end namespace itk
 #endif

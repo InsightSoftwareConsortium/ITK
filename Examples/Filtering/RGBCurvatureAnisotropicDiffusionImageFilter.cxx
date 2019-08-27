@@ -78,15 +78,16 @@
 // Software Guide : EndCodeSnippet
 
 
-int main( int argc, char * argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 5 )
-    {
+  if (argc < 5)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputRGBImageFile  outputRGBImageFile ";
     std::cerr << "numberOfIterations  timeStep  " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   //  Software Guide : BeginLatex
@@ -96,8 +97,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using InputPixelType = itk::RGBPixel< float >;
-  using InputImageType = itk::Image< InputPixelType, 2 >;
+  using InputPixelType = itk::RGBPixel<float>;
+  using InputImageType = itk::Image<InputPixelType, 2>;
   // Software Guide : EndCodeSnippet
 
 
@@ -113,8 +114,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FilterType = itk::VectorCurvatureAnisotropicDiffusionImageFilter<
-                       InputImageType, InputImageType >;
+  using FilterType =
+    itk::VectorCurvatureAnisotropicDiffusionImageFilter<InputImageType, InputImageType>;
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -127,15 +128,15 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
-  filter->SetInput( reader->GetOutput() );
+  reader->SetFileName(argv[1]);
+  filter->SetInput(reader->GetOutput());
   // Software Guide : EndCodeSnippet
 
 
-  const unsigned int numberOfIterations = std::stoi( argv[3] );
-  const double       timeStep = std::stod( argv[4] );
+  const unsigned int numberOfIterations = std::stoi(argv[3]);
+  const double       timeStep = std::stod(argv[4]);
 
 
   //  Software Guide : BeginLatex
@@ -143,8 +144,8 @@ int main( int argc, char * argv[] )
   //  This filter requires two parameters: the number of iterations to be
   //  performed and the time step used in the computation of the level set
   //  evolution. These parameters are set using the methods
-  //  \code{SetNumberOfIterations()} and \code{SetTimeStep()} respectively.  The filter can
-  //  be executed by invoking \code{Update()}.
+  //  \code{SetNumberOfIterations()} and \code{SetTimeStep()} respectively.  The filter
+  //  can be executed by invoking \code{Update()}.
   //
   //  \index{itk::Vector\-Curvature\-Anisotropic\-Diffusion\-Image\-Filter!Update()}
   //  \index{itk::Vector\-Curvature\-Anisotropic\-Diffusion\-Image\-Filter!SetTimeStep()}
@@ -155,8 +156,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  filter->SetNumberOfIterations( numberOfIterations );
-  filter->SetTimeStep( timeStep );
+  filter->SetNumberOfIterations(numberOfIterations);
+  filter->SetTimeStep(timeStep);
   filter->SetConductanceParameter(1.0);
   filter->Update();
   // Software Guide : EndCodeSnippet
@@ -173,10 +174,9 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using WritePixelType = itk::RGBPixel< unsigned char >;
-  using WriteImageType = itk::Image< WritePixelType, 2 >;
-  using CasterType = itk::CastImageFilter<
-                InputImageType, WriteImageType >;
+  using WritePixelType = itk::RGBPixel<unsigned char>;
+  using WriteImageType = itk::Image<WritePixelType, 2>;
+  using CasterType = itk::CastImageFilter<InputImageType, WriteImageType>;
   CasterType::Pointer caster = CasterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -188,11 +188,11 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using WriterType = itk::ImageFileWriter< WriteImageType >;
+  using WriterType = itk::ImageFileWriter<WriteImageType>;
   WriterType::Pointer writer = WriterType::New();
-  caster->SetInput( filter->GetOutput() );
-  writer->SetInput( caster->GetOutput() );
-  writer->SetFileName( argv[2] );
+  caster->SetInput(filter->GetOutput());
+  writer->SetInput(caster->GetOutput());
+  writer->SetFileName(argv[2]);
   writer->Update();
   // Software Guide : EndCodeSnippet
 

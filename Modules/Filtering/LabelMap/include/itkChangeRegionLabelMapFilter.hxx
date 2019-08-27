@@ -41,124 +41,118 @@
 
 namespace itk
 {
-template< typename TInputImage >
+template <typename TInputImage>
 void
-ChangeRegionLabelMapFilter< TInputImage >
-::GenerateInputRequestedRegion()
+ChangeRegionLabelMapFilter<TInputImage>::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the input.
-  InputImagePointer input = const_cast< InputImageType * >( this->GetInput() );
-  if ( !input )
-        { return; }
-  input->SetRequestedRegion( input->GetLargestPossibleRegion() );
+  InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
+  if (!input)
+  {
+    return;
+  }
+  input->SetRequestedRegion(input->GetLargestPossibleRegion());
 }
 
-template< typename TInputImage >
+template <typename TInputImage>
 void
-ChangeRegionLabelMapFilter< TInputImage >
-::GenerateOutputInformation()
+ChangeRegionLabelMapFilter<TInputImage>::GenerateOutputInformation()
 {
   Superclass::GenerateOutputInformation();
   this->GetOutput()->SetLargestPossibleRegion(m_Region);
 }
 
-template< typename TInputImage >
+template <typename TInputImage>
 void
-ChangeRegionLabelMapFilter< TInputImage >
-::EnlargeOutputRequestedRegion(DataObject *)
+ChangeRegionLabelMapFilter<TInputImage>::EnlargeOutputRequestedRegion(DataObject *)
 {
-  this->GetOutput()
-  ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
+  this->GetOutput()->SetRequestedRegion(this->GetOutput()->GetLargestPossibleRegion());
 }
 
-template< typename TInputImage >
+template <typename TInputImage>
 void
-ChangeRegionLabelMapFilter< TInputImage >
-::GenerateData()
+ChangeRegionLabelMapFilter<TInputImage>::GenerateData()
 {
-  if ( m_Region.IsInside( this->GetInput()->GetLargestPossibleRegion() ) )
-    {
+  if (m_Region.IsInside(this->GetInput()->GetLargestPossibleRegion()))
+  {
     // only copy the image, report progress anyway
     ProgressReporter progress(this, 0, 1);
     this->AllocateOutputs();
-    }
+  }
   else
-    {
+  {
     // call the superclass implementation so it will take care to create the
     // threads
     Superclass::GenerateData();
-    }
+  }
 }
 
-template< typename TInputImage >
+template <typename TInputImage>
 void
-ChangeRegionLabelMapFilter< TInputImage >
-::ThreadedProcessLabelObject(LabelObjectType *labelObject)
+ChangeRegionLabelMapFilter<TInputImage>::ThreadedProcessLabelObject(LabelObjectType * labelObject)
 {
   typename LabelObjectType::Pointer tmp = LabelObjectType::New();
-  tmp->template CopyAllFrom<LabelObjectType>( labelObject );
+  tmp->template CopyAllFrom<LabelObjectType>(labelObject);
   labelObject->Clear();
 
   const IndexType idxMin = m_Region.GetIndex();
   IndexType       idxMax;
-  for ( unsigned int i = 0; i < ImageDimension; i++ )
-    {
+  for (unsigned int i = 0; i < ImageDimension; i++)
+  {
     idxMax[i] = idxMin[i] + m_Region.GetSize()[i] - 1;
-    }
+  }
 
-  typename LabelObjectType::ConstLineIterator lit( tmp );
-  while( ! lit.IsAtEnd() )
-    {
+  typename LabelObjectType::ConstLineIterator lit(tmp);
+  while (!lit.IsAtEnd())
+  {
     const IndexType      idx = lit.GetLine().GetIndex();
     const IndexValueType length = lit.GetLine().GetLength();
 
     bool outside = false;
-    for ( unsigned int i = 1; i < ImageDimension; i++ )
+    for (unsigned int i = 1; i < ImageDimension; i++)
+    {
+      if (idx[i] < idxMin[i] || idx[i] > idxMax[i])
       {
-      if ( idx[i] < idxMin[i] || idx[i] > idxMax[i] )
-        {
         outside = true;
-        }
       }
+    }
     // check the axis 0
-    if ( !outside )
-      {
+    if (!outside)
+    {
       const IndexValueType lastIdx0 = idx[0] + length - 1;
-      if ( !( ( idx[0] < idxMin[0] && lastIdx0 < idxMin[0] )
-              || ( idx[0] > idxMax[0] && lastIdx0 > idxMax[0] ) ) )
-        {
+      if (!((idx[0] < idxMin[0] && lastIdx0 < idxMin[0]) || (idx[0] > idxMax[0] && lastIdx0 > idxMax[0])))
+      {
         IndexType      newIdx = idx;
         IndexValueType newLength = length;
-        if ( idx[0] < idxMin[0] )
-          {
+        if (idx[0] < idxMin[0])
+        {
           newLength -= idxMin[0] - idx[0];
           newIdx[0] = idxMin[0];
-          }
-        if ( lastIdx0 > idxMax[0] )
-          {
-          newLength -= lastIdx0 - idxMax[0];
-          }
-        labelObject->AddLine(newIdx, newLength);
         }
+        if (lastIdx0 > idxMax[0])
+        {
+          newLength -= lastIdx0 - idxMax[0];
+        }
+        labelObject->AddLine(newIdx, newLength);
       }
-    ++lit;
     }
+    ++lit;
+  }
 
   // remove the object if it is empty
-  if ( labelObject->Empty() )
-    {
-    std::lock_guard< std::mutex > mutexHolder( this->m_LabelObjectContainerLock );
+  if (labelObject->Empty())
+  {
+    std::lock_guard<std::mutex> mutexHolder(this->m_LabelObjectContainerLock);
     this->GetOutput()->RemoveLabelObject(labelObject);
-    }
+  }
 }
 
-template< typename TInputImage >
+template <typename TInputImage>
 void
-ChangeRegionLabelMapFilter< TInputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+ChangeRegionLabelMapFilter<TInputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Region: " << m_Region << std::endl;

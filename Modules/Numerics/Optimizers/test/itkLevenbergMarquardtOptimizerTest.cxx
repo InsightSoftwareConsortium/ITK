@@ -50,44 +50,54 @@ public:
   using Superclass = itk::MultipleValuedCostFunction;
   using Pointer = itk::SmartPointer<Self>;
   using ConstPointer = itk::SmartPointer<const Self>;
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
-  enum { XRange = 2,
-         YRange = 2 };   // size of the region to sample the cost function
+  enum
+  {
+    XRange = 2,
+    YRange = 2
+  }; // size of the region to sample the cost function
 
-  enum { SpaceDimension =  3 };
-  enum { RangeDimension =  ( 2*XRange+1 ) * ( 2*YRange+1 ) };
+  enum
+  {
+    SpaceDimension = 3
+  };
+  enum
+  {
+    RangeDimension = (2 * XRange + 1) * (2 * YRange + 1)
+  };
 
   using ParametersType = Superclass::ParametersType;
   using DerivativeType = Superclass::DerivativeType;
   using MeasureType = Superclass::MeasureType;
 
-  LMCostFunction():
-            m_Measure(RangeDimension),
-            m_Derivative(SpaceDimension,RangeDimension),
-            m_TheoreticalData(SpaceDimension)
+  LMCostFunction()
+    : m_Measure(RangeDimension)
+    , m_Derivative(SpaceDimension, RangeDimension)
+    , m_TheoreticalData(SpaceDimension)
   {
 
     m_Measure.SetSize(RangeDimension);
-    m_Derivative.SetSize(SpaceDimension,RangeDimension);
+    m_Derivative.SetSize(SpaceDimension, RangeDimension);
     m_TheoreticalData.SetSize(RangeDimension);
 
     // Compute points of the function over a square region
     unsigned valueindex = 0;
-    for( int y = -YRange; y<=YRange; y++ )
-      {
+    for (int y = -YRange; y <= YRange; y++)
+    {
       const auto yd = (double)y;
-      for( int x = -XRange; x<=XRange; x++ )
-        {
+      for (int x = -XRange; x <= XRange; x++)
+      {
         const auto xd = (double)x;
-        m_TheoreticalData[valueindex] = ra*xd + rb*yd + rc;
+        m_TheoreticalData[valueindex] = ra * xd + rb * yd + rc;
         valueindex++;
-        }
       }
+    }
   }
 
 
-  MeasureType GetValue( const ParametersType & parameters ) const override
+  MeasureType
+  GetValue(const ParametersType & parameters) const override
   {
 
     std::cout << "GetValue( ";
@@ -101,24 +111,24 @@ public:
 
     // Compute points of the function over a square region
     unsigned valueindex = 0;
-    for( int y = -YRange; y<=YRange; y++ )
-      {
+    for (int y = -YRange; y <= YRange; y++)
+    {
       const auto yd = (double)y;
-      for( int x = -XRange; x<=XRange; x++ )
-        {
+      for (int x = -XRange; x <= XRange; x++)
+      {
         const auto xd = (double)x;
-        double value = a * xd + b * yd + c;
+        double     value = a * xd + b * yd + c;
         value -= m_TheoreticalData[valueindex];
         m_Measure[valueindex] = value;
         valueindex++;
-        }
       }
+    }
 
     return m_Measure;
- }
+  }
 
-  void GetDerivative( const ParametersType & parameters,
-                            DerivativeType  & derivative ) const override
+  void
+  GetDerivative(const ParametersType & parameters, DerivativeType & derivative) const override
   {
 
     std::cout << "GetDerivative( ";
@@ -132,39 +142,38 @@ public:
 
     // Compute points of the function over a square region
     unsigned valueindex = 0;
-    for( int y = -YRange; y<=YRange; y++ )
+    for (int y = -YRange; y <= YRange; y++)
     {
       const auto yd = (double)y;
-      for( int x = -XRange; x<=XRange; x++ )
+      for (int x = -XRange; x <= XRange; x++)
       {
         const auto xd = (double)x;
-        m_Derivative[0][valueindex] =  xd;
-        m_Derivative[1][valueindex] =  yd;
-        m_Derivative[2][valueindex] =  1.0;
+        m_Derivative[0][valueindex] = xd;
+        m_Derivative[1][valueindex] = yd;
+        m_Derivative[2][valueindex] = 1.0;
         valueindex++;
       }
     }
 
     derivative = m_Derivative;
-
   }
 
-  unsigned int GetNumberOfParameters() const override
+  unsigned int
+  GetNumberOfParameters() const override
   {
     return SpaceDimension;
   }
 
-  unsigned int GetNumberOfValues() const override
+  unsigned int
+  GetNumberOfValues() const override
   {
     return RangeDimension;
   }
 
 private:
-
-  mutable MeasureType       m_Measure;
-  mutable DerivativeType    m_Derivative;
-          MeasureType       m_TheoreticalData;
-
+  mutable MeasureType    m_Measure;
+  mutable DerivativeType m_Derivative;
+  MeasureType            m_TheoreticalData;
 };
 
 class CommandIterationUpdateLevenbergMarquardt : public itk::Command
@@ -173,39 +182,37 @@ public:
   using Self = CommandIterationUpdateLevenbergMarquardt;
   using Superclass = itk::Command;
   using Pointer = itk::SmartPointer<Self>;
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
 protected:
-  CommandIterationUpdateLevenbergMarquardt()
-  {
-    m_IterationNumber=0;
-  }
+  CommandIterationUpdateLevenbergMarquardt() { m_IterationNumber = 0; }
 
 public:
   using OptimizerType = itk::LevenbergMarquardtOptimizer;
-  using OptimizerPointer = const OptimizerType   *;
+  using OptimizerPointer = const OptimizerType *;
 
-  void Execute(itk::Object *caller, const itk::EventObject & event) override
-    {
-      Execute( (const itk::Object *)caller, event);
-    }
+  void
+  Execute(itk::Object * caller, const itk::EventObject & event) override
+  {
+    Execute((const itk::Object *)caller, event);
+  }
 
-  void Execute(const itk::Object * object, const itk::EventObject & event) override
-    {
+  void
+  Execute(const itk::Object * object, const itk::EventObject & event) override
+  {
     std::cout << "Observer::Execute() " << std::endl;
-      auto optimizer = static_cast< OptimizerPointer >( object );
-      if( m_FunctionEvent.CheckEvent( &event ) )
-        {
-        std::cout << m_IterationNumber++ << "   ";
-        std::cout << optimizer->GetCachedValue() << "   ";
-        std::cout << optimizer->GetCachedCurrentPosition() << std::endl;
-        }
-      else if( m_GradientEvent.CheckEvent( &event ) )
-        {
-        std::cout << "Gradient " << optimizer->GetCachedDerivative() << "   ";
-        }
-
+    auto optimizer = static_cast<OptimizerPointer>(object);
+    if (m_FunctionEvent.CheckEvent(&event))
+    {
+      std::cout << m_IterationNumber++ << "   ";
+      std::cout << optimizer->GetCachedValue() << "   ";
+      std::cout << optimizer->GetCachedCurrentPosition() << std::endl;
     }
+    else if (m_GradientEvent.CheckEvent(&event))
+    {
+      std::cout << "Gradient " << optimizer->GetCachedDerivative() << "   ";
+    }
+  }
 
 private:
   unsigned long m_IterationNumber;
@@ -214,9 +221,13 @@ private:
   itk::GradientEvaluationIterationEvent m_GradientEvent;
 };
 
-int itkRunLevenbergMarquardOptimization( bool useGradient,
-                double fTolerance, double gTolerance, double xTolerance,
-                double epsilonFunction, int maxIterations )
+int
+itkRunLevenbergMarquardOptimization(bool   useGradient,
+                                    double fTolerance,
+                                    double gTolerance,
+                                    double xTolerance,
+                                    double epsilonFunction,
+                                    int    maxIterations)
 {
   std::cout << "Levenberg Marquardt optimizer test \n \n";
 
@@ -225,48 +236,48 @@ int itkRunLevenbergMarquardOptimization( bool useGradient,
   using vnlOptimizerType = OptimizerType::InternalOptimizerType;
 
   // Declaration of a itkOptimizer
-  OptimizerType::Pointer  optimizer = OptimizerType::New();
+  OptimizerType::Pointer optimizer = OptimizerType::New();
 
   // Declaration of the CostFunction adaptor
   LMCostFunction::Pointer costFunction = LMCostFunction::New();
 
   using ParametersType = LMCostFunction::ParametersType;
-  ParametersType  parameters(LMCostFunction::SpaceDimension);
+  ParametersType parameters(LMCostFunction::SpaceDimension);
   parameters.Fill(0.0);
   costFunction->GetValue(parameters);
 
   std::cout << "Number of Values = " << costFunction->GetNumberOfValues() << "\n";
 
   try
-    {
-    optimizer->SetCostFunction( costFunction );
-    }
-  catch( itk::ExceptionObject & e )
-    {
+  {
+    optimizer->SetCostFunction(costFunction);
+  }
+  catch (itk::ExceptionObject & e)
+  {
     std::cout << "Exception thrown ! " << std::endl;
     std::cout << "An error occurred during Optimization" << std::endl;
     std::cout << e << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // this following call is equivalent to invoke: costFunction->SetUseGradient( useGradient );
   optimizer->GetUseCostFunctionGradient();
   optimizer->UseCostFunctionGradientOn();
   optimizer->UseCostFunctionGradientOff();
-  optimizer->SetUseCostFunctionGradient( useGradient );
+  optimizer->SetUseCostFunctionGradient(useGradient);
 
 
   vnlOptimizerType * vnlOptimizer = optimizer->GetOptimizer();
 
-  vnlOptimizer->set_f_tolerance( fTolerance );
-  vnlOptimizer->set_g_tolerance( gTolerance );
-  vnlOptimizer->set_x_tolerance( xTolerance );
-  vnlOptimizer->set_epsilon_function( epsilonFunction );
-  vnlOptimizer->set_max_function_evals( maxIterations );
+  vnlOptimizer->set_f_tolerance(fTolerance);
+  vnlOptimizer->set_g_tolerance(gTolerance);
+  vnlOptimizer->set_x_tolerance(xTolerance);
+  vnlOptimizer->set_epsilon_function(epsilonFunction);
+  vnlOptimizer->set_max_function_evals(maxIterations);
 
   // We start not so far from the solution
   using ParametersType = LMCostFunction::ParametersType;
-  ParametersType  initialValue(LMCostFunction::SpaceDimension);
+  ParametersType initialValue(LMCostFunction::SpaceDimension);
 
   initialValue[0] = 200;
   initialValue[1] = 300;
@@ -276,53 +287,63 @@ int itkRunLevenbergMarquardOptimization( bool useGradient,
 
   currentValue = initialValue;
 
-  optimizer->SetInitialPosition( currentValue );
+  optimizer->SetInitialPosition(currentValue);
 
-  CommandIterationUpdateLevenbergMarquardt::Pointer observer =
-    CommandIterationUpdateLevenbergMarquardt::New();
-  optimizer->AddObserver( itk::IterationEvent(), observer );
-  optimizer->AddObserver( itk::FunctionEvaluationIterationEvent(), observer );
+  CommandIterationUpdateLevenbergMarquardt::Pointer observer = CommandIterationUpdateLevenbergMarquardt::New();
+  optimizer->AddObserver(itk::IterationEvent(), observer);
+  optimizer->AddObserver(itk::FunctionEvaluationIterationEvent(), observer);
 
   try
-    {
+  {
     optimizer->StartOptimization();
-    }
-  catch( itk::ExceptionObject & e )
-    {
+  }
+  catch (itk::ExceptionObject & e)
+  {
     std::cerr << "Exception thrown ! " << std::endl;
     std::cerr << "An error occurred during Optimization" << std::endl;
-    std::cerr << "Location    = " << e.GetLocation()    << std::endl;
+    std::cerr << "Location    = " << e.GetLocation() << std::endl;
     std::cerr << "Description = " << e.GetDescription() << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   // Error codes taken from vxl/vnl/vnl_nonlinear_minimizer.h
   std::cout << "End condition   = ";
-  switch( vnlOptimizer->get_failure_code() )
+  switch (vnlOptimizer->get_failure_code())
   {
     case vnl_nonlinear_minimizer::ERROR_FAILURE:
-                      std::cout << " Error Failure"; break;
+      std::cout << " Error Failure";
+      break;
     case vnl_nonlinear_minimizer::ERROR_DODGY_INPUT:
-                      std::cout << " Error Dogy Input"; break;
-    case  vnl_nonlinear_minimizer::CONVERGED_FTOL:
-                      std::cout << " Converged F  Tolerance"; break;
-    case  vnl_nonlinear_minimizer::CONVERGED_XTOL:
-                      std::cout << " Converged X  Tolerance"; break;
-    case  vnl_nonlinear_minimizer::CONVERGED_XFTOL:
-                      std::cout << " Converged XF Tolerance"; break;
-    case  vnl_nonlinear_minimizer::CONVERGED_GTOL:
-                      std::cout << " Converged G  Tolerance"; break;
-    case  vnl_nonlinear_minimizer::FAILED_TOO_MANY_ITERATIONS:
-                      std::cout << " Too many iterations   "; break;
-    case  vnl_nonlinear_minimizer::FAILED_FTOL_TOO_SMALL:
-                      std::cout << " Failed F Tolerance too small "; break;
-    case  vnl_nonlinear_minimizer::FAILED_XTOL_TOO_SMALL:
-                      std::cout << " Failed X Tolerance too small "; break;
-    case  vnl_nonlinear_minimizer::FAILED_GTOL_TOO_SMALL:
-                      std::cout << " Failed G Tolerance too small "; break;
-    case  vnl_nonlinear_minimizer::FAILED_USER_REQUEST:
-                      std::cout << " Failed user request "; break;
+      std::cout << " Error Dogy Input";
+      break;
+    case vnl_nonlinear_minimizer::CONVERGED_FTOL:
+      std::cout << " Converged F  Tolerance";
+      break;
+    case vnl_nonlinear_minimizer::CONVERGED_XTOL:
+      std::cout << " Converged X  Tolerance";
+      break;
+    case vnl_nonlinear_minimizer::CONVERGED_XFTOL:
+      std::cout << " Converged XF Tolerance";
+      break;
+    case vnl_nonlinear_minimizer::CONVERGED_GTOL:
+      std::cout << " Converged G  Tolerance";
+      break;
+    case vnl_nonlinear_minimizer::FAILED_TOO_MANY_ITERATIONS:
+      std::cout << " Too many iterations   ";
+      break;
+    case vnl_nonlinear_minimizer::FAILED_FTOL_TOO_SMALL:
+      std::cout << " Failed F Tolerance too small ";
+      break;
+    case vnl_nonlinear_minimizer::FAILED_XTOL_TOO_SMALL:
+      std::cout << " Failed X Tolerance too small ";
+      break;
+    case vnl_nonlinear_minimizer::FAILED_GTOL_TOO_SMALL:
+      std::cout << " Failed G Tolerance too small ";
+      break;
+    case vnl_nonlinear_minimizer::FAILED_USER_REQUEST:
+      std::cout << " Failed user request ";
+      break;
   }
   std::cout << std::endl;
   std::cout << "Stop description   = " << optimizer->GetStopConditionDescription() << std::endl;
@@ -343,42 +364,42 @@ int itkRunLevenbergMarquardOptimization( bool useGradient,
   //
   // check results to see if it is within range
   //
-  bool pass = true;
-  double trueParameters[3] = { ra,rb,rc };
-  for( unsigned int j = 0; j < LMCostFunction::SpaceDimension; j++ )
-    {
-    if( itk::Math::abs( finalPosition[j] - trueParameters[j] ) > 0.01 )
+  bool   pass = true;
+  double trueParameters[3] = { ra, rb, rc };
+  for (unsigned int j = 0; j < LMCostFunction::SpaceDimension; j++)
+  {
+    if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)
       pass = false;
-    }
+  }
 
-  if( !pass )
-    {
+  if (!pass)
+  {
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-   // Get the final value of the optimizer
+  // Get the final value of the optimizer
   std::cout << "Testing GetValue() : ";
   OptimizerType::MeasureType finalValue = optimizer->GetValue();
 
   // We compare only the first value for this test
-  if(std::fabs(finalValue[0]-0.0)>0.01)
-    {
+  if (std::fabs(finalValue[0] - 0.0) > 0.01)
+  {
     std::cout << "[FAILURE]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   else
-    {
+  {
     std::cout << "[SUCCESS]" << std::endl;
-    }
+  }
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
-
 }
 
 
-int itkLevenbergMarquardtOptimizerTest(int argc, char* argv[] )
+int
+itkLevenbergMarquardtOptimizerTest(int argc, char * argv[])
 {
   std::cout << "Levenberg Marquardt optimizer test \n \n";
 
@@ -386,36 +407,36 @@ int itkLevenbergMarquardtOptimizerTest(int argc, char* argv[] )
   bool useGradient;
   int  result;
 
-  double F_Tolerance      =  1e-2;  // Function value tolerance
-  double G_Tolerance      =  1e-2;  // Gradient magnitude tolerance
-  double X_Tolerance      =  1e-5;  // Search space tolerance
-  double Epsilon_Function =  1e-9;  // Step
-  int    Max_Iterations   =   200;  // Maximum number of iterations
+  double F_Tolerance = 1e-2;      // Function value tolerance
+  double G_Tolerance = 1e-2;      // Gradient magnitude tolerance
+  double X_Tolerance = 1e-5;      // Search space tolerance
+  double Epsilon_Function = 1e-9; // Step
+  int    Max_Iterations = 200;    // Maximum number of iterations
 
-  if( argc > 1 )
-    {
-    F_Tolerance = std::stod( argv[1] );
-    }
+  if (argc > 1)
+  {
+    F_Tolerance = std::stod(argv[1]);
+  }
 
-  if( argc > 2 )
-    {
-    G_Tolerance = std::stod( argv[2] );
-    }
+  if (argc > 2)
+  {
+    G_Tolerance = std::stod(argv[2]);
+  }
 
-  if( argc > 3 )
-    {
-    X_Tolerance = std::stod( argv[3] );
-    }
+  if (argc > 3)
+  {
+    X_Tolerance = std::stod(argv[3]);
+  }
 
-  if( argc > 4 )
-    {
-    Epsilon_Function = std::stod( argv[4] );
-    }
+  if (argc > 4)
+  {
+    Epsilon_Function = std::stod(argv[4]);
+  }
 
-  if( argc > 5 )
-    {
-    Max_Iterations = std::stoi( argv[5] );
-    }
+  if (argc > 5)
+  {
+    Max_Iterations = std::stoi(argv[5]);
+  }
 
   std::cout << "F_Tolerance      = " << F_Tolerance << std::endl;
   std::cout << "G_Tolerance      = " << G_Tolerance << std::endl;
@@ -427,25 +448,23 @@ int itkLevenbergMarquardtOptimizerTest(int argc, char* argv[] )
   std::cout << std::endl;
   std::cout << "Running using the Gradient computed by vnl " << std::endl;
   useGradient = false;
-  result = itkRunLevenbergMarquardOptimization( useGradient,F_Tolerance,
-                                                G_Tolerance,X_Tolerance,
-                                                Epsilon_Function,Max_Iterations );
-  if( result == EXIT_FAILURE )
-    {
+  result = itkRunLevenbergMarquardOptimization(
+    useGradient, F_Tolerance, G_Tolerance, X_Tolerance, Epsilon_Function, Max_Iterations);
+  if (result == EXIT_FAILURE)
+  {
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << std::endl;
   std::cout << std::endl;
   std::cout << "Running using the Gradient provided by the Cost function" << std::endl;
   useGradient = true;
-  result = itkRunLevenbergMarquardOptimization( useGradient,F_Tolerance,
-                                                G_Tolerance,X_Tolerance,
-                                                Epsilon_Function,Max_Iterations );
-  if( result == EXIT_FAILURE )
-    {
+  result = itkRunLevenbergMarquardOptimization(
+    useGradient, F_Tolerance, G_Tolerance, X_Tolerance, Epsilon_Function, Max_Iterations);
+  if (result == EXIT_FAILURE)
+  {
     return EXIT_FAILURE;
-    }
+  }
 
 
   return EXIT_SUCCESS;

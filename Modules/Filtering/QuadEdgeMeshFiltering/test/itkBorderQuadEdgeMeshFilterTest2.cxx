@@ -24,48 +24,49 @@
 // This test demonstrates that BorderQuadEdgeMeshFilter throws an exception if
 // the input has no boundary.
 
-int itkBorderQuadEdgeMeshFilterTest2( int argc, char* argv[] )
+int
+itkBorderQuadEdgeMeshFilterTest2(int argc, char * argv[])
 {
   // ** ERROR MESSAGE AND HELP ** //
-  if( argc != 2 )
-    {
-    std::cout <<"Requires 1 arguments: " << std::endl;
-    std::cout <<"- Border Pick" << std::endl;
-    std::cout <<"   * 0: LONGEST" << std::endl;
-    std::cout <<"   * 1: LARGEST" << std::endl;
+  if (argc != 2)
+  {
+    std::cout << "Requires 1 arguments: " << std::endl;
+    std::cout << "- Border Pick" << std::endl;
+    std::cout << "   * 0: LONGEST" << std::endl;
+    std::cout << "   * 1: LARGEST" << std::endl;
 
     return EXIT_FAILURE;
-    }
+  }
 
 
   // ** TYPEDEF **
   using Coord = double;
 
-  using MeshType = itk::QuadEdgeMesh< Coord, 3 >;
-  using SourceType = itk::RegularSphereMeshSource< MeshType >;
-  using BorderTransformType = itk::BorderQuadEdgeMeshFilter< MeshType, MeshType >;
+  using MeshType = itk::QuadEdgeMesh<Coord, 3>;
+  using SourceType = itk::RegularSphereMeshSource<MeshType>;
+  using BorderTransformType = itk::BorderQuadEdgeMeshFilter<MeshType, MeshType>;
 
   SourceType::Pointer source = SourceType::New();
 
   // ** CHOSE< COMPUTE AND SET BORDER TRANSFORM **
-  BorderTransformType::Pointer border_transform = BorderTransformType::New( );
-  border_transform->SetInput( source->GetOutput()  );
-  border_transform->SetTransformType( BorderTransformType::SQUARE_BORDER_TRANSFORM );
+  BorderTransformType::Pointer border_transform = BorderTransformType::New();
+  border_transform->SetInput(source->GetOutput());
+  border_transform->SetTransformType(BorderTransformType::SQUARE_BORDER_TRANSFORM);
 
-  switch( std::stoi( argv[1] ) )
-    {
+  switch (std::stoi(argv[1]))
+  {
     case 0:
-        border_transform->SetBorderPick( BorderTransformType::LONGEST );
-        break;
+      border_transform->SetBorderPick(BorderTransformType::LONGEST);
+      break;
     case 1:
-        border_transform->SetBorderPick( BorderTransformType::LARGEST );
-        break;
+      border_transform->SetBorderPick(BorderTransformType::LARGEST);
+      break;
     default: // handle .... user ....
-        std::cerr << "0 for LONGEST BORDER or 1 for LARGEST BORDER" << std::endl;
-        return EXIT_FAILURE;
-    }
+      std::cerr << "0 for LONGEST BORDER or 1 for LARGEST BORDER" << std::endl;
+      return EXIT_FAILURE;
+  }
 
-  ITK_TRY_EXPECT_EXCEPTION( border_transform->Update() );
+  ITK_TRY_EXPECT_EXCEPTION(border_transform->Update());
 
   // GET OUT OF HERE AND GET (YET ANOTHER) COFFEE
   return EXIT_SUCCESS;

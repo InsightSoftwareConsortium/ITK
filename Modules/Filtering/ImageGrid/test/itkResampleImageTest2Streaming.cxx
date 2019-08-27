@@ -31,18 +31,18 @@
  * '--compare' option.
  */
 
-namespace {
+namespace
+{
 
-template<typename TCoordRepType, unsigned int NDimensions>
-class NonlinearAffineTransform:
-  public itk::AffineTransform<TCoordRepType,NDimensions>
+template <typename TCoordRepType, unsigned int NDimensions>
+class NonlinearAffineTransform : public itk::AffineTransform<TCoordRepType, NDimensions>
 {
 public:
   /** Standard class type aliases.   */
   using Self = NonlinearAffineTransform;
-  using Superclass = itk::AffineTransform< TCoordRepType, NDimensions >;
-  using Pointer = itk::SmartPointer< Self >;
-  using ConstPointer = itk::SmartPointer< const Self >;
+  using Superclass = itk::AffineTransform<TCoordRepType, NDimensions>;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
 
   /** New macro for creation of through a smart pointer. */
   itkSimpleNewMacro(Self);
@@ -51,17 +51,19 @@ public:
   itkTypeMacro(NonlinearAffineTransform, AffineTransform);
 
   /** Override this so not linear. See test below. */
-  typename itk::TransformBaseTemplate< TCoordRepType >::TransformCategoryType GetTransformCategory() const override
-    {
-    return itk::TransformBaseTemplate< TCoordRepType >::TransformCategoryType::UnknownTransformCategory;
-    }
+  typename itk::TransformBaseTemplate<TCoordRepType>::TransformCategoryType
+  GetTransformCategory() const override
+  {
+    return itk::TransformBaseTemplate<TCoordRepType>::TransformCategoryType::UnknownTransformCategory;
+  }
 };
-}
+} // namespace
 
-int itkResampleImageTest2Streaming( int argc, char * argv [] )
+int
+itkResampleImageTest2Streaming(int argc, char * argv[])
 {
-  if( argc < 7 )
-    {
+  if (argc < 7)
+  {
     std::cerr << "Missing arguments ! " << std::endl;
     std::cerr << "Usage : " << std::endl;
     std::cerr << argv[0] << "inputImage referenceImage "
@@ -70,7 +72,7 @@ int itkResampleImageTest2Streaming( int argc, char * argv [] )
               << "resampledImageNonLinearNearestExtrapolate";
     std::cerr << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int NDimensions = 2;
 
@@ -78,13 +80,13 @@ int itkResampleImageTest2Streaming( int argc, char * argv [] )
   using ImageType = itk::Image<PixelType, NDimensions>;
   using CoordRepType = double;
 
-  using AffineTransformType = itk::AffineTransform<CoordRepType,NDimensions>;
-  using NonlinearAffineTransformType = NonlinearAffineTransform<CoordRepType,NDimensions>;
-  using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType,CoordRepType>;
-  using ExtrapolatorType = itk::NearestNeighborExtrapolateImageFunction<ImageType,CoordRepType>;
+  using AffineTransformType = itk::AffineTransform<CoordRepType, NDimensions>;
+  using NonlinearAffineTransformType = NonlinearAffineTransform<CoordRepType, NDimensions>;
+  using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, CoordRepType>;
+  using ExtrapolatorType = itk::NearestNeighborExtrapolateImageFunction<ImageType, CoordRepType>;
 
-  using ReaderType = itk::ImageFileReader< ImageType >;
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  using WriterType = itk::ImageFileWriter<ImageType>;
 
   ReaderType::Pointer reader1 = ReaderType::New();
   ReaderType::Pointer reader2 = ReaderType::New();
@@ -94,13 +96,13 @@ int itkResampleImageTest2Streaming( int argc, char * argv [] )
   WriterType::Pointer writer3 = WriterType::New();
   WriterType::Pointer writer4 = WriterType::New();
 
-  reader1->SetFileName( argv[1] );
-  reader2->SetFileName( argv[2] );
+  reader1->SetFileName(argv[1]);
+  reader2->SetFileName(argv[2]);
 
-  writer1->SetFileName( argv[3] );
-  writer2->SetFileName( argv[4] );
-  writer3->SetFileName( argv[5] );
-  writer4->SetFileName( argv[6] );
+  writer1->SetFileName(argv[3]);
+  writer2->SetFileName(argv[4]);
+  writer3->SetFileName(argv[5]);
+  writer4->SetFileName(argv[6]);
 
   // Create an affine transformation
   AffineTransformType::Pointer affineTransform = AffineTransformType::New();
@@ -113,55 +115,55 @@ int itkResampleImageTest2Streaming( int argc, char * argv [] )
   ExtrapolatorType::Pointer extrapolator = ExtrapolatorType::New();
 
   // Create and configure a resampling filter
-  using ResampleFilterType = itk::ResampleImageFilter< ImageType, ImageType >;
+  using ResampleFilterType = itk::ResampleImageFilter<ImageType, ImageType>;
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
-  using MonitorFilterType = itk::PipelineMonitorImageFilter< ImageType >;
+  using MonitorFilterType = itk::PipelineMonitorImageFilter<ImageType>;
   MonitorFilterType::Pointer monitor = MonitorFilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( resample, ResampleImageFilter, ImageToImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(resample, ResampleImageFilter, ImageToImageFilter);
 
-  monitor->SetInput( reader1->GetOutput() );
-  ITK_TEST_SET_GET_VALUE( reader1->GetOutput(), monitor->GetInput() );
+  monitor->SetInput(reader1->GetOutput());
+  ITK_TEST_SET_GET_VALUE(reader1->GetOutput(), monitor->GetInput());
 
-  resample->SetReferenceImage( reader2->GetOutput() );
-  ITK_TEST_SET_GET_VALUE( reader2->GetOutput(), resample->GetReferenceImage() );
+  resample->SetReferenceImage(reader2->GetOutput());
+  ITK_TEST_SET_GET_VALUE(reader2->GetOutput(), resample->GetReferenceImage());
 
   resample->UseReferenceImageOn();
-  ITK_TEST_EXPECT_TRUE( resample->GetUseReferenceImage() );
+  ITK_TEST_EXPECT_TRUE(resample->GetUseReferenceImage());
 
-  resample->SetTransform( affineTransform );
-  ITK_TEST_SET_GET_VALUE( affineTransform, resample->GetTransform() );
+  resample->SetTransform(affineTransform);
+  ITK_TEST_SET_GET_VALUE(affineTransform, resample->GetTransform());
 
-  resample->SetInterpolator( interpolator );
-  ITK_TEST_SET_GET_VALUE( interpolator, resample->GetInterpolator() );
+  resample->SetInterpolator(interpolator);
+  ITK_TEST_SET_GET_VALUE(interpolator, resample->GetInterpolator());
 
-  resample->SetInput( monitor->GetOutput() );
-  ITK_TEST_SET_GET_VALUE( monitor->GetOutput(), resample->GetInput() );
-  writer1->SetInput( resample->GetOutput() );
+  resample->SetInput(monitor->GetOutput());
+  ITK_TEST_SET_GET_VALUE(monitor->GetOutput(), resample->GetInput());
+  writer1->SetInput(resample->GetOutput());
 
   // Check GetReferenceImage
-  if( resample->GetReferenceImage() != reader2->GetOutput() )
-    {
+  if (resample->GetReferenceImage() != reader2->GetOutput())
+  {
     std::cerr << "GetReferenceImage() failed ! " << std::endl;
     std::cerr << "Test failed." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Run the resampling filter with the normal, linear, affine transform.
   // This will use ResampleImageFilter::LinearThreadedGenerateData().
   std::cout << "Test with normal AffineTransform." << std::endl;
-  writer1->SetNumberOfStreamDivisions(8); //split into 8 pieces for streaming.
+  writer1->SetNumberOfStreamDivisions(8); // split into 8 pieces for streaming.
   monitor->ClearPipelineSavedInformation();
-  ITK_TRY_EXPECT_NO_EXCEPTION( writer1->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer1->Update());
 
-  if( !monitor->VerifyInputFilterExecutedStreaming(8) )
-    {
+  if (!monitor->VerifyInputFilterExecutedStreaming(8))
+  {
     std::cerr << "Streaming failed to execute as expected!" << std::endl;
     std::cerr << monitor;
     std::cerr << "Test failed." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Assign an affine transform that returns
   // false for IsLinear() instead of true, to force
@@ -169,42 +171,43 @@ int itkResampleImageTest2Streaming( int argc, char * argv [] )
   // instead of LinearThreadedGenerateData. This will test that
   // we get the same results for both methods.
   std::cout << "Test with NonlinearAffineTransform." << std::endl;
-  NonlinearAffineTransformType::Pointer nonlinearAffineTransform =
-                                    NonlinearAffineTransformType::New();
+  NonlinearAffineTransformType::Pointer nonlinearAffineTransform = NonlinearAffineTransformType::New();
 
   nonlinearAffineTransform->Scale(2.0);
-  resample->SetTransform( nonlinearAffineTransform );
+  resample->SetTransform(nonlinearAffineTransform);
   monitor->ClearPipelineSavedInformation();
-  writer2->SetInput( resample->GetOutput() );
+  writer2->SetInput(resample->GetOutput());
   writer2->SetNumberOfStreamDivisions(8);
-  ITK_TRY_EXPECT_NO_EXCEPTION( writer2->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer2->Update());
 
   std::cout << "We demanded splitting into 8 pieces for streaming, \
-but faked non-linearity should disable streaming." << std::endl;
-  if ( monitor->VerifyInputFilterExecutedStreaming(8) )
-    {
+but faked non-linearity should disable streaming."
+            << std::endl;
+  if (monitor->VerifyInputFilterExecutedStreaming(8))
+  {
     std::cerr << "Streaming succeeded for non-linear transform which should not be the case!" << std::endl;
     std::cerr << monitor;
     std::cerr << "Test failed." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Instead of using the default pixel when sampling outside the input image,
   // we use a nearest neighbor extrapolator.
-  resample->SetTransform( affineTransform );
-  resample->SetExtrapolator( extrapolator );
-  writer3->SetInput( resample->GetOutput() );
+  resample->SetTransform(affineTransform);
+  resample->SetExtrapolator(extrapolator);
+  writer3->SetInput(resample->GetOutput());
   std::cout << "Test with nearest neighbor extrapolator, affine transform." << std::endl;
-  writer3->SetNumberOfStreamDivisions(8); //split into 8 pieces for streaming.
-  ITK_TRY_EXPECT_NO_EXCEPTION( writer3->Update() );
+  writer3->SetNumberOfStreamDivisions(8); // split into 8 pieces for streaming.
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer3->Update());
 
   // Instead of using the default pixel when sampling outside the input image,
   // we use a nearest neighbor extrapolator.
-  resample->SetTransform( nonlinearAffineTransform );
-  writer4->SetInput( resample->GetOutput() );
+  resample->SetTransform(nonlinearAffineTransform);
+  writer4->SetInput(resample->GetOutput());
   std::cout << "Test with nearest neighbor extrapolator, nonlinear transform." << std::endl;
-  writer4->SetNumberOfStreamDivisions(8); //demand splitting into 8 pieces for streaming, but faked non-linearity will disable streaming
-  ITK_TRY_EXPECT_NO_EXCEPTION( writer4->Update() );
+  writer4->SetNumberOfStreamDivisions(
+    8); // demand splitting into 8 pieces for streaming, but faked non-linearity will disable streaming
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer4->Update());
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;

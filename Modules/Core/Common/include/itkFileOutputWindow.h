@@ -39,7 +39,7 @@ namespace itk
  * \endsphinx
  */
 
-class ITKCommon_EXPORT FileOutputWindow:public OutputWindow
+class ITKCommon_EXPORT FileOutputWindow : public OutputWindow
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FileOutputWindow);
@@ -47,8 +47,8 @@ public:
   /** Standard class type aliases. */
   using Self = FileOutputWindow;
   using Superclass = OutputWindow;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -57,7 +57,8 @@ public:
   itkTypeMacro(FileOutputWindow, OutputWindow);
 
   /** Send a string to display. */
-  void DisplayText(const char *) override;
+  void
+  DisplayText(const char *) override;
 
   /** Set the filename for the log file */
   itkSetStringMacro(FileName);
@@ -81,11 +82,13 @@ public:
 protected:
   FileOutputWindow();
   ~FileOutputWindow() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void Initialize();
+  void
+  Initialize();
 
-  std::ofstream *m_Stream;
+  std::ofstream * m_Stream;
 
   std::string m_FileName;
 

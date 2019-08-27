@@ -24,8 +24,7 @@ namespace itk
 /**
  * ************************* Constructor ************************
  */
-SPSAOptimizer
-::SPSAOptimizer()
+SPSAOptimizer ::SPSAOptimizer()
 
 {
   itkDebugMacro("Constructor");
@@ -53,8 +52,7 @@ SPSAOptimizer
  * ************************* PrintSelf **************************
  */
 void
-SPSAOptimizer
-::PrintSelf(std::ostream & os, Indent indent) const
+SPSAOptimizer ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -71,26 +69,19 @@ SPSAOptimizer
 
   os << indent << "NumberOfPerturbations: " << m_NumberOfPerturbations << std::endl;
 
-  os << indent << "LearningRate: "
-     << m_LearningRate << std::endl;
+  os << indent << "LearningRate: " << m_LearningRate << std::endl;
 
-  os << indent << "MaximumNumberOfIterations: "
-     << m_MaximumNumberOfIterations << std::endl;
-  os << indent << "MinimumNumberOfIterations: "
-     << m_MinimumNumberOfIterations << std::endl;
+  os << indent << "MaximumNumberOfIterations: " << m_MaximumNumberOfIterations << std::endl;
+  os << indent << "MinimumNumberOfIterations: " << m_MinimumNumberOfIterations << std::endl;
 
-  os << indent << "Maximize: "
-     << m_Maximize << std::endl;
+  os << indent << "Maximize: " << m_Maximize << std::endl;
 
-  os << indent << "CurrentIteration: "
-     << m_CurrentIteration;
-  if ( m_CostFunction )
-    {
-    os << indent << "CostFunction: "
-       << m_CostFunction;
-    }
-  os << indent << "StopCondition: "
-     << m_StopCondition;
+  os << indent << "CurrentIteration: " << m_CurrentIteration;
+  if (m_CostFunction)
+  {
+    os << indent << "CostFunction: " << m_CostFunction;
+  }
+  os << indent << "StopCondition: " << m_StopCondition;
   os << std::endl;
 } // end PrintSelf
 
@@ -99,8 +90,7 @@ SPSAOptimizer
  * Get the cost function value at a position.
  */
 SPSAOptimizer::MeasureType
-SPSAOptimizer
-::GetValue(const ParametersType & parameters) const
+SPSAOptimizer ::GetValue(const ParametersType & parameters) const
 {
   /**
    * This method just calls the Superclass' implementation,
@@ -115,44 +105,41 @@ SPSAOptimizer
  * Get the cost function value at the current position.
  */
 SPSAOptimizer::MeasureType
-SPSAOptimizer
-::GetValue() const
+SPSAOptimizer ::GetValue() const
 {
   /**
    * The SPSA does not compute the cost function value at
    * the current position during the optimization, so calculate
    * it on request:
    */
-  return this->GetValue( this->GetCurrentPosition() );
+  return this->GetValue(this->GetCurrentPosition());
 }
 
 /**
  * *********************** StartOptimization ********************
  */
 void
-SPSAOptimizer
-::StartOptimization()
+SPSAOptimizer ::StartOptimization()
 {
   itkDebugMacro("StartOptimization");
 
-  if ( !m_CostFunction )
-    {
+  if (!m_CostFunction)
+  {
     itkExceptionMacro(<< "No objective function defined! ");
-    }
+  }
 
   /** The number of parameters: */
-  const unsigned int spaceDimension =
-    m_CostFunction->GetNumberOfParameters();
-  if ( spaceDimension != this->GetInitialPosition().GetSize() )
-    {
+  const unsigned int spaceDimension = m_CostFunction->GetNumberOfParameters();
+  if (spaceDimension != this->GetInitialPosition().GetSize())
+  {
     itkExceptionMacro(<< "Number of parameters not correct!");
-    }
+  }
 
   m_CurrentIteration = 0;
   m_StopCondition = StopConditionType::Unknown;
   m_StateOfConvergence = 0.0;
 
-  this->SetCurrentPosition( this->GetInitialPosition() );
+  this->SetCurrentPosition(this->GetInitialPosition());
   this->ResumeOptimization();
 } // end StartOptimization
 
@@ -161,80 +148,75 @@ SPSAOptimizer
  */
 
 void
-SPSAOptimizer
-::ResumeOptimization()
+SPSAOptimizer ::ResumeOptimization()
 {
   itkDebugMacro("ResumeOptimization");
 
   m_Stop = false;
 
-  InvokeEvent( StartEvent() );
-  while ( !m_Stop )
-    {
+  InvokeEvent(StartEvent());
+  while (!m_Stop)
+  {
     AdvanceOneStep();
-    this->InvokeEvent( IterationEvent() );
+    this->InvokeEvent(IterationEvent());
 
-    if ( m_Stop )
-      {
+    if (m_Stop)
+    {
       break;
-      }
+    }
 
     m_CurrentIteration++;
 
-    if ( m_CurrentIteration >= m_MaximumNumberOfIterations )
-      {
+    if (m_CurrentIteration >= m_MaximumNumberOfIterations)
+    {
       m_StopCondition = StopConditionType::MaximumNumberOfIterations;
       StopOptimization();
       break;
-      }
+    }
 
     /** Check convergence */
-    if ( ( m_StateOfConvergence < m_Tolerance )
-         && ( m_CurrentIteration >= m_MinimumNumberOfIterations ) )
-      {
+    if ((m_StateOfConvergence < m_Tolerance) && (m_CurrentIteration >= m_MinimumNumberOfIterations))
+    {
       m_StopCondition = StopConditionType::BelowTolerance;
       StopOptimization();
       break;
-      }
+    }
     m_StateOfConvergence *= m_StateOfConvergenceDecayRate;
-    } // while !m_stop
-}     // end ResumeOptimization
+  } // while !m_stop
+} // end ResumeOptimization
 
 /**
  * ********************** StopOptimization **********************
  */
 void
-SPSAOptimizer
-::StopOptimization()
+SPSAOptimizer ::StopOptimization()
 {
   itkDebugMacro("StopOptimization");
   m_Stop = true;
-  InvokeEvent( EndEvent() );
+  InvokeEvent(EndEvent());
 } // end StopOptimization
 
 /**
  * ********************** AdvanceOneStep ************************
  */
 void
-SPSAOptimizer
-::AdvanceOneStep()
+SPSAOptimizer ::AdvanceOneStep()
 {
   itkDebugMacro("AdvanceOneStep");
 
   /** Maximize of Minimize the function? */
   double direction;
-  if ( this->m_Maximize )
-    {
+  if (this->m_Maximize)
+  {
     direction = 1.0;
-    }
+  }
   else
-    {
+  {
     direction = -1.0;
-    }
+  }
 
   /** The number of parameters: */
-  const unsigned int spaceDimension =
-    m_CostFunction->GetNumberOfParameters();
+  const unsigned int spaceDimension = m_CostFunction->GetNumberOfParameters();
 
   /** Instantiate the newPosition vector and get the current
    * parameters */
@@ -245,18 +227,18 @@ SPSAOptimizer
    * q = m_NumberOfPerturbations
    */
   try
-    {
+  {
     this->ComputeGradient(currentPosition, m_Gradient);
-    }
-  catch ( ExceptionObject & err )
-    {
+  }
+  catch (ExceptionObject & err)
+  {
     // An exception has occurred.
     // Terminate immediately.
     m_StopCondition = StopConditionType::MetricError;
     StopOptimization();
     // Pass exception to caller
     throw err;
-    }
+  }
 
   /** Compute the gain a_k */
   const double ak = this->Compute_a(m_CurrentIteration);
@@ -266,7 +248,7 @@ SPSAOptimizer
   /**
    * Compute the new parameters.
    */
-  newPosition = currentPosition + ( direction * ak ) * m_Gradient;
+  newPosition = currentPosition + (direction * ak) * m_Gradient;
   this->SetCurrentPosition(newPosition);
 
   /** Compute the GradientMagnitude (for checking convergence) */
@@ -283,11 +265,10 @@ SPSAOptimizer
  * described by Spall.
  */
 
-double SPSAOptimizer
-::Compute_a(SizeValueType k) const
+double
+SPSAOptimizer ::Compute_a(SizeValueType k) const
 {
-  return static_cast< double >(
-           m_Sa / std::pow(m_A + k + 1, m_Alpha) );
+  return static_cast<double>(m_Sa / std::pow(m_A + k + 1, m_Alpha));
 } // end Compute_a
 
 /**
@@ -297,11 +278,10 @@ double SPSAOptimizer
  * described by Spall.
  */
 
-double SPSAOptimizer
-::Compute_c(SizeValueType k) const
+double
+SPSAOptimizer ::Compute_c(SizeValueType k) const
 {
-  return static_cast< double >(
-           m_Sc / std::pow(k + 1, m_Gamma) );
+  return static_cast<double>(m_Sc / std::pow(k + 1, m_Gamma));
 } // end Compute_c
 
 /**
@@ -312,27 +292,24 @@ double SPSAOptimizer
  * distribution. (+- 1)
  */
 
-void SPSAOptimizer
-::GenerateDelta(const unsigned int spaceDimension)
+void
+SPSAOptimizer ::GenerateDelta(const unsigned int spaceDimension)
 {
   m_Delta = DerivativeType(spaceDimension);
 
   const ScalesType & scales = this->GetScales();
   // Make sure the scales have been set properly
-  if ( scales.size() != spaceDimension )
-    {
-    itkExceptionMacro(<< "The size of Scales is "
-                      << scales.size()
-                      << ", but the NumberOfParameters for the CostFunction is "
-                      << spaceDimension
-                      << ".");
-    }
+  if (scales.size() != spaceDimension)
+  {
+    itkExceptionMacro(<< "The size of Scales is " << scales.size()
+                      << ", but the NumberOfParameters for the CostFunction is " << spaceDimension << ".");
+  }
 
   const ScalesType & invScales = this->GetInverseScales();
-  for ( unsigned int j = 0; j < spaceDimension; ++j )
-    {
+  for (unsigned int j = 0; j < spaceDimension; ++j)
+  {
     /** Generate randomly -1 or 1. */
-    m_Delta[j] = 2 * Math::Round< int >( this->m_Generator->GetUniformVariate (0.0f, 1.0f) ) - 1;
+    m_Delta[j] = 2 * Math::Round<int>(this->m_Generator->GetUniformVariate(0.0f, 1.0f)) - 1;
 
     /**
      * Take scales into account. The perturbation of a parameter that has a
@@ -340,16 +317,14 @@ void SPSAOptimizer
      * the perturbation of a parameter that has a small range.
      */
     m_Delta[j] *= invScales[j];
-    }
+  }
 } // end GenerateDelta
 
 /**
  * *************** ComputeGradient() *****************************
  */
 void
-SPSAOptimizer::ComputeGradient(
-  const ParametersType & parameters,
-  DerivativeType & gradient)
+SPSAOptimizer::ComputeGradient(const ParametersType & parameters, DerivativeType & gradient)
 {
   const unsigned int spaceDimension = parameters.GetSize();
 
@@ -369,19 +344,17 @@ SPSAOptimizer::ComputeGradient(
   /** Compute the gradient as an average of q estimates, where
    * q = m_NumberOfPerturbations
    */
-  for ( SizeValueType perturbation = 1;
-        perturbation <= this->GetNumberOfPerturbations();
-        ++perturbation )
-    {
+  for (SizeValueType perturbation = 1; perturbation <= this->GetNumberOfPerturbations(); ++perturbation)
+  {
     /** Generate a (scaled) perturbation vector m_Delta   */
     this->GenerateDelta(spaceDimension);
 
     /** Create thetaplus and thetamin */
-    for ( unsigned int j = 0; j < spaceDimension; j++ )
-      {
+    for (unsigned int j = 0; j < spaceDimension; j++)
+    {
       thetaplus[j] = parameters[j] + ck * m_Delta[j];
-      thetamin[j]  = parameters[j] - ck * m_Delta[j];
-      }
+      thetamin[j] = parameters[j] - ck * m_Delta[j];
+    }
 
     /** Compute the cost function value at thetaplus */
     const double valueplus = this->GetValue(thetaplus);
@@ -390,19 +363,19 @@ SPSAOptimizer::ComputeGradient(
     const double valuemin = this->GetValue(thetamin);
 
     /** Compute the contribution to the gradient g_k  */
-    const double valuediff = ( valueplus - valuemin ) / ( 2 * ck );
-    for ( unsigned int j = 0; j < spaceDimension; j++ )
-      {
+    const double valuediff = (valueplus - valuemin) / (2 * ck);
+    for (unsigned int j = 0; j < spaceDimension; j++)
+    {
       // remember to divide the gradient by the NumberOfPerturbations!
       gradient[j] += valuediff / m_Delta[j];
-      }
-    } //end for ++perturbation
+    }
+  } // end for ++perturbation
 
   /** Apply scaling (see below) and divide by the NumberOfPerturbations */
-  for ( unsigned int j = 0; j < spaceDimension; j++ )
-    {
-    gradient[j] /= ( itk::Math::sqr(scales[j]) * static_cast< double >( m_NumberOfPerturbations ) );
-    }
+  for (unsigned int j = 0; j < spaceDimension; j++)
+  {
+    gradient[j] /= (itk::Math::sqr(scales[j]) * static_cast<double>(m_NumberOfPerturbations));
+  }
   /**
    * Scaling was still needed, because the gradient
    * should point along the direction of the applied
@@ -442,54 +415,50 @@ SPSAOptimizer::ComputeGradient(
    * of course, if valuediff is negative).
    *
    */
-} //end ComputeGradient
+} // end ComputeGradient
 
 /**
  * ************* GuessParameters *************************
  */
 void
-SPSAOptimizer::GuessParameters(
-  SizeValueType numberOfGradientEstimates,
-  double initialStepSize)
+SPSAOptimizer::GuessParameters(SizeValueType numberOfGradientEstimates, double initialStepSize)
 {
   /** Guess A */
-  this->SetA(static_cast< double >( this->GetMaximumNumberOfIterations() ) / 10.0);
+  this->SetA(static_cast<double>(this->GetMaximumNumberOfIterations()) / 10.0);
 
-  if ( !m_CostFunction )
-    {
+  if (!m_CostFunction)
+  {
     itkExceptionMacro(<< "No objective function defined! ");
-    }
+  }
 
   /** The number of parameters: */
-  const unsigned int spaceDimension =
-    m_CostFunction->GetNumberOfParameters();
+  const unsigned int spaceDimension = m_CostFunction->GetNumberOfParameters();
 
   /** Check if the initial position has the correct number of parameters */
-  const ParametersType & initialPosition  = this->GetInitialPosition();
-  if ( spaceDimension != initialPosition.GetSize() )
-    {
+  const ParametersType & initialPosition = this->GetInitialPosition();
+  if (spaceDimension != initialPosition.GetSize())
+  {
     itkExceptionMacro(<< "Number of parameters not correct!");
-    }
+  }
 
   /** Estimate the maximum absolute element of the initial gradient */
   DerivativeType averageAbsoluteGradient(spaceDimension);
   averageAbsoluteGradient.Fill(0.0);
   m_CurrentIteration = 0;
-  for ( SizeValueType n = 1; n <= numberOfGradientEstimates; ++n )
-    {
+  for (SizeValueType n = 1; n <= numberOfGradientEstimates; ++n)
+  {
     this->ComputeGradient(initialPosition, m_Gradient);
-    for ( unsigned int j = 0; j < spaceDimension; j++ )
-      {
+    for (unsigned int j = 0; j < spaceDimension; j++)
+    {
       averageAbsoluteGradient[j] += std::fabs(m_Gradient[j]);
-      }
-    } // end for ++n
-  averageAbsoluteGradient /= static_cast< double >( numberOfGradientEstimates );
+    }
+  } // end for ++n
+  averageAbsoluteGradient /= static_cast<double>(numberOfGradientEstimates);
 
   /** Set a in order to make the first steps approximately have an
     initialStepSize */
-  this->SetSa( initialStepSize * std::pow(m_A + 1.0, m_Alpha)
-               / averageAbsoluteGradient.max_value() );
-} //end GuessParameters
+  this->SetSa(initialStepSize * std::pow(m_A + 1.0, m_Alpha) / averageAbsoluteGradient.max_value());
+} // end GuessParameters
 
 const std::string
 SPSAOptimizer::GetStopConditionDescription() const
@@ -497,17 +466,17 @@ SPSAOptimizer::GetStopConditionDescription() const
   std::ostringstream reason;
 
   reason << this->GetNameOfClass() << ": ";
-  switch ( m_StopCondition )
-    {
+  switch (m_StopCondition)
+  {
     case StopConditionType::Unknown:
       reason << "Unknown stop condition";
       break;
     case StopConditionType::MaximumNumberOfIterations:
-      reason << "Maximum number of iterations exceeded. Number of iterations is "
-             << m_MaximumNumberOfIterations;
+      reason << "Maximum number of iterations exceeded. Number of iterations is " << m_MaximumNumberOfIterations;
       break;
     case StopConditionType::BelowTolerance:
-      reason << "Below tolerance. " << "Tolerance is " << m_Tolerance;
+      reason << "Below tolerance. "
+             << "Tolerance is " << m_Tolerance;
       break;
     case StopConditionType::MetricError:
       reason << "Metric error";
@@ -515,23 +484,33 @@ SPSAOptimizer::GetStopConditionDescription() const
     default:
       reason << " No reason given for termination ";
       break;
-    }
+  }
   return reason.str();
 }
 
 /** Print enum values */
-std::ostream& operator<<(std::ostream& out, const SPSAOptimizer::StopConditionType value)
+std::ostream &
+operator<<(std::ostream & out, const SPSAOptimizer::StopConditionType value)
 {
-    const char* s =0;
-    switch(value)
-    {
-        case SPSAOptimizer::StopConditionType::Unknown: s = "SPSAOptimizer::StopConditionType::Unknown"; break;
-        case SPSAOptimizer::StopConditionType::MaximumNumberOfIterations: s = "SPSAOptimizer::StopConditionType::MaximumNumberOfIterations"; break;
-        case SPSAOptimizer::StopConditionType::BelowTolerance: s = "SPSAOptimizer::StopConditionType::BelowTolerance"; break;
-        case SPSAOptimizer::StopConditionType::MetricError: s = "SPSAOptimizer::StopConditionType::MetricError"; break;
-        default: s = "INVALID VALUE FOR SPSAOptimizer::StopConditionType";
-    }
-    return out << s;
+  const char * s = 0;
+  switch (value)
+  {
+    case SPSAOptimizer::StopConditionType::Unknown:
+      s = "SPSAOptimizer::StopConditionType::Unknown";
+      break;
+    case SPSAOptimizer::StopConditionType::MaximumNumberOfIterations:
+      s = "SPSAOptimizer::StopConditionType::MaximumNumberOfIterations";
+      break;
+    case SPSAOptimizer::StopConditionType::BelowTolerance:
+      s = "SPSAOptimizer::StopConditionType::BelowTolerance";
+      break;
+    case SPSAOptimizer::StopConditionType::MetricError:
+      s = "SPSAOptimizer::StopConditionType::MetricError";
+      break;
+    default:
+      s = "INVALID VALUE FOR SPSAOptimizer::StopConditionType";
+  }
+  return out << s;
 }
 
 } // end namespace itk

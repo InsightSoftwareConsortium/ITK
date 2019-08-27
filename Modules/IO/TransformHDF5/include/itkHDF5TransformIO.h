@@ -27,8 +27,7 @@
 
 // Avoids KWStyle error from forward declaration below.
 namespace itk
-{
-}
+{}
 
 // Forward declaration of class H5::H5File
 namespace H5
@@ -54,7 +53,7 @@ namespace itk
  *
  */
 struct ITKIOTransformHDF5_EXPORT HDF5CommonPathNames
-  {
+{
   //
   // HDF uses hierarchical paths to find particular data
   // in a file. These strings are used by both reading and
@@ -71,7 +70,7 @@ struct ITKIOTransformHDF5_EXPORT HDF5CommonPathNames
   static const std::string HDFVersion;
   static const std::string OSName;
   static const std::string OSVersion;
-  };
+};
 
 
 /** \class HDF5TransformIOTemplate
@@ -83,9 +82,10 @@ struct ITKIOTransformHDF5_EXPORT HDF5CommonPathNames
  *
  * \ingroup ITKIOTransformHDF5
  */
-template<typename TParametersValueType>
-class ITK_TEMPLATE_EXPORT HDF5TransformIOTemplate:public TransformIOBaseTemplate<TParametersValueType>,
-private HDF5CommonPathNames
+template <typename TParametersValueType>
+class ITK_TEMPLATE_EXPORT HDF5TransformIOTemplate
+  : public TransformIOBaseTemplate<TParametersValueType>
+  , private HDF5CommonPathNames
 {
 public:
   using Self = HDF5TransformIOTemplate;
@@ -99,28 +99,31 @@ public:
   using FixedParametersType = typename TransformType::FixedParametersType;
   using FixedParametersValueType = typename TransformType::FixedParametersValueType;
 
-  using ConstTransformListType = typename TransformIOBaseTemplate
-                      <ParametersValueType>::ConstTransformListType;
+  using ConstTransformListType = typename TransformIOBaseTemplate<ParametersValueType>::ConstTransformListType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( HDF5TransformIOTemplate, TransformIOBaseTemplate );
-  itkNewMacro( Self );
+  itkTypeMacro(HDF5TransformIOTemplate, TransformIOBaseTemplate);
+  itkNewMacro(Self);
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  bool CanReadFile(const char *) override;
+  bool
+  CanReadFile(const char *) override;
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  bool CanWriteFile(const char *) override;
+  bool
+  CanWriteFile(const char *) override;
 
   /** Reads the data from disk into the memory buffer provided. */
-  void Read() override;
+  void
+  Read() override;
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. The buffer is cast to a
    * pointer to the beginning of the image data. */
-  void Write() override;
+  void
+  Write() override;
 
 protected:
   HDF5TransformIOTemplate();
@@ -128,20 +131,24 @@ protected:
 
 private:
   /** Read a parameter array from the file location name */
-  ParametersType ReadParameters(const std::string &DataSetName) const;
-  FixedParametersType ReadFixedParameters(const std::string &DataSetName) const;
+  ParametersType
+  ReadParameters(const std::string & DataSetName) const;
+  FixedParametersType
+  ReadFixedParameters(const std::string & DataSetName) const;
 
   /** Write a parameter array to the file location name */
-  void WriteParameters(const std::string &name,
-                       const ParametersType &parameters);
-  void WriteFixedParameters(const std::string &name,
-                       const FixedParametersType &parameters);
+  void
+  WriteParameters(const std::string & name, const ParametersType & parameters);
+  void
+  WriteFixedParameters(const std::string & name, const FixedParametersType & parameters);
 
   /** write a string variable */
-  void WriteString(const std::string &path, const std::string &value);
-  void WriteString(const std::string &path, const char *value);
-  void WriteOneTransform(const int transformIndex,
-                         const TransformType *transform);
+  void
+  WriteString(const std::string & path, const std::string & value);
+  void
+  WriteString(const std::string & path, const char * value);
+  void
+  WriteOneTransform(const int transformIndex, const TransformType * transform);
 
   std::unique_ptr<H5::H5File> m_H5File;
 
@@ -149,10 +156,12 @@ private:
    * from class template.
    * @return H5 code PredType
    */
-  H5::PredType GetH5TypeFromString( ) const;
+  H5::PredType
+  GetH5TypeFromString() const;
 };
 
-const std::string ITKIOTransformHDF5_EXPORT GetTransformName(int);
+const std::string ITKIOTransformHDF5_EXPORT
+                  GetTransformName(int);
 
 /** This helps to meet backward compatibility */
 using HDF5TransformIO = HDF5TransformIOTemplate<double>;
@@ -173,23 +182,23 @@ using HDF5TransformIO = HDF5TransformIOTemplate<double>;
 //            need to be considered. This code *MUST* be *OUTSIDE* the header
 //            guards.
 //
-#  if defined( ITKIOTransformHDF5_EXPORTS )
+#if defined(ITKIOTransformHDF5_EXPORTS)
 //   We are building this library
-#    define ITKIOTransformHDF5_EXPORT_EXPLICIT ITK_FORWARD_EXPORT
-#  else
+#  define ITKIOTransformHDF5_EXPORT_EXPLICIT ITK_FORWARD_EXPORT
+#else
 //   We are using this library
-#    define ITKIOTransformHDF5_EXPORT_EXPLICIT ITKIOTransformHDF5_EXPORT
-#  endif
+#  define ITKIOTransformHDF5_EXPORT_EXPLICIT ITKIOTransformHDF5_EXPORT
+#endif
 namespace itk
 {
 ITK_GCC_PRAGMA_DIAG_PUSH()
 ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
 
-extern template class ITKIOTransformHDF5_EXPORT_EXPLICIT HDF5TransformIOTemplate< double >;
-extern template class ITKIOTransformHDF5_EXPORT_EXPLICIT HDF5TransformIOTemplate< float >;
+extern template class ITKIOTransformHDF5_EXPORT_EXPLICIT HDF5TransformIOTemplate<double>;
+extern template class ITKIOTransformHDF5_EXPORT_EXPLICIT HDF5TransformIOTemplate<float>;
 
 ITK_GCC_PRAGMA_DIAG_POP()
 
 } // end namespace itk
-#  undef ITKIOTransformHDF5_EXPORT_EXPLICIT
+#undef ITKIOTransformHDF5_EXPORT_EXPLICIT
 #endif

@@ -20,99 +20,100 @@
 
 #include "itkBorderQuadEdgeMeshFilter.h"
 
-int itkBorderQuadEdgeMeshFilterTest( int argc, char* argv[] )
+int
+itkBorderQuadEdgeMeshFilterTest(int argc, char * argv[])
 {
   // ** ERROR MESSAGE AND HELP ** //
-  if( argc < 5 )
-    {
-    std::cout <<"Requires 4 arguments: " << std::endl;
-    std::cout <<"1-Input file name " << std::endl;
-    std::cout <<"2-Border Type" << std::endl;
-    std::cout <<"   * 0: SQUARE" << std::endl;
-    std::cout <<"   * 1: DISK" << std::endl;
-    std::cout <<"3-Border Pick" << std::endl;
-    std::cout <<"   * 0: LONGEST" << std::endl;
-    std::cout <<"   * 1: LARGEST" << std::endl;
-    std::cout <<"4-Output file name " << std::endl;
+  if (argc < 5)
+  {
+    std::cout << "Requires 4 arguments: " << std::endl;
+    std::cout << "1-Input file name " << std::endl;
+    std::cout << "2-Border Type" << std::endl;
+    std::cout << "   * 0: SQUARE" << std::endl;
+    std::cout << "   * 1: DISK" << std::endl;
+    std::cout << "3-Border Pick" << std::endl;
+    std::cout << "   * 0: LONGEST" << std::endl;
+    std::cout << "   * 1: LARGEST" << std::endl;
+    std::cout << "4-Output file name " << std::endl;
 
     return EXIT_FAILURE;
-    }
+  }
 
 
   // ** TYPEDEF **
   using Coord = double;
 
-  using MeshType = itk::QuadEdgeMesh< Coord, 3 >;
-  using ReaderType = itk::MeshFileReader< MeshType >;
-  using WriterType = itk::MeshFileWriter< MeshType >;
-  using BorderTransformType = itk::BorderQuadEdgeMeshFilter< MeshType, MeshType >;
+  using MeshType = itk::QuadEdgeMesh<Coord, 3>;
+  using ReaderType = itk::MeshFileReader<MeshType>;
+  using WriterType = itk::MeshFileWriter<MeshType>;
+  using BorderTransformType = itk::BorderQuadEdgeMeshFilter<MeshType, MeshType>;
 
 
   // ** READ THE FILE IN **
-  ReaderType::Pointer reader = ReaderType::New( );
-  reader->SetFileName( argv[1] );
+  ReaderType::Pointer reader = ReaderType::New();
+  reader->SetFileName(argv[1]);
 
   try
-    {
-    reader->Update( );
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  {
+    reader->Update();
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception thrown while reading the input file " << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  MeshType::Pointer mesh = reader->GetOutput( );
+  MeshType::Pointer mesh = reader->GetOutput();
 
   // ** CHOSE< COMPUTE AND SET BORDER TRANSFORM **
-  BorderTransformType::Pointer border_transform = BorderTransformType::New( );
-  border_transform->SetInput( mesh );
+  BorderTransformType::Pointer border_transform = BorderTransformType::New();
+  border_transform->SetInput(mesh);
   // two following line for coverage
-  border_transform->SetRadius( border_transform->GetRadius() );
+  border_transform->SetRadius(border_transform->GetRadius());
   border_transform->GetNameOfClass();
 
-  int border = std::stoi( argv[2] );
-  switch( border )  // choose border type
-    {
+  int border = std::stoi(argv[2]);
+  switch (border) // choose border type
+  {
     case 0: // square shaped domain
-        border_transform->SetTransformType( BorderTransformType::SQUARE_BORDER_TRANSFORM );
-        break;
+      border_transform->SetTransformType(BorderTransformType::SQUARE_BORDER_TRANSFORM);
+      break;
     case 1: // disk shaped domain
-        border_transform->SetTransformType( BorderTransformType::DISK_BORDER_TRANSFORM );
-        break;
+      border_transform->SetTransformType(BorderTransformType::DISK_BORDER_TRANSFORM);
+      break;
     default: // handle .... user ....
-        std::cerr << "2nd argument must be " << std::endl;
-        std::cerr << "0 for SQUARE BORDER TRANSFORM or 1 for DISK BORDER TRANSFORM" << std::endl;
-        return EXIT_FAILURE;
-    }
-  std::cout << "Transform type is: " << border_transform->GetTransformType( );
+      std::cerr << "2nd argument must be " << std::endl;
+      std::cerr << "0 for SQUARE BORDER TRANSFORM or 1 for DISK BORDER TRANSFORM" << std::endl;
+      return EXIT_FAILURE;
+  }
+  std::cout << "Transform type is: " << border_transform->GetTransformType();
   std::cout << std::endl;
 
-  int pick = std::stoi( argv[3] );
-  switch( pick )
-    {
+  int pick = std::stoi(argv[3]);
+  switch (pick)
+  {
     case 0:
-        border_transform->SetBorderPick( BorderTransformType::LONGEST );
-        break;
+      border_transform->SetBorderPick(BorderTransformType::LONGEST);
+      break;
     case 1:
-        border_transform->SetBorderPick( BorderTransformType::LARGEST );
-        break;
+      border_transform->SetBorderPick(BorderTransformType::LARGEST);
+      break;
     default: // handle .... user ....
-        std::cerr << "3rd argument must be " << std::endl;
-        std::cerr << "0 for LONGEST BORDER or 1 for LARGEST BORDER" << std::endl;
-        return EXIT_FAILURE;
-    }
-  std::cout << "Border picked is: " << border_transform->GetBorderPick( );
+      std::cerr << "3rd argument must be " << std::endl;
+      std::cerr << "0 for LONGEST BORDER or 1 for LARGEST BORDER" << std::endl;
+      return EXIT_FAILURE;
+  }
+  std::cout << "Border picked is: " << border_transform->GetBorderPick();
   std::cout << std::endl;
 
-  MeshType::Pointer output = border_transform->GetOutput( );
+  MeshType::Pointer output = border_transform->GetOutput();
 
   // ** WRITE OUTPUT **
-  WriterType::Pointer writer = WriterType::New( );
-  writer->SetInput( border_transform->GetOutput( ) );
-  writer->SetFileName( argv[4] );
-  writer->Update( );
+  WriterType::Pointer writer = WriterType::New();
+  writer->SetInput(border_transform->GetOutput());
+  writer->SetFileName(argv[4]);
+  writer->Update();
 
   // ** PRINT **
   std::cout << "BorderTransform: \n" << border_transform;

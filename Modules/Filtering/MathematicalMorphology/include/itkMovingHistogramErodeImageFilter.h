@@ -38,33 +38,34 @@ namespace itk
  * \ingroup ITKMathematicalMorphology
  */
 
-template< typename TInputImage, typename TOutputImage, typename TKernel >
-class MovingHistogramErodeImageFilter:
-  public MovingHistogramMorphologyImageFilter< TInputImage, TOutputImage, TKernel,
-                                               typename Function::MorphologyHistogram< typename TInputImage::PixelType,
-                                                                                       typename std::less< typename
-                                                                                                           TInputImage
-                                                                                                           ::PixelType > > >
+template <typename TInputImage, typename TOutputImage, typename TKernel>
+class MovingHistogramErodeImageFilter
+  : public MovingHistogramMorphologyImageFilter<
+      TInputImage,
+      TOutputImage,
+      TKernel,
+      typename Function::MorphologyHistogram<typename TInputImage::PixelType,
+                                             typename std::less<typename TInputImage ::PixelType>>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MovingHistogramErodeImageFilter);
 
   /** Standard class type aliases. */
   using Self = MovingHistogramErodeImageFilter;
-  using Superclass = MovingHistogramMorphologyImageFilter< TInputImage, TOutputImage, TKernel,
-                                                typename Function::MorphologyHistogram< typename TInputImage::PixelType,
-                                                                                        typename std::less< typename
-                                                                                                            TInputImage
-                                                                                                            ::PixelType > > >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = MovingHistogramMorphologyImageFilter<
+    TInputImage,
+    TOutputImage,
+    TKernel,
+    typename Function::MorphologyHistogram<typename TInputImage::PixelType,
+                                           typename std::less<typename TInputImage ::PixelType>>>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard New method. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(MovingHistogramErodeImageFilter,
-               MovingHistogramMorphologyImageFilter);
+  itkTypeMacro(MovingHistogramErodeImageFilter, MovingHistogramMorphologyImageFilter);
 
   /** Image related type alias. */
   using InputImageType = TInputImage;
@@ -81,13 +82,10 @@ public:
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
 protected:
-  MovingHistogramErodeImageFilter()
-  {
-    this->m_Boundary = NumericTraits< PixelType >::max();
-  }
+  MovingHistogramErodeImageFilter() { this->m_Boundary = NumericTraits<PixelType>::max(); }
 
   ~MovingHistogramErodeImageFilter() override = default;
-};                                               // end of class
+}; // end of class
 } // end namespace itk
 
 #endif

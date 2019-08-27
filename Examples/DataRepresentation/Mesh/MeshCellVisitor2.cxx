@@ -44,62 +44,63 @@
 // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
-  //
-  //  The typical mesh types are now declared.
-  //
-  //  Software Guide : EndLatex
+//  Software Guide : BeginLatex
+//
+//  The typical mesh types are now declared.
+//
+//  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
-  using PixelType = float;
-  using MeshType = itk::Mesh< PixelType, 3 >;
+// Software Guide : BeginCodeSnippet
+using PixelType = float;
+using MeshType = itk::Mesh<PixelType, 3>;
 
-  using CellType = MeshType::CellType;
+using CellType = MeshType::CellType;
 
-  using VertexType = itk::VertexCell< CellType >;
-  using LineType = itk::LineCell< CellType >;
-  using TriangleType = itk::TriangleCell< CellType >;
-  using TetrahedronType = itk::TetrahedronCell< CellType >;
-  // Software Guide : EndCodeSnippet
-
-
-  //  Software Guide : BeginLatex
-  //
-  //  Then, custom CellVisitor classes should be declared. The only requirement
-  //  on the declaration of each visitor class is to provide a method named
-  //  \code{Visit()}. This method expects as arguments a cell identifier and a
-  //  pointer to the \emph{specific} cell type for which this visitor is
-  //  intended.
-  //
-  //  \index{itk::Mesh!CellInterfaceVisitor}
-  //  \index{CellInterfaceVisitor!requirements}
-  //  \index{CellInterfaceVisitor!Visit()}
-  //
-  //  Software Guide : EndLatex
+using VertexType = itk::VertexCell<CellType>;
+using LineType = itk::LineCell<CellType>;
+using TriangleType = itk::TriangleCell<CellType>;
+using TetrahedronType = itk::TetrahedronCell<CellType>;
+// Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
-  //
-  //  The following Vertex visitor simply prints out the identifier of the
-  //  point with which the cell is associated. Note that the cell uses the
-  //  method \code{GetPointId()} without any arguments. This method is only
-  //  defined on the VertexCell.
-  //
-  //  \index{itk::CellInterface!GetPointId()}
-  //  \index{GetPointId()}
-  //
-  //  Software Guide : EndLatex
+//  Software Guide : BeginLatex
+//
+//  Then, custom CellVisitor classes should be declared. The only requirement
+//  on the declaration of each visitor class is to provide a method named
+//  \code{Visit()}. This method expects as arguments a cell identifier and a
+//  pointer to the \emph{specific} cell type for which this visitor is
+//  intended.
+//
+//  \index{itk::Mesh!CellInterfaceVisitor}
+//  \index{CellInterfaceVisitor!requirements}
+//  \index{CellInterfaceVisitor!Visit()}
+//
+//  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
+
+//  Software Guide : BeginLatex
+//
+//  The following Vertex visitor simply prints out the identifier of the
+//  point with which the cell is associated. Note that the cell uses the
+//  method \code{GetPointId()} without any arguments. This method is only
+//  defined on the VertexCell.
+//
+//  \index{itk::CellInterface!GetPointId()}
+//  \index{GetPointId()}
+//
+//  Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
 class CustomVertexVisitor
 {
 public:
-  void Visit(unsigned long cellId, VertexType * t )
-    {
+  void
+  Visit(unsigned long cellId, VertexType * t)
+  {
     std::cout << "cell " << cellId << " is a Vertex " << std::endl;
     std::cout << "    associated with point id = ";
     std::cout << t->GetPointId() << std::endl;
-    }
+  }
   virtual ~CustomVertexVisitor() = default;
 };
 // Software Guide : EndCodeSnippet
@@ -120,22 +121,29 @@ public:
 class CustomLineVisitor
 {
 public:
-  CustomLineVisitor():m_Mesh( nullptr ) {}
+  CustomLineVisitor()
+    : m_Mesh(nullptr)
+  {}
   virtual ~CustomLineVisitor() = default;
 
-  void SetMesh( MeshType * mesh ) { m_Mesh = mesh; }
+  void
+  SetMesh(MeshType * mesh)
+  {
+    m_Mesh = mesh;
+  }
 
-  void Visit(unsigned long cellId, LineType * t )
-    {
+  void
+  Visit(unsigned long cellId, LineType * t)
+  {
     std::cout << "cell " << cellId << " is a Line " << std::endl;
     LineType::PointIdIterator pit = t->PointIdsBegin();
-    MeshType::PointType p0;
-    MeshType::PointType p1;
-    m_Mesh->GetPoint( *pit++, &p0 );
-    m_Mesh->GetPoint( *pit++, &p1 );
-    const double length = p0.EuclideanDistanceTo( p1 );
+    MeshType::PointType       p0;
+    MeshType::PointType       p1;
+    m_Mesh->GetPoint(*pit++, &p0);
+    m_Mesh->GetPoint(*pit++, &p1);
+    const double length = p0.EuclideanDistanceTo(p1);
     std::cout << " length = " << length << std::endl;
-    }
+  }
 
 private:
   MeshType::Pointer m_Mesh;
@@ -159,22 +167,23 @@ private:
 
 
 #ifndef __CustomTriangleVisitor
-#define __CustomTriangleVisitor
+#  define __CustomTriangleVisitor
 // Software Guide : BeginCodeSnippet
 class CustomTriangleVisitor
 {
 public:
-  void Visit(unsigned long cellId, TriangleType * t )
-    {
+  void
+  Visit(unsigned long cellId, TriangleType * t)
+  {
     std::cout << "cell " << cellId << " is a Triangle " << std::endl;
     LineType::PointIdIterator pit = t->PointIdsBegin();
     LineType::PointIdIterator end = t->PointIdsEnd();
-    while( pit != end )
-      {
+    while (pit != end)
+    {
       std::cout << "  point id = " << *pit << std::endl;
       ++pit;
-      }
     }
+  }
   virtual ~CustomTriangleVisitor() = default;
 };
 // Software Guide : EndCodeSnippet
@@ -195,128 +204,138 @@ public:
 class CustomTetrahedronVisitor
 {
 public:
-  void Visit(unsigned long cellId, TetrahedronType * t )
-    {
+  void
+  Visit(unsigned long cellId, TetrahedronType * t)
+  {
     std::cout << "cell " << cellId << " is a Tetrahedron " << std::endl;
     std::cout << "  number of faces = ";
     std::cout << t->GetNumberOfFaces() << std::endl;
-    }
+  }
   virtual ~CustomTetrahedronVisitor() = default;
 };
 // Software Guide : EndCodeSnippet
 
 
-int main(int, char *[])
+int
+main(int, char *[])
 {
-  MeshType::Pointer  mesh = MeshType::New();
+  MeshType::Pointer mesh = MeshType::New();
 
   // Creating the points and inserting them in the mesh
   //
-  MeshType::PointType   point0;
-  MeshType::PointType   point1;
-  MeshType::PointType   point2;
-  MeshType::PointType   point3;
+  MeshType::PointType point0;
+  MeshType::PointType point1;
+  MeshType::PointType point2;
+  MeshType::PointType point3;
 
-  point0[0] = -1; point0[1] = -1; point0[2] = -1;
-  point1[0] =  1; point1[1] =  1; point1[2] = -1;
-  point2[0] =  1; point2[1] = -1; point2[2] =  1;
-  point3[0] = -1; point3[1] =  1; point3[2] =  1;
+  point0[0] = -1;
+  point0[1] = -1;
+  point0[2] = -1;
+  point1[0] = 1;
+  point1[1] = 1;
+  point1[2] = -1;
+  point2[0] = 1;
+  point2[1] = -1;
+  point2[2] = 1;
+  point3[0] = -1;
+  point3[1] = 1;
+  point3[2] = 1;
 
-  mesh->SetPoint( 0, point0 );
-  mesh->SetPoint( 1, point1 );
-  mesh->SetPoint( 2, point2 );
-  mesh->SetPoint( 3, point3 );
+  mesh->SetPoint(0, point0);
+  mesh->SetPoint(1, point1);
+  mesh->SetPoint(2, point2);
+  mesh->SetPoint(3, point3);
 
 
   // Creating and associating the Tetrahedron
   //
   CellType::CellAutoPointer cellpointer;
 
-  cellpointer.TakeOwnership( new TetrahedronType );
-  cellpointer->SetPointId( 0, 0 );
-  cellpointer->SetPointId( 1, 1 );
-  cellpointer->SetPointId( 2, 2 );
-  cellpointer->SetPointId( 3, 3 );
-  mesh->SetCell( 0, cellpointer );
+  cellpointer.TakeOwnership(new TetrahedronType);
+  cellpointer->SetPointId(0, 0);
+  cellpointer->SetPointId(1, 1);
+  cellpointer->SetPointId(2, 2);
+  cellpointer->SetPointId(3, 3);
+  mesh->SetCell(0, cellpointer);
 
 
   // Creating and associating the Triangles
   //
-  cellpointer.TakeOwnership( new TriangleType );
-  cellpointer->SetPointId( 0, 0 );
-  cellpointer->SetPointId( 1, 1 );
-  cellpointer->SetPointId( 2, 2 );
-  mesh->SetCell( 1, cellpointer );
+  cellpointer.TakeOwnership(new TriangleType);
+  cellpointer->SetPointId(0, 0);
+  cellpointer->SetPointId(1, 1);
+  cellpointer->SetPointId(2, 2);
+  mesh->SetCell(1, cellpointer);
 
-  cellpointer.TakeOwnership( new TriangleType );
-  cellpointer->SetPointId( 0, 0 );
-  cellpointer->SetPointId( 1, 2 );
-  cellpointer->SetPointId( 2, 3 );
-  mesh->SetCell( 2, cellpointer );
+  cellpointer.TakeOwnership(new TriangleType);
+  cellpointer->SetPointId(0, 0);
+  cellpointer->SetPointId(1, 2);
+  cellpointer->SetPointId(2, 3);
+  mesh->SetCell(2, cellpointer);
 
-  cellpointer.TakeOwnership( new TriangleType );
-  cellpointer->SetPointId( 0, 0 );
-  cellpointer->SetPointId( 1, 3 );
-  cellpointer->SetPointId( 2, 1 );
-  mesh->SetCell( 3, cellpointer );
+  cellpointer.TakeOwnership(new TriangleType);
+  cellpointer->SetPointId(0, 0);
+  cellpointer->SetPointId(1, 3);
+  cellpointer->SetPointId(2, 1);
+  mesh->SetCell(3, cellpointer);
 
-  cellpointer.TakeOwnership( new TriangleType );
-  cellpointer->SetPointId( 0, 3 );
-  cellpointer->SetPointId( 1, 2 );
-  cellpointer->SetPointId( 2, 1 );
-  mesh->SetCell( 4, cellpointer );
+  cellpointer.TakeOwnership(new TriangleType);
+  cellpointer->SetPointId(0, 3);
+  cellpointer->SetPointId(1, 2);
+  cellpointer->SetPointId(2, 1);
+  mesh->SetCell(4, cellpointer);
 
 
   // Creating and associating the Edges
   //
-  cellpointer.TakeOwnership( new LineType );
-  cellpointer->SetPointId( 0, 0 );
-  cellpointer->SetPointId( 1, 1 );
-  mesh->SetCell( 5, cellpointer );
+  cellpointer.TakeOwnership(new LineType);
+  cellpointer->SetPointId(0, 0);
+  cellpointer->SetPointId(1, 1);
+  mesh->SetCell(5, cellpointer);
 
-  cellpointer.TakeOwnership( new LineType );
-  cellpointer->SetPointId( 0, 1 );
-  cellpointer->SetPointId( 1, 2 );
-  mesh->SetCell( 6, cellpointer );
+  cellpointer.TakeOwnership(new LineType);
+  cellpointer->SetPointId(0, 1);
+  cellpointer->SetPointId(1, 2);
+  mesh->SetCell(6, cellpointer);
 
-  cellpointer.TakeOwnership( new LineType );
-  cellpointer->SetPointId( 0, 2 );
-  cellpointer->SetPointId( 1, 0 );
-  mesh->SetCell( 7, cellpointer );
+  cellpointer.TakeOwnership(new LineType);
+  cellpointer->SetPointId(0, 2);
+  cellpointer->SetPointId(1, 0);
+  mesh->SetCell(7, cellpointer);
 
-  cellpointer.TakeOwnership( new LineType );
-  cellpointer->SetPointId( 0, 1 );
-  cellpointer->SetPointId( 1, 3 );
-  mesh->SetCell( 8, cellpointer );
+  cellpointer.TakeOwnership(new LineType);
+  cellpointer->SetPointId(0, 1);
+  cellpointer->SetPointId(1, 3);
+  mesh->SetCell(8, cellpointer);
 
-  cellpointer.TakeOwnership( new LineType );
-  cellpointer->SetPointId( 0, 3 );
-  cellpointer->SetPointId( 1, 2 );
-  mesh->SetCell( 9, cellpointer );
+  cellpointer.TakeOwnership(new LineType);
+  cellpointer->SetPointId(0, 3);
+  cellpointer->SetPointId(1, 2);
+  mesh->SetCell(9, cellpointer);
 
-  cellpointer.TakeOwnership( new LineType );
-  cellpointer->SetPointId( 0, 3 );
-  cellpointer->SetPointId( 1, 0 );
-  mesh->SetCell( 10, cellpointer );
+  cellpointer.TakeOwnership(new LineType);
+  cellpointer->SetPointId(0, 3);
+  cellpointer->SetPointId(1, 0);
+  mesh->SetCell(10, cellpointer);
 
 
   // Creating and associating the Vertices
   //
-  cellpointer.TakeOwnership( new VertexType );
-  cellpointer->SetPointId( 0, 0 );
-  mesh->SetCell( 11, cellpointer );
+  cellpointer.TakeOwnership(new VertexType);
+  cellpointer->SetPointId(0, 0);
+  mesh->SetCell(11, cellpointer);
 
-  cellpointer.TakeOwnership( new VertexType );
-  cellpointer->SetPointId( 0, 1 );
-  mesh->SetCell( 12, cellpointer );
+  cellpointer.TakeOwnership(new VertexType);
+  cellpointer->SetPointId(0, 1);
+  mesh->SetCell(12, cellpointer);
 
-  cellpointer.TakeOwnership( new VertexType );
-  cellpointer->SetPointId( 0, 2 );
-  mesh->SetCell( 13, cellpointer );
+  cellpointer.TakeOwnership(new VertexType);
+  cellpointer->SetPointId(0, 2);
+  mesh->SetCell(13, cellpointer);
 
-  cellpointer.TakeOwnership( new VertexType );
-  cellpointer->SetPointId( 0, 3 );
-  mesh->SetCell( 14, cellpointer );
+  cellpointer.TakeOwnership(new VertexType);
+  cellpointer->SetPointId(0, 3);
+  mesh->SetCell(14, cellpointer);
 
 
   // Simple verification of the number of points and cells inserted
@@ -339,22 +358,29 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using VertexVisitorInterfaceType = itk::CellInterfaceVisitorImplementation<
-      PixelType, MeshType::CellTraits, VertexType,
-      CustomVertexVisitor >;
+  using VertexVisitorInterfaceType =
+    itk::CellInterfaceVisitorImplementation<PixelType,
+                                            MeshType::CellTraits,
+                                            VertexType,
+                                            CustomVertexVisitor>;
 
-  using LineVisitorInterfaceType = itk::CellInterfaceVisitorImplementation<
-      PixelType, MeshType::CellTraits, LineType,
-      CustomLineVisitor >;
+  using LineVisitorInterfaceType =
+    itk::CellInterfaceVisitorImplementation<PixelType,
+                                            MeshType::CellTraits,
+                                            LineType,
+                                            CustomLineVisitor>;
 
-  using TriangleVisitorInterfaceType = itk::CellInterfaceVisitorImplementation<
-      PixelType, MeshType::CellTraits, TriangleType,
-      CustomTriangleVisitor >;
+  using TriangleVisitorInterfaceType =
+    itk::CellInterfaceVisitorImplementation<PixelType,
+                                            MeshType::CellTraits,
+                                            TriangleType,
+                                            CustomTriangleVisitor>;
 
   using TetrahedronVisitorInterfaceType =
-    itk::CellInterfaceVisitorImplementation<
-      PixelType, MeshType::CellTraits, TetrahedronType,
-      CustomTetrahedronVisitor >;
+    itk::CellInterfaceVisitorImplementation<PixelType,
+                                            MeshType::CellTraits,
+                                            TetrahedronType,
+                                            CustomTetrahedronVisitor>;
   // Software Guide : EndCodeSnippet
 
 
@@ -371,17 +397,15 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  VertexVisitorInterfaceType::Pointer  vertexVisitor =
-                                   VertexVisitorInterfaceType::New();
+  VertexVisitorInterfaceType::Pointer vertexVisitor = VertexVisitorInterfaceType::New();
 
-  LineVisitorInterfaceType::Pointer  lineVisitor =
-                                   LineVisitorInterfaceType::New();
+  LineVisitorInterfaceType::Pointer lineVisitor = LineVisitorInterfaceType::New();
 
-  TriangleVisitorInterfaceType::Pointer  triangleVisitor =
-                                   TriangleVisitorInterfaceType::New();
+  TriangleVisitorInterfaceType::Pointer triangleVisitor =
+    TriangleVisitorInterfaceType::New();
 
-  TetrahedronVisitorInterfaceType::Pointer  tetrahedronVisitor =
-                                   TetrahedronVisitorInterfaceType::New();
+  TetrahedronVisitorInterfaceType::Pointer tetrahedronVisitor =
+    TetrahedronVisitorInterfaceType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -394,7 +418,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  lineVisitor->SetMesh( mesh );
+  lineVisitor->SetMesh(mesh);
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -440,10 +464,10 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  multiVisitor->AddVisitor( vertexVisitor      );
-  multiVisitor->AddVisitor( lineVisitor        );
-  multiVisitor->AddVisitor( triangleVisitor    );
-  multiVisitor->AddVisitor( tetrahedronVisitor );
+  multiVisitor->AddVisitor(vertexVisitor);
+  multiVisitor->AddVisitor(lineVisitor);
+  multiVisitor->AddVisitor(triangleVisitor);
+  multiVisitor->AddVisitor(tetrahedronVisitor);
   // Software Guide : EndCodeSnippet
 
 
@@ -459,7 +483,7 @@ int main(int, char *[])
 
 
   // Software Guide : BeginCodeSnippet
-  mesh->Accept( multiVisitor );
+  mesh->Accept(multiVisitor);
   // Software Guide : EndCodeSnippet
 
 

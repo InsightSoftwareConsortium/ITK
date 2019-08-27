@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 #ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
+#  pragma warning(disable : 4786)
 #endif
 
 #include "itkVideoIOFactory.h"
@@ -24,73 +24,80 @@
 
 namespace itk
 {
-VideoIOBase::Pointer VideoIOFactory::CreateVideoIO( IOModeType mode, const char* arg )
+VideoIOBase::Pointer
+VideoIOFactory::CreateVideoIO(IOModeType mode, const char * arg)
 {
-  std::list< VideoIOBase::Pointer > possibleVideoIO;
-  for (auto & allobject : ObjectFactoryBase::CreateAllInstance("itkVideoIOBase") )
-    {
+  std::list<VideoIOBase::Pointer> possibleVideoIO;
+  for (auto & allobject : ObjectFactoryBase::CreateAllInstance("itkVideoIOBase"))
+  {
 
-    auto * io = dynamic_cast< VideoIOBase* >( allobject.GetPointer() );
+    auto * io = dynamic_cast<VideoIOBase *>(allobject.GetPointer());
     if (io)
-      {
+    {
       possibleVideoIO.emplace_back(io);
-      }
-    else
-      {
-      itkSpecializedMessageExceptionMacro( ExceptionObject,
-                                           "VideoIO factory did not return "
-                                           "a VideoIOBase");
-      }
     }
+    else
+    {
+      itkSpecializedMessageExceptionMacro(ExceptionObject,
+                                          "VideoIO factory did not return "
+                                          "a VideoIOBase");
+    }
+  }
 
   for (auto & j : possibleVideoIO)
-    {
+  {
 
     // Check file readability if reading from file
     if (mode == IOModeType::ReadFileMode)
-      {
+    {
       if (j->CanReadFile(arg))
-        {
+      {
         return j;
-        }
       }
+    }
 
     // Check camera readability if reading from camera
     else if (mode == IOModeType::ReadCameraMode)
-      {
+    {
       int cameraIndex = std::stoi(arg);
       if (j->CanReadCamera(cameraIndex))
-        {
+      {
         return j;
-        }
       }
+    }
 
     // Check file writability if writing
     else if (mode == IOModeType::WriteMode)
-      {
+    {
       if (j->CanWriteFile(arg))
-        {
+      {
         return j;
-        }
       }
-
     }
+  }
 
   // Didn't find a usable VideoIO
   return nullptr;
-
 }
 /** Print Enumerations */
-std::ostream& operator<<(std::ostream& out, const VideoIOFactory::IOModeType value)
+std::ostream &
+operator<<(std::ostream & out, const VideoIOFactory::IOModeType value)
 {
-    const char* s =0;
-    switch(value)
-    {
-        case VideoIOFactory::IOModeType::ReadFileMode: s = "VideoIOFactory::IOModeType::ReadFileMode"; break;
-        case VideoIOFactory::IOModeType::ReadCameraMode: s = "VideoIOFactory::IOModeType::ReadCameraMode"; break;
-        case VideoIOFactory::IOModeType::WriteMode: s = "VideoIOFactory::IOModeType::WriteMode"; break;
-        default: s = "INVALID VALUE FOR VideoIOFactory::IOModeType";
-    }
-    return out << s;
+  const char * s = 0;
+  switch (value)
+  {
+    case VideoIOFactory::IOModeType::ReadFileMode:
+      s = "VideoIOFactory::IOModeType::ReadFileMode";
+      break;
+    case VideoIOFactory::IOModeType::ReadCameraMode:
+      s = "VideoIOFactory::IOModeType::ReadCameraMode";
+      break;
+    case VideoIOFactory::IOModeType::WriteMode:
+      s = "VideoIOFactory::IOModeType::WriteMode";
+      break;
+    default:
+      s = "INVALID VALUE FOR VideoIOFactory::IOModeType";
+  }
+  return out << s;
 }
 } // end namespace itk

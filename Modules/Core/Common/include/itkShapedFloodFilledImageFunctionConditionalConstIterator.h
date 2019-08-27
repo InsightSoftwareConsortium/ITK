@@ -34,14 +34,14 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-template< typename TImage, typename TFunction >
-class ITK_TEMPLATE_EXPORT ShapedFloodFilledImageFunctionConditionalConstIterator:
-  public ShapedFloodFilledFunctionConditionalConstIterator< TImage, TFunction >
+template <typename TImage, typename TFunction>
+class ITK_TEMPLATE_EXPORT ShapedFloodFilledImageFunctionConditionalConstIterator
+  : public ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>
 {
 public:
   /** Standard class type aliases. */
   using Self = ShapedFloodFilledImageFunctionConditionalConstIterator<TImage, TFunction>;
-  using Superclass = ShapedFloodFilledFunctionConditionalConstIterator< TImage, TFunction >;
+  using Superclass = ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>;
 
   /** Type of function */
   using FunctionType = typename Superclass::FunctionType;
@@ -76,40 +76,38 @@ public:
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. This version of the constructor uses
    * an explicit seed pixel for the flood fill, the "startIndex" */
-  ShapedFloodFilledImageFunctionConditionalConstIterator(
-    const ImageType *imagePtr,
-    FunctionType *fnPtr,
-    IndexType startIndex):Superclass(imagePtr,
-                                     fnPtr,
-                                     startIndex) {}
+  ShapedFloodFilledImageFunctionConditionalConstIterator(const ImageType * imagePtr,
+                                                         FunctionType *    fnPtr,
+                                                         IndexType         startIndex)
+    : Superclass(imagePtr, fnPtr, startIndex)
+  {}
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. This version of the constructor uses
    * an explicit list of seed pixels for the flood fill, the "startIndex" */
-  ShapedFloodFilledImageFunctionConditionalConstIterator(
-    const ImageType *imagePtr,
-    FunctionType *fnPtr,
-    std::vector< IndexType > & startIndex):Superclass(imagePtr,
-                                                      fnPtr,
-                                                      startIndex) {}
+  ShapedFloodFilledImageFunctionConditionalConstIterator(const ImageType *        imagePtr,
+                                                         FunctionType *           fnPtr,
+                                                         std::vector<IndexType> & startIndex)
+    : Superclass(imagePtr, fnPtr, startIndex)
+  {}
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. This version of the constructor
    * should be used when the seed pixel is unknown. */
-  ShapedFloodFilledImageFunctionConditionalConstIterator(
-    const ImageType *imagePtr,
-    FunctionType *fnPtr):Superclass(imagePtr,
-                                    fnPtr) {}
+  ShapedFloodFilledImageFunctionConditionalConstIterator(const ImageType * imagePtr, FunctionType * fnPtr)
+    : Superclass(imagePtr, fnPtr)
+  {}
   /** Default Destructor. */
   ~ShapedFloodFilledImageFunctionConditionalConstIterator() override = default;
 
   /** Compute whether the index of interest should be included in the flood */
-  bool IsPixelIncluded(const IndexType & index) const override;
+  bool
+  IsPixelIncluded(const IndexType & index) const override;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShapedFloodFilledImageFunctionConditionalConstIterator.hxx"
+#  include "itkShapedFloodFilledImageFunctionConditionalConstIterator.hxx"
 #endif
 
 #endif

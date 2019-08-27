@@ -16,33 +16,34 @@
  *
  *=========================================================================*/
 
- // First include the header file to be tested:
+// First include the header file to be tested:
 #include "itkPoint.h"
 #include <gtest/gtest.h>
 
-#include <iterator>  // For begin and end.
+#include <iterator> // For begin and end.
 #include <numeric>  // For iota.
 
 namespace
 {
-  template <unsigned VDimension>
-  void Expect_Point_can_be_constructed_by_std_array()
-  {
-    using ValueType = double;
-    using PointType = itk::Point<ValueType, VDimension>;
+template <unsigned VDimension>
+void
+Expect_Point_can_be_constructed_by_std_array()
+{
+  using ValueType = double;
+  using PointType = itk::Point<ValueType, VDimension>;
 
-    std::array<ValueType, VDimension> stdArray;
+  std::array<ValueType, VDimension> stdArray;
 
-    // Assign a different value (0, 1, 2, ...) to each element.
-    std::iota(std::begin(stdArray), std::end(stdArray), 0.0);
+  // Assign a different value (0, 1, 2, ...) to each element.
+  std::iota(std::begin(stdArray), std::end(stdArray), 0.0);
 
-    // Now construct the point (using the explicit Point constructor for std::array).
-    const PointType point(stdArray);
+  // Now construct the point (using the explicit Point constructor for std::array).
+  const PointType point(stdArray);
 
-    // Check that the values of all element are copied.
-    EXPECT_TRUE(std::equal(point.cbegin(), point.cend(), stdArray.cbegin()));
-  }
+  // Check that the values of all element are copied.
+  EXPECT_TRUE(std::equal(point.cbegin(), point.cend(), stdArray.cbegin()));
 }
+} // namespace
 
 
 // Tests that a Point can be constructed by specifying

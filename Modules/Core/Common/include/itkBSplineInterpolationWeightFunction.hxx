@@ -27,15 +27,12 @@
 namespace itk
 {
 /** Constructor */
-template< typename TCoordRep, unsigned int VSpaceDimension,
-          unsigned int VSplineOrder >
-BSplineInterpolationWeightFunction< TCoordRep, VSpaceDimension, VSplineOrder >
-::BSplineInterpolationWeightFunction()
+template <typename TCoordRep, unsigned int VSpaceDimension, unsigned int VSplineOrder>
+BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>::BSplineInterpolationWeightFunction()
 {
   // Initialize the number of weights;
   m_NumberOfWeights =
-    static_cast< unsigned int >( std::pow( static_cast< double >( SplineOrder + 1 ),
-                                          static_cast< double >( SpaceDimension ) ) );
+    static_cast<unsigned int>(std::pow(static_cast<double>(SplineOrder + 1), static_cast<double>(SpaceDimension)));
 
   // Initialize support region is a hypercube of length SplineOrder + 1
   m_SupportSize.Fill(SplineOrder + 1);
@@ -43,24 +40,24 @@ BSplineInterpolationWeightFunction< TCoordRep, VSpaceDimension, VSplineOrder >
   // Initialize offset to index lookup table
   m_OffsetToIndexTable.set_size(m_NumberOfWeights, SpaceDimension);
 
-  using CharImageType = Image< char, SpaceDimension >;
+  using CharImageType = Image<char, SpaceDimension>;
   typename CharImageType::Pointer tempImage = CharImageType::New();
   tempImage->SetRegions(m_SupportSize);
   tempImage->Allocate(true); // initialize buffer to zero
 
-  using IteratorType = ImageRegionConstIteratorWithIndex< CharImageType >;
-  IteratorType iterator( tempImage, tempImage->GetBufferedRegion() );
+  using IteratorType = ImageRegionConstIteratorWithIndex<CharImageType>;
+  IteratorType iterator(tempImage, tempImage->GetBufferedRegion());
   unsigned int counter = 0;
 
-  while ( !iterator.IsAtEnd() )
+  while (!iterator.IsAtEnd())
+  {
+    for (unsigned int j = 0; j < SpaceDimension; j++)
     {
-    for ( unsigned int j = 0; j < SpaceDimension; j++ )
-      {
       m_OffsetToIndexTable[counter][j] = iterator.GetIndex()[j];
-      }
+    }
     ++counter;
     ++iterator;
-    }
+  }
 
   // Initialize the interpolation kernel
   m_Kernel = KernelType::New();
@@ -69,13 +66,10 @@ BSplineInterpolationWeightFunction< TCoordRep, VSpaceDimension, VSplineOrder >
 /**
  * Standard "PrintSelf" method
  */
-template< typename TCoordRep, unsigned int VSpaceDimension,
-          unsigned int VSplineOrder >
+template <typename TCoordRep, unsigned int VSpaceDimension, unsigned int VSplineOrder>
 void
-BSplineInterpolationWeightFunction< TCoordRep, VSpaceDimension, VSplineOrder >
-::PrintSelf(
-  std::ostream & os,
-  Indent indent) const
+BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>::PrintSelf(std::ostream & os,
+                                                                                        Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -84,13 +78,9 @@ BSplineInterpolationWeightFunction< TCoordRep, VSpaceDimension, VSplineOrder >
 }
 
 /** Compute weights for interpolation at continuous index position */
-template< typename TCoordRep, unsigned int VSpaceDimension,
-          unsigned int VSplineOrder >
-typename BSplineInterpolationWeightFunction< TCoordRep, VSpaceDimension,
-                                             VSplineOrder >
-::WeightsType
-BSplineInterpolationWeightFunction< TCoordRep, VSpaceDimension, VSplineOrder >
-::Evaluate(
+template <typename TCoordRep, unsigned int VSpaceDimension, unsigned int VSplineOrder>
+typename BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>::WeightsType
+BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>::Evaluate(
   const ContinuousIndexType & index) const
 {
   WeightsType weights(m_NumberOfWeights);
@@ -102,48 +92,46 @@ BSplineInterpolationWeightFunction< TCoordRep, VSpaceDimension, VSplineOrder >
 }
 
 /** Compute weights for interpolation at continuous index position */
-template< typename TCoordRep, unsigned int VSpaceDimension,
-          unsigned int VSplineOrder >
-void BSplineInterpolationWeightFunction< TCoordRep, VSpaceDimension,
-                                         VSplineOrder >
-::Evaluate(
+template <typename TCoordRep, unsigned int VSpaceDimension, unsigned int VSplineOrder>
+void
+BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>::Evaluate(
   const ContinuousIndexType & index,
-  WeightsType & weights,
-  IndexType & startIndex) const
+  WeightsType &               weights,
+  IndexType &                 startIndex) const
 {
   unsigned int j, k;
 
   // Find the starting index of the support region
-  for ( j = 0; j < SpaceDimension; j++ )
-    {
+  for (j = 0; j < SpaceDimension; j++)
+  {
     // Note that the expression passed to Math::Floor is adapted to work around
     // a compiler bug which caused endless compilations (apparently), by
     // Visual C++ 2015 Update 3, on 64-bit builds of Release configurations.
-    startIndex[j] = Math::Floor< IndexValueType >(index[j] + 0.5 - SplineOrder/2.0);
-    }
+    startIndex[j] = Math::Floor<IndexValueType>(index[j] + 0.5 - SplineOrder / 2.0);
+  }
 
   // Compute the weights
-  Matrix< double, SpaceDimension, SplineOrder + 1 > weights1D;
-  for ( j = 0; j < SpaceDimension; j++ )
-    {
-    double x = index[j] - static_cast< double >( startIndex[j] );
+  Matrix<double, SpaceDimension, SplineOrder + 1> weights1D;
+  for (j = 0; j < SpaceDimension; j++)
+  {
+    double x = index[j] - static_cast<double>(startIndex[j]);
 
-    for ( k = 0; k <= SplineOrder; k++ )
-      {
+    for (k = 0; k <= SplineOrder; k++)
+    {
       weights1D[j][k] = m_Kernel->Evaluate(x);
       x -= 1.0;
-      }
     }
+  }
 
-  for ( k = 0; k < m_NumberOfWeights; k++ )
-    {
+  for (k = 0; k < m_NumberOfWeights; k++)
+  {
     weights[k] = 1.0;
 
-    for ( j = 0; j < SpaceDimension; j++ )
-      {
+    for (j = 0; j < SpaceDimension; j++)
+    {
       weights[k] *= weights1D[j][m_OffsetToIndexTable[k][j]];
-      }
     }
+  }
 }
 } // end namespace itk
 

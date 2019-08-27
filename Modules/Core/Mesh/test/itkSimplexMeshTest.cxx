@@ -22,27 +22,27 @@
 #include "itkDefaultDynamicMeshTraits.h"
 #include "itkTimeProbe.h"
 
-int itkSimplexMeshTest(int , char *[] )
+int
+itkSimplexMeshTest(int, char *[])
 {
 
   // Declare the type of the input and output mesh
   using MeshTraits = itk::DefaultDynamicMeshTraits<double, 3, 3, double, double, double>;
 
-  using SimplexMeshType = itk::SimplexMesh<double,3,MeshTraits>;
+  using SimplexMeshType = itk::SimplexMesh<double, 3, MeshTraits>;
   using SimplexMeshGeometryType = itk::SimplexMeshGeometry;
 
   SimplexMeshType::Pointer simplexMesh = SimplexMeshType::New();
 
   using NeighborsListType = SimplexMeshType::NeighborListType;
 
-  NeighborsListType* neighbors = nullptr;
+  NeighborsListType * neighbors = nullptr;
 
   /**
    * Define the 3d geometric positions for 8 points in a cube.
    */
-  SimplexMeshType::CoordRepType testPointCoords[8][3]
-    = { {0,0,0}, {9,0,0}, {9,0,9}, {0,0,9},
-        {0,9,0}, {9,9,0}, {9,9,9}, {0,9,9} };
+  SimplexMeshType::CoordRepType testPointCoords[8][3] = { { 0, 0, 0 }, { 9, 0, 0 }, { 9, 0, 9 }, { 0, 0, 9 },
+                                                          { 0, 9, 0 }, { 9, 9, 0 }, { 9, 9, 9 }, { 0, 9, 9 } };
 
 
   /**
@@ -57,86 +57,85 @@ int itkSimplexMeshTest(int , char *[] )
    * Note that the constructor for Point is public, and takes an array
    * of coordinates for the point.
    */
-  for(int i = 0; i < 8; ++i)
-    {
+  for (int i = 0; i < 8; ++i)
+  {
     simplexMesh->SetPoint(i, PointType(testPointCoords[i]));
-    simplexMesh->SetGeometryData(i, new SimplexMeshGeometryType );
-    }
+    simplexMesh->SetGeometryData(i, new SimplexMeshGeometryType);
+  }
 
   /**
    * Specify the method used for allocating cells
    */
-   simplexMesh->SetCellsAllocationMethod( itk::MeshClassCellsAllocationMethodType::CellsAllocatedDynamicallyCellByCell );
+  simplexMesh->SetCellsAllocationMethod(itk::MeshClassCellsAllocationMethodType::CellsAllocatedDynamicallyCellByCell);
 
 
-   /**
-    * Exercise the AddEdge method
-    */
-  simplexMesh->AddEdge( 0, 1 );
-  simplexMesh->AddEdge( 0, 3 );
-  simplexMesh->AddEdge( 0, 4 );
-  simplexMesh->AddEdge( 1, 2 );
-  simplexMesh->AddEdge( 1, 5 );
-  simplexMesh->AddEdge( 2, 3 );
-  simplexMesh->AddEdge( 2, 6 );
-  simplexMesh->AddEdge( 3, 7 );
-  simplexMesh->AddEdge( 4, 5 );
-  simplexMesh->AddEdge( 4, 7 );
-  simplexMesh->AddEdge( 5, 6 );
-  simplexMesh->AddEdge( 6, 7 );
+  /**
+   * Exercise the AddEdge method
+   */
+  simplexMesh->AddEdge(0, 1);
+  simplexMesh->AddEdge(0, 3);
+  simplexMesh->AddEdge(0, 4);
+  simplexMesh->AddEdge(1, 2);
+  simplexMesh->AddEdge(1, 5);
+  simplexMesh->AddEdge(2, 3);
+  simplexMesh->AddEdge(2, 6);
+  simplexMesh->AddEdge(3, 7);
+  simplexMesh->AddEdge(4, 5);
+  simplexMesh->AddEdge(4, 7);
+  simplexMesh->AddEdge(5, 6);
+  simplexMesh->AddEdge(6, 7);
 
-   /**
-    * Exercise the AddNeighbor method
-    */
-  simplexMesh->AddNeighbor( 0, 1 );
-  simplexMesh->AddNeighbor( 0, 3 );
-  simplexMesh->AddNeighbor( 0, 4 );
-  simplexMesh->AddNeighbor( 1, 2 );
-  simplexMesh->AddNeighbor( 1, 5 );
-  simplexMesh->AddNeighbor( 2, 3 );
-  simplexMesh->AddNeighbor( 2, 6 );
-  simplexMesh->AddNeighbor( 3, 7 );
-  simplexMesh->AddNeighbor( 4, 5 );
-  simplexMesh->AddNeighbor( 4, 7 );
-  simplexMesh->AddNeighbor( 5, 6 );
-  simplexMesh->AddNeighbor( 6, 7 );
+  /**
+   * Exercise the AddNeighbor method
+   */
+  simplexMesh->AddNeighbor(0, 1);
+  simplexMesh->AddNeighbor(0, 3);
+  simplexMesh->AddNeighbor(0, 4);
+  simplexMesh->AddNeighbor(1, 2);
+  simplexMesh->AddNeighbor(1, 5);
+  simplexMesh->AddNeighbor(2, 3);
+  simplexMesh->AddNeighbor(2, 6);
+  simplexMesh->AddNeighbor(3, 7);
+  simplexMesh->AddNeighbor(4, 5);
+  simplexMesh->AddNeighbor(4, 7);
+  simplexMesh->AddNeighbor(5, 6);
+  simplexMesh->AddNeighbor(6, 7);
 
 
   // Now add the symmetric relationships
-  simplexMesh->AddNeighbor( 1, 0 );
-  simplexMesh->AddNeighbor( 3, 0 );
-  simplexMesh->AddNeighbor( 4, 0 );
-  simplexMesh->AddNeighbor( 2, 1 );
-  simplexMesh->AddNeighbor( 5, 1 );
-  simplexMesh->AddNeighbor( 3, 2 );
-  simplexMesh->AddNeighbor( 6, 2 );
-  simplexMesh->AddNeighbor( 7, 3 );
-  simplexMesh->AddNeighbor( 5, 4 );
-  simplexMesh->AddNeighbor( 7, 4 );
-  simplexMesh->AddNeighbor( 6, 5 );
-  simplexMesh->AddNeighbor( 7, 6 );
+  simplexMesh->AddNeighbor(1, 0);
+  simplexMesh->AddNeighbor(3, 0);
+  simplexMesh->AddNeighbor(4, 0);
+  simplexMesh->AddNeighbor(2, 1);
+  simplexMesh->AddNeighbor(5, 1);
+  simplexMesh->AddNeighbor(3, 2);
+  simplexMesh->AddNeighbor(6, 2);
+  simplexMesh->AddNeighbor(7, 3);
+  simplexMesh->AddNeighbor(5, 4);
+  simplexMesh->AddNeighbor(7, 4);
+  simplexMesh->AddNeighbor(6, 5);
+  simplexMesh->AddNeighbor(7, 6);
 
   itk::TimeProbe timeProbe;
 
-  for (unsigned int i=0; i < 2; i++)
-    {
+  for (unsigned int i = 0; i < 2; i++)
+  {
     timeProbe.Start();
     for (unsigned int pointIndex = 0; pointIndex < simplexMesh->GetPoints()->Size(); pointIndex++)
-      {
-      neighbors = simplexMesh->GetNeighbors( pointIndex, i, neighbors );
-      }
+    {
+      neighbors = simplexMesh->GetNeighbors(pointIndex, i, neighbors);
+    }
     timeProbe.Stop();
     if (neighbors)
-      {
+    {
       std::cout << "Rigidity: " << i << ", neighbor list size: " << neighbors->size() << std::endl;
       delete neighbors;
       neighbors = nullptr;
-      }
+    }
 
     std::cout << ", Elapsed time (for getting neighbors): " << timeProbe.GetMean() << std::endl;
-    }
+  }
 
   std::cout << "[TEST DONE]" << std::endl;
   return EXIT_SUCCESS;
-
 }

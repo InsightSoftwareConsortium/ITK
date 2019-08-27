@@ -74,19 +74,18 @@ namespace itk
  * \ingroup DeformableImageRegistration MultiThreaded
  * \ingroup ITKPDEDeformableRegistration
  */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
-class ITK_TEMPLATE_EXPORT DiffeomorphicDemonsRegistrationFilter:
-  public PDEDeformableRegistrationFilter< TFixedImage, TMovingImage,
-                                          TDisplacementField >
+template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
+class ITK_TEMPLATE_EXPORT DiffeomorphicDemonsRegistrationFilter
+  : public PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(DiffeomorphicDemonsRegistrationFilter);
 
   /** Standard class type aliases. */
   using Self = DiffeomorphicDemonsRegistrationFilter;
-  using Superclass = PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -113,8 +112,8 @@ public:
   using TimeStepType = typename FiniteDifferenceFunctionType::TimeStepType;
 
   /** DemonsRegistrationFilterFunction type. */
-  using DemonsRegistrationFunctionType = ESMDemonsRegistrationFunction< FixedImageType, MovingImageType,
-                                         DisplacementFieldType >;
+  using DemonsRegistrationFunctionType =
+    ESMDemonsRegistrationFunction<FixedImageType, MovingImageType, DisplacementFieldType>;
   using GradientType = typename DemonsRegistrationFunctionType::GradientType;
 
   static constexpr unsigned int ImageDimension = FixedImageType::ImageDimension;
@@ -123,13 +122,17 @@ public:
    * in intensity between the fixed image and transforming moving image
    * computed over the the overlapping region between the two images.
    * This value is calculated for the current iteration */
-  virtual double GetMetric() const;
+  virtual double
+  GetMetric() const;
 
-  const double & GetRMSChange() const override;
+  const double &
+  GetRMSChange() const override;
 
-  virtual void SetUseGradientType(GradientType gtype);
+  virtual void
+  SetUseGradientType(GradientType gtype);
 
-  virtual GradientType GetUseGradientType() const;
+  virtual GradientType
+  GetUseGradientType() const;
 
   /** Use a first-order approximation of the exponential.
    *  This amounts to using an update rule of the type
@@ -142,56 +145,60 @@ public:
    * intensity yields a match. When the intensities match between a
    * moving and fixed image pixel, the update vector (for that
    * iteration) will be the zero vector. Default is 0.001. */
-  virtual void SetIntensityDifferenceThreshold(double);
+  virtual void
+  SetIntensityDifferenceThreshold(double);
 
-  virtual double GetIntensityDifferenceThreshold() const;
+  virtual double
+  GetIntensityDifferenceThreshold() const;
 
   /** Set/Get the maximum length in terms of pixels of
    *  the vectors in the update buffer. */
-  virtual void SetMaximumUpdateStepLength(double);
+  virtual void
+  SetMaximumUpdateStepLength(double);
 
-  virtual double GetMaximumUpdateStepLength() const;
+  virtual double
+  GetMaximumUpdateStepLength() const;
 
 protected:
   DiffeomorphicDemonsRegistrationFilter();
   ~DiffeomorphicDemonsRegistrationFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Initialize the state of filter and equation before each iteration. */
-  void InitializeIteration() override;
+  void
+  InitializeIteration() override;
 
   /** This method allocates storage in m_UpdateBuffer.  It is called from
    * FiniteDifferenceFilter::GenerateData(). */
-  void AllocateUpdateBuffer() override;
+  void
+  AllocateUpdateBuffer() override;
 
   /** Apply update. */
-  void ApplyUpdate(const TimeStepType& dt) override;
+  void
+  ApplyUpdate(const TimeStepType & dt) override;
 
 private:
   /** Downcast the DifferenceFunction using a dynamic_cast to ensure that it is of the correct type.
    * this method will throw an exception if the function is not of the expected type. */
-  DemonsRegistrationFunctionType *  DownCastDifferenceFunctionType();
+  DemonsRegistrationFunctionType *
+  DownCastDifferenceFunctionType();
 
-  const DemonsRegistrationFunctionType *  DownCastDifferenceFunctionType() const;
+  const DemonsRegistrationFunctionType *
+  DownCastDifferenceFunctionType() const;
 
   /** Exp and composition type alias */
-  using MultiplyByConstantType = MultiplyImageFilter< DisplacementFieldType,
-    itk::Image<TimeStepType, ImageDimension>,
-    DisplacementFieldType >;
+  using MultiplyByConstantType =
+    MultiplyImageFilter<DisplacementFieldType, itk::Image<TimeStepType, ImageDimension>, DisplacementFieldType>;
 
-  using FieldExponentiatorType = ExponentialDisplacementFieldImageFilter<
-    DisplacementFieldType, DisplacementFieldType >;
+  using FieldExponentiatorType = ExponentialDisplacementFieldImageFilter<DisplacementFieldType, DisplacementFieldType>;
 
-  using VectorWarperType = WarpVectorImageFilter<
-    DisplacementFieldType,
-    DisplacementFieldType, DisplacementFieldType >;
+  using VectorWarperType = WarpVectorImageFilter<DisplacementFieldType, DisplacementFieldType, DisplacementFieldType>;
 
-  using FieldInterpolatorType = VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<
-    DisplacementFieldType, double >;
+  using FieldInterpolatorType =
+    VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<DisplacementFieldType, double>;
 
-  using AdderType = AddImageFilter<
-    DisplacementFieldType,
-    DisplacementFieldType, DisplacementFieldType >;
+  using AdderType = AddImageFilter<DisplacementFieldType, DisplacementFieldType, DisplacementFieldType>;
 
   using MultiplyByConstantPointer = typename MultiplyByConstantType::Pointer;
   using FieldExponentiatorPointer = typename FieldExponentiatorType::Pointer;
@@ -204,12 +211,12 @@ private:
   FieldExponentiatorPointer m_Exponentiator;
   VectorWarperPointer       m_Warper;
   AdderPointer              m_Adder;
-  bool                      m_UseFirstOrderExp{false};
+  bool                      m_UseFirstOrderExp{ false };
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDiffeomorphicDemonsRegistrationFilter.hxx"
+#  include "itkDiffeomorphicDemonsRegistrationFilter.hxx"
 #endif
 
 #endif

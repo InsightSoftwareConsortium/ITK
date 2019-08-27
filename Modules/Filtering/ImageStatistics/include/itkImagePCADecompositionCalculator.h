@@ -55,9 +55,8 @@ namespace itk
  * \ingroup Operators
  * \ingroup ITKImageStatistics
  */
-template< typename TInputImage,
-          typename TBasisImage = Image< double, TInputImage::ImageDimension > >
-class ITK_TEMPLATE_EXPORT ImagePCADecompositionCalculator:public Object
+template <typename TInputImage, typename TBasisImage = Image<double, TInputImage::ImageDimension>>
+class ITK_TEMPLATE_EXPORT ImagePCADecompositionCalculator : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImagePCADecompositionCalculator);
@@ -65,8 +64,8 @@ public:
   /** Standard class type aliases. */
   using Self = ImagePCADecompositionCalculator;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -95,11 +94,11 @@ public:
   static constexpr unsigned int BasisImageDimension = TBasisImage::ImageDimension;
 
   /** Vector of basis image pointers. */
-  using BasisImagePointerVector = std::vector< BasisImagePointer >;
+  using BasisImagePointerVector = std::vector<BasisImagePointer>;
 
   /** Type definitions for internal vectors and matrices */
-  using BasisMatrixType = vnl_matrix< BasisPixelType >;
-  using BasisVectorType = vnl_vector< BasisPixelType >;
+  using BasisMatrixType = vnl_matrix<BasisPixelType>;
+  using BasisVectorType = vnl_vector<BasisPixelType>;
 
   /** Set and get the input image. */
   itkSetConstObjectMacro(Image, InputImageType);
@@ -110,18 +109,24 @@ public:
   itkGetConstObjectMacro(MeanImage, BasisImageType);
 
   /** Set and get the basis images. */
-  void SetBasisImages(const BasisImagePointerVector &);
+  void
+  SetBasisImages(const BasisImagePointerVector &);
 
-  BasisImagePointerVector GetBasisImages() { return m_BasisImages; }
+  BasisImagePointerVector
+  GetBasisImages()
+  {
+    return m_BasisImages;
+  }
 
   /** Type definition of a compatible ImagePCAShapeModelEstimator */
-  using ModelPointerType = typename ImagePCAShapeModelEstimator< TInputImage,
-                                                TBasisImage >::Pointer;
+  using ModelPointerType = typename ImagePCAShapeModelEstimator<TInputImage, TBasisImage>::Pointer;
   /** Set the basis images from a ImagePCAShapeModelEstimator */
-  void SetBasisFromModel(ModelPointerType model);
+  void
+  SetBasisFromModel(ModelPointerType model);
 
   /** Compute the PCA decomposition of the input image. */
-  void Compute();
+  void
+  Compute();
 
   /** Return the projection of the image. */
   itkGetConstMacro(Projection, BasisVectorType);
@@ -129,11 +134,14 @@ public:
 protected:
   ImagePCADecompositionCalculator();
   ~ImagePCADecompositionCalculator() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void CalculateBasisMatrix();
+  void
+  CalculateBasisMatrix();
 
-  void CalculateRecenteredImageAsVector();
+  void
+  CalculateRecenteredImageAsVector();
 
 private:
   using BasisSizeType = typename BasisImageType::SizeType;
@@ -151,7 +159,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImagePCADecompositionCalculator.hxx"
+#  include "itkImagePCADecompositionCalculator.hxx"
 #endif
 
 #endif

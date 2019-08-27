@@ -50,8 +50,8 @@ namespace itk
  * \sphinxexample{Core/Common/DuplicateAnImage,Duplicate An Image}
  * \endsphinx
  */
-template< typename TInputImage >
-class ITK_TEMPLATE_EXPORT ImageDuplicator:public Object
+template <typename TInputImage>
+class ITK_TEMPLATE_EXPORT ImageDuplicator : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageDuplicator);
@@ -59,8 +59,8 @@ public:
   /** Standard class type aliases. */
   using Self = ImageDuplicator;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -80,31 +80,45 @@ public:
   itkSetConstObjectMacro(InputImage, ImageType);
 
   /**
-    * Provide an interface to match that
-    * of other ProcessObjects
-    * for this source generation object
-    * by returning a non-const pointer
-    * for the generated Object.
-    */
-  //NOTE:  The m_DuplicateImage is only
+   * Provide an interface to match that
+   * of other ProcessObjects
+   * for this source generation object
+   * by returning a non-const pointer
+   * for the generated Object.
+   */
+  // NOTE:  The m_DuplicateImage is only
   //       exposed via the Source generation interface
   //       by the GetOutput() method that mimics
   //       a process object.
-  virtual const ImageType * GetOutput () const { return this->m_DuplicateImage.GetPointer(); }
-  virtual ImageType * GetOutput() { return this->m_DuplicateImage.GetPointer(); }
+  virtual const ImageType *
+  GetOutput() const
+  {
+    return this->m_DuplicateImage.GetPointer();
+  }
+  virtual ImageType *
+  GetOutput()
+  {
+    return this->m_DuplicateImage.GetPointer();
+  }
 
 #if !defined(ITK_LEGACY_REMOVE)
   // This interface was exposed in ITKv4 when the itkGetModifiableObjectMacro was used
-  virtual ImageType * GetModifiableOutput() { return this->m_DuplicateImage.GetPointer(); }
+  virtual ImageType *
+  GetModifiableOutput()
+  {
+    return this->m_DuplicateImage.GetPointer();
+  }
 #endif
 
   /** Compute of the input image. */
-  void Update();
+  void
+  Update();
 
 protected:
   ImageDuplicator();
   ~ImageDuplicator() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ImageConstPointer m_InputImage;
@@ -114,7 +128,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageDuplicator.hxx"
+#  include "itkImageDuplicator.hxx"
 #endif
 
 #endif /* itkImageDuplicator_h */

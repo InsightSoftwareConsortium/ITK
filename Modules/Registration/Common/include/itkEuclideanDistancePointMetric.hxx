@@ -24,150 +24,146 @@
 namespace itk
 {
 
-template< typename TFixedPointSet, typename TMovingPointSet, typename TDistanceMap >
-EuclideanDistancePointMetric< TFixedPointSet, TMovingPointSet, TDistanceMap >
-::EuclideanDistancePointMetric()
+template <typename TFixedPointSet, typename TMovingPointSet, typename TDistanceMap>
+EuclideanDistancePointMetric<TFixedPointSet, TMovingPointSet, TDistanceMap>::EuclideanDistancePointMetric()
 
-{
+{}
 
-}
-
-template< typename TFixedPointSet, typename TMovingPointSet, typename TDistanceMap >
+template <typename TFixedPointSet, typename TMovingPointSet, typename TDistanceMap>
 unsigned int
-EuclideanDistancePointMetric< TFixedPointSet, TMovingPointSet, TDistanceMap >
-::GetNumberOfValues() const
+EuclideanDistancePointMetric<TFixedPointSet, TMovingPointSet, TDistanceMap>::GetNumberOfValues() const
 {
   MovingPointSetConstPointer movingPointSet = this->GetMovingPointSet();
 
-  if ( !movingPointSet )
-    {
+  if (!movingPointSet)
+  {
     itkExceptionMacro(<< "Moving point set has not been assigned");
-    }
+  }
 
   return movingPointSet->GetPoints()->Size();
 }
 
-template< typename TFixedPointSet, typename TMovingPointSet, typename TDistanceMap >
-typename EuclideanDistancePointMetric< TFixedPointSet, TMovingPointSet, TDistanceMap >::MeasureType
-EuclideanDistancePointMetric< TFixedPointSet, TMovingPointSet, TDistanceMap >
-::GetValue(const TransformParametersType & parameters) const
+template <typename TFixedPointSet, typename TMovingPointSet, typename TDistanceMap>
+typename EuclideanDistancePointMetric<TFixedPointSet, TMovingPointSet, TDistanceMap>::MeasureType
+EuclideanDistancePointMetric<TFixedPointSet, TMovingPointSet, TDistanceMap>::GetValue(
+  const TransformParametersType & parameters) const
 {
   FixedPointSetConstPointer fixedPointSet = this->GetFixedPointSet();
 
-  if ( !fixedPointSet )
-    {
+  if (!fixedPointSet)
+  {
     itkExceptionMacro(<< "Fixed point set has not been assigned");
-    }
+  }
 
   MovingPointSetConstPointer movingPointSet = this->GetMovingPointSet();
 
-  if ( !movingPointSet )
-    {
+  if (!movingPointSet)
+  {
     itkExceptionMacro(<< "Moving point set has not been assigned");
-    }
+  }
 
   MovingPointIterator pointItr = movingPointSet->GetPoints()->Begin();
   MovingPointIterator pointEnd = movingPointSet->GetPoints()->End();
 
   MeasureType measure;
-  measure.set_size( movingPointSet->GetPoints()->Size() );
+  measure.set_size(movingPointSet->GetPoints()->Size());
 
   this->SetTransformParameters(parameters);
 
   unsigned int identifier = 0;
-  while ( pointItr != pointEnd )
-    {
+  while (pointItr != pointEnd)
+  {
     typename Superclass::InputPointType inputPoint;
-    inputPoint.CastFrom( pointItr.Value() );
-    typename Superclass::OutputPointType transformedPoint =
-      this->m_Transform->TransformPoint(inputPoint);
+    inputPoint.CastFrom(pointItr.Value());
+    typename Superclass::OutputPointType transformedPoint = this->m_Transform->TransformPoint(inputPoint);
 
-    double minimumDistance = NumericTraits< double >::max();
+    double minimumDistance = NumericTraits<double>::max();
     bool   closestPoint = false;
 
     // Try to use the distance map to solve the closest point
-    if ( m_DistanceMap )
-      {
+    if (m_DistanceMap)
+    {
       // Check if the point is inside the distance map
       typename DistanceMapType::IndexType index;
-      if ( m_DistanceMap->TransformPhysicalPointToIndex(transformedPoint, index) )
-        {
+      if (m_DistanceMap->TransformPhysicalPointToIndex(transformedPoint, index))
+      {
         minimumDistance = m_DistanceMap->GetPixel(index);
         // In case the provided distance map was signed,
         // we correct here the distance to take its absolute value.
-        if ( minimumDistance < 0.0 )
-          {
+        if (minimumDistance < 0.0)
+        {
           minimumDistance = -minimumDistance;
-          }
-        closestPoint = true;
         }
+        closestPoint = true;
       }
+    }
 
     // If the closestPoint has not been found, go through the list of fixed
     // points and find the closest distance
-    if ( !closestPoint )
-      {
+    if (!closestPoint)
+    {
       FixedPointIterator pointItr2 = fixedPointSet->GetPoints()->Begin();
       FixedPointIterator pointEnd2 = fixedPointSet->GetPoints()->End();
 
-      while ( pointItr2 != pointEnd2 )
-        {
+      while (pointItr2 != pointEnd2)
+      {
         double dist = pointItr2.Value().SquaredEuclideanDistanceTo(transformedPoint);
 
-        if ( !m_ComputeSquaredDistance )
-          {
+        if (!m_ComputeSquaredDistance)
+        {
           dist = std::sqrt(dist);
-          }
-
-        if ( dist < minimumDistance )
-          {
-          minimumDistance = dist;
-          }
-        ++pointItr2;
         }
+
+        if (dist < minimumDistance)
+        {
+          minimumDistance = dist;
+        }
+        ++pointItr2;
       }
+    }
 
     measure.put(identifier, minimumDistance);
 
     ++pointItr;
     ++identifier;
-    }
+  }
 
   return measure;
 }
 
-template< typename TFixedPointSet, typename TMovingPointSet, typename TDistanceMap >
+template <typename TFixedPointSet, typename TMovingPointSet, typename TDistanceMap>
 void
-EuclideanDistancePointMetric< TFixedPointSet, TMovingPointSet, TDistanceMap >
-::GetDerivative( const TransformParametersType & itkNotUsed(parameters),
-                 DerivativeType & itkNotUsed(derivative) ) const
+EuclideanDistancePointMetric<TFixedPointSet, TMovingPointSet, TDistanceMap>::GetDerivative(
+  const TransformParametersType & itkNotUsed(parameters),
+  DerivativeType &                itkNotUsed(derivative)) const
 {}
 
-template< typename TFixedPointSet, typename TMovingPointSet, typename TDistanceMap >
+template <typename TFixedPointSet, typename TMovingPointSet, typename TDistanceMap>
 void
-EuclideanDistancePointMetric< TFixedPointSet, TMovingPointSet, TDistanceMap >
-::GetValueAndDerivative(const TransformParametersType & parameters,
-                        MeasureType & value, DerivativeType  & derivative) const
+EuclideanDistancePointMetric<TFixedPointSet, TMovingPointSet, TDistanceMap>::GetValueAndDerivative(
+  const TransformParametersType & parameters,
+  MeasureType &                   value,
+  DerivativeType &                derivative) const
 {
   value = this->GetValue(parameters);
   this->GetDerivative(parameters, derivative);
 }
 
-template< typename TFixedPointSet, typename TMovingPointSet, typename TDistanceMap >
+template <typename TFixedPointSet, typename TMovingPointSet, typename TDistanceMap>
 void
-EuclideanDistancePointMetric< TFixedPointSet, TMovingPointSet, TDistanceMap >
-::PrintSelf(std::ostream & os, Indent indent) const
+EuclideanDistancePointMetric<TFixedPointSet, TMovingPointSet, TDistanceMap>::PrintSelf(std::ostream & os,
+                                                                                       Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "DistanceMap: " << m_DistanceMap << std::endl;
-  if ( m_ComputeSquaredDistance )
-    {
+  if (m_ComputeSquaredDistance)
+  {
     os << indent << "m_ComputeSquaredDistance: True" << std::endl;
-    }
+  }
   else
-    {
+  {
     os << indent << "m_ComputeSquaredDistance: False" << std::endl;
-    }
+  }
 }
 } // end namespace itk
 

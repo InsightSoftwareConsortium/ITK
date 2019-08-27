@@ -22,21 +22,22 @@
 
 namespace itk
 {
-void MatlabTransformIOFactory::PrintSelf(std::ostream &, Indent) const
+void
+MatlabTransformIOFactory::PrintSelf(std::ostream &, Indent) const
 {}
 
 MatlabTransformIOFactory::MatlabTransformIOFactory()
 {
-  this->RegisterOverride( "itkTransformIOBaseTemplate",
-                          "itkMatlabTransformIO",
-                          "Matlab Transform float IO",
-                          true,
-                          CreateObjectFunction< MatlabTransformIOTemplate< float > >::New() );
-  this->RegisterOverride( "itkTransformIOBaseTemplate",
-                          "itkMatlabTransformIO",
-                          "Matlab Transform double IO",
-                          true,
-                          CreateObjectFunction< MatlabTransformIOTemplate< double >  >::New() );
+  this->RegisterOverride("itkTransformIOBaseTemplate",
+                         "itkMatlabTransformIO",
+                         "Matlab Transform float IO",
+                         true,
+                         CreateObjectFunction<MatlabTransformIOTemplate<float>>::New());
+  this->RegisterOverride("itkTransformIOBaseTemplate",
+                         "itkMatlabTransformIO",
+                         "Matlab Transform double IO",
+                         true,
+                         CreateObjectFunction<MatlabTransformIOTemplate<double>>::New());
 }
 
 MatlabTransformIOFactory::~MatlabTransformIOFactory() = default;
@@ -58,12 +59,13 @@ MatlabTransformIOFactory::GetDescription() const
 // DO NOT CALL DIRECTLY.
 static bool MatlabTransformIOFactoryHasBeenRegistered;
 
-void ITKIOTransformMatlab_EXPORT MatlabTransformIOFactoryRegister__Private()
+void ITKIOTransformMatlab_EXPORT
+     MatlabTransformIOFactoryRegister__Private()
 {
-  if( ! MatlabTransformIOFactoryHasBeenRegistered )
-    {
+  if (!MatlabTransformIOFactoryHasBeenRegistered)
+  {
     MatlabTransformIOFactoryHasBeenRegistered = true;
     MatlabTransformIOFactory::RegisterOneFactory();
-    }
+  }
 }
 } // end namespace itk

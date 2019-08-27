@@ -23,12 +23,13 @@
 #include <iostream>
 
 //  Example taken from 'Fundamentals of the Finite ELement Method' - Grandin
-int itkFEMElement2DC0LinearQuadrilateralStressTestFEMObject(int argc, char *argv[])
+int
+itkFEMElement2DC0LinearQuadrilateralStressTestFEMObject(int argc, char * argv[])
 {
-  //Need to register default FEM object types,
-  //and setup SpatialReader to recognize FEM types
-  //which is all currently done as a HACK in
-  //the initializaiton of the itk::FEMFactoryBase::GetFactory()
+  // Need to register default FEM object types,
+  // and setup SpatialReader to recognize FEM types
+  // which is all currently done as a HACK in
+  // the initializaiton of the itk::FEMFactoryBase::GetFactory()
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
 
   using FEMObjectType = itk::fem::FEMObject<2>;
@@ -70,8 +71,8 @@ int itkFEMElement2DC0LinearQuadrilateralStressTestFEMObject(int argc, char *argv
   m->SetGlobalNumber(0);           /* Global number of the material */
   m->SetYoungsModulus(30000000.0); /* Young modulus */
   m->SetPoissonsRatio(0.3);
-  m->SetCrossSectionalArea(.0);   /* Crossection area */
-  m->SetMomentOfInterita(1.0);    /* Momemt of inertia */
+  m->SetCrossSectionalArea(.0); /* Crossection area */
+  m->SetMomentOfInterita(1.0);  /* Momemt of inertia */
   femObject->AddNextMaterial(m);
 
   itk::fem::Element2DC0LinearQuadrilateralStress::Pointer e1;
@@ -79,67 +80,65 @@ int itkFEMElement2DC0LinearQuadrilateralStressTestFEMObject(int argc, char *argv
   e1 = itk::fem::Element2DC0LinearQuadrilateralStress::New();
 
   e1->SetGlobalNumber(0);
-  e1->SetNode( 0, femObject->GetNode(0).GetPointer() );
-  e1->SetNode( 1, femObject->GetNode(1).GetPointer() );
-  e1->SetNode( 2, femObject->GetNode(2).GetPointer() );
-  e1->SetNode( 3, femObject->GetNode(3).GetPointer() );
+  e1->SetNode(0, femObject->GetNode(0).GetPointer());
+  e1->SetNode(1, femObject->GetNode(1).GetPointer());
+  e1->SetNode(2, femObject->GetNode(2).GetPointer());
+  e1->SetNode(3, femObject->GetNode(3).GetPointer());
 
-  e1->SetMaterial( femObject->GetMaterial(0).GetPointer() );
-  femObject->AddNextElement( e1);
+  e1->SetMaterial(femObject->GetMaterial(0).GetPointer());
+  femObject->AddNextElement(e1);
 
   itk::fem::LoadBC::Pointer l1;
   l1 = itk::fem::LoadBC::New();
-  l1->SetElement( femObject->GetElement(0) )
-  l1->SetDegreeOfFreedom(0);
-  l1->SetValue( vnl_vector<double>(0, 0.0) );
-  femObject->AddNextLoad( l1 );
+  l1->SetElement(femObject->GetElement(0)) l1->SetDegreeOfFreedom(0);
+  l1->SetValue(vnl_vector<double>(0, 0.0));
+  femObject->AddNextLoad(l1);
 
   l1 = itk::fem::LoadBC::New();
-  l1->SetElement( femObject->GetElement(0) )
-  l1->SetDegreeOfFreedom(1);
-  l1->SetValue( vnl_vector<double>(1, 0.0) );
-  femObject->AddNextLoad( l1 );
+  l1->SetElement(femObject->GetElement(0)) l1->SetDegreeOfFreedom(1);
+  l1->SetValue(vnl_vector<double>(1, 0.0));
+  femObject->AddNextLoad(l1);
 
   l1 = itk::fem::LoadBC::New();
-  l1->SetElement( femObject->GetElement(0) );
+  l1->SetElement(femObject->GetElement(0));
   l1->SetDegreeOfFreedom(6);
-  l1->SetValue( vnl_vector<double>(1, 0.0) );
-  femObject->AddNextLoad( l1 );
+  l1->SetValue(vnl_vector<double>(1, 0.0));
+  femObject->AddNextLoad(l1);
 
   l1 = itk::fem::LoadBC::New();
-  l1->SetElement( femObject->GetElement(0) );
+  l1->SetElement(femObject->GetElement(0));
   l1->SetDegreeOfFreedom(7);
-  l1->SetValue( vnl_vector<double>(1, 0.0) );
-  femObject->AddNextLoad( l1 );
+  l1->SetValue(vnl_vector<double>(1, 0.0));
+  femObject->AddNextLoad(l1);
 
   itk::fem::LoadNode::Pointer l2;
 
   l2 = itk::fem::LoadNode::New();
-  l2->SetElement( femObject->GetElement(0) );
+  l2->SetElement(femObject->GetElement(0));
   l2->SetNode(1);
   vnl_vector<double> F(2);
   F[0] = 5;
   F[1] = 0;
   l2->SetForce(F);
-  femObject->AddNextLoad( l2 );
+  femObject->AddNextLoad(l2);
 
   l2 = itk::fem::LoadNode::New();
-  l2->SetElement( femObject->GetElement(0) );
+  l2->SetElement(femObject->GetElement(0));
   l2->SetNode(2);
   vnl_vector<double> F1(2);
   F1[0] = 10;
   F1[1] = 0;
   l2->SetForce(F1);
-  femObject->AddNextLoad( l2 );
+  femObject->AddNextLoad(l2);
 
   femObject->Solve();
 
   float soln[8];
-  for( int i = 0; i < 8; i++ )
-    {
+  for (int i = 0; i < 8; i++)
+  {
     soln[i] = femObject->GetSolution(i);
     std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;
-    }
+  }
   std::cout << "Test PASSED!" << std::endl;
   return EXIT_SUCCESS;
 }

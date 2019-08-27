@@ -20,22 +20,26 @@
 #include "itkCovarianceSampleFilter.h"
 #include "itkImageRegionIterator.h"
 
-int itkCovarianceSampleFilterTest(int, char* [] )
+int
+itkCovarianceSampleFilterTest(int, char *[])
 {
   std::cout << "CovarianceSampleFilter Test \n \n";
 
   // Now generate an image
-  enum { MeasurementVectorSize = 3 };
+  enum
+  {
+    MeasurementVectorSize = 3
+  };
   using MeasurementType = float;
 
-  using MeasurementVectorType = itk::FixedArray< MeasurementType, MeasurementVectorSize >;
-  using ImageType = itk::Image< MeasurementVectorType, 3 >;
-  using MaskImageType = itk::Image< unsigned char, 3 >;
+  using MeasurementVectorType = itk::FixedArray<MeasurementType, MeasurementVectorSize>;
+  using ImageType = itk::Image<MeasurementVectorType, 3>;
+  using MaskImageType = itk::Image<unsigned char, 3>;
 
-  ImageType::Pointer image = ImageType::New();
+  ImageType::Pointer    image = ImageType::New();
   ImageType::RegionType region;
-  ImageType::SizeType size;
-  ImageType::IndexType index;
+  ImageType::SizeType   size;
+  ImageType::IndexType  index;
   index.Fill(0);
   size.Fill(5);
   region.SetIndex(index);
@@ -45,132 +49,134 @@ int itkCovarianceSampleFilterTest(int, char* [] )
   image->SetBufferedRegion(region);
   image->Allocate();
 
-  using ImageIterator = itk::ImageRegionIterator< ImageType >;
+  using ImageIterator = itk::ImageRegionIterator<ImageType>;
   ImageIterator iter(image, region);
 
-  unsigned int count = 0;
+  unsigned int          count = 0;
   MeasurementVectorType temp;
   temp.Fill(0);
 
   // fill the image
   while (!iter.IsAtEnd())
-    {
+  {
     temp[0] = count;
     iter.Set(temp);
     ++iter;
     ++count;
-    }
+  }
 
   // creates an ImageToListSampleAdaptor object
-  using ImageToListSampleFilterType = itk::Statistics::ImageToListSampleFilter< ImageType, MaskImageType >;
+  using ImageToListSampleFilterType = itk::Statistics::ImageToListSampleFilter<ImageType, MaskImageType>;
 
   ImageToListSampleFilterType::Pointer sampleGeneratingFilter = ImageToListSampleFilterType::New();
 
-  sampleGeneratingFilter->SetInput( image );
+  sampleGeneratingFilter->SetInput(image);
 
   try
-    {
+  {
     sampleGeneratingFilter->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
-    std::cerr<< excp << std::endl;
+  }
+  catch (itk::ExceptionObject & excp)
+  {
+    std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   using ListSampleType = ImageToListSampleFilterType::ListSampleType;
-  using CovarianceSampleFilterType = itk::Statistics::CovarianceSampleFilter< ListSampleType >;
+  using CovarianceSampleFilterType = itk::Statistics::CovarianceSampleFilter<ListSampleType>;
 
   CovarianceSampleFilterType::Pointer covarianceFilter = CovarianceSampleFilterType::New();
 
   std::cout << "GetNameOfClass() = " << covarianceFilter->GetNameOfClass() << std::endl;
 
-  //Invoke update before adding an input. An exception should be
+  // Invoke update before adding an input. An exception should be
   try
-    {
+  {
     covarianceFilter->Update();
     std::cerr << "Exception should have been thrown since \
-                 Update() is invoked without setting an input " << std::endl;
+                 Update() is invoked without setting an input "
+              << std::endl;
     return EXIT_FAILURE;
-    }
-  catch ( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception caught: " << excp << std::endl;
-    }
+  }
 
   covarianceFilter->ResetPipeline();
 
-  if ( covarianceFilter->GetInput() != nullptr )
-    {
+  if (covarianceFilter->GetInput() != nullptr)
+  {
     std::cerr << "GetInput() should return nullptr if the input \
-                     has not been set" << std::endl;
+                     has not been set"
+              << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  covarianceFilter->SetInput( sampleGeneratingFilter->GetOutput() );
+  covarianceFilter->SetInput(sampleGeneratingFilter->GetOutput());
   try
-    {
+  {
     covarianceFilter->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
-    std::cerr<< excp << std::endl;
+  }
+  catch (itk::ExceptionObject & excp)
+  {
+    std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  covarianceFilter->Print( std::cout );
+  covarianceFilter->Print(std::cout);
 
-  const double   epsilon = 1e-6;
+  const double epsilon = 1e-6;
 
   // CHECK THE RESULTS
-  const CovarianceSampleFilterType::MeasurementVectorDecoratedType * meanDecorator =
-                                                covarianceFilter->GetMeanOutput();
+  const CovarianceSampleFilterType::MeasurementVectorDecoratedType * meanDecorator = covarianceFilter->GetMeanOutput();
 
-  CovarianceSampleFilterType::MeasurementVectorRealType    mean  = meanDecorator->Get();
+  CovarianceSampleFilterType::MeasurementVectorRealType mean = meanDecorator->Get();
   std::cout << "Mean:   " << mean << std::endl;
-  CovarianceSampleFilterType::MeasurementVectorRealType    mean2 = covarianceFilter->GetMean();
+  CovarianceSampleFilterType::MeasurementVectorRealType mean2 = covarianceFilter->GetMean();
 
-  if ( ( std::fabs( mean[0] - mean2[0]) > epsilon )  ||
-       ( std::fabs( mean[1] - mean2[1]) > epsilon)  ||
-       ( std::fabs( mean[2] - mean2[2]) > epsilon) )
-    {
+  if ((std::fabs(mean[0] - mean2[0]) > epsilon) || (std::fabs(mean[1] - mean2[1]) > epsilon) ||
+      (std::fabs(mean[2] - mean2[2]) > epsilon))
+  {
     std::cerr << "Mean parameter value retrieved using GetMean() and the decorator\
-                  are not the same:: " <<  mean << "," << mean2 << std::endl;
+                  are not the same:: "
+              << mean << "," << mean2 << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   const CovarianceSampleFilterType::MatrixDecoratedType * decorator = covarianceFilter->GetCovarianceMatrixOutput();
-  CovarianceSampleFilterType::MatrixType    covarianceMatrix  = decorator->Get();
+  CovarianceSampleFilterType::MatrixType                  covarianceMatrix = decorator->Get();
 
   std::cout << "Covariance matrix:   " << covarianceMatrix << std::endl;
 
 
-  using MeanSampleFilterType = itk::Statistics::MeanSampleFilter< ListSampleType >;
+  using MeanSampleFilterType = itk::Statistics::MeanSampleFilter<ListSampleType>;
   MeanSampleFilterType::Pointer meanFilter = MeanSampleFilterType::New();
-  meanFilter->SetInput( sampleGeneratingFilter->GetOutput());
+  meanFilter->SetInput(sampleGeneratingFilter->GetOutput());
 
   try
-    {
+  {
     meanFilter->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception caught: " << excp << std::endl;
-    }
+  }
 
   MeanSampleFilterType::MeasurementVectorRealType meanCalculatedUsingMeanSampleFilter = meanFilter->GetMean();
 
-  if ( ( std::fabs( meanCalculatedUsingMeanSampleFilter[0] - mean[0]) > epsilon )  ||
-       ( std::fabs( meanCalculatedUsingMeanSampleFilter[1] - mean[1]) > epsilon)  ||
-       ( std::fabs( meanCalculatedUsingMeanSampleFilter[2] - mean[2]) > epsilon) )
-    {
+  if ((std::fabs(meanCalculatedUsingMeanSampleFilter[0] - mean[0]) > epsilon) ||
+      (std::fabs(meanCalculatedUsingMeanSampleFilter[1] - mean[1]) > epsilon) ||
+      (std::fabs(meanCalculatedUsingMeanSampleFilter[2] - mean[2]) > epsilon))
+  {
     std::cerr << "Mean calculated using the MeanSampleFilter is different from\
-                 the one calculated using the covariance filter " << std::endl;
+                 the one calculated using the covariance filter "
+              << std::endl;
     std::cerr << "Mean computed with covariance filter = " << mean << std::endl;
     std::cerr << "Mean computed with mean filter = " << meanCalculatedUsingMeanSampleFilter << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;

@@ -27,41 +27,37 @@
 
 namespace itk
 {
-template< typename TInputImage >
-MinimumMaximumImageFilter< TInputImage >
-::MinimumMaximumImageFilter()
+template <typename TInputImage>
+MinimumMaximumImageFilter<TInputImage>::MinimumMaximumImageFilter()
 {
-  Self::SetMinimum( NumericTraits< PixelType >::max() );
-  Self::SetMaximum( NumericTraits< PixelType >::NonpositiveMin() );
+  Self::SetMinimum(NumericTraits<PixelType>::max());
+  Self::SetMaximum(NumericTraits<PixelType>::NonpositiveMin());
 }
 
-template< typename TInputImage >
+template <typename TInputImage>
 DataObject::Pointer
-MinimumMaximumImageFilter< TInputImage >
-::MakeOutput(const DataObjectIdentifierType & name)
+MinimumMaximumImageFilter<TInputImage>::MakeOutput(const DataObjectIdentifierType & name)
 {
-  if ( name == "Minimum" || name == "Maximum" )
-    {
-     return PixelObjectType::New();
-    }
+  if (name == "Minimum" || name == "Maximum")
+  {
+    return PixelObjectType::New();
+  }
   return Superclass::MakeOutput(name);
 }
 
-template< typename TInputImage >
+template <typename TInputImage>
 void
-MinimumMaximumImageFilter< TInputImage >
-::BeforeStreamedGenerateData()
+MinimumMaximumImageFilter<TInputImage>::BeforeStreamedGenerateData()
 {
   Superclass::BeforeStreamedGenerateData();
 
-  m_ThreadMin = NumericTraits< PixelType >::max();
-  m_ThreadMax = NumericTraits< PixelType >::NonpositiveMin();
+  m_ThreadMin = NumericTraits<PixelType>::max();
+  m_ThreadMax = NumericTraits<PixelType>::NonpositiveMin();
 }
 
-template< typename TInputImage >
+template <typename TInputImage>
 void
-MinimumMaximumImageFilter< TInputImage >
-::AfterStreamedGenerateData()
+MinimumMaximumImageFilter<TInputImage>::AfterStreamedGenerateData()
 {
   Superclass::AfterStreamedGenerateData();
 
@@ -69,73 +65,68 @@ MinimumMaximumImageFilter< TInputImage >
   this->SetMaximum(m_ThreadMax);
 }
 
-template< typename TInputImage >
+template <typename TInputImage>
 void
-MinimumMaximumImageFilter< TInputImage >
-::ThreadedStreamedGenerateData(const RegionType & regionForThread)
+MinimumMaximumImageFilter<TInputImage>::ThreadedStreamedGenerateData(const RegionType & regionForThread)
 {
-  if ( regionForThread.GetNumberOfPixels() == 0 )
-    {
+  if (regionForThread.GetNumberOfPixels() == 0)
+  {
     return;
-    }
+  }
 
-  PixelType localMin = NumericTraits< PixelType >::max();
-  PixelType localMax = NumericTraits< PixelType >::NonpositiveMin();
+  PixelType localMin = NumericTraits<PixelType>::max();
+  PixelType localMax = NumericTraits<PixelType>::NonpositiveMin();
 
-  ImageScanlineConstIterator< TInputImage > it (this->GetInput(),  regionForThread);
+  ImageScanlineConstIterator<TInputImage> it(this->GetInput(), regionForThread);
 
 
   // do the work
-  while ( !it.IsAtEnd() )
-    {
+  while (!it.IsAtEnd())
+  {
     // Handle the odd pixel separately
-    if ( regionForThread.GetSize(0)%2 == 1 )
-      {
+    if (regionForThread.GetSize(0) % 2 == 1)
+    {
       const PixelType value = it.Get();
       localMin = std::min(value, localMin);
       localMax = std::max(value, localMax);
       ++it;
-      }
+    }
 
-    while ( !it.IsAtEndOfLine() )
-      {
+    while (!it.IsAtEndOfLine())
+    {
       const PixelType value1 = it.Get();
       ++it;
       const PixelType value2 = it.Get();
       ++it;
 
       if (value1 > value2)
-        {
-        localMax = std::max(value1,localMax);
-        localMin = std::min(value2,localMin);
-        }
-      else
-        {
-        localMax = std::max(value2,localMax);
-        localMin = std::min(value1,localMin);
-        }
+      {
+        localMax = std::max(value1, localMax);
+        localMin = std::min(value2, localMin);
       }
-    it.NextLine();
-
+      else
+      {
+        localMax = std::max(value2, localMax);
+        localMin = std::min(value1, localMin);
+      }
     }
+    it.NextLine();
+  }
 
   std::lock_guard<std::mutex> mutexHolder(m_Mutex);
   m_ThreadMin = std::min(localMin, m_ThreadMin);
   m_ThreadMax = std::max(localMax, m_ThreadMax);
 }
 
-template< typename TImage >
+template <typename TImage>
 void
-MinimumMaximumImageFilter< TImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+MinimumMaximumImageFilter<TImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Minimum: "
-     << static_cast< typename NumericTraits< PixelType >::PrintType >( this->GetMinimum() )
+  os << indent << "Minimum: " << static_cast<typename NumericTraits<PixelType>::PrintType>(this->GetMinimum())
      << std::endl;
-  os << indent << "Maximum: "
-     << static_cast< typename NumericTraits< PixelType >::PrintType >( this->GetMaximum() )
+  os << indent << "Maximum: " << static_cast<typename NumericTraits<PixelType>::PrintType>(this->GetMaximum())
      << std::endl;
 }
 } // end namespace itk

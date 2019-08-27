@@ -24,19 +24,20 @@
 
 namespace itk
 {
-template< typename TMesh, typename TQEType >
-QuadEdgeMeshEulerOperatorFlipEdgeFunction< TMesh, TQEType >::QuadEdgeMeshEulerOperatorFlipEdgeFunction():Superclass(),
-  m_EdgeStatus(STANDARD_CONFIG)
+template <typename TMesh, typename TQEType>
+QuadEdgeMeshEulerOperatorFlipEdgeFunction<TMesh, TQEType>::QuadEdgeMeshEulerOperatorFlipEdgeFunction()
+  : Superclass()
+  , m_EdgeStatus(STANDARD_CONFIG)
 {}
 
-template< typename TMesh, typename TQEType >
+template <typename TMesh, typename TQEType>
 void
-QuadEdgeMeshEulerOperatorFlipEdgeFunction< TMesh, TQEType >::PrintSelf(std::ostream & os, Indent indent) const
+QuadEdgeMeshEulerOperatorFlipEdgeFunction<TMesh, TQEType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "m_EdgeStatus: ";
-  switch ( m_EdgeStatus )
-    {
+  switch (m_EdgeStatus)
+  {
     default:
     case STANDARD_CONFIG:
       os << "STANDARD_CONFIG" << std::endl;
@@ -59,57 +60,56 @@ QuadEdgeMeshEulerOperatorFlipEdgeFunction< TMesh, TQEType >::PrintSelf(std::ostr
     case EXISTING_OPPOSITE_EDGE:
       os << "EXISTING_OPPOSITE_EDGE" << std::endl;
       break;
-    }
+  }
 }
 
-template< typename TMesh, typename TQEType >
+template <typename TMesh, typename TQEType>
 void
-QuadEdgeMeshEulerOperatorFlipEdgeFunction< TMesh, TQEType >::CheckStatus(QEType *h)
+QuadEdgeMeshEulerOperatorFlipEdgeFunction<TMesh, TQEType>::CheckStatus(QEType * h)
 {
 #ifndef NDEBUG
-  if ( h == (QEType *)nullptr )
-    {
+  if (h == (QEType *)nullptr)
+  {
     m_EdgeStatus = EDGE_NULL;
     return;
-    }
+  }
 
-  if ( !this->m_Mesh )
-    {
+  if (!this->m_Mesh)
+  {
     m_EdgeStatus = MESH_NULL;
     return;
-    }
+  }
 #endif
 
-  if ( !h->IsInternal() )
-    {
+  if (!h->IsInternal())
+  {
     m_EdgeStatus = NON_INTERNAL_EDGE;
     return;
-    }
+  }
 
-  if ( !h->IsLnextOfTriangle() )
-    {
+  if (!h->IsLnextOfTriangle())
+  {
     m_EdgeStatus = NON_TRIANGULAR_LEFT_FACE;
     return;
-    }
-  if ( !h->GetSym()->IsLnextOfTriangle() )
-    {
+  }
+  if (!h->GetSym()->IsLnextOfTriangle())
+  {
     m_EdgeStatus = NON_TRIANGULAR_RIGHT_FACE;
     return;
-    }
+  }
 
-  if ( this->m_Mesh->FindEdge( h->GetOnext()->GetDestination(),
-                               h->GetSym()->GetOnext()->GetDestination() ) != nullptr )
-    {
+  if (this->m_Mesh->FindEdge(h->GetOnext()->GetDestination(), h->GetSym()->GetOnext()->GetDestination()) != nullptr)
+  {
     m_EdgeStatus = EXISTING_OPPOSITE_EDGE;
     return;
-    }
+  }
 
   m_EdgeStatus = STANDARD_CONFIG;
 }
 
-template< typename TMesh, typename TQEType >
-typename QuadEdgeMeshEulerOperatorFlipEdgeFunction< TMesh, TQEType >::OutputType
-QuadEdgeMeshEulerOperatorFlipEdgeFunction< TMesh, TQEType >::Evaluate(QEType *h)
+template <typename TMesh, typename TQEType>
+typename QuadEdgeMeshEulerOperatorFlipEdgeFunction<TMesh, TQEType>::OutputType
+QuadEdgeMeshEulerOperatorFlipEdgeFunction<TMesh, TQEType>::Evaluate(QEType * h)
 {
   //
   //    X ---<-G---- X              X ---<-G---- X
@@ -127,54 +127,52 @@ QuadEdgeMeshEulerOperatorFlipEdgeFunction< TMesh, TQEType >::Evaluate(QEType *h)
   //
   CheckStatus(h);
 
-  switch ( m_EdgeStatus )
-    {
+  switch (m_EdgeStatus)
+  {
     default:
     case STANDARD_CONFIG:
       return Process(h);
     case EDGE_NULL:
       itkDebugMacro("No Edge to flip.");
-      return ( (QEType *)nullptr );
+      return ((QEType *)nullptr);
     case MESH_NULL:
       itkDebugMacro("No mesh present.");
-      return ( (QEType *)nullptr );
+      return ((QEType *)nullptr);
     case NON_INTERNAL_EDGE:
       itkDebugMacro("Can only flip internal edge.");
-      return ( (QEType *)nullptr );
+      return ((QEType *)nullptr);
     case NON_TRIANGULAR_LEFT_FACE:
       itkDebugMacro("Can only flip edge for triangles.");
-      return ( (QEType *)nullptr );
+      return ((QEType *)nullptr);
     case NON_TRIANGULAR_RIGHT_FACE:
       itkDebugMacro("Can only flip edge for triangles.");
-      return ( (QEType *)nullptr );
+      return ((QEType *)nullptr);
     case EXISTING_OPPOSITE_EDGE:
       itkDebugMacro("The opposite edge already exists.");
-      return ( (QEType *)nullptr );
-    }
+      return ((QEType *)nullptr);
+  }
 }
 
-template< typename TMesh, typename TQEType >
-typename QuadEdgeMeshEulerOperatorFlipEdgeFunction< TMesh, TQEType >::OutputType
-QuadEdgeMeshEulerOperatorFlipEdgeFunction< TMesh, TQEType >::Process(QEType *h)
+template <typename TMesh, typename TQEType>
+typename QuadEdgeMeshEulerOperatorFlipEdgeFunction<TMesh, TQEType>::OutputType
+QuadEdgeMeshEulerOperatorFlipEdgeFunction<TMesh, TQEType>::Process(QEType * h)
 {
   // The following is not optimum, since we create a new face (with JoinFacet)
   // that is immediately deleted (with SplitFacet). Still we chose to write it
   // that way in the sake of maintenance simplicity (as long as JoinFacet and
   // SplitFacet are working, this operator does it job).
-  using JoinFacet =
-      QuadEdgeMeshEulerOperatorJoinFacetFunction< MeshType, QEType >;
-  using SplitFacet =
-      QuadEdgeMeshEulerOperatorSplitFacetFunction< MeshType, QEType >;
+  using JoinFacet = QuadEdgeMeshEulerOperatorJoinFacetFunction<MeshType, QEType>;
+  using SplitFacet = QuadEdgeMeshEulerOperatorSplitFacetFunction<MeshType, QEType>;
 
-  QEType *G = h->GetLnext();
+  QEType *                    G = h->GetLnext();
   typename JoinFacet::Pointer joinFacet = JoinFacet::New();
   joinFacet->SetInput(this->m_Mesh);
-  QEType *H = joinFacet->Evaluate(h)->GetLnext();
+  QEType * H = joinFacet->Evaluate(h)->GetLnext();
 
   typename SplitFacet::Pointer splitFacet = SplitFacet::New();
   splitFacet->SetInput(this->m_Mesh);
 
-  return ( splitFacet->Evaluate(H, G) );
+  return (splitFacet->Evaluate(H, G));
 }
 } // end namespace itk
 

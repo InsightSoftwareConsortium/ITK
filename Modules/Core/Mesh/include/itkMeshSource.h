@@ -45,8 +45,8 @@ namespace itk
  * \ingroup DataSources
  * \ingroup ITKMesh
  */
-template< typename TOutputMesh >
-class ITK_TEMPLATE_EXPORT MeshSource:public ProcessObject
+template <typename TOutputMesh>
+class ITK_TEMPLATE_EXPORT MeshSource : public ProcessObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MeshSource);
@@ -54,8 +54,8 @@ public:
   /** Standard class type aliases. */
   using Self = MeshSource;
   using Superclass = ProcessObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -71,15 +71,18 @@ public:
   using DataObjectIdentifierType = Superclass::DataObjectIdentifierType;
 
   /** Get the mesh output of this process object.  */
-  OutputMeshType * GetOutput();
+  OutputMeshType *
+  GetOutput();
 
-  OutputMeshType * GetOutput(unsigned int idx);
+  OutputMeshType *
+  GetOutput(unsigned int idx);
 
   /** Set the mesh output of this process object. This call is slated
    * to be removed from ITK. You should GraftOutput() and possible
    * DataObject::DisconnectPipeline() to properly change the output. */
   using Superclass::SetOutput;
-  void SetOutput(TOutputMesh *output);
+  void
+  SetOutput(TOutputMesh * output);
 
   /** Graft the specified DataObject onto this ProcessObject's output.
    * This method grabs a handle to the specified DataObject's bulk
@@ -115,16 +118,19 @@ public:
    * how the mini-pipeline will execute (in other words, the outer
    * filter's pipeline mechanism must be consistent with what the
    * mini-pipeline will do). */
-  virtual void GraftOutput(DataObject *output);
+  virtual void
+  GraftOutput(DataObject * output);
 
   /** Graft the specified data object onto this ProcessObject's named
    * output. This is similar to the GraftOutput method except it
    * allows you to specify which output is affected.
    * See the GraftOutput for general usage information.
    */
-  virtual void GraftOutput(const DataObjectIdentifierType & key, DataObject *output);
+  virtual void
+  GraftOutput(const DataObjectIdentifierType & key, DataObject * output);
 
-  virtual void GraftNthOutput(unsigned int idx, DataObject *output);
+  virtual void
+  GraftNthOutput(unsigned int idx, DataObject * output);
 
   /** Make a DataObject of the correct type to used as the specified
    * output.  Every ProcessObject subclass must be able to create a
@@ -141,17 +147,20 @@ public:
    * an implementation of MakeOutput(). */
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
+  DataObjectPointer
+  MakeOutput(DataObjectPointerArraySizeType idx) override;
 
 protected:
   MeshSource();
   ~MeshSource() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Requested region of Mesh is specified as i of N unstructured regions.
    * Since all DataObjects should be able to set the requested region in
    * unstructured form, just copy output->RequestedRegion all inputs. */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
 private:
   /** Used by streaming: The requested region of the output being processed
@@ -162,7 +171,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMeshSource.hxx"
+#  include "itkMeshSource.hxx"
 #endif
 
 #endif

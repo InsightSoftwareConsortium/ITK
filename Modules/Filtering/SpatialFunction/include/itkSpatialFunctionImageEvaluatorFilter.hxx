@@ -23,9 +23,8 @@
 
 namespace itk
 {
-template< typename TSpatialFunction, typename TInputImage, typename TOutputImage >
-SpatialFunctionImageEvaluatorFilter< TSpatialFunction, TInputImage, TOutputImage >
-::SpatialFunctionImageEvaluatorFilter()
+template <typename TSpatialFunction, typename TInputImage, typename TOutputImage>
+SpatialFunctionImageEvaluatorFilter<TSpatialFunction, TInputImage, TOutputImage>::SpatialFunctionImageEvaluatorFilter()
 {
   itkDebugMacro(<< "SpatialFunctionImageEvaluatorFilter::SpatialFunctionImageEvaluatorFilter() called");
 
@@ -33,23 +32,21 @@ SpatialFunctionImageEvaluatorFilter< TSpatialFunction, TInputImage, TOutputImage
   this->m_PixelFunction = nullptr;
 }
 
-template< typename TSpatialFunction, typename TInputImage, typename TOutputImage >
+template <typename TSpatialFunction, typename TInputImage, typename TOutputImage>
 void
-SpatialFunctionImageEvaluatorFilter< TSpatialFunction, TInputImage, TOutputImage >
-::GenerateData()
+SpatialFunctionImageEvaluatorFilter<TSpatialFunction, TInputImage, TOutputImage>::GenerateData()
 {
   itkDebugMacro(<< "SpatialFunctionImageEvaluatorFilter::GenerateData() called");
 
   // Allocate the output image
   typename TOutputImage::Pointer outputPtr = this->GetOutput();
-  outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
+  outputPtr->SetBufferedRegion(outputPtr->GetRequestedRegion());
   outputPtr->Allocate();
 
   // Create an iterator that will walk the output region
-  using OutputIterator = ImageRegionIterator< TOutputImage >;
+  using OutputIterator = ImageRegionIterator<TOutputImage>;
 
-  OutputIterator outIt = OutputIterator( outputPtr,
-                                         outputPtr->GetRequestedRegion() );
+  OutputIterator outIt = OutputIterator(outputPtr, outputPtr->GetRequestedRegion());
 
   // The value produced by the spatial function
   // The type is the range of the spatial function
@@ -60,18 +57,18 @@ SpatialFunctionImageEvaluatorFilter< TSpatialFunction, TInputImage, TOutputImage
   typename TSpatialFunction::InputType evalPoint;
 
   // Walk the output image, evaluating the spatial function at each pixel
-  for (; !outIt.IsAtEnd(); ++outIt )
-    {
+  for (; !outIt.IsAtEnd(); ++outIt)
+  {
     typename TOutputImage::IndexType index = outIt.GetIndex();
     outputPtr->TransformIndexToPhysicalPoint(index, evalPoint);
     value = m_PixelFunction->Evaluate(evalPoint);
 
     // Set the pixel value to the function value
-    outIt.Set( (PixelType)value );
-    }
+    outIt.Set((PixelType)value);
+  }
 
   itkDebugMacro(<< "SpatialFunctionImageEvaluatorFilter::GenerateData() finished");
 }
-} // end namespace
+} // namespace itk
 
 #endif

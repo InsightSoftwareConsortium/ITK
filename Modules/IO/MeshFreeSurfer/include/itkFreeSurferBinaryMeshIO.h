@@ -35,7 +35,7 @@ namespace itk
  * \ingroup ITKIOMeshFreeSurfer
  */
 
-class ITKIOMeshFreeSurfer_EXPORT FreeSurferBinaryMeshIO:public MeshIOBase
+class ITKIOMeshFreeSurfer_EXPORT FreeSurferBinaryMeshIO : public MeshIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FreeSurferBinaryMeshIO);
@@ -43,8 +43,8 @@ public:
   /** Standard class type aliases. */
   using Self = FreeSurferBinaryMeshIO;
   using Superclass = MeshIOBase;
-  using ConstPointer = SmartPointer< const Self >;
-  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer<const Self>;
+  using Pointer = SmartPointer<Self>;
 
   using SizeValueType = Superclass::SizeValueType;
   using StreamOffsetType = Superclass::StreamOffsetType;
@@ -58,23 +58,29 @@ public:
   /*-------- This part of the interfaces deals with reading data. ----- */
 
   /** Determine if the file can be read with this MeshIO implementation.
-  * \param FileNameToRead The name of the file to test for reading.
-  * \post Sets classes MeshIOBase::m_FileName variable to be FileNameToWrite
-  * \return Returns true if this MeshIO can read the file specified.
-  */
-  bool CanReadFile(const char *FileNameToRead) override;
+   * \param FileNameToRead The name of the file to test for reading.
+   * \post Sets classes MeshIOBase::m_FileName variable to be FileNameToWrite
+   * \return Returns true if this MeshIO can read the file specified.
+   */
+  bool
+  CanReadFile(const char * FileNameToRead) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  void ReadMeshInformation() override;
+  void
+  ReadMeshInformation() override;
 
   /** Reads the data from disk into the memory buffer provided. */
-  void ReadPoints(void *buffer) override;
+  void
+  ReadPoints(void * buffer) override;
 
-  void ReadCells(void *buffer) override;
+  void
+  ReadCells(void * buffer) override;
 
-  void ReadPointData(void *buffer) override;
+  void
+  ReadPointData(void * buffer) override;
 
-  void ReadCellData(void *buffer) override;
+  void
+  ReadCellData(void * buffer) override;
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
@@ -83,86 +89,99 @@ public:
    * \post Sets classes MeshIOBase::m_FileName variable to be FileNameToWrite
    * \return Returns true if this MeshIO can write the file specified.
    */
-  bool CanWriteFile(const char *FileNameToWrite) override;
+  bool
+  CanWriteFile(const char * FileNameToWrite) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  void WriteMeshInformation() override;
+  void
+  WriteMeshInformation() override;
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. */
-  void WritePoints(void *buffer) override;
+  void
+  WritePoints(void * buffer) override;
 
-  void WriteCells(void *buffer) override;
+  void
+  WriteCells(void * buffer) override;
 
-  void WritePointData(void *buffer) override;
+  void
+  WritePointData(void * buffer) override;
 
-  void WriteCellData(void *buffer) override;
+  void
+  WriteCellData(void * buffer) override;
 
-  void Write() override;
+  void
+  Write() override;
 
 protected:
   /** Write points to output stream */
-  template< typename T >
-  void WritePoints(T *buffer, std::ofstream & outputFile)
+  template <typename T>
+  void
+  WritePoints(T * buffer, std::ofstream & outputFile)
   {
     auto * data = new float[this->m_NumberOfPoints * this->m_PointDimension];
 
-    for ( SizeValueType ii = 0; ii < this->m_NumberOfPoints; ii++ )
+    for (SizeValueType ii = 0; ii < this->m_NumberOfPoints; ii++)
+    {
+      for (unsigned int jj = 0; jj < this->m_PointDimension; jj++)
       {
-      for ( unsigned int jj = 0; jj < this->m_PointDimension; jj++ )
-        {
-        data[ii * this->m_PointDimension + jj] = static_cast< float >( buffer[ii * this->m_PointDimension + jj] );
-        }
+        data[ii * this->m_PointDimension + jj] = static_cast<float>(buffer[ii * this->m_PointDimension + jj]);
       }
+    }
 
-    itk::ByteSwapper< float >::SwapWriteRangeFromSystemToBigEndian(data, this->m_NumberOfPoints * this->m_PointDimension, &outputFile);
+    itk::ByteSwapper<float>::SwapWriteRangeFromSystemToBigEndian(
+      data, this->m_NumberOfPoints * this->m_PointDimension, &outputFile);
     delete[] data;
   }
 
   /** Write cells to utput stream */
-  template< typename T >
-  void WriteCells(T *buffer, std::ofstream & outputFile)
+  template <typename T>
+  void
+  WriteCells(T * buffer, std::ofstream & outputFile)
   {
-    constexpr itk::uint32_t numberOfCellPoints  = 3;
+    constexpr itk::uint32_t numberOfCellPoints = 3;
 
     auto * data = new itk::uint32_t[this->m_NumberOfCells * numberOfCellPoints];
 
     ReadCellsBuffer(buffer, data);
-    itk::ByteSwapper< itk::uint32_t >::SwapWriteRangeFromSystemToBigEndian(data, this->m_NumberOfCells * numberOfCellPoints, &outputFile);
+    itk::ByteSwapper<itk::uint32_t>::SwapWriteRangeFromSystemToBigEndian(
+      data, this->m_NumberOfCells * numberOfCellPoints, &outputFile);
 
     delete[] data;
   }
 
   /** Read cells from a data buffer, used when writting mesh */
-  template< typename TInput, typename TOutput >
-  void ReadCellsBuffer(TInput *input, TOutput *output)
+  template <typename TInput, typename TOutput>
+  void
+  ReadCellsBuffer(TInput * input, TOutput * output)
   {
-    if ( input && output )
+    if (input && output)
+    {
+      for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++)
       {
-      for ( SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++ )
+        for (unsigned int jj = 0; jj < 3; jj++)
         {
-        for ( unsigned int jj = 0; jj < 3; jj++ )
-          {
           /** point identifiers start from the third elements, first element is
             cellType, the second is numberOfPoints. */
-          output[ii * 3 + jj] = static_cast< TOutput >( input[5 * ii + jj + 2] );
-          }
+          output[ii * 3 + jj] = static_cast<TOutput>(input[5 * ii + jj + 2]);
         }
       }
+    }
   }
 
   /** Write points to output stream */
-  template< typename T >
-  void WritePointData(T *buffer, std::ofstream & outputFile)
+  template <typename T>
+  void
+  WritePointData(T * buffer, std::ofstream & outputFile)
   {
     auto * data = new float[this->m_NumberOfPointPixels];
 
-    for ( SizeValueType ii = 0; ii < this->m_NumberOfPointPixels; ii++ )
-      {
-      data[ii] = static_cast< float >( buffer[ii] );
-      }
+    for (SizeValueType ii = 0; ii < this->m_NumberOfPointPixels; ii++)
+    {
+      data[ii] = static_cast<float>(buffer[ii]);
+    }
 
-    itk::ByteSwapper< float >::SwapWriteRangeFromSystemToBigEndian(data, this->m_NumberOfPointPixels, &outputFile);
+    itk::ByteSwapper<float>::SwapWriteRangeFromSystemToBigEndian(data, this->m_NumberOfPointPixels, &outputFile);
     delete[] data;
   }
 
@@ -170,15 +189,18 @@ protected:
   FreeSurferBinaryMeshIO();
   ~FreeSurferBinaryMeshIO() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void OpenFile();
+  void
+  OpenFile();
 
-  void CloseFile();
+  void
+  CloseFile();
 
 private:
-  StreamOffsetType m_FilePosition{0};
-  itk::uint32_t    m_FileTypeIdentifier{0};
+  StreamOffsetType m_FilePosition{ 0 };
+  itk::uint32_t    m_FileTypeIdentifier{ 0 };
   std::ifstream    m_InputFile;
 };
 } // end namespace itk

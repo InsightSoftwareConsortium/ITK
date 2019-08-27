@@ -27,7 +27,7 @@ namespace itk
  *        2D or 3D.
  * \ingroup ITKCommon
  */
-template< typename TPoint >
+template <typename TPoint>
 class ITK_TEMPLATE_EXPORT TriangleHelper
 {
 public:
@@ -35,56 +35,56 @@ public:
   using PointType = TPoint;
   using CoordRepType = typename PointType::CoordRepType;
   using VectorType = typename PointType::VectorType;
-  using CrossVectorType = CrossHelper< VectorType >;
+  using CrossVectorType = CrossHelper<VectorType>;
 
   static constexpr unsigned int PointDimension = PointType::PointDimension;
 
   /** \brief return true if (iA,iB,iC) forms an Obtuse angle (above 90
     degrees)*/
-  static bool IsObtuse(const PointType & iA, const PointType & iB, const PointType & iC);
+  static bool
+  IsObtuse(const PointType & iA, const PointType & iB, const PointType & iC);
 
   /** \brief Compute Normal vector to the triangle formed by (iA,iB,iC)*/
-  static VectorType ComputeNormal(const PointType & iA,
-                                  const PointType & iB,
-                                  const PointType & iC);
+  static VectorType
+  ComputeNormal(const PointType & iA, const PointType & iB, const PointType & iC);
 
   /** \brief Compute cotangent(iA,iB,iC)*/
-  static CoordRepType Cotangent(const PointType & iA,
-                                const PointType & iB,
-                                const PointType & iC);
+  static CoordRepType
+  Cotangent(const PointType & iA, const PointType & iB, const PointType & iC);
 
   /** \brief Compute barycenter, with given weights*/
-  static PointType ComputeBarycenter(
-    const CoordRepType & iA1, const PointType & iP1,
-    const CoordRepType & iA2, const PointType & iP2,
-    const CoordRepType & iA3, const PointType & iP3);
+  static PointType
+  ComputeBarycenter(const CoordRepType & iA1,
+                    const PointType &    iP1,
+                    const CoordRepType & iA2,
+                    const PointType &    iP2,
+                    const CoordRepType & iA3,
+                    const PointType &    iP3);
 
   /** \brief Compute angles (iA,iB,iC)*/
-  static CoordRepType ComputeAngle(const PointType & iP1, const PointType & iP2,
-                                   const PointType & iP3);
+  static CoordRepType
+  ComputeAngle(const PointType & iP1, const PointType & iP2, const PointType & iP3);
 
   /** \brief Compute center of mass*/
-  static PointType ComputeGravityCenter(
-    const PointType & iP1,
-    const PointType & iP2,
-    const PointType & iP3);
+  static PointType
+  ComputeGravityCenter(const PointType & iP1, const PointType & iP2, const PointType & iP3);
 
   /** \brief Compute circum center*/
-  static PointType ComputeCircumCenter(
-    const PointType & iP1,
-    const PointType & iP2,
-    const PointType & iP3);
+  static PointType
+  ComputeCircumCenter(const PointType & iP1, const PointType & iP2, const PointType & iP3);
 
   /** \brief Compute circum center constrained to be inside the triangle.*/
-  static PointType ComputeConstrainedCircumCenter(const PointType & iP1,
-                                                  const PointType & iP2, const PointType & iP3);
+  static PointType
+  ComputeConstrainedCircumCenter(const PointType & iP1, const PointType & iP2, const PointType & iP3);
 
   /** \brief Compute Area.*/
-  static CoordRepType ComputeArea(const PointType & iP1, const PointType & iP2, const PointType & iP3);
+  static CoordRepType
+  ComputeArea(const PointType & iP1, const PointType & iP2, const PointType & iP3);
 
-  static CoordRepType ComputeMixedArea( const PointType& iP1, const PointType& iP2, const PointType &iP3 );
+  static CoordRepType
+  ComputeMixedArea(const PointType & iP1, const PointType & iP2, const PointType & iP3);
 };
-}
+} // namespace itk
 
 #include "itkTriangleHelper.hxx"
 #endif

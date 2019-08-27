@@ -36,19 +36,18 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-template< unsigned int VDimension = 3,
-          typename TInput = Point< double, VDimension > >
-class ITK_TEMPLATE_EXPORT TorusInteriorExteriorSpatialFunction:
-  public InteriorExteriorSpatialFunction< VDimension, TInput >
+template <unsigned int VDimension = 3, typename TInput = Point<double, VDimension>>
+class ITK_TEMPLATE_EXPORT TorusInteriorExteriorSpatialFunction
+  : public InteriorExteriorSpatialFunction<VDimension, TInput>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(TorusInteriorExteriorSpatialFunction);
 
   /** Standard class type aliases. */
   using Self = TorusInteriorExteriorSpatialFunction;
-  using Superclass = InteriorExteriorSpatialFunction< VDimension, TInput >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = InteriorExteriorSpatialFunction<VDimension, TInput>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run time information. */
   itkTypeMacro(TorusInteriorExteriorSpatialFunction, InteriorExteriorSpatialFunction);
@@ -63,7 +62,8 @@ public:
   using OutputType = typename Superclass::OutputType;
 
   /** Evaluates the function at a given position. */
-  OutputType Evaluate(const InputType & position) const override;
+  OutputType
+  Evaluate(const InputType & position) const override;
 
   /** Set/Get the origin of the torus (the point from which the major
    * radius is measured). */
@@ -81,7 +81,8 @@ public:
 protected:
   TorusInteriorExteriorSpatialFunction();
   ~TorusInteriorExteriorSpatialFunction() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   InputType m_Origin;
@@ -91,7 +92,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTorusInteriorExteriorSpatialFunction.hxx"
+#  include "itkTorusInteriorExteriorSpatialFunction.hxx"
 #endif
 
 #endif

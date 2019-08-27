@@ -82,7 +82,8 @@ public:
 
   /** CreateAnother method will clone the existing instance of this type,
    *  including its internal member variables. */
-  ::itk::LightObject::Pointer CreateAnother() const override;
+  ::itk::LightObject::Pointer
+  CreateAnother() const override;
 
   // Necessary type alias for dealing with images BEGIN
   using Float = typename LoadElement::Float;
@@ -113,36 +114,31 @@ public:
   using FixedPixelType = typename FixedImageType::PixelType;
   using PixelType = Float;
   using ComputationType = Float;
-  using ImageType =
-      Image<PixelType, Self::ImageDimension>;
-  using VectorType =
-      itk::Vector<float, Self::ImageDimension>;
+  using ImageType = Image<PixelType, Self::ImageDimension>;
+  using VectorType = itk::Vector<float, Self::ImageDimension>;
   using FEMVectorType = vnl_vector<Float>;
-  using DisplacementFieldType =
-      Image<VectorType, Self::ImageDimension>;
+  using DisplacementFieldType = Image<VectorType, Self::ImageDimension>;
   using DisplacementFieldTypePointer = typename DisplacementFieldType::Pointer;
 
   using FieldIteratorType = NeighborhoodIterator<DisplacementFieldType>;
 
 
   /** PDEDeformableRegistrationFilterFunction type. */
-  using FiniteDifferenceFunctionType = PDEDeformableRegistrationFunction<FixedImageType, MovingImageType,
-                                            DisplacementFieldType>;
+  using FiniteDifferenceFunctionType =
+    PDEDeformableRegistrationFunction<FixedImageType, MovingImageType, DisplacementFieldType>;
   using FiniteDifferenceFunctionTypePointer = typename FiniteDifferenceFunctionType::Pointer;
 
   using TimeStepType = typename FiniteDifferenceFunctionType::TimeStepType;
 
-  using MeanSquareRegistrationFunctionType = MeanSquareRegistrationFunction<FixedImageType, MovingImageType,
-                                         DisplacementFieldType>;
+  using MeanSquareRegistrationFunctionType =
+    MeanSquareRegistrationFunction<FixedImageType, MovingImageType, DisplacementFieldType>;
 
-  using DemonsRegistrationFunctionType = DemonsRegistrationFunction<FixedImageType, MovingImageType,
-                                     DisplacementFieldType>;
+  using DemonsRegistrationFunctionType =
+    DemonsRegistrationFunction<FixedImageType, MovingImageType, DisplacementFieldType>;
 
-  using NCCRegistrationFunctionType = NCCRegistrationFunction<FixedImageType, MovingImageType,
-                                  DisplacementFieldType>;
+  using NCCRegistrationFunctionType = NCCRegistrationFunction<FixedImageType, MovingImageType, DisplacementFieldType>;
 
-  using MIRegistrationFunctionType = MIRegistrationFunction<FixedImageType, MovingImageType,
-                                 DisplacementFieldType>;
+  using MIRegistrationFunctionType = MIRegistrationFunction<FixedImageType, MovingImageType, DisplacementFieldType>;
 
   using ElementIdentifier = unsigned long;
   using ElementContainerType = VectorContainer<ElementIdentifier, Element::Pointer>;
@@ -151,7 +147,8 @@ public:
   /* This method sets the pointer to a FiniteDifferenceFunction object that
    * will be used by the filter to calculate updates at image pixels.
    * \returns A FiniteDifferenceObject pointer. */
-  void SetDifferenceFunction( FiniteDifferenceFunctionTypePointer drfp)
+  void
+  SetDifferenceFunction(FiniteDifferenceFunctionTypePointer drfp)
   {
     drfp->SetFixedImage(m_FixedImage);
     drfp->SetMovingImage(m_MovingImage);
@@ -161,54 +158,60 @@ public:
     this->m_DifferenceFunction = drfp;
   }
 
-  void SetMetric( FiniteDifferenceFunctionTypePointer drfp )
+  void
+  SetMetric(FiniteDifferenceFunctionTypePointer drfp)
   {
-    this->SetDifferenceFunction( static_cast<FiniteDifferenceFunctionType *>(
-                                   drfp.GetPointer() ) );
+    this->SetDifferenceFunction(static_cast<FiniteDifferenceFunctionType *>(drfp.GetPointer()));
 
     m_FixedSize = m_DisplacementField->GetLargestPossibleRegion().GetSize();
   }
 
   /** Define the reference (moving) image. */
-  void SetMovingImage(MovingImageType* R)
+  void
+  SetMovingImage(MovingImageType * R)
   {
     m_MovingImage = R;
     m_MovingSize = m_MovingImage->GetLargestPossibleRegion().GetSize();
-    if( this->m_DifferenceFunction )
-      {
+    if (this->m_DifferenceFunction)
+    {
       this->m_DifferenceFunction->SetMovingImage(m_MovingImage);
-      }
+    }
   }
 
   /** Define the target (fixed) image. */
-  void SetFixedImage(FixedImageType* T)
+  void
+  SetFixedImage(FixedImageType * T)
   {
     m_FixedImage = T;
     m_FixedSize = T->GetLargestPossibleRegion().GetSize();
-    if( this->m_DifferenceFunction )
-      {
+    if (this->m_DifferenceFunction)
+    {
       this->m_DifferenceFunction->SetFixedImage(m_MovingImage);
-      }
+    }
   }
 
-  MovingPointer GetMovingImage()
+  MovingPointer
+  GetMovingImage()
   {
     return m_MovingImage;
   }
 
-  FixedPointer GetFixedImage()
+  FixedPointer
+  GetFixedImage()
   {
     return m_FixedImage;
   }
 
   /** Define the metric region size. */
-  void SetMetricRadius(MovingRadiusType T)
+  void
+  SetMetricRadius(MovingRadiusType T)
   {
-    m_MetricRadius  = T;
+    m_MetricRadius = T;
   }
 
   /** Get the metric region size. */
-  MovingRadiusType GetMetricRadius()
+  MovingRadiusType
+  GetMetricRadius()
   {
     return m_MetricRadius;
   }
@@ -217,52 +220,61 @@ public:
    * in each 1-dimensional line integral when evaluating the load.
    * This value is passed to the load implementation.
    */
-  void SetNumberOfIntegrationPoints(unsigned int i)
+  void
+  SetNumberOfIntegrationPoints(unsigned int i)
   {
     m_NumberOfIntegrationPoints = i;
   }
 
-  unsigned int GetNumberOfIntegrationPoints()
+  unsigned int
+  GetNumberOfIntegrationPoints()
   {
     return m_NumberOfIntegrationPoints;
   }
 
   /** Set/Get the direction of the gradient (uphill or downhill).
-    * E.g. the mean squares metric should be minimized while NCC and PR should be maximized.260
-    */
-  void SetDescentDirectionMinimize( )
+   * E.g. the mean squares metric should be minimized while NCC and PR should be maximized.260
+   */
+  void
+  SetDescentDirectionMinimize()
   {
     m_Sign = 1.0;
   }
 
-  void SetDescentDirectionMaximize()
+  void
+  SetDescentDirectionMaximize()
   {
     m_Sign = -1.0;
   }
 
   /** Scaling of the similarity energy term. */
-  void SetGamma(Float s)
+  void
+  SetGamma(Float s)
   {
     m_Gamma = s;
   }
 
-  void SetSolution(Solution::ConstPointer ptr) override
+  void
+  SetSolution(Solution::ConstPointer ptr) override
   {
     m_Solution = ptr;
   }
 
-  Solution::ConstPointer GetSolution() override
+  Solution::ConstPointer
+  GetSolution() override
   {
     return m_Solution;
   }
 
   // FIXME - WE ASSUME THE 2ND VECTOR (INDEX 1) HAS THE INFORMATION WE WANT
-  Float GetSolution(unsigned int i, unsigned int which = 0)
+  Float
+  GetSolution(unsigned int i, unsigned int which = 0)
   {
     return m_Solution->GetSolutionValue(i, which);
   }
 
-  Float EvaluateMetricGivenSolution( ElementContainerType *el, Float step = 1.0);
+  Float
+  EvaluateMetricGivenSolution(ElementContainerType * el, Float step = 1.0);
 
 
   /**
@@ -271,38 +283,46 @@ public:
   FEMVectorType Fe(FEMVectorType);
 
   /** Set the displacement field. */
-  void SetDisplacementField( DisplacementFieldTypePointer df)
+  void
+  SetDisplacementField(DisplacementFieldTypePointer df)
   {
     m_DisplacementField = df;
   }
 
   /** Get the displacement field. */
-  DisplacementFieldTypePointer GetDisplacementField()
+  DisplacementFieldTypePointer
+  GetDisplacementField()
   {
     return m_DisplacementField;
   }
 
-  void InitializeIteration();
+  void
+  InitializeIteration();
 
-  void InitializeMetric();
+  void
+  InitializeMetric();
 
-  void PrintCurrentEnergy();
+  void
+  PrintCurrentEnergy();
 
-  double GetCurrentEnergy();
+  double
+  GetCurrentEnergy();
 
-  void SetCurrentEnergy( double e = 0.0 );
+  void
+  SetCurrentEnergy(double e = 0.0);
 
-  void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe) override;
+  void
+  ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe) override;
 
 protected:
-
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   FiniteDifferenceFunctionLoad(); // cannot be private until we always use smart pointers
 
-  MovingPointer    m_MovingImage;
-  FixedPointer     m_FixedImage;
+  MovingPointer m_MovingImage;
+  FixedPointer  m_FixedImage;
 
   /** Used by the metric to set the region size for the fixed image. */
   MovingRadiusType m_MetricRadius;
@@ -319,14 +339,13 @@ private:
   float                               m_WhichMetric;
   FiniteDifferenceFunctionTypePointer m_DifferenceFunction;
 
-  typename DisplacementFieldType::Pointer             m_DisplacementField;
-
+  typename DisplacementFieldType::Pointer m_DisplacementField;
 };
 } // end namespace fem
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFEMFiniteDifferenceFunctionLoad.hxx"
+#  include "itkFEMFiniteDifferenceFunctionLoad.hxx"
 #endif
 
 #endif

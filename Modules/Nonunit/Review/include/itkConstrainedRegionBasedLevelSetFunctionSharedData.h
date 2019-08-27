@@ -57,17 +57,15 @@ namespace itk
  *
  * \ingroup ITKReview
  */
-template< typename TInputImage, typename TFeatureImage, typename TSingleData >
-class ConstrainedRegionBasedLevelSetFunctionSharedData:
-  public RegionBasedLevelSetFunctionSharedData< TInputImage, TFeatureImage, TSingleData >
+template <typename TInputImage, typename TFeatureImage, typename TSingleData>
+class ConstrainedRegionBasedLevelSetFunctionSharedData
+  : public RegionBasedLevelSetFunctionSharedData<TInputImage, TFeatureImage, TSingleData>
 {
 public:
-
   using Self = ConstrainedRegionBasedLevelSetFunctionSharedData;
-  using Superclass =
-      RegionBasedLevelSetFunctionSharedData< TInputImage, TFeatureImage, TSingleData >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = RegionBasedLevelSetFunctionSharedData<TInputImage, TFeatureImage, TSingleData>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   static constexpr unsigned int ImageDimension = TFeatureImage::ImageDimension;
 
@@ -124,7 +122,8 @@ public:
   using LevelSetDataPointerVector = typename Superclass::LevelSetDataPointerVector;
   using LevelSetDataPointerVectorIterator = typename Superclass::LevelSetDataPointerVectorIterator;
 
-  void PopulateListImage() override
+  void
+  PopulateListImage() override
   {
     ListSpacingType spacing = this->m_NearestNeighborListImage->GetSpacing();
 
@@ -132,62 +131,65 @@ public:
 
     ListIteratorType lIt(this->m_NearestNeighborListImage, region);
 
-    if ( this->m_KdTree.IsNotNull() )
+    if (this->m_KdTree.IsNotNull())
+    {
+      for (lIt.GoToBegin(); !lIt.IsAtEnd(); ++lIt)
       {
-      for ( lIt.GoToBegin(); !lIt.IsAtEnd(); ++lIt )
-        {
         ListIndexType ind = lIt.GetIndex();
 
         float queryPoint[ImageDimension];
-        for ( unsigned int i = 0; i < ImageDimension; i++ )
-          {
+        for (unsigned int i = 0; i < ImageDimension; i++)
+        {
           queryPoint[i] = ind[i] * spacing[i];
-          }
+        }
 
         typename TreeType::InstanceIdentifierVectorType neighbors;
         this->m_KdTree->Search(queryPoint, this->m_NumberOfNeighbors, neighbors);
 
         ListPixelType L;
-        for ( unsigned int i = 0; i < this->m_NumberOfNeighbors; i++ )
-          {
-          if ( this->m_LevelSetDataPointerVector[i]->VerifyInsideRegion(ind) )
-            {
-            L.push_back(neighbors[i]);
-            }
-          }
-        lIt.Set(L);
-        }
-      }
-    else
-      {
-      for ( lIt.GoToBegin(); !lIt.IsAtEnd(); ++lIt )
+        for (unsigned int i = 0; i < this->m_NumberOfNeighbors; i++)
         {
+          if (this->m_LevelSetDataPointerVector[i]->VerifyInsideRegion(ind))
+          {
+            L.push_back(neighbors[i]);
+          }
+        }
+        lIt.Set(L);
+      }
+    }
+    else
+    {
+      for (lIt.GoToBegin(); !lIt.IsAtEnd(); ++lIt)
+      {
         ListIndexType ind = lIt.GetIndex();
         ListPixelType L;
-        for ( unsigned int i = 0; i < this->m_FunctionCount; i++ )
+        for (unsigned int i = 0; i < this->m_FunctionCount; i++)
+        {
+          if (this->m_LevelSetDataPointerVector[i]->VerifyInsideRegion(ind))
           {
-          if ( this->m_LevelSetDataPointerVector[i]->VerifyInsideRegion(ind) )
-            {
             L.push_back(i);
-            }
           }
-        lIt.Set(L);
         }
+        lIt.Set(L);
       }
+    }
   }
 
 protected:
-  ConstrainedRegionBasedLevelSetFunctionSharedData():Superclass(){}
-  ~ConstrainedRegionBasedLevelSetFunctionSharedData() override{}
+  ConstrainedRegionBasedLevelSetFunctionSharedData()
+    : Superclass()
+  {}
+  ~ConstrainedRegionBasedLevelSetFunctionSharedData() override {}
 
 private:
-  ConstrainedRegionBasedLevelSetFunctionSharedData(const Self &); //purposely
+  ConstrainedRegionBasedLevelSetFunctionSharedData(const Self &); // purposely
                                                                   // not
                                                                   // implemented
-  void operator=(const Self &);                                   //purposely
-                                                                  // not
-                                                                  // implemented
+  void
+  operator=(const Self &); // purposely
+                           // not
+                           // implemented
 };
-} //end namespace itk
+} // end namespace itk
 
 #endif

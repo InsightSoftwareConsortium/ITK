@@ -20,94 +20,86 @@
 #include "vnl/vnl_erf.h"
 #include "itkMath.h"
 
-extern "C" double dbetai_(double *x, double *pin, double *qin);
+extern "C" double
+dbetai_(double * x, double * pin, double * qin);
 
-extern "C" double dgamma_(double *x);
+extern "C" double
+dgamma_(double * x);
 
 namespace itk
 {
 namespace Statistics
 {
-TDistribution
-::TDistribution()
+TDistribution ::TDistribution()
 {
   m_Parameters = ParametersType(1);
   m_Parameters[0] = 1.0;
 }
 
 void
-TDistribution
-::SetDegreesOfFreedom(SizeValueType dof)
+TDistribution ::SetDegreesOfFreedom(SizeValueType dof)
 {
   bool modified = false;
 
-  if ( m_Parameters.GetSize() > 0 )
+  if (m_Parameters.GetSize() > 0)
+  {
+    if (Math::NotExactlyEquals(m_Parameters[0], static_cast<double>(dof)))
     {
-    if ( Math::NotExactlyEquals(m_Parameters[0], static_cast< double >( dof )) )
-      {
       modified = true;
-      }
     }
+  }
 
-  if ( m_Parameters.GetSize() != 1 )
-    {
+  if (m_Parameters.GetSize() != 1)
+  {
     m_Parameters = ParametersType(1);
-    }
+  }
 
-  m_Parameters[0] = static_cast< double >( dof );
+  m_Parameters[0] = static_cast<double>(dof);
 
-  if ( modified )
-    {
+  if (modified)
+  {
     this->Modified();
-    }
+  }
 }
 
 SizeValueType
-TDistribution
-::GetDegreesOfFreedom() const
+TDistribution ::GetDegreesOfFreedom() const
 {
-  if ( m_Parameters.GetSize() != 1 )
-    {
-    itkGenericExceptionMacro(
-      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
-      << m_Parameters.size()
-      << " parameters.");
-    }
-  return static_cast< SizeValueType >( m_Parameters[0] );
+  if (m_Parameters.GetSize() != 1)
+  {
+    itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+                             << m_Parameters.size() << " parameters.");
+  }
+  return static_cast<SizeValueType>(m_Parameters[0]);
 }
 
 double
-TDistribution
-::PDF(double x, SizeValueType degreesOfFreedom)
+TDistribution ::PDF(double x, SizeValueType degreesOfFreedom)
 {
-  auto dof = static_cast< double >( degreesOfFreedom );
-  double dofplusoneon2 = 0.5 * ( dof + 1.0 );
+  auto   dof = static_cast<double>(degreesOfFreedom);
+  double dofplusoneon2 = 0.5 * (dof + 1.0);
   double dofon2 = 0.5 * dof;
   double pdf;
 
-  pdf = ( dgamma_(&dofplusoneon2) / dgamma_(&dofon2) )
-        / ( std::sqrt(dof * itk::Math::pi) * std::pow(1.0 + ( ( x * x ) / dof ), dofplusoneon2) );
+  pdf = (dgamma_(&dofplusoneon2) / dgamma_(&dofon2)) /
+        (std::sqrt(dof * itk::Math::pi) * std::pow(1.0 + ((x * x) / dof), dofplusoneon2));
 
   return pdf;
 }
 
 double
-TDistribution
-::PDF(double x, const ParametersType & p)
+TDistribution ::PDF(double x, const ParametersType & p)
 {
-  if ( p.GetSize() != 1 )
-    {
-    itkGenericExceptionMacro(
-      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
-      << p.size()
-      << " parameters.");
-    }
-  return TDistribution::PDF( x, static_cast< SizeValueType >( p[0] ) );
+  if (p.GetSize() != 1)
+  {
+    itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+                             << p.size() << " parameters.");
+  }
+  return TDistribution::PDF(x, static_cast<SizeValueType>(p[0]));
 }
 
 double
-TDistribution
-::CDF(double x, SizeValueType degreesOfFreedom)
+TDistribution ::CDF(double x, SizeValueType degreesOfFreedom)
 {
   double bx;
   double pin, qin;
@@ -137,54 +129,50 @@ TDistribution
   //           = 0.5 + 0.5 * (1 - Ix(v/2. 1/2))
   //           = 1 - 0.5 * Ix(v/2, 1/2)
   //
-  dof = static_cast< double >( degreesOfFreedom );
-  bx = dof / ( dof + ( x * x ) );
+  dof = static_cast<double>(degreesOfFreedom);
+  bx = dof / (dof + (x * x));
   pin = dof / 2.0;
   qin = 0.5;
 
-  if ( x >= 0.0 )
-    {
+  if (x >= 0.0)
+  {
     return 1.0 - 0.5 * dbetai_(&bx, &pin, &qin);
-    }
+  }
   else
-    {
+  {
     return 0.5 * dbetai_(&bx, &pin, &qin);
-    }
+  }
 }
 
 double
-TDistribution
-::CDF(double x, const ParametersType & p)
+TDistribution ::CDF(double x, const ParametersType & p)
 {
-  if ( p.GetSize() != 1 )
-    {
-    itkGenericExceptionMacro(
-      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
-      << p.size()
-      << " parameters.");
-    }
-  return TDistribution::CDF( x, static_cast< SizeValueType >( p[0] ) );
+  if (p.GetSize() != 1)
+  {
+    itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+                             << p.size() << " parameters.");
+  }
+  return TDistribution::CDF(x, static_cast<SizeValueType>(p[0]));
 }
 
 double
-TDistribution
-::InverseCDF(double p, SizeValueType degreesOfFreedom)
+TDistribution ::InverseCDF(double p, SizeValueType degreesOfFreedom)
 {
-  if ( p <= 0.0 )
-    {
-    return itk::NumericTraits< double >::NonpositiveMin();
-    }
-  else if ( p >= 1.0 )
-    {
-    return itk::NumericTraits< double >::max();
-    }
+  if (p <= 0.0)
+  {
+    return itk::NumericTraits<double>::NonpositiveMin();
+  }
+  else if (p >= 1.0)
+  {
+    return itk::NumericTraits<double>::max();
+  }
 
   double x;
   double dof, dof2, dof3, dof4;
   double gaussX, gaussX3, gaussX5, gaussX7, gaussX9;
 
   // Based on Abramowitz and Stegun 26.7.5
-  dof = static_cast< double >( degreesOfFreedom );
+  dof = static_cast<double>(degreesOfFreedom);
   dof2 = dof * dof;
   dof3 = dof * dof2;
   dof4 = dof * dof3;
@@ -195,15 +183,9 @@ TDistribution
   gaussX7 = std::pow(gaussX, 7.0);
   gaussX9 = std::pow(gaussX, 9.0);
 
-  x = gaussX
-      + ( gaussX3 + gaussX ) / ( 4.0 * dof )
-      + ( 5.0 * gaussX5 + 16.0 * gaussX3 + 3 * gaussX ) / ( 96.0 * dof2 )
-      + ( 3.0 * gaussX7 + 19.0 * gaussX5 + 17.0 * gaussX3 - 15.0 * gaussX ) / ( 384.0 * dof3 )
-      + ( 79.0 * gaussX9
-          + 776.0 * gaussX7
-          + 1482.0 * gaussX5
-          - 1920.0 * gaussX3
-          - 945.0 * gaussX ) / ( 92160.0 * dof4 );
+  x = gaussX + (gaussX3 + gaussX) / (4.0 * dof) + (5.0 * gaussX5 + 16.0 * gaussX3 + 3 * gaussX) / (96.0 * dof2) +
+      (3.0 * gaussX7 + 19.0 * gaussX5 + 17.0 * gaussX3 - 15.0 * gaussX) / (384.0 * dof3) +
+      (79.0 * gaussX9 + 776.0 * gaussX7 + 1482.0 * gaussX5 - 1920.0 * gaussX3 - 945.0 * gaussX) / (92160.0 * dof4);
 
   // The polynomial approximation above is only accurate for large degrees
   // of freedom.  We'll improve the approximation by a few Newton
@@ -230,206 +212,171 @@ TDistribution
   // Note that f'(x) = - tpdf(x)
   //
   double delta;
-  for ( unsigned int newt = 0; newt < 3; ++newt )
-    {
-    delta = ( p - TDistribution::CDF(x, degreesOfFreedom) )
-            / TDistribution::PDF(x, degreesOfFreedom);
+  for (unsigned int newt = 0; newt < 3; ++newt)
+  {
+    delta = (p - TDistribution::CDF(x, degreesOfFreedom)) / TDistribution::PDF(x, degreesOfFreedom);
     x += delta;
-    }
+  }
 
   return x;
 }
 
 double
-TDistribution
-::InverseCDF(double p, const ParametersType & params)
+TDistribution ::InverseCDF(double p, const ParametersType & params)
 {
-  if ( params.GetSize() != 1 )
-    {
-    itkGenericExceptionMacro(
-      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
-      << params.size()
-      << " parameters.");
-    }
-  return TDistribution::InverseCDF( p, static_cast< SizeValueType >( params[0] ) );
+  if (params.GetSize() != 1)
+  {
+    itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+                             << params.size() << " parameters.");
+  }
+  return TDistribution::InverseCDF(p, static_cast<SizeValueType>(params[0]));
 }
 
 double
-TDistribution
-::EvaluatePDF(double x) const
+TDistribution ::EvaluatePDF(double x) const
 {
-  if ( m_Parameters.GetSize() != 1 )
-    {
-    itkGenericExceptionMacro(
-      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
-      << m_Parameters.size()
-      << " parameters.");
-    }
-  return TDistribution::PDF( x, static_cast< SizeValueType >( m_Parameters[0] ) );
+  if (m_Parameters.GetSize() != 1)
+  {
+    itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+                             << m_Parameters.size() << " parameters.");
+  }
+  return TDistribution::PDF(x, static_cast<SizeValueType>(m_Parameters[0]));
 }
 
 double
-TDistribution
-::EvaluatePDF(double x, const ParametersType & p) const
+TDistribution ::EvaluatePDF(double x, const ParametersType & p) const
 {
-  if ( p.GetSize() != 1 )
-    {
-    itkGenericExceptionMacro(
-      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
-      << p.size()
-      << " parameters.");
-    }
-  return TDistribution::PDF( x, static_cast< SizeValueType >( p[0] ) );
+  if (p.GetSize() != 1)
+  {
+    itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+                             << p.size() << " parameters.");
+  }
+  return TDistribution::PDF(x, static_cast<SizeValueType>(p[0]));
 }
 
 double
-TDistribution
-::EvaluatePDF(double x, SizeValueType degreesOfFreedom) const
+TDistribution ::EvaluatePDF(double x, SizeValueType degreesOfFreedom) const
 {
   return TDistribution::PDF(x, degreesOfFreedom);
 }
 
 double
-TDistribution
-::EvaluateCDF(double x) const
+TDistribution ::EvaluateCDF(double x) const
 {
-  if ( m_Parameters.GetSize() != 1 )
-    {
-    itkGenericExceptionMacro(
-      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
-      << m_Parameters.size()
-      << " parameters.");
-    }
-  return TDistribution::CDF( x, static_cast< SizeValueType >( m_Parameters[0] ) );
+  if (m_Parameters.GetSize() != 1)
+  {
+    itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+                             << m_Parameters.size() << " parameters.");
+  }
+  return TDistribution::CDF(x, static_cast<SizeValueType>(m_Parameters[0]));
 }
 
 double
-TDistribution
-::EvaluateCDF(double x, const ParametersType & p) const
+TDistribution ::EvaluateCDF(double x, const ParametersType & p) const
 {
-  if ( p.GetSize() != 1 )
-    {
-    itkGenericExceptionMacro(
-      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
-      << p.size()
-      << " parameters.");
-    }
-  return TDistribution::CDF( x, static_cast< SizeValueType >( p[0] ) );
+  if (p.GetSize() != 1)
+  {
+    itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+                             << p.size() << " parameters.");
+  }
+  return TDistribution::CDF(x, static_cast<SizeValueType>(p[0]));
 }
 
 double
-TDistribution
-::EvaluateCDF(double x, SizeValueType degreesOfFreedom) const
+TDistribution ::EvaluateCDF(double x, SizeValueType degreesOfFreedom) const
 {
   return TDistribution::CDF(x, degreesOfFreedom);
 }
 
 double
-TDistribution
-::EvaluateInverseCDF(double p) const
+TDistribution ::EvaluateInverseCDF(double p) const
 {
-  if ( m_Parameters.GetSize() != 1 )
-    {
-    itkGenericExceptionMacro(
-      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
-      << m_Parameters.size()
-      << " parameters.");
-    }
-  return TDistribution::InverseCDF( p, static_cast< SizeValueType >( m_Parameters[0] ) );
+  if (m_Parameters.GetSize() != 1)
+  {
+    itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+                             << m_Parameters.size() << " parameters.");
+  }
+  return TDistribution::InverseCDF(p, static_cast<SizeValueType>(m_Parameters[0]));
 }
 
 double
-TDistribution
-::EvaluateInverseCDF(double p, const ParametersType & params) const
+TDistribution ::EvaluateInverseCDF(double p, const ParametersType & params) const
 {
-  if ( params.GetSize() != 1 )
-    {
-    itkGenericExceptionMacro(
-      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
-      << params.size()
-      << " parameters.");
-    }
-  return TDistribution::InverseCDF( p, static_cast< SizeValueType >( params[0] ) );
+  if (params.GetSize() != 1)
+  {
+    itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+                             << params.size() << " parameters.");
+  }
+  return TDistribution::InverseCDF(p, static_cast<SizeValueType>(params[0]));
 }
 
 double
-TDistribution
-::EvaluateInverseCDF(double p, SizeValueType degreesOfFreedom) const
+TDistribution ::EvaluateInverseCDF(double p, SizeValueType degreesOfFreedom) const
 {
   return TDistribution::InverseCDF(p, degreesOfFreedom);
 }
 
 bool
-TDistribution
-::HasVariance() const
+TDistribution ::HasVariance() const
 {
-  if ( m_Parameters.GetSize() == 1 )
+  if (m_Parameters.GetSize() == 1)
+  {
+    if (m_Parameters[0] > 2)
     {
-    if ( m_Parameters[0] > 2 )
-      {
       return true;
-      }
     }
+  }
   else
-    {
-    itkGenericExceptionMacro(
-      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
-      << m_Parameters.size()
-      << " parameters.");
-    }
+  {
+    itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+                             << m_Parameters.size() << " parameters.");
+  }
 
   return false;
 }
 
 double
-TDistribution
-::GetMean() const
+TDistribution ::GetMean() const
 {
   return 0.0;
 }
 
 double
-TDistribution
-::GetVariance() const
+TDistribution ::GetVariance() const
 {
-  if ( m_Parameters.GetSize() == 1 )
+  if (m_Parameters.GetSize() == 1)
+  {
+    if (m_Parameters[0] > 2)
     {
-    if ( m_Parameters[0] > 2 )
-      {
-      auto dof = static_cast< double >( m_Parameters[0] );
+      auto dof = static_cast<double>(m_Parameters[0]);
 
-      return dof / ( dof - 2.0 );
-      }
+      return dof / (dof - 2.0);
+    }
     else
-      {
-      return NumericTraits< double >::quiet_NaN();
-      }
-    }
-  else
     {
-    itkGenericExceptionMacro(
-      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
-      << m_Parameters.size()
-      << " parameters.");
+      return NumericTraits<double>::quiet_NaN();
     }
+  }
+  else
+  {
+    itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+                             << m_Parameters.size() << " parameters.");
+  }
 }
 
 void
-TDistribution
-::PrintSelf(std::ostream & os, Indent indent) const
+TDistribution ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  if ( m_Parameters.GetSize() > 0 )
-    {
-    os << indent << "Degrees of freedom: "
-       << static_cast< SizeValueType >( m_Parameters[0] ) << std::endl;
-    }
+  if (m_Parameters.GetSize() > 0)
+  {
+    os << indent << "Degrees of freedom: " << static_cast<SizeValueType>(m_Parameters[0]) << std::endl;
+  }
   else
-    {
-    os << indent << "Degrees of freedom: (unknown)"
-       << std::endl;
-    }
+  {
+    os << indent << "Degrees of freedom: (unknown)" << std::endl;
+  }
 }
 } // end of namespace Statistics
 } // end namespace itk

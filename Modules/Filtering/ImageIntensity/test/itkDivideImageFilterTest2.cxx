@@ -22,7 +22,8 @@
 #include "itkTestingMacros.h"
 
 
-int itkDivideImageFilterTest2( int, char* [] )
+int
+itkDivideImageFilterTest2(int, char *[])
 {
 
   // Define the dimension of the images
@@ -32,22 +33,22 @@ int itkDivideImageFilterTest2( int, char* [] )
   using ElementPixelType = float;
 
   // Declare the types of the images
-  using InputImageType1 = itk::VectorImage< ElementPixelType, Dimension >;
-  using InputImageType2 = itk::Image< ElementPixelType, Dimension >;
-  using OutputImageType = itk::VectorImage< ElementPixelType, Dimension >;
+  using InputImageType1 = itk::VectorImage<ElementPixelType, Dimension>;
+  using InputImageType2 = itk::Image<ElementPixelType, Dimension>;
+  using OutputImageType = itk::VectorImage<ElementPixelType, Dimension>;
 
   // Declare appropriate Iterator types for each image
-  using OutputImageIteratorType = itk::ImageRegionIteratorWithIndex< OutputImageType >;
+  using OutputImageIteratorType = itk::ImageRegionIteratorWithIndex<OutputImageType>;
 
 
   // Declare the type of the index to access images
-  using IndexType = itk::Index< Dimension >;
+  using IndexType = itk::Index<Dimension>;
 
   // Declare the type of the size
-  using SizeType = itk::Size< Dimension >;
+  using SizeType = itk::Size<Dimension>;
 
   // Declare the type of the region
-  using RegionType = itk::ImageRegion< Dimension >;
+  using RegionType = itk::ImageRegion<Dimension>;
 
   // Create two images
   InputImageType1::Pointer inputImageA = InputImageType1::New();
@@ -65,90 +66,86 @@ int itkDivideImageFilterTest2( int, char* [] )
   start[2] = 0;
 
   RegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
+  region.SetIndex(start);
+  region.SetSize(size);
 
   // Initialize Image A
-  inputImageA->SetLargestPossibleRegion( region );
-  inputImageA->SetBufferedRegion( region );
-  inputImageA->SetRequestedRegion( region );
-  inputImageA->SetNumberOfComponentsPerPixel( 4 );
+  inputImageA->SetLargestPossibleRegion(region);
+  inputImageA->SetBufferedRegion(region);
+  inputImageA->SetRequestedRegion(region);
+  inputImageA->SetNumberOfComponentsPerPixel(4);
   inputImageA->Allocate();
 
   // Initialize Image B
-  inputImageB->SetLargestPossibleRegion( region );
-  inputImageB->SetBufferedRegion( region );
-  inputImageB->SetRequestedRegion( region );
+  inputImageB->SetLargestPossibleRegion(region);
+  inputImageB->SetBufferedRegion(region);
+  inputImageB->SetRequestedRegion(region);
   inputImageB->Allocate();
 
   // Initialize the content of Image A
-  InputImageType1::PixelType valueA( inputImageA->GetNumberOfComponentsPerPixel() );
+  InputImageType1::PixelType            valueA(inputImageA->GetNumberOfComponentsPerPixel());
   InputImageType1::PixelType::ValueType elementValueA = 2.0;
-  valueA.Fill( elementValueA );
-  inputImageA->FillBuffer( valueA );
+  valueA.Fill(elementValueA);
+  inputImageA->FillBuffer(valueA);
 
   // Initialize the content of Image B
-  constexpr InputImageType2::PixelType valueB  = 3.0;
-  inputImageB->FillBuffer( valueB );
+  constexpr InputImageType2::PixelType valueB = 3.0;
+  inputImageB->FillBuffer(valueB);
 
 
   // Declare the type for the itk::DivideImageFilter
-  using FilterType = itk::DivideImageFilter<
-                                InputImageType1,
-                                InputImageType2,
-                                OutputImageType >;
+  using FilterType = itk::DivideImageFilter<InputImageType1, InputImageType2, OutputImageType>;
 
   // Create the filter
   FilterType::Pointer filter = FilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, DivideImageFilter,
-    BinaryGeneratorImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, DivideImageFilter, BinaryGeneratorImageFilter);
 
   // Set the input images
-  filter->SetInput1( inputImageA );
-  filter->SetInput2( inputImageB );
+  filter->SetInput1(inputImageA);
+  filter->SetInput2(inputImageB);
 
 
   // Execute the filter
-  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
 
   // Get the filter output
   OutputImageType::Pointer outputImage = filter->GetOutput();
 
   // Create an iterator for going through the image output
-  OutputImageIteratorType oIt( outputImage, outputImage->GetBufferedRegion() );
+  OutputImageIteratorType oIt(outputImage, outputImage->GetBufferedRegion());
 
 
   // Check the content of the result image
   //
-  const auto expectedValue = static_cast< OutputImageType::PixelType::ValueType >( elementValueA / valueB );
+  const auto expectedValue = static_cast<OutputImageType::PixelType::ValueType>(elementValueA / valueB);
   const OutputImageType::PixelType::ValueType epsilon = 1e-6;
-  while( !oIt.IsAtEnd() )
+  while (!oIt.IsAtEnd())
+  {
+    for (unsigned int i = 0; i < oIt.GetImageDimension(); ++i)
     {
-    for( unsigned int i = 0; i < oIt.GetImageDimension(); ++i )
+      if (!itk::Math::FloatAlmostEqual(oIt.Get()[i], expectedValue, 2, epsilon))
       {
-      if( !itk::Math::FloatAlmostEqual( oIt.Get()[i], expectedValue, 2, epsilon ) )
-        {
-        std::cerr.precision( static_cast< int >( itk::Math::abs( std::log10( epsilon ) ) ) );
+        std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
         std::cerr << "Test failed!" << std::endl;
-        std::cerr << "Error in pixel value at index [" << oIt.GetIndex()
-          << ":" << i << "]" << std::endl;
+        std::cerr << "Error in pixel value at index [" << oIt.GetIndex() << ":" << i << "]" << std::endl;
         std::cerr << "Expected value " << expectedValue << std::endl;
         std::cerr << " differs from " << oIt.Get()[i];
         std::cerr << " by more than " << epsilon << std::endl;
         return EXIT_FAILURE;
-        }
       }
-    ++oIt;
     }
+    ++oIt;
+  }
 
 
   // Check for exception if constant is 0
-  filter->SetInput2( 0.0 );
-  ITK_TRY_EXPECT_EXCEPTION( filter->Update() );
+  filter->SetInput2(0.0);
+  ITK_TRY_EXPECT_EXCEPTION(filter->Update());
 
 
   // All objects should be automatically destroyed at this point
   std::cout << "Test finished." << std::endl;
-  return EXIT_SUCCESS;}
+  return EXIT_SUCCESS;
+}

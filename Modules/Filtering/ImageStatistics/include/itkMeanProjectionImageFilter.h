@@ -45,60 +45,57 @@ namespace itk
 
 namespace Functor
 {
-template< typename TInputPixel, typename TAccumulate >
+template <typename TInputPixel, typename TAccumulate>
 class MeanAccumulator
 {
 public:
-  using RealType = typename NumericTraits< TInputPixel >::RealType;
+  using RealType = typename NumericTraits<TInputPixel>::RealType;
 
-  MeanAccumulator( SizeValueType size )
+  MeanAccumulator(SizeValueType size) { m_Size = size; }
+
+  ~MeanAccumulator() { m_Size = NumericTraits<SizeValueType>::ZeroValue(); }
+
+  inline void
+  Initialize()
   {
-    m_Size = size;
+    m_Sum = NumericTraits<TAccumulate>::ZeroValue();
   }
 
-  ~MeanAccumulator()
-  {
-    m_Size = NumericTraits< SizeValueType >::ZeroValue();
-  }
-
-  inline void Initialize()
-  {
-    m_Sum = NumericTraits< TAccumulate >::ZeroValue();
-  }
-
-  inline void operator()(const TInputPixel & input)
+  inline void
+  operator()(const TInputPixel & input)
   {
     m_Sum = m_Sum + input;
   }
 
-  inline RealType GetValue()
+  inline RealType
+  GetValue()
   {
-    return ( (RealType)m_Sum ) / m_Size;
+    return ((RealType)m_Sum) / m_Size;
   }
 
   TAccumulate   m_Sum;
   SizeValueType m_Size;
 };
-} // end namespace Function
+} // namespace Functor
 
-template< typename TInputImage, typename TOutputImage,
-          typename TAccumulate =
-            typename NumericTraits<
-              typename TOutputImage::PixelType >::AccumulateType >
-class MeanProjectionImageFilter:public
-  ProjectionImageFilter< TInputImage, TOutputImage,
-                         Functor::MeanAccumulator< typename TInputImage::PixelType, TAccumulate > >
+template <typename TInputImage,
+          typename TOutputImage,
+          typename TAccumulate = typename NumericTraits<typename TOutputImage::PixelType>::AccumulateType>
+class MeanProjectionImageFilter
+  : public ProjectionImageFilter<TInputImage,
+                                 TOutputImage,
+                                 Functor::MeanAccumulator<typename TInputImage::PixelType, TAccumulate>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MeanProjectionImageFilter);
 
   using Self = MeanProjectionImageFilter;
-  using Superclass = ProjectionImageFilter< TInputImage, TOutputImage,
-                                 Functor::MeanAccumulator<
-                                   typename TInputImage::PixelType, TAccumulate > >;
+  using Superclass = ProjectionImageFilter<TInputImage,
+                                           TOutputImage,
+                                           Functor::MeanAccumulator<typename TInputImage::PixelType, TAccumulate>>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using InputImageType = TInputImage;
   using InputPixelType = typename InputImageType::PixelType;
@@ -114,20 +111,17 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputPixelToOutputPixelTypeGreaterAdditiveOperatorCheck,
-                   ( Concept::AdditiveOperators< OutputPixelType,
-                                                 InputPixelType,
-                                                 OutputPixelType > ) );
+  itkConceptMacro(InputPixelToOutputPixelTypeGreaterAdditiveOperatorCheck,
+                  (Concept::AdditiveOperators<OutputPixelType, InputPixelType, OutputPixelType>));
 
-  itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< InputPixelType > ) );
+  itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputPixelType>));
   // End concept checking
 #endif
 
 protected:
   MeanProjectionImageFilter() = default;
   ~MeanProjectionImageFilter() override = default;
-};                                         // end MeanProjectionImageFilter
-} //end namespace itk
+}; // end MeanProjectionImageFilter
+} // end namespace itk
 
 #endif

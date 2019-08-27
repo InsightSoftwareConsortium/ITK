@@ -33,20 +33,18 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 
-template< typename TMesh = Mesh< int > >
-class ITK_TEMPLATE_EXPORT MeshSpatialObject:
-  public SpatialObject< TMesh::PointDimension >
+template <typename TMesh = Mesh<int>>
+class ITK_TEMPLATE_EXPORT MeshSpatialObject : public SpatialObject<TMesh::PointDimension>
 {
 public:
-
   using ScalarType = double;
-  using Self = MeshSpatialObject< TMesh >;
+  using Self = MeshSpatialObject<TMesh>;
 
   static constexpr unsigned int Dimension = TMesh::PointDimension;
 
-  using Superclass = SpatialObject< Self::Dimension >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = SpatialObject<Self::Dimension>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using MeshType = TMesh;
   using MeshPointer = typename MeshType::Pointer;
@@ -54,7 +52,7 @@ public:
   using PointType = typename Superclass::PointType;
   using BoundingBoxType = typename Superclass::BoundingBoxType;
 
-  using PointContainerType = VectorContainer< IdentifierType, PointType >;
+  using PointContainerType = VectorContainer<IdentifierType, PointType>;
   using PointContainerPointer = typename PointContainerType::Pointer;
 
   /** Method for creation through the object factory. */
@@ -65,30 +63,33 @@ public:
 
   /** Reset the spatial object to its initial condition, yet preserves
    *   Id, Parent, and Child information */
-  void Clear( void ) override;
+  void
+  Clear(void) override;
 
   /** Set the Mesh. */
-  void SetMesh(MeshType *Mesh);
+  void
+  SetMesh(MeshType * Mesh);
 
   /** Get a pointer to the Mesh currently attached to the object. */
-  MeshType * GetMesh();
-  const MeshType *GetMesh() const;
+  MeshType *
+  GetMesh();
+  const MeshType *
+  GetMesh() const;
 
   /** Returns true if the point is inside, false otherwise. */
-  bool IsInsideInObjectSpace(const PointType & point) const override;
+  bool
+  IsInsideInObjectSpace(const PointType & point) const override;
 
   /* Avoid hiding the overload that supports depth and name arguments */
   using Superclass::IsInsideInObjectSpace;
 
   /** Returns the latest modified time of the object and its component. */
-  ModifiedTimeType GetMTime() const override;
+  ModifiedTimeType
+  GetMTime() const override;
 
 #if !defined(ITK_LEGACY_REMOVE)
   /** \deprecated Return the type of pixel used */
-  itkLegacyMacro(const char * GetPixelTypeName())
-  {
-    return m_PixelType.c_str();
-  }
+  itkLegacyMacro(const char * GetPixelTypeName()) { return m_PixelType.c_str(); }
 #endif
 
   /** Set/Get the precision for the IsInsideInObjectSpace function.
@@ -102,27 +103,29 @@ public:
 
 protected:
   /** Compute the boundaries of the iamge spatial object. */
-  void ComputeMyBoundingBox() override;
+  void
+  ComputeMyBoundingBox() override;
 
   MeshSpatialObject();
   ~MeshSpatialObject() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  typename LightObject::Pointer InternalClone() const override;
+  typename LightObject::Pointer
+  InternalClone() const override;
 
 private:
   MeshPointer m_Mesh;
 #if !defined(ITK_LEGACY_REMOVE)
   std::string m_PixelType;
 #endif
-  double      m_IsInsidePrecisionInObjectSpace;
-
+  double m_IsInsidePrecisionInObjectSpace;
 };
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMeshSpatialObject.hxx"
+#  include "itkMeshSpatialObject.hxx"
 #endif
 
-#endif //itkMeshSpatialObject_h
+#endif // itkMeshSpatialObject_h

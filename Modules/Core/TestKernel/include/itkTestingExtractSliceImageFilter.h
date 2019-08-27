@@ -29,11 +29,12 @@ namespace Testing
 /** \class TestExtractSliceImageFilterCollapseStrategy
  * \ingroup ITKTestKernel
  */
-enum class TestExtractSliceImageFilterCollapseStrategy : uint8_t {
-        DIRECTIONCOLLAPSETOUNKOWN=0,
-        DIRECTIONCOLLAPSETOIDENTITY=1,
-        DIRECTIONCOLLAPSETOSUBMATRIX=2,
-        DIRECTIONCOLLAPSETOGUESS=3
+enum class TestExtractSliceImageFilterCollapseStrategy : uint8_t
+{
+  DIRECTIONCOLLAPSETOUNKOWN = 0,
+  DIRECTIONCOLLAPSETOIDENTITY = 1,
+  DIRECTIONCOLLAPSETOSUBMATRIX = 2,
+  DIRECTIONCOLLAPSETOGUESS = 3
 };
 
 /** \class ExtractSliceImageFilter
@@ -89,18 +90,17 @@ enum class TestExtractSliceImageFilterCollapseStrategy : uint8_t {
  * \ingroup ITKTestKernel
  */
 
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT ExtractSliceImageFilter:
-  public ImageSource< TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT ExtractSliceImageFilter : public ImageSource<TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ExtractSliceImageFilter);
 
   /** Standard class type aliases. */
   using Self = ExtractSliceImageFilter;
-  using Superclass = ImageSource< TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageSource<TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -130,12 +130,16 @@ public:
   using DIRECTIONCOLLAPSESTRATEGY = TestExtractSliceImageFilterCollapseStrategy;
   using DirectionCollaspeStrategyEnum = TestExtractSliceImageFilterCollapseStrategy;
 #if !defined(ITK_LEGACY_REMOVE)
-        //We need to expose the enum values at the class level
-        // for backwards compatibility
-        static constexpr DIRECTIONCOLLAPSESTRATEGY DIRECTIONCOLLAPSETOUNKOWN = DIRECTIONCOLLAPSESTRATEGY::DIRECTIONCOLLAPSETOUNKOWN;
-        static constexpr DIRECTIONCOLLAPSESTRATEGY DIRECTIONCOLLAPSETOIDENTITY = DIRECTIONCOLLAPSESTRATEGY::DIRECTIONCOLLAPSETOIDENTITY;
-        static constexpr DIRECTIONCOLLAPSESTRATEGY DIRECTIONCOLLAPSETOSUBMATRIX = DIRECTIONCOLLAPSESTRATEGY::DIRECTIONCOLLAPSETOSUBMATRIX;
-        static constexpr DIRECTIONCOLLAPSESTRATEGY DIRECTIONCOLLAPSETOGUESS = DIRECTIONCOLLAPSESTRATEGY::DIRECTIONCOLLAPSETOGUESS;
+  // We need to expose the enum values at the class level
+  // for backwards compatibility
+  static constexpr DIRECTIONCOLLAPSESTRATEGY DIRECTIONCOLLAPSETOUNKOWN =
+    DIRECTIONCOLLAPSESTRATEGY::DIRECTIONCOLLAPSETOUNKOWN;
+  static constexpr DIRECTIONCOLLAPSESTRATEGY DIRECTIONCOLLAPSETOIDENTITY =
+    DIRECTIONCOLLAPSESTRATEGY::DIRECTIONCOLLAPSETOIDENTITY;
+  static constexpr DIRECTIONCOLLAPSESTRATEGY DIRECTIONCOLLAPSETOSUBMATRIX =
+    DIRECTIONCOLLAPSESTRATEGY::DIRECTIONCOLLAPSETOSUBMATRIX;
+  static constexpr DIRECTIONCOLLAPSESTRATEGY DIRECTIONCOLLAPSETOGUESS =
+    DIRECTIONCOLLAPSESTRATEGY::DIRECTIONCOLLAPSETOGUESS;
 #endif
 
   /**
@@ -162,22 +166,23 @@ public:
    * example when the application programmer knows that a 4D image
    * is 3D+time, and that the 3D sub-space is properly defined.
    */
-  void SetDirectionCollapseToStrategy(const DIRECTIONCOLLAPSESTRATEGY choosenStrategy)
+  void
+  SetDirectionCollapseToStrategy(const DIRECTIONCOLLAPSESTRATEGY choosenStrategy)
+  {
+    switch (choosenStrategy)
     {
-    switch(choosenStrategy)
-      {
-    case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS:
-    case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOIDENTITY:
-    case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOSUBMATRIX:
-      break;
-    case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN:
-    default:
-      itkExceptionMacro( << "Invalid Strategy Chosen for itk::ExtractSliceImageFilter" );
-      }
-
-    this->m_DirectionCollaspeStrategy=choosenStrategy;
-    this->Modified();
+      case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS:
+      case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOIDENTITY:
+      case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOSUBMATRIX:
+        break;
+      case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN:
+      default:
+        itkExceptionMacro(<< "Invalid Strategy Chosen for itk::ExtractSliceImageFilter");
     }
+
+    this->m_DirectionCollaspeStrategy = choosenStrategy;
+    this->Modified();
+  }
 
   /** NOTE:  The SetDirectionCollapseToUknown is explicitly not defined.
    * It is a state that a filter can be in only when it is first instantiate
@@ -187,62 +192,65 @@ public:
   /**
    * Get the currently set strategy for collapsing directions of physical space.
    */
-  DIRECTIONCOLLAPSESTRATEGY GetDirectionCollapseToStrategy() const
-    {
-    return this->m_DirectionCollaspeStrategy;
-    }
+  DIRECTIONCOLLAPSESTRATEGY
+  GetDirectionCollapseToStrategy() const { return this->m_DirectionCollaspeStrategy; }
 
   /** \sa SetDirectionCollapseToStrategy */
-  void SetDirectionCollapseToGuess()
-    {
+  void
+  SetDirectionCollapseToGuess()
+  {
     this->SetDirectionCollapseToStrategy(TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS);
-    }
+  }
 
   /** \sa SetDirectionCollapseToStrategy */
-  void SetDirectionCollapseToIdentity()
-    {
+  void
+  SetDirectionCollapseToIdentity()
+  {
     this->SetDirectionCollapseToStrategy(TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOIDENTITY);
-    }
+  }
 
   /** \sa SetDirectionCollapseToStrategy */
-  void SetDirectionCollapseToSubmatrix()
-    {
+  void
+  SetDirectionCollapseToSubmatrix()
+  {
     this->SetDirectionCollapseToStrategy(TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOSUBMATRIX);
-    }
+  }
 
 
   /** ImageDimension enumeration */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
-  using ExtractSliceImageFilterRegionCopierType = ImageToImageFilterDetail::ExtractImageFilterRegionCopier<
-    Self::InputImageDimension,
-    Self::OutputImageDimension >;
+  using ExtractSliceImageFilterRegionCopierType =
+    ImageToImageFilterDetail::ExtractImageFilterRegionCopier<Self::InputImageDimension, Self::OutputImageDimension>;
 
   /** Set/Get the output image region.
    *  If any of the ExtractionRegion.Size = 0 for any particular dimension dim,
    *  we have to collapse dimension dim.  This means the output image will have
    *  'c' dimensions less than the input image, where c = number of
    *  ExtractionRegion.Size = 0. */
-  void SetExtractionRegion(InputImageRegionType extractRegion);
+  void
+  SetExtractionRegion(InputImageRegionType extractRegion);
   itkGetConstMacro(ExtractionRegion, InputImageRegionType);
 
   /** Set/Get the image input of this process object.  */
   using Superclass::SetInput;
-  virtual void SetInput(const TInputImage *image);
-  const TInputImage * GetInput() const;
+  virtual void
+  SetInput(const TInputImage * image);
+  const TInputImage *
+  GetInput() const;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputCovertibleToOutputCheck,
-                   ( Concept::Convertible< InputImagePixelType, OutputImagePixelType > ) );
+  itkConceptMacro(InputCovertibleToOutputCheck, (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
   // End concept checking
 #endif
 
 protected:
   ExtractSliceImageFilter();
   ~ExtractSliceImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** ExtractSliceImageFilter can produce an image which is a different
    * resolution than its input image.  As such, ExtractSliceImageFilter
@@ -252,7 +260,8 @@ protected:
    * below.
    *
    * \sa ProcessObject::GenerateOutputInformaton()  */
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
   /** This function calls the actual region copier to do the mapping from
    * output image space to input image space.  It uses a
@@ -263,8 +272,8 @@ protected:
    * However, some filters like itk::ExtractSliceImageFilter can
    * support output images of a lower dimension that the input.
    */
-  virtual void CallCopyOutputRegionToInputRegion(InputImageRegionType & destRegion,
-                                                 const OutputImageRegionType & srcRegion);
+  virtual void
+  CallCopyOutputRegionToInputRegion(InputImageRegionType & destRegion, const OutputImageRegionType & srcRegion);
 
   /** ExtractSliceImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a DynamicThreadedGenerateData()
@@ -274,7 +283,8 @@ protected:
    * write to the portion of the output image specified by the
    * parameter "outputRegionForThread"
    */
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
   InputImageRegionType m_ExtractionRegion;
 
@@ -286,12 +296,13 @@ private:
 
 /** Define how to print enumerations */
 // TestKernal is not a shared library, so no EXPORT
-extern std::ostream& operator<<(std::ostream& out, const TestExtractSliceImageFilterCollapseStrategy value);
+extern std::ostream &
+operator<<(std::ostream & out, const TestExtractSliceImageFilterCollapseStrategy value);
 } // end namespace Testing
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTestingExtractSliceImageFilter.hxx"
+#  include "itkTestingExtractSliceImageFilter.hxx"
 #endif
 
 #endif

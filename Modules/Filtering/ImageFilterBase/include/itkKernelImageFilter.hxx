@@ -23,49 +23,45 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage, typename TKernel >
-KernelImageFilter< TInputImage, TOutputImage, TKernel >
-::KernelImageFilter()
+template <typename TInputImage, typename TOutputImage, typename TKernel>
+KernelImageFilter<TInputImage, TOutputImage, TKernel>::KernelImageFilter()
 {
   this->SetRadius(1UL);
 }
 
-template< typename TInputImage, typename TOutputImage, typename TKernel >
+template <typename TInputImage, typename TOutputImage, typename TKernel>
 void
-KernelImageFilter< TInputImage, TOutputImage, TKernel >
-::SetRadius(const RadiusType & radius)
+KernelImageFilter<TInputImage, TOutputImage, TKernel>::SetRadius(const RadiusType & radius)
 {
   // SetKernel() must be called, because it can be overloaded in a subclass
   // - MovingHistogramImageFilterBase for example.
   KernelType kernel;
   // the right version of the MakeKernel method should be called there
-  this->MakeKernel( radius, kernel );
-  this->SetKernel( kernel );
+  this->MakeKernel(radius, kernel);
+  this->SetKernel(kernel);
 }
 
-template< typename TInputImage, typename TOutputImage, typename TKernel >
+template <typename TInputImage, typename TOutputImage, typename TKernel>
 void
-KernelImageFilter< TInputImage, TOutputImage, TKernel >
-::SetKernel(const KernelType & kernel)
+KernelImageFilter<TInputImage, TOutputImage, TKernel>::SetKernel(const KernelType & kernel)
 {
-  if ( m_Kernel != kernel )
-    {
+  if (m_Kernel != kernel)
+  {
     m_Kernel = kernel;
     this->Modified();
-    }
+  }
   // set the radius of the super class to be the same than the kernel one
-  Superclass::SetRadius( kernel.GetRadius() );
+  Superclass::SetRadius(kernel.GetRadius());
 }
 
-template< typename TInputImage, typename TOutputImage, typename TKernel >
+template <typename TInputImage, typename TOutputImage, typename TKernel>
 void
-KernelImageFilter< TInputImage, TOutputImage, TKernel >
-::PrintSelf(std::ostream & os, Indent indent) const
+KernelImageFilter<TInputImage, TOutputImage, TKernel>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Kernel: " << m_Kernel << std::endl;
 }
-}
+} // namespace itk
 
 #endif

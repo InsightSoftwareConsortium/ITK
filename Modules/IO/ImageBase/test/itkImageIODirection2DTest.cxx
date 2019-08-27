@@ -21,37 +21,36 @@
 
 // Specific ImageIO test
 
-int itkImageIODirection2DTest( int ac, char * av[] )
+int
+itkImageIODirection2DTest(int ac, char * av[])
 {
 
-  if( ac < 6 )
-    {
-    std::cerr << "Usage: " << av[0]
-    << " InputImage  (4 direction cosines terms) "
-    << "[outputImage]"
-    << std::endl;
+  if (ac < 6)
+  {
+    std::cerr << "Usage: " << av[0] << " InputImage  (4 direction cosines terms) "
+              << "[outputImage]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int Dimension = 2;
   using PixelType = unsigned char;
 
   using ImageType = itk::Image<PixelType, Dimension>;
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
 
-  reader->SetFileName( av[1] );
+  reader->SetFileName(av[1]);
 
   try
-    {
+  {
     reader->Update();
-    }
+  }
   catch (itk::ExceptionObject & e)
-    {
+  {
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   ImageType::ConstPointer image = reader->GetOutput();
 
@@ -62,40 +61,40 @@ int itkImageIODirection2DTest( int ac, char * av[] )
   unsigned int element = 2;
   const double tolerance = 1e-5;
 
-  for( unsigned int row=0; row < Dimension; ++row )
+  for (unsigned int row = 0; row < Dimension; ++row)
+  {
+    for (unsigned int col = 0; col < Dimension; ++col)
     {
-    for( unsigned int col = 0; col < Dimension; ++col )
-      {
-      const double expectedValue = std::stod( av[ element++ ] );
+      const double expectedValue = std::stod(av[element++]);
       const double currentValue = directionCosines[row][col];
       const double difference = currentValue - expectedValue;
-      if( itk::Math::abs( difference ) > tolerance )
-        {
+      if (itk::Math::abs(difference) > tolerance)
+      {
         std::cerr << "Error: " << std::endl;
         std::cerr << "Expected " << expectedValue << std::endl;
         std::cerr << "Read     " << currentValue << std::endl;
         return EXIT_FAILURE;
-        }
       }
     }
+  }
 
-  if( ac > 6 )
-    {
-    using WriterType = itk::ImageFileWriter< ImageType >;
+  if (ac > 6)
+  {
+    using WriterType = itk::ImageFileWriter<ImageType>;
     WriterType::Pointer writer = WriterType::New();
-    writer->SetFileName( av[6] );
-    writer->SetInput( reader->GetOutput() );
+    writer->SetFileName(av[6]);
+    writer->SetInput(reader->GetOutput());
 
     try
-      {
+    {
       writer->Update();
-      }
+    }
     catch (itk::ExceptionObject & e)
-      {
+    {
       std::cerr << e << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
 
   return EXIT_SUCCESS;
 }

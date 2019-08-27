@@ -26,8 +26,10 @@
  *
  * itkLoad() is C (not C++) function.
  */
-extern "C" {
-    ITK_ABI_EXPORT itk::ObjectFactoryBase* itkLoad();
+extern "C"
+{
+  ITK_ABI_EXPORT itk::ObjectFactoryBase *
+                 itkLoad();
 }
 
 #endif

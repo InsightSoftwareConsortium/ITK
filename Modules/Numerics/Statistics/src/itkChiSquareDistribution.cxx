@@ -19,104 +19,95 @@
 #include "itkGaussianDistribution.h"
 #include "itkMath.h"
 
-extern "C" double dgami_(double *a, double *x);
+extern "C" double
+dgami_(double * a, double * x);
 
-extern "C" double dgamma_(double *x);
+extern "C" double
+dgamma_(double * x);
 
 namespace itk
 {
 namespace Statistics
 {
-ChiSquareDistribution
-::ChiSquareDistribution()
+ChiSquareDistribution ::ChiSquareDistribution()
 {
   m_Parameters = ParametersType(1);
   m_Parameters[0] = 1.0;
 }
 
 void
-ChiSquareDistribution
-::SetDegreesOfFreedom(SizeValueType dof)
+ChiSquareDistribution ::SetDegreesOfFreedom(SizeValueType dof)
 {
   bool modified = false;
 
-  if ( m_Parameters.GetSize() > 0 )
+  if (m_Parameters.GetSize() > 0)
+  {
+    if (Math::NotExactlyEquals(m_Parameters[0], static_cast<double>(dof)))
     {
-    if ( Math::NotExactlyEquals(m_Parameters[0], static_cast< double >( dof )) )
-      {
       modified = true;
-      }
     }
+  }
 
-  if ( m_Parameters.GetSize() != 1 )
-    {
+  if (m_Parameters.GetSize() != 1)
+  {
     m_Parameters = ParametersType(1);
-    }
+  }
 
-  m_Parameters[0] = static_cast< double >( dof );
+  m_Parameters[0] = static_cast<double>(dof);
 
-  if ( modified )
-    {
+  if (modified)
+  {
     this->Modified();
-    }
+  }
 }
 
 SizeValueType
-ChiSquareDistribution
-::GetDegreesOfFreedom() const
+ChiSquareDistribution ::GetDegreesOfFreedom() const
 {
-  if ( m_Parameters.GetSize() != 1 )
-    {
-    itkGenericExceptionMacro(
-      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
-      << m_Parameters.size()
-      << " parameters.");
-    }
-  return static_cast< SizeValueType >( m_Parameters[0] );
+  if (m_Parameters.GetSize() != 1)
+  {
+    itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+                             << m_Parameters.size() << " parameters.");
+  }
+  return static_cast<SizeValueType>(m_Parameters[0]);
 }
 
 double
-ChiSquareDistribution
-::PDF(double x, SizeValueType degreesOfFreedom)
+ChiSquareDistribution ::PDF(double x, SizeValueType degreesOfFreedom)
 {
-  auto dof = static_cast< double >( degreesOfFreedom );
+  auto   dof = static_cast<double>(degreesOfFreedom);
   double dofon2 = 0.5 * dof;
   double pdf = 0.0;
 
-  if ( x >= 0.0 )
-    {
-    pdf = std::exp(-0.5 * x) * std::pow(x, dofon2 - 1.0)
-          / ( std::pow(2.0, dofon2) * dgamma_(&dofon2) );
-    }
+  if (x >= 0.0)
+  {
+    pdf = std::exp(-0.5 * x) * std::pow(x, dofon2 - 1.0) / (std::pow(2.0, dofon2) * dgamma_(&dofon2));
+  }
 
   return pdf;
 }
 
 double
-ChiSquareDistribution
-::PDF(double x, const ParametersType & p)
+ChiSquareDistribution ::PDF(double x, const ParametersType & p)
 {
-  if ( p.GetSize() != 1 )
-    {
-    itkGenericExceptionMacro(
-      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
-      << p.size()
-      << " parameters.");
-    }
-  return ChiSquareDistribution::PDF( x, static_cast< SizeValueType >( p[0] ) );
+  if (p.GetSize() != 1)
+  {
+    itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+                             << p.size() << " parameters.");
+  }
+  return ChiSquareDistribution::PDF(x, static_cast<SizeValueType>(p[0]));
 }
 
 double
-ChiSquareDistribution
-::CDF(double x, SizeValueType degreesOfFreedom)
+ChiSquareDistribution ::CDF(double x, SizeValueType degreesOfFreedom)
 {
   // Based on Abramowitz and Stegun 26.4.19 which relates the
   // cumulative of the chi-square to incomplete (and complete) gamma
   // function.
-  if ( x < 0 )
-    {
+  if (x < 0)
+  {
     return 0.0;
-    }
+  }
 
   double dofon2 = 0.5 * degreesOfFreedom;
   double xon2 = 0.5 * x;
@@ -125,41 +116,37 @@ ChiSquareDistribution
 }
 
 double
-ChiSquareDistribution
-::CDF(double x, const ParametersType & p)
+ChiSquareDistribution ::CDF(double x, const ParametersType & p)
 {
-  if ( p.GetSize() != 1 )
-    {
-    itkGenericExceptionMacro(
-      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
-      << p.size()
-      << " parameters.");
-    }
+  if (p.GetSize() != 1)
+  {
+    itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+                             << p.size() << " parameters.");
+  }
   return ChiSquareDistribution::CDF(x, (SizeValueType)p[0]);
 }
 
 double
-ChiSquareDistribution
-::InverseCDF(double p, SizeValueType degreesOfFreedom)
+ChiSquareDistribution ::InverseCDF(double p, SizeValueType degreesOfFreedom)
 {
-  if ( p <= 0.0 )
-    {
-    return itk::NumericTraits< double >::ZeroValue();
-    }
-  else if ( p >= 1.0 )
-    {
-    return itk::NumericTraits< double >::max();
-    }
+  if (p <= 0.0)
+  {
+    return itk::NumericTraits<double>::ZeroValue();
+  }
+  else if (p >= 1.0)
+  {
+    return itk::NumericTraits<double>::max();
+  }
 
   double x;
   double dof;
   double nx;
 
   // Based on Abramowitz and Stegun 26.4.17
-  dof = static_cast< double >( degreesOfFreedom );
+  dof = static_cast<double>(degreesOfFreedom);
   nx = GaussianDistribution::InverseCDF(p);
 
-  double f = 2.0 / ( 9.0 * dof );
+  double f = 2.0 / (9.0 * dof);
   x = dof * std::pow(1.0 - f + nx * std::sqrt(f), 3.0);
 
   // The approximation above is only accurate for large degrees of
@@ -192,179 +179,145 @@ ChiSquareDistribution
   // Note that f'(x) = - chisquarepdf(x)
   //
   double delta;
-  for ( unsigned int newt = 0; newt < 10; ++newt )
-    {
-    delta = ( p - ChiSquareDistribution::CDF(x, degreesOfFreedom) )
-            / ChiSquareDistribution::PDF(x, degreesOfFreedom);
+  for (unsigned int newt = 0; newt < 10; ++newt)
+  {
+    delta = (p - ChiSquareDistribution::CDF(x, degreesOfFreedom)) / ChiSquareDistribution::PDF(x, degreesOfFreedom);
     x += delta;
-    }
+  }
 
   return x;
 }
 
 double
-ChiSquareDistribution
-::InverseCDF(double p, const ParametersType & params)
+ChiSquareDistribution ::InverseCDF(double p, const ParametersType & params)
 {
-  if ( params.GetSize() != 1 )
-    {
-    itkGenericExceptionMacro(
-      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
-      << params.size()
-      << " parameters.");
-    }
-  return ChiSquareDistribution::InverseCDF( p, static_cast< SizeValueType >( params[0] ) );
+  if (params.GetSize() != 1)
+  {
+    itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+                             << params.size() << " parameters.");
+  }
+  return ChiSquareDistribution::InverseCDF(p, static_cast<SizeValueType>(params[0]));
 }
 
 double
-ChiSquareDistribution
-::EvaluatePDF(double x) const
+ChiSquareDistribution ::EvaluatePDF(double x) const
 {
-  if ( m_Parameters.GetSize() != 1 )
-    {
-    itkGenericExceptionMacro(
-      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
-      << m_Parameters.size()
-      << " parameters.");
-    }
-  return ChiSquareDistribution::PDF( x, static_cast< SizeValueType >( m_Parameters[0] ) );
+  if (m_Parameters.GetSize() != 1)
+  {
+    itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+                             << m_Parameters.size() << " parameters.");
+  }
+  return ChiSquareDistribution::PDF(x, static_cast<SizeValueType>(m_Parameters[0]));
 }
 
 double
-ChiSquareDistribution
-::EvaluatePDF(double x, const ParametersType & p) const
+ChiSquareDistribution ::EvaluatePDF(double x, const ParametersType & p) const
 {
-  if ( p.GetSize() != 1 )
-    {
-    itkGenericExceptionMacro(
-      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
-      << p.size()
-      << " parameters.");
-    }
-  return ChiSquareDistribution::PDF( x, static_cast< SizeValueType >( p[0] ) );
+  if (p.GetSize() != 1)
+  {
+    itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+                             << p.size() << " parameters.");
+  }
+  return ChiSquareDistribution::PDF(x, static_cast<SizeValueType>(p[0]));
 }
 
 double
-ChiSquareDistribution
-::EvaluatePDF(double x, SizeValueType degreesOfFreedom) const
+ChiSquareDistribution ::EvaluatePDF(double x, SizeValueType degreesOfFreedom) const
 {
   return ChiSquareDistribution::PDF(x, degreesOfFreedom);
 }
 
 double
-ChiSquareDistribution
-::EvaluateCDF(double x) const
+ChiSquareDistribution ::EvaluateCDF(double x) const
 {
-  if ( m_Parameters.GetSize() != 1 )
-    {
-    itkGenericExceptionMacro(
-      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
-      << m_Parameters.size()
-      << " parameters.");
-    }
-  return ChiSquareDistribution::CDF( x, static_cast< SizeValueType >( m_Parameters[0] ) );
+  if (m_Parameters.GetSize() != 1)
+  {
+    itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+                             << m_Parameters.size() << " parameters.");
+  }
+  return ChiSquareDistribution::CDF(x, static_cast<SizeValueType>(m_Parameters[0]));
 }
 
 double
-ChiSquareDistribution
-::EvaluateCDF(double x, const ParametersType & p) const
+ChiSquareDistribution ::EvaluateCDF(double x, const ParametersType & p) const
 {
-  if ( p.GetSize() != 1 )
-    {
-    itkGenericExceptionMacro(
-      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
-      << p.size()
-      << " parameters.");
-    }
-  return ChiSquareDistribution::CDF( x, static_cast< SizeValueType >( p[0] ) );
+  if (p.GetSize() != 1)
+  {
+    itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+                             << p.size() << " parameters.");
+  }
+  return ChiSquareDistribution::CDF(x, static_cast<SizeValueType>(p[0]));
 }
 
 double
-ChiSquareDistribution
-::EvaluateCDF(double x, SizeValueType degreesOfFreedom) const
+ChiSquareDistribution ::EvaluateCDF(double x, SizeValueType degreesOfFreedom) const
 {
   return ChiSquareDistribution::CDF(x, degreesOfFreedom);
 }
 
 double
-ChiSquareDistribution
-::EvaluateInverseCDF(double p) const
+ChiSquareDistribution ::EvaluateInverseCDF(double p) const
 {
-  if ( m_Parameters.GetSize() != 1 )
-    {
-    itkGenericExceptionMacro(
-      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
-      << m_Parameters.size()
-      << " parameters.");
-    }
-  return ChiSquareDistribution::InverseCDF( p, static_cast< SizeValueType >( m_Parameters[0] ) );
+  if (m_Parameters.GetSize() != 1)
+  {
+    itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+                             << m_Parameters.size() << " parameters.");
+  }
+  return ChiSquareDistribution::InverseCDF(p, static_cast<SizeValueType>(m_Parameters[0]));
 }
 
 double
-ChiSquareDistribution
-::EvaluateInverseCDF(double p, const ParametersType & params) const
+ChiSquareDistribution ::EvaluateInverseCDF(double p, const ParametersType & params) const
 {
-  if ( params.GetSize() != 1 )
-    {
-    itkGenericExceptionMacro(
-      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
-      << params.size()
-      << " parameters.");
-    }
-  return ChiSquareDistribution::InverseCDF( p, static_cast< SizeValueType >( params[0] ) );
+  if (params.GetSize() != 1)
+  {
+    itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+                             << params.size() << " parameters.");
+  }
+  return ChiSquareDistribution::InverseCDF(p, static_cast<SizeValueType>(params[0]));
 }
 
 double
-ChiSquareDistribution
-::EvaluateInverseCDF(double p, SizeValueType degreesOfFreedom) const
+ChiSquareDistribution ::EvaluateInverseCDF(double p, SizeValueType degreesOfFreedom) const
 {
   return ChiSquareDistribution::InverseCDF(p, degreesOfFreedom);
 }
 
 double
-ChiSquareDistribution
-::GetMean() const
+ChiSquareDistribution ::GetMean() const
 {
-  if ( m_Parameters.GetSize() != 1 )
-    {
-    itkGenericExceptionMacro(
-      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
-      << m_Parameters.size()
-      << " parameters.");
-    }
+  if (m_Parameters.GetSize() != 1)
+  {
+    itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+                             << m_Parameters.size() << " parameters.");
+  }
   return m_Parameters[0];
 }
 
 double
-ChiSquareDistribution
-::GetVariance() const
+ChiSquareDistribution ::GetVariance() const
 {
-  if ( m_Parameters.GetSize() != 1 )
-    {
-    itkGenericExceptionMacro(
-      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
-      << m_Parameters.size()
-      << " parameters.");
-    }
+  if (m_Parameters.GetSize() != 1)
+  {
+    itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+                             << m_Parameters.size() << " parameters.");
+  }
   return 2.0 * m_Parameters[0];
 }
 
 void
-ChiSquareDistribution
-::PrintSelf(std::ostream & os, Indent indent) const
+ChiSquareDistribution ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  if ( m_Parameters.GetSize() > 0 )
-    {
-    os << indent << "Degrees of freedom: "
-       << static_cast< SizeValueType >( m_Parameters[0] ) << std::endl;
-    }
+  if (m_Parameters.GetSize() > 0)
+  {
+    os << indent << "Degrees of freedom: " << static_cast<SizeValueType>(m_Parameters[0]) << std::endl;
+  }
   else
-    {
-    os << indent << "Degrees of freedom: (unknown)"
-       << std::endl;
-    }
+  {
+    os << indent << "Degrees of freedom: (unknown)" << std::endl;
+  }
 }
 } // end of namespace Statistics
 } // end namespace itk

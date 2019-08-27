@@ -40,20 +40,22 @@ namespace itk
  *
  * \ingroup ITKMetricsv4
  */
-template<typename TFixedImage,typename TMovingImage,typename TVirtualImage = TFixedImage,
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage = TFixedImage,
           typename TInternalComputationValueType = double,
-          typename TMetricTraits = DefaultImageToImageMetricTraitsv4<TFixedImage,TMovingImage,TVirtualImage,TInternalComputationValueType>
-          >
-class ITK_TEMPLATE_EXPORT JointHistogramMutualInformationImageToImageMetricv4 :
-  public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
+          typename TMetricTraits =
+            DefaultImageToImageMetricTraitsv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType>>
+class ITK_TEMPLATE_EXPORT JointHistogramMutualInformationImageToImageMetricv4
+  : public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(JointHistogramMutualInformationImageToImageMetricv4);
 
   /** Standard class type aliases. */
   using Self = JointHistogramMutualInformationImageToImageMetricv4;
-  using Superclass = ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage,
-                             TInternalComputationValueType,TMetricTraits>;
+  using Superclass =
+    ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -93,36 +95,36 @@ public:
 
   /* Image dimension accessors */
   static constexpr typename TVirtualImage::ImageDimensionType VirtualImageDimension = TVirtualImage::ImageDimension;
-  static constexpr typename TMovingImage::ImageDimensionType MovingImageDimension = TMovingImage::ImageDimension;
+  static constexpr typename TMovingImage::ImageDimensionType  MovingImageDimension = TMovingImage::ImageDimension;
 
   /** Value type of the PDF */
   using PDFValueType = TInternalComputationValueType;
 
   /** Typedef for the joint PDF and marginal PDF are stored as ITK Images. */
-  using MarginalPDFType = Image<PDFValueType,1>;
+  using MarginalPDFType = Image<PDFValueType, 1>;
   using MarginalPDFIndexType = typename MarginalPDFType::IndexType;
   using MarginalPDFPointType = typename MarginalPDFType::PointType;
-  using JointPDFType = Image< PDFValueType, 2>;
+  using JointPDFType = Image<PDFValueType, 2>;
   using JointPDFIndexType = typename JointPDFType::IndexType;
   using JointPDFPointType = typename JointPDFType::PointType;
   using JointPDFIndexValueType = typename JointPDFType::IndexValueType;
 
   /** Get the JointPDF.  Valid after GetValueAndDerivative has been called. */
-  itkGetModifiableObjectMacro(JointPDF, JointPDFType );
+  itkGetModifiableObjectMacro(JointPDF, JointPDFType);
 
   // Declare the type for the derivative calculation
-  using JPDFGradientFilterType = itk::GradientRecursiveGaussianImageFilter< JointPDFType >;
+  using JPDFGradientFilterType = itk::GradientRecursiveGaussianImageFilter<JointPDFType>;
   using JPDFGradientImageType = typename JPDFGradientFilterType::OutputImageType;
   using JPDFGradientImagePointer = typename JPDFGradientImageType::Pointer;
 
-  using MarginalGradientFilterType = itk::GradientRecursiveGaussianImageFilter< MarginalPDFType >;
+  using MarginalGradientFilterType = itk::GradientRecursiveGaussianImageFilter<MarginalPDFType>;
   using MarginalGradientImageType = typename MarginalGradientFilterType::OutputImageType;
   using MarginalGradientImagePointer = typename MarginalGradientImageType::Pointer;
 
   /** pdf interpolator */
-  using JointPDFInterpolatorType = LinearInterpolateImageFunction<JointPDFType,double>;
+  using JointPDFInterpolatorType = LinearInterpolateImageFunction<JointPDFType, double>;
   using JointPDFInterpolatorPointer = typename JointPDFInterpolatorType::Pointer;
-  using MarginalPDFInterpolatorType = LinearInterpolateImageFunction<MarginalPDFType,double>;
+  using MarginalPDFInterpolatorType = LinearInterpolateImageFunction<MarginalPDFType, double>;
   using MarginalPDFInterpolatorPointer = typename MarginalPDFInterpolatorType::Pointer;
 
   /** Joint PDF types */
@@ -133,17 +135,19 @@ public:
 
 
   /** Get/Set the number of histogram bins */
-  itkSetClampMacro( NumberOfHistogramBins, SizeValueType, 5, NumericTraits< SizeValueType >::max() );
-  itkGetConstReferenceMacro(NumberOfHistogramBins, SizeValueType );
+  itkSetClampMacro(NumberOfHistogramBins, SizeValueType, 5, NumericTraits<SizeValueType>::max());
+  itkGetConstReferenceMacro(NumberOfHistogramBins, SizeValueType);
 
   /** Get/Set option to smooth the joint pdf after it's updated */
   itkSetMacro(VarianceForJointPDFSmoothing, TInternalComputationValueType);
   itkGetMacro(VarianceForJointPDFSmoothing, TInternalComputationValueType);
 
   /** Initialize the metric. Make sure all essential inputs are plugged in. */
-  void Initialize() override;
+  void
+  Initialize() override;
 
-  MeasureType GetValue() const override;
+  MeasureType
+  GetValue() const override;
 
 protected:
   JointHistogramMutualInformationImageToImageMetricv4();
@@ -152,41 +156,62 @@ protected:
   /** Update the histograms for use in GetValueAndDerivative
    *  Results are returned in \c value and \c derivative.
    */
-  void InitializeForIteration() const override;
+  void
+  InitializeForIteration() const override;
 
   /** Compute the metric value. For internal use. */
-  MeasureType ComputeValue() const;
+  MeasureType
+  ComputeValue() const;
 
   /** Compute the point location with the JointPDF image.  Returns false if the
    * point is not inside the image. */
-  inline void ComputeJointPDFPoint( const FixedImagePixelType fixedImageValue, const MovingImagePixelType movingImageValue, JointPDFPointType & jointPDFpoint ) const;
+  inline void
+  ComputeJointPDFPoint(const FixedImagePixelType  fixedImageValue,
+                       const MovingImagePixelType movingImageValue,
+                       JointPDFPointType &        jointPDFpoint) const;
 
-  friend class JointHistogramMutualInformationComputeJointPDFThreaderBase< ThreadedImageRegionPartitioner< Self::VirtualImageDimension >, Self >;
-  friend class JointHistogramMutualInformationComputeJointPDFThreaderBase< ThreadedIndexedContainerPartitioner, Self >;
-  friend class JointHistogramMutualInformationComputeJointPDFThreader< ThreadedImageRegionPartitioner< Self::VirtualImageDimension >, Self >;
-  friend class JointHistogramMutualInformationComputeJointPDFThreader< ThreadedIndexedContainerPartitioner, Self >;
+  friend class JointHistogramMutualInformationComputeJointPDFThreaderBase<
+    ThreadedImageRegionPartitioner<Self::VirtualImageDimension>,
+    Self>;
+  friend class JointHistogramMutualInformationComputeJointPDFThreaderBase<ThreadedIndexedContainerPartitioner, Self>;
+  friend class JointHistogramMutualInformationComputeJointPDFThreader<
+    ThreadedImageRegionPartitioner<Self::VirtualImageDimension>,
+    Self>;
+  friend class JointHistogramMutualInformationComputeJointPDFThreader<ThreadedIndexedContainerPartitioner, Self>;
 
   using JointHistogramMutualInformationDenseComputeJointPDFThreaderType =
-      JointHistogramMutualInformationComputeJointPDFThreader< ThreadedImageRegionPartitioner< Self::VirtualImageDimension >, Self >;
+    JointHistogramMutualInformationComputeJointPDFThreader<ThreadedImageRegionPartitioner<Self::VirtualImageDimension>,
+                                                           Self>;
   using JointHistogramMutualInformationSparseComputeJointPDFThreaderType =
-      JointHistogramMutualInformationComputeJointPDFThreader< ThreadedIndexedContainerPartitioner, Self >;
+    JointHistogramMutualInformationComputeJointPDFThreader<ThreadedIndexedContainerPartitioner, Self>;
 
-  typename JointHistogramMutualInformationDenseComputeJointPDFThreaderType::Pointer  m_JointHistogramMutualInformationDenseComputeJointPDFThreader;
-  typename JointHistogramMutualInformationSparseComputeJointPDFThreaderType::Pointer m_JointHistogramMutualInformationSparseComputeJointPDFThreader;
+  typename JointHistogramMutualInformationDenseComputeJointPDFThreaderType::Pointer
+    m_JointHistogramMutualInformationDenseComputeJointPDFThreader;
+  typename JointHistogramMutualInformationSparseComputeJointPDFThreaderType::Pointer
+    m_JointHistogramMutualInformationSparseComputeJointPDFThreader;
 
-  friend class JointHistogramMutualInformationGetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Superclass, Self >;
-  friend class JointHistogramMutualInformationGetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >;
+  friend class JointHistogramMutualInformationGetValueAndDerivativeThreader<
+    ThreadedImageRegionPartitioner<Superclass::VirtualImageDimension>,
+    Superclass,
+    Self>;
+  friend class JointHistogramMutualInformationGetValueAndDerivativeThreader<ThreadedIndexedContainerPartitioner,
+                                                                            Superclass,
+                                                                            Self>;
 
   using JointHistogramMutualInformationDenseGetValueAndDerivativeThreaderType =
-      JointHistogramMutualInformationGetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Superclass, Self >;
+    JointHistogramMutualInformationGetValueAndDerivativeThreader<
+      ThreadedImageRegionPartitioner<Superclass::VirtualImageDimension>,
+      Superclass,
+      Self>;
   using JointHistogramMutualInformationSparseGetValueAndDerivativeThreaderType =
-      JointHistogramMutualInformationGetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >;
+    JointHistogramMutualInformationGetValueAndDerivativeThreader<ThreadedIndexedContainerPartitioner, Superclass, Self>;
 
   /** Standard PrintSelf method. */
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Count of the number of valid histogram points. */
-  SizeValueType   m_JointHistogramTotalCount{0};
+  SizeValueType m_JointHistogramTotalCount{ 0 };
 
 private:
   /** The fixed image marginal PDF */
@@ -196,32 +221,31 @@ private:
   typename MarginalPDFType::Pointer m_MovingImageMarginalPDF;
 
   /** The joint PDF and PDF derivatives. */
-  mutable typename JointPDFType::Pointer            m_JointPDF;
+  mutable typename JointPDFType::Pointer m_JointPDF;
 
   /** Flag to control smoothing of joint pdf */
-  TInternalComputationValueType        m_VarianceForJointPDFSmoothing;
+  TInternalComputationValueType m_VarianceForJointPDFSmoothing;
 
   /** Variables to define the marginal and joint histograms. */
-  SizeValueType                        m_NumberOfHistogramBins;
-  TInternalComputationValueType        m_FixedImageTrueMin;
-  TInternalComputationValueType        m_FixedImageTrueMax;
-  TInternalComputationValueType        m_MovingImageTrueMin;
-  TInternalComputationValueType        m_MovingImageTrueMax;
-  TInternalComputationValueType        m_FixedImageBinSize;
-  TInternalComputationValueType        m_MovingImageBinSize;
+  SizeValueType                 m_NumberOfHistogramBins;
+  TInternalComputationValueType m_FixedImageTrueMin;
+  TInternalComputationValueType m_FixedImageTrueMax;
+  TInternalComputationValueType m_MovingImageTrueMin;
+  TInternalComputationValueType m_MovingImageTrueMax;
+  TInternalComputationValueType m_FixedImageBinSize;
+  TInternalComputationValueType m_MovingImageBinSize;
 
-  TInternalComputationValueType        m_JointPDFSum;
-  JointPDFSpacingType                  m_JointPDFSpacing;
+  TInternalComputationValueType m_JointPDFSum;
+  JointPDFSpacingType           m_JointPDFSpacing;
 
-  TInternalComputationValueType        m_Log2;
-  JointPDFIndexValueType               m_Padding;
-
+  TInternalComputationValueType m_Log2;
+  JointPDFIndexValueType        m_Padding;
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkJointHistogramMutualInformationImageToImageMetricv4.hxx"
+#  include "itkJointHistogramMutualInformationImageToImageMetricv4.hxx"
 #endif
 
 #endif

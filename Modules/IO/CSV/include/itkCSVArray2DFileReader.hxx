@@ -27,25 +27,22 @@ namespace itk
 {
 
 template <typename TData>
-CSVArray2DFileReader<TData>
-::CSVArray2DFileReader()
+CSVArray2DFileReader<TData>::CSVArray2DFileReader()
 {
   this->m_Array2DDataObject = Array2DDataObjectType::New();
 }
 
 template <typename TData>
 void
-CSVArray2DFileReader<TData>
-::PrintSelf(std::ostream & os, Indent indent) const
+CSVArray2DFileReader<TData>::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
   os << this->m_Array2DDataObject << std::endl;
 }
 
 template <typename TData>
 void
-CSVArray2DFileReader <TData>
-::Parse()
+CSVArray2DFileReader<TData>::Parse()
 {
   SizeValueType rows = 0;
   SizeValueType columns = 0;
@@ -54,19 +51,16 @@ CSVArray2DFileReader <TData>
 
   this->m_InputStream.clear();
   this->m_InputStream.open(this->m_FileName.c_str());
-  if ( this->m_InputStream.fail() )
-    {
-    itkExceptionMacro(
-      "The file " << this->m_FileName <<" cannot be opened for reading!"
-      << std::endl
-      << "Reason: "
-      << itksys::SystemTools::GetLastSystemError() );
-    }
+  if (this->m_InputStream.fail())
+  {
+    itkExceptionMacro("The file " << this->m_FileName << " cannot be opened for reading!" << std::endl
+                                  << "Reason: " << itksys::SystemTools::GetLastSystemError());
+  }
 
   // Get the data dimension and set the matrix size
-  this->GetDataDimension(rows,columns);
+  this->GetDataDimension(rows, columns);
 
-  this->m_Array2DDataObject->SetMatrixSize(rows,columns);
+  this->m_Array2DDataObject->SetMatrixSize(rows, columns);
 
   /** initialize the matrix to NaN so that missing data will automatically be
    *  set to this value. */
@@ -75,65 +69,63 @@ CSVArray2DFileReader <TData>
   std::string entry;
 
   // Get the Column Headers if there are any.
-  if ( this->m_HasColumnHeaders )
-    {
+  if (this->m_HasColumnHeaders)
+  {
     this->m_Array2DDataObject->HasColumnHeadersOn();
 
     // push the entries into the column headers vector.
-    for (unsigned int i = 0; i < columns+1; i++)
-      {
+    for (unsigned int i = 0; i < columns + 1; i++)
+    {
       this->GetNextField(entry);
       this->m_Array2DDataObject->ColumnHeadersPushBack(entry);
-      if ( this->m_Line.empty() )
-        {
-        break;
-        }
-      }
-
-    /** if there are row headers, get rid of the first entry in the column
-     *  headers as it will just be the name of the table. */
-    if ( this->m_HasRowHeaders )
+      if (this->m_Line.empty())
       {
-      this->m_Array2DDataObject->EraseFirstColumnHeader();
+        break;
       }
     }
 
+    /** if there are row headers, get rid of the first entry in the column
+     *  headers as it will just be the name of the table. */
+    if (this->m_HasRowHeaders)
+    {
+      this->m_Array2DDataObject->EraseFirstColumnHeader();
+    }
+  }
+
   // Get the rest of the data
   for (unsigned int i = 0; i < rows; i++)
-    {
+  {
     // if there are row headers, push them into the vector for row headers
-    if ( this->m_HasRowHeaders )
-      {
+    if (this->m_HasRowHeaders)
+    {
       this->m_Array2DDataObject->HasRowHeadersOn();
       this->GetNextField(entry);
       this->m_Array2DDataObject->RowHeadersPushBack(entry);
-      }
+    }
 
     // parse the numeric data into the Array2D object
     for (unsigned int j = 0; j < columns; j++)
-      {
+    {
       this->GetNextField(entry);
-      this->m_Array2DDataObject->SetMatrixData(i,j,
-                                             this->ConvertStringToValueType<TData>(entry));
+      this->m_Array2DDataObject->SetMatrixData(i, j, this->ConvertStringToValueType<TData>(entry));
 
       /** if the file contains missing data, m_Line will contain less data
        * fields. So we check if m_Line is empty and if it is, we break out of
        * this loop and move to the next line. */
-      if ( this->m_Line.empty() )
-        {
+      if (this->m_Line.empty())
+      {
         break;
-        }
       }
     }
+  }
 
   this->m_InputStream.close();
 }
 
 /** Update method */
-template<typename TData>
+template <typename TData>
 void
-CSVArray2DFileReader<TData>
-::Update()
+CSVArray2DFileReader<TData>::Update()
 {
   this->Parse();
 }
@@ -141,13 +133,12 @@ CSVArray2DFileReader<TData>
 /** Get the output */
 template <typename TData>
 typename CSVArray2DFileReader<TData>::Array2DDataObjectPointer
-CSVArray2DFileReader<TData>
-::GetOutput()
+CSVArray2DFileReader<TData>::GetOutput()
 {
   return this->GetModifiableArray2DDataObject();
 }
 
 
-} //end namespace itk
+} // end namespace itk
 
 #endif

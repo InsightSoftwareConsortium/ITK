@@ -26,51 +26,68 @@
 namespace
 {
 
-  template< unsigned int D >
-  typename itk::EnableIfC< D == 1 >::Type
-  test1()
-  {std::cout << "D is one" << std::endl;}
-
-  template< unsigned int D >
-  typename itk::EnableIfC< D != 1 >::Type
-  test1()
-  {std::cout << "D is not one" << std::endl;}
-
-  template< typename T >
-  typename itk::EnableIfC< sizeof( T ) == 1 >::Type
-  test2()
-  {std::cout << "T is one in size" << std::endl;}
-
-  template< typename T >
-  typename itk::EnableIfC< sizeof(T) != 1 >::Type
-  test2()
-  {std::cout << "T is not one in size" << std::endl;}
-
-
-  template< typename T >
-  typename itk::EnableIfC< itk::IsSame<T, typename itk::NumericTraits<T>::ValueType>::Value >::Type
-  test3()
-  {std::cout << "T is enabled" << std::endl;}
-
-  template< typename T >
-  typename itk::DisableIfC< itk::IsSame<T, typename itk::NumericTraits<T>::ValueType>::Value >::Type
-  test3()
-  {std::cout << "T is disabled" << std::endl;}
-
-  template< typename T >
-  typename itk::EnableIfC< itk::IsSame<T, typename itk::NumericTraits<T>::ValueType>::Value >::Type
-  test4( const T & )
-  {std::cout << "T is enabled" << std::endl;}
-
-  template< typename T >
-  typename itk::DisableIfC< itk::IsSame<T, typename itk::NumericTraits<T>::ValueType>::Value >::Type
-  test4( const T & )
-  {std::cout << "T is disabled" << std::endl;}
-
-
+template <unsigned int D>
+typename itk::EnableIfC<D == 1>::Type
+test1()
+{
+  std::cout << "D is one" << std::endl;
 }
 
-int itkEnableIfTest( int, char*[] )
+template <unsigned int D>
+typename itk::EnableIfC<D != 1>::Type
+test1()
+{
+  std::cout << "D is not one" << std::endl;
+}
+
+template <typename T>
+typename itk::EnableIfC<sizeof(T) == 1>::Type
+test2()
+{
+  std::cout << "T is one in size" << std::endl;
+}
+
+template <typename T>
+typename itk::EnableIfC<sizeof(T) != 1>::Type
+test2()
+{
+  std::cout << "T is not one in size" << std::endl;
+}
+
+
+template <typename T>
+typename itk::EnableIfC<itk::IsSame<T, typename itk::NumericTraits<T>::ValueType>::Value>::Type
+test3()
+{
+  std::cout << "T is enabled" << std::endl;
+}
+
+template <typename T>
+typename itk::DisableIfC<itk::IsSame<T, typename itk::NumericTraits<T>::ValueType>::Value>::Type
+test3()
+{
+  std::cout << "T is disabled" << std::endl;
+}
+
+template <typename T>
+typename itk::EnableIfC<itk::IsSame<T, typename itk::NumericTraits<T>::ValueType>::Value>::Type
+test4(const T &)
+{
+  std::cout << "T is enabled" << std::endl;
+}
+
+template <typename T>
+typename itk::DisableIfC<itk::IsSame<T, typename itk::NumericTraits<T>::ValueType>::Value>::Type
+test4(const T &)
+{
+  std::cout << "T is disabled" << std::endl;
+}
+
+
+} // namespace
+
+int
+itkEnableIfTest(int, char *[])
 {
 
   test1<0>();
@@ -79,12 +96,12 @@ int itkEnableIfTest( int, char*[] )
 
   test2<char>();
   test2<int>();
-  test2<void*>();
+  test2<void *>();
 
   test3<int>();
-  test3<itk::FixedArray<double,3> >();
+  test3<itk::FixedArray<double, 3>>();
 
-  test4( 1 );
-  test4( itk::FixedArray<double,3>() );
+  test4(1);
+  test4(itk::FixedArray<double, 3>());
   return EXIT_SUCCESS;
 }

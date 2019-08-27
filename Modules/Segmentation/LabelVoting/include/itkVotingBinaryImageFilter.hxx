@@ -30,34 +30,31 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage >
-VotingBinaryImageFilter< TInputImage, TOutputImage >
-::VotingBinaryImageFilter()
+template <typename TInputImage, typename TOutputImage>
+VotingBinaryImageFilter<TInputImage, TOutputImage>::VotingBinaryImageFilter()
 {
   m_Radius.Fill(1);
-  m_ForegroundValue = NumericTraits< InputPixelType >::max();
-  m_BackgroundValue = NumericTraits< InputPixelType >::ZeroValue();
+  m_ForegroundValue = NumericTraits<InputPixelType>::max();
+  m_BackgroundValue = NumericTraits<InputPixelType>::ZeroValue();
   m_BirthThreshold = 1;
   m_SurvivalThreshold = 1;
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-VotingBinaryImageFilter< TInputImage, TOutputImage >
-::GenerateInputRequestedRegion()
+VotingBinaryImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  typename Superclass::InputImagePointer inputPtr =
-    const_cast< TInputImage * >( this->GetInput() );
+  typename Superclass::InputImagePointer  inputPtr = const_cast<TInputImage *>(this->GetInput());
   typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
 
-  if ( !inputPtr || !outputPtr )
-    {
+  if (!inputPtr || !outputPtr)
+  {
     return;
-    }
+  }
 
   // get a copy of the input requested region (should equal the output
   // requested region)
@@ -68,13 +65,13 @@ VotingBinaryImageFilter< TInputImage, TOutputImage >
   inputRequestedRegion.PadByRadius(m_Radius);
 
   // crop the input requested region at the input's largest possible region
-  if ( inputRequestedRegion.Crop( inputPtr->GetLargestPossibleRegion() ) )
-    {
+  if (inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion()))
+  {
     inputPtr->SetRequestedRegion(inputRequestedRegion);
     return;
-    }
+  }
   else
-    {
+  {
     // Couldn't crop the region (requested region is outside the largest
     // possible region).  Throw an exception.
 
@@ -87,90 +84,89 @@ VotingBinaryImageFilter< TInputImage, TOutputImage >
     e.SetDescription("Requested region is (at least partially) outside the largest possible region.");
     e.SetDataObject(inputPtr);
     throw e;
-    }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-VotingBinaryImageFilter< TInputImage, TOutputImage >
-::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
+VotingBinaryImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
 {
-  ZeroFluxNeumannBoundaryCondition< InputImageType > nbc;
+  ZeroFluxNeumannBoundaryCondition<InputImageType> nbc;
 
-  ConstNeighborhoodIterator< InputImageType > bit;
-  ImageRegionIterator< OutputImageType >      it;
+  ConstNeighborhoodIterator<InputImageType> bit;
+  ImageRegionIterator<OutputImageType>      it;
 
-  typename OutputImageType::Pointer output = this->GetOutput();
-  typename InputImageType::ConstPointer input  = this->GetInput();
+  typename OutputImageType::Pointer     output = this->GetOutput();
+  typename InputImageType::ConstPointer input = this->GetInput();
 
   // Find the data-set boundary "faces"
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >::FaceListType faceList;
-  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType > bC;
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList;
+  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>                        bC;
   faceList = bC(input, outputRegionForThread, m_Radius);
 
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >::FaceListType::iterator fit;
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator fit;
 
   // Process each of the boundary faces.  These are N-d regions which border
   // the edge of the buffer.
-  for ( fit = faceList.begin(); fit != faceList.end(); ++fit )
-    {
-    bit = ConstNeighborhoodIterator< InputImageType >(m_Radius, input, *fit);
-    it  = ImageRegionIterator< OutputImageType >(output, *fit);
+  for (fit = faceList.begin(); fit != faceList.end(); ++fit)
+  {
+    bit = ConstNeighborhoodIterator<InputImageType>(m_Radius, input, *fit);
+    it = ImageRegionIterator<OutputImageType>(output, *fit);
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
 
     unsigned int neighborhoodSize = bit.Size();
 
-    while ( !bit.IsAtEnd() )
-      {
+    while (!bit.IsAtEnd())
+    {
       const InputPixelType inpixel = bit.GetCenterPixel();
 
       // count the pixels ON in the neighborhood
       unsigned int count = 0;
-      for ( unsigned int i = 0; i < neighborhoodSize; ++i )
-        {
+      for (unsigned int i = 0; i < neighborhoodSize; ++i)
+      {
         InputPixelType value = bit.GetPixel(i);
-        if ( value == m_ForegroundValue )
-          {
+        if (value == m_ForegroundValue)
+        {
           count++;
-          }
         }
+      }
 
       // Unless the birth or survival rate is meet the pixel will be
       // the same value
-      it.Set( static_cast< OutputPixelType >( inpixel ) );
+      it.Set(static_cast<OutputPixelType>(inpixel));
 
-      if ( inpixel == m_BackgroundValue && count >= m_BirthThreshold )
-        {
-        it.Set( static_cast< OutputPixelType >( m_ForegroundValue ) );
-        }
-      else if ( inpixel == m_ForegroundValue && count < m_SurvivalThreshold )
-        {
-        it.Set( static_cast< OutputPixelType >( m_BackgroundValue ) );
-        }
+      if (inpixel == m_BackgroundValue && count >= m_BirthThreshold)
+      {
+        it.Set(static_cast<OutputPixelType>(m_ForegroundValue));
+      }
+      else if (inpixel == m_ForegroundValue && count < m_SurvivalThreshold)
+      {
+        it.Set(static_cast<OutputPixelType>(m_BackgroundValue));
+      }
 
       ++bit;
       ++it;
-      }
     }
+  }
 }
 
 /**
  * Standard "PrintSelf" method
  */
-template< typename TInputImage, typename TOutput >
+template <typename TInputImage, typename TOutput>
 void
-VotingBinaryImageFilter< TInputImage, TOutput >
-::PrintSelf(
-  std::ostream & os,
-  Indent indent) const
+VotingBinaryImageFilter<TInputImage, TOutput>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Radius: " << m_Radius << std::endl;
-  os << indent << "Foreground value : "
-     << static_cast< typename NumericTraits< InputPixelType >::PrintType >( m_ForegroundValue ) << std::endl;
-  os << indent << "Background value : "
-     << static_cast< typename NumericTraits< InputPixelType >::PrintType >( m_BackgroundValue ) << std::endl;
+  os << indent
+     << "Foreground value : " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_ForegroundValue)
+     << std::endl;
+  os << indent
+     << "Background value : " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_BackgroundValue)
+     << std::endl;
   os << indent << "Birth Threshold   : " << m_BirthThreshold << std::endl;
   os << indent << "Survival Threshold   : " << m_SurvivalThreshold << std::endl;
 }

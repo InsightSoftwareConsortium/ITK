@@ -58,8 +58,8 @@ public:
   /** Standard class type aliases. */
   using Self = DOMNode;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -68,14 +68,14 @@ public:
   itkTypeMacro(DOMNode, Object);
 
   /** Container to return all or a subset of the children of a DOM node. */
-  using ChildrenListType = std::vector<DOMNode*>;
-  using ConstChildrenListType = std::vector<const DOMNode*>;
+  using ChildrenListType = std::vector<DOMNode *>;
+  using ConstChildrenListType = std::vector<const DOMNode *>;
 
   /** An attribute is a pair of <key,value>, both key and value are strings. */
   using AttributeKeyType = std::string;
   using AttributeValueType = std::string;
 
-  using AttributeItemType = std::pair<const AttributeKeyType,AttributeValueType>;
+  using AttributeItemType = std::pair<const AttributeKeyType, AttributeValueType>;
 
   /** Container to return the attributes of a DOM node. */
   using AttributesListType = std::list<AttributeItemType>;
@@ -85,89 +85,122 @@ public:
   using OffsetType = int;
 
   /** Retrieve the parent node. */
-  virtual void SetParent( DOMNode* node );
-  DOMNode* GetParent();
-  const DOMNode* GetParent() const;
+  virtual void
+  SetParent(DOMNode * node);
+  DOMNode *
+  GetParent();
+  const DOMNode *
+  GetParent() const;
 
   /** Retrieve the tag name of this node. */
-  itkSetMacro( Name, std::string& );
-  itkGetConstReferenceMacro( Name, std::string );
+  itkSetMacro(Name, std::string &);
+  itkGetConstReferenceMacro(Name, std::string);
 
   /** Retrieve the special attribute "id" of this node. */
-  itkSetMacro( ID, std::string& );
-  itkGetConstReferenceMacro( ID, std::string );
+  itkSetMacro(ID, std::string &);
+  itkGetConstReferenceMacro(ID, std::string);
 
   /** Retrieve an attribute by key (return an empty string if not found). */
-  virtual std::string GetAttribute( const std::string& key ) const;
+  virtual std::string
+  GetAttribute(const std::string & key) const;
   /** Check whether has an attribute. */
-  virtual bool HasAttribute( const std::string& key ) const;
+  virtual bool
+  HasAttribute(const std::string & key) const;
   /** Add or replace an attribute. */
-  virtual void SetAttribute( const std::string& key, const std::string& value );
+  virtual void
+  SetAttribute(const std::string & key, const std::string & value);
   /** Remove an attribute by key (throw exception if not found). */
-  virtual void RemoveAttribute( const std::string& key );
+  virtual void
+  RemoveAttribute(const std::string & key);
 
   /**
    * Return all attributes, in the order of being parsed or added (default),
    * or alphabetic order of the attribute keys (keepOriginalOrder = false).
    */
-  virtual void GetAllAttributes( AttributesListType& output, bool keepOriginalOrder = true ) const;
+  virtual void
+  GetAllAttributes(AttributesListType & output, bool keepOriginalOrder = true) const;
   /** Remove all attributes. */
-  virtual void RemoveAllAttributes();
+  virtual void
+  RemoveAllAttributes();
 
   /** Get number of children. */
-  virtual SizeType GetNumberOfChildren() const;
+  virtual SizeType
+  GetNumberOfChildren() const;
 
   /** Return all children. */
-  virtual void GetAllChildren( ChildrenListType& output );
+  virtual void
+  GetAllChildren(ChildrenListType & output);
   /** Return all children for read-only access. */
-  virtual void GetAllChildren( ConstChildrenListType& output ) const;
+  virtual void
+  GetAllChildren(ConstChildrenListType & output) const;
 
   /** Return all children of a same tag name. */
-  virtual void GetChildren( const std::string& tag, ChildrenListType& output );
+  virtual void
+  GetChildren(const std::string & tag, ChildrenListType & output);
   /** Return all children of a same tag name for read-only access. */
-  virtual void GetChildren( const std::string& tag, ConstChildrenListType& output ) const;
+  virtual void
+  GetChildren(const std::string & tag, ConstChildrenListType & output) const;
 
   /** Remove all children. */
-  virtual void RemoveAllChildren();
+  virtual void
+  RemoveAllChildren();
 
   /** Add a child in front of another child (throw exception if not able to add). */
-  virtual void AddChild( DOMNode* node, IdentifierType i=0 );
+  virtual void
+  AddChild(DOMNode * node, IdentifierType i = 0);
   /** Add a child in front of the children list (throw exception if not able to add). */
-  virtual void AddChildAtBegin( DOMNode* node );
+  virtual void
+  AddChildAtBegin(DOMNode * node);
   /** Add a child at the end of the children list (throw exception if not able to add). */
-  virtual void AddChildAtEnd( DOMNode* node );
+  virtual void
+  AddChildAtEnd(DOMNode * node);
 
   /** Replace a child (throw exception if not able to replace). */
-  virtual void SetChild( DOMNode* node, IdentifierType i=0 );
+  virtual void
+  SetChild(DOMNode * node, IdentifierType i = 0);
 
   /** Remove a child by index (throw exception if not able to remove). */
-  virtual void RemoveChild( IdentifierType i=0 );
+  virtual void
+  RemoveChild(IdentifierType i = 0);
 
   /** Remove all attributes and children. */
-  virtual void RemoveAllAttributesAndChildren();
+  virtual void
+  RemoveAllAttributesAndChildren();
 
   /** Retrieve a child by index (return nullptr if i is out of range). */
-  virtual DOMNode* GetChild( IdentifierType i=0 );
-  virtual const DOMNode* GetChild( IdentifierType i=0 ) const;
+  virtual DOMNode *
+  GetChild(IdentifierType i = 0);
+  virtual const DOMNode *
+  GetChild(IdentifierType i = 0) const;
 
-  /** Retrieve a child by tag name and an index (multiple children can have a same tag name, return nullptr if no such child). */
-  virtual DOMNode* GetChild( const std::string& tag, IdentifierType i=0 );
-  virtual const DOMNode* GetChild( const std::string& tag, IdentifierType i=0 ) const;
+  /** Retrieve a child by tag name and an index (multiple children can have a same tag name, return nullptr if no such
+   * child). */
+  virtual DOMNode *
+  GetChild(const std::string & tag, IdentifierType i = 0);
+  virtual const DOMNode *
+  GetChild(const std::string & tag, IdentifierType i = 0) const;
 
   /** Retrieve a child by its unique "id" attribute value (return nullptr if not found). */
-  virtual DOMNode* GetChildByID( const std::string& value );
-  virtual const DOMNode* GetChildByID( const std::string& value ) const;
+  virtual DOMNode *
+  GetChildByID(const std::string & value);
+  virtual const DOMNode *
+  GetChildByID(const std::string & value) const;
 
   /** Retrieve an older or younger sibling by distance (return nullptr if no such sibling). */
-  virtual DOMNode* GetSibling( OffsetType i );
-  virtual const DOMNode* GetSibling( OffsetType i ) const;
+  virtual DOMNode *
+  GetSibling(OffsetType i);
+  virtual const DOMNode *
+  GetSibling(OffsetType i) const;
 
   /** Return the root node. */
-  virtual DOMNode* GetRoot();
-  virtual const DOMNode* GetRoot() const;
+  virtual DOMNode *
+  GetRoot();
+  virtual const DOMNode *
+  GetRoot() const;
 
   /** Test whether the input node and this node share the same root. */
-  virtual bool ShareRoot( const DOMNode* node ) const;
+  virtual bool
+  ShareRoot(const DOMNode * node) const;
 
   /**
    * The following function finds a child or sibling or relative using a query string or path.
@@ -186,32 +219,41 @@ public:
    *
    * The method returns nullptr if queried node does not exist.
    */
-  virtual DOMNode* Find( const std::string& path );
-  virtual const DOMNode* Find( const std::string& path ) const;
+  virtual DOMNode *
+  Find(const std::string & path);
+  virtual const DOMNode *
+  Find(const std::string & path) const;
 
   /** Return the path of this node within its root, in the form of a query string that uses only indices. */
-  virtual std::string GetPath() const;
+  virtual std::string
+  GetPath() const;
 
   /** Get a child and cast it to a text node (return nullptr if out of range or not a text node). */
-  virtual DOMTextNode* GetTextChild( IdentifierType i=0 );
-  virtual const DOMTextNode* GetTextChild( IdentifierType i=0 ) const;
+  virtual DOMTextNode *
+  GetTextChild(IdentifierType i = 0);
+  virtual const DOMTextNode *
+  GetTextChild(IdentifierType i = 0) const;
 
   /** Generate a text node from a string and add/insert it as a child (see AddChild(node,i)). */
-  virtual void AddTextChild( const std::string& text, IdentifierType i=0 );
+  virtual void
+  AddTextChild(const std::string & text, IdentifierType i = 0);
   /** Generate a text node from a string and add/insert in front of all children. */
-  virtual void AddTextChildAtBegin( const std::string& text );
+  virtual void
+  AddTextChildAtBegin(const std::string & text);
   /** Generate a text node from a string and add/insert at the end of all children. */
-  virtual void AddTextChildAtEnd( const std::string& text );
+  virtual void
+  AddTextChildAtEnd(const std::string & text);
 
   /** Generate a text node from a string and replace a child with it (see SetChild(node,i). */
-  virtual void SetTextChild( const std::string& text, IdentifierType i=0 );
+  virtual void
+  SetTextChild(const std::string & text, IdentifierType i = 0);
 
 protected:
   DOMNode();
 
 private:
   /** The parent node that this node was placed into. */
-  DOMNode* m_Parent{ nullptr };
+  DOMNode * m_Parent{ nullptr };
 
   /** The XML tag of this node. */
   std::string m_Name;
@@ -224,13 +266,12 @@ private:
   ChildrenContainer m_Children;
 
   /** Internally the attributes are stored in a map. */
-  using AttributesContainer = std::map<AttributeKeyType,AttributeValueType>;
+  using AttributesContainer = std::map<AttributeKeyType, AttributeValueType>;
   AttributesContainer m_Attributes;
 
   /** Container to keep the inserting orders of the attributes. */
-  using OrderedAttributesContainer = std::list<AttributeItemType*>;
+  using OrderedAttributesContainer = std::list<AttributeItemType *>;
   OrderedAttributesContainer m_OrderedAttributes;
-
 };
 
 } // namespace itk

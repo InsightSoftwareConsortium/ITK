@@ -22,7 +22,8 @@ namespace itk
 {
 
 
-void StreamingProcessObject::GenerateData( void )
+void
+StreamingProcessObject::GenerateData(void)
 {
   // The m_Updating flag used in StreamingProcessObject::UpdateOutputData
   // should prevent recursive execution.
@@ -41,23 +42,23 @@ void StreamingProcessObject::GenerateData( void )
   // Loop over the number of pieces, execute the upstream pipeline on each
   // piece, and execute StreamedGenerateData on each region
   //
-  for (unsigned int piece = 0; piece < numberOfInputRequestRegion  && !this->GetAbortGenerateData();  piece++)
-    {
+  for (unsigned int piece = 0; piece < numberOfInputRequestRegion && !this->GetAbortGenerateData(); piece++)
+  {
     this->m_CurrentRequestNumber = piece;
 
-    this->GenerateNthInputRequestedRegion( piece );
+    this->GenerateNthInputRequestedRegion(piece);
 
     //
     // Now that we know the input requested region, propagate this
     // through all the inputs.
     // ;
-    for (auto &inputName: this->GetInputNames())
-      {
+    for (auto & inputName : this->GetInputNames())
+    {
       if (this->GetInput(inputName))
-        {
+      {
         this->GetInput(inputName)->PropagateRequestedRegion();
-        }
       }
+    }
 
     //
     // Propagate the update call - make sure everything we
@@ -65,38 +66,38 @@ void StreamingProcessObject::GenerateData( void )
     // Must call PropagateRequestedRegion before UpdateOutputData if multiple
     // inputs since they may lead back to the same data object.
     m_Updating = true;
-    for (auto &inputName: this->GetInputNames())
-      {
+    for (auto & inputName : this->GetInputNames())
+    {
       if (this->GetInput(inputName))
+      {
+        if (inputName != this->GetPrimaryInputName() && this->GetNumberOfInputs() > 1)
         {
-        if ( inputName != this->GetPrimaryInputName()  && this->GetNumberOfInputs() > 1)
-          {
           this->GetInput(inputName)->PropagateRequestedRegion();
-          }
-        this->GetInput(inputName)->UpdateOutputData();
         }
+        this->GetInput(inputName)->UpdateOutputData();
       }
+    }
 
     //
     try
-      {
-      this->StreamedGenerateData( piece );
-      this->UpdateProgress( float( piece+1 ) / numberOfInputRequestRegion);
-      }
-    catch( ProcessAborted & )
-      {
-      this->InvokeEvent( AbortEvent() );
-      this->ResetPipeline();
-      this->RestoreInputReleaseDataFlags();
-      throw;
-      }
-    catch( ... )
-      {
-      this->ResetPipeline();
-      this->RestoreInputReleaseDataFlags();
-      throw;
-      }
+    {
+      this->StreamedGenerateData(piece);
+      this->UpdateProgress(float(piece + 1) / numberOfInputRequestRegion);
     }
+    catch (ProcessAborted &)
+    {
+      this->InvokeEvent(AbortEvent());
+      this->ResetPipeline();
+      this->RestoreInputReleaseDataFlags();
+      throw;
+    }
+    catch (...)
+    {
+      this->ResetPipeline();
+      this->RestoreInputReleaseDataFlags();
+      throw;
+    }
+  }
 
   m_CurrentRequestNumber = -1;
 
@@ -104,16 +105,17 @@ void StreamingProcessObject::GenerateData( void )
 }
 
 
-void StreamingProcessObject::UpdateOutputData(DataObject *itkNotUsed(output))
+void
+StreamingProcessObject::UpdateOutputData(DataObject * itkNotUsed(output))
 {
 
   //
-  //prevent chasing our tail
+  // prevent chasing our tail
   //
   if (this->m_Updating)
-    {
+  {
     return;
-    }
+  }
 
 
   //
@@ -136,48 +138,48 @@ void StreamingProcessObject::UpdateOutputData(DataObject *itkNotUsed(output))
    */
   const DataObjectPointerArraySizeType ninputs = this->GetNumberOfValidRequiredInputs();
   if (ninputs < this->GetNumberOfRequiredInputs())
-    {
-    itkExceptionMacro(<< "At least " << this->GetNumberOfRequiredInputs()
-      << " inputs are required but only " << ninputs << " are specified.");
-    }
+  {
+    itkExceptionMacro(<< "At least " << this->GetNumberOfRequiredInputs() << " inputs are required but only " << ninputs
+                      << " are specified.");
+  }
 
-  this->SetAbortGenerateData( false );
+  this->SetAbortGenerateData(false);
   this->UpdateProgress(0.0);
   this->m_Updating = true;
 
   /*
    * Tell all Observers that the filter is starting
    */
-  this->InvokeEvent( StartEvent() );
+  this->InvokeEvent(StartEvent());
 
-  this->Self::GenerateData( );
+  this->Self::GenerateData();
   /*
    * If we ended due to aborting, push the progress up to 1.0 (since
    * it probably didn't end there)
    */
-  if ( this->GetAbortGenerateData() )
-    {
+  if (this->GetAbortGenerateData())
+  {
     this->UpdateProgress(1.0);
-    }
+  }
 
   // Notify end event observers
-  this->InvokeEvent( EndEvent() );
+  this->InvokeEvent(EndEvent());
 
 
   /*
    * Now we have to mark the data as up to data.
    */
-  for (auto &outputName : this->GetOutputNames())
-    {
+  for (auto & outputName : this->GetOutputNames())
+  {
     if (this->GetOutput(outputName))
-      {
+    {
       this->GetOutput(outputName)->DataHasBeenGenerated();
-      }
     }
+  }
 
   /* DO NOT Restore the state of any input ReleaseDataFlags
    */
-  //this->RestoreInputReleaseDataFlags();
+  // this->RestoreInputReleaseDataFlags();
 
   /**
    * Release any inputs if marked for release
@@ -186,47 +188,50 @@ void StreamingProcessObject::UpdateOutputData(DataObject *itkNotUsed(output))
 
   // Mark that we are no longer updating the data in this filter
   this->m_Updating = false;
-
 }
 
 
-int StreamingProcessObject::GetCurrentRequestNumber( ) const
+int
+StreamingProcessObject::GetCurrentRequestNumber() const
 {
   return m_CurrentRequestNumber;
 }
 
 
-void StreamingProcessObject::ResetPipeline()
+void
+StreamingProcessObject::ResetPipeline()
 {
   Superclass::ResetPipeline();
   m_CurrentRequestNumber = -1;
 }
 
 
-StreamingProcessObject::StreamingProcessObject( void ) = default;
+StreamingProcessObject::StreamingProcessObject(void) = default;
 
 
-StreamingProcessObject::~StreamingProcessObject( ) = default;
+StreamingProcessObject::~StreamingProcessObject() = default;
 
 
-void StreamingProcessObject::PrintSelf(std::ostream& os, Indent indent) const
+void
+StreamingProcessObject::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "Current Request Number: " << this->m_CurrentRequestNumber << std::endl;
 }
 
 
-void StreamingProcessObject::PropagateRequestedRegion(DataObject *output)
+void
+StreamingProcessObject::PropagateRequestedRegion(DataObject * output)
 {
 
   /**
    * check flag to avoid executing forever if there is a loop
    */
   if (this->m_Updating)
-    {
+  {
     return;
-    }
+  }
 
   /**
    * Give the subclass a chance to indicate that it will provide
@@ -235,7 +240,7 @@ void StreamingProcessObject::PropagateRequestedRegion(DataObject *output)
    * Although this is being called for a specific output, the source
    * may need to enlarge all outputs.
    */
-  this->EnlargeOutputRequestedRegion( output );
+  this->EnlargeOutputRequestedRegion(output);
 
 
   /**
@@ -245,7 +250,7 @@ void StreamingProcessObject::PropagateRequestedRegion(DataObject *output)
    * requested regions the same.  A subclass may need to override this
    * method if each output is a different resolution.
    */
-  this->GenerateOutputRequestedRegion( output );
+  this->GenerateOutputRequestedRegion(output);
 
   // we don't call GenerateInputRequestedRegion since the requested
   // regions are managed when the pipeline is execute
@@ -255,12 +260,12 @@ void StreamingProcessObject::PropagateRequestedRegion(DataObject *output)
 }
 
 
-void StreamingProcessObject::BeforeStreamedGenerateData( void )
-{
-}
+void
+StreamingProcessObject::BeforeStreamedGenerateData(void)
+{}
 
-void StreamingProcessObject::AfterStreamedGenerateData( void )
-{
-}
+void
+StreamingProcessObject::AfterStreamedGenerateData(void)
+{}
 
 } // end namespace itk

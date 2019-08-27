@@ -31,24 +31,24 @@ namespace itk
  *
  * \ingroup ITKGPUAnisotropicSmoothing
  */
-template< typename TInputImage, typename TOutputImage, typename TParentImageFilter =
-            AnisotropicDiffusionImageFilter< TInputImage, TOutputImage > >
-class ITK_TEMPLATE_EXPORT GPUAnisotropicDiffusionImageFilter :
-  public GPUDenseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
+template <typename TInputImage,
+          typename TOutputImage,
+          typename TParentImageFilter = AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>>
+class ITK_TEMPLATE_EXPORT GPUAnisotropicDiffusionImageFilter
+  : public GPUDenseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GPUAnisotropicDiffusionImageFilter);
 
   /** Standard class type aliases. */
   using Self = GPUAnisotropicDiffusionImageFilter;
-  using GPUSuperclass = GPUDenseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >;
-  using CPUSuperclass = AnisotropicDiffusionImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using GPUSuperclass = GPUDenseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>;
+  using CPUSuperclass = AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information. */
-  itkTypeMacro(GPUAnisotropicDiffusionImageFilter,
-               GPUDenseFiniteDifferenceImageFilter);
+  itkTypeMacro(GPUAnisotropicDiffusionImageFilter, GPUDenseFiniteDifferenceImageFilter);
 
   /** Capture information from the superclass. */
   using InputImageType = typename GPUSuperclass::InputImageType;
@@ -67,15 +67,17 @@ public:
 protected:
   GPUAnisotropicDiffusionImageFilter() {}
   ~GPUAnisotropicDiffusionImageFilter() override {}
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Prepare for the iteration process. */
-  void InitializeIteration() override;
+  void
+  InitializeIteration() override;
 };
-} // end namspace itk
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGPUAnisotropicDiffusionImageFilter.hxx"
+#  include "itkGPUAnisotropicDiffusionImageFilter.hxx"
 #endif
 
 #endif

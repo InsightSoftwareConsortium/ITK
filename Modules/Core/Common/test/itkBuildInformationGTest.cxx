@@ -18,7 +18,7 @@
 
 /*
  * Tests for the itk::BuildInformation class
-*/
+ */
 
 #include <iostream>
 #include <array>
@@ -28,7 +28,8 @@
 #include "itkBuildInformation.h"
 
 
-TEST(ITKBuildInformation, InformationFeatures  ) {
+TEST(ITKBuildInformation, InformationFeatures)
+{
   using MapType = itk::BuildInformation::MapType;
 
   itk::BuildInformation::Pointer instance = itk::BuildInformation::GetInstance();
@@ -38,28 +39,27 @@ TEST(ITKBuildInformation, InformationFeatures  ) {
   const MapType & localMap = instance->GetMap();
 
   auto it = localMap.find("PROJECT_URL");
-  EXPECT_EQ( it != localMap.end(), true);
-  if (  it != localMap.end() )
+  EXPECT_EQ(it != localMap.end(), true);
+  if (it != localMap.end())
   {
-    EXPECT_EQ(it->first, std::string{"PROJECT_URL"} );
-    EXPECT_EQ(it->second.m_Value, std::string{"http://www.itk.org"} );
-    EXPECT_EQ(it->second.m_Description, std::string{"The URL of project."});
+    EXPECT_EQ(it->first, std::string{ "PROJECT_URL" });
+    EXPECT_EQ(it->second.m_Value, std::string{ "http://www.itk.org" });
+    EXPECT_EQ(it->second.m_Description, std::string{ "The URL of project." });
   }
 
-  for(auto mapEntry : localMap)
-    {
+  for (auto mapEntry : localMap)
+  {
     std::cout << "--------------------------------------------------------------------" << std::endl
               << "Key: " << mapEntry.first << std::endl
               << "\tValue: " << mapEntry.second.m_Value << std::endl
-              << "\tDescription: " << mapEntry.second.m_Description
-              << std::endl;
-    }
+              << "\tDescription: " << mapEntry.second.m_Description << std::endl;
+  }
 
-  EXPECT_EQ(itk::BuildInformation::GetValue("PROJECT_URL"),"http://www.itk.org");
+  EXPECT_EQ(itk::BuildInformation::GetValue("PROJECT_URL"), "http://www.itk.org");
 
-  EXPECT_GT( itk::BuildInformation::GetAllKeys().size(), static_cast<size_t>(5) );
+  EXPECT_GT(itk::BuildInformation::GetAllKeys().size(), static_cast<size_t>(5));
 
-  for(const auto & keyEntry: itk::BuildInformation::GetAllKeys() )
+  for (const auto & keyEntry : itk::BuildInformation::GetAllKeys())
   {
     std::cout << keyEntry << std::endl;
   }

@@ -60,17 +60,19 @@ public:
   /** Standard class type aliases. */
   using Self = ThreadPool;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
+  using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ThreadPool, Object);
 
   /** Returns the global instance */
-  static Pointer New();
+  static Pointer
+  New();
 
   /** Returns the global singleton instance of the ThreadPool */
-  static Pointer GetInstance();
+  static Pointer
+  GetInstance();
 
   /** Add this job to the thread pool queue.
    *
@@ -80,61 +82,65 @@ public:
 auto result = pool->AddWork([](int param) { return param; }, 7);
 \endcode
    * std::cout << result.get() << std::endl; */
-  template< class Function, class... Arguments >
+  template <class Function, class... Arguments>
   auto
-  AddWork( Function&& function, Arguments&&... arguments )
-    -> std::future< typename std::result_of< Function( Arguments... ) >::type >
+  AddWork(Function && function, Arguments &&... arguments)
+    -> std::future<typename std::result_of<Function(Arguments...)>::type>
   {
-    using return_type = typename std::result_of< Function( Arguments... ) >::type;
+    using return_type = typename std::result_of<Function(Arguments...)>::type;
 
-    auto task = std::make_shared< std::packaged_task< return_type() > >(
-      std::bind( std::forward< Function >( function ), std::forward< Arguments >( arguments )... ) );
+    auto task = std::make_shared<std::packaged_task<return_type()>>(
+      std::bind(std::forward<Function>(function), std::forward<Arguments>(arguments)...));
 
-    std::future< return_type > res = task->get_future();
+    std::future<return_type> res = task->get_future();
     {
-      std::unique_lock< std::mutex > lock( this->GetMutex() );
-      m_WorkQueue.emplace_back( [task]() { ( *task )(); } );
+      std::unique_lock<std::mutex> lock(this->GetMutex());
+      m_WorkQueue.emplace_back([task]() { (*task)(); });
     }
     m_Condition.notify_one();
     return res;
   }
 
   /** Can call this method if we want to add extra threads to the pool. */
-  void AddThreads(ThreadIdType count);
+  void
+  AddThreads(ThreadIdType count);
 
-  ThreadIdType GetMaximumNumberOfThreads() const
+  ThreadIdType
+  GetMaximumNumberOfThreads() const
   {
-    return static_cast< ThreadIdType >( m_Threads.size() );
+    return static_cast<ThreadIdType>(m_Threads.size());
   }
 
   /** The approximate number of idle threads. */
-  int GetNumberOfCurrentlyIdleThreads() const;
+  int
+  GetNumberOfCurrentlyIdleThreads() const;
 
   /** Set/Get wait for threads.
   This function should be used carefully, probably only during static
   initialization phase to disable waiting for threads when ITK is built as a
   static library and linked into a shared library (Windows only).*/
-  static bool GetDoNotWaitForThreads();
-  static void SetDoNotWaitForThreads(bool doNotWaitForThreads);
+  static bool
+  GetDoNotWaitForThreads();
+  static void
+  SetDoNotWaitForThreads(bool doNotWaitForThreads);
 
 protected:
-
   /* We need access to the mutex in AddWork, and the variable is only
    * visible in .cxx file, so this method returns it. */
-  std::mutex& GetMutex();
+  std::mutex &
+  GetMutex();
 
   ThreadPool();
   ~ThreadPool() override;
 
 private:
-
   /** Only used to synchronize the global variable across static libraries.*/
   itkGetGlobalDeclarationMacro(ThreadPoolGlobals, PimplGlobals);
 
   /** This is a list of jobs submitted to the thread pool.
    * This is the only place where the jobs are submitted.
    * Filled by AddWork, emptied by ThreadExecute. */
-  std::deque< std::function< void() > > m_WorkQueue;
+  std::deque<std::function<void()>> m_WorkQueue;
 
   /** When a thread is idle, it is waiting on m_Condition.
    * AddWork signals it to resume a (random) thread. */
@@ -142,7 +148,7 @@ private:
 
   /** Vector to hold all thread handles.
    * Thread handles are used to delete (join) the threads. */
-  std::vector< std::thread > m_Threads;
+  std::vector<std::thread> m_Threads;
 
   /* Has destruction started? */
   bool m_Stopping{ false };
@@ -151,8 +157,9 @@ private:
   static ThreadPoolGlobals * m_PimplGlobals;
 
   /** The continuously running thread function */
-  static void ThreadExecute();
+  static void
+  ThreadExecute();
 };
 
-}
+} // namespace itk
 #endif

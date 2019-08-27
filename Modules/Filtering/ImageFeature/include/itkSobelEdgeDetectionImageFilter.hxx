@@ -27,26 +27,24 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-SobelEdgeDetectionImageFilter< TInputImage, TOutputImage >
-::GenerateInputRequestedRegion()
+SobelEdgeDetectionImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method. this should
   // copy the output requested region to the input requested region
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  InputImagePointer inputPtr =
-    const_cast< TInputImage * >( this->GetInput() );
+  InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
 
-  if ( !inputPtr )
-    {
+  if (!inputPtr)
+  {
     return;
-    }
+  }
 
   // Build an operator so that we can determine the kernel size
-  SobelOperator< OutputPixelType, ImageDimension > oper;
+  SobelOperator<OutputPixelType, ImageDimension> oper;
   oper.CreateDirectional();
 
   // get a copy of the input requested region (should equal the output
@@ -55,16 +53,16 @@ SobelEdgeDetectionImageFilter< TInputImage, TOutputImage >
   inputRequestedRegion = inputPtr->GetRequestedRegion();
 
   // pad the input requested region by the operator radius
-  inputRequestedRegion.PadByRadius( oper.GetRadius() );
+  inputRequestedRegion.PadByRadius(oper.GetRadius());
 
   // crop the input requested region at the input's largest possible region
-  if ( inputRequestedRegion.Crop( inputPtr->GetLargestPossibleRegion() ) )
-    {
+  if (inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion()))
+  {
     inputPtr->SetRequestedRegion(inputRequestedRegion);
     return;
-    }
+  }
   else
-    {
+  {
     // Couldn't crop the region (requested region is outside the largest
     // possible region).  Throw an exception.
 
@@ -77,47 +75,43 @@ SobelEdgeDetectionImageFilter< TInputImage, TOutputImage >
     e.SetDescription("Requested region is (at least partially) outside the largest possible region.");
     e.SetDataObject(inputPtr);
     throw e;
-    }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-SobelEdgeDetectionImageFilter< TInputImage, TOutputImage >
-::GenerateData()
+SobelEdgeDetectionImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   // Test whether the output pixel type (or its components) are not of type
   // float or double:
-  if ( NumericTraits< OutputPixelType >::is_integer )
-    {
+  if (NumericTraits<OutputPixelType>::is_integer)
+  {
     itkWarningMacro("Output pixel type MUST be float or double to prevent computational errors");
-    }
+  }
 
   // Define the filter types used.
-  using OpFilter = NeighborhoodOperatorImageFilter< InputImageType,
-                                           OutputImageType >;
-  using MultFilter = MultiplyImageFilter< OutputImageType,
-                               OutputImageType,
-                               OutputImageType >;
-  using AddFilter = NaryAddImageFilter< OutputImageType, OutputImageType >;
-  using SqrtFilter = SqrtImageFilter< OutputImageType, OutputImageType >;
+  using OpFilter = NeighborhoodOperatorImageFilter<InputImageType, OutputImageType>;
+  using MultFilter = MultiplyImageFilter<OutputImageType, OutputImageType, OutputImageType>;
+  using AddFilter = NaryAddImageFilter<OutputImageType, OutputImageType>;
+  using SqrtFilter = SqrtImageFilter<OutputImageType, OutputImageType>;
 
   unsigned int i;
 
   typename TOutputImage::Pointer output = this->GetOutput();
-  output->SetBufferedRegion( output->GetRequestedRegion() );
+  output->SetBufferedRegion(output->GetRequestedRegion());
   output->Allocate();
 
   // Create the sobel operator
-  SobelOperator< OutputPixelType, ImageDimension > opers[ImageDimension];
-  ZeroFluxNeumannBoundaryCondition< TInputImage > nbc;
+  SobelOperator<OutputPixelType, ImageDimension> opers[ImageDimension];
+  ZeroFluxNeumannBoundaryCondition<TInputImage>  nbc;
 
   // Setup mini-pipelines along each axis.
-  typename OpFilter::Pointer opFilter[ImageDimension];
+  typename OpFilter::Pointer   opFilter[ImageDimension];
   typename MultFilter::Pointer multFilter[ImageDimension];
-  typename AddFilter::Pointer addFilter = AddFilter::New();
-  typename SqrtFilter::Pointer sqrtFilter =  SqrtFilter::New();
-  for ( i = 0; i < ImageDimension; ++i )
-    {
+  typename AddFilter::Pointer  addFilter = AddFilter::New();
+  typename SqrtFilter::Pointer sqrtFilter = SqrtFilter::New();
+  for (i = 0; i < ImageDimension; ++i)
+  {
     // Create the filters for this axis.
     opFilter[i] = OpFilter::New();
     multFilter[i] = MultFilter::New();
@@ -129,27 +123,27 @@ SobelEdgeDetectionImageFilter< TInputImage, TOutputImage >
     opFilter[i]->SetOperator(opers[i]);
 
     // Setup the mini-pipeline for this axis.
-    opFilter[i]->SetInput( this->GetInput() );
-    multFilter[i]->SetInput1( opFilter[i]->GetOutput() );
-    multFilter[i]->SetInput2( opFilter[i]->GetOutput() );
+    opFilter[i]->SetInput(this->GetInput());
+    multFilter[i]->SetInput1(opFilter[i]->GetOutput());
+    multFilter[i]->SetInput2(opFilter[i]->GetOutput());
 
     // All axes' mini-pipelines come together in addFilter.
-    addFilter->SetInput( i, multFilter[i]->GetOutput() );
-    }
+    addFilter->SetInput(i, multFilter[i]->GetOutput());
+  }
 
   // calculate the gradient magnitude
-  sqrtFilter->SetInput( addFilter->GetOutput() );
+  sqrtFilter->SetInput(addFilter->GetOutput());
 
   // setup the mini-pipeline to calculate the correct regions and
   // write to the appropriate bulk data block
-  sqrtFilter->GraftOutput( this->GetOutput() );
+  sqrtFilter->GraftOutput(this->GetOutput());
 
   // execute the mini-pipeline
   sqrtFilter->Update();
 
   // graft the mini-pipeline output back onto this filter's output.
   // this is needed to get the appropriate regions passed back.
-  this->GraftOutput( sqrtFilter->GetOutput() );
+  this->GraftOutput(sqrtFilter->GetOutput());
 }
 } // end namespace itk
 

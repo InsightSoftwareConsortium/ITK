@@ -51,18 +51,17 @@ namespace itk
  *
  * \ingroup ITKLevelSets
  */
-template< typename TLevelSet >
-class ITK_TEMPLATE_EXPORT ReinitializeLevelSetImageFilter:
-  public ImageToImageFilter< TLevelSet, TLevelSet >
+template <typename TLevelSet>
+class ITK_TEMPLATE_EXPORT ReinitializeLevelSetImageFilter : public ImageToImageFilter<TLevelSet, TLevelSet>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ReinitializeLevelSetImageFilter);
 
   /** Standard class type aliases. */
   using Self = ReinitializeLevelSetImageFilter;
-  using Superclass = ImageToImageFilter< TLevelSet, TLevelSet >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TLevelSet, TLevelSet>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -71,7 +70,7 @@ public:
   itkTypeMacro(ReinitializeLevelSetImageFilter, ImageToImageFilter);
 
   /** LevelSetType type alias support */
-  using LevelSetType = LevelSetTypeDefault< TLevelSet >;
+  using LevelSetType = LevelSetTypeDefault<TLevelSet>;
   using LevelSetImageType = typename LevelSetType::LevelSetImageType;
   using LevelSetPointer = typename LevelSetType::LevelSetPointer;
   using LevelSetConstPointer = typename LevelSetType::LevelSetConstPointer;
@@ -95,66 +94,80 @@ public:
   itkBooleanMacro(NarrowBanding);
 
   /** Set/Get the input narrow bandwidth. The default value is 12. */
-  itkSetClampMacro( InputNarrowBandwidth, double, 0.0,
-                    NumericTraits< double >::max() );
+  itkSetClampMacro(InputNarrowBandwidth, double, 0.0, NumericTraits<double>::max());
   itkGetConstMacro(InputNarrowBandwidth, double);
 
   /** Set/Get the output narrow bandwidth. The default value is 12. */
-  itkSetClampMacro( OutputNarrowBandwidth, double, 0.0,
-                    NumericTraits< double >::max() );
+  itkSetClampMacro(OutputNarrowBandwidth, double, 0.0, NumericTraits<double>::max());
   itkGetConstMacro(OutputNarrowBandwidth, double);
 
   /** Set the bandwidth for both the input and output narrowband,
    * By default, both the input and output are set to 12. */
-  void SetNarrowBandwidth(double value)
+  void
+  SetNarrowBandwidth(double value)
   {
     this->SetInputNarrowBandwidth(value);
     this->SetOutputNarrowBandwidth(value);
   }
 
   /** Set/Get the input narrowband. */
-  void SetInputNarrowBand(NodeContainer *ptr);
+  void
+  SetInputNarrowBand(NodeContainer * ptr);
 
-  NodeContainerPointer GetInputNarrowBand() const
-  { return m_InputNarrowBand; }
+  NodeContainerPointer
+  GetInputNarrowBand() const
+  {
+    return m_InputNarrowBand;
+  }
 
   /** Get the output narrowband. */
-  NodeContainerPointer GetOutputNarrowBand() const
-  { return m_OutputNarrowBand; }
+  NodeContainerPointer
+  GetOutputNarrowBand() const
+  {
+    return m_OutputNarrowBand;
+  }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( LevelSetDoubleAdditiveOperatorsCheck,
-                   ( Concept::AdditiveOperators< PixelType, double > ) );
-  itkConceptMacro( LevelSetOStreamWritableCheck,
-                   ( Concept::OStreamWritable< PixelType > ) );
+  itkConceptMacro(LevelSetDoubleAdditiveOperatorsCheck, (Concept::AdditiveOperators<PixelType, double>));
+  itkConceptMacro(LevelSetOStreamWritableCheck, (Concept::OStreamWritable<PixelType>));
   // End concept checking
 #endif
 
 protected:
   ReinitializeLevelSetImageFilter();
   ~ReinitializeLevelSetImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Internal type alias. */
-  using SpeedImageType = Image< float, Self::SetDimension >;
-  using LocatorType = LevelSetNeighborhoodExtractor< TLevelSet >;
-  using FastMarchingImageFilterType = FastMarchingImageFilter< TLevelSet, SpeedImageType >;
+  using SpeedImageType = Image<float, Self::SetDimension>;
+  using LocatorType = LevelSetNeighborhoodExtractor<TLevelSet>;
+  using FastMarchingImageFilterType = FastMarchingImageFilter<TLevelSet, SpeedImageType>;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  virtual void GenerateDataFull();
+  virtual void
+  GenerateDataFull();
 
-  virtual void GenerateDataNarrowBand();
+  virtual void
+  GenerateDataNarrowBand();
 
-  virtual void AllocateOutput();
+  virtual void
+  AllocateOutput();
 
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
-  void EnlargeOutputRequestedRegion(DataObject *) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject *) override;
 
-  void SetOutputNarrowBand(NodeContainer *ptr)
-  { m_OutputNarrowBand = ptr; }
+  void
+  SetOutputNarrowBand(NodeContainer * ptr)
+  {
+    m_OutputNarrowBand = ptr;
+  }
 
 private:
   double m_LevelSetValue;
@@ -172,7 +185,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkReinitializeLevelSetImageFilter.hxx"
+#  include "itkReinitializeLevelSetImageFilter.hxx"
 #endif
 
 #endif

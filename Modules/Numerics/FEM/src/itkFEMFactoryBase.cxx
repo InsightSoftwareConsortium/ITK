@@ -42,20 +42,17 @@
 namespace itk
 {
 FEMFactoryBase * FEMFactoryBase::m_Factory = nullptr;
-std::mutex FEMFactoryBase::m_CreationLock;
+std::mutex       FEMFactoryBase::m_CreationLock;
 
-FEMFactoryBase::FEMFactoryBase()
-{
-}
+FEMFactoryBase::FEMFactoryBase() {}
 
-FEMFactoryBase::~FEMFactoryBase()
-{
-}
+FEMFactoryBase::~FEMFactoryBase() {}
 
-void FEMFactoryBase::RegisterDefaultTypes()
+void
+FEMFactoryBase::RegisterDefaultTypes()
 {
-  //if( m_Factory == 0 )
-    {
+  // if( m_Factory == 0 )
+  {
     FEMFactory<itk::fem::Element::Node>::RegisterType();
     FEMFactory<itk::fem::Element2DC0LinearLineStress>::RegisterType();
     FEMFactory<itk::fem::Element2DC0LinearQuadrilateralMembrane>::RegisterType();
@@ -82,7 +79,7 @@ void FEMFactoryBase::RegisterDefaultTypes()
     FEMFactory<itk::fem::LoadGravConst>::RegisterType();
     FEMFactory<itk::fem::LoadElement>::RegisterType();
     FEMFactory<itk::fem::MaterialLinearElasticity>::RegisterType();
-    }
+  }
 }
 
 const char *

@@ -19,7 +19,8 @@
 #include "itkMaximumRatioDecisionRule.h"
 #include "itkObjectFactory.h"
 
-int itkMaximumRatioDecisionRuleTest(int, char* [] )
+int
+itkMaximumRatioDecisionRuleTest(int, char *[])
 {
   using MaximumRatioDecisionRuleType = itk::Statistics::MaximumRatioDecisionRule;
 
@@ -36,96 +37,96 @@ int itkMaximumRatioDecisionRuleTest(int, char* [] )
 
   double membershipScore1;
   membershipScore1 = 0.1;
-  membershipScoreVector.push_back( membershipScore1 );
+  membershipScoreVector.push_back(membershipScore1);
 
   double membershipScore2;
   membershipScore2 = 0.5;
-  membershipScoreVector.push_back( membershipScore2 );
+  membershipScoreVector.push_back(membershipScore2);
 
   double membershipScore3;
   membershipScore3 = 1.9;
-  membershipScoreVector.push_back( membershipScore3 );
+  membershipScoreVector.push_back(membershipScore3);
 
-  //add discriminantscore with a value of zero
+  // add discriminantscore with a value of zero
   double membershipScore4;
   membershipScore4 = 0.0;
-  membershipScoreVector.push_back( membershipScore4 );
+  membershipScoreVector.push_back(membershipScore4);
 
 
-  unsigned int  decisionValue;
+  unsigned int decisionValue;
   try
-    {
-    decisionRule->Evaluate( membershipScoreVector);
+  {
+    decisionRule->Evaluate(membershipScoreVector);
     std::cerr << "An exception should have been thrown since a priori"
               << " probability is not set yet " << std::endl;
     return EXIT_FAILURE;
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception= " << excp << std::endl;
-    }
+  }
 
-  //Set aprior probablity
+  // Set aprior probablity
   using APrioriVectorType = MaximumRatioDecisionRuleType::APrioriVectorType;
   using APrioriValueType = MaximumRatioDecisionRuleType::APrioriValueType;
 
   APrioriVectorType aprioriProbabilityVector;
 
-  //first class
+  // first class
   APrioriValueType value1 = 0.4;
-  aprioriProbabilityVector.push_back( value1 );
+  aprioriProbabilityVector.push_back(value1);
 
-  //second class
+  // second class
   APrioriValueType value2 = 0.2;
-  aprioriProbabilityVector.push_back( value2 );
-  decisionRule->SetAPriori( aprioriProbabilityVector );
+  aprioriProbabilityVector.push_back(value2);
+  decisionRule->SetAPriori(aprioriProbabilityVector);
 
-  //Evalue the membershipScore vector instantiated above ( 3 classes )
+  // Evalue the membershipScore vector instantiated above ( 3 classes )
   try
-    {
-    decisionRule->Evaluate( membershipScoreVector);
+  {
+    decisionRule->Evaluate(membershipScoreVector);
     std::cerr << "An exception should have been thrown since the membership"
               << " score vector size doesn't match with the apriori vector" << std::endl;
     return EXIT_FAILURE;
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception= " << excp << std::endl;
-    }
+  }
 
   APrioriVectorType aprioriProbabilityVector2;
 
   value1 = 0.3;
-  aprioriProbabilityVector2.push_back( value1 );
+  aprioriProbabilityVector2.push_back(value1);
 
   value2 = 0.3;
-  aprioriProbabilityVector2.push_back( value2 );
+  aprioriProbabilityVector2.push_back(value2);
 
-  //Add a third and a fourth class
+  // Add a third and a fourth class
   APrioriValueType value3 = 0.3;
-  aprioriProbabilityVector2.push_back( value3 );
+  aprioriProbabilityVector2.push_back(value3);
 
-  //Zero priori probability
+  // Zero priori probability
   APrioriValueType value4 = 0.0;
-  aprioriProbabilityVector2.push_back( value4 );
+  aprioriProbabilityVector2.push_back(value4);
 
-  decisionRule->SetAPriori( aprioriProbabilityVector2 );
+  decisionRule->SetAPriori(aprioriProbabilityVector2);
   try
-    {
-    decisionValue = decisionRule->Evaluate( membershipScoreVector);
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  {
+    decisionValue = decisionRule->Evaluate(membershipScoreVector);
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception= " << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  //Check if the computed decision value is correct
-  if( decisionValue != 2 )
-    {
+  // Check if the computed decision value is correct
+  if (decisionValue != 2)
+  {
     std::cerr << "Decision rule computation is incorrect!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

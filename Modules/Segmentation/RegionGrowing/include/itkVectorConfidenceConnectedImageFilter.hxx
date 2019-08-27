@@ -33,185 +33,170 @@ namespace itk
 /**
  * Constructor
  */
-template< typename TInputImage, typename TOutputImage >
-VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
-::VectorConfidenceConnectedImageFilter()
+template <typename TInputImage, typename TOutputImage>
+VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::VectorConfidenceConnectedImageFilter()
 {
   m_Multiplier = 2.5;
   m_NumberOfIterations = 4;
   m_Seeds.clear();
   m_InitialNeighborhoodRadius = 1;
-  m_ReplaceValue = NumericTraits< OutputImagePixelType >::OneValue();
+  m_ReplaceValue = NumericTraits<OutputImagePixelType>::OneValue();
   m_ThresholdFunction = DistanceThresholdFunctionType::New();
 }
 
 /**
  * Standard PrintSelf method.
  */
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
-  os << indent << "Number of iterations: " << m_NumberOfIterations
+  os << indent << "Number of iterations: " << m_NumberOfIterations << std::endl;
+  os << indent << "Multiplier for confidence interval: " << m_Multiplier << std::endl;
+  os << indent
+     << "ReplaceValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ReplaceValue)
      << std::endl;
-  os << indent << "Multiplier for confidence interval: " << m_Multiplier
-     << std::endl;
-  os << indent << "ReplaceValue: "
-     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_ReplaceValue )
-     << std::endl;
-  os << indent << "InitialNeighborhoodRadius: " << m_InitialNeighborhoodRadius
-     << std::endl;
+  os << indent << "InitialNeighborhoodRadius: " << m_InitialNeighborhoodRadius << std::endl;
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
-::SetSeed(const IndexType & seed)
+VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::SetSeed(const IndexType & seed)
 {
   this->ClearSeeds();
   this->AddSeed(seed);
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
-::AddSeed(const IndexType & seed)
+VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::AddSeed(const IndexType & seed)
 {
   m_Seeds.push_back(seed);
   this->Modified();
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
-::ClearSeeds()
+VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::ClearSeeds()
 {
-  if ( !this->m_Seeds.empty() )
-    {
+  if (!this->m_Seeds.empty())
+  {
     this->m_Seeds.clear();
     this->Modified();
-    }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
-::GenerateInputRequestedRegion()
+VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   Superclass::GenerateInputRequestedRegion();
-  if ( this->GetInput() )
-    {
-    InputImagePointer input =
-      const_cast< TInputImage * >( this->GetInput() );
+  if (this->GetInput())
+  {
+    InputImagePointer input = const_cast<TInputImage *>(this->GetInput());
     input->SetRequestedRegionToLargestPossibleRegion();
-    }
+  }
 }
 
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
-::EnlargeOutputRequestedRegion(DataObject *output)
+VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject * output)
 {
   Superclass::EnlargeOutputRequestedRegion(output);
   output->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
-::GenerateData()
+VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   using InputPixelType = typename InputImageType::PixelType;
 
   using SecondFunctionType = BinaryThresholdImageFunction<OutputImageType>;
-  using IteratorType = FloodFilledImageFunctionConditionalIterator< OutputImageType, DistanceThresholdFunctionType >;
-  using SecondIteratorType = FloodFilledImageFunctionConditionalConstIterator< InputImageType,
-                                                            SecondFunctionType >;
+  using IteratorType = FloodFilledImageFunctionConditionalIterator<OutputImageType, DistanceThresholdFunctionType>;
+  using SecondIteratorType = FloodFilledImageFunctionConditionalConstIterator<InputImageType, SecondFunctionType>;
 
   unsigned int loop;
 
-  typename Superclass::InputImageConstPointer inputImage  = this->GetInput();
-  typename Superclass::OutputImagePointer outputImage = this->GetOutput();
+  typename Superclass::InputImageConstPointer inputImage = this->GetInput();
+  typename Superclass::OutputImagePointer     outputImage = this->GetOutput();
 
   // Zero the output
   OutputImageRegionType region = outputImage->GetRequestedRegion();
   outputImage->SetBufferedRegion(region);
   outputImage->Allocate();
-  outputImage->FillBuffer (NumericTraits< OutputImagePixelType >::ZeroValue());
+  outputImage->FillBuffer(NumericTraits<OutputImagePixelType>::ZeroValue());
 
   // Compute the statistics of the seed point
-  using VectorMeanImageFunctionType = VectorMeanImageFunction< InputImageType >;
-  typename VectorMeanImageFunctionType::Pointer meanFunction =
-    VectorMeanImageFunctionType::New();
+  using VectorMeanImageFunctionType = VectorMeanImageFunction<InputImageType>;
+  typename VectorMeanImageFunctionType::Pointer meanFunction = VectorMeanImageFunctionType::New();
 
   meanFunction->SetInputImage(inputImage);
   meanFunction->SetNeighborhoodRadius(m_InitialNeighborhoodRadius);
-  using CovarianceImageFunctionType = CovarianceImageFunction< InputImageType >;
-  typename CovarianceImageFunctionType::Pointer varianceFunction =
-    CovarianceImageFunctionType::New();
+  using CovarianceImageFunctionType = CovarianceImageFunction<InputImageType>;
+  typename CovarianceImageFunctionType::Pointer varianceFunction = CovarianceImageFunctionType::New();
   varianceFunction->SetInputImage(inputImage);
   varianceFunction->SetNeighborhoodRadius(m_InitialNeighborhoodRadius);
 
   // Set up the image function used for connectivity
-  m_ThresholdFunction->SetInputImage (inputImage);
+  m_ThresholdFunction->SetInputImage(inputImage);
 
   CovarianceMatrixType covariance;
   MeanVectorType       mean;
 
   using ComponentPixelType = typename InputPixelType::ValueType;
-  using ComponentRealType = typename NumericTraits< ComponentPixelType >::RealType;
+  using ComponentRealType = typename NumericTraits<ComponentPixelType>::RealType;
 
   const unsigned int dimension = inputImage->GetNumberOfComponentsPerPixel();
 
   covariance = CovarianceMatrixType(dimension, dimension);
-  mean       = MeanVectorType(dimension);
+  mean = MeanVectorType(dimension);
 
-  covariance.fill(NumericTraits< ComponentRealType >::ZeroValue());
-  mean.fill(NumericTraits< ComponentRealType >::ZeroValue());
+  covariance.fill(NumericTraits<ComponentRealType>::ZeroValue());
+  mean.fill(NumericTraits<ComponentRealType>::ZeroValue());
 
   using MeanFunctionVectorType = typename VectorMeanImageFunctionType::OutputType;
   using CovarianceFunctionMatrixType = typename CovarianceImageFunctionType::OutputType;
 
   typename SeedsContainerType::const_iterator si = m_Seeds.begin();
   typename SeedsContainerType::const_iterator li = m_Seeds.end();
-  SizeValueType seed_cnt = 0;
-  while ( si != li )
+  SizeValueType                               seed_cnt = 0;
+  while (si != li)
+  {
+    if (region.IsInside(*si))
     {
-    if ( region.IsInside(*si) )
-      {
       ++seed_cnt;
-      const MeanFunctionVectorType       meanContribution       = meanFunction->EvaluateAtIndex(*si);
+      const MeanFunctionVectorType       meanContribution = meanFunction->EvaluateAtIndex(*si);
       const CovarianceFunctionMatrixType covarianceContribution = varianceFunction->EvaluateAtIndex(*si);
-      for ( unsigned int ii = 0; ii < dimension; ii++ )
-        {
+      for (unsigned int ii = 0; ii < dimension; ii++)
+      {
         mean[ii] += meanContribution[ii];
-        for ( unsigned int jj = 0; jj < dimension; jj++ )
-          {
+        for (unsigned int jj = 0; jj < dimension; jj++)
+        {
           covariance[ii][jj] += covarianceContribution[ii][jj];
-          }
         }
       }
+    }
     si++;
-    }
+  }
 
-  if ( seed_cnt == 0 )
-    {
-      this->UpdateProgress(1.0);
-      // no seeds result in zero image
-      return;
-    }
+  if (seed_cnt == 0)
+  {
+    this->UpdateProgress(1.0);
+    // no seeds result in zero image
+    return;
+  }
 
-  for ( unsigned int ik = 0; ik < dimension; ik++ )
-    {
+  for (unsigned int ik = 0; ik < dimension; ik++)
+  {
     mean[ik] /= seed_cnt;
-    for ( unsigned int jk = 0; jk < dimension; jk++ )
-      {
+    for (unsigned int jk = 0; jk < dimension; jk++)
+    {
       covariance[ik][jk] /= seed_cnt;
-      }
     }
+  }
 
   m_ThresholdFunction->SetMean(mean);
   m_ThresholdFunction->SetCovariance(covariance);
@@ -229,19 +214,18 @@ VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
 
   si = m_Seeds.begin();
   li = m_Seeds.end();
-  while ( si != li )
+  while (si != li)
+  {
+    if (region.IsInside(*si))
     {
-    if ( region.IsInside(*si) )
+      const double distance = m_ThresholdFunction->EvaluateDistanceAtIndex(*si);
+      if (distance > m_Multiplier)
       {
-      const double distance =
-        m_ThresholdFunction->EvaluateDistanceAtIndex(*si);
-      if ( distance >  m_Multiplier )
-        {
         m_Multiplier = distance;
-        }
       }
-    si++;
     }
+    si++;
+  }
 
   // Finally setup the eventually modified multiplier. That is actually the
   // threshold itself.
@@ -256,18 +240,18 @@ VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
   // the [lower, upper] bounds prescribed, the pixel is added to the
   // output segmentation and its neighbors become candidates for the
   // iterator to walk.
-  IteratorType it = IteratorType (outputImage, m_ThresholdFunction, m_Seeds);
+  IteratorType it = IteratorType(outputImage, m_ThresholdFunction, m_Seeds);
   it.GoToBegin();
-  while ( !it.IsAtEnd() )
-    {
+  while (!it.IsAtEnd())
+  {
     it.Set(m_ReplaceValue);
     ++it;
-    }
+  }
 
   ProgressReporter progress(this, 0, region.GetNumberOfPixels() * m_NumberOfIterations);
 
-  for ( loop = 0; loop < m_NumberOfIterations; ++loop )
-    {
+  for (loop = 0; loop < m_NumberOfIterations; ++loop)
+  {
     // Now that we have an initial segmentation, let's recalculate the
     // statistics.  Since we have already labelled the output, we visit
     // pixels in the input image that have been set in the output image.
@@ -275,55 +259,54 @@ VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
     // image (so Get() will get pixel values from the input) and constrain
     // iterator such it only visits pixels that were set in the output.
     typename SecondFunctionType::Pointer secondFunction = SecondFunctionType::New();
-    secondFunction->SetInputImage (outputImage);
+    secondFunction->SetInputImage(outputImage);
     secondFunction->ThresholdBetween(m_ReplaceValue, m_ReplaceValue);
 
     covariance = CovarianceMatrixType(dimension, dimension);
-    mean       = MeanVectorType(dimension);
+    mean = MeanVectorType(dimension);
 
-    covariance.fill(NumericTraits< ComponentRealType >::ZeroValue());
-    mean.fill(NumericTraits< ComponentRealType >::ZeroValue());
+    covariance.fill(NumericTraits<ComponentRealType>::ZeroValue());
+    mean.fill(NumericTraits<ComponentRealType>::ZeroValue());
 
-    SizeValueType num = NumericTraits< SizeValueType >::ZeroValue();
+    SizeValueType num = NumericTraits<SizeValueType>::ZeroValue();
 
-    SecondIteratorType sit =
-      SecondIteratorType (inputImage, secondFunction, m_Seeds);
+    SecondIteratorType sit = SecondIteratorType(inputImage, secondFunction, m_Seeds);
     sit.GoToBegin();
-    while ( !sit.IsAtEnd() )
-      {
+    while (!sit.IsAtEnd())
+    {
       const InputPixelType pixelValue = sit.Get();
-      for ( unsigned int i = 0; i < dimension; i++ )
-        {
-        const auto pixelValueI = static_cast< ComponentRealType >( pixelValue[i] );
+      for (unsigned int i = 0; i < dimension; i++)
+      {
+        const auto pixelValueI = static_cast<ComponentRealType>(pixelValue[i]);
         covariance[i][i] += pixelValueI * pixelValueI;
         mean[i] += pixelValueI;
-        for ( unsigned int j = i + 1; j < dimension; j++ )
-          {
-          const auto pixelValueJ = static_cast< ComponentRealType >( pixelValue[j] );
+        for (unsigned int j = i + 1; j < dimension; j++)
+        {
+          const auto              pixelValueJ = static_cast<ComponentRealType>(pixelValue[j]);
           const ComponentRealType product = pixelValueI * pixelValueJ;
           covariance[i][j] += product;
           covariance[j][i] += product;
-          }
         }
+      }
       ++num;
       ++sit;
-      }
-    for ( unsigned int ii = 0; ii < dimension; ii++ )
+    }
+    for (unsigned int ii = 0; ii < dimension; ii++)
+    {
+      mean[ii] /= static_cast<double>(num);
+      for (unsigned int jj = 0; jj < dimension; jj++)
       {
-      mean[ii] /= static_cast< double >( num );
-      for ( unsigned int jj = 0; jj < dimension; jj++ )
-        {
-        covariance[ii][jj] /= static_cast< double >( num );
-        }
+        covariance[ii][jj] /= static_cast<double>(num);
       }
+    }
 
-    for ( unsigned int ik = 0; ik < dimension; ik++ )
+    for (unsigned int ik = 0; ik < dimension; ik++)
+    {
+      for (unsigned int jk = 0; jk < dimension; jk++)
       {
-      for ( unsigned int jk = 0; jk < dimension; jk++ )
-        {
         covariance[ik][jk] -= mean[ik] * mean[jk];
-        }
       }
+    }
 
     m_ThresholdFunction->SetMean(mean);
     m_ThresholdFunction->SetCovariance(covariance);
@@ -335,55 +318,50 @@ VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
     // upper] bounds prescribed, the pixel is added to the output
     // segmentation and its neighbors become candidates for the
     // iterator to walk.
-    outputImage->FillBuffer (NumericTraits< OutputImagePixelType >::ZeroValue());
-    IteratorType thirdIt = IteratorType (outputImage, m_ThresholdFunction, m_Seeds);
+    outputImage->FillBuffer(NumericTraits<OutputImagePixelType>::ZeroValue());
+    IteratorType thirdIt = IteratorType(outputImage, m_ThresholdFunction, m_Seeds);
     thirdIt.GoToBegin();
     try
+    {
+      while (!thirdIt.IsAtEnd())
       {
-      while ( !thirdIt.IsAtEnd() )
-        {
         thirdIt.Set(m_ReplaceValue);
         ++thirdIt;
-        progress.CompletedPixel();  // potential exception thrown here
-        }
+        progress.CompletedPixel(); // potential exception thrown here
       }
-    catch ( ProcessAborted & )
-      {
-      break; // interrupt the iterations loop
-      }
-    }  // end iteration loop
-
-  if ( this->GetAbortGenerateData() )
+    }
+    catch (ProcessAborted &)
     {
+      break; // interrupt the iterations loop
+    }
+  } // end iteration loop
+
+  if (this->GetAbortGenerateData())
+  {
     ProcessAborted e(__FILE__, __LINE__);
     e.SetDescription("Process aborted.");
     e.SetLocation(ITK_LOCATION);
     throw e;
-    }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
-const typename
-VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >::CovarianceMatrixType &
-VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
-::GetCovariance() const
+template <typename TInputImage, typename TOutputImage>
+const typename VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::CovarianceMatrixType &
+VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GetCovariance() const
 {
   return m_ThresholdFunction->GetCovariance();
 }
 
-template< typename TInputImage, typename TOutputImage >
-const typename
-VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >::MeanVectorType &
-VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
-::GetMean() const
+template <typename TInputImage, typename TOutputImage>
+const typename VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::MeanVectorType &
+VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GetMean() const
 {
   return m_ThresholdFunction->GetMean();
 }
 
-template< typename TInputImage, typename TOutputImage >
-const typename VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >::SeedsContainerType &
-VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
-::GetSeeds() const
+template <typename TInputImage, typename TOutputImage>
+const typename VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::SeedsContainerType &
+VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GetSeeds() const
 {
   itkDebugMacro("returning Seeds");
   return this->m_Seeds;

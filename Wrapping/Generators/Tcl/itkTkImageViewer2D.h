@@ -47,28 +47,37 @@ public:
   using InputImageType = Image<unsigned short, 2>;
 
   /** Set/Get the Tcl interpreter.  */
-  void SetInterpreter(Tcl_Interp* interp);
-  Tcl_Interp* GetInterpreter() const;
+  void
+  SetInterpreter(Tcl_Interp * interp);
+  Tcl_Interp *
+  GetInterpreter() const;
 
   /** Set/Get the name of the Tk image.  */
-  void SetImageName(const char* name);
-  const char* GetImageName() const;
+  void
+  SetImageName(const char * name);
+  const char *
+  GetImageName() const;
 
   /** Set/Get the name of the Tk canvas.  */
-  void SetCanvasName(const char* name);
-  const char* GetCanvasName() const;
+  void
+  SetCanvasName(const char * name);
+  const char *
+  GetCanvasName() const;
 
-  void SetInput(InputImageType* input);
-  InputImageType* GetInput();
+  void
+  SetInput(InputImageType * input);
+  InputImageType *
+  GetInput();
 
-  void Draw();
+  void
+  Draw();
 
 protected:
   TkImageViewer2D();
   ~TkImageViewer2D();
 
   // The Tcl interpreter associated with the Tk window.
-  Tcl_Interp* m_Interpreter;
+  Tcl_Interp * m_Interpreter;
 
   // The name of the Tk image.
   std::string m_ImageName;
@@ -81,13 +90,13 @@ protected:
   FlipFilter::Pointer m_FlipFilter;
 
   // The filter to scale the image to 256 shades of gray.
-  using RescaleFilter = RescaleIntensityImageFilter<FlipFilter::OutputImageType,
-                                      itk::Image<unsigned char, 2> >;
+  using RescaleFilter = RescaleIntensityImageFilter<FlipFilter::OutputImageType, itk::Image<unsigned char, 2>>;
   RescaleFilter::Pointer m_RescaleFilter;
 
 private:
-  TkImageViewer2D(const Self&);     // Not implemented.
-  void operator=(const Self&); // Not implemented.
+  TkImageViewer2D(const Self &); // Not implemented.
+  void
+  operator=(const Self &); // Not implemented.
 };
 
 

@@ -18,9 +18,9 @@
 #include "itkComplexToComplexFFTImageFilter.h"
 
 #ifndef itkFFTWComplexToComplexFFTImageFilter_h
-#define itkFFTWComplexToComplexFFTImageFilter_h
+#  define itkFFTWComplexToComplexFFTImageFilter_h
 
-#include "itkFFTWCommon.h"
+#  include "itkFFTWCommon.h"
 
 
 namespace itk
@@ -55,18 +55,17 @@ namespace itk
  *
  * \sa FFTWGlobalConfiguration
  */
-template< typename TImage >
-class ITK_TEMPLATE_EXPORT FFTWComplexToComplexFFTImageFilter:
-  public ComplexToComplexFFTImageFilter< TImage >
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT FFTWComplexToComplexFFTImageFilter : public ComplexToComplexFFTImageFilter<TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FFTWComplexToComplexFFTImageFilter);
 
   /** Standard class type aliases. */
   using Self = FFTWComplexToComplexFFTImageFilter;
-  using Superclass = ComplexToComplexFFTImageFilter< TImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ComplexToComplexFFTImageFilter<TImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using ImageType = TImage;
   using PixelType = typename ImageType::PixelType;
@@ -80,14 +79,13 @@ public:
   // is trying to use double if only the float FFTW version is
   // configured in, or float if only double is configured.
   //
-  using FFTWProxyType = typename fftw::Proxy< typename PixelType::value_type >;
+  using FFTWProxyType = typename fftw::Proxy<typename PixelType::value_type>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FFTWComplexToComplexFFTImageFilter,
-               ComplexToComplexFFTImageFilter);
+  itkTypeMacro(FFTWComplexToComplexFFTImageFilter, ComplexToComplexFFTImageFilter);
 
   static constexpr unsigned int ImageDimension = ImageType::ImageDimension;
 
@@ -105,50 +103,55 @@ public:
    *
    * /sa FFTWGlobalConfiguration
    */
-  virtual void SetPlanRigor( const int & value )
+  virtual void
+  SetPlanRigor(const int & value)
   {
-#ifndef ITK_USE_CUFFTW
+#  ifndef ITK_USE_CUFFTW
     // use that method to check the value
-    FFTWGlobalConfiguration::GetPlanRigorName( value );
-#endif
-    if( m_PlanRigor != value )
-      {
+    FFTWGlobalConfiguration::GetPlanRigorName(value);
+#  endif
+    if (m_PlanRigor != value)
+    {
       m_PlanRigor = value;
       this->Modified();
-      }
+    }
   }
-  itkGetConstReferenceMacro( PlanRigor, int );
-  void SetPlanRigor( const std::string & name )
+  itkGetConstReferenceMacro(PlanRigor, int);
+  void
+  SetPlanRigor(const std::string & name)
   {
-#ifndef ITK_USE_CUFFTW
-    this->SetPlanRigor( FFTWGlobalConfiguration::GetPlanRigorValue( name ) );
-#endif
+#  ifndef ITK_USE_CUFFTW
+    this->SetPlanRigor(FFTWGlobalConfiguration::GetPlanRigorValue(name));
+#  endif
   }
 
 protected:
   FFTWComplexToComplexFFTImageFilter();
   ~FFTWComplexToComplexFFTImageFilter() override {}
 
-  void UpdateOutputData(DataObject *output) override;
+  void
+  UpdateOutputData(DataObject * output) override;
 
-  void BeforeThreadedGenerateData() override;
+  void
+  BeforeThreadedGenerateData() override;
 
-  void DynamicThreadedGenerateData(const OutputImageRegionType& outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   bool m_CanUseDestructiveAlgorithm;
 
   int m_PlanRigor;
-
 };
 
 
 } // namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFFTWComplexToComplexFFTImageFilter.hxx"
-#endif
+#  ifndef ITK_MANUAL_INSTANTIATION
+#    include "itkFFTWComplexToComplexFFTImageFilter.hxx"
+#  endif
 
-#endif //itkFFTWComplexToComplexFFTImageFilter_h
+#endif // itkFFTWComplexToComplexFFTImageFilter_h

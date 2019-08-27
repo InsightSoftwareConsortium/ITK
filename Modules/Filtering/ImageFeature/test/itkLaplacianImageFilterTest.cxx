@@ -21,59 +21,60 @@
 #include "itkNullImageToImageFilterDriver.hxx"
 #include "itkSimpleFilterWatcher.h"
 
-inline std::ostream& operator<<(std::ostream &o, const itk::Vector<float, 3> &v)
+inline std::ostream &
+operator<<(std::ostream & o, const itk::Vector<float, 3> & v)
 {
-  o << "["<< v[0] << " " << v[1] << " " << v[2] << "]";
+  o << "[" << v[0] << " " << v[1] << " " << v[2] << "]";
   return o;
 }
 
-int itkLaplacianImageFilterTest(int , char * [] )
+int
+itkLaplacianImageFilterTest(int, char *[])
 {
   try
-    {
+  {
     using ImageType = itk::Image<float, 2>;
 
-      // Set up filter
-      itk::LaplacianImageFilter<ImageType, ImageType>::Pointer
-        filter =
-        itk::LaplacianImageFilter<ImageType, ImageType>::New();
+    // Set up filter
+    itk::LaplacianImageFilter<ImageType, ImageType>::Pointer filter =
+      itk::LaplacianImageFilter<ImageType, ImageType>::New();
 
-      itk::SimpleFilterWatcher watch(filter);
+    itk::SimpleFilterWatcher watch(filter);
 
-      // Run Test
-      itk::Size<2> sz;
-      sz[0] = 100;
-      sz[1] = 100;
-      itk::NullImageToImageFilterDriver< ImageType, ImageType > test1;
-      test1.SetImageSize(sz);
-      test1.SetFilter(filter);
-      test1.Execute();
+    // Run Test
+    itk::Size<2> sz;
+    sz[0] = 100;
+    sz[1] = 100;
+    itk::NullImageToImageFilterDriver<ImageType, ImageType> test1;
+    test1.SetImageSize(sz);
+    test1.SetFilter(filter);
+    test1.Execute();
 
-      // verify the fix for Bug: 788
-      // The following code should throw an exception and not crash.
-      filter->SetInput(nullptr);
-      bool exceptionSeen = false;
-      try
-        {
-        filter->Update();
-        }
-      catch(itk::ExceptionObject &err)
-        {
-        exceptionSeen = true;
-        std::cout << "Expected exception: " << std::endl;
-        std::cout << err << std::endl;
-        std::cout << " was received OK" << std::endl;
-        }
-      if( !exceptionSeen )
-        {
-        std::cerr << "Expected exception was not thrown" << std::endl;
-        return EXIT_FAILURE;
-        }
-    }
-  catch(itk::ExceptionObject &err)
+    // verify the fix for Bug: 788
+    // The following code should throw an exception and not crash.
+    filter->SetInput(nullptr);
+    bool exceptionSeen = false;
+    try
     {
-      (&err)->Print(std::cerr);
+      filter->Update();
+    }
+    catch (itk::ExceptionObject & err)
+    {
+      exceptionSeen = true;
+      std::cout << "Expected exception: " << std::endl;
+      std::cout << err << std::endl;
+      std::cout << " was received OK" << std::endl;
+    }
+    if (!exceptionSeen)
+    {
+      std::cerr << "Expected exception was not thrown" << std::endl;
       return EXIT_FAILURE;
     }
+  }
+  catch (itk::ExceptionObject & err)
+  {
+    (&err)->Print(std::cerr);
+    return EXIT_FAILURE;
+  }
   return EXIT_SUCCESS;
 }

@@ -23,53 +23,51 @@
 #include "itkMetaImageIO.h"
 #include "itkTestingMacros.h"
 
-int itkBrukerImageTest( int argc, char *argv[] )
+int
+itkBrukerImageTest(int argc, char * argv[])
 {
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
-      << " inputImage outputImage" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputImage outputImage" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Legacy compat with older MetaImages
   itk::MetaImageIO::SetDefaultDoublePrecision(6);
   std::cout << "Running Bruker2DSeq Test" << std::endl;
 
   using PixelType = float;
-  using ImageType = itk::Image< PixelType, 3 >;
+  using ImageType = itk::Image<PixelType, 3>;
 
   itk::Bruker2dseqImageIOFactory::RegisterOneFactory();
 
-  itk::Bruker2dseqImageIO::Pointer brukerImageIO =
-    itk::Bruker2dseqImageIO::New();
+  itk::Bruker2dseqImageIO::Pointer brukerImageIO = itk::Bruker2dseqImageIO::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( brukerImageIO, Bruker2dseqImageIO,
-    ImageIOBase );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(brukerImageIO, Bruker2dseqImageIO, ImageIOBase);
 
-  const char* inputFilename = argv[1];
-  bool canReadFile = brukerImageIO->CanReadFile( inputFilename );
-  if( canReadFile )
-    {
-    using ReaderType = itk::ImageFileReader< ImageType >;
-    using WriterType = itk::ImageFileWriter< ImageType >;
+  const char * inputFilename = argv[1];
+  bool         canReadFile = brukerImageIO->CanReadFile(inputFilename);
+  if (canReadFile)
+  {
+    using ReaderType = itk::ImageFileReader<ImageType>;
+    using WriterType = itk::ImageFileWriter<ImageType>;
     ReaderType::Pointer reader = ReaderType::New();
     WriterType::Pointer writer = WriterType::New();
-    reader->SetFileName( argv[1] );
-    ITK_TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+    reader->SetFileName(argv[1]);
+    ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
     // Bruker has a lot of extraneous meta-data, get rid of it
     reader->GetOutput()->GetMetaDataDictionary().Clear();
-    writer->SetFileName( argv[2] );
-    writer->SetInput( reader->GetOutput() );
-    ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
-    }
+    writer->SetFileName(argv[2]);
+    writer->SetInput(reader->GetOutput());
+    ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+  }
   else
-    {
+  {
     std::cerr << "Test failed!" << std::endl;
     std::cerr << "Cannot read input file: " << inputFilename << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

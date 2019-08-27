@@ -34,7 +34,8 @@ using FrameOffsetType = itk::SizeValueType;
 //
 // Utility function to get an ITK image from an void* buffer
 //
-ImageType::Pointer itkImageFromBuffer( itk::OpenCVVideoIO::Pointer opencvIO, void* buffer, size_t bufferSize )
+ImageType::Pointer
+itkImageFromBuffer(itk::OpenCVVideoIO::Pointer opencvIO, void * buffer, size_t bufferSize)
 {
   // Set up for incoming image
   ImageType::RegionType region;
@@ -49,7 +50,7 @@ ImageType::Pointer itkImageFromBuffer( itk::OpenCVVideoIO::Pointer opencvIO, voi
   ImageType::PointType   origin;
   ImageType::SpacingType space;
   origin.Fill(0.0);
-  space.Fill(1.0);  // May need fixing
+  space.Fill(1.0); // May need fixing
 
   // Use itkImportImageFilter to create an ITK image
   ImportFilterType::Pointer importFilter = ImportFilterType::New();
@@ -68,57 +69,57 @@ ImageType::Pointer itkImageFromBuffer( itk::OpenCVVideoIO::Pointer opencvIO, voi
 //
 // Note: opencvIO should already have called ReadImageInformation
 //
-bool readCorrectly( itk::OpenCVVideoIO::Pointer opencvIO, CvCapture* capture, FrameOffsetType frameNumber )
+bool
+readCorrectly(itk::OpenCVVideoIO::Pointer opencvIO, CvCapture * capture, FrameOffsetType frameNumber)
 {
   bool ret = true;
   // Check meta data
-  for( unsigned int i = 0; i < ImageType::ImageDimension; i++ )
+  for (unsigned int i = 0; i < ImageType::ImageDimension; i++)
+  {
+    if (opencvIO->GetSpacing(i) != 1.0)
     {
-    if( opencvIO->GetSpacing(i) != 1.0 )
-      {
       std::cerr << "Frame Spacing not set correctly" << std::endl;
       ret = false;
-      }
-    if( opencvIO->GetOrigin(i) != 0.0 )
-      {
+    }
+    if (opencvIO->GetOrigin(i) != 0.0)
+    {
       std::cerr << "Frame Origin not set correctly" << std::endl;
       ret = false;
-      }
-    if( opencvIO->GetDirection(i) != opencvIO->GetDefaultDirection(i) )
-      {
+    }
+    if (opencvIO->GetDirection(i) != opencvIO->GetDefaultDirection(i))
+    {
       std::cerr << "Frame Direction not set correctly" << std::endl;
       ret = false;
-      }
     }
+  }
 
   // Set up the buffer for the frame data
   itk::SizeValueType bufferSize = opencvIO->GetImageSizeInBytes();
-  PixelType * buffer = new PixelType[bufferSize];
+  PixelType *        buffer = new PixelType[bufferSize];
 
   // Read the frame data
-  opencvIO->Read(static_cast<void *>(buffer) );
+  opencvIO->Read(static_cast<void *>(buffer));
 
   // Open the frame directly with OpenCV
-  IplImage* cvFrameBGR = cvQueryFrame(capture);
-  IplImage* cvFrameRGB = cvCreateImage(
-      cvSize(opencvIO->GetDimensions(0), opencvIO->GetDimensions(1) ),
-      IPL_DEPTH_8U, opencvIO->GetNumberOfComponents() );
+  IplImage * cvFrameBGR = cvQueryFrame(capture);
+  IplImage * cvFrameRGB = cvCreateImage(
+    cvSize(opencvIO->GetDimensions(0), opencvIO->GetDimensions(1)), IPL_DEPTH_8U, opencvIO->GetNumberOfComponents());
   cvCvtColor(cvFrameBGR, cvFrameRGB, CV_BGR2RGB);
 
   // Make sure buffers are same sized
-  if( cvFrameRGB->imageSize != (int)bufferSize )
-    {
-    std::cerr << "Frame buffer sizes don't match. Got: " << bufferSize << ", Expected: "
-              << cvFrameRGB->imageSize << std::endl;
+  if (cvFrameRGB->imageSize != (int)bufferSize)
+  {
+    std::cerr << "Frame buffer sizes don't match. Got: " << bufferSize << ", Expected: " << cvFrameRGB->imageSize
+              << std::endl;
     ret = false;
-    }
+  }
 
   // Compare buffer contents
-  if( memcmp(reinterpret_cast<void *>(buffer), reinterpret_cast<void *>(cvFrameRGB->imageData), bufferSize) )
-    {
+  if (memcmp(reinterpret_cast<void *>(buffer), reinterpret_cast<void *>(cvFrameRGB->imageData), bufferSize))
+  {
     std::cerr << "Frame buffers don't match for frame " << frameNumber << std::endl;
     ret = false;
-    }
+  }
 
   delete[] buffer;
   // Return
@@ -129,7 +130,8 @@ bool readCorrectly( itk::OpenCVVideoIO::Pointer opencvIO, CvCapture* capture, Fr
 //
 // Utility function to compare two videos frame by frame
 //
-bool videosMatch(char* file1, char* file2)
+bool
+videosMatch(char * file1, char * file2)
 {
   itk::OpenCVVideoIO::Pointer io1 = itk::OpenCVVideoIO::New();
   itk::OpenCVVideoIO::Pointer io2 = itk::OpenCVVideoIO::New();
@@ -138,11 +140,11 @@ bool videosMatch(char* file1, char* file2)
   io2->SetFileName(file2);
 
   // Make sure files can be read
-  if( !io1->CanReadFile(file1) || !io2->CanReadFile(file2) )
-    {
+  if (!io1->CanReadFile(file1) || !io2->CanReadFile(file2))
+  {
     std::cerr << "Cannot read specified files" << std::endl;
     return false;
-    }
+  }
 
   // Read in the file information for both
   io1->ReadImageInformation();
@@ -150,40 +152,36 @@ bool videosMatch(char* file1, char* file2)
 
   // Make sure image info matches
   double e = 0.0001;
-  if( io1->GetFrameTotal() != io2->GetFrameTotal() ||
-      io1->GetDimensions(0) != io2->GetDimensions(0) ||
-      io1->GetDimensions(1) != io2->GetDimensions(1) ||
-      io1->GetFramesPerSecond() + e < io2->GetFramesPerSecond() ||
+  if (io1->GetFrameTotal() != io2->GetFrameTotal() || io1->GetDimensions(0) != io2->GetDimensions(0) ||
+      io1->GetDimensions(1) != io2->GetDimensions(1) || io1->GetFramesPerSecond() + e < io2->GetFramesPerSecond() ||
       io1->GetFramesPerSecond() - e > io2->GetFramesPerSecond() ||
-      io1->GetNumberOfComponents() != io2->GetNumberOfComponents() )
-    {
+      io1->GetNumberOfComponents() != io2->GetNumberOfComponents())
+  {
 
     std::cerr << "Frame information doesn't match" << std::endl;
     std::cerr << "  FrameTotal: " << io1->GetFrameTotal() << ", " << io2->GetFrameTotal() << std::endl;
-    std::cerr << "  Width: " << io1->GetDimensions(0) << ", " << io2->GetDimensions(0)
-              << std::endl;
-    std::cerr << "  Height: " << io1->GetDimensions(1) << ", " << io2->GetDimensions(1)
-              << std::endl;
+    std::cerr << "  Width: " << io1->GetDimensions(0) << ", " << io2->GetDimensions(0) << std::endl;
+    std::cerr << "  Height: " << io1->GetDimensions(1) << ", " << io2->GetDimensions(1) << std::endl;
     std::cerr << "  FpS: " << io1->GetFramesPerSecond() << ", " << io2->GetFramesPerSecond() << std::endl;
     std::cerr << "  NChannels: " << io1->GetNumberOfComponents() << ", " << io2->GetNumberOfComponents() << std::endl;
 
     return false;
-    }
+  }
 
   // Loop through each frame and compare the buffer for exact match
   itk::SizeValueType bufferSize = io1->GetImageSizeInBytes();
-  PixelType * buffer1 = new PixelType[bufferSize];
-  PixelType * buffer2 = new PixelType[bufferSize];
-  for( unsigned int i = 0; i < io1->GetFrameTotal(); ++i )
+  PixelType *        buffer1 = new PixelType[bufferSize];
+  PixelType *        buffer2 = new PixelType[bufferSize];
+  for (unsigned int i = 0; i < io1->GetFrameTotal(); ++i)
+  {
+    io1->Read(reinterpret_cast<void *>(buffer1));
+    io2->Read(reinterpret_cast<void *>(buffer2));
+    if (memcmp(reinterpret_cast<void *>(buffer1), reinterpret_cast<void *>(buffer2), bufferSize))
     {
-    io1->Read(reinterpret_cast<void *>(buffer1) );
-    io2->Read(reinterpret_cast<void *>(buffer2) );
-    if( memcmp(reinterpret_cast<void *>(buffer1), reinterpret_cast<void *>(buffer2), bufferSize) )
-      {
       std::cerr << "Frame buffers don't match for frame " << i << std::endl;
       return false;
-      }
     }
+  }
   delete[] buffer1;
   delete[] buffer2;
   // Close the readers
@@ -200,9 +198,15 @@ bool videosMatch(char* file1, char* file2)
 // Usage: [Video Input] [Non-Video Input] [Video Output] [Width] [Height]
 //            [Num Frames] [FpS]
 
-int test_OpenCVVideoIO( char* input, char* nonVideoInput, char* output, char* cameraOutput,
-                        unsigned int inWidth, unsigned int inHeight, FrameOffsetType inNumFrames,
-                        double inFpS )
+int
+test_OpenCVVideoIO(char *          input,
+                   char *          nonVideoInput,
+                   char *          output,
+                   char *          cameraOutput,
+                   unsigned int    inWidth,
+                   unsigned int    inHeight,
+                   FrameOffsetType inNumFrames,
+                   double          inFpS)
 {
 
   int ret = EXIT_SUCCESS;
@@ -216,26 +220,26 @@ int test_OpenCVVideoIO( char* input, char* nonVideoInput, char* output, char* ca
   std::cout << "OpenCVVideoIO::CanReadFile..." << std::endl;
 
   // Test CanReadFile on good file
-  if( !opencvIO->CanReadFile(input) )
-    {
+  if (!opencvIO->CanReadFile(input))
+  {
     std::cerr << "Could not read " << input << std::endl;
     ret = EXIT_FAILURE;
-    }
+  }
 
   // Test CanReadFile on non-existant file
   std::string nonExistantFile = "Bad/Path/To/Nothing";
-  if( opencvIO->CanReadFile(nonExistantFile.c_str() ) )
-    {
+  if (opencvIO->CanReadFile(nonExistantFile.c_str()))
+  {
     std::cerr << "Should have failed to open \"" << nonExistantFile << "\"" << std::endl;
     ret = EXIT_FAILURE;
-    }
+  }
 
   // Test CanReadFile on non-video file
-  if( opencvIO->CanReadFile(nonVideoInput) )
-    {
+  if (opencvIO->CanReadFile(nonVideoInput))
+  {
     std::cerr << "Should have failed to open \"" << nonVideoInput << "\"" << std::endl;
     ret = EXIT_FAILURE;
-    }
+  }
 
   //
   // ReadImageInformation
@@ -246,37 +250,35 @@ int test_OpenCVVideoIO( char* input, char* nonVideoInput, char* output, char* ca
   opencvIO->ReadImageInformation();
   bool              infoSet = true;
   std::stringstream paramMessage;
-  if( opencvIO->GetDimensions(0) != inWidth )
-    {
+  if (opencvIO->GetDimensions(0) != inWidth)
+  {
     infoSet = false;
-    paramMessage << "Width mismatch: (expected) " << inWidth << " != (got) "
-                 << opencvIO->GetDimensions(0) << std::endl;
-    }
-  if( opencvIO->GetDimensions(1) != inHeight )
-    {
+    paramMessage << "Width mismatch: (expected) " << inWidth << " != (got) " << opencvIO->GetDimensions(0) << std::endl;
+  }
+  if (opencvIO->GetDimensions(1) != inHeight)
+  {
     infoSet = false;
-    paramMessage << "Height mismatch: (expected) " << inHeight << " != (got) "
-                 << opencvIO->GetDimensions(1) << std::endl;
-    }
-  double epsilon = 0.0001;
-  if( opencvIO->GetFramesPerSecond() < inFpS - epsilon || opencvIO->GetFramesPerSecond() > inFpS + epsilon )
-    {
-    infoSet = false;
-    paramMessage << "FpS mismatch: (expected) " << inFpS << " != (got) " << opencvIO->GetFramesPerSecond()
+    paramMessage << "Height mismatch: (expected) " << inHeight << " != (got) " << opencvIO->GetDimensions(1)
                  << std::endl;
-    }
-  if( opencvIO->GetFrameTotal() != inNumFrames )
-    {
+  }
+  double epsilon = 0.0001;
+  if (opencvIO->GetFramesPerSecond() < inFpS - epsilon || opencvIO->GetFramesPerSecond() > inFpS + epsilon)
+  {
     infoSet = false;
-    paramMessage << "FrameTotal mismatch: (expected) " << inNumFrames << " != (got) "
-                 << opencvIO->GetFrameTotal() << std::endl;
-    }
+    paramMessage << "FpS mismatch: (expected) " << inFpS << " != (got) " << opencvIO->GetFramesPerSecond() << std::endl;
+  }
+  if (opencvIO->GetFrameTotal() != inNumFrames)
+  {
+    infoSet = false;
+    paramMessage << "FrameTotal mismatch: (expected) " << inNumFrames << " != (got) " << opencvIO->GetFrameTotal()
+                 << std::endl;
+  }
 
-  if( !infoSet )
-    {
+  if (!infoSet)
+  {
     std::cerr << paramMessage.str();
     ret = EXIT_FAILURE;
-    }
+  }
 
   //
   // Read
@@ -285,17 +287,17 @@ int test_OpenCVVideoIO( char* input, char* nonVideoInput, char* output, char* ca
   std::cout << "Comparing all " << opencvIO->GetFrameTotal() << " frames" << std::endl;
 
   // Set up OpenCV capture
-  CvCapture* capture = cvCaptureFromFile( opencvIO->GetFileName() );
+  CvCapture * capture = cvCaptureFromFile(opencvIO->GetFileName());
   // Loop through all frames
-  for( FrameOffsetType i = 0; i * opencvIO->GetIFrameInterval() < opencvIO->GetFrameTotal(); i++ )
+  for (FrameOffsetType i = 0; i * opencvIO->GetIFrameInterval() < opencvIO->GetFrameTotal(); i++)
+  {
+    if (!readCorrectly(opencvIO, capture, i * opencvIO->GetIFrameInterval()))
     {
-    if( !readCorrectly(opencvIO, capture, i*opencvIO->GetIFrameInterval()) )
-      {
-      std::cerr << "Failed to read frame " << i*opencvIO->GetIFrameInterval() << " correctly" << std::endl;
+      std::cerr << "Failed to read frame " << i * opencvIO->GetIFrameInterval() << " correctly" << std::endl;
       ret = EXIT_FAILURE;
       break;
-      }
     }
+  }
 
   // Release capture
   cvReleaseCapture(&capture);
@@ -307,61 +309,60 @@ int test_OpenCVVideoIO( char* input, char* nonVideoInput, char* output, char* ca
 
   // Set up the buffer for the frame data so Read can be called
   itk::SizeValueType bufferSize = opencvIO->GetImageSizeInBytes();
-  PixelType * buffer = new PixelType[bufferSize];
+  PixelType *        buffer = new PixelType[bufferSize];
 
   // try seeking to an I-Frame
   // seekFrame is 0-based index of the frame to be captured next
   FrameOffsetType seekFrame = opencvIO->GetIFrameInterval() - 1;
-  if( !opencvIO->SetNextFrameToRead(seekFrame) )
-    {
+  if (!opencvIO->SetNextFrameToRead(seekFrame))
+  {
     std::cerr << "Failed to seek to second I-Frame..." << std::endl;
     ret = EXIT_FAILURE;
-    }
+  }
 
   // Read the frame data which updates the current frame correctly
-  opencvIO->Read(static_cast<void *>(buffer) );
+  opencvIO->Read(static_cast<void *>(buffer));
 
-  //GetCurrentFrame() returns 0-based index of the frame to be captured next
-  if( opencvIO->GetCurrentFrame()-1 != seekFrame )
-    {
+  // GetCurrentFrame() returns 0-based index of the frame to be captured next
+  if (opencvIO->GetCurrentFrame() - 1 != seekFrame)
+  {
     std::cerr << "Seek to I-Frame didn't end up in the right place" << std::endl;
     ret = EXIT_FAILURE;
-    }
+  }
 
   // If there are I-Frame intervals, check behavior
-  if( opencvIO->GetIFrameInterval() > 1 )
-    {
+  if (opencvIO->GetIFrameInterval() > 1)
+  {
 
     // Try seeking in-between I-Frames
     seekFrame = opencvIO->GetIFrameInterval() / 2;
-    if( !opencvIO->SetNextFrameToRead(seekFrame) )
-      {
+    if (!opencvIO->SetNextFrameToRead(seekFrame))
+    {
       std::cerr << "Failed to seek between I-Frames" << std::endl;
       ret = EXIT_FAILURE;
-      }
-    opencvIO->Read(static_cast<void *>(buffer) );
-    if( opencvIO->GetCurrentFrame() != opencvIO->GetIFrameInterval() )
-      {
+    }
+    opencvIO->Read(static_cast<void *>(buffer));
+    if (opencvIO->GetCurrentFrame() != opencvIO->GetIFrameInterval())
+    {
       std::cerr << "Seek between I-Frames didn't end up in the right place" << std::endl;
       ret = EXIT_FAILURE;
-      }
+    }
 
     delete[] buffer;
     // try seeking past last I-Frame
     seekFrame = opencvIO->GetLastIFrame() + 1;
-    if( opencvIO->SetNextFrameToRead(seekFrame) )
-      {
+    if (opencvIO->SetNextFrameToRead(seekFrame))
+    {
       std::cerr << "Did no fail when seeking past the last I-Frame" << std::endl;
       ret = EXIT_FAILURE;
-      }
-
     }
+  }
 
   // Save the current parameters
   double       fps = opencvIO->GetFramesPerSecond();
   unsigned int width = opencvIO->GetDimensions(0);
   unsigned int height = opencvIO->GetDimensions(1);
-  const char*  fourCC = "MP42";
+  const char * fourCC = "MP42";
   unsigned int nChannels = opencvIO->GetNumberOfComponents();
 
   // Reset the VideoIO
@@ -373,8 +374,8 @@ int test_OpenCVVideoIO( char* input, char* nonVideoInput, char* output, char* ca
   //
 
   // Check to see if camera is available
-  if( opencvIO->CanReadCamera( 0 ) )
-    {
+  if (opencvIO->CanReadCamera(0))
+  {
 
     std::cout << "OpenCVVideoIO::Read (from camera)..." << std::endl;
 
@@ -383,32 +384,32 @@ int test_OpenCVVideoIO( char* input, char* nonVideoInput, char* output, char* ca
 
     // Get information from the camera
     try
-      {
+    {
       opencvIO->ReadImageInformation();
-      }
-    catch( itk::ExceptionObject & e )
-      {
+    }
+    catch (itk::ExceptionObject & e)
+    {
       std::cerr << "Could not read information from the camera" << std::endl;
       std::cerr << "If a camera is present, this test requires it to be on with OpenCV 2" << std::endl;
       std::cerr << e << std::endl;
       return EXIT_FAILURE;
-      }
+    }
 
     // Set up buffer for camera
     itk::SizeValueType camBufferSize = opencvIO->GetImageSizeInBytes();
-    PixelType * camBuffer = new PixelType[camBufferSize];
+    PixelType *        camBuffer = new PixelType[camBufferSize];
 
     // Read from the camera
     try
-      {
-      opencvIO->Read(reinterpret_cast<void *>(camBuffer) );
-      }
-    catch( itk::ExceptionObject & e )
-      {
+    {
+      opencvIO->Read(reinterpret_cast<void *>(camBuffer));
+    }
+    catch (itk::ExceptionObject & e)
+    {
       std::cerr << "Could not read from the camera" << std::endl;
       std::cerr << e << std::endl;
       ret = EXIT_FAILURE;
-      }
+    }
 
     // Get an ITK image from the camera's frame
     ImageType::Pointer cameraFrame = itkImageFromBuffer(opencvIO, camBuffer, camBufferSize);
@@ -428,8 +429,7 @@ int test_OpenCVVideoIO( char* input, char* nonVideoInput, char* output, char* ca
 
     // Finish reading
     opencvIO->FinishReadingOrWriting();
-
-    }
+  }
 
   //
   // Test Writing
@@ -444,19 +444,15 @@ int test_OpenCVVideoIO( char* input, char* nonVideoInput, char* output, char* ca
   std::vector<itk::SizeValueType> size;
   size.push_back(width);
   size.push_back(height);
-  opencvIO->SetWriterParameters(fps,
-                                size,
-                                fourCC,
-                                nChannels,
-                                itk::ImageIOBase::UCHAR);
+  opencvIO->SetWriterParameters(fps, size, fourCC, nChannels, itk::ImageIOBase::UCHAR);
 
   // Make sure they set correctly
-  if( opencvIO->GetFramesPerSecond() != fps || opencvIO->GetDimensions(0) != width ||
-      opencvIO->GetDimensions(1) != height || opencvIO->GetNumberOfComponents() != nChannels )
-    {
+  if (opencvIO->GetFramesPerSecond() != fps || opencvIO->GetDimensions(0) != width ||
+      opencvIO->GetDimensions(1) != height || opencvIO->GetNumberOfComponents() != nChannels)
+  {
     std::cerr << "Didn't set writer parmeters correctly" << std::endl;
     ret = EXIT_FAILURE;
-    }
+  }
 
   //
   // CanWriteFile
@@ -464,18 +460,18 @@ int test_OpenCVVideoIO( char* input, char* nonVideoInput, char* output, char* ca
   std::cout << "OpenCVVideoIO::CanWriteFile..." << std::endl;
 
   // Test CanWriteFile on good filename
-  if( !opencvIO->CanWriteFile(output) )
-    {
+  if (!opencvIO->CanWriteFile(output))
+  {
     std::cerr << "CanWriteFile didn't return true correctly" << std::endl;
     ret = EXIT_FAILURE;
-    }
+  }
 
   // Test CanWriteFile on bad filename
-  if( opencvIO->CanWriteFile("asdfasdfasdf") )
-    {
+  if (opencvIO->CanWriteFile("asdfasdfasdf"))
+  {
     std::cerr << "CanWriteFile should have failed for bad filename" << std::endl;
     ret = EXIT_FAILURE;
-    }
+  }
 
   //
   // Write
@@ -483,27 +479,26 @@ int test_OpenCVVideoIO( char* input, char* nonVideoInput, char* output, char* ca
   std::cout << "OpenCVVIdeoIO::Write..." << std::endl;
 
   // Set output filename
-  opencvIO->SetFileName( output );
+  opencvIO->SetFileName(output);
 
   // Set up a second VideoIO to read while we're writing
   itk::OpenCVVideoIO::Pointer opencvIO2 = itk::OpenCVVideoIO::New();
-  opencvIO2->SetFileName( input );
+  opencvIO2->SetFileName(input);
   opencvIO2->ReadImageInformation();
   // Loop through all frames to read with opencvIO2 and write with opencvIO
-  for( unsigned int i = 0; i *opencvIO2->GetIFrameInterval() < inNumFrames; i++ )
-    {
+  for (unsigned int i = 0; i * opencvIO2->GetIFrameInterval() < inNumFrames; i++)
+  {
     // Set up a buffer to read to
     itk::SizeValueType bufferSizeT = opencvIO2->GetImageSizeInBytes();
-    PixelType * bufferT = new PixelType[bufferSizeT];
+    PixelType *        bufferT = new PixelType[bufferSizeT];
 
     // Read into the buffer
-    opencvIO2->Read(static_cast<void *>(bufferT) );
+    opencvIO2->Read(static_cast<void *>(bufferT));
 
     // Write out the frame from the buffer
-    opencvIO->Write(static_cast<void *>(bufferT) );
+    opencvIO->Write(static_cast<void *>(bufferT));
     delete[] bufferT;
-
-    }
+  }
 
   // Finish writing
   opencvIO2->FinishReadingOrWriting();
@@ -531,17 +526,19 @@ int test_OpenCVVideoIO( char* input, char* nonVideoInput, char* output, char* ca
   return ret;
 }
 
-int itkOpenCVVideoIOTest( int argc, char *argv[] )
+int
+itkOpenCVVideoIOTest(int argc, char * argv[])
 {
-  if( argc != 9 )
-    {
+  if (argc != 9)
+  {
     std::cerr << "Usage: [Video Input] [Non-Video Input] [Video Output] [Webcam Output] "
-    "[Width] [Height] [Num Frames] [FpS]" << std::endl;
+                 "[Width] [Height] [Num Frames] [FpS]"
+              << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  itk::ObjectFactoryBase::RegisterFactory( itk::OpenCVVideoIOFactory::New() );
+  itk::ObjectFactoryBase::RegisterFactory(itk::OpenCVVideoIOFactory::New());
 
-  return test_OpenCVVideoIO(argv[1], argv[2], argv[3], argv[4], std::stoi(argv[5]), std::stoi(argv[6]),
-                            std::stoi(argv[7]), std::stod(argv[8]) );
+  return test_OpenCVVideoIO(
+    argv[1], argv[2], argv[3], argv[4], std::stoi(argv[5]), std::stoi(argv[6]), std::stoi(argv[7]), std::stod(argv[8]));
 }

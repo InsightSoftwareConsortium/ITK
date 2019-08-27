@@ -33,16 +33,17 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-template< typename TItemType >
-class ITK_TEMPLATE_EXPORT MatrixResizeableDataObject:public DataObject, public vnl_matrix< TItemType >
+template <typename TItemType>
+class ITK_TEMPLATE_EXPORT MatrixResizeableDataObject
+  : public DataObject
+  , public vnl_matrix<TItemType>
 {
 public:
-
   /** Standard class type aliases. */
   using Self = MatrixResizeableDataObject;
   using Superclass = DataObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -51,7 +52,6 @@ public:
   itkTypeMacro(MatrixResizeableDataObject, DataObject);
 
 protected:
-
   /** Default Constructor. */
   MatrixResizeableDataObject() = default;
 

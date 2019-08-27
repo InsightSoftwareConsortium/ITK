@@ -75,7 +75,7 @@ namespace itk
  * \ingroup ITKIOCSV
  */
 template <typename TData>
-class ITK_TEMPLATE_EXPORT CSVArray2DFileReader:public CSVFileReaderBase
+class ITK_TEMPLATE_EXPORT CSVArray2DFileReader : public CSVFileReaderBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(CSVArray2DFileReader);
@@ -100,41 +100,42 @@ public:
   using ValueType = TData;
 
   /** This method can be used to get the data frame object once the data from
-  * the file has been parsed. */
+   * the file has been parsed. */
   itkGetModifiableObjectMacro(Array2DDataObject, Array2DDataObjectType);
 
   /** Parses the data from the file. Gets all the fields and parses row and
-  * column headers, if any, into std::vectors of strings and parses the numeric
-  * data into an Array2D object. The vectors and the Array2D object are part of
-  * the Array2DDataFrameobject. */
-  void Parse() override;
+   * column headers, if any, into std::vectors of strings and parses the numeric
+   * data into an Array2D object. The vectors and the Array2D object are part of
+   * the Array2DDataFrameobject. */
+  void
+  Parse() override;
 
   /** Aliased to the Parse() method to be consistent with the rest of the
    * pipeline. */
-  virtual void Update();
+  virtual void
+  Update();
 
   /** Aliased to the GetDataFrameObject() method to be consistent with the
    *  rest of the pipeline */
-  virtual Array2DDataObjectPointer GetOutput();
+  virtual Array2DDataObjectPointer
+  GetOutput();
 
 protected:
-
   CSVArray2DFileReader();
-  ~CSVArray2DFileReader () override = default;
+  ~CSVArray2DFileReader() override = default;
 
   /** Print the reader. */
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-
-  Array2DDataObjectPointer   m_Array2DDataObject;
-
+  Array2DDataObjectPointer m_Array2DDataObject;
 };
 
-} //end namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCSVArray2DFileReader.hxx"
+#  include "itkCSVArray2DFileReader.hxx"
 #endif
 
 #endif

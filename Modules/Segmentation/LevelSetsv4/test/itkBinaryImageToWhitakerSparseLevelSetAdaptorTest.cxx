@@ -20,46 +20,45 @@
 #include "itkImageFileWriter.h"
 #include "itkBinaryImageToLevelSetImageAdaptor.h"
 
-int itkBinaryImageToWhitakerSparseLevelSetAdaptorTest( int argc, char* argv[] )
+int
+itkBinaryImageToWhitakerSparseLevelSetAdaptorTest(int argc, char * argv[])
 {
-  if( argc < 4 )
-    {
+  if (argc < 4)
+  {
     std::cerr << "Missing Arguments" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int Dimension = 2;
 
   using InputPixelType = unsigned char;
   using OutputPixelType = double;
 
-  using InputImageType = itk::Image< InputPixelType, Dimension >;
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
 
-  using InputReaderType = itk::ImageFileReader< InputImageType >;
+  using InputReaderType = itk::ImageFileReader<InputImageType>;
   InputReaderType::Pointer reader = InputReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
   try
-    {
+  {
     reader->Update();
-    }
-  catch ( itk::ExceptionObject& err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cout << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   InputImageType::Pointer input = reader->GetOutput();
   std::cout << "Input image read" << std::endl;
 
-  using LevelSetType =
-      itk::WhitakerSparseLevelSetImage< OutputPixelType, Dimension >;
+  using LevelSetType = itk::WhitakerSparseLevelSetImage<OutputPixelType, Dimension>;
 
-  using BinaryToSparseAdaptorType = itk::BinaryImageToLevelSetImageAdaptor< InputImageType,
-      LevelSetType >;
+  using BinaryToSparseAdaptorType = itk::BinaryImageToLevelSetImageAdaptor<InputImageType, LevelSetType>;
 
   BinaryToSparseAdaptorType::Pointer adaptor = BinaryToSparseAdaptorType::New();
-  adaptor->SetInputImage( input );
+  adaptor->SetInputImage(input);
   adaptor->Initialize();
 
   std::cout << "Finished converting to sparse format" << std::endl;
@@ -67,91 +66,90 @@ int itkBinaryImageToWhitakerSparseLevelSetAdaptorTest( int argc, char* argv[] )
   using LayerIdType = LevelSetType::LayerIdType;
   LevelSetType::Pointer sparseLevelSet = adaptor->GetModifiableLevelSet();
 
-  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
   OutputImageType::Pointer output = OutputImageType::New();
-  output->SetRegions( input->GetLargestPossibleRegion() );
-  output->CopyInformation( input );
+  output->SetRegions(input->GetLargestPossibleRegion());
+  output->CopyInformation(input);
   output->Allocate();
-  output->FillBuffer( 0.0 );
+  output->FillBuffer(0.0);
 
-  using StatusImageType = itk::Image< signed char, Dimension >;
+  using StatusImageType = itk::Image<signed char, Dimension>;
   StatusImageType::Pointer statusImage = StatusImageType::New();
-  statusImage->SetRegions( input->GetLargestPossibleRegion() );
-  statusImage->CopyInformation( input );
+  statusImage->SetRegions(input->GetLargestPossibleRegion());
+  statusImage->CopyInformation(input);
   statusImage->Allocate();
-  statusImage->FillBuffer( 0 );
+  statusImage->FillBuffer(0);
 
-  using OutputIteratorType = itk::ImageRegionIteratorWithIndex< OutputImageType >;
-  OutputIteratorType oIt( output, output->GetLargestPossibleRegion() );
+  using OutputIteratorType = itk::ImageRegionIteratorWithIndex<OutputImageType>;
+  OutputIteratorType oIt(output, output->GetLargestPossibleRegion());
   oIt.GoToBegin();
 
-  using StatusIteratorType = itk::ImageRegionIteratorWithIndex< StatusImageType >;
-  StatusIteratorType sIt( statusImage, statusImage->GetLargestPossibleRegion() );
+  using StatusIteratorType = itk::ImageRegionIteratorWithIndex<StatusImageType>;
+  StatusIteratorType sIt(statusImage, statusImage->GetLargestPossibleRegion());
   sIt.GoToBegin();
 
   StatusImageType::IndexType idx;
 
-  while( !oIt.IsAtEnd() )
-    {
+  while (!oIt.IsAtEnd())
+  {
     idx = oIt.GetIndex();
-    oIt.Set( sparseLevelSet->Evaluate( idx ) );
-    sIt.Set( sparseLevelSet->Status( idx ) );
+    oIt.Set(sparseLevelSet->Evaluate(idx));
+    sIt.Set(sparseLevelSet->Status(idx));
     ++oIt;
     ++sIt;
-    }
+  }
 
-  using OutputWriterType = itk::ImageFileWriter< OutputImageType >;
+  using OutputWriterType = itk::ImageFileWriter<OutputImageType>;
   OutputWriterType::Pointer outputWriter = OutputWriterType::New();
-  outputWriter->SetFileName( argv[2] );
-  outputWriter->SetInput( output );
+  outputWriter->SetFileName(argv[2]);
+  outputWriter->SetInput(output);
 
   try
-    {
+  {
     outputWriter->Update();
-    }
-  catch ( itk::ExceptionObject& err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cout << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  using StatusWriterType = itk::ImageFileWriter< StatusImageType >;
+  using StatusWriterType = itk::ImageFileWriter<StatusImageType>;
   StatusWriterType::Pointer statusWriter = StatusWriterType::New();
-  statusWriter->SetFileName( argv[3] );
-  statusWriter->SetInput( statusImage );
+  statusWriter->SetFileName(argv[3]);
+  statusWriter->SetInput(statusImage);
 
   try
-    {
+  {
     statusWriter->Update();
-    }
-  catch ( itk::ExceptionObject& err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cout << err << std::endl;
-    }
+  }
 
-  for( LayerIdType lyr = sparseLevelSet->MinusTwoLayer();
-      lyr <= sparseLevelSet->PlusTwoLayer(); lyr ++ )
+  for (LayerIdType lyr = sparseLevelSet->MinusTwoLayer(); lyr <= sparseLevelSet->PlusTwoLayer(); lyr++)
+  {
+    LevelSetType::LayerType layer = sparseLevelSet->GetLayer(lyr);
+    auto                    lIt = layer.begin();
+
+    std::cout << "*** " << static_cast<int>(lyr) << " ***" << std::endl;
+
+    while (lIt != layer.end())
     {
-    LevelSetType::LayerType layer = sparseLevelSet->GetLayer( lyr );
-    auto lIt = layer.begin();
-
-    std::cout << "*** " << static_cast< int >( lyr ) << " ***" <<std::endl;
-
-    while( lIt != layer.end() )
-      {
       std::cout << lIt->first << ' ' << lIt->second << std::endl;
       ++lIt;
-      }
-    std::cout << std::endl;
     }
+    std::cout << std::endl;
+  }
 
-  using LabelObjectType = itk::LabelObject< unsigned long, 2 >;
+  using LabelObjectType = itk::LabelObject<unsigned long, 2>;
   using LabelObjectPointer = LabelObjectType::Pointer;
 
   LabelObjectPointer labelObject = LabelObjectType::New();
   LabelObjectPointer labelObjectSrc = sparseLevelSet->GetAsLabelObject<unsigned long>();
-  labelObject->CopyAllFrom<LabelObjectType>( labelObjectSrc );
-  labelObject->SetLabel( sparseLevelSet->PlusOneLayer() );
+  labelObject->CopyAllFrom<LabelObjectType>(labelObjectSrc);
+  labelObject->SetLabel(sparseLevelSet->PlusOneLayer());
 
   labelObject->Optimize();
   std::cout << labelObject->Size() << std::endl;

@@ -22,64 +22,58 @@ namespace itk
 {
 
 long
-GeometryUtilities
-::Factorial(const long n)
+GeometryUtilities ::Factorial(const long n)
 {
-  if ( n < 1 )
-    {
+  if (n < 1)
+  {
     return 1;
-    }
+  }
   return n * Factorial(n - 1);
 }
 
 long
-GeometryUtilities
-::DoubleFactorial(const long n)
+GeometryUtilities ::DoubleFactorial(const long n)
 {
-  if ( n < 2 )
-    {
+  if (n < 2)
+  {
     return 1;
-    }
+  }
   return n * DoubleFactorial(n - 2);
 }
 
 double
-GeometryUtilities
-::GammaN2p1(const long n)
+GeometryUtilities ::GammaN2p1(const long n)
 {
   const bool even = n % 2 == 0;
 
-  if ( even )
-    {
+  if (even)
+  {
     return Factorial(n / 2);
-    }
+  }
   else
-    {
-    return std::sqrt(itk::Math::pi) * DoubleFactorial(n) / std::pow(2, ( n + 1 ) / 2.0);
-    }
+  {
+    return std::sqrt(itk::Math::pi) * DoubleFactorial(n) / std::pow(2, (n + 1) / 2.0);
+  }
 }
 
 double
-GeometryUtilities
-::HyperSphereVolume(const int dim, const double radius)
+GeometryUtilities ::HyperSphereVolume(const int dim, const double radius)
 {
-  const auto dbldim = static_cast< double >( dim );
+  const auto dbldim = static_cast<double>(dim);
 
   return std::pow(itk::Math::pi, dbldim * 0.5) * std::pow(radius, dbldim) / GammaN2p1(dim);
 }
 
 double
-GeometryUtilities
-::HyperSpherePerimeter(const int dim, const double radius)
+GeometryUtilities ::HyperSpherePerimeter(const int dim, const double radius)
 {
   return dim * HyperSphereVolume(dim, radius) / radius;
 }
 
 double
-GeometryUtilities
-::HyperSphereRadiusFromVolume(const int dim, const double volume)
+GeometryUtilities ::HyperSphereRadiusFromVolume(const int dim, const double volume)
 {
   return std::pow(volume * GammaN2p1(dim) / std::pow(itk::Math::pi, dim * 0.5), 1.0 / dim);
 }
 
-} // end of itk namespace
+} // namespace itk

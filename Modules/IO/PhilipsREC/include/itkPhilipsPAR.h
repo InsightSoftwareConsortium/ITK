@@ -42,31 +42,31 @@
 #include "itkVectorContainer.h"
 #include "vnl/vnl_vector_fixed.h"
 
-#define RESEARCH_IMAGE_EXPORT_TOOL_V3       30
-#define RESEARCH_IMAGE_EXPORT_TOOL_V4       40
-#define RESEARCH_IMAGE_EXPORT_TOOL_V4_1     41
-#define RESEARCH_IMAGE_EXPORT_TOOL_V4_2     42
-#define RESEARCH_IMAGE_EXPORT_TOOL_UNKNOWN  -1
+#define RESEARCH_IMAGE_EXPORT_TOOL_V3 30
+#define RESEARCH_IMAGE_EXPORT_TOOL_V4 40
+#define RESEARCH_IMAGE_EXPORT_TOOL_V4_1 41
+#define RESEARCH_IMAGE_EXPORT_TOOL_V4_2 42
+#define RESEARCH_IMAGE_EXPORT_TOOL_UNKNOWN -1
 
-#define PAR_DEFAULT_STRING_LENGTH           32
-#define PAR_DEFAULT_TRIGGER_TIMES_SIZE      128
-#define PAR_DEFAULT_ECHO_TIMES_SIZE         128
-#define PAR_DEFAULT_REP_TIMES_SIZE          128
-#define PAR_DEFAULT_IMAGE_TYPES_SIZE        8
-#define PAR_DEFAULT_SCAN_SEQUENCE_SIZE      8
-#define PAR_RESCALE_VALUES_SIZE             3
-#define PAR_DIFFUSION_VALUES_SIZE           3
+#define PAR_DEFAULT_STRING_LENGTH 32
+#define PAR_DEFAULT_TRIGGER_TIMES_SIZE 128
+#define PAR_DEFAULT_ECHO_TIMES_SIZE 128
+#define PAR_DEFAULT_REP_TIMES_SIZE 128
+#define PAR_DEFAULT_IMAGE_TYPES_SIZE 8
+#define PAR_DEFAULT_SCAN_SEQUENCE_SIZE 8
+#define PAR_RESCALE_VALUES_SIZE 3
+#define PAR_DIFFUSION_VALUES_SIZE 3
 
-#define PAR_SLICE_ORIENTATION_TRANSVERSAL   1
-#define PAR_SLICE_ORIENTATION_SAGITTAL      2
-#define PAR_SLICE_ORIENTATION_CORONAL       3
+#define PAR_SLICE_ORIENTATION_TRANSVERSAL 1
+#define PAR_SLICE_ORIENTATION_SAGITTAL 2
+#define PAR_SLICE_ORIENTATION_CORONAL 3
 
 namespace itk
 {
 /**
  * \struct par_parameter
  */
-struct par_parameter  //par_parameter
+struct par_parameter // par_parameter
 {
   int problemreading;                                     // Marked 1 if problem
                                                           // occurred reading in
@@ -82,10 +82,10 @@ struct par_parameter  //par_parameter
   char exam_time[PAR_DEFAULT_STRING_LENGTH];              // Examination
                                                           // date/time
   char series_type[PAR_DEFAULT_STRING_LENGTH];            // Series Type
-  int scno;                                               // Acquisition nr
-  int recno;                                              // Reconstruction nr
-  int scan_duration;                                      // Scan Duration [sec]
-  int cardiac_phases;                                     // Max. number of
+  int  scno;                                              // Acquisition nr
+  int  recno;                                             // Reconstruction nr
+  int  scan_duration;                                     // Scan Duration [sec]
+  int  cardiac_phases;                                    // Max. number of
                                                           // cardiac phases
   float trigger_times[PAR_DEFAULT_TRIGGER_TIMES_SIZE];    // trigger_time
                                                           // (float)
@@ -106,8 +106,8 @@ struct par_parameter  //par_parameter
                                                           // or 16 bits]
   char technique[PAR_DEFAULT_STRING_LENGTH];              // Technique
   char scan_mode[PAR_DEFAULT_STRING_LENGTH];              // Scan mode
-  int num_averages;                                       // Number of averages
-  int scan_resolution[2];                                 // Scan resolution
+  int  num_averages;                                      // Number of averages
+  int  scan_resolution[2];                                // Scan resolution
                                                           //  (x, y)
   int scan_percent;                                       // Scan percentage
   int dim[3];                                             // Recon resolution
@@ -142,9 +142,9 @@ struct par_parameter  //par_parameter
                                                           // <0=no 1=yes> ?
   int presaturation;                                      // Presaturation
                                                           //     <0=no 1=yes> ?
-  int cardiac_freq;                                       // Cardiac frequency
-  int min_rr_int;                                         // Min. RR interval
-  int max_rr_int;                                         // Max. RR interval
+  int   cardiac_freq;                                     // Cardiac frequency
+  int   min_rr_int;                                       // Min. RR interval
+  int   max_rr_int;                                       // Max. RR interval
   float phase_encode_vel[3];                              // Phase encoding
                                                           // velocity [cm/sec]
   int mtc;                                                // MTC
@@ -209,7 +209,7 @@ struct par_parameter  //par_parameter
  *
  * \ingroup ITKIOPhilipsREC
  */
-class ITKIOPhilipsREC_EXPORT PhilipsPAR:public LightProcessObject
+class ITKIOPhilipsREC_EXPORT PhilipsPAR : public LightProcessObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PhilipsPAR);
@@ -217,7 +217,7 @@ public:
   /** Standard class type aliases. */
   using Self = PhilipsPAR;
   using Superclass = LightProcessObject;
-  using Pointer = SmartPointer< Self >;
+  using Pointer = SmartPointer<Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -229,43 +229,42 @@ public:
   // pPar.
   // Returns false if an error is encountered during reading, otherwise true is
   // returned.
-  void ReadPAR(std::string parFile, struct par_parameter *pPar);
+  void
+  ReadPAR(std::string parFile, struct par_parameter * pPar);
 
   // Returns a vector of paired values, the first contains the slice index and
   // the
   // second is the image type for the PAR file "parFile".
-  using PARSliceIndexImageType = std::pair< int, int >;
-  using PARSliceIndexImageTypeVector = std::vector< PARSliceIndexImageType >;
-  PARSliceIndexImageTypeVector GetRECSliceIndexImageTypes(
-    std::string parFile);
+  using PARSliceIndexImageType = std::pair<int, int>;
+  using PARSliceIndexImageTypeVector = std::vector<PARSliceIndexImageType>;
+  PARSliceIndexImageTypeVector
+  GetRECSliceIndexImageTypes(std::string parFile);
 
   // Returns a vector of paired values, the first contains the slice index and
   // the
   // second is the scan sequence for the PAR file "parFile".
-  using PARSliceIndexScanSequence = std::pair< int, int >;
-  using PARSliceIndexScanSequenceVector = std::vector< PARSliceIndexScanSequence >;
-  PARSliceIndexScanSequenceVector GetRECSliceIndexScanningSequence(
-    std::string parFile);
+  using PARSliceIndexScanSequence = std::pair<int, int>;
+  using PARSliceIndexScanSequenceVector = std::vector<PARSliceIndexScanSequence>;
+  PARSliceIndexScanSequenceVector
+  GetRECSliceIndexScanningSequence(std::string parFile);
 
   // Returns a vector of paired values, the first contains the image type and
   // the
   // second is the scan sequence for that image type for the PAR file "parFile".
-  using PARImageTypeScanSequence = std::pair< int, int >;
-  using PARImageTypeScanSequenceVector = std::vector< PARImageTypeScanSequence >;
-  PARImageTypeScanSequenceVector GetImageTypesScanningSequence(
-    std::string parFile);
+  using PARImageTypeScanSequence = std::pair<int, int>;
+  using PARImageTypeScanSequenceVector = std::vector<PARImageTypeScanSequence>;
+  PARImageTypeScanSequenceVector
+  GetImageTypesScanningSequence(std::string parFile);
 
   // Stores rescale values in the VectorContainer "rescaleValues" for each image
   // type of the specified scan sequence number "scan_sequence" (from
   // scanning_sequences) for the PAR file "parFile".
   // Returns false if an error is encountered during reading, otherwise true is
   // returned.
-  using PARRescaleValues =
-      vnl_vector_fixed< double, PAR_RESCALE_VALUES_SIZE >;
-  using PARRescaleValuesContainer =
-      VectorContainer< unsigned int, PARRescaleValues >;
-  bool GetRECRescaleValues(std::string parFile,
-                           PARRescaleValuesContainer *rescaleValues, int scan_sequence);
+  using PARRescaleValues = vnl_vector_fixed<double, PAR_RESCALE_VALUES_SIZE>;
+  using PARRescaleValuesContainer = VectorContainer<unsigned int, PARRescaleValues>;
+  bool
+  GetRECRescaleValues(std::string parFile, PARRescaleValuesContainer * rescaleValues, int scan_sequence);
 
   // Stores the diffusion gradient values in the VectorContainer
   // "gradientValues"
@@ -276,42 +275,44 @@ public:
   // versions > 4.1
   // Returns false if an error is encountered during reading, otherwise true is
   // returned.
-  using PARDiffusionValues =
-      vnl_vector_fixed< double, PAR_DIFFUSION_VALUES_SIZE >;
-  using PARDiffusionValuesContainer =
-      VectorContainer< unsigned int, PARDiffusionValues >;
-  using PARBValuesContainer =
-      VectorContainer< unsigned int, double >;
-  bool GetDiffusionGradientOrientationAndBValues(std::string parFile,
-                                                 PARDiffusionValuesContainer *gradientValues,
-                                                 PARBValuesContainer *bValues);
+  using PARDiffusionValues = vnl_vector_fixed<double, PAR_DIFFUSION_VALUES_SIZE>;
+  using PARDiffusionValuesContainer = VectorContainer<unsigned int, PARDiffusionValues>;
+  using PARBValuesContainer = VectorContainer<unsigned int, double>;
+  bool
+  GetDiffusionGradientOrientationAndBValues(std::string                   parFile,
+                                            PARDiffusionValuesContainer * gradientValues,
+                                            PARBValuesContainer *         bValues);
 
   // Returns a vector of ASL label types for the PAR file "parFile".
-  using PARLabelTypesASLContainer = VectorContainer< unsigned int, int >;
-  bool GetLabelTypesASL(std::string parFile,
-                        PARLabelTypesASLContainer *labelTypes);
+  using PARLabelTypesASLContainer = VectorContainer<unsigned int, int>;
+  bool
+  GetLabelTypesASL(std::string parFile, PARLabelTypesASLContainer * labelTypes);
 
   // Read a line number within the PAR file.
-  std::string GetLineNumber(std::string file, int lineNum);
+  std::string
+  GetLineNumber(std::string file, int lineNum);
 
 protected:
   PhilipsPAR();
   ~PhilipsPAR() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /** Function used internally to get PAR version. */
-  int GetPARVersion(std::string parFile);
+  int
+  GetPARVersion(std::string parFile);
 
   /** Function used internally to get info string at top of PAR. */
-  std::string GetGeneralInfoString(std::string file, int lineNum);
+  std::string
+  GetGeneralInfoString(std::string file, int lineNum);
 
   /** Filename to read. */
   std::string m_FileName;
 
   /** Vector of strings for storing each line of PAR file. */
-  std::vector< std::string > m_PARFileLines;
+  std::vector<std::string> m_PARFileLines;
 };
 } // end namespace itk
 
-#endif                           /* itkPhilipsPAR_h */
+#endif /* itkPhilipsPAR_h */

@@ -29,7 +29,7 @@ namespace itk
  * \brief Create instances of TIFFImageIO objects using an object factory.
  * \ingroup ITKIOTIFF
  */
-class ITKIOTIFF_EXPORT TIFFImageIOFactory:public ObjectFactoryBase
+class ITKIOTIFF_EXPORT TIFFImageIOFactory : public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(TIFFImageIOFactory);
@@ -37,22 +37,29 @@ public:
   /** Standard class type aliases. */
   using Self = TIFFImageIOFactory;
   using Superclass = ObjectFactoryBase;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
-  const char * GetITKSourceVersion() const override;
+  const char *
+  GetITKSourceVersion() const override;
 
-  const char * GetDescription() const override;
+  const char *
+  GetDescription() const override;
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
-  static TIFFImageIOFactory * FactoryNew() { return new TIFFImageIOFactory; }
+  static TIFFImageIOFactory *
+  FactoryNew()
+  {
+    return new TIFFImageIOFactory;
+  }
   /** Run-time type information (and related methods). */
   itkTypeMacro(TIFFImageIOFactory, ObjectFactoryBase);
 
   /** Register one factory of this type  */
-  static void RegisterOneFactory()
+  static void
+  RegisterOneFactory()
   {
     TIFFImageIOFactory::Pointer TIFFFactory = TIFFImageIOFactory::New();
 

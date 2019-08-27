@@ -28,47 +28,46 @@ namespace itk
  *  \ingroup DataRepresentation
  *  \ingroup ITKCommon
  */
-template< typename TObjectType >
+template <typename TObjectType>
 class TreeIteratorClone
 {
 public:
-
   /** Typedefs */
-  using Self = TreeIteratorClone< TObjectType >;
+  using Self = TreeIteratorClone<TObjectType>;
   using ObjectType = TObjectType;
 
   /** Constructor  */
-  TreeIteratorClone () { m_Pointer = 0; }
+  TreeIteratorClone() { m_Pointer = 0; }
 
   /** Copy constructor  */
-  TreeIteratorClone (const TreeIteratorClone< ObjectType > & p)
+  TreeIteratorClone(const TreeIteratorClone<ObjectType> & p)
   {
     m_Pointer = nullptr;
-    if ( p.m_Pointer != nullptr )
-      {
+    if (p.m_Pointer != nullptr)
+    {
       m_Pointer = p.m_Pointer->Clone();
-      }
+    }
   }
 
   /** Constructor to pointer p  */
-  TreeIteratorClone (ObjectType *p)
+  TreeIteratorClone(ObjectType * p)
   {
     m_Pointer = 0;
-    if ( p != nullptr )
-      {
+    if (p != nullptr)
+    {
       m_Pointer = p->Clone();
-      }
+    }
   }
 
   /** Constructor to reference p  */
-  TreeIteratorClone (const ObjectType & p)
+  TreeIteratorClone(const ObjectType & p)
   {
     m_Pointer = nullptr;
-    m_Pointer = const_cast< ObjectType * >( &p )->Clone();
+    m_Pointer = const_cast<ObjectType *>(&p)->Clone();
   }
 
   /** Destructor  */
-  ~TreeIteratorClone ()
+  ~TreeIteratorClone()
   {
     delete m_Pointer;
     m_Pointer = nullptr;
@@ -78,86 +77,129 @@ public:
   ObjectType * operator->() const { return m_Pointer; }
 
   /** Test if the pointer has been initialized */
-  bool IsNotNull() const { return m_Pointer != 0; }
-  bool IsNull() const { return m_Pointer == 0; }
+  bool
+  IsNotNull() const
+  {
+    return m_Pointer != 0;
+  }
+  bool
+  IsNull() const
+  {
+    return m_Pointer == 0;
+  }
 
   /** Template comparison operators. */
-  template< typename TR >
-  bool operator==(TR r) const { return ( m_Pointer == (ObjectType *)( r ) ); }
+  template <typename TR>
+  bool
+  operator==(TR r) const
+  {
+    return (m_Pointer == (ObjectType *)(r));
+  }
 
-  template< typename TR >
-  bool operator!=(TR r) const { return ( m_Pointer != (ObjectType *)( r ) ); }
+  template <typename TR>
+  bool
+  operator!=(TR r) const
+  {
+    return (m_Pointer != (ObjectType *)(r));
+  }
 
   /** Access function to pointer. */
-  ObjectType * GetPointer() const { return m_Pointer; }
+  ObjectType *
+  GetPointer() const
+  {
+    return m_Pointer;
+  }
 
   /** Comparison of pointers. Less than comparison.  */
-  bool operator<(const TreeIteratorClone & r) const { return (void *)m_Pointer < (void *)r.m_Pointer;  }
+  bool
+  operator<(const TreeIteratorClone & r) const
+  {
+    return (void *)m_Pointer < (void *)r.m_Pointer;
+  }
 
   /** Comparison of pointers. Greater than comparison.  */
-  bool operator>(const TreeIteratorClone & r) const { return (void *)m_Pointer > (void *)r.m_Pointer; }
+  bool
+  operator>(const TreeIteratorClone & r) const
+  {
+    return (void *)m_Pointer > (void *)r.m_Pointer;
+  }
 
   /** Comparison of pointers. Less than or equal to comparison.  */
-  bool operator<=(const TreeIteratorClone & r) const { return (void *)m_Pointer <= (void *)r.m_Pointer; }
+  bool
+  operator<=(const TreeIteratorClone & r) const
+  {
+    return (void *)m_Pointer <= (void *)r.m_Pointer;
+  }
 
   /** Comparison of pointers. Greater than or equal to comparison.  */
-  bool operator>=(const TreeIteratorClone & r) const { return (void *)m_Pointer >= (void *)r.m_Pointer; }
-
-  /** Overload operator assignment.  */
-  TreeIteratorClone & operator=(const TreeIteratorClone & r) { return this->operator=( r.GetPointer() ); }
-
-  /** Overload operator assignment.  */
-  TreeIteratorClone & operator=(const ObjectType *r)
+  bool
+  operator>=(const TreeIteratorClone & r) const
   {
-    if ( m_Pointer != r )
-      {
+    return (void *)m_Pointer >= (void *)r.m_Pointer;
+  }
+
+  /** Overload operator assignment.  */
+  TreeIteratorClone &
+  operator=(const TreeIteratorClone & r)
+  {
+    return this->operator=(r.GetPointer());
+  }
+
+  /** Overload operator assignment.  */
+  TreeIteratorClone &
+  operator=(const ObjectType * r)
+  {
+    if (m_Pointer != r)
+    {
       delete m_Pointer;
       m_Pointer = nullptr;
-      if ( r != nullptr )
-        {
-        m_Pointer = const_cast< ObjectType * >( r )->Clone();
-        }
+      if (r != nullptr)
+      {
+        m_Pointer = const_cast<ObjectType *>(r)->Clone();
       }
+    }
     return *this;
   }
 
   Self &
   operator++()
   {
-    if ( m_Pointer )
-      {
-      ++( *m_Pointer );
-      }
+    if (m_Pointer)
+    {
+      ++(*m_Pointer);
+    }
     return *this;
   }
 
   const Self
   operator++(int)
   {
-    if ( m_Pointer )
-      {
-      const Self oldValue(m_Pointer);   // create a copy of the iterator behind
-                                        // the pointer (Clone())
-      ++( *m_Pointer );
+    if (m_Pointer)
+    {
+      const Self oldValue(m_Pointer); // create a copy of the iterator behind
+                                      // the pointer (Clone())
+      ++(*m_Pointer);
       return oldValue;
-      }
+    }
   }
 
   /** Function to print object pointed to  */
-  ObjectType * Print(std::ostream & os) const
+  ObjectType *
+  Print(std::ostream & os) const
   {
     // This prints the object pointed to by the pointer
-    ( *m_Pointer ).Print(os);
+    (*m_Pointer).Print(os);
     return m_Pointer;
   }
 
 private:
   /** The pointer to the object referred to by this smart pointer. */
-  ObjectType *m_Pointer;
+  ObjectType * m_Pointer;
 };
 
-template< typename T >
-std::ostream & operator<<(std::ostream & os, TreeIteratorClone< T > p)
+template <typename T>
+std::ostream &
+operator<<(std::ostream & os, TreeIteratorClone<T> p)
 {
   p.Print(os);
   return os;

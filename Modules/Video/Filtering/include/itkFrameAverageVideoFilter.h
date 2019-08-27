@@ -31,9 +31,8 @@ namespace itk
  *
  * \ingroup ITKVideoFiltering
  */
-template<typename TInputVideoStream, typename TOutputVideoStream>
-class ITK_TEMPLATE_EXPORT FrameAverageVideoFilter :
-  public VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>
+template <typename TInputVideoStream, typename TOutputVideoStream>
+class ITK_TEMPLATE_EXPORT FrameAverageVideoFilter : public VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FrameAverageVideoFilter);
@@ -41,13 +40,11 @@ public:
   /** Standard class type aliases */
   using InputVideoStreamType = TInputVideoStream;
   using OutputVideoStreamType = TOutputVideoStream;
-  using Self = FrameAverageVideoFilter< InputVideoStreamType,
-                                   OutputVideoStreamType >;
-  using Superclass = VideoToVideoFilter< InputVideoStreamType,
-                              OutputVideoStreamType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using ConstWeakPointer = WeakPointer< const Self >;
+  using Self = FrameAverageVideoFilter<InputVideoStreamType, OutputVideoStreamType>;
+  using Superclass = VideoToVideoFilter<InputVideoStreamType, OutputVideoStreamType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using ConstWeakPointer = WeakPointer<const Self>;
 
   using InputFrameType = typename TInputVideoStream::FrameType;
   using InputPixelType = typename InputFrameType::PixelType;
@@ -61,32 +58,32 @@ public:
   itkTypeMacro(FrameAverageVideoFilter, VideoToVideoFilter);
 
   /** Get/Set the number of frames to average over */
-  void SetNumberOfFrames(SizeValueType numFrames);
-  SizeValueType GetNumberOfFrames();
+  void
+  SetNumberOfFrames(SizeValueType numFrames);
+  SizeValueType
+  GetNumberOfFrames();
 
 protected:
-
   /** Constructor and Destructor */
   FrameAverageVideoFilter();
   ~FrameAverageVideoFilter() override = default;
 
   /** PrintSelf */
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** FrameAverageVideoFilter is implemented as a temporal streaming and
    * spatially multithreaded filter, so we override ThreadedGenerateData */
-  void ThreadedGenerateData(
-                const OutputFrameSpatialRegionType& outputRegionForThread,
-                int threadId) override;
+  void
+  ThreadedGenerateData(const OutputFrameSpatialRegionType & outputRegionForThread, int threadId) override;
 
 private:
-
-};  // end class FrameAverageVideoFilter
+}; // end class FrameAverageVideoFilter
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFrameAverageVideoFilter.hxx"
+#  include "itkFrameAverageVideoFilter.hxx"
 #endif
 
 #endif

@@ -22,32 +22,30 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage >
-IsotropicFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
-::IsotropicFourthOrderLevelSetImageFilter()
+template <typename TInputImage, typename TOutputImage>
+IsotropicFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>::IsotropicFourthOrderLevelSetImageFilter()
 {
   RadiusType radius;
 
-  for ( unsigned int j = 0; j < Self::ImageDimension; j++ )
-    {
+  for (unsigned int j = 0; j < Self::ImageDimension; j++)
+  {
     radius[j] = 1;
-    }
+  }
 
   m_Function = FunctionType::New();
   this->SetLevelSetFunction(m_Function);
-  this->SetNumberOfLayers( this->GetMinimumNumberOfLayers() );
+  this->SetNumberOfLayers(this->GetMinimumNumberOfLayers());
 
-  this->SetNormalProcessType (0);  // isotropic diffusion
+  this->SetNormalProcessType(0); // isotropic diffusion
   this->SetMaxNormalIteration(25);
   this->SetMaxRefitIteration(100);
   m_MaxFilterIteration = 1000;
   m_Function->Initialize(radius);
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-IsotropicFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+IsotropicFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "MaxFilterIteration: " << m_MaxFilterIteration << std::endl;

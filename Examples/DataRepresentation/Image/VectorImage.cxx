@@ -45,7 +45,8 @@
 
 #include "itkImage.h"
 
-int main(int, char *[])
+int
+main(int, char *[])
 {
   // Software Guide : BeginLatex
   //
@@ -62,37 +63,37 @@ int main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using PixelType = itk::Vector< float, 3 >;
-  using ImageType = itk::Image< PixelType, 3 >;
+  using PixelType = itk::Vector<float, 3>;
+  using ImageType = itk::Image<PixelType, 3>;
   // Software Guide : EndCodeSnippet
 
   // Then the image object can be created
   ImageType::Pointer image = ImageType::New();
 
   // The image region should be initialized
-  const ImageType::IndexType start = {{0,0,0}}; //First index at {X,Y,Z}
-  const ImageType::SizeType  size = {{200,200,200}}; //Size of {X,Y,Z}
+  const ImageType::IndexType start = { { 0, 0, 0 } };      // First index at {X,Y,Z}
+  const ImageType::SizeType  size = { { 200, 200, 200 } }; // Size of {X,Y,Z}
 
   ImageType::RegionType region;
-  region.SetSize( size );
-  region.SetIndex( start );
+  region.SetSize(size);
+  region.SetIndex(start);
 
   // Pixel data is allocated
-  image->SetRegions( region );
+  image->SetRegions(region);
   image->Allocate();
 
   // The image buffer is initialized to a particular value
-  ImageType::PixelType  initialValue;
+  ImageType::PixelType initialValue;
 
   // A vector can initialize all its components to the
   // same value by using the Fill() method.
-  initialValue.Fill( 0.0 );
+  initialValue.Fill(0.0);
 
   // Now the image buffer can be initialized with this
   // vector value.
-  image->FillBuffer( initialValue );
+  image->FillBuffer(initialValue);
 
-  const ImageType::IndexType pixelIndex = {{27,29,37}}; //Position {X,Y,Z}
+  const ImageType::IndexType pixelIndex = { { 27, 29, 37 } }; // Position {X,Y,Z}
 
   // Software Guide : BeginLatex
   //
@@ -103,10 +104,10 @@ int main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ImageType::PixelType   pixelValue;
-  pixelValue[0] =  1.345;   // x component
-  pixelValue[1] =  6.841;   // y component
-  pixelValue[2] =  3.295;   // x component
+  ImageType::PixelType pixelValue;
+  pixelValue[0] = 1.345; // x component
+  pixelValue[1] = 6.841; // y component
+  pixelValue[2] = 3.295; // x component
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -117,12 +118,12 @@ int main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  image->SetPixel(   pixelIndex,   pixelValue  );
+  image->SetPixel(pixelIndex, pixelValue);
   // Software Guide : EndCodeSnippet
 
   // The GetPixel method can also be used to read Vectors
   // pixels from the image
-  ImageType::PixelType value = image->GetPixel( pixelIndex );
+  ImageType::PixelType value = image->GetPixel(pixelIndex);
 
   std::cout << value << std::endl;
 

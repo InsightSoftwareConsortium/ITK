@@ -31,11 +31,11 @@ namespace itk
  *
  * \ingroup ITKImageGradient
  */
-template< typename TInputImage, typename TDataType >
-class ITK_TEMPLATE_EXPORT DifferenceOfGaussiansGradientImageFilter:
-  public ImageToImageFilter< TInputImage,
-                             Image< CovariantVector< TDataType, TInputImage::ImageDimension >,
-                                    TInputImage::ImageDimension > >
+template <typename TInputImage, typename TDataType>
+class ITK_TEMPLATE_EXPORT DifferenceOfGaussiansGradientImageFilter
+  : public ImageToImageFilter<
+      TInputImage,
+      Image<CovariantVector<TDataType, TInputImage::ImageDimension>, TInputImage::ImageDimension>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(DifferenceOfGaussiansGradientImageFilter);
@@ -48,13 +48,12 @@ public:
 
   /** Output image type alias. The output image is always an n-dimensional
    * image of n-dimensional vectors of doubles. */
-  using TOutputImage =
-      Image< CovariantVector< TDataType, Self::NDimensions >, Self::NDimensions >;
+  using TOutputImage = Image<CovariantVector<TDataType, Self::NDimensions>, Self::NDimensions>;
 
   /** Standard class type aliases. */
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -63,7 +62,7 @@ public:
   itkTypeMacro(DifferenceOfGaussiansGradientImageFilter, ImageToImageFilter);
 
   /** Image size type alias. */
-  using SizeType = Size< Self::NDimensions >;
+  using SizeType = Size<Self::NDimensions>;
 
   /** Image index type alias. */
   using IndexType = typename TInputImage::IndexType;
@@ -80,18 +79,19 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( DataTypeHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< TDataType > ) );
+  itkConceptMacro(DataTypeHasNumericTraitsCheck, (Concept::HasNumericTraits<TDataType>));
   // End concept checking
 #endif
 
 protected:
   DifferenceOfGaussiansGradientImageFilter();
   ~DifferenceOfGaussiansGradientImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Method for evaluating the implicit function over the image. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   unsigned int m_Width;
@@ -99,7 +99,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDifferenceOfGaussiansGradientImageFilter.hxx"
+#  include "itkDifferenceOfGaussiansGradientImageFilter.hxx"
 #endif
 
 #endif

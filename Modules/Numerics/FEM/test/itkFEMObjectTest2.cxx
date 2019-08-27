@@ -21,12 +21,13 @@
 #include "itkFEMSpatialObjectWriter.h"
 
 
-int itkFEMObjectTest2(int, char *[])
+int
+itkFEMObjectTest2(int, char *[])
 {
-  //Need to register default FEM object types,
-  //and setup SpatialReader to recognize FEM types
-  //which is all currently done as a HACK in
-  //the initializaiton of the itk::FEMFactoryBase::GetFactory()
+  // Need to register default FEM object types,
+  // and setup SpatialReader to recognize FEM types
+  // which is all currently done as a HACK in
+  // the initializaiton of the itk::FEMFactoryBase::GetFactory()
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
 
 
@@ -106,84 +107,84 @@ int itkFEMObjectTest2(int, char *[])
 
   e1 = itk::fem::Element2DC0LinearLineStress::New();
   e1->SetGlobalNumber(0);
-  e1->SetNode( 0, femObject->GetNode(0) );
-  e1->SetNode( 1, femObject->GetNode(1) );
-  e1->SetMaterial( dynamic_cast<itk::fem::MaterialLinearElasticity *>( femObject->GetMaterial(0).GetPointer() ) );
-  femObject->AddNextElement( e1);
+  e1->SetNode(0, femObject->GetNode(0));
+  e1->SetNode(1, femObject->GetNode(1));
+  e1->SetMaterial(dynamic_cast<itk::fem::MaterialLinearElasticity *>(femObject->GetMaterial(0).GetPointer()));
+  femObject->AddNextElement(e1);
 
   e1 = itk::fem::Element2DC0LinearLineStress::New();
   e1->SetGlobalNumber(1);
-  e1->SetNode( 0, femObject->GetNode(1) );
-  e1->SetNode( 1, femObject->GetNode(2) );
-  e1->SetMaterial( dynamic_cast<itk::fem::MaterialLinearElasticity *>( femObject->GetMaterial(0).GetPointer() ) );
-  femObject->AddNextElement( e1);
+  e1->SetNode(0, femObject->GetNode(1));
+  e1->SetNode(1, femObject->GetNode(2));
+  e1->SetMaterial(dynamic_cast<itk::fem::MaterialLinearElasticity *>(femObject->GetMaterial(0).GetPointer()));
+  femObject->AddNextElement(e1);
 
   e1 = itk::fem::Element2DC0LinearLineStress::New();
   e1->SetGlobalNumber(2);
-  e1->SetNode( 0, femObject->GetNode(1) );
-  e1->SetNode( 1, femObject->GetNode(3) );
-  e1->SetMaterial( dynamic_cast<itk::fem::MaterialLinearElasticity *>( femObject->GetMaterial(2).GetPointer() ) );
-  femObject->AddNextElement( e1);
+  e1->SetNode(0, femObject->GetNode(1));
+  e1->SetNode(1, femObject->GetNode(3));
+  e1->SetMaterial(dynamic_cast<itk::fem::MaterialLinearElasticity *>(femObject->GetMaterial(2).GetPointer()));
+  femObject->AddNextElement(e1);
 
   e1 = itk::fem::Element2DC0LinearLineStress::New();
   e1->SetGlobalNumber(3);
-  e1->SetNode( 0, femObject->GetNode(0) );
-  e1->SetNode( 1, femObject->GetNode(4) );
-  e1->SetMaterial( dynamic_cast<itk::fem::MaterialLinearElasticity *>( femObject->GetMaterial(1).GetPointer() ) );
-  femObject->AddNextElement( e1);
+  e1->SetNode(0, femObject->GetNode(0));
+  e1->SetNode(1, femObject->GetNode(4));
+  e1->SetMaterial(dynamic_cast<itk::fem::MaterialLinearElasticity *>(femObject->GetMaterial(1).GetPointer()));
+  femObject->AddNextElement(e1);
 
   itk::fem::LoadBC::Pointer l1;
 
   l1 = itk::fem::LoadBC::New();
   l1->SetGlobalNumber(0);
-  l1->SetElement( femObject->GetElement(2) );
+  l1->SetElement(femObject->GetElement(2));
   l1->SetDegreeOfFreedom(2);
-  l1->SetValue( vnl_vector<double>(1, 0.0) );
-  femObject->AddNextLoad( l1 );
+  l1->SetValue(vnl_vector<double>(1, 0.0));
+  femObject->AddNextLoad(l1);
 
   l1 = itk::fem::LoadBC::New();
   l1->SetGlobalNumber(1);
-  l1->SetElement( femObject->GetElement(2) );
+  l1->SetElement(femObject->GetElement(2));
   l1->SetDegreeOfFreedom(3);
-  l1->SetValue( vnl_vector<double>(1, 0.0) );
-  femObject->AddNextLoad( l1 );
+  l1->SetValue(vnl_vector<double>(1, 0.0));
+  femObject->AddNextLoad(l1);
 
   l1 = itk::fem::LoadBC::New();
   l1->SetGlobalNumber(2);
-  l1->SetElement( femObject->GetElement(3) );
+  l1->SetElement(femObject->GetElement(3));
   l1->SetDegreeOfFreedom(2);
-  l1->SetValue( vnl_vector<double>(1, 0.0) );
-  femObject->AddNextLoad( l1 );
+  l1->SetValue(vnl_vector<double>(1, 0.0));
+  femObject->AddNextLoad(l1);
 
   l1 = itk::fem::LoadBC::New();
   l1->SetGlobalNumber(3);
-  l1->SetElement( femObject->GetElement(3) );
+  l1->SetElement(femObject->GetElement(3));
   l1->SetDegreeOfFreedom(3);
-  l1->SetValue( vnl_vector<double>(1, 0.0) );
-  femObject->AddNextLoad( l1 );
+  l1->SetValue(vnl_vector<double>(1, 0.0));
+  femObject->AddNextLoad(l1);
 
   itk::fem::LoadNode::Pointer l2;
 
   l2 = itk::fem::LoadNode::New();
   l2->SetGlobalNumber(4);
-  l2->SetElement( femObject->GetElement(1) );
+  l2->SetElement(femObject->GetElement(1));
   l2->SetNode(0);
   vnl_vector<double> F(2);
   F[0] = 0;
   F[1] = 30000;
   l2->SetForce(F);
-  femObject->AddNextLoad( l2 );
+  femObject->AddNextLoad(l2);
 
   itk::fem::LoadBCMFC::Pointer bcmfc = itk::fem::LoadBCMFC::New();
   bcmfc->SetGlobalNumber(5);
-  bcmfc->AddLeftHandSideTerm( itk::fem::LoadBCMFC::MFCTerm(femObject->GetElement(0).GetPointer(), 1, 1) );
-  bcmfc->AddLeftHandSideTerm( itk::fem::LoadBCMFC::MFCTerm(femObject->GetElement(1).GetPointer(), 3, -1) );
+  bcmfc->AddLeftHandSideTerm(itk::fem::LoadBCMFC::MFCTerm(femObject->GetElement(0).GetPointer(), 1, 1));
+  bcmfc->AddLeftHandSideTerm(itk::fem::LoadBCMFC::MFCTerm(femObject->GetElement(1).GetPointer(), 3, -1));
   bcmfc->AddRightHandSideTerm(0.0);
-  femObject->AddNextLoad( bcmfc );
+  femObject->AddNextLoad(bcmfc);
   femObject->FinalizeMesh();
 
   FEMObjectTypePointer femObjectCopy = FEMObjectType::New();
-  femObjectCopy->DeepCopy( femObject );
+  femObjectCopy->DeepCopy(femObject);
 
   std::cout << "Overall Test : [PASSED]" << std::endl;
   return EXIT_SUCCESS;

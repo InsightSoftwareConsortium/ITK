@@ -63,14 +63,14 @@ struct ThreadData
 
 template <typename TTransform>
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
-TestGetInverseThreadFunction(void *perThreadData)
+TestGetInverseThreadFunction(void * perThreadData)
 {
   auto * ti = static_cast<itk::MultiThreaderBase::WorkUnitInfo *>(perThreadData);
   auto * td = static_cast<ThreadData<TTransform> *>(ti->UserData);
-  for(unsigned int i = 0; i < 100000; ++i)
-    {
+  for (unsigned int i = 0; i < 100000; ++i)
+  {
     td->m_Transform->GetInverse(td->m_Inverse.GetPointer());
-    }
+  }
 
   return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
@@ -82,50 +82,51 @@ TransformTest()
   typename itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
 
   ThreadData<TTransform> td;
-  td.m_Transform  = TTransform::New();
+  td.m_Transform = TTransform::New();
   td.m_Inverse = TTransform::New();
   std::cout << "Testing " << td.m_Transform->GetNameOfClass() << std::endl;
   itk::ThreadFunctionType pFunc = TestGetInverseThreadFunction<TTransform>;
-  threader->SetSingleMethod( pFunc, &td);
+  threader->SetSingleMethod(pFunc, &td);
   try
-    {
+  {
     threader->SingleMethodExecute();
-    }
-  catch( itk::ExceptionObject &excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "ITK Exception " << excp.what() << std::endl;
     return 1;
-    }
-  catch(...)
-    {
+  }
+  catch (...)
+  {
     std::cerr << "Unknown exception" << std::endl;
-    }
+  }
   return 0;
 }
 
-int itkTestTransformGetInverse(int, char *[])
+int
+itkTestTransformGetInverse(int, char *[])
 {
   unsigned errorCount;
-  errorCount = TransformTest< itk::AffineTransform<double, 3> >();
-  errorCount += TransformTest< itk::AzimuthElevationToCartesianTransform<double,3> >();
-  errorCount += TransformTest< itk::BSplineTransform<double, 3> >();
-  errorCount += TransformTest< itk::CenteredAffineTransform<double, 3> >();
-  errorCount += TransformTest< itk::CenteredEuler3DTransform<double> >();
-  errorCount += TransformTest< itk::CenteredAffineTransform<double, 3> >();
-  errorCount += TransformTest< itk::CenteredRigid2DTransform<double> >();
-  errorCount += TransformTest< itk::CenteredSimilarity2DTransform<double> >();
-  errorCount += TransformTest< itk::CompositeTransform<double, 3> >();
-  errorCount += TransformTest< itk::ElasticBodyReciprocalSplineKernelTransform<double,3> >();
-  errorCount += TransformTest< itk::ElasticBodySplineKernelTransform<double,3> >();
-  errorCount += TransformTest< itk::Euler2DTransform<double> >();
-  errorCount += TransformTest< itk::Euler3DTransform<double> >();
-  errorCount += TransformTest< itk::FixedCenterOfRotationAffineTransform<double,3> >();
-  errorCount += TransformTest< itk::IdentityTransform<double,3> >();
-  errorCount += TransformTest< itk::QuaternionRigidTransform<double> >();
-  errorCount += TransformTest< itk::Rigid2DTransform<double> >();
-  errorCount += TransformTest< itk::ScalableAffineTransform<double,3> >();
-  errorCount += TransformTest< itk::ScaleLogarithmicTransform<double,3> >();
-  errorCount += TransformTest< itk::ScaleTransform<double,3> >();
+  errorCount = TransformTest<itk::AffineTransform<double, 3>>();
+  errorCount += TransformTest<itk::AzimuthElevationToCartesianTransform<double, 3>>();
+  errorCount += TransformTest<itk::BSplineTransform<double, 3>>();
+  errorCount += TransformTest<itk::CenteredAffineTransform<double, 3>>();
+  errorCount += TransformTest<itk::CenteredEuler3DTransform<double>>();
+  errorCount += TransformTest<itk::CenteredAffineTransform<double, 3>>();
+  errorCount += TransformTest<itk::CenteredRigid2DTransform<double>>();
+  errorCount += TransformTest<itk::CenteredSimilarity2DTransform<double>>();
+  errorCount += TransformTest<itk::CompositeTransform<double, 3>>();
+  errorCount += TransformTest<itk::ElasticBodyReciprocalSplineKernelTransform<double, 3>>();
+  errorCount += TransformTest<itk::ElasticBodySplineKernelTransform<double, 3>>();
+  errorCount += TransformTest<itk::Euler2DTransform<double>>();
+  errorCount += TransformTest<itk::Euler3DTransform<double>>();
+  errorCount += TransformTest<itk::FixedCenterOfRotationAffineTransform<double, 3>>();
+  errorCount += TransformTest<itk::IdentityTransform<double, 3>>();
+  errorCount += TransformTest<itk::QuaternionRigidTransform<double>>();
+  errorCount += TransformTest<itk::Rigid2DTransform<double>>();
+  errorCount += TransformTest<itk::ScalableAffineTransform<double, 3>>();
+  errorCount += TransformTest<itk::ScaleLogarithmicTransform<double, 3>>();
+  errorCount += TransformTest<itk::ScaleTransform<double, 3>>();
   //
   // ScaleVersor3DTransform can't apparently get an inverse. Gets this
   // error message:
@@ -134,17 +135,17 @@ int itkTestTransformGetInverse(int, char *[])
   // of a ScaleVersor3D
   // transform is not supported at this time.
   // errorCount += TransformTest< itk::ScaleVersor3DTransform<double> >();
-  errorCount += TransformTest< itk::Similarity2DTransform<double> >();
-  errorCount += TransformTest< itk::Similarity3DTransform<double> >();
-  errorCount += TransformTest< itk::ThinPlateR2LogRSplineKernelTransform<double,3> >();
-  errorCount += TransformTest< itk::ThinPlateSplineKernelTransform<double,3> >();
-  errorCount += TransformTest< itk::TranslationTransform<double,3> >();
-  errorCount += TransformTest< itk::VersorRigid3DTransform<double> >();
-  errorCount += TransformTest< itk::VersorTransform<double> >();
-  errorCount += TransformTest< itk::VolumeSplineKernelTransform<double,3> >();
-  if(errorCount > 0)
-    {
+  errorCount += TransformTest<itk::Similarity2DTransform<double>>();
+  errorCount += TransformTest<itk::Similarity3DTransform<double>>();
+  errorCount += TransformTest<itk::ThinPlateR2LogRSplineKernelTransform<double, 3>>();
+  errorCount += TransformTest<itk::ThinPlateSplineKernelTransform<double, 3>>();
+  errorCount += TransformTest<itk::TranslationTransform<double, 3>>();
+  errorCount += TransformTest<itk::VersorRigid3DTransform<double>>();
+  errorCount += TransformTest<itk::VersorTransform<double>>();
+  errorCount += TransformTest<itk::VolumeSplineKernelTransform<double, 3>>();
+  if (errorCount > 0)
+  {
     return EXIT_FAILURE;
-    }
+  }
   return EXIT_SUCCESS;
 }

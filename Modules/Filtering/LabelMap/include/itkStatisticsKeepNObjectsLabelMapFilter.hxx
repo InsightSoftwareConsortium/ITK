@@ -24,28 +24,24 @@
 
 namespace itk
 {
-template< typename TImage >
-StatisticsKeepNObjectsLabelMapFilter< TImage >
-::StatisticsKeepNObjectsLabelMapFilter()
+template <typename TImage>
+StatisticsKeepNObjectsLabelMapFilter<TImage>::StatisticsKeepNObjectsLabelMapFilter()
 {
   this->m_Attribute = LabelObjectType::MEAN;
   // create the output image for the removed objects
   this->SetNumberOfRequiredOutputs(2);
-  this->SetNthOutput( 1, static_cast< TImage * >( this->MakeOutput(1).GetPointer() ) );
+  this->SetNthOutput(1, static_cast<TImage *>(this->MakeOutput(1).GetPointer()));
 }
 
-template< typename TImage >
+template <typename TImage>
 void
-StatisticsKeepNObjectsLabelMapFilter< TImage >
-::GenerateData()
+StatisticsKeepNObjectsLabelMapFilter<TImage>::GenerateData()
 {
-  switch ( this->m_Attribute )
-    {
-    itkStatisticsLabelMapFilterDispatchMacro()
-    default:
-      Superclass::GenerateData();
-      break;
-    }
+  switch (this->m_Attribute)
+  {
+    itkStatisticsLabelMapFilterDispatchMacro() default : Superclass::GenerateData();
+    break;
+  }
 }
 } // end namespace itk
 #endif

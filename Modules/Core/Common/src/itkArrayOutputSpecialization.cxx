@@ -21,93 +21,93 @@
 namespace itk
 {
 
-template<>
-std::ostream & operator<< <double> (std::ostream & os, const Array< double > & arr)
+template <>
+std::ostream & operator<<<double>(std::ostream & os, const Array<double> & arr)
 {
   NumberToString<double> convert;
   os << "[";
   const std::size_t length = arr.size();
-  if ( length >= 1 )
-    {
+  if (length >= 1)
+  {
     const std::size_t last = length - 1;
-    for ( std::size_t i = 0; i < last; ++i )
-      {
+    for (std::size_t i = 0; i < last; ++i)
+    {
       os << convert(arr[i]) << ", ";
-      }
-    os << convert(arr[last]);
     }
+    os << convert(arr[last]);
+  }
   os << "]";
   return os;
 }
 
-template<>
-std::ostream & operator<< <float> (std::ostream & os, const Array< float > & arr)
+template <>
+std::ostream & operator<<<float>(std::ostream & os, const Array<float> & arr)
 {
   NumberToString<float> convert;
   os << "[";
   const std::size_t length = arr.size();
-  if ( length >= 1 )
-    {
+  if (length >= 1)
+  {
     const std::size_t last = length - 1;
-    for ( std::size_t i = 0; i < last; ++i )
-      {
+    for (std::size_t i = 0; i < last; ++i)
+    {
       os << convert(static_cast<float>(arr[i])) << ", ";
-      }
-    os << convert(static_cast<float>(arr[last]));
     }
+    os << convert(static_cast<float>(arr[last]));
+  }
   os << "]";
   return os;
 }
 
-template<>
-std::ostream & operator<< <double> (std::ostream & os, const Array2D< double > & arr)
+template <>
+std::ostream & operator<<<double>(std::ostream & os, const Array2D<double> & arr)
 {
   NumberToString<double> convert;
-  const unsigned int numberOfRows    = arr.rows();
-  const unsigned int numberOfColumns = arr.cols();
+  const unsigned int     numberOfRows = arr.rows();
+  const unsigned int     numberOfColumns = arr.cols();
 
-  for ( unsigned int r = 0; r < numberOfRows; ++r )
-    {
+  for (unsigned int r = 0; r < numberOfRows; ++r)
+  {
     os << "[";
-    if ( numberOfColumns >= 1 )
-      {
+    if (numberOfColumns >= 1)
+    {
       const unsigned int lastColumn = numberOfColumns - 1;
-      for ( unsigned int c = 0; c < lastColumn; ++c )
-        {
+      for (unsigned int c = 0; c < lastColumn; ++c)
+      {
         os << convert(arr(r, c)) << ", ";
-        }
-      os << convert(arr(r, lastColumn));
       }
-    os << "]" << std::endl;
+      os << convert(arr(r, lastColumn));
     }
+    os << "]" << std::endl;
+  }
 
   return os;
 }
 
-template<>
-std::ostream & operator<< <float> (std::ostream & os, const Array2D< float > & arr)
+template <>
+std::ostream & operator<<<float>(std::ostream & os, const Array2D<float> & arr)
 {
   NumberToString<float> convert;
-  const unsigned int numberOfRows    = arr.rows();
-  const unsigned int numberOfColumns = arr.cols();
+  const unsigned int    numberOfRows = arr.rows();
+  const unsigned int    numberOfColumns = arr.cols();
 
-  for ( unsigned int r = 0; r < numberOfRows; ++r )
-    {
+  for (unsigned int r = 0; r < numberOfRows; ++r)
+  {
     os << "[";
-    if ( numberOfColumns >= 1 )
-      {
+    if (numberOfColumns >= 1)
+    {
       const unsigned int lastColumn = numberOfColumns - 1;
-      for ( unsigned int c = 0; c < lastColumn; ++c )
-        {
+      for (unsigned int c = 0; c < lastColumn; ++c)
+      {
         os << convert(arr(r, c)) << ", ";
-        }
-      os << convert(arr(r, lastColumn));
       }
-    os << "]" << std::endl;
+      os << convert(arr(r, lastColumn));
     }
+    os << "]" << std::endl;
+  }
 
   return os;
 }
 
 
-}
+} // namespace itk

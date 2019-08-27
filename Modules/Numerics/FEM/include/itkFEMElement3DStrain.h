@@ -74,17 +74,20 @@ public:
   /**
    * Compute the B matrix.
    */
-  void GetStrainDisplacementMatrix(MatrixType & B, const MatrixType & shapeDgl) const override;
+  void
+  GetStrainDisplacementMatrix(MatrixType & B, const MatrixType & shapeDgl) const override;
 
   /**
    * Compute the D matrix.
    */
-  void GetMaterialMatrix(MatrixType & D) const override;
+  void
+  GetMaterialMatrix(MatrixType & D) const override;
 
   /**
    * 3D strain elements have 3 DOFs per node.
    */
-  unsigned int GetNumberOfDegreesOfFreedomPerNode() const override
+  unsigned int
+  GetNumberOfDegreesOfFreedomPerNode() const override
   {
     return 3;
   }
@@ -92,32 +95,33 @@ public:
   /**
    * Get/Set the material properties for the element
    */
-  Material::ConstPointer GetMaterial() const override
+  Material::ConstPointer
+  GetMaterial() const override
   {
     return m_mat;
   }
 
-  void SetMaterial(Material::ConstPointer mat_) override
+  void
+  SetMaterial(Material::ConstPointer mat_) override
   {
-    m_mat =
-      dynamic_cast<const MaterialLinearElasticity *>( mat_.GetPointer() );
+    m_mat = dynamic_cast<const MaterialLinearElasticity *>(mat_.GetPointer());
   }
 
 protected:
-
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**
    * Pointer to material properties of the element
    */
-  const MaterialLinearElasticity *m_mat;
+  const MaterialLinearElasticity * m_mat;
 
-};  // class Element3DStrain
+}; // class Element3DStrain
 } // end namespace fem
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFEMElement3DStrain.hxx"
+#  include "itkFEMElement3DStrain.hxx"
 #endif
 
-#endif  // itkFEMElement3DStrain_h
+#endif // itkFEMElement3DStrain_h

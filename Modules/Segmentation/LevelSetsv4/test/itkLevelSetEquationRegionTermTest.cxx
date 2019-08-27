@@ -19,15 +19,16 @@
 #include "itkLevelSetEquationRegionTerm.h"
 #include "itkTestingMacros.h"
 
-int itkLevelSetEquationRegionTermTest( int argc, char* argv[] )
+int
+itkLevelSetEquationRegionTermTest(int argc, char * argv[])
 {
 
-  if( argc < 2 )
-    {
+  if (argc < 2)
+  {
     std::cerr << "Missing Arguments" << std::endl;
     std::cerr << "Program " << itkNameOfTestExecutableMacro(argv) << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

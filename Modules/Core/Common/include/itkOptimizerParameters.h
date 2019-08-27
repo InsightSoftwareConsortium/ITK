@@ -30,11 +30,10 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-template<typename TParametersValueType>
+template <typename TParametersValueType>
 class ITK_TEMPLATE_EXPORT OptimizerParameters : public Array<TParametersValueType>
 {
 public:
-
   /** The element type stored at each location in the Array. */
   using ValueType = TParametersValueType;
   using Self = OptimizerParameters;
@@ -56,62 +55,72 @@ public:
    *  The vnl vector copy constructor creates new memory
    *  no matter the setting of let array manage memory of rhs.
    */
-  OptimizerParameters(const OptimizerParameters& rhs);
+  OptimizerParameters(const OptimizerParameters & rhs);
 
   /** Constructor with size. Size can only be changed by assignment */
-  explicit OptimizerParameters(SizeValueType  dimension);
+  explicit OptimizerParameters(SizeValueType dimension);
 
   /** Constructor with Array assignment */
-  OptimizerParameters( const ArrayType& array );
+  OptimizerParameters(const ArrayType & array);
 
   /** Initialize. Initialization called by constructors. */
-  void Initialize();
+  void
+  Initialize();
 
   /** Set a new data pointer for the parameter data, pointing it to a different
    * memory block. The size of the new memory block must equal the current
    * size, in elements of TParametersValueType.
    * This call is passed to the assigned OptimizerParametersHelper.
    * \warning Memory must be managed by caller after this call. */
-  virtual void MoveDataPointer( TParametersValueType * pointer );
+  virtual void
+  MoveDataPointer(TParametersValueType * pointer);
 
   /** Set an object that holds the parameters. Used by the helper of
    * derived classes that use an object other than itkArray to hold parameter
    * data. The helper class must check that the object is the correct type.
    * The call is passed to the assigned OptimizerParametersHelper. */
-  virtual void SetParametersObject( LightObject * object );
+  virtual void
+  SetParametersObject(LightObject * object);
 
   /** Assign a helper. OptimizerParameters manages the helper once
    *  its been assigned. The generic helper, OptimizerParametersHelper,
    *  is set in constructor.
    *  Classes that need a specialized helper should allocate
    *  one themselves and assign it with this method. */
-  virtual void SetHelper( OptimizerParametersHelperType* helper );
+  virtual void
+  SetHelper(OptimizerParametersHelperType * helper);
 
   /** Get the helper in use. */
-  OptimizerParametersHelperType* GetHelper()
-    { return m_Helper; }
+  OptimizerParametersHelperType *
+  GetHelper()
+  {
+    return m_Helper;
+  }
 
   /** Copy opertors
    *
    * TODO Determine behavior when copying from obj pointing to image parameters.
    *  By default should copy image param data into Array portion of new object,
    *  i.e. into data_block. Is that what we want? */
-  const Self & operator=(const Self & rhs);
+  const Self &
+  operator=(const Self & rhs);
 
-  const Self & operator=(const ArrayType & rhs);
+  const Self &
+  operator=(const ArrayType & rhs);
 
-  const Self & operator=(const VnlVectorType & rhs);
+  const Self &
+  operator=(const VnlVectorType & rhs);
 
   virtual ~OptimizerParameters();
 
 private:
-   OptimizerParametersHelperType*           m_Helper;
+  OptimizerParametersHelperType * m_Helper;
 };
 
-}//namespace itk
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkOptimizerParameters.hxx"
+#  include "itkOptimizerParameters.hxx"
 #endif
 
 #endif

@@ -52,7 +52,7 @@ namespace itk
  * \sphinxexample{Core/Common/IterateLineThroughImageWithoutWriteAccess,Iterate Line Through Image Without Write Access}
  * \endsphinx
  */
-template< typename TImage >
+template <typename TImage>
 class ITK_TEMPLATE_EXPORT LineConstIterator
 {
 public:
@@ -106,46 +106,53 @@ public:
   itkTypeMacroNoParent(LineConstIterator);
 
   /** Get the dimension (size) of the index. */
-  static unsigned int GetImageIteratorDimension()
+  static unsigned int
+  GetImageIteratorDimension()
   {
     return TImage::ImageDimension;
   }
 
   /** Get the index. This provides a read only reference to the index. */
-  const IndexType GetIndex()
+  const IndexType
+  GetIndex()
   {
     return m_CurrentImageIndex;
   }
 
   /** Get the pixel value */
-  const PixelType Get() const
+  const PixelType
+  Get() const
   {
     return m_Image->GetPixel(m_CurrentImageIndex);
   }
 
   /** Is the iterator at the end of the line? */
-  bool IsAtEnd() const
+  bool
+  IsAtEnd() const
   {
     return m_IsAtEnd;
   }
 
   /** Move an iterator to the beginning of the line. */
-  void GoToBegin();
+  void
+  GoToBegin();
 
   /** Walk forward along the line to the next index in the image. */
-  void operator++();
+  void
+  operator++();
 
   /** operator= is provided to make sure the handle to the image is properly
    * reference counted. */
-  Self & operator=(const Self & it);
+  Self &
+  operator=(const Self & it);
 
   /** Constructor establishes an iterator to walk along a line */
-  LineConstIterator(const ImageType *imagePtr, const IndexType & firstIndex, const IndexType & lastIndex);
+  LineConstIterator(const ImageType * imagePtr, const IndexType & firstIndex, const IndexType & lastIndex);
 
   /** Default Destructor. */
   virtual ~LineConstIterator() = default;
 
-protected: //made protected so other iterators can access
+protected: // made protected so other iterators can access
   /** Smart pointer to the source image. */
   typename ImageType::ConstWeakPointer m_Image;
 
@@ -159,7 +166,7 @@ protected: //made protected so other iterators can access
   IndexType m_CurrentImageIndex;
   IndexType m_StartIndex;
   IndexType m_LastIndex;
-  IndexType m_EndIndex;  // one past the end of the line in the m_MainDirection
+  IndexType m_EndIndex; // one past the end of the line in the m_MainDirection
 
   /** Variables that drive the Bresenham-Algorithm */
   // The dimension with the largest difference between start and end
@@ -186,7 +193,7 @@ protected: //made protected so other iterators can access
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLineConstIterator.hxx"
+#  include "itkLineConstIterator.hxx"
 #endif
 
 #endif

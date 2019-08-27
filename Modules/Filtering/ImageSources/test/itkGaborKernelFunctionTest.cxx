@@ -20,63 +20,61 @@
 #include "itkMacro.h"
 #include "itkTestingMacros.h"
 
-int itkGaborKernelFunctionTest( int itkNotUsed( argc ), char * itkNotUsed( argv )[] )
+int
+itkGaborKernelFunctionTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
 {
-  using KernelFunctionType = itk::GaborKernelFunction< double >;
+  using KernelFunctionType = itk::GaborKernelFunction<double>;
   KernelFunctionType::Pointer gabor = KernelFunctionType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( gabor, GaborKernelFunction,
-    KernelFunctionBase );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(gabor, GaborKernelFunction, KernelFunctionBase);
 
   double sigma = 1.5;
   gabor->SetSigma(sigma);
-  ITK_TEST_SET_GET_VALUE( sigma, gabor->GetSigma() );
+  ITK_TEST_SET_GET_VALUE(sigma, gabor->GetSigma());
 
   double frequency = 2.;
   gabor->SetFrequency(frequency);
-  ITK_TEST_SET_GET_VALUE( frequency, gabor->GetFrequency() );
+  ITK_TEST_SET_GET_VALUE(frequency, gabor->GetFrequency());
 
   double phaseOffset = 0.8;
   gabor->SetPhaseOffset(phaseOffset);
-  ITK_TEST_SET_GET_VALUE( phaseOffset, gabor->GetPhaseOffset() );
+  ITK_TEST_SET_GET_VALUE(phaseOffset, gabor->GetPhaseOffset());
 
   bool calculateImaginaryPart = true;
-  gabor->SetCalculateImaginaryPart( calculateImaginaryPart );
-  ITK_TEST_SET_GET_VALUE( calculateImaginaryPart, gabor->GetCalculateImaginaryPart() );
+  gabor->SetCalculateImaginaryPart(calculateImaginaryPart);
+  ITK_TEST_SET_GET_VALUE(calculateImaginaryPart, gabor->GetCalculateImaginaryPart());
 
   gabor->CalculateImaginaryPartOn();
-  ITK_TEST_SET_GET_VALUE( true, gabor->GetCalculateImaginaryPart() );
+  ITK_TEST_SET_GET_VALUE(true, gabor->GetCalculateImaginaryPart());
 
   double tolerance = 1e-12;
   double point = 2.86;
   double expectedValue = -0.13297125073713259;
-  double result = gabor->Evaluate( point );
-  if( !itk::Math::FloatAlmostEqual( expectedValue, result, 10, tolerance ) )
-    {
-    std::cout.precision( static_cast< int >( itk::Math::abs( std::log10( tolerance ) ) ) );
+  double result = gabor->Evaluate(point);
+  if (!itk::Math::FloatAlmostEqual(expectedValue, result, 10, tolerance))
+  {
+    std::cout.precision(static_cast<int>(itk::Math::abs(std::log10(tolerance))));
     std::cout << "Error in point " << point << ": ";
-    std::cout << "Expected: " << expectedValue << ", differs from: "
-      << result << std::endl;
+    std::cout << "Expected: " << expectedValue << ", differs from: " << result << std::endl;
     std::cerr << " by more than " << tolerance << std::endl;
     std::cout << "Test failed" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   gabor->CalculateImaginaryPartOff();
-  ITK_TEST_SET_GET_VALUE( false, gabor->GetCalculateImaginaryPart() );
+  ITK_TEST_SET_GET_VALUE(false, gabor->GetCalculateImaginaryPart());
 
   expectedValue = 0.093234196962237226;
-  result = gabor->Evaluate( point );
-  if( !itk::Math::FloatAlmostEqual( expectedValue, result, 10, tolerance ) )
-    {
-    std::cout.precision( static_cast< int >( itk::Math::abs( std::log10( tolerance ) ) ) );
+  result = gabor->Evaluate(point);
+  if (!itk::Math::FloatAlmostEqual(expectedValue, result, 10, tolerance))
+  {
+    std::cout.precision(static_cast<int>(itk::Math::abs(std::log10(tolerance))));
     std::cout << "Error in point " << point << ": ";
-    std::cout << "Expected: " << expectedValue << ", differs from: "
-      << result << std::endl;
+    std::cout << "Expected: " << expectedValue << ", differs from: " << result << std::endl;
     std::cerr << " by more than " << tolerance << std::endl;
     std::cout << "Test failed" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;

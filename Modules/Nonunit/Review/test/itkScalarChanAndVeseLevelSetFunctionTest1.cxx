@@ -21,18 +21,18 @@
 namespace itk
 {
 
-template < typename TInput, // LevelSetImageType
-  typename TFeature, // FeatureImageType
-  typename TSharedData >
-class ScalarChanAndVeseLevelSetFunctionTestHelper :
- public ScalarChanAndVeseLevelSetFunction< TInput, TFeature, TSharedData >
+template <typename TInput,   // LevelSetImageType
+          typename TFeature, // FeatureImageType
+          typename TSharedData>
+class ScalarChanAndVeseLevelSetFunctionTestHelper
+  : public ScalarChanAndVeseLevelSetFunction<TInput, TFeature, TSharedData>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ScalarChanAndVeseLevelSetFunctionTestHelper);
 
   /** Standard class type aliases. */
   using Self = ScalarChanAndVeseLevelSetFunctionTestHelper;
-  using Superclass = ScalarChanAndVeseLevelSetFunction<TInput,TFeature,TSharedData>;
+  using Superclass = ScalarChanAndVeseLevelSetFunction<TInput, TFeature, TSharedData>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -41,29 +41,32 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( ScalarChanAndVeseLevelSetFunctionTestHelper, ScalarChanAndVeseLevelSetFunction );
+  itkTypeMacro(ScalarChanAndVeseLevelSetFunctionTestHelper, ScalarChanAndVeseLevelSetFunction);
 
   using ScalarValueType = typename Superclass::ScalarValueType;
   using FeaturePixelType = typename Superclass::FeaturePixelType;
   using FeatureIndexType = typename Superclass::FeatureIndexType;
 
 
-  virtual ScalarValueType computeInternalTerm(const FeaturePixelType &,
-    const FeatureIndexType &, const unsigned int & )
-    {
-    return ScalarValueType( 0 );
-    }
+  virtual ScalarValueType
+  computeInternalTerm(const FeaturePixelType &, const FeatureIndexType &, const unsigned int &)
+  {
+    return ScalarValueType(0);
+  }
 
-  virtual ScalarValueType computeExternalTerm(const FeaturePixelType &,
-    const FeatureIndexType &, const unsigned int & )
-    {
-    return ScalarValueType( 0 );
-    }
+  virtual ScalarValueType
+  computeExternalTerm(const FeaturePixelType &, const FeatureIndexType &, const unsigned int &)
+  {
+    return ScalarValueType(0);
+  }
 
-  virtual void computeOverlapParameters( const FeatureIndexType,
-    unsigned int &, unsigned int & ) {}
+  virtual void
+  computeOverlapParameters(const FeatureIndexType, unsigned int &, unsigned int &)
+  {}
 
-  void ComputeParameters() override {}
+  void
+  ComputeParameters() override
+  {}
 
 protected:
   ScalarChanAndVeseLevelSetFunctionTestHelper() {}
@@ -83,30 +86,32 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( ScalarChanAndVeseLevelSetFunctionSharedDataHelper, DataObject );
+  itkTypeMacro(ScalarChanAndVeseLevelSetFunctionSharedDataHelper, DataObject);
 
-  unsigned long       m_FunctionCount;
+  unsigned long m_FunctionCount;
 
-  using IndexType = Index< NDimension >;
-  using ListPixelType = std::list< unsigned int >;
-  using ImageType = Image< ListPixelType, NDimension >;
+  using IndexType = Index<NDimension>;
+  using ListPixelType = std::list<unsigned int>;
+  using ImageType = Image<ListPixelType, NDimension>;
 
-  typename ImageType::Pointer                 m_NearestNeighborListImage;
+  typename ImageType::Pointer m_NearestNeighborListImage;
 
   using PixelType = double;
-  using InputImageType = Image< PixelType, NDimension >;
+  using InputImageType = Image<PixelType, NDimension>;
 
   struct SingleData
+  {
+    IndexType
+    GetIndex(const IndexType & globalIndex)
     {
-    IndexType GetIndex( const IndexType & globalIndex )
-      {
       return globalIndex;
-      }
+    }
 
-    IndexType GetFeatureIndex( const IndexType & indx )
-      {
+    IndexType
+    GetFeatureIndex(const IndexType & indx)
+    {
       return indx;
-      }
+    }
 
     typename InputImageType::Pointer m_HeavisideFunctionOfLevelSetImage;
 
@@ -117,31 +122,32 @@ public:
     double m_WeightedNumberOfPixelsOutsideLevelSet;
     double m_WeightedSumOfPixelValuesOutsideLevelSet;
     double m_BackgroundConstantValues;
-    };
+  };
 
-  SingleData* m_LevelSetDataPointerVector[19];
+  SingleData * m_LevelSetDataPointerVector[19];
 };
 
-}
+} // namespace itk
 
-int itkScalarChanAndVeseLevelSetFunctionTest1( int, char* [] )
+int
+itkScalarChanAndVeseLevelSetFunctionTest1(int, char *[])
 {
   constexpr unsigned int Dimension = 3;
 
   using PixelType = double;
-  using ImageType = itk::Image< PixelType, Dimension >;
-  using FeatureImageType = itk::Image< float, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using FeatureImageType = itk::Image<float, Dimension>;
 
   using DataHelperType = itk::ScalarChanAndVeseLevelSetFunctionSharedDataHelper<Dimension>;
 
 
-  using ChanAndVeseLevelSetFunctionType = itk::ScalarChanAndVeseLevelSetFunctionTestHelper<
-    ImageType, FeatureImageType, DataHelperType >;
+  using ChanAndVeseLevelSetFunctionType =
+    itk::ScalarChanAndVeseLevelSetFunctionTestHelper<ImageType, FeatureImageType, DataHelperType>;
 
   ChanAndVeseLevelSetFunctionType::Pointer function = ChanAndVeseLevelSetFunctionType::New();
 
   std::cout << "GetNameOfClass() = " << function->GetNameOfClass() << std::endl;
-  function->Print( std::cout );
+  function->Print(std::cout);
 
   return EXIT_SUCCESS;
 }

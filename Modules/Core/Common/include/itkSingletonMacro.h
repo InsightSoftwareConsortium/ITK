@@ -25,44 +25,40 @@
 #ifndef itkSingletonMacro_h
 #define itkSingletonMacro_h
 
-#define itkInitGlobalsMacro(VarName) \
-  { \
-  static auto * staticGlobals = Get##VarName##Pointer (); \
-  (void) staticGlobals; \
+#define itkInitGlobalsMacro(VarName)                                                                                   \
+  {                                                                                                                    \
+    static auto * staticGlobals = Get##VarName##Pointer();                                                             \
+    (void)staticGlobals;                                                                                               \
   }
 
-#define itkGetGlobalDeclarationMacro(Type, VarName) \
-static Type * Get##VarName##Pointer();
+#define itkGetGlobalDeclarationMacro(Type, VarName) static Type * Get##VarName##Pointer();
 
-#define itkGetGlobalSimpleMacro(Class, Type, Name) \
-  itkGetGlobalInitializeMacro(Class, Type, Name, Class, (void)0)
+#define itkGetGlobalSimpleMacro(Class, Type, Name) itkGetGlobalInitializeMacro(Class, Type, Name, Class, (void)0)
 
-#define itkGetGlobalValueMacro(Class, Type, Name, Value) \
+#define itkGetGlobalValueMacro(Class, Type, Name, Value)                                                               \
   itkGetGlobalInitializeMacro(Class, Type, Name, Name, *m_##Name = Value)
 
-#define itkGetGlobalInitializeMacro(Class, Type, VarName, SingletonName, Init) \
-Type * Class::Get##VarName##Pointer() \
-{ \
-    if( m_##VarName == nullptr ) \
-      { \
-      static auto setLambda = [](void * a) \
-        { \
-        delete m_##VarName; \
-        m_##VarName = static_cast<Type*>(a); \
-        }; \
-      static auto deleteLambda = []() \
-        { \
-        delete m_##VarName; \
-        m_##VarName = nullptr; \
-        }; \
-      auto* old_instance = SingletonIndex::GetInstance()->GetGlobalInstance<Type>(#SingletonName); \
-      m_##VarName = Singleton<Type>( #SingletonName , setLambda, deleteLambda); \
-      if( old_instance == nullptr) \
-        { \
-        Init; \
-        }\
-    } \
-  return m_##VarName; \
-}
+#define itkGetGlobalInitializeMacro(Class, Type, VarName, SingletonName, Init)                                         \
+  Type * Class::Get##VarName##Pointer()                                                                                \
+  {                                                                                                                    \
+    if (m_##VarName == nullptr)                                                                                        \
+    {                                                                                                                  \
+      static auto setLambda = [](void * a) {                                                                           \
+        delete m_##VarName;                                                                                            \
+        m_##VarName = static_cast<Type *>(a);                                                                          \
+      };                                                                                                               \
+      static auto deleteLambda = []() {                                                                                \
+        delete m_##VarName;                                                                                            \
+        m_##VarName = nullptr;                                                                                         \
+      };                                                                                                               \
+      auto * old_instance = SingletonIndex::GetInstance()->GetGlobalInstance<Type>(#SingletonName);                    \
+      m_##VarName = Singleton<Type>(#SingletonName, setLambda, deleteLambda);                                          \
+      if (old_instance == nullptr)                                                                                     \
+      {                                                                                                                \
+        Init;                                                                                                          \
+      }                                                                                                                \
+    }                                                                                                                  \
+    return m_##VarName;                                                                                                \
+  }
 
 #endif

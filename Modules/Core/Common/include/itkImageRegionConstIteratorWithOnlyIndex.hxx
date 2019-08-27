@@ -25,25 +25,24 @@ namespace itk
 //----------------------------------------------------------------------
 //  Advance along the line
 //----------------------------------------------------------------------
-template< typename TImage >
-ImageRegionConstIteratorWithOnlyIndex< TImage > &
-ImageRegionConstIteratorWithOnlyIndex< TImage >
-::operator++()
+template <typename TImage>
+ImageRegionConstIteratorWithOnlyIndex<TImage> &
+ImageRegionConstIteratorWithOnlyIndex<TImage>::operator++()
 {
   this->m_Remaining = false;
-  for ( unsigned int in = 0; in < TImage::ImageDimension; in++ )
-    {
+  for (unsigned int in = 0; in < TImage::ImageDimension; in++)
+  {
     this->m_PositionIndex[in]++;
-    if ( this->m_PositionIndex[in] < this->m_EndIndex[in] )
-      {
+    if (this->m_PositionIndex[in] < this->m_EndIndex[in])
+    {
       this->m_Remaining = true;
       break;
-      }
-    else
-      {
-      this->m_PositionIndex[in] = this->m_BeginIndex[in];
-      }
     }
+    else
+    {
+      this->m_PositionIndex[in] = this->m_BeginIndex[in];
+    }
+  }
 
   return *this;
 }
@@ -51,25 +50,24 @@ ImageRegionConstIteratorWithOnlyIndex< TImage >
 //----------------------------------------------------------------------
 //  Advance along the line in reverse direction
 //----------------------------------------------------------------------
-template< typename TImage >
-ImageRegionConstIteratorWithOnlyIndex< TImage > &
-ImageRegionConstIteratorWithOnlyIndex< TImage >
-::operator--()
+template <typename TImage>
+ImageRegionConstIteratorWithOnlyIndex<TImage> &
+ImageRegionConstIteratorWithOnlyIndex<TImage>::operator--()
 {
   this->m_Remaining = false;
-  for ( unsigned int in = 0; in < TImage::ImageDimension; in++ )
+  for (unsigned int in = 0; in < TImage::ImageDimension; in++)
+  {
+    if (this->m_PositionIndex[in] > this->m_BeginIndex[in])
     {
-    if ( this->m_PositionIndex[in] > this->m_BeginIndex[in] )
-      {
       this->m_PositionIndex[in]--;
       this->m_Remaining = true;
       break;
-      }
-    else
-      {
-      this->m_PositionIndex[in] = this->m_EndIndex[in] - 1;
-      }
     }
+    else
+    {
+      this->m_PositionIndex[in] = this->m_EndIndex[in] - 1;
+    }
+  }
 
   return *this;
 }

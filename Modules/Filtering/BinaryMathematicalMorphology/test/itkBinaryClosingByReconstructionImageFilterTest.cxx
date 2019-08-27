@@ -24,45 +24,46 @@
 #include "itkTestingMacros.h"
 
 
-int itkBinaryClosingByReconstructionImageFilterTest(int argc, char * argv[])
+int
+itkBinaryClosingByReconstructionImageFilterTest(int argc, char * argv[])
 {
 
-  if( argc != 6 )
-    {
+  if (argc != 6)
+  {
     std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " input output conn fg kernelSize" << std::endl;
     // std::cerr << "  : " << std::endl;
     exit(1);
-    }
+  }
 
   constexpr int dim = 2;
 
-  using IType = itk::Image< unsigned char, dim >;
+  using IType = itk::Image<unsigned char, dim>;
 
-  using ReaderType = itk::ImageFileReader< IType >;
+  using ReaderType = itk::ImageFileReader<IType>;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
   reader->Update();
 
-  using KernelType = itk::BinaryBallStructuringElement< bool, dim>;
-  KernelType ball;
+  using KernelType = itk::BinaryBallStructuringElement<bool, dim>;
+  KernelType           ball;
   KernelType::SizeType ballSize;
-  ballSize.Fill( std::stoi(argv[5]) );
+  ballSize.Fill(std::stoi(argv[5]));
   ball.SetRadius(ballSize);
   ball.CreateStructuringElement();
 
- using I2LType = itk::BinaryClosingByReconstructionImageFilter< IType, KernelType >;
+  using I2LType = itk::BinaryClosingByReconstructionImageFilter<IType, KernelType>;
   I2LType::Pointer reconstruction = I2LType::New();
-  reconstruction->SetInput( reader->GetOutput() );
-  reconstruction->SetKernel( ball );
-  reconstruction->SetFullyConnected( std::stoi(argv[3]) );
-  reconstruction->SetForegroundValue( std::stoi(argv[4]) );
-//   reconstruction->SetBackgroundValue( std::stoi(argv[6]) );
+  reconstruction->SetInput(reader->GetOutput());
+  reconstruction->SetKernel(ball);
+  reconstruction->SetFullyConnected(std::stoi(argv[3]));
+  reconstruction->SetForegroundValue(std::stoi(argv[4]));
+  //   reconstruction->SetBackgroundValue( std::stoi(argv[6]) );
   itk::SimpleFilterWatcher watcher(reconstruction, "filter");
 
-  using WriterType = itk::ImageFileWriter< IType >;
+  using WriterType = itk::ImageFileWriter<IType>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( reconstruction->GetOutput() );
-  writer->SetFileName( argv[2] );
+  writer->SetInput(reconstruction->GetOutput());
+  writer->SetFileName(argv[2]);
   writer->Update();
   return 0;
 }

@@ -23,45 +23,44 @@
 namespace itk
 {
 // Constructor with default arguments
-template<typename TParametersValueType>
-ScaleVersor3DTransform<TParametersValueType>
-::ScaleVersor3DTransform() : Superclass(ParametersDimension)
+template <typename TParametersValueType>
+ScaleVersor3DTransform<TParametersValueType>::ScaleVersor3DTransform()
+  : Superclass(ParametersDimension)
 {
   m_Scale.Fill(1.0);
 }
 
 // Constructor with arguments
-template<typename TParametersValueType>
-ScaleVersor3DTransform<TParametersValueType>::ScaleVersor3DTransform(unsigned int parametersDimension) :
-  Superclass(parametersDimension)
+template <typename TParametersValueType>
+ScaleVersor3DTransform<TParametersValueType>::ScaleVersor3DTransform(unsigned int parametersDimension)
+  : Superclass(parametersDimension)
 {
   m_Scale.Fill(1.0);
 }
 
 // Constructor with arguments
-template<typename TParametersValueType>
-ScaleVersor3DTransform<TParametersValueType>::ScaleVersor3DTransform(const MatrixType & matrix,
-                                                            const OutputVectorType & offset) :
-  Superclass(matrix, offset)
+template <typename TParametersValueType>
+ScaleVersor3DTransform<TParametersValueType>::ScaleVersor3DTransform(const MatrixType &       matrix,
+                                                                     const OutputVectorType & offset)
+  : Superclass(matrix, offset)
 {
   this->ComputeMatrixParameters();
 }
 
 // Directly set the matrix
-template<typename TParametersValueType>
+template <typename TParametersValueType>
 void
-ScaleVersor3DTransform<TParametersValueType>
-::SetMatrix(const MatrixType & matrix)
+ScaleVersor3DTransform<TParametersValueType>::SetMatrix(const MatrixType & matrix)
 {
   // Any matrix should work - bypass orthogonality testing
   using Baseclass = MatrixOffsetTransformBase<TParametersValueType, 3, 3>;
   this->Baseclass::SetMatrix(matrix);
 }
 
-template<typename TParametersValueType>
+template <typename TParametersValueType>
 void
-ScaleVersor3DTransform<TParametersValueType>
-::SetMatrix(const MatrixType & matrix, const TParametersValueType itkNotUsed( tolerance ))
+ScaleVersor3DTransform<TParametersValueType>::SetMatrix(const MatrixType &         matrix,
+                                                        const TParametersValueType itkNotUsed(tolerance))
 {
   // Any matrix should work - bypass orthogonality testing
   using Baseclass = MatrixOffsetTransformBase<TParametersValueType, 3, 3>;
@@ -69,18 +68,17 @@ ScaleVersor3DTransform<TParametersValueType>
 }
 
 // Set Parameters
-template<typename TParametersValueType>
+template <typename TParametersValueType>
 void
-ScaleVersor3DTransform<TParametersValueType>
-::SetParameters(const ParametersType & parameters)
+ScaleVersor3DTransform<TParametersValueType>::SetParameters(const ParametersType & parameters)
 {
   itkDebugMacro(<< "Setting parameters " << parameters);
 
   // Save parameters. Needed for proper operation of TransformUpdateParameters.
-  if( &parameters != &(this->m_Parameters) )
-    {
+  if (&parameters != &(this->m_Parameters))
+  {
     this->m_Parameters = parameters;
-    }
+  }
 
   // Transfer the versor part
 
@@ -92,16 +90,16 @@ ScaleVersor3DTransform<TParametersValueType>
   axis[1] = parameters[1];
   norm += parameters[2] * parameters[2];
   axis[2] = parameters[2];
-  if( norm > 0 )
-    {
+  if (norm > 0)
+  {
     norm = std::sqrt(norm);
-    }
+  }
 
   const double epsilon = 1e-10;
-  if( norm >= 1.0 - epsilon )
-    {
-    axis = axis / ( norm + epsilon * norm );
-    }
+  if (norm >= 1.0 - epsilon)
+  {
+    axis = axis / (norm + epsilon * norm);
+  }
   VersorType newVersor;
   newVersor.Set(axis);
   this->SetVarVersor(newVersor);
@@ -140,11 +138,10 @@ ScaleVersor3DTransform<TParametersValueType>
 // p[6:8] = Scale
 //
 
-template<typename TParametersValueType>
-const typename ScaleVersor3DTransform<TParametersValueType>::ParametersType
-& ScaleVersor3DTransform<TParametersValueType>
-::GetParameters() const
-  {
+template <typename TParametersValueType>
+const typename ScaleVersor3DTransform<TParametersValueType>::ParametersType &
+ScaleVersor3DTransform<TParametersValueType>::GetParameters() const
+{
   itkDebugMacro(<< "Getting parameters ");
 
   this->m_Parameters[0] = this->GetVersor().GetX();
@@ -162,21 +159,19 @@ const typename ScaleVersor3DTransform<TParametersValueType>::ParametersType
   itkDebugMacro(<< "After getting parameters " << this->m_Parameters);
 
   return this->m_Parameters;
-  }
+}
 
-template<typename TParametersValueType>
+template <typename TParametersValueType>
 void
-ScaleVersor3DTransform<TParametersValueType>
-::SetIdentity()
+ScaleVersor3DTransform<TParametersValueType>::SetIdentity()
 {
   m_Scale.Fill(1.0);
   Superclass::SetIdentity();
 }
 
-template<typename TParametersValueType>
+template <typename TParametersValueType>
 void
-ScaleVersor3DTransform<TParametersValueType>
-::SetScale(const ScaleVectorType & scale)
+ScaleVersor3DTransform<TParametersValueType>::SetScale(const ScaleVectorType & scale)
 {
   m_Scale = scale;
   this->ComputeMatrix();
@@ -185,10 +180,9 @@ ScaleVersor3DTransform<TParametersValueType>
 // // THIS is different from VersorRigid3DTransform;
 // // it is copied from ScaleSkewVersor3DTransform:
 // Compute the matrix
-template<typename TParametersValueType>
+template <typename TParametersValueType>
 void
-ScaleVersor3DTransform<TParametersValueType>
-::ComputeMatrix()
+ScaleVersor3DTransform<TParametersValueType>::ComputeMatrix()
 {
   this->Superclass::ComputeMatrix();
 
@@ -201,29 +195,27 @@ ScaleVersor3DTransform<TParametersValueType>
   this->SetVarMatrix(newMatrix);
 }
 
-template<typename TParametersValueType>
+template <typename TParametersValueType>
 void
-ScaleVersor3DTransform<TParametersValueType>
-::ComputeMatrixParameters()
+ScaleVersor3DTransform<TParametersValueType>::ComputeMatrixParameters()
 {
   itkExceptionMacro(<< "Setting the matrix of a ScaleVersor3D transform is not supported at this time.");
 }
 
 // Print self
-template<typename TParametersValueType>
+template <typename TParametersValueType>
 void
-ScaleVersor3DTransform<TParametersValueType>
-::PrintSelf(std::ostream & os, Indent indent) const
+ScaleVersor3DTransform<TParametersValueType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Scales:       " << m_Scale        << std::endl;
+  os << indent << "Scales:       " << m_Scale << std::endl;
 }
 
-template<typename TParametersValueType>
+template <typename TParametersValueType>
 void
-ScaleVersor3DTransform<TParametersValueType>
-::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
+ScaleVersor3DTransform<TParametersValueType>::ComputeJacobianWithRespectToParameters(const InputPointType & p,
+                                                                                     JacobianType & jacobian) const
 {
   using ValueType = typename VersorType::ValueType;
 
@@ -233,7 +225,7 @@ ScaleVersor3DTransform<TParametersValueType>
   const ValueType vz = this->GetVersor().GetZ();
   const ValueType vw = this->GetVersor().GetW();
 
-  jacobian.SetSize( 3, this->GetNumberOfLocalParameters() );
+  jacobian.SetSize(3, this->GetNumberOfLocalParameters());
   jacobian.Fill(0.0);
 
   const double px = p[0] - this->GetCenter()[0];
@@ -255,26 +247,17 @@ ScaleVersor3DTransform<TParametersValueType>
   const double vzw = vz * vw;
 
   // compute Jacobian with respect to quaternion parameters
-  jacobian[0][0] = 2.0 * ( ( vyw + vxz ) * py + ( vzw - vxy ) * pz )
-    / vw;
-  jacobian[1][0] = 2.0 * ( ( vyw - vxz ) * px   - 2 * vxw   * py + ( vxx - vww ) * pz )
-    / vw;
-  jacobian[2][0] = 2.0 * ( ( vzw + vxy ) * px + ( vww - vxx ) * py   - 2 * vxw   * pz )
-    / vw;
+  jacobian[0][0] = 2.0 * ((vyw + vxz) * py + (vzw - vxy) * pz) / vw;
+  jacobian[1][0] = 2.0 * ((vyw - vxz) * px - 2 * vxw * py + (vxx - vww) * pz) / vw;
+  jacobian[2][0] = 2.0 * ((vzw + vxy) * px + (vww - vxx) * py - 2 * vxw * pz) / vw;
 
-  jacobian[0][1] = 2.0 * ( -2 * vyw  * px + ( vxw + vyz ) * py + ( vww - vyy ) * pz )
-    / vw;
-  jacobian[1][1] = 2.0 * ( ( vxw - vyz ) * px                + ( vzw + vxy ) * pz )
-    / vw;
-  jacobian[2][1] = 2.0 * ( ( vyy - vww ) * px + ( vzw - vxy ) * py   - 2 * vyw   * pz )
-    / vw;
+  jacobian[0][1] = 2.0 * (-2 * vyw * px + (vxw + vyz) * py + (vww - vyy) * pz) / vw;
+  jacobian[1][1] = 2.0 * ((vxw - vyz) * px + (vzw + vxy) * pz) / vw;
+  jacobian[2][1] = 2.0 * ((vyy - vww) * px + (vzw - vxy) * py - 2 * vyw * pz) / vw;
 
-  jacobian[0][2] = 2.0 * ( -2 * vzw  * px + ( vzz - vww ) * py + ( vxw - vyz ) * pz )
-    / vw;
-  jacobian[1][2] = 2.0 * ( ( vww - vzz ) * px   - 2 * vzw   * py + ( vyw + vxz ) * pz )
-    / vw;
-  jacobian[2][2] = 2.0 * ( ( vxw + vyz ) * px + ( vyw - vxz ) * py )
-    / vw;
+  jacobian[0][2] = 2.0 * (-2 * vzw * px + (vzz - vww) * py + (vxw - vyz) * pz) / vw;
+  jacobian[1][2] = 2.0 * ((vww - vzz) * px - 2 * vzw * py + (vyw + vxz) * pz) / vw;
+  jacobian[2][2] = 2.0 * ((vxw + vyz) * px + (vyw - vxz) * py) / vw;
 
   jacobian[0][3] = 1.0;
   jacobian[1][4] = 1.0;
@@ -287,6 +270,6 @@ ScaleVersor3DTransform<TParametersValueType>
   jacobian[2][8] = pz;
 }
 
-} // namespace
+} // namespace itk
 
 #endif

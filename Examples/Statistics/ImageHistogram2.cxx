@@ -46,15 +46,16 @@
 
 #include "itkImageFileReader.h"
 
-int main( int argc, char * argv [] )
+int
+main(int argc, char * argv[])
 {
 
-  if( argc < 2 )
-    {
+  if (argc < 2)
+  {
     std::cerr << "Missing command line arguments" << std::endl;
     std::cerr << "Usage :  ImageHistogram1  inputImageFileName " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   // Software Guide : BeginLatex
@@ -69,26 +70,26 @@ int main( int argc, char * argv [] )
   using PixelType = unsigned char;
   constexpr unsigned int Dimension = 2;
 
-  using ImageType = itk::Image<PixelType, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
   // Software Guide : EndCodeSnippet
 
 
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
 
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
   try
-    {
+  {
     reader->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Problem reading image file : " << argv[1] << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   // Software Guide : BeginLatex
@@ -105,8 +106,7 @@ int main( int argc, char * argv [] )
   using HistogramGeneratorType =
     itk::Statistics::ScalarImageToHistogramGenerator<ImageType>;
 
-  HistogramGeneratorType::Pointer histogramGenerator =
-                                        HistogramGeneratorType::New();
+  HistogramGeneratorType::Pointer histogramGenerator = HistogramGeneratorType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -118,7 +118,7 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  histogramGenerator->SetInput(  reader->GetOutput() );
+  histogramGenerator->SetInput(reader->GetOutput());
   // Software Guide : EndCodeSnippet
 
 
@@ -130,11 +130,11 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  histogramGenerator->SetNumberOfBins( 256 );
-  histogramGenerator->SetMarginalScale( 10.0 );
+  histogramGenerator->SetNumberOfBins(256);
+  histogramGenerator->SetMarginalScale(10.0);
 
-  histogramGenerator->SetHistogramMin(  -0.5 );
-  histogramGenerator->SetHistogramMax( 255.5 );
+  histogramGenerator->SetHistogramMin(-0.5);
+  histogramGenerator->SetHistogramMax(255.5);
   // Software Guide : EndCodeSnippet
 
 
@@ -174,11 +174,11 @@ int main( int argc, char * argv [] )
   std::cout << "Histogram size " << histogramSize << std::endl;
 
   unsigned int bin;
-  for( bin=0; bin < histogramSize; bin++ )
-    {
+  for (bin = 0; bin < histogramSize; bin++)
+  {
     std::cout << "bin = " << bin << " frequency = ";
-    std::cout << histogram->GetFrequency( bin, 0 ) << std::endl;
-    }
+    std::cout << histogram->GetFrequency(bin, 0) << std::endl;
+  }
 
 
   // Software Guide : BeginLatex
@@ -195,16 +195,15 @@ int main( int argc, char * argv [] )
   HistogramType::ConstIterator end = histogram->End();
 
   unsigned int binNumber = 0;
-  while( itr != end )
-    {
+  while (itr != end)
+  {
     std::cout << "bin = " << binNumber << " frequency = ";
     std::cout << itr.GetFrequency() << std::endl;
     ++itr;
     ++binNumber;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
 
   return EXIT_SUCCESS;
-
 }

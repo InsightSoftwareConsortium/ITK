@@ -50,8 +50,7 @@ namespace itk
  */
 
 template <typename TInputImage, typename TCoordRep = double>
-class ITK_TEMPLATE_EXPORT GaussianInterpolateImageFunction :
-  public InterpolateImageFunction<TInputImage, TCoordRep>
+class ITK_TEMPLATE_EXPORT GaussianInterpolateImageFunction : public InterpolateImageFunction<TInputImage, TCoordRep>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GaussianInterpolateImageFunction);
@@ -63,10 +62,10 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( GaussianInterpolateImageFunction, InterpolateImageFunction );
+  itkTypeMacro(GaussianInterpolateImageFunction, InterpolateImageFunction);
 
   /** Method for creation through the object factory. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** ImageDimension constant. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
@@ -94,93 +93,107 @@ public:
   using ArrayType = FixedArray<RealType, ImageDimension>;
 
   /** Set input image. */
-  void SetInputImage( const TInputImage *image ) override
-    {
-    Superclass::SetInputImage( image );
+  void
+  SetInputImage(const TInputImage * image) override
+  {
+    Superclass::SetInputImage(image);
     this->ComputeBoundingBox();
-    }
+  }
 
   /** Set/Get sigma. */
-  virtual void SetSigma( const ArrayType s )
+  virtual void
+  SetSigma(const ArrayType s)
+  {
+    if (this->m_Sigma != s)
     {
-    if( this->m_Sigma != s )
-      {
       this->m_Sigma = s;
       this->ComputeBoundingBox();
       this->Modified();
-      }
     }
-  virtual void SetSigma( RealType *s )
-    {
+  }
+  virtual void
+  SetSigma(RealType * s)
+  {
     ArrayType sigma;
-    for( unsigned int d = 0; d < ImageDimension; d++ )
-      {
+    for (unsigned int d = 0; d < ImageDimension; d++)
+    {
       sigma[d] = s[d];
-      }
-    this->SetSigma( sigma );
     }
-  itkGetConstMacro( Sigma, ArrayType );
+    this->SetSigma(sigma);
+  }
+  itkGetConstMacro(Sigma, ArrayType);
 
   /** Set/Get alpha. */
-  virtual void SetAlpha( const RealType a )
+  virtual void
+  SetAlpha(const RealType a)
+  {
+    if (Math::NotExactlyEquals(this->m_Alpha, a))
     {
-    if( Math::NotExactlyEquals(this->m_Alpha, a) )
-      {
       this->m_Alpha = a;
       this->ComputeBoundingBox();
       this->Modified();
-      }
     }
-  itkGetConstMacro( Alpha, RealType );
+  }
+  itkGetConstMacro(Alpha, RealType);
 
   /** Set/Get sigma and alpha. */
-  virtual void SetParameters( RealType *sigma, RealType alpha )
-    {
-    this->SetSigma( sigma );
-    this->SetAlpha( alpha );
-    }
+  virtual void
+  SetParameters(RealType * sigma, RealType alpha)
+  {
+    this->SetSigma(sigma);
+    this->SetAlpha(alpha);
+  }
 
   /** Evaluate at the given index. */
-  OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & cindex ) const override
-    {
-    return this->EvaluateAtContinuousIndex( cindex, nullptr );
-    }
+  OutputType
+  EvaluateAtContinuousIndex(const ContinuousIndexType & cindex) const override
+  {
+    return this->EvaluateAtContinuousIndex(cindex, nullptr);
+  }
 
-  SizeType GetRadius() const override;
+  SizeType
+  GetRadius() const override;
 
 protected:
   GaussianInterpolateImageFunction();
   ~GaussianInterpolateImageFunction() override = default;
-  void PrintSelf( std::ostream& os, Indent indent ) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  virtual void ComputeBoundingBox();
+  virtual void
+  ComputeBoundingBox();
 
-  using RegionType = ImageRegion< ImageDimension >;
+  using RegionType = ImageRegion<ImageDimension>;
 
   /** Compute the region which we need to loop over. */
-  RegionType ComputeInterpolationRegion( const ContinuousIndexType& ) const;
+  RegionType
+  ComputeInterpolationRegion(const ContinuousIndexType &) const;
 
-  virtual void ComputeErrorFunctionArray( const RegionType& region, unsigned int dimension, RealType cindex,
-    vnl_vector<RealType> &erfArray, vnl_vector<RealType> &gerfArray, bool evaluateGradient = false ) const;
+  virtual void
+  ComputeErrorFunctionArray(const RegionType &     region,
+                            unsigned int           dimension,
+                            RealType               cindex,
+                            vnl_vector<RealType> & erfArray,
+                            vnl_vector<RealType> & gerfArray,
+                            bool                   evaluateGradient = false) const;
 
   /** Set/Get the bounding box starting point. */
-  itkSetMacro( BoundingBoxStart, ArrayType );
-  itkGetConstMacro( BoundingBoxStart, ArrayType );
+  itkSetMacro(BoundingBoxStart, ArrayType);
+  itkGetConstMacro(BoundingBoxStart, ArrayType);
 
   /** Set/Get the bounding box end point. */
-  itkSetMacro( BoundingBoxEnd, ArrayType );
-  itkGetConstMacro( BoundingBoxEnd, ArrayType );
+  itkSetMacro(BoundingBoxEnd, ArrayType);
+  itkGetConstMacro(BoundingBoxEnd, ArrayType);
 
   /** Set/Get the cut-off distance. */
-  itkSetMacro( CutOffDistance, ArrayType );
-  itkGetConstMacro( CutOffDistance, ArrayType );
+  itkSetMacro(CutOffDistance, ArrayType);
+  itkGetConstMacro(CutOffDistance, ArrayType);
 
 
 private:
   /** Evaluate function value. */
-  virtual OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType &, OutputType * ) const;
+  virtual OutputType
+  EvaluateAtContinuousIndex(const ContinuousIndexType &, OutputType *) const;
 
   ArrayType m_Sigma;
   RealType  m_Alpha;
@@ -194,8 +207,8 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGaussianInterpolateImageFunction.hxx"
-#include "itkMath.h"
+#  include "itkGaussianInterpolateImageFunction.hxx"
+#  include "itkMath.h"
 #endif
 
 #endif

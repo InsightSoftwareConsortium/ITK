@@ -29,29 +29,26 @@ namespace itk
 /**
  *
  */
-template< typename TInput, typename TOutput >
-FastMarchingUpwindGradientImageFilterBase< TInput, TOutput >
-::FastMarchingUpwindGradientImageFilterBase()
+template <typename TInput, typename TOutput>
+FastMarchingUpwindGradientImageFilterBase<TInput, TOutput>::FastMarchingUpwindGradientImageFilterBase()
 {
   GradientImagePointer GradientImage = GradientImageType::New();
-  this->SetNthOutput( 1, GradientImage.GetPointer() );
+  this->SetNthOutput(1, GradientImage.GetPointer());
 }
 
-template< typename TInput, typename TOutput >
-typename FastMarchingUpwindGradientImageFilterBase< TInput, TOutput >::GradientImageType*
-FastMarchingUpwindGradientImageFilterBase< TInput, TOutput >
-::GetGradientImage()
+template <typename TInput, typename TOutput>
+typename FastMarchingUpwindGradientImageFilterBase<TInput, TOutput>::GradientImageType *
+FastMarchingUpwindGradientImageFilterBase<TInput, TOutput>::GetGradientImage()
 {
-  return dynamic_cast< GradientImageType* >( this->ProcessObject::GetOutput( 1 ) );
+  return dynamic_cast<GradientImageType *>(this->ProcessObject::GetOutput(1));
 }
 
 /**
  *
  */
-template< typename TInput, typename TOutput >
+template <typename TInput, typename TOutput>
 void
-FastMarchingUpwindGradientImageFilterBase< TInput, TOutput >
-::PrintSelf(std::ostream & os, Indent indent) const
+FastMarchingUpwindGradientImageFilterBase<TInput, TOutput>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
@@ -59,77 +56,72 @@ FastMarchingUpwindGradientImageFilterBase< TInput, TOutput >
 /**
  *
  */
-template< typename TInput, typename TOutput >
+template <typename TInput, typename TOutput>
 void
-FastMarchingUpwindGradientImageFilterBase< TInput, TOutput >::
-InitializeOutput(OutputImageType *output)
+FastMarchingUpwindGradientImageFilterBase<TInput, TOutput>::InitializeOutput(OutputImageType * output)
 {
   Superclass::InitializeOutput(output);
 
   // allocate memory for the GradientImage if requested
   GradientImagePointer GradientImage = this->GetGradientImage();
 
-  GradientImage->CopyInformation( this->GetInput() );
-  GradientImage->SetBufferedRegion( output->GetBufferedRegion() );
+  GradientImage->CopyInformation(this->GetInput());
+  GradientImage->SetBufferedRegion(output->GetBufferedRegion());
   GradientImage->Allocate();
 
-  using GradientIterator = ImageRegionIterator< GradientImageType >;
+  using GradientIterator = ImageRegionIterator<GradientImageType>;
 
-  GradientIterator gradientIt( GradientImage,
-                               GradientImage->GetBufferedRegion() );
+  GradientIterator gradientIt(GradientImage, GradientImage->GetBufferedRegion());
 
   GradientPixelType zeroGradient;
   using GradientPixelValueType = typename GradientPixelType::ValueType;
-  zeroGradient.Fill(NumericTraits< GradientPixelValueType >::ZeroValue());
+  zeroGradient.Fill(NumericTraits<GradientPixelValueType>::ZeroValue());
 
   gradientIt.GoToBegin();
 
-  while( !gradientIt.IsAtEnd() )
-    {
+  while (!gradientIt.IsAtEnd())
+  {
     gradientIt.Set(zeroGradient);
     ++gradientIt;
-    }
+  }
 }
 
 
-template< typename TInput, typename TOutput >
+template <typename TInput, typename TOutput>
 void
-FastMarchingUpwindGradientImageFilterBase< TInput, TOutput >::
-UpdateNeighbors(
-  OutputImageType* oImage,
-  const NodeType& iNode )
+FastMarchingUpwindGradientImageFilterBase<TInput, TOutput>::UpdateNeighbors(OutputImageType * oImage,
+                                                                            const NodeType &  iNode)
 {
-  Superclass::UpdateNeighbors( oImage, iNode );
+  Superclass::UpdateNeighbors(oImage, iNode);
 
-  this->ComputeGradient( oImage, iNode );
+  this->ComputeGradient(oImage, iNode);
 }
 
 /**
  *
  */
-template< typename TInput, typename TOutput >
+template <typename TInput, typename TOutput>
 void
-FastMarchingUpwindGradientImageFilterBase< TInput, TOutput >
-::ComputeGradient( OutputImageType* oImage,
-                  const NodeType& iNode )
+FastMarchingUpwindGradientImageFilterBase<TInput, TOutput>::ComputeGradient(OutputImageType * oImage,
+                                                                            const NodeType &  iNode)
 {
   NodeType neighIndex = iNode;
 
-  OutputPixelType centerPixel;
-  OutputPixelType dx_forward;
-  OutputPixelType dx_backward;
+  OutputPixelType   centerPixel;
+  OutputPixelType   dx_forward;
+  OutputPixelType   dx_backward;
   GradientPixelType gradientPixel;
 
-  const OutputPixelType ZERO = NumericTraits< OutputPixelType >::ZeroValue();
+  const OutputPixelType ZERO = NumericTraits<OutputPixelType>::ZeroValue();
 
   OutputSpacingType spacing = oImage->GetSpacing();
 
-  unsigned int xStride[ Self::ImageDimension  ];
+  unsigned int xStride[Self::ImageDimension];
 
-  centerPixel = oImage->GetPixel( iNode );
+  centerPixel = oImage->GetPixel(iNode);
 
-  for ( unsigned int j = 0; j < ImageDimension; j++ )
-    {
+  for (unsigned int j = 0; j < ImageDimension; j++)
+  {
     neighIndex = iNode;
 
     // Set stride of one in each direction
@@ -140,46 +132,44 @@ FastMarchingUpwindGradientImageFilterBase< TInput, TOutput >
     dx_backward = ZERO;
     neighIndex[j] = iNode[j] - xStride[j];
 
-    if ( !( ( neighIndex[j] > this->m_LastIndex[j] ) ||
-            ( neighIndex[j] < this->m_StartIndex[j] ) ) )
+    if (!((neighIndex[j] > this->m_LastIndex[j]) || (neighIndex[j] < this->m_StartIndex[j])))
+    {
+      if (this->GetLabelValueForGivenNode(neighIndex) == Traits::Alive)
       {
-      if ( this->GetLabelValueForGivenNode(neighIndex) == Traits::Alive )
-        {
         dx_backward = centerPixel - oImage->GetPixel(neighIndex);
-        }
       }
+    }
 
     dx_forward = ZERO;
     neighIndex[j] = iNode[j] + xStride[j];
 
-    if ( !( ( neighIndex[j] > this->m_LastIndex[j] ) ||
-            ( neighIndex[j] < this->m_StartIndex[j] ) ) )
+    if (!((neighIndex[j] > this->m_LastIndex[j]) || (neighIndex[j] < this->m_StartIndex[j])))
+    {
+      if (this->GetLabelValueForGivenNode(neighIndex) == Traits::Alive)
       {
-      if ( this->GetLabelValueForGivenNode(neighIndex) == Traits::Alive )
-        {
         dx_forward = oImage->GetPixel(neighIndex) - centerPixel;
-        }
       }
+    }
 
     // Compute upwind finite differences
-    if ( std::max(dx_backward, -dx_forward) < ZERO )
-      {
+    if (std::max(dx_backward, -dx_forward) < ZERO)
+    {
       gradientPixel[j] = ZERO;
-      }
+    }
     else
+    {
+      if (dx_backward > -dx_forward)
       {
-      if ( dx_backward > -dx_forward )
-        {
         gradientPixel[j] = dx_backward;
-        }
-      else
-        {
-        gradientPixel[j] = dx_forward;
-        }
       }
+      else
+      {
+        gradientPixel[j] = dx_forward;
+      }
+    }
 
     gradientPixel[j] /= spacing[j];
-    }
+  }
 
   GradientImagePointer GradientImage = this->GetGradientImage();
   GradientImage->SetPixel(iNode, gradientPixel);

@@ -20,19 +20,20 @@
 
 #include "itkDanielssonDistanceMapImageFilter.h"
 
-int itkDanielssonDistanceMapImageFilterTest1( int argc, char * argv[] )
+int
+itkDanielssonDistanceMapImageFilterTest1(int argc, char * argv[])
 {
-  if(argc < 3)
-    {
+  if (argc < 3)
+  {
     std::cerr << "Usage: " << argv[0] << " InputImage OutputImage\n";
     return -1;
-    }
+  }
 
   constexpr unsigned int ImageDimension = 2;
   using InputPixelType = unsigned char;
   using OutputPixelType = float;
 
-  using InputImageType = itk::Image<InputPixelType,  ImageDimension>;
+  using InputImageType = itk::Image<InputPixelType, ImageDimension>;
   using OutputImageType = itk::Image<OutputPixelType, ImageDimension>;
 
   using ReaderType = itk::ImageFileReader<InputImageType>;
@@ -42,15 +43,15 @@ int itkDanielssonDistanceMapImageFilterTest1( int argc, char * argv[] )
   reader->SetFileName(argv[1]);
   reader->Update();
 
-  using FilterType = itk::DanielssonDistanceMapImageFilter <InputImageType, OutputImageType>;
+  using FilterType = itk::DanielssonDistanceMapImageFilter<InputImageType, OutputImageType>;
   FilterType::Pointer filter = FilterType::New();
-  filter->SetInput( reader->GetOutput() );
+  filter->SetInput(reader->GetOutput());
   filter->Update();
   filter->Print(std::cout);
 
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( filter->GetOutput() );
-  writer->SetFileName( argv[2] );
+  writer->SetInput(filter->GetOutput());
+  writer->SetFileName(argv[2]);
   writer->UseCompressionOn();
   writer->Update();
 

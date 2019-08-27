@@ -16,15 +16,15 @@
  *
  *=========================================================================*/
 /*=========================================================================
-*
-*  Portions of this file are subject to the VTK Toolkit Version 3 copyright.
-*
-*  Copyright (c) Ken Martin, Will Schroeder, Bill Lorensen
-*
-*  For complete copyright, license and disclaimer of warranty information
-*  please refer to the NOTICE file at the top of the ITK source tree.
-*
-*=========================================================================*/
+ *
+ *  Portions of this file are subject to the VTK Toolkit Version 3 copyright.
+ *
+ *  Copyright (c) Ken Martin, Will Schroeder, Bill Lorensen
+ *
+ *  For complete copyright, license and disclaimer of warranty information
+ *  please refer to the NOTICE file at the top of the ITK source tree.
+ *
+ *=========================================================================*/
 
 #ifndef itkLabelImageGaussianInterpolateImageFunction_hxx
 #define itkLabelImageGaussianInterpolateImageFunction_hxx
@@ -34,24 +34,24 @@
 namespace itk
 {
 
-template<typename TInputImage, typename TCoordRep, typename TPixelCompare>
-typename LabelImageGaussianInterpolateImageFunction<TInputImage, TCoordRep, TPixelCompare>
-::OutputType
-LabelImageGaussianInterpolateImageFunction<TInputImage, TCoordRep, TPixelCompare>
-::EvaluateAtContinuousIndex( const ContinuousIndexType & cindex, OutputType * itkNotUsed( grad )  ) const
+template <typename TInputImage, typename TCoordRep, typename TPixelCompare>
+typename LabelImageGaussianInterpolateImageFunction<TInputImage, TCoordRep, TPixelCompare>::OutputType
+LabelImageGaussianInterpolateImageFunction<TInputImage, TCoordRep, TPixelCompare>::EvaluateAtContinuousIndex(
+  const ContinuousIndexType & cindex,
+  OutputType *                itkNotUsed(grad)) const
 {
   vnl_vector<RealType> erfArray[ImageDimension];
   vnl_vector<RealType> gerfArray[ImageDimension];
 
-  typename Superclass::RegionType region = this->ComputeInterpolationRegion( cindex );
+  typename Superclass::RegionType region = this->ComputeInterpolationRegion(cindex);
 
   // Compute the ERF difference arrays
-  for( unsigned int d = 0; d < ImageDimension; d++ )
-    {
-    this->ComputeErrorFunctionArray( region, d, cindex[d], erfArray[d], gerfArray[d], false );
-    }
+  for (unsigned int d = 0; d < ImageDimension; d++)
+  {
+    this->ComputeErrorFunctionArray(region, d, cindex[d], erfArray[d], gerfArray[d], false);
+  }
 
-  RealType wmax = 0.0;
+  RealType   wmax = 0.0;
   OutputType Vmax = NumericTraits<OutputType>::ZeroValue();
 
   // Create a map object to store weights for each label encountered
@@ -61,39 +61,39 @@ LabelImageGaussianInterpolateImageFunction<TInputImage, TCoordRep, TPixelCompare
   using WeightMapType = std::map<OutputType, RealType, TPixelCompare>;
   WeightMapType weightMap;
 
-  ImageRegionConstIteratorWithIndex<InputImageType> It( this->GetInputImage(), region );
-  for( It.GoToBegin(); !It.IsAtEnd(); ++It )
-    {
+  ImageRegionConstIteratorWithIndex<InputImageType> It(this->GetInputImage(), region);
+  for (It.GoToBegin(); !It.IsAtEnd(); ++It)
+  {
     unsigned int j = It.GetIndex()[0] - region.GetIndex()[0];
-    RealType w = erfArray[0][j];
-    for( unsigned int d = 1; d < ImageDimension; d++)
-      {
+    RealType     w = erfArray[0][j];
+    for (unsigned int d = 1; d < ImageDimension; d++)
+    {
       j = It.GetIndex()[d] - region.GetIndex()[d];
       w *= erfArray[d][j];
-      }
+    }
 
     const OutputType V = It.Get();
-    auto it = weightMap.find( V );
-    RealType wtest = 0.0;
+    auto             it = weightMap.find(V);
+    RealType         wtest = 0.0;
 
-    if( it != weightMap.end() )
-      {
+    if (it != weightMap.end())
+    {
       it->second += w;
       wtest = it->second;
-      }
+    }
     else
-      {
-      weightMap.insert( std::make_pair( V, w ) );
+    {
+      weightMap.insert(std::make_pair(V, w));
       wtest = w;
-      }
+    }
 
     // Keep track of the max value
-    if( wtest > wmax )
-      {
+    if (wtest > wmax)
+    {
       wmax = wtest;
       Vmax = V;
-      }
     }
+  }
   return Vmax;
 }
 

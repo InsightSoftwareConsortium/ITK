@@ -46,25 +46,24 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKMathematicalMorphology
  */
-template< typename TInputImage, typename TOutputImage, typename TKernel >
-class ITK_TEMPLATE_EXPORT GrayscaleFunctionErodeImageFilter:
-  public MorphologyImageFilter< TInputImage, TOutputImage, TKernel >
+template <typename TInputImage, typename TOutputImage, typename TKernel>
+class ITK_TEMPLATE_EXPORT GrayscaleFunctionErodeImageFilter
+  : public MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleFunctionErodeImageFilter);
 
   /** Standard class type aliases. */
   using Self = GrayscaleFunctionErodeImageFilter;
-  using Superclass = MorphologyImageFilter< TInputImage, TOutputImage, TKernel >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = MorphologyImageFilter<TInputImage, TOutputImage, TKernel>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard New method. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(GrayscaleFunctionErodeImageFilter,
-               MorphologyImageFilter);
+  itkTypeMacro(GrayscaleFunctionErodeImageFilter, MorphologyImageFilter);
 
   /** Declaration of pixel type. */
   using PixelType = typename Superclass::PixelType;
@@ -91,20 +90,13 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( SameDimensionCheck1,
-                   ( Concept::SameDimension< InputImageDimension, OutputImageDimension > ) );
-  itkConceptMacro( SameDimensionCheck2,
-                   ( Concept::SameDimension< InputImageDimension, KernelDimension > ) );
-  itkConceptMacro( InputConvertibleToOutputCheck,
-                   ( Concept::Convertible< PixelType, typename TOutputImage::PixelType > ) );
-  itkConceptMacro( KernelConvertibleToInputCheck,
-                   ( Concept::Convertible< KernelPixelType, PixelType > ) );
-  itkConceptMacro( InputAdditiveOperatorsCheck,
-                   ( Concept::AdditiveOperators< PixelType > ) );
-  itkConceptMacro( InputLessThanComparableCheck,
-                   ( Concept::LessThanComparable< PixelType > ) );
-  itkConceptMacro( KernelGreaterThanComparableCheck,
-                   ( Concept::GreaterThanComparable< KernelPixelType > ) );
+  itkConceptMacro(SameDimensionCheck1, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
+  itkConceptMacro(SameDimensionCheck2, (Concept::SameDimension<InputImageDimension, KernelDimension>));
+  itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<PixelType, typename TOutputImage::PixelType>));
+  itkConceptMacro(KernelConvertibleToInputCheck, (Concept::Convertible<KernelPixelType, PixelType>));
+  itkConceptMacro(InputAdditiveOperatorsCheck, (Concept::AdditiveOperators<PixelType>));
+  itkConceptMacro(InputLessThanComparableCheck, (Concept::LessThanComparable<PixelType>));
+  itkConceptMacro(KernelGreaterThanComparableCheck, (Concept::GreaterThanComparable<KernelPixelType>));
   // End concept checking
 #endif
 
@@ -119,9 +111,10 @@ protected:
    * structuring element values whose corresponding element in the
    * structuring element is positive. This version of Evaluate is used
    * for non-boundary pixels. */
-  PixelType Evaluate(const NeighborhoodIteratorType & nit,
-                     const KernelIteratorType kernelBegin,
-                     const KernelIteratorType kernelEnd) override;
+  PixelType
+  Evaluate(const NeighborhoodIteratorType & nit,
+           const KernelIteratorType         kernelBegin,
+           const KernelIteratorType         kernelEnd) override;
 
 private:
   // Default boundary condition for erosion filter, defaults to
@@ -131,7 +124,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGrayscaleFunctionErodeImageFilter.hxx"
+#  include "itkGrayscaleFunctionErodeImageFilter.hxx"
 #endif
 
 #endif

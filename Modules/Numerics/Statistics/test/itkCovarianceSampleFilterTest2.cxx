@@ -19,36 +19,36 @@
 #include "itkCovarianceSampleFilter.h"
 #include "itkListSample.h"
 
-int itkCovarianceSampleFilterTest2(int, char* [] )
+int
+itkCovarianceSampleFilterTest2(int, char *[])
 {
   std::cout << "CovarianceSampleFilter test \n \n";
 
   constexpr unsigned int MeasurementVectorSize = 3;
   constexpr unsigned int numberOfMeasurementVectors = 3;
-  unsigned int                        counter;
+  unsigned int           counter;
 
-  using MeasurementVectorType = itk::FixedArray<
-    float, MeasurementVectorSize >;
+  using MeasurementVectorType = itk::FixedArray<float, MeasurementVectorSize>;
   using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
 
   SampleType::Pointer sample = SampleType::New();
 
-  sample->SetMeasurementVectorSize( MeasurementVectorSize );
+  sample->SetMeasurementVectorSize(MeasurementVectorSize);
 
-  MeasurementVectorType               measure;
+  MeasurementVectorType measure;
 
-  //reset counter
+  // reset counter
   counter = 0;
 
-  while ( counter < numberOfMeasurementVectors )
+  while (counter < numberOfMeasurementVectors)
+  {
+    for (unsigned int i = 0; i < MeasurementVectorSize; i++)
     {
-    for( unsigned int i=0; i<MeasurementVectorSize; i++)
-      {
       measure[i] = counter;
-      }
-    sample->PushBack( measure );
-    counter++;
     }
+    sample->PushBack(measure);
+    counter++;
+  }
 
   using FilterType = itk::Statistics::CovarianceSampleFilter<SampleType>;
 
@@ -56,48 +56,48 @@ int itkCovarianceSampleFilterTest2(int, char* [] )
 
   FilterType::Pointer filter = FilterType::New();
 
-  filter->SetInput( sample );
+  filter->SetInput(sample);
 
   try
-    {
+  {
     filter->Update();
-    }
-  catch ( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception caught: " << excp << std::endl;
-    }
+  }
 
   std::cout << "Mean: " << filter->GetMean() << std::endl;
 
   const FilterType::MatrixDecoratedType * decorator = filter->GetCovarianceMatrixOutput();
-  FilterType::MatrixType    covarianceOutput  = decorator->Get();
+  FilterType::MatrixType                  covarianceOutput = decorator->Get();
 
   std::cout << "Covariance Matrix: " << covarianceOutput << std::endl;
 
-  const FilterType::MeasurementVectorDecoratedType * meanDecorator  = filter->GetMeanOutput();
-  FilterType::MeasurementVectorRealType    mean = meanDecorator->Get();
+  const FilterType::MeasurementVectorDecoratedType * meanDecorator = filter->GetMeanOutput();
+  FilterType::MeasurementVectorRealType              mean = meanDecorator->Get();
 
-  //Check the results
+  // Check the results
 
   using MeasurementVectorRealType = FilterType::MeasurementVectorRealType;
-  MeasurementVectorRealType  meanExpected;
+  MeasurementVectorRealType meanExpected;
 
-  itk::NumericTraits<MeasurementVectorRealType>::SetLength( meanExpected, MeasurementVectorSize );
+  itk::NumericTraits<MeasurementVectorRealType>::SetLength(meanExpected, MeasurementVectorSize);
 
-  meanExpected.Fill( 1.0 );
+  meanExpected.Fill(1.0);
 
   const double epsilon = 1e-4;
 
-  for ( unsigned int i = 0; i < MeasurementVectorSize; i++ )
+  for (unsigned int i = 0; i < MeasurementVectorSize; i++)
+  {
+    if (std::fabs(meanExpected[i] - mean[i]) > epsilon)
     {
-    if ( std::fabs( meanExpected[i] - mean[i] ) > epsilon )
-      {
       std::cerr << "The computed mean value is incorrect" << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
 
-  CovarianceMatrixType  matrixExpected( MeasurementVectorSize, MeasurementVectorSize );
+  CovarianceMatrixType matrixExpected(MeasurementVectorSize, MeasurementVectorSize);
 
   matrixExpected[0][0] = 1.0;
   matrixExpected[0][1] = 1.0;
@@ -111,56 +111,56 @@ int itkCovarianceSampleFilterTest2(int, char* [] )
   matrixExpected[2][1] = 1.0;
   matrixExpected[2][2] = 1.0;
 
-  for( unsigned int i = 0; i < MeasurementVectorSize; i++ )
+  for (unsigned int i = 0; i < MeasurementVectorSize; i++)
+  {
+    for (unsigned int j = 0; j < MeasurementVectorSize; j++)
     {
-    for( unsigned int j = 0; j < MeasurementVectorSize; j++ )
+      if (std::fabs(matrixExpected[i][j] - covarianceOutput[i][j]) > epsilon)
       {
-      if( std::fabs( matrixExpected[i][j] - covarianceOutput[i][j] ) > epsilon )
-        {
         std::cerr << "Computed covariance matrix value is incorrect" << std::endl;
         return EXIT_FAILURE;
-        }
       }
     }
+  }
 
 
   // use orthogonal meausrment vectors
   SampleType::Pointer sample2 = SampleType::New();
 
-  sample2->SetMeasurementVectorSize( MeasurementVectorSize );
+  sample2->SetMeasurementVectorSize(MeasurementVectorSize);
 
-  MeasurementVectorType               measure2;
+  MeasurementVectorType measure2;
 
-  //reset counter
+  // reset counter
   counter = 0;
 
-  while ( counter < numberOfMeasurementVectors )
+  while (counter < numberOfMeasurementVectors)
+  {
+    for (unsigned int i = 0; i < MeasurementVectorSize; i++)
     {
-    for( unsigned int i=0; i<MeasurementVectorSize; i++)
+      if (counter == i)
       {
-      if ( counter == i )
-        {
         measure2[i] = 1.0;
-        }
-      else
-        {
-        measure2[i] = 0.0;
-        }
       }
-    sample2->PushBack( measure2 );
-    counter++;
+      else
+      {
+        measure2[i] = 0.0;
+      }
     }
+    sample2->PushBack(measure2);
+    counter++;
+  }
 
-  filter->SetInput( sample2 );
+  filter->SetInput(sample2);
 
   try
-    {
+  {
     filter->Update();
-    }
-  catch ( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception caught: " << excp << std::endl;
-    }
+  }
 
   std::cout << "Mean: " << filter->GetMean() << std::endl;
   std::cout << "Covariance Matrix: " << filter->GetCovarianceMatrix() << std::endl;
@@ -168,23 +168,23 @@ int itkCovarianceSampleFilterTest2(int, char* [] )
   mean = filter->GetMean();
   CovarianceMatrixType matrix = filter->GetCovarianceMatrix();
 
-  //Check the results
+  // Check the results
 
-  MeasurementVectorRealType  meanExpected2;
-  itk::NumericTraits<MeasurementVectorRealType>::SetLength( meanExpected2, MeasurementVectorSize );
+  MeasurementVectorRealType meanExpected2;
+  itk::NumericTraits<MeasurementVectorRealType>::SetLength(meanExpected2, MeasurementVectorSize);
 
-  meanExpected2.Fill( 0.333333 );
+  meanExpected2.Fill(0.333333);
 
-  for ( unsigned int i = 0; i < MeasurementVectorSize; i++ )
+  for (unsigned int i = 0; i < MeasurementVectorSize; i++)
+  {
+    if (std::fabs(meanExpected2[i] - mean[i]) > epsilon)
     {
-    if ( std::fabs( meanExpected2[i] - mean[i] ) > epsilon )
-      {
       std::cerr << "The computed mean value is incorrect" << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
 
-  CovarianceMatrixType  matrixExpected2( MeasurementVectorSize, MeasurementVectorSize );
+  CovarianceMatrixType matrixExpected2(MeasurementVectorSize, MeasurementVectorSize);
 
   matrixExpected2[0][0] = 0.33333;
   matrixExpected2[0][1] = -0.16667;
@@ -198,110 +198,110 @@ int itkCovarianceSampleFilterTest2(int, char* [] )
   matrixExpected2[2][1] = -0.16667;
   matrixExpected2[2][2] = 0.333333;
 
-  for ( unsigned int i = 0; i < MeasurementVectorSize; i++ )
+  for (unsigned int i = 0; i < MeasurementVectorSize; i++)
+  {
+    for (unsigned int j = 0; j < MeasurementVectorSize; j++)
     {
-    for ( unsigned int j = 0; j < MeasurementVectorSize; j++ )
+      if (std::fabs(matrixExpected2[i][j] - matrix[i][j]) > epsilon)
       {
-      if ( std::fabs( matrixExpected2[i][j] - matrix[i][j] ) > epsilon )
-        {
         std::cerr << "Computed covariance matrix value is incorrect" << std::endl;
         return EXIT_FAILURE;
-        }
       }
     }
+  }
 
 
   SampleType::Pointer sample3 = SampleType::New();
 
-  sample2->SetMeasurementVectorSize( MeasurementVectorSize );
+  sample2->SetMeasurementVectorSize(MeasurementVectorSize);
 
-  MeasurementVectorType               measure3;
+  MeasurementVectorType measure3;
 
-  measure3[0] =  4.00;
-  measure3[1] =  2.00;
-  measure3[2] =  0.60;
-  sample3->PushBack( measure3 );
+  measure3[0] = 4.00;
+  measure3[1] = 2.00;
+  measure3[2] = 0.60;
+  sample3->PushBack(measure3);
 
-  measure3[0] =  4.20;
-  measure3[1] =  2.10;
-  measure3[2] =  0.59;
-  sample3->PushBack( measure3 );
+  measure3[0] = 4.20;
+  measure3[1] = 2.10;
+  measure3[2] = 0.59;
+  sample3->PushBack(measure3);
 
-  measure3[0] =  3.90;
-  measure3[1] =  2.00;
-  measure3[2] =  0.58;
-  sample3->PushBack( measure3 );
+  measure3[0] = 3.90;
+  measure3[1] = 2.00;
+  measure3[2] = 0.58;
+  sample3->PushBack(measure3);
 
-  measure3[0] =  4.30;
-  measure3[1] =  2.10;
-  measure3[2] =  0.62;
-  sample3->PushBack( measure3 );
+  measure3[0] = 4.30;
+  measure3[1] = 2.10;
+  measure3[2] = 0.62;
+  sample3->PushBack(measure3);
 
-  measure3[0] =  4.10;
-  measure3[1] =  2.20;
-  measure3[2] =  0.63;
-  sample3->PushBack( measure3 );
+  measure3[0] = 4.10;
+  measure3[1] = 2.20;
+  measure3[2] = 0.63;
+  sample3->PushBack(measure3);
 
 
-  filter->SetInput( sample3 );
+  filter->SetInput(sample3);
 
   try
-    {
+  {
     filter->Update();
-    }
-  catch ( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Exception caught: " << excp << std::endl;
-    }
+  }
 
 
   mean = filter->GetMean();
   matrix = filter->GetCovarianceMatrix();
 
-  std::cout << "Mean: "              << mean << std::endl;
+  std::cout << "Mean: " << mean << std::endl;
   std::cout << "Covariance Matrix: " << matrix << std::endl;
 
-  //Check the results
+  // Check the results
 
-  MeasurementVectorRealType  meanExpected3;
-  itk::NumericTraits<MeasurementVectorRealType>::SetLength( meanExpected3, MeasurementVectorSize );
+  MeasurementVectorRealType meanExpected3;
+  itk::NumericTraits<MeasurementVectorRealType>::SetLength(meanExpected3, MeasurementVectorSize);
 
   meanExpected3[0] = 4.10;
   meanExpected3[1] = 2.08;
   meanExpected3[2] = 0.604;
 
-  for ( unsigned int i = 0; i < MeasurementVectorSize; i++ )
+  for (unsigned int i = 0; i < MeasurementVectorSize; i++)
+  {
+    if (std::fabs(meanExpected3[i] - mean[i]) > epsilon)
     {
-    if ( std::fabs( meanExpected3[i] - mean[i] ) > epsilon )
-      {
       std::cerr << "The computed mean value is incorrect" << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
 
- CovarianceMatrixType  matrixExpected3( MeasurementVectorSize, MeasurementVectorSize );
+  CovarianceMatrixType matrixExpected3(MeasurementVectorSize, MeasurementVectorSize);
 
- matrixExpected3[0][0] = 0.025;
- matrixExpected3[0][1] = 0.0075;
- matrixExpected3[0][2] = 0.00175;
+  matrixExpected3[0][0] = 0.025;
+  matrixExpected3[0][1] = 0.0075;
+  matrixExpected3[0][2] = 0.00175;
 
- matrixExpected3[1][0] = 0.0075;
- matrixExpected3[1][1] = 0.0070;
- matrixExpected3[1][2] = 0.00135;
+  matrixExpected3[1][0] = 0.0075;
+  matrixExpected3[1][1] = 0.0070;
+  matrixExpected3[1][2] = 0.00135;
 
- matrixExpected3[2][0] = 0.00175;
- matrixExpected3[2][1] = 0.00135;
- matrixExpected3[2][2] = 0.00043;
+  matrixExpected3[2][0] = 0.00175;
+  matrixExpected3[2][1] = 0.00135;
+  matrixExpected3[2][2] = 0.00043;
 
- for ( unsigned int i = 0; i < MeasurementVectorSize; i++ )
+  for (unsigned int i = 0; i < MeasurementVectorSize; i++)
   {
-  for ( unsigned int j = 0; j < MeasurementVectorSize; j++ )
-    if ( std::fabs( matrixExpected3[i][j] - matrix[i][j] ) > epsilon )
+    for (unsigned int j = 0; j < MeasurementVectorSize; j++)
+      if (std::fabs(matrixExpected3[i][j] - matrix[i][j]) > epsilon)
       {
-      std::cerr << "Computed covariance matrix value is incorrect" << std::endl;
-      return EXIT_FAILURE;
+        std::cerr << "Computed covariance matrix value is incorrect" << std::endl;
+        return EXIT_FAILURE;
       }
-    }
+  }
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;

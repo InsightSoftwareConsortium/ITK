@@ -16,13 +16,13 @@
  *
  *=========================================================================*/
 #ifndef itkExceptionObject_h
-#error "Do not include itkExceptionObject.h directly,  include itkMacro.h instead."
+#  error "Do not include itkExceptionObject.h directly,  include itkMacro.h instead."
 #else // itkExceptionObject_h
 
-#include <string>
-#include <stdexcept>
+#  include <string>
+#  include <stdexcept>
 
-#include "itkSmartPointer.h"
+#  include "itkSmartPointer.h"
 
 namespace itk
 {
@@ -45,17 +45,20 @@ namespace itk
  * \ingroup ITKSystemObjects
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT ExceptionObject:public std::exception
+class ITKCommon_EXPORT ExceptionObject : public std::exception
 {
 public:
   using Superclass = std::exception;
   /** Various types of constructors.  Note that these functions will be
-  * called when children are instantiated.  The default constructor and
-  * the copy constructor of ExceptionObject never throw an exception. */
+   * called when children are instantiated.  The default constructor and
+   * the copy constructor of ExceptionObject never throw an exception. */
   ExceptionObject() noexcept;
-  explicit ExceptionObject(const char *file, unsigned int lineNumber = 0,
-                           const char *desc = "None", const char *loc = "Unknown");
-  explicit ExceptionObject(const std::string & file, unsigned int lineNumber = 0,
+  explicit ExceptionObject(const char * file,
+                           unsigned int lineNumber = 0,
+                           const char * desc = "None",
+                           const char * loc = "Unknown");
+  explicit ExceptionObject(const std::string & file,
+                           unsigned int        lineNumber = 0,
                            const std::string & desc = "None",
                            const std::string & loc = "Unknown");
   ExceptionObject(const ExceptionObject & orig) noexcept;
@@ -64,43 +67,58 @@ public:
   ~ExceptionObject() noexcept override;
 
   /** Assignment operator. */
-  ExceptionObject & operator=(const ExceptionObject & orig) noexcept;
+  ExceptionObject &
+  operator=(const ExceptionObject & orig) noexcept;
 
   /** Equivalence operator. */
-  virtual bool operator==(const ExceptionObject & orig);
+  virtual bool
+  operator==(const ExceptionObject & orig);
 
-  virtual const char * GetNameOfClass() const
-  { return "ExceptionObject"; }
+  virtual const char *
+  GetNameOfClass() const
+  {
+    return "ExceptionObject";
+  }
 
   /** Print exception information.  This method can be overridden by
    * specific exception subtypes.  The default is to print out the
    * location where the exception was first thrown and any description
    * provided by the "thrower".   */
-  virtual void Print(std::ostream & os) const;
+  virtual void
+  Print(std::ostream & os) const;
 
   /** Methods to get and set the Location and Description fields. The Set
    * methods are overloaded to support both std::string and const char
    * array types. Get methods return const char arrays. */
-  virtual void SetLocation(const std::string & s);
+  virtual void
+  SetLocation(const std::string & s);
 
-  virtual void SetDescription(const std::string & s);
+  virtual void
+  SetDescription(const std::string & s);
 
-  virtual void SetLocation(const char *s);
+  virtual void
+  SetLocation(const char * s);
 
-  virtual void SetDescription(const char *s);
+  virtual void
+  SetDescription(const char * s);
 
-  virtual const char * GetLocation()    const;
+  virtual const char *
+  GetLocation() const;
 
-  virtual const char * GetDescription() const;
+  virtual const char *
+  GetDescription() const;
 
   /** What file did the exception occur in? */
-  virtual const char * GetFile()    const;
+  virtual const char *
+  GetFile() const;
 
   /** What line did the exception occur in? */
-  virtual unsigned int GetLine() const;
+  virtual unsigned int
+  GetLine() const;
 
   /** Provide std::exception::what() implementation. */
-  const char * what() const noexcept override;
+  const char *
+  what() const noexcept override;
 
 private:
   /** \class ReferenceCounterInterface
@@ -130,24 +148,28 @@ private:
    */
   class ReferenceCounterInterface
   {
-public:
-    virtual void Register() const = 0;
+  public:
+    virtual void
+    Register() const = 0;
 
-    virtual void UnRegister() const = 0;
+    virtual void
+    UnRegister() const = 0;
 
     ReferenceCounterInterface();
     virtual ~ReferenceCounterInterface();
   };
   class ExceptionData;
   class ReferenceCountedExceptionData;
-  SmartPointer< const ReferenceCounterInterface > m_ExceptionData;
-  const ExceptionData * GetExceptionData() const;
+  SmartPointer<const ReferenceCounterInterface> m_ExceptionData;
+  const ExceptionData *
+  GetExceptionData() const;
 };
 
 /** Generic inserter operator for ExceptionObject and its subclasses. */
-inline std::ostream & operator<<(std::ostream & os, ExceptionObject & e)
+inline std::ostream &
+operator<<(std::ostream & os, ExceptionObject & e)
 {
-  ( &e )->Print(os);
+  (&e)->Print(os);
   return os;
 }
 
@@ -160,30 +182,41 @@ inline std::ostream & operator<<(std::ostream & os, ExceptionObject & e)
  * \ingroup ITKSystemObjects
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT MemoryAllocationError:public ExceptionObject
+class ITKCommon_EXPORT MemoryAllocationError : public ExceptionObject
 {
 public:
   /** Default constructor.  Needed to ensure the exception object can be
    * copied. */
-  MemoryAllocationError() noexcept:ExceptionObject() {}
+  MemoryAllocationError() noexcept
+    : ExceptionObject()
+  {}
 
   /** Constructor. Needed to ensure the exception object can be copied. */
-  MemoryAllocationError(const char *file, unsigned int lineNumber):ExceptionObject(file, lineNumber) {}
+  MemoryAllocationError(const char * file, unsigned int lineNumber)
+    : ExceptionObject(file, lineNumber)
+  {}
 
   /** Constructor. Needed to ensure the exception object can be copied. */
-  MemoryAllocationError(const std::string & file, unsigned int lineNumber):ExceptionObject(file, lineNumber) {}
+  MemoryAllocationError(const std::string & file, unsigned int lineNumber)
+    : ExceptionObject(file, lineNumber)
+  {}
 
   /** Constructor. Needed to ensure the exception object can be copied. */
   MemoryAllocationError(const std::string & file,
-                        unsigned int lineNumber,
+                        unsigned int        lineNumber,
                         const std::string & desc,
-                        const std::string & loc):ExceptionObject(file, lineNumber, desc, loc) {}
+                        const std::string & loc)
+    : ExceptionObject(file, lineNumber, desc, loc)
+  {}
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   ~MemoryAllocationError() noexcept override;
 
-  const char * GetNameOfClass() const override
-  { return "MemoryAllocationError"; }
+  const char *
+  GetNameOfClass() const override
+  {
+    return "MemoryAllocationError";
+  }
 };
 
 /** \class RangeError
@@ -191,24 +224,33 @@ public:
  * \ingroup ITKSystemObjects
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT RangeError:public ExceptionObject
+class ITKCommon_EXPORT RangeError : public ExceptionObject
 {
 public:
   /** Default constructor.  Needed to ensure the exception object can be
    * copied. */
-  RangeError() noexcept:ExceptionObject() {}
+  RangeError() noexcept
+    : ExceptionObject()
+  {}
 
   /** Constructor. Needed to ensure the exception object can be copied. */
-  RangeError(const char *file, unsigned int lineNumber):ExceptionObject(file, lineNumber) {}
+  RangeError(const char * file, unsigned int lineNumber)
+    : ExceptionObject(file, lineNumber)
+  {}
 
   /** Constructor. Needed to ensure the exception object can be copied. */
-  RangeError(const std::string & file, unsigned int lineNumber):ExceptionObject(file, lineNumber) {}
+  RangeError(const std::string & file, unsigned int lineNumber)
+    : ExceptionObject(file, lineNumber)
+  {}
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   ~RangeError() noexcept override;
 
-  const char * GetNameOfClass() const override
-  { return "RangeError"; }
+  const char *
+  GetNameOfClass() const override
+  {
+    return "RangeError";
+  }
 };
 
 /** \class InvalidArgumentError
@@ -217,30 +259,39 @@ public:
  * \ingroup ITKSystemObjects
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT InvalidArgumentError:public ExceptionObject
+class ITKCommon_EXPORT InvalidArgumentError : public ExceptionObject
 {
 public:
   /**
    * Default constructor.  Needed to ensure the exception object can be
    * copied.
    */
-  InvalidArgumentError() noexcept:ExceptionObject() {}
+  InvalidArgumentError() noexcept
+    : ExceptionObject()
+  {}
 
   /**
    * Constructor. Needed to ensure the exception object can be copied.
    */
-  InvalidArgumentError(const char *file, unsigned int lineNumber):ExceptionObject(file, lineNumber) {}
+  InvalidArgumentError(const char * file, unsigned int lineNumber)
+    : ExceptionObject(file, lineNumber)
+  {}
 
   /**
    * Constructor. Needed to ensure the exception object can be copied.
    */
-  InvalidArgumentError(const std::string & file, unsigned int lineNumber):ExceptionObject(file, lineNumber) {}
+  InvalidArgumentError(const std::string & file, unsigned int lineNumber)
+    : ExceptionObject(file, lineNumber)
+  {}
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   ~InvalidArgumentError() noexcept override;
 
-  const char * GetNameOfClass() const override
-  { return "InvalidArgumentError"; }
+  const char *
+  GetNameOfClass() const override
+  {
+    return "InvalidArgumentError";
+  }
 };
 
 /** \class IncompatibleOperandsError
@@ -248,24 +299,33 @@ public:
  * \ingroup ITKSystemObjects
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT IncompatibleOperandsError:public ExceptionObject
+class ITKCommon_EXPORT IncompatibleOperandsError : public ExceptionObject
 {
 public:
   /** Default constructor.  Needed to ensure the exception object can be
    * copied. */
-  IncompatibleOperandsError() noexcept:ExceptionObject() {}
+  IncompatibleOperandsError() noexcept
+    : ExceptionObject()
+  {}
 
   /** Constructor. Needed to ensure the exception object can be copied. */
-  IncompatibleOperandsError(const char *file, unsigned int lineNumber):ExceptionObject(file, lineNumber) {}
+  IncompatibleOperandsError(const char * file, unsigned int lineNumber)
+    : ExceptionObject(file, lineNumber)
+  {}
 
   /** Constructor. Needed to ensure the exception object can be copied. */
-  IncompatibleOperandsError(const std::string & file, unsigned int lineNumber):ExceptionObject(file, lineNumber) {}
+  IncompatibleOperandsError(const std::string & file, unsigned int lineNumber)
+    : ExceptionObject(file, lineNumber)
+  {}
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   ~IncompatibleOperandsError() noexcept override;
 
-  const char * GetNameOfClass() const override
-  { return "IncompatibleOperandsError"; }
+  const char *
+  GetNameOfClass() const override
+  {
+    return "IncompatibleOperandsError";
+  }
 };
 
 /** \class ProcessAborted
@@ -273,34 +333,40 @@ public:
  * \ingroup ITKSystemObjects
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT ProcessAborted:public ExceptionObject
+class ITKCommon_EXPORT ProcessAborted : public ExceptionObject
 {
 public:
   /** Default constructor.  Needed to ensure the exception object can be
    * copied. */
-  ProcessAborted():ExceptionObject()
+  ProcessAborted()
+    : ExceptionObject()
   {
     this->SetDescription("Filter execution was aborted by an external request");
   }
 
   /** Constructor. Needed to ensure the exception object can be copied. */
-  ProcessAborted(const char *file, unsigned int lineNumber):ExceptionObject(file, lineNumber)
+  ProcessAborted(const char * file, unsigned int lineNumber)
+    : ExceptionObject(file, lineNumber)
   {
     this->SetDescription("Filter execution was aborted by an external request");
   }
 
   /** Constructor. Needed to ensure the exception object can be copied. */
-  ProcessAborted(const std::string & file, unsigned int lineNumber):ExceptionObject(file, lineNumber)
+  ProcessAborted(const std::string & file, unsigned int lineNumber)
+    : ExceptionObject(file, lineNumber)
   {
     this->SetDescription("Filter execution was aborted by an external request");
   }
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  ~ProcessAborted()  noexcept override;
+  ~ProcessAborted() noexcept override;
 
-  const char * GetNameOfClass() const override
-  { return "ProcessAborted"; }
+  const char *
+  GetNameOfClass() const override
+  {
+    return "ProcessAborted";
+  }
 };
 } // end namespace itk
 
-#endif //itkExceptionObject_h
+#endif // itkExceptionObject_h

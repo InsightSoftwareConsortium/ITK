@@ -23,7 +23,8 @@
 #include "itkStdStreamStateSave.h"
 #include "itkTestingMacros.h"
 
-int itkRealTimeClockTest( int, char * [] )
+int
+itkRealTimeClockTest(int, char *[])
 {
   // Save the format stream variables for std::cout
   // They will be restored when coutState goes out of scope
@@ -31,11 +32,11 @@ int itkRealTimeClockTest( int, char * [] )
   itk::StdStreamStateSave coutState(std::cout);
 
   try
-    {
+  {
 
     // Create an ITK RealTimeClock
     itk::RealTimeClock::Pointer clock = itk::RealTimeClock::New();
-    ITK_EXERCISE_BASIC_OBJECT_METHODS( clock, RealTimeClock, Object );
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(clock, RealTimeClock, Object);
 
     std::cout << "Testing itk::RealTimeClock" << std::endl;
     std::cout << "Frequency: " << clock->GetFrequency() << std::endl;
@@ -44,21 +45,21 @@ int itkRealTimeClockTest( int, char * [] )
 
     std::cout << "Printing timestamps got one by one" << std::endl;
 
-    for( unsigned int i = 0; i < 5; ++i )
-      {
+    for (unsigned int i = 0; i < 5; ++i)
+    {
       std::cout << clock->GetRealTimeStamp() << std::endl;
-      }
+    }
 
-    for(auto & timestamp : timestamps)
-      {
+    for (auto & timestamp : timestamps)
+    {
       timestamp = clock->GetRealTimeStamp();
-      }
+    }
 
     std::cout << "Printing timestamps buffered" << std::endl;
-    for(const auto & timestamp : timestamps)
-      {
+    for (const auto & timestamp : timestamps)
+    {
       std::cout << timestamp << std::endl;
-      }
+    }
 
     // Print out several time stamps
     itk::RealTimeStamp realStamp1 = clock->GetRealTimeStamp();
@@ -69,11 +70,11 @@ int itkRealTimeClockTest( int, char * [] )
 
     TimeRepresentationType tolerance = 1e6;
 
-    for( unsigned int i = 0; i < 10; ++i )
-      {
+    for (unsigned int i = 0; i < 10; ++i)
+    {
       realStamp1 = realStamp2;
       realStamp2 = clock->GetRealTimeStamp();
-      itk::RealTimeInterval difference = realStamp2 - realStamp1;
+      itk::RealTimeInterval                      difference = realStamp2 - realStamp1;
       itk::RealTimeStamp::TimeRepresentationType seconds1 = realStamp1.GetTimeInSeconds();
       itk::RealTimeStamp::TimeRepresentationType seconds2 = realStamp2.GetTimeInSeconds();
       itk::RealTimeStamp::TimeRepresentationType secondsD = difference.GetTimeInSeconds();
@@ -81,21 +82,20 @@ int itkRealTimeClockTest( int, char * [] )
       std::cout << realStamp2 << " - " << realStamp1 << " = ";
       std::cout << secondsD << " = " << secondsE << std::endl;
 
-      if( std::abs( secondsD - secondsE ) / secondsE > tolerance )
-        {
+      if (std::abs(secondsD - secondsE) / secondsE > tolerance)
+      {
         std::cerr << "Precision error in time difference" << std::endl;
         std::cerr << "Expected " << secondsE << " seconds " << std::endl;
         std::cerr << "But got  " << secondsD << " seconds " << std::endl;
         return EXIT_FAILURE;
-        }
       }
-
     }
-  catch(...)
-    {
+  }
+  catch (...)
+  {
     std::cerr << "Exception caught !!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "[PASSED]" << std::endl;
   return EXIT_SUCCESS;

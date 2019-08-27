@@ -20,17 +20,16 @@
 
 namespace itk
 {
-template< typename TInput, typename TOutput >
-class FastMarchingBaseTestHelper :
-    public FastMarchingBase< TInput, TOutput >
+template <typename TInput, typename TOutput>
+class FastMarchingBaseTestHelper : public FastMarchingBase<TInput, TOutput>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingBaseTestHelper);
 
   using Self = FastMarchingBaseTestHelper;
-  using Superclass = FastMarchingBase< TInput, TOutput >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = FastMarchingBase<TInput, TOutput>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -41,7 +40,7 @@ public:
   using Traits = typename Superclass::Traits;
   using OutputDomainType = typename Superclass::OutputDomainType;
 
-//  using NodeContainerType = typename Superclass::NodeContainerType;
+  //  using NodeContainerType = typename Superclass::NodeContainerType;
   using NodeType = typename Superclass::NodeType;
 
   using OutputPixelType = typename Superclass::OutputPixelType;
@@ -51,121 +50,129 @@ protected:
   FastMarchingBaseTestHelper() = default;
   ~FastMarchingBaseTestHelper() override = default;
 
-  IdentifierType GetTotalNumberOfNodes() const override
-    { return 1; }
+  IdentifierType
+  GetTotalNumberOfNodes() const override
+  {
+    return 1;
+  }
 
-  void SetOutputValue( OutputDomainType*,
-                      const NodeType&,
-                      const OutputPixelType& ) override
-    {
-    }
+  void
+  SetOutputValue(OutputDomainType *, const NodeType &, const OutputPixelType &) override
+  {}
 
-  const OutputPixelType GetOutputValue( OutputDomainType* ,
-                                  const NodeType& ) const override
-    {
-    return NumericTraits< OutputPixelType >::ZeroValue();
-    }
+  const OutputPixelType
+  GetOutputValue(OutputDomainType *, const NodeType &) const override
+  {
+    return NumericTraits<OutputPixelType>::ZeroValue();
+  }
 
-  unsigned char GetLabelValueForGivenNode( const NodeType& ) const override
-    {
+  unsigned char
+  GetLabelValueForGivenNode(const NodeType &) const override
+  {
     return Traits::Far;
-    }
+  }
 
-  void SetLabelValueForGivenNode( const NodeType& ,
-                                 const LabelType& ) override
-    {}
+  void
+  SetLabelValueForGivenNode(const NodeType &, const LabelType &) override
+  {}
 
-  void UpdateNeighbors( OutputDomainType* , const NodeType& ) override
-    {}
+  void
+  UpdateNeighbors(OutputDomainType *, const NodeType &) override
+  {}
 
-  void UpdateValue( OutputDomainType* , const NodeType& ) override
-    {}
+  void
+  UpdateValue(OutputDomainType *, const NodeType &) override
+  {}
 
-  bool CheckTopology( OutputDomainType* , const NodeType&  ) override
-    { return true; }
+  bool
+  CheckTopology(OutputDomainType *, const NodeType &) override
+  {
+    return true;
+  }
 
-  void InitializeOutput( OutputDomainType* ) override {}
+  void
+  InitializeOutput(OutputDomainType *) override
+  {}
 };
-}
+} // namespace itk
 
 // -----------------------------------------------------------------------------
 
-int itkFastMarchingBaseTest( int argc, char* argv[] )
+int
+itkFastMarchingBaseTest(int argc, char * argv[])
 {
-  if( argc != 2 )
-    {
+  if (argc != 2)
+  {
     return EXIT_FAILURE;
-    }
+  }
 
   using PixelType = float;
 
   bool exception_caught = false;
 
-  if( std::stoi( argv[1] ) == 0 )
-    {
-    constexpr unsigned Dimension  = 3;
+  if (std::stoi(argv[1]) == 0)
+  {
+    constexpr unsigned Dimension = 3;
     using ImageType = itk::Image<PixelType, Dimension>;
 
     ImageType::Pointer input = ImageType::New();
 
-    using ImageFastMarching =
-        itk::FastMarchingBaseTestHelper< ImageType, ImageType >;
+    using ImageFastMarching = itk::FastMarchingBaseTestHelper<ImageType, ImageType>;
     ImageFastMarching::Pointer fmm = ImageFastMarching::New();
-    fmm->SetInput( input );
+    fmm->SetInput(input);
 
     try
-      {
+    {
       fmm->Update();
-      }
-    catch( itk::ExceptionObject & excep )
-      {
+    }
+    catch (itk::ExceptionObject & excep)
+    {
       std::cerr << "Exception caught !" << std::endl;
       std::cerr << excep << std::endl;
       exception_caught = true;
-      }
+    }
 
     using OutputImageType = ImageFastMarching::OutputDomainType;
     OutputImageType::Pointer output = fmm->GetOutput();
 
-    (void) output;
-    }
+    (void)output;
+  }
   else
+  {
+    if (std::stoi(argv[1]) == 1)
     {
-    if( std::stoi( argv[1] ) == 1 )
-      {
-      using MeshType = itk::QuadEdgeMesh<PixelType, 3, itk::QuadEdgeMeshTraits< PixelType, 3, bool, bool > >;
+      using MeshType = itk::QuadEdgeMesh<PixelType, 3, itk::QuadEdgeMeshTraits<PixelType, 3, bool, bool>>;
 
       MeshType::Pointer input = MeshType::New();
 
-      using MeshFastMarching =
-          itk::FastMarchingBaseTestHelper< MeshType, MeshType >;
+      using MeshFastMarching = itk::FastMarchingBaseTestHelper<MeshType, MeshType>;
       MeshFastMarching::Pointer fmm = MeshFastMarching::New();
-      fmm->SetInput( input );
+      fmm->SetInput(input);
 
       try
-        {
+      {
         fmm->Update();
-        }
-      catch( itk::ExceptionObject & excep )
-        {
+      }
+      catch (itk::ExceptionObject & excep)
+      {
         std::cerr << "Exception caught !" << std::endl;
         std::cerr << excep << std::endl;
         exception_caught = true;
-        }
+      }
 
       using OutputMeshType = MeshFastMarching::OutputDomainType;
       OutputMeshType::Pointer output = fmm->GetOutput();
 
-      (void) output;
-      }
+      (void)output;
     }
+  }
 
-  if( exception_caught )
-    {
+  if (exception_caught)
+  {
     return EXIT_SUCCESS;
-    }
+  }
   else
-    {
+  {
     return EXIT_FAILURE;
-    }
+  }
 }

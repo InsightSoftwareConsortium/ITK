@@ -43,18 +43,18 @@ namespace itk
  *
  * \ingroup ITKGPUFiniteDifference
  **/
-template< typename TImageType >
-class GPUFiniteDifferenceFunction : public FiniteDifferenceFunction< TImageType >
+template <typename TImageType>
+class GPUFiniteDifferenceFunction : public FiniteDifferenceFunction<TImageType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GPUFiniteDifferenceFunction);
 
   /** Standard class type aliases. */
   using Self = GPUFiniteDifferenceFunction;
-  using Superclass = FiniteDifferenceFunction< TImageType >;
+  using Superclass = FiniteDifferenceFunction<TImageType>;
   using DifferenceFunctionType = Superclass;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(GPUFiniteDifferenceFunction, FiniteDifferenceFunction);
@@ -81,15 +81,15 @@ public:
   using NeighborhoodType = typename Superclass::NeighborhoodType;
 
   /** A floating point offset from an image grid location. Used for
-    * interpolation among grid values in a neighborhood. */
+   * interpolation among grid values in a neighborhood. */
   using FloatOffsetType = typename Superclass::FloatOffsetType;
 
-#if !defined( ITK_WRAPPING_PARSER )
+#if !defined(ITK_WRAPPING_PARSER)
   /** Empty implementation - this will not be used by GPU filters */
-  virtual PixelType  ComputeUpdate( const NeighborhoodType & itkNotUsed(neighborhood),
-                                    void *itkNotUsed(globalData),
-                                    const FloatOffsetType & itkNotUsed(offset = FloatOffsetType(0.0)) )
-    override
+  virtual PixelType
+  ComputeUpdate(const NeighborhoodType & itkNotUsed(neighborhood),
+                void *                   itkNotUsed(globalData),
+                const FloatOffsetType &  itkNotUsed(offset = FloatOffsetType(0.0))) override
   {
     PixelType pix = itk::NumericTraits<PixelType>::ZeroValue();
     return pix;
@@ -97,22 +97,23 @@ public:
 #endif
 
   /** GPU function to compute update buffer */
-  virtual void GPUComputeUpdate( const typename TImageType::Pointer output,
-                                 typename TImageType::Pointer update,
-                                 void *gd) = 0;
+  virtual void
+  GPUComputeUpdate(const typename TImageType::Pointer output, typename TImageType::Pointer update, void * gd) = 0;
 
   /** Allocate GPU buffers for computing metric statitics
    * */
-  virtual void GPUAllocateMetricData(unsigned int itkNotUsed(numPixels)) {}
+  virtual void
+  GPUAllocateMetricData(unsigned int itkNotUsed(numPixels))
+  {}
 
   /** Release GPU buffers for computing metric statitics
    * */
-  virtual void GPUReleaseMetricData() {}
+  virtual void
+  GPUReleaseMetricData()
+  {}
 
 protected:
-  GPUFiniteDifferenceFunction() {
-    m_GPUKernelManager = GPUKernelManager::New();
-  }
+  GPUFiniteDifferenceFunction() { m_GPUKernelManager = GPUKernelManager::New(); }
   ~GPUFiniteDifferenceFunction() override {}
 
   /** GPU kernel manager for GPUFiniteDifferenceFunction class */

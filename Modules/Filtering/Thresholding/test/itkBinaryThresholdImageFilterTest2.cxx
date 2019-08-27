@@ -22,13 +22,14 @@
 #include "itkBinaryThresholdImageFilter.h"
 
 
-int itkBinaryThresholdImageFilterTest2(int ac, char* av[] )
+int
+itkBinaryThresholdImageFilterTest2(int ac, char * av[])
 {
-  if(ac < 4)
-    {
-    std::cerr << "Usage: " << av[0] <<" InputImage1 InputImage2 OutputImage\n";
+  if (ac < 4)
+  {
+    std::cerr << "Usage: " << av[0] << " InputImage1 InputImage2 OutputImage\n";
     return -1;
-    }
+  }
 
   // Threshold one image based on the statistics of another image
   //
@@ -44,14 +45,14 @@ int itkBinaryThresholdImageFilterTest2(int ac, char* av[] )
   // File reader and writer
   using ReaderType = itk::ImageFileReader<FloatImageType>;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( av[1] );
+  reader->SetFileName(av[1]);
 
   ReaderType::Pointer reader2 = ReaderType::New();
-  reader2->SetFileName( av[2] );
+  reader2->SetFileName(av[2]);
 
   using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName( av[3] );
+  writer->SetFileName(av[3]);
 
   // Declare the filter types
   using StatisticsType = itk::StatisticsImageFilter<FloatImageType>;
@@ -59,33 +60,33 @@ int itkBinaryThresholdImageFilterTest2(int ac, char* av[] )
 
   // Create the filters
   StatisticsType::Pointer statistics = StatisticsType::New();
-  ThresholdType::Pointer threshold = ThresholdType::New();
+  ThresholdType::Pointer  threshold = ThresholdType::New();
 
   // connect the standard pipeline connections
-  statistics->SetInput( reader2->GetOutput() );
-  threshold->SetInput( reader->GetOutput() );
+  statistics->SetInput(reader2->GetOutput());
+  threshold->SetInput(reader->GetOutput());
 
   // print before assigning thresholds
   threshold->Print(std::cout);
 
   // now connect the inputs and outputs that are decorated scalars
-  threshold->SetUpperThresholdInput( statistics->GetMeanOutput() );
-  threshold->SetLowerThresholdInput( statistics->GetMinimumOutput() );
+  threshold->SetUpperThresholdInput(statistics->GetMeanOutput());
+  threshold->SetLowerThresholdInput(statistics->GetMinimumOutput());
 
   // connect the writer
-  writer->SetInput( threshold->GetOutput() );
+  writer->SetInput(threshold->GetOutput());
 
   // Execute the filter
   try
-    {
+  {
     writer->Update();
-    }
-  catch(...)
-    {
+  }
+  catch (...)
+  {
     std::cerr << "Caught an unexpected exception. " << std::endl;
     std::cerr << "Test failed. " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

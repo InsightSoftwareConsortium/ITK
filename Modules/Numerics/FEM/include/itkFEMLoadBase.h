@@ -64,31 +64,37 @@ public:
    *
    * param ptr Pointer to the object of Solution class.
    */
-  virtual void SetSolution(Solution::ConstPointer itkNotUsed(ptr)) { }
-  virtual Solution::ConstPointer GetSolution()
+  virtual void
+  SetSolution(Solution::ConstPointer itkNotUsed(ptr))
+  {}
+  virtual Solution::ConstPointer
+  GetSolution()
   {
     return nullptr;
   }
   /**
-  * Get the element containing the degree of freedom
-  * on which the force is being applied.
-  */
-  const Element * GetElement() const
-    {
+   * Get the element containing the degree of freedom
+   * on which the force is being applied.
+   */
+  const Element *
+  GetElement() const
+  {
     return m_Element;
-    }
+  }
 
   /**
    * Get the element containing the degree of freedom
    * on which the force is being applied.
    */
-  void SetElement( const Element * el)
-    {
+  void
+  SetElement(const Element * el)
+  {
     this->m_Element = el;
-    }
+  }
 
 protected:
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
   /**
    * Pointer to an element in a system that contains the DOF
    * on which the external force is applied.

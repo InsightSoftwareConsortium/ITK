@@ -35,22 +35,21 @@ namespace itk
  *
  *  \ingroup ITKLevelSetsv4
  */
-template< typename TInput, unsigned int VDimension, typename TOutput >
-class ITK_TEMPLATE_EXPORT LevelSetImage :
-  public LevelSetBase< TInput, VDimension, TOutput, ImageBase< VDimension > >
+template <typename TInput, unsigned int VDimension, typename TOutput>
+class ITK_TEMPLATE_EXPORT LevelSetImage : public LevelSetBase<TInput, VDimension, TOutput, ImageBase<VDimension>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetImage);
 
-  using ImageBaseType = ImageBase< VDimension >;
+  using ImageBaseType = ImageBase<VDimension>;
 
   using Self = LevelSetImage;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using Superclass = LevelSetBase< TInput, VDimension, TOutput, ImageBaseType >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using Superclass = LevelSetBase<TInput, VDimension, TOutput, ImageBaseType>;
 
   /** Run-time type information */
-  itkTypeMacro ( LevelSetImage, LevelSetBase );
+  itkTypeMacro(LevelSetImage, LevelSetBase);
 
   static constexpr unsigned int Dimension = Superclass::Dimension;
 
@@ -64,8 +63,8 @@ public:
   using OffsetValueType = typename ImageBaseType::OffsetValueType;
 
   /* Set/Get the domain offset from input domain */
-  itkSetMacro( DomainOffset, OffsetType );
-  itkGetConstMacro( DomainOffset, OffsetType );
+  itkSetMacro(DomainOffset, OffsetType);
+  itkGetConstMacro(DomainOffset, OffsetType);
 
 protected:
   LevelSetImage();
@@ -76,16 +75,16 @@ protected:
   ScalingType m_NeighborhoodScales;
   OffsetType  m_DomainOffset;
 
-  virtual bool IsInsideDomain( const InputType& iP ) const = 0;
+  virtual bool
+  IsInsideDomain(const InputType & iP) const = 0;
 
 private:
-
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetImage.hxx"
+#  include "itkLevelSetImage.hxx"
 #endif
 
 #endif // itkLevelSetImage_h

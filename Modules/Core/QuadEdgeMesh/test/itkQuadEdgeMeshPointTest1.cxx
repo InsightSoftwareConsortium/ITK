@@ -19,7 +19,8 @@
 #include "itkQuadEdgeMeshPoint.h"
 #include "itkMesh.h"
 
-int itkQuadEdgeMeshPointTest1( int , char* [] )
+int
+itkQuadEdgeMeshPointTest1(int, char *[])
 {
   std::cout << "Testing points..." << std::endl;
 
@@ -27,7 +28,7 @@ int itkQuadEdgeMeshPointTest1( int , char* [] )
   // These type alias are taken from a traditional itk mesh just
   // to get definitions that are consistent with the derived class.
   //
-  using NonQuadEdgeMeshType = itk::Mesh< float, 3 >;
+  using NonQuadEdgeMeshType = itk::Mesh<float, 3>;
   using PointIdentifier = NonQuadEdgeMeshType::PointIdentifier;
   using FaceIdentifier = NonQuadEdgeMeshType::CellIdentifier;
 
@@ -36,12 +37,10 @@ int itkQuadEdgeMeshPointTest1( int , char* [] )
 
   const bool ThisIsDual = true;
 
-  using QuadEdgeType = itk::GeometricalQuadEdge<
-    PointIdentifier, FaceIdentifier,
-    PrimalDataType, DualDataType,
-    ThisIsDual >;
+  using QuadEdgeType =
+    itk::GeometricalQuadEdge<PointIdentifier, FaceIdentifier, PrimalDataType, DualDataType, ThisIsDual>;
 
-  using PointType = itk::QuadEdgeMeshPoint< float, 3, QuadEdgeType >;
+  using PointType = itk::QuadEdgeMeshPoint<float, 3, QuadEdgeType>;
 
   using SuperclassPointType = PointType::Superclass;
 
@@ -50,17 +49,17 @@ int itkQuadEdgeMeshPointTest1( int , char* [] )
 
   PointType p1;
 
-  p1[0] =  17.7;
-  p1[1] =  39.7;
+  p1[0] = 17.7;
+  p1[1] = 39.7;
   p1[2] = -49.7;
 
-  PointType p2( p1 ); // Test copy constructor
+  PointType p2(p1); // Test copy constructor
 
-  if( p1.EuclideanDistanceTo( p2 ) > 1e-6 )
-    {
+  if (p1.EuclideanDistanceTo(p2) > 1e-6)
+  {
     std::cerr << "Error in the copy constructor" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   //
   // Test assigment from an itk::Point
@@ -73,137 +72,137 @@ int itkQuadEdgeMeshPointTest1( int , char* [] )
 
   PointType pp = ps;
 
-  if( pp.EuclideanDistanceTo( ps ) > 1e-6 )
-    {
+  if (pp.EuclideanDistanceTo(ps) > 1e-6)
+  {
     std::cerr << "Error in the array constructor" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   PointType pp2;
-  pp2.SetPoint( ps );
+  pp2.SetPoint(ps);
 
-  if( pp2.EuclideanDistanceTo( ps ) > 1e-6 )
-    {
+  if (pp2.EuclideanDistanceTo(ps) > 1e-6)
+  {
     std::cerr << "Error in the array constructor" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   PointType::ValueArrayType cc;
-  cc[0] =  17.7;
-  cc[1] =  39.7;
+  cc[0] = 17.7;
+  cc[1] = 39.7;
   cc[2] = -49.7;
 
-  PointType p3( cc ); // Test Array based constructor
+  PointType p3(cc); // Test Array based constructor
 
-  if( p2.EuclideanDistanceTo( p1 ) > 1e-6 )
-    {
+  if (p2.EuclideanDistanceTo(p1) > 1e-6)
+  {
     std::cerr << "Error in the array constructor" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   PointType p4;
   PointType p4b;
   p4b = p4 = p1; // Test assignment operator to Self
 
-  if( p4.EuclideanDistanceTo( p1 ) > 1e-6 )
-    {
+  if (p4.EuclideanDistanceTo(p1) > 1e-6)
+  {
     std::cerr << "Error in the assignment operator to Self" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  if( p4b.EuclideanDistanceTo( p4 ) > 1e-6 )
-    {
+  if (p4b.EuclideanDistanceTo(p4) > 1e-6)
+  {
     std::cerr << "Error in the assignment operator to Self" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   PointType::Superclass pp1;
-  pp1[0] =  17.7;
-  pp1[1] =  39.7;
+  pp1[0] = 17.7;
+  pp1[1] = 39.7;
   pp1[2] = -49.7;
 
   PointType p5;
   PointType p5b;
   p5b = p5 = pp1; // Test assignment operator from Superclass
 
-  if( p5.EuclideanDistanceTo( pp1 ) > 1e-6 )
-    {
+  if (p5.EuclideanDistanceTo(pp1) > 1e-6)
+  {
     std::cerr << "Error assignment operator from Superclass" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  if( p5b.EuclideanDistanceTo( p5 ) > 1e-6 )
-    {
+  if (p5b.EuclideanDistanceTo(p5) > 1e-6)
+  {
     std::cerr << "Error assignment operator from Superclass" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   PointType p6;
   PointType p6b;
   p6b = p6 = cc; // Test assignment operator from array
 
-  if( p6.EuclideanDistanceTo( p3 ) > 1e-6 )
-    {
+  if (p6.EuclideanDistanceTo(p3) > 1e-6)
+  {
     std::cerr << "Error in the assignment operator from Array " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  if( p6b.EuclideanDistanceTo( p6 ) > 1e-6 )
-    {
+  if (p6b.EuclideanDistanceTo(p6) > 1e-6)
+  {
     std::cerr << "Error in the assignment operator from Array " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   auto * edge1 = new QuadEdgeType;
 
-  p6.SetEdge( edge1 );
+  p6.SetEdge(edge1);
 
-  if( p6.GetEdge() != edge1 )
-    {
+  if (p6.GetEdge() != edge1)
+  {
     std::cerr << "Error in SetEdge()/GetEdge() " << std::endl;
     delete edge1;
     return EXIT_FAILURE;
-    }
+  }
 
   auto * edge2 = new QuadEdgeType;
 
-  p6.SetEdge( edge2 );
+  p6.SetEdge(edge2);
 
-  if( p6.GetEdge() != edge2 )
-    {
+  if (p6.GetEdge() != edge2)
+  {
     std::cerr << "Error in SetEdge()/GetEdge() " << std::endl;
     delete edge1;
     delete edge2;
     return EXIT_FAILURE;
-    }
+  }
 
   // The following tests are commented out
   // because the point code is not safe yet.
 #if defined(POINTMAKESAFE)
   bool internal = p6.IsInternal();
 
-  if( internal != true ) // FIXME: verify with a realistic case
-    {
+  if (internal != true) // FIXME: verify with a realistic case
+  {
     std::cerr << "Error in IsInternal() " << std::endl;
     delete edge1;
     delete edge2;
     return EXIT_FAILURE;
-    }
+  }
 
   PointType p7;
-  if( p7.IsInternal() )
-    {
+  if (p7.IsInternal())
+  {
     std::cerr << "Error in IsInternal() " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   int valence = p6.GetValence();
-  if( valence != 1 )
-    {
+  if (valence != 1)
+  {
     std::cerr << "Error in GetValence() " << std::endl;
     std::cerr << "valence = " << valence << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 #endif
 
   delete edge1;

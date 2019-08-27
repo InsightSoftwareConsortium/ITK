@@ -21,41 +21,42 @@
 #include "itkIdentityTransform.h"
 #include "itkTestingMacros.h"
 
-int itkIdentityTransformTest(int, char *[] )
+int
+itkIdentityTransformTest(int, char *[])
 {
 
   std::cout << "==================================" << std::endl;
   std::cout << "Testing Identity Transform " << std::endl << std::endl;
 
-  const double       epsilon = 1e-10;
+  const double           epsilon = 1e-10;
   constexpr unsigned int N = 2;
-  bool               Ok = true;
+  bool                   Ok = true;
 
   using IdentityTransformType = itk::IdentityTransform<double>;
   IdentityTransformType::Pointer transform = IdentityTransformType::New();
 
   std::cout << "Testing TransformPoint: ";
-  IdentityTransformType::InputPointType   p( 10 );
-  IdentityTransformType::OutputPointType  r;
+  IdentityTransformType::InputPointType  p(10);
+  IdentityTransformType::OutputPointType r;
 
-  r = transform->TransformPoint( p );
-  for( unsigned int i = 0; i < N; i++ )
+  r = transform->TransformPoint(p);
+  for (unsigned int i = 0; i < N; i++)
+  {
+    if (std::fabs(p[i] - r[i]) > epsilon)
     {
-    if( std::fabs( p[i] - r[i] ) > epsilon )
-      {
       Ok = false;
       break;
-      }
     }
-  if( !Ok )
-    {
+  }
+  if (!Ok)
+  {
     std::cerr << "Error Transforming Point" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   else
-    {
+  {
     std::cout << " [ PASSED ] " << std::endl;
-    }
+  }
 
   // Test TransformVector
   std::cout << "Testing TransformVector: ";
@@ -64,24 +65,24 @@ int itkIdentityTransformTest(int, char *[] )
   vin[1] = 2;
   IdentityTransformType::OutputVectorType vout;
 
-  vout = transform->TransformVector( vin );
-  for( unsigned int i = 0; i < N; i++ )
+  vout = transform->TransformVector(vin);
+  for (unsigned int i = 0; i < N; i++)
+  {
+    if (std::fabs(vout[i] - vin[i]) > epsilon)
     {
-    if( std::fabs( vout[i] - vin[i] ) > epsilon )
-      {
       Ok = false;
       break;
-      }
     }
-  if( !Ok )
-    {
+  }
+  if (!Ok)
+  {
     std::cerr << "Error with TransformVector itk::Vector" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   else
-    {
+  {
     std::cout << " [ PASSED ] " << std::endl;
-    }
+  }
 
   // Test TransformVector vnl_vector
   std::cout << "Testing TransformVector (vnl): ";
@@ -90,24 +91,24 @@ int itkIdentityTransformTest(int, char *[] )
   vnlin[1] = 2;
   IdentityTransformType::OutputVnlVectorType vnlout;
 
-  vnlout = transform->TransformVector( vnlin );
-  for( unsigned int i = 0; i < N; i++ )
+  vnlout = transform->TransformVector(vnlin);
+  for (unsigned int i = 0; i < N; i++)
+  {
+    if (std::fabs(vnlout[i] - vnlin[i]) > epsilon)
     {
-    if( std::fabs( vnlout[i] - vnlin[i] ) > epsilon )
-      {
       Ok = false;
       break;
-      }
     }
-  if( !Ok )
-    {
+  }
+  if (!Ok)
+  {
     std::cerr << "Error with TransformVector vnlVector" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   else
-    {
+  {
     std::cout << " [ PASSED ] " << std::endl;
-    }
+  }
 
   // Test TransformCovariantVector
   std::cout << "Testing TransformCovariantVector: ";
@@ -116,24 +117,24 @@ int itkIdentityTransformTest(int, char *[] )
   vcin[1] = 2;
   IdentityTransformType::OutputCovariantVectorType vcout;
 
-  vcout = transform->TransformCovariantVector( vcin );
-  for( unsigned int i = 0; i < N; i++ )
+  vcout = transform->TransformCovariantVector(vcin);
+  for (unsigned int i = 0; i < N; i++)
+  {
+    if (std::fabs(vcout[i] - vcin[i]) > epsilon)
     {
-    if( std::fabs( vcout[i] - vcin[i] ) > epsilon )
-      {
       Ok = false;
       break;
-      }
     }
-  if( !Ok )
-    {
+  }
+  if (!Ok)
+  {
     std::cerr << "Error with TransformVector CovariantVector" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   else
-    {
+  {
     std::cout << " [ PASSED ] " << std::endl;
-    }
+  }
 
   // Test the Set/Get Parameters
   std::cout << "Testing Set/GetParameters():";
@@ -144,35 +145,34 @@ int itkIdentityTransformTest(int, char *[] )
   // Test the GetNumberOfParameters() method
   std::cout << "Testing GetNumberOfParameters():";
   unsigned int numParams = transform->GetNumberOfParameters();
-  if( numParams != 0 )
-    {
+  if (numParams != 0)
+  {
     std::cerr << "Error with GetNumberOfParameters" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   else
-    {
+  {
     std::cout << " [ PASSED ] " << std::endl;
-    }
+  }
 
   // Testing the Jacobian
   std::cout << "Testing Jacobian: ";
   IdentityTransformType::JacobianType jacobian;
   transform->ComputeJacobianWithRespectToParameters(p, jacobian);
 
-  if( jacobian.rows() != 3 || jacobian.columns() != 0 )
-    {
+  if (jacobian.rows() != 3 || jacobian.columns() != 0)
+  {
     std::cerr << "Error with Jacobian: " << jacobian << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   else
-    {
+  {
     std::cout << " [ PASSED ] " << std::endl;
-    }
+  }
 
   IdentityTransformType::Pointer inv = IdentityTransformType::New();
   ITK_TEST_EXPECT_TRUE(transform->GetInverse(inv));
   ITK_TEST_EXPECT_TRUE(!transform->GetInverse(nullptr));
 
   return EXIT_SUCCESS;
-
 }

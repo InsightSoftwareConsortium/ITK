@@ -35,18 +35,17 @@ namespace itk
  * \ingroup PathFilters
  * \ingroup ITKPath
  */
-template< typename TInputImage, typename TInputPath, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT ImageAndPathToImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TInputPath, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT ImageAndPathToImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageAndPathToImageFilter);
 
   /** Standard class type aliases. */
   using Self = ImageAndPathToImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -76,27 +75,34 @@ public:
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
   /** Set/Get the image input of this process object. */
-  virtual void SetImageInput(const TInputImage *image);
+  virtual void
+  SetImageInput(const TInputImage * image);
 
 
   /** Set/Get the path input of this process object. */
-  virtual void SetPathInput(const TInputPath *path);
+  virtual void
+  SetPathInput(const TInputPath * path);
 
-  const InputImageType * GetImageInput();
-  const InputPathType * GetPathInput();
+  const InputImageType *
+  GetImageInput();
+  const InputPathType *
+  GetPathInput();
 
 protected:
-  InputImageType * GetNonConstImageInput();
-  InputPathType * GetNonConstPathInput();
+  InputImageType *
+  GetNonConstImageInput();
+  InputPathType *
+  GetNonConstPathInput();
   ImageAndPathToImageFilter();
   ~ImageAndPathToImageFilter() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageAndPathToImageFilter.hxx"
+#  include "itkImageAndPathToImageFilter.hxx"
 #endif
 
 #endif

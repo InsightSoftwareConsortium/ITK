@@ -24,12 +24,12 @@
 #include "itkObjectFactory.h"
 #include "itkIntTypes.h"
 
-#if defined( WIN32 ) || defined( _WIN32 )
-  #include <windows.h>
-  #define SUPPORT_TOOLHELP32
-  #if defined( SUPPORT_TOOLHELP32 )
+#if defined(WIN32) || defined(_WIN32)
+#  include <windows.h>
+#  define SUPPORT_TOOLHELP32
+#  if defined(SUPPORT_TOOLHELP32)
 using NTSTATUS = LONG;
-  #endif
+#  endif
 #endif
 
 namespace itk
@@ -53,11 +53,12 @@ public:
   virtual ~MemoryUsageObserverBase();
 
   /** Returns the memory load in kO */
-  virtual MemoryLoadType GetMemoryUsage() = 0;
+  virtual MemoryLoadType
+  GetMemoryUsage() = 0;
 };
 
-#if defined( WIN32 ) || defined( _WIN32 )
-class ITKCommon_EXPORT WindowsMemoryUsageObserver:public MemoryUsageObserverBase
+#if defined(WIN32) || defined(_WIN32)
+class ITKCommon_EXPORT WindowsMemoryUsageObserver : public MemoryUsageObserverBase
 {
 public:
   WindowsMemoryUsageObserver();
@@ -65,73 +66,79 @@ public:
   virtual ~WindowsMemoryUsageObserver();
 
   /** Returns the memory load in kO */
-  virtual MemoryLoadType GetMemoryUsage();
+  virtual MemoryLoadType
+  GetMemoryUsage();
 
 protected:
-#if defined( SUPPORT_TOOLHELP32 )
-  using PZwQuerySystemInformation = NTSTATUS ( WINAPI * )(UINT, PVOID, ULONG, PULONG);
+#  if defined(SUPPORT_TOOLHELP32)
+  using PZwQuerySystemInformation = NTSTATUS(WINAPI *)(UINT, PVOID, ULONG, PULONG);
 
   // handle ntdll.dll library
   HMODULE m_hNTLib;
   // Windows native API function to query system information
   PZwQuerySystemInformation ZwQuerySystemInformation;
-#endif // defined(SUPPORT_TOOLHELP32)
+#  endif // defined(SUPPORT_TOOLHELP32)
 };
 #endif // defined(WIN32) || defined(_WIN32)
 
 #ifdef __linux__
-class ITKCommon_EXPORT LinuxMemoryUsageObserver:public MemoryUsageObserverBase
+class ITKCommon_EXPORT LinuxMemoryUsageObserver : public MemoryUsageObserverBase
 {
 public:
   /** destructor */
   virtual ~LinuxMemoryUsageObserver();
-  virtual MemoryLoadType GetMemoryUsage();
+  virtual MemoryLoadType
+  GetMemoryUsage();
 };
 #endif // __linux__
 
-#if defined( __APPLE__ )
-class ITKCommon_EXPORT MacOSXMemoryUsageObserver:public MemoryUsageObserverBase
+#if defined(__APPLE__)
+class ITKCommon_EXPORT MacOSXMemoryUsageObserver : public MemoryUsageObserverBase
 {
 public:
   /** destructor */
   ~MacOSXMemoryUsageObserver() override;
-  MemoryLoadType GetMemoryUsage() override;
+  MemoryLoadType
+  GetMemoryUsage() override;
 };
 #endif // Mac OS X
 
-#if defined( __SUNPRO_CC ) || defined ( __sun__ )
-class ITKCommon_EXPORT SunSolarisMemoryUsageObserver:public MemoryUsageObserverBase
+#if defined(__SUNPRO_CC) || defined(__sun__)
+class ITKCommon_EXPORT SunSolarisMemoryUsageObserver : public MemoryUsageObserverBase
 {
 public:
   /** destructor */
   virtual ~SunSolarisMemoryUsageObserver();
-  virtual MemoryLoadType GetMemoryUsage();
+  virtual MemoryLoadType
+  GetMemoryUsage();
 };
 #endif // Sun Solaris
 
-#if !defined( WIN32 ) && !defined( _WIN32 )
-class ITKCommon_EXPORT SysResourceMemoryUsageObserver:public MemoryUsageObserverBase
+#if !defined(WIN32) && !defined(_WIN32)
+class ITKCommon_EXPORT SysResourceMemoryUsageObserver : public MemoryUsageObserverBase
 {
 public:
   /** destructor */
   ~SysResourceMemoryUsageObserver() override;
-  MemoryLoadType GetMemoryUsage() override;
+  MemoryLoadType
+  GetMemoryUsage() override;
 };
 
-#if defined( ITK_HAS_MALLINFO )
+#  if defined(ITK_HAS_MALLINFO)
 /** \class MallinfoMemoryUsageObserver
  * \brief The MallinfoMemoryUsageObserver
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT MallinfoMemoryUsageObserver:public MemoryUsageObserverBase
+class ITKCommon_EXPORT MallinfoMemoryUsageObserver : public MemoryUsageObserverBase
 {
 public:
   /** destructor */
   virtual ~MallinfoMemoryUsageObserver();
-  virtual MemoryLoadType GetMemoryUsage();
+  virtual MemoryLoadType
+  GetMemoryUsage();
 };
-#endif // Mallinfo
-#endif // !defined(WIN32) && !defined(_WIN32)
+#  endif // Mallinfo
+#endif   // !defined(WIN32) && !defined(_WIN32)
 
 /* \class MemoryUsageObserver
  * The best MemoryUsageObserver has been chosen for each OS.
@@ -139,17 +146,18 @@ public:
  * way of getting the Memory Usage shall be used.
  * For FreeBSD, some alternatives would be to parse the output of
  * "sysctl vm.vmtotal" or "sysctl -a | grep -i memory"
-*/
-class ITKCommon_EXPORT MemoryUsageObserver:
-#if defined( WIN32 ) || defined( _WIN32 )
+ */
+class ITKCommon_EXPORT MemoryUsageObserver
+  :
+#if defined(WIN32) || defined(_WIN32)
   public WindowsMemoryUsageObserver
-#elif defined( __linux__ )
+#elif defined(__linux__)
   public LinuxMemoryUsageObserver
-#elif defined( __SUNPRO_CC ) || defined ( __sun__ )
+#elif defined(__SUNPRO_CC) || defined(__sun__)
   public SunSolarisMemoryUsageObserver
-#elif defined( __APPLE__ )
+#elif defined(__APPLE__)
   public MacOSXMemoryUsageObserver
-#elif defined( __FreeBSD__ ) || defined( __OpenBSD__ )
+#elif defined(__FreeBSD__) || defined(__OpenBSD__)
   public SysResourceMemoryUsageObserver
 #else
   public MallinfoMemoryUsageObserver
@@ -161,4 +169,4 @@ public:
 };
 } // end of namespace itk
 
-#endif  // itkMemoryUsageObserver_h
+#endif // itkMemoryUsageObserver_h

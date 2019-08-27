@@ -46,26 +46,24 @@ namespace itk
  * \ingroup ImageFilters
  * \ingroup ITKAnisotropicSmoothing
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT GradientAnisotropicDiffusionImageFilter:
-  public AnisotropicDiffusionImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT GradientAnisotropicDiffusionImageFilter
+  : public AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GradientAnisotropicDiffusionImageFilter);
 
   /** Standard class type aliases. */
   using Self = GradientAnisotropicDiffusionImageFilter;
-  using Superclass =
-      AnisotropicDiffusionImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard method for creation through object factory. */
   itkNewMacro(Self);
 
   /** Run-time class information. */
-  itkTypeMacro(GradientAnisotropicDiffusionImageFilter,
-               AnisotropicDiffusionImageFilter);
+  itkTypeMacro(GradientAnisotropicDiffusionImageFilter, AnisotropicDiffusionImageFilter);
 
   /** Extract information from the superclass. */
   using UpdateBufferType = typename Superclass::UpdateBufferType;
@@ -75,21 +73,20 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( UpdateBufferHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< typename UpdateBufferType::PixelType > ) );
+  itkConceptMacro(UpdateBufferHasNumericTraitsCheck, (Concept::HasNumericTraits<typename UpdateBufferType::PixelType>));
   // End concept checking
 #endif
 
 protected:
   GradientAnisotropicDiffusionImageFilter()
   {
-    typename GradientNDAnisotropicDiffusionFunction< UpdateBufferType >::Pointer p =
-      GradientNDAnisotropicDiffusionFunction< UpdateBufferType >::New();
+    typename GradientNDAnisotropicDiffusionFunction<UpdateBufferType>::Pointer p =
+      GradientNDAnisotropicDiffusionFunction<UpdateBufferType>::New();
     this->SetDifferenceFunction(p);
   }
 
   ~GradientAnisotropicDiffusionImageFilter() override = default;
 };
-} // end namspace itk
+} // namespace itk
 
 #endif

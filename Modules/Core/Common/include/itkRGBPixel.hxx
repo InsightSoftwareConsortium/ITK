@@ -24,169 +24,155 @@
 
 namespace itk
 {
-template< typename T >
-RGBPixel< T > &
-RGBPixel< T >
-::operator=(const ComponentType r[3])
+template <typename T>
+RGBPixel<T> &
+RGBPixel<T>::operator=(const ComponentType r[3])
 {
   BaseArray::operator=(r);
   return *this;
 }
 
-template< typename T >
-RGBPixel< T >
-RGBPixel< T >
-::operator+(const Self & r) const
+template <typename T>
+RGBPixel<T>
+RGBPixel<T>::operator+(const Self & r) const
 {
   Self result;
 
-  for ( unsigned int i = 0; i < 3; i++ )
-    {
-    result[i] = ( *this )[i] + r[i];
-    }
+  for (unsigned int i = 0; i < 3; i++)
+  {
+    result[i] = (*this)[i] + r[i];
+  }
   return result;
 }
 
-template< typename T >
-RGBPixel< T >
-RGBPixel< T >
-::operator-(const Self & r) const
+template <typename T>
+RGBPixel<T>
+RGBPixel<T>::operator-(const Self & r) const
 {
   Self result;
 
-  for ( unsigned int i = 0; i < 3; i++ )
-    {
-    result[i] = ( *this )[i] - r[i];
-    }
+  for (unsigned int i = 0; i < 3; i++)
+  {
+    result[i] = (*this)[i] - r[i];
+  }
   return result;
 }
 
-template< typename T >
-const RGBPixel< T > &
-RGBPixel< T >
-::operator+=(const Self & r)
+template <typename T>
+const RGBPixel<T> &
+RGBPixel<T>::operator+=(const Self & r)
 {
-  for ( unsigned int i = 0; i < 3; i++ )
-    {
-    ( *this )[i] += r[i];
-    }
+  for (unsigned int i = 0; i < 3; i++)
+  {
+    (*this)[i] += r[i];
+  }
   return *this;
 }
 
-template< typename T >
-const RGBPixel< T > &
-RGBPixel< T >
-::operator-=(const Self & r)
+template <typename T>
+const RGBPixel<T> &
+RGBPixel<T>::operator-=(const Self & r)
 {
-  for ( unsigned int i = 0; i < 3; i++ )
-    {
-    ( *this )[i] -= r[i];
-    }
+  for (unsigned int i = 0; i < 3; i++)
+  {
+    (*this)[i] -= r[i];
+  }
   return *this;
 }
 
-template< typename T >
-const RGBPixel< T > &
-RGBPixel< T >
-::operator*=(const ComponentType & r)
+template <typename T>
+const RGBPixel<T> &
+RGBPixel<T>::operator*=(const ComponentType & r)
 {
-  for ( unsigned int i = 0; i < 3; i++ )
-    {
-    ( *this )[i] *= r;
-    }
+  for (unsigned int i = 0; i < 3; i++)
+  {
+    (*this)[i] *= r;
+  }
   return *this;
 }
 
 
-template< typename T >
-const RGBPixel< T > &
-RGBPixel< T >
-::operator/=(const ComponentType & r)
+template <typename T>
+const RGBPixel<T> &
+RGBPixel<T>::operator/=(const ComponentType & r)
 {
-  for ( unsigned int i = 0; i < 3; i++ )
-    {
-    ( *this )[i] /= r;
-    }
+  for (unsigned int i = 0; i < 3; i++)
+  {
+    (*this)[i] /= r;
+  }
   return *this;
 }
 
-template< typename T >
-RGBPixel< T >
-RGBPixel< T >
-::operator*(const ComponentType & r) const
+template <typename T>
+RGBPixel<T> RGBPixel<T>::operator*(const ComponentType & r) const
 {
   Self result;
 
-  for ( unsigned int i = 0; i < 3; i++ )
-    {
-    result[i] = ( *this )[i] * r;
-    }
+  for (unsigned int i = 0; i < 3; i++)
+  {
+    result[i] = (*this)[i] * r;
+  }
   return result;
 }
 
-template< typename T >
-RGBPixel< T >
-RGBPixel< T >
-::operator/(const ComponentType & r) const
+template <typename T>
+RGBPixel<T>
+RGBPixel<T>::operator/(const ComponentType & r) const
 {
   Self result;
 
-  for ( unsigned int i = 0; i < 3; i++ )
-    {
-    result[i] = ( *this )[i] / r;
-    }
+  for (unsigned int i = 0; i < 3; i++)
+  {
+    result[i] = (*this)[i] / r;
+  }
   return result;
 }
 
-template< typename T >
+template <typename T>
 bool
-RGBPixel< T >
-::operator==(const Self & r) const
+RGBPixel<T>::operator==(const Self & r) const
 {
-  for ( unsigned int i = 0; i < 3; i++ )
+  for (unsigned int i = 0; i < 3; i++)
+  {
+    if (Math::NotExactlyEquals((*this)[i], r[i]))
     {
-    if ( Math::NotExactlyEquals(( *this )[i], r[i]) )
-      {
       return false;
-      }
     }
+  }
   return true;
 }
 
-template< typename T >
+template <typename T>
 bool
-RGBPixel< T >
-::operator<(const Self & r) const
+RGBPixel<T>::operator<(const Self & r) const
 {
-  return std::lexicographical_compare( this->cbegin(), this->cend(), r.cbegin(), r.cend() );
+  return std::lexicographical_compare(this->cbegin(), this->cend(), r.cbegin(), r.cend());
 }
 
-template< typename T >
-typename RGBPixel< T >::LuminanceType
-RGBPixel< T >
-::GetLuminance() const
+template <typename T>
+typename RGBPixel<T>::LuminanceType
+RGBPixel<T>::GetLuminance() const
 {
-  const LuminanceType luminance =
-    0.30  * static_cast< LuminanceType >( this->GetRed() )
-    + 0.59  * static_cast< LuminanceType >( this->GetGreen() )
-    + 0.11  * static_cast< LuminanceType >( this->GetBlue() );
+  const LuminanceType luminance = 0.30 * static_cast<LuminanceType>(this->GetRed()) +
+                                  0.59 * static_cast<LuminanceType>(this->GetGreen()) +
+                                  0.11 * static_cast<LuminanceType>(this->GetBlue());
 
   return luminance;
 }
 
-template< typename TComponent >
+template <typename TComponent>
 std::ostream &
-operator<<(std::ostream & os, const RGBPixel< TComponent > & c)
+operator<<(std::ostream & os, const RGBPixel<TComponent> & c)
 {
-  os <<  static_cast< typename NumericTraits< TComponent >::PrintType >( c[0] ) << "  ";
-  os <<  static_cast< typename NumericTraits< TComponent >::PrintType >( c[1] ) << "  ";
-  os <<  static_cast< typename NumericTraits< TComponent >::PrintType >( c[2] );
+  os << static_cast<typename NumericTraits<TComponent>::PrintType>(c[0]) << "  ";
+  os << static_cast<typename NumericTraits<TComponent>::PrintType>(c[1]) << "  ";
+  os << static_cast<typename NumericTraits<TComponent>::PrintType>(c[2]);
   return os;
 }
 
-template< typename TComponent >
+template <typename TComponent>
 std::istream &
-operator>>(std::istream & is, RGBPixel< TComponent > & c)
+operator>>(std::istream & is, RGBPixel<TComponent> & c)
 {
   TComponent red;
   TComponent green;

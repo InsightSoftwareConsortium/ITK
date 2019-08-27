@@ -29,33 +29,32 @@
 namespace
 {
 
-class TileImageFixture
-  : public ::testing::Test
+class TileImageFixture : public ::testing::Test
 {
 public:
-
   TileImageFixture() = default;
   ~TileImageFixture() override = default;
 
 protected:
+  void
+  SetUp() override
+  {
+    RegisterRequiredFactories();
+  }
 
-  void SetUp() override
-    {
-      RegisterRequiredFactories();
-    }
+  template <typename TImageType>
+  static std::string
+  MD5Hash(const TImageType * image)
+  {
 
-  template<typename TImageType>
-  static std::string MD5Hash(const TImageType *image)
-    {
+    using HashFilter = itk::Testing::HashImageFilter<TImageType>;
+    typename HashFilter::Pointer hasher = HashFilter::New();
+    hasher->SetInput(image);
+    hasher->Update();
+    return hasher->GetHash();
+  }
 
-      using HashFilter = itk::Testing::HashImageFilter<TImageType>;
-      typename HashFilter::Pointer hasher = HashFilter::New();
-      hasher->SetInput( image );
-      hasher->Update();
-      return hasher->GetHash();
-    }
-
-  template<typename TImage>
+  template <typename TImage>
   struct FixtureUtilities
   {
     static const unsigned int Dimension = TImage::ImageDimension;
@@ -69,37 +68,35 @@ protected:
     using FilterType = itk::TileImageFilter<InputImageType, OutputImageType>;
 
     // Create a black image or empty
-    static typename InputImageType::Pointer CreateImage(unsigned int size = 100)
-      {
-        typename InputImageType::Pointer image = InputImageType::New();
+    static typename InputImageType::Pointer
+    CreateImage(unsigned int size = 100)
+    {
+      typename InputImageType::Pointer image = InputImageType::New();
 
-        typename InputImageType::SizeType imageSize;
-        imageSize.Fill(size);
-        image->SetRegions(RegionType(imageSize));
-        image->Allocate();
-        image->FillBuffer(0);
+      typename InputImageType::SizeType imageSize;
+      imageSize.Fill(size);
+      image->SetRegions(RegionType(imageSize));
+      image->Allocate();
+      image->FillBuffer(0);
 
-        return image;
-      }
-
-
+      return image;
+    }
   };
-
 };
-}
+} // namespace
 
 
 TEST_F(TileImageFixture, SetGetPrint)
 {
-  using Utils = FixtureUtilities<itk::Image<unsigned char,3> >;
+  using Utils = FixtureUtilities<itk::Image<unsigned char, 3>>;
 
   auto filter = Utils::FilterType::New();
   filter->Print(std::cout);
 
-  typename Utils::FilterType::ConstPointer constfilter = (const Utils::FilterType*)(filter.GetPointer());
+  typename Utils::FilterType::ConstPointer constfilter = (const Utils::FilterType *)(filter.GetPointer());
 
   EXPECT_STREQ("TileImageFilter", filter->GetNameOfClass());
-  EXPECT_STREQ("ImageToImageFilter",  filter->Superclass::GetNameOfClass());
+  EXPECT_STREQ("ImageToImageFilter", filter->Superclass::GetNameOfClass());
 
   Utils::FilterType::LayoutArrayType layout(99);
 
@@ -109,7 +106,6 @@ TEST_F(TileImageFixture, SetGetPrint)
 
   EXPECT_NO_THROW(filter->SetDefaultPixelValue(99));
   EXPECT_EQ(99, filter->GetDefaultPixelValue());
-
 }
 
 
@@ -122,7 +118,7 @@ TEST_F(TileImageFixture, VectorImage)
 
   auto image = ImageType::New();
 
-  typename ImageType::SizeType imageSize = MakeSize(10,10);
+  typename ImageType::SizeType imageSize = MakeSize(10, 10);
 
   const unsigned int numberOfComponents = 5;
 
@@ -142,7 +138,7 @@ TEST_F(TileImageFixture, VectorImage)
   image->FillBuffer(v);
 
 
-  using FilterType = itk::TileImageFilter<ImageType,ImageType>;
+  using FilterType = itk::TileImageFilter<ImageType, ImageType>;
   auto filter = FilterType::New();
 
   FilterType::LayoutArrayType layout(2);
@@ -190,7 +186,7 @@ TEST_F(TileImageFixture, VectorImage)
 
 
   auto image2 = ImageType::New();
-  image2->SetNumberOfComponentsPerPixel(numberOfComponents-1);
+  image2->SetNumberOfComponentsPerPixel(numberOfComponents - 1);
   image2->Allocate();
 
   filter->SetInput(1, image2);

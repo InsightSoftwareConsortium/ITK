@@ -28,76 +28,73 @@
 
 namespace itk
 {
-template< typename TImageType, typename TFeatureImageType >
-void GeodesicActiveContourLevelSetFunction< TImageType, TFeatureImageType >
-::CalculateSpeedImage()
+template <typename TImageType, typename TFeatureImageType>
+void
+GeodesicActiveContourLevelSetFunction<TImageType, TFeatureImageType>::CalculateSpeedImage()
 {
   // Copy the feature image into the speed image
-  ImageAlgorithm::Copy( this->GetFeatureImage(),
-                        this->GetSpeedImage(),
-                        this->GetFeatureImage()->GetRequestedRegion(),
-                        this->GetFeatureImage()->GetRequestedRegion() );
+  ImageAlgorithm::Copy(this->GetFeatureImage(),
+                       this->GetSpeedImage(),
+                       this->GetFeatureImage()->GetRequestedRegion(),
+                       this->GetFeatureImage()->GetRequestedRegion());
 }
 
-template< typename TImageType, typename TFeatureImageType >
-void GeodesicActiveContourLevelSetFunction< TImageType, TFeatureImageType >
-::CalculateAdvectionImage()
+template <typename TImageType, typename TFeatureImageType>
+void
+GeodesicActiveContourLevelSetFunction<TImageType, TFeatureImageType>::CalculateAdvectionImage()
 {
   // Compute the gradient of the feature image
 
   typename VectorImageType::Pointer gradientImage;
 
-  if ( Math::NotAlmostEquals( m_DerivativeSigma, NumericTraits< float >::ZeroValue() ) )
-    {
-    using DerivativeFilterType =
-        GradientRecursiveGaussianImageFilter< FeatureImageType, VectorImageType >;
+  if (Math::NotAlmostEquals(m_DerivativeSigma, NumericTraits<float>::ZeroValue()))
+  {
+    using DerivativeFilterType = GradientRecursiveGaussianImageFilter<FeatureImageType, VectorImageType>;
 
     typename DerivativeFilterType::Pointer derivative = DerivativeFilterType::New();
-    derivative->SetInput( this->GetFeatureImage() );
+    derivative->SetInput(this->GetFeatureImage());
     derivative->SetSigma(m_DerivativeSigma);
     derivative->Update();
 
     gradientImage = derivative->GetOutput();
-    }
+  }
   else
-    {
-    using DerivativeFilterType = GradientImageFilter< FeatureImageType >;
+  {
+    using DerivativeFilterType = GradientImageFilter<FeatureImageType>;
 
     typename DerivativeFilterType::Pointer derivative = DerivativeFilterType::New();
-    derivative->SetInput( this->GetFeatureImage() );
+    derivative->SetInput(this->GetFeatureImage());
     derivative->SetUseImageSpacingOn();
     derivative->Update();
 
     using DerivativeOutputImageType = typename DerivativeFilterType::OutputImageType;
-    using GradientCasterType = CastImageFilter< DerivativeOutputImageType, VectorImageType >;
+    using GradientCasterType = CastImageFilter<DerivativeOutputImageType, VectorImageType>;
 
     typename GradientCasterType::Pointer caster = GradientCasterType::New();
-    caster->SetInput( derivative->GetOutput() );
+    caster->SetInput(derivative->GetOutput());
     caster->Update();
 
     gradientImage = caster->GetOutput();
-    }
+  }
 
   // Copy negative gradient into the advection image
-  ImageRegionIterator< VectorImageType >
-  dit( gradientImage, this->GetFeatureImage()->GetRequestedRegion() );
-  ImageRegionIterator< VectorImageType >
-  ait( this->GetAdvectionImage(), this->GetFeatureImage()->GetRequestedRegion() );
+  ImageRegionIterator<VectorImageType> dit(gradientImage, this->GetFeatureImage()->GetRequestedRegion());
+  ImageRegionIterator<VectorImageType> ait(this->GetAdvectionImage(), this->GetFeatureImage()->GetRequestedRegion());
 
-  for ( dit.GoToBegin(), ait.GoToBegin(); !dit.IsAtEnd(); ++dit, ++ait )
-    {
+  for (dit.GoToBegin(), ait.GoToBegin(); !dit.IsAtEnd(); ++dit, ++ait)
+  {
     typename VectorImageType::PixelType v = dit.Get();
-    for ( unsigned int j = 0; j < ImageDimension; j++ )
-      {
+    for (unsigned int j = 0; j < ImageDimension; j++)
+    {
       v[j] *= -1.0L;
-      }
-    ait.Set(v);
     }
+    ait.Set(v);
+  }
 }
 
-template< typename TImageType, typename TFeatureImageType >
-void GeodesicActiveContourLevelSetFunction< TImageType, TFeatureImageType >
-::PrintSelf(std::ostream & os, Indent indent) const
+template <typename TImageType, typename TFeatureImageType>
+void
+GeodesicActiveContourLevelSetFunction<TImageType, TFeatureImageType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

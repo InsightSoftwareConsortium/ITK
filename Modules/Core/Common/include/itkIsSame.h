@@ -1,4 +1,4 @@
- /*=========================================================================
+/*=========================================================================
  *
  *  Copyright Insight Software Consortium
  *
@@ -30,10 +30,14 @@ namespace mpl
  * \ingroup MetaProgrammingLibrary
  * \ingroup ITKCommon
  */
-template<typename, typename> struct IsSame : public FalseType { };
+template <typename, typename>
+struct IsSame : public FalseType
+{};
 
 /// \cond SPECIALIZATION_IMPLEMENTATION
-template<typename T> struct IsSame<T, T> : public TrueType {};
+template <typename T>
+struct IsSame<T, T> : public TrueType
+{};
 /// \endcond
 
 } // end namespace mpl
@@ -46,4 +50,4 @@ using mpl::IsSame;
 
 } // end namespace itk
 
-#endif //itkIsSame_h
+#endif // itkIsSame_h

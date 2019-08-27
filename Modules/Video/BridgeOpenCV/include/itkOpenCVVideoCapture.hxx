@@ -25,11 +25,11 @@
 #include "opencv2/core/version.hpp"
 #if !defined(CV_VERSION_EPOCH)
 // OpenCV 3.x
-#include "opencv2/videoio.hpp"
-#include "opencv2/imgproc/types_c.h" // CV_RGB2BGR, CV_BGR2GRAY, ...
+#  include "opencv2/videoio.hpp"
+#  include "opencv2/imgproc/types_c.h" // CV_RGB2BGR, CV_BGR2GRAY, ...
 #else
 // OpenCV 2.4.x
-#include "cv.h"
+#  include "cv.h"
 #endif
 
 namespace itk
@@ -40,7 +40,7 @@ namespace itk
 //
 // OpenCVVideoCapture()
 //
-template<typename TVideoStream>
+template <typename TVideoStream>
 OpenCVVideoCapture<TVideoStream>::OpenCVVideoCapture()
 {
   m_VideoStream = nullptr;
@@ -49,14 +49,14 @@ OpenCVVideoCapture<TVideoStream>::OpenCVVideoCapture()
   m_FpS = 24;
 
   // Default to mp4.2
-  m_FourCC = CV_FOURCC('M','P','4','2');
+  m_FourCC = CV_FOURCC('M', 'P', '4', '2');
 }
 
 //
 // OpenCVVideoCapture(videoStream)
 //
-template<typename TVideoStream>
-OpenCVVideoCapture<TVideoStream>::OpenCVVideoCapture(TVideoStream* videoStream)
+template <typename TVideoStream>
+OpenCVVideoCapture<TVideoStream>::OpenCVVideoCapture(TVideoStream * videoStream)
 {
   m_VideoStream = videoStream;
 
@@ -64,7 +64,7 @@ OpenCVVideoCapture<TVideoStream>::OpenCVVideoCapture(TVideoStream* videoStream)
   m_FpS = 24;
 
   // Default to mp4.2
-  m_FourCC = CV_FOURCC('M','P','4','2');
+  m_FourCC = CV_FOURCC('M', 'P', '4', '2');
 }
 
 
@@ -73,20 +73,21 @@ OpenCVVideoCapture<TVideoStream>::OpenCVVideoCapture(TVideoStream* videoStream)
 //
 // open(videoStream)
 //
-template<typename TVideoStream>
-bool OpenCVVideoCapture<TVideoStream>::open(TVideoStream* videoStream)
+template <typename TVideoStream>
+bool
+OpenCVVideoCapture<TVideoStream>::open(TVideoStream * videoStream)
 {
   // We only support 2D
   if (this->Dimensions != 2)
-    {
+  {
     return false;
-    }
+  }
 
   // Make sure pointer isn't null
   if (!videoStream)
-    {
+  {
     return false;
-    }
+  }
   m_VideoStream = videoStream;
   return true;
 }
@@ -94,8 +95,9 @@ bool OpenCVVideoCapture<TVideoStream>::open(TVideoStream* videoStream)
 //
 // release
 //
-template<typename TVideoStream>
-void OpenCVVideoCapture<TVideoStream>::release()
+template <typename TVideoStream>
+void
+OpenCVVideoCapture<TVideoStream>::release()
 {
   m_VideoStream = nullptr;
 }
@@ -106,14 +108,15 @@ void OpenCVVideoCapture<TVideoStream>::release()
 //
 // grab
 //
-template<typename TVideoStream>
-bool OpenCVVideoCapture<TVideoStream>::grab()
+template <typename TVideoStream>
+bool
+OpenCVVideoCapture<TVideoStream>::grab()
 {
   // We only support 2D
   if (this->Dimensions != 2)
-    {
+  {
     return false;
-    }
+  }
 
   // Move the current frame forward by 1
   SizeValueType currentFrame = m_VideoStream->GetRequestedTemporalRegion().GetFrameStart();
@@ -123,70 +126,67 @@ bool OpenCVVideoCapture<TVideoStream>::grab()
 //
 // retrieve
 //
-template<typename TVideoStream>
-bool OpenCVVideoCapture<TVideoStream>::retrieve(cv::Mat& image, int itkNotUsed(channel))
+template <typename TVideoStream>
+bool
+OpenCVVideoCapture<TVideoStream>::retrieve(cv::Mat & image, int itkNotUsed(channel))
 {
   // We only support 2D
   if (this->Dimensions != 2)
-    {
+  {
     image.release();
     return false;
-    }
+  }
 
   // Make sure VideoStream isn't null
   if (!m_VideoStream)
-    {
+  {
     image.release();
     return false;
-    }
+  }
 
   // Get the requested frame
   SizeValueType frameNum = m_VideoStream->GetRequestedTemporalRegion().GetFrameStart();
-  FrameType* frame = m_VideoStream->GetFrame(frameNum);
+  FrameType *   frame = m_VideoStream->GetFrame(frameNum);
 
   // Make sure frame isn't null
   if (!frame)
-    {
+  {
     image.release();
     return false;
-    }
+  }
 
   // Instantiate the cv::Mat with the proper size and type
   typename FrameType::SizeType size = frame->GetLargestPossibleRegion().GetSize();
-  unsigned int depth = cv::DataDepth< typename itk::NumericTraits< PixelType >::ValueType >::value;
-  unsigned int channels = itk::NumericTraits< PixelType >::MeasurementVectorType::Dimension;
-  int matrixType = CV_MAKETYPE(depth, channels);
+  unsigned int                 depth = cv::DataDepth<typename itk::NumericTraits<PixelType>::ValueType>::value;
+  unsigned int                 channels = itk::NumericTraits<PixelType>::MeasurementVectorType::Dimension;
+  int                          matrixType = CV_MAKETYPE(depth, channels);
 
   // Copy the pixels -- There is probably a faster way to do this
   using ITKIterType = itk::ImageRegionConstIteratorWithIndex<FrameType>;
   ITKIterType itkIter(frame, frame->GetLargestPossibleRegion());
 
   // Currently only support mono and RGB (unsigned) char pixels
-  IplImage* iplImg = cvCreateImage( cvSize(size[0], size[1]), IPL_DEPTH_8U, channels );
+  IplImage * iplImg = cvCreateImage(cvSize(size[0], size[1]), IPL_DEPTH_8U, channels);
   if (matrixType == CV_8UC1 || matrixType == CV_8SC1)
-    {
+  {
     // Insert the buffer into iplImg
-    cvSetData(iplImg,
-      reinterpret_cast<char*>(frame->GetBufferPointer()),
-      iplImg->widthStep);
-    }
+    cvSetData(iplImg, reinterpret_cast<char *>(frame->GetBufferPointer()), iplImg->widthStep);
+  }
   else if (matrixType == CV_8UC3 || matrixType == CV_8SC3)
-    {
+  {
     // Place the contents of the buffer into an OpenCV image
-    IplImage* tempImg = cvCreateImage( cvSize(size[0], size[1]), IPL_DEPTH_8U, channels );
+    IplImage * tempImg = cvCreateImage(cvSize(size[0], size[1]), IPL_DEPTH_8U, channels);
 
     // Insert the buffer into tempImg
-    cvSetData(tempImg,
-      reinterpret_cast<char*>(frame->GetBufferPointer()),
-      tempImg->widthStep);
+    cvSetData(tempImg, reinterpret_cast<char *>(frame->GetBufferPointer()), tempImg->widthStep);
 
     // Convert to BGR
     cvCvtColor(tempImg, iplImg, CV_RGB2BGR);
-    }
+  }
   else
-    {
+  {
     itkExceptionMacro("itk::OpenCVVideoCaptures -> Pixel type not supported");
-    }
+  }
 
   // Pass off to the Mat
   image.create(size[0], size[1], matrixType);
@@ -199,31 +199,33 @@ bool OpenCVVideoCapture<TVideoStream>::retrieve(cv::Mat& image, int itkNotUsed(c
 //
 // operator >>
 //
-template<typename TVideoStream>
-OpenCVVideoCapture<TVideoStream>& OpenCVVideoCapture<TVideoStream>::operator >>(cv::Mat& image)
+template <typename TVideoStream>
+OpenCVVideoCapture<TVideoStream> &
+OpenCVVideoCapture<TVideoStream>::operator>>(cv::Mat & image)
 {
   if (!read(image))
-    {
+  {
     image.release();
-    }
+  }
   return *this;
 }
 
 //
 // read
 //
-template<typename TVideoStream>
-bool OpenCVVideoCapture<TVideoStream>::read(cv::Mat& image)
+template <typename TVideoStream>
+bool
+OpenCVVideoCapture<TVideoStream>::read(cv::Mat & image)
 {
   if (!grab())
-    {
+  {
     image.release();
     return false;
-    }
+  }
   else
-    {
+  {
     return retrieve(image);
-    }
+  }
 }
 
 
@@ -232,26 +234,27 @@ bool OpenCVVideoCapture<TVideoStream>::read(cv::Mat& image)
 //
 // set
 //
-template<typename TVideoStream>
-bool OpenCVVideoCapture<TVideoStream>::set(int propId, double value)
+template <typename TVideoStream>
+bool
+OpenCVVideoCapture<TVideoStream>::set(int propId, double value)
 {
   // Make sure the VideoSource isn't null
   if (!m_VideoStream)
-    {
+  {
     return false;
-    }
+  }
 
   // Variables for use in cases
-  SizeValueType maxFrame;
-  SizeValueType nextFrame;
-  SizeValueType ratioFrameOffset;
-  SizeValueType newFrame;
+  SizeValueType  maxFrame;
+  SizeValueType  nextFrame;
+  SizeValueType  ratioFrameOffset;
+  SizeValueType  newFrame;
   TemporalRegion largestPossible;
   TemporalRegion newRequest;
 
   // Handle all of the different properties
   switch (propId)
-    {
+  {
     // Figure out the frame numbers from the value -- This is not currently supported
     case CV_CAP_PROP_POS_MSEC:
       itkExceptionMacro("OpenCVVideoCapture: Video Pipeline does not currently support RealTime");
@@ -265,18 +268,17 @@ bool OpenCVVideoCapture<TVideoStream>::set(int propId, double value)
       largestPossible = m_VideoStream->GetLargestPossibleTemporalRegion();
 
       if (!largestPossible.GetFrameDuration())
-        {
+      {
         return false;
-        }
+      }
 
       // Verify that we aren't trying to skip past the end of the video
-      maxFrame =
-        largestPossible.GetFrameStart() + largestPossible.GetFrameDuration() - 1;
+      maxFrame = largestPossible.GetFrameStart() + largestPossible.GetFrameDuration() - 1;
       nextFrame = (long)value;
       if (nextFrame > maxFrame)
-        {
+      {
         return false;
-        }
+      }
 
       // Move the requested temporal region
       newRequest.SetFrameStart(nextFrame);
@@ -285,7 +287,7 @@ bool OpenCVVideoCapture<TVideoStream>::set(int propId, double value)
 
       // Make sure we're requesting the largest possible spatial region
       m_VideoStream->SetFrameRequestedSpatialRegion(nextFrame,
-        m_VideoStream->GetFrameLargestPossibleSpatialRegion(nextFrame));
+                                                    m_VideoStream->GetFrameLargestPossibleSpatialRegion(nextFrame));
 
       // Update the pipeline
       m_VideoStream->Update();
@@ -317,7 +319,7 @@ bool OpenCVVideoCapture<TVideoStream>::set(int propId, double value)
     // We don't support setting anything else
     default:
       return false;
-    }
+  }
 
   // Return success
   return true;
@@ -326,24 +328,25 @@ bool OpenCVVideoCapture<TVideoStream>::set(int propId, double value)
 //
 // get
 //
-template<typename TVideoStream>
-double OpenCVVideoCapture<TVideoStream>::get(int propId)
+template <typename TVideoStream>
+double
+OpenCVVideoCapture<TVideoStream>::get(int propId)
 {
   // Make sure the VideoSource isn't null
   if (!m_VideoStream)
-    {
+  {
     return 0;
-    }
+  }
 
   // Variables for use in cases
-  SizeValueType frameNum = m_VideoStream->GetRequestedTemporalRegion().GetFrameStart();
-  SizeValueType currentOffset;
+  SizeValueType  frameNum = m_VideoStream->GetRequestedTemporalRegion().GetFrameStart();
+  SizeValueType  currentOffset;
   TemporalRegion largest;
   TemporalRegion requested;
 
   // Handle all of the different properties
   switch (propId)
-    {
+  {
     // Figure out the frame numbers from the value -- This is not currently supported
     case CV_CAP_PROP_POS_MSEC:
       itkExceptionMacro("OpenCVVideoCapture: Video Pipeline does not currently support RealTime");
@@ -384,7 +387,7 @@ double OpenCVVideoCapture<TVideoStream>::get(int propId)
     // We don't support getting anything else
     default:
       return false;
-    }
+  }
 
   // Return success
   return true;

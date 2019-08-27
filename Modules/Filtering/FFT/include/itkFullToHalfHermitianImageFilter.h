@@ -41,9 +41,8 @@ namespace itk
  * \sa HalfHermitianToRealInverseFFTImageFilter
  * \ingroup ITKFFT
  */
-template< typename TInputImage >
-class ITK_TEMPLATE_EXPORT FullToHalfHermitianImageFilter :
-  public ImageToImageFilter< TInputImage, TInputImage >
+template <typename TInputImage>
+class ITK_TEMPLATE_EXPORT FullToHalfHermitianImageFilter : public ImageToImageFilter<TInputImage, TInputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FullToHalfHermitianImageFilter);
@@ -65,16 +64,15 @@ public:
   using OutputImageRegionType = typename OutputImageType::RegionType;
 
   using Self = FullToHalfHermitianImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TInputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TInputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FullToHalfHermitianImageFilter,
-               ImageToImageFilter);
+  itkTypeMacro(FullToHalfHermitianImageFilter, ImageToImageFilter);
 
   /** Extract the dimensionality of the input and output images. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
@@ -87,21 +85,24 @@ protected:
   FullToHalfHermitianImageFilter();
   ~FullToHalfHermitianImageFilter() override = default;
 
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 
   /** The output is a different size from the input. */
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
   /** This class requires the entire input. */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   itkSetDecoratedOutputMacro(ActualXDimensionIsOdd, bool);
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFullToHalfHermitianImageFilter.hxx"
+#  include "itkFullToHalfHermitianImageFilter.hxx"
 #endif
 
 #endif // itkFullToHalfHermitianImageFilter_h

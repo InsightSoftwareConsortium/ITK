@@ -45,17 +45,18 @@
 #include "itkImage.h"
 
 
-int main( int argc, char ** argv )
+int
+main(int argc, char ** argv)
 {
   // Verify the number of parameters in the command line
-  if( argc < 4 )
-    {
+  if (argc < 4)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << " inputVectorImageFile  outputScalarImageFile";
     std::cerr << " outupNormalizedScalarImageFile";
     std::cerr << " componentToExtract" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   //  Software Guide : BeginLatex
@@ -71,14 +72,13 @@ int main( int argc, char ** argv )
   using ComponentType = float;
   constexpr unsigned int Dimension = 2;
 
-  using InputPixelType = itk::CovariantVector< ComponentType,
-                                    Dimension  >;
+  using InputPixelType = itk::CovariantVector<ComponentType, Dimension>;
 
   using OutputPixelType = unsigned short;
 
-  using InputImageType = itk::Image< InputPixelType,      Dimension >;
-  using ComponentImageType = itk::Image< ComponentType,       Dimension >;
-  using OutputImageType = itk::Image< OutputPixelType,     Dimension >;
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
+  using ComponentImageType = itk::Image<ComponentType, Dimension>;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
   // Software Guide : EndCodeSnippet
 
 
@@ -90,8 +90,8 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using ReaderType = itk::ImageFileReader< InputImageType  >;
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
   // Software Guide : EndCodeSnippet
 
 
@@ -108,9 +108,8 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FilterType = itk::VectorIndexSelectionCastImageFilter<
-                                          InputImageType,
-                                          ComponentImageType    >;
+  using FilterType =
+    itk::VectorIndexSelectionCastImageFilter<InputImageType, ComponentImageType>;
 
   FilterType::Pointer componentExtractor = FilterType::New();
   // Software Guide : EndCodeSnippet
@@ -127,18 +126,20 @@ int main( int argc, char ** argv )
   //
   //  Software Guide : EndLatex
 
-  const unsigned int indexOfComponentToExtract = std::stoi( argv[4] );
+  const unsigned int indexOfComponentToExtract = std::stoi(argv[4]);
 
-  if( indexOfComponentToExtract >= Dimension )
-    {
-    std::cerr << "You are requesting an index out of the range for the Vector dimension" << std::endl;
+  if (indexOfComponentToExtract >= Dimension)
+  {
+    std::cerr << "You are requesting an index out of the range for the Vector dimension"
+              << std::endl;
     std::cerr << "Vector dimension is = " << Dimension << std::endl;
-    std::cerr << "but your requested index = " << indexOfComponentToExtract << std::endl;
+    std::cerr << "but your requested index = " << indexOfComponentToExtract
+              << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   //  Software Guide : BeginCodeSnippet
-  componentExtractor->SetIndex( indexOfComponentToExtract );
+  componentExtractor->SetIndex(indexOfComponentToExtract);
   //  Software Guide : EndCodeSnippet
 
 
@@ -153,11 +154,10 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  using RescaleFilterType = itk::RescaleIntensityImageFilter<
-                                  ComponentImageType,
-                                  OutputImageType >;
+  using RescaleFilterType =
+    itk::RescaleIntensityImageFilter<ComponentImageType, OutputImageType>;
 
-  RescaleFilterType::Pointer  rescaler = RescaleFilterType::New();
+  RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
   //  Software Guide : EndCodeSnippet
 
 
@@ -175,8 +175,8 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  rescaler->SetOutputMinimum( itk::NumericTraits< OutputPixelType >::min() );
-  rescaler->SetOutputMaximum( itk::NumericTraits< OutputPixelType >::max() );
+  rescaler->SetOutputMinimum(itk::NumericTraits<OutputPixelType>::min());
+  rescaler->SetOutputMaximum(itk::NumericTraits<OutputPixelType>::max());
   //  Software Guide : EndCodeSnippet
 
 
@@ -200,7 +200,7 @@ int main( int argc, char ** argv )
 
   // Here we recover the file names from the command line arguments
   //
-  const char * inputFilename  = argv[1];
+  const char * inputFilename = argv[1];
   const char * outputFilename = argv[3];
 
 
@@ -217,8 +217,8 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  reader->SetFileName( inputFilename  );
-  writer->SetFileName( outputFilename );
+  reader->SetFileName(inputFilename);
+  writer->SetFileName(outputFilename);
   // Software Guide : EndCodeSnippet
 
 
@@ -230,9 +230,9 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  componentExtractor->SetInput( reader->GetOutput() );
-  rescaler->SetInput( componentExtractor->GetOutput() );
-  writer->SetInput( rescaler->GetOutput() );
+  componentExtractor->SetInput(reader->GetOutput());
+  rescaler->SetInput(componentExtractor->GetOutput());
+  writer->SetInput(rescaler->GetOutput());
   // Software Guide : EndCodeSnippet
 
 
@@ -246,25 +246,25 @@ int main( int argc, char ** argv )
 
   // Software Guide : BeginCodeSnippet
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
 
   // Here We add another writer that will produce the non-normalized output
   // file
   //
-  using ComponentWriterType = itk::ImageFileWriter< ComponentImageType >;
+  using ComponentWriterType = itk::ImageFileWriter<ComponentImageType>;
   ComponentWriterType::Pointer componentWriter = ComponentWriterType::New();
-  componentWriter->SetInput( componentExtractor->GetOutput() );
-  componentWriter->SetFileName( argv[2] );
+  componentWriter->SetInput(componentExtractor->GetOutput());
+  componentWriter->SetFileName(argv[2]);
   componentWriter->Update();
 
   return EXIT_SUCCESS;

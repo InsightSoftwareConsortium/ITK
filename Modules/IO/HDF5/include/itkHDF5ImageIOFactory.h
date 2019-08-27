@@ -26,12 +26,12 @@
 namespace itk
 {
 /** \class HDF5ImageIOFactory
-   * \author KEnt Williams
-   * \brief Create instances of HDF5ImageIO objects using an object
-   * factory.
-   * \ingroup ITKIOHDF5
-   */
-class ITKIOHDF5_EXPORT HDF5ImageIOFactory:public ObjectFactoryBase
+ * \author KEnt Williams
+ * \brief Create instances of HDF5ImageIO objects using an object
+ * factory.
+ * \ingroup ITKIOHDF5
+ */
+class ITKIOHDF5_EXPORT HDF5ImageIOFactory : public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(HDF5ImageIOFactory);
@@ -39,13 +39,15 @@ public:
   /** Standard class type aliases. */
   using Self = HDF5ImageIOFactory;
   using Superclass = ObjectFactoryBase;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
-  const char * GetITKSourceVersion() const override;
+  const char *
+  GetITKSourceVersion() const override;
 
-  const char * GetDescription() const override;
+  const char *
+  GetDescription() const override;
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
@@ -54,7 +56,8 @@ public:
   itkTypeMacro(HDF5ImageIOFactory, ObjectFactoryBase);
 
   /** Register one factory of this type  */
-  static void RegisterOneFactory()
+  static void
+  RegisterOneFactory()
   {
     HDF5ImageIOFactory::Pointer metaFactory = HDF5ImageIOFactory::New();
 
@@ -64,7 +67,8 @@ public:
 protected:
   HDF5ImageIOFactory();
   ~HDF5ImageIOFactory() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 };
 } // end namespace itk
 

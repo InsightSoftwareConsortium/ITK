@@ -34,16 +34,15 @@ namespace itk
 
 struct ExceptionGlobals
 {
-  ExceptionGlobals():m_ExceptionAction(FloatingPointExceptions::ABORT),
-  m_Enabled(false)
-  {};
+  ExceptionGlobals()
+    : m_ExceptionAction(FloatingPointExceptions::ABORT)
+    , m_Enabled(false){};
   FloatingPointExceptions::ExceptionAction m_ExceptionAction;
-  bool m_Enabled;
+  bool                                     m_Enabled;
 };
 
 void
-FloatingPointExceptions
-::SetExceptionAction(ExceptionAction a)
+FloatingPointExceptions ::SetExceptionAction(ExceptionAction a)
 {
   itkInitGlobalsMacro(PimplGlobals);
   FloatingPointExceptions::m_PimplGlobals->m_ExceptionAction = a;
@@ -57,59 +56,59 @@ FloatingPointExceptions::GetExceptionAction()
 }
 
 bool
-FloatingPointExceptions::
-GetEnabled()
+FloatingPointExceptions::GetEnabled()
 {
   itkInitGlobalsMacro(PimplGlobals);
   return FloatingPointExceptions::m_PimplGlobals->m_Enabled;
 }
 
 void
-FloatingPointExceptions::
-SetEnabled(bool val)
+FloatingPointExceptions::SetEnabled(bool val)
 {
   itkInitGlobalsMacro(PimplGlobals);
-  if(val)
-    {
+  if (val)
+  {
     FloatingPointExceptions::Enable();
-    }
+  }
   else
-    {
+  {
     FloatingPointExceptions::Disable();
-    }
+  }
 }
 
 itkGetGlobalSimpleMacro(FloatingPointExceptions, ExceptionGlobals, PimplGlobals);
 
 ExceptionGlobals * FloatingPointExceptions::m_PimplGlobals;
 
-} // end of itk namespace
+} // namespace itk
 
-namespace {
-
-void itkFloatingPointExceptionsAbortOrExit()
+namespace
 {
-  if(itk::FloatingPointExceptions::GetExceptionAction() ==
-     itk::FloatingPointExceptions::ABORT)
-    {
+
+void
+itkFloatingPointExceptionsAbortOrExit()
+{
+  if (itk::FloatingPointExceptions::GetExceptionAction() == itk::FloatingPointExceptions::ABORT)
+  {
     abort();
-    }
+  }
   else
-    {
+  {
     exit(255);
-    }
+  }
 }
 
-void itkFloatingPointExceptionsNotSupported()
+void
+itkFloatingPointExceptionsNotSupported()
 {
   std::cerr << "FloatingPointExceptions are not supported on this platform." << std::endl;
   itkFloatingPointExceptionsAbortOrExit();
 }
 
-}
+} // namespace
 
 #if defined(_WIN32)
-#include "itkFloatingPointExceptions_win.cxx"
+#  include "itkFloatingPointExceptions_win.cxx"
 #else
-#include "itkFloatingPointExceptions_unix.cxx"
+#  include "itkFloatingPointExceptions_unix.cxx"
 #endif

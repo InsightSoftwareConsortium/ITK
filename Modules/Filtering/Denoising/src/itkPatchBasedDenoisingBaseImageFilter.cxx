@@ -21,10 +21,10 @@ namespace itk
 {
 /** Printing of enumeration values */
 std::ostream &
-operator<<( std::ostream & out, const NoiseType value )
+operator<<(std::ostream & out, const NoiseType value)
 {
   const char * s = nullptr;
-  switch ( value )
+  switch (value)
   {
     case NoiseType::NOMODEL:
       s = "NoiseType::NOMODEL";
@@ -45,10 +45,10 @@ operator<<( std::ostream & out, const NoiseType value )
 }
 
 std::ostream &
-operator<<( std::ostream & out, const SpaceType value )
+operator<<(std::ostream & out, const SpaceType value)
 {
   const char * s = nullptr;
-  switch ( value )
+  switch (value)
   {
     case SpaceType::EUCLIDEAN:
       s = "SpaceType::EUCLIDEAN";
@@ -62,10 +62,10 @@ operator<<( std::ostream & out, const SpaceType value )
   return out << s;
 }
 std::ostream &
-operator<<( std::ostream & out, const StateTypeOfFilter value )
+operator<<(std::ostream & out, const StateTypeOfFilter value)
 {
   const char * s = nullptr;
-  switch ( value )
+  switch (value)
   {
     case StateTypeOfFilter::UNINITIALIZED:
       s = "StateTypeOfFilter::UNINITIALIZED";

@@ -16,36 +16,36 @@
  *
  *=========================================================================*/
 
- // First include the header file to be tested:
+// First include the header file to be tested:
 #include "itkSize.h"
 #include <gtest/gtest.h>
 #include <limits>
 
 namespace
 {
-  template <unsigned VDimension>
-  void Expect_Filled_returns_Size_with_specified_value_for_each_element()
-  {
-    using itk::SizeValueType;
-    using SizeType = itk::Size<VDimension>;
+template <unsigned VDimension>
+void
+Expect_Filled_returns_Size_with_specified_value_for_each_element()
+{
+  using itk::SizeValueType;
+  using SizeType = itk::Size<VDimension>;
 
-    // Tests that all elements from SizeType::Filled(sizeValue) get the specified value.
-    const auto Expect_Filled_with_value = [](const SizeValueType sizeValue)
+  // Tests that all elements from SizeType::Filled(sizeValue) get the specified value.
+  const auto Expect_Filled_with_value = [](const SizeValueType sizeValue) {
+    for (const auto filledSizeValue : SizeType::Filled(sizeValue))
     {
-      for (const auto filledSizeValue : SizeType::Filled(sizeValue))
-      {
-        EXPECT_EQ(filledSizeValue, sizeValue);
-      }
-    };
-
-    // Test for sizeValue 0, 1, 2, and its maximum.
-    for (SizeValueType sizeValue = 0; sizeValue < 3; ++sizeValue)
-    {
-      Expect_Filled_with_value(sizeValue);
+      EXPECT_EQ(filledSizeValue, sizeValue);
     }
-    Expect_Filled_with_value(std::numeric_limits<SizeValueType>::max());
+  };
+
+  // Test for sizeValue 0, 1, 2, and its maximum.
+  for (SizeValueType sizeValue = 0; sizeValue < 3; ++sizeValue)
+  {
+    Expect_Filled_with_value(sizeValue);
   }
+  Expect_Filled_with_value(std::numeric_limits<SizeValueType>::max());
 }
+} // namespace
 
 
 // Tests that itk::Size::Filled(value) returns an itk::Size with the

@@ -21,40 +21,41 @@
 
 #include "itkVoxBoCUBImageIOFactory.h"
 
-int itkVoxBoCUBImageIOTest( int argc, char * argv [] )
+int
+itkVoxBoCUBImageIOTest(int argc, char * argv[])
 {
 
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Usage: " << argv[0] << " InputImage OutputImage" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   using PixelType = unsigned short;
-  using ImageType = itk::Image< PixelType, 3 >;
+  using ImageType = itk::Image<PixelType, 3>;
 
-  using ReaderType = itk::ImageFileReader< ImageType >;
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  using WriterType = itk::ImageFileWriter<ImageType>;
 
   itk::VoxBoCUBImageIOFactory::RegisterOneFactory();
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
 
-  reader->SetFileName( argv[1] );
-  writer->SetFileName( argv[2] );
+  reader->SetFileName(argv[1]);
+  writer->SetFileName(argv[2]);
 
-  writer->SetInput( reader->GetOutput() );
+  writer->SetInput(reader->GetOutput());
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

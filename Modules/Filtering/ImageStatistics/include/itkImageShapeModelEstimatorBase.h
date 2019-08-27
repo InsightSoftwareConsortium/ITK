@@ -44,19 +44,17 @@ namespace itk
  * \ingroup ITKImageStatistics
  */
 
-template< typename TInputImage,
-          typename TOutputImage = Image< double, TInputImage::ImageDimension > >
-class ITK_TEMPLATE_EXPORT ImageShapeModelEstimatorBase:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage = Image<double, TInputImage::ImageDimension>>
+class ITK_TEMPLATE_EXPORT ImageShapeModelEstimatorBase : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageShapeModelEstimatorBase);
 
   /** Standard class type aliases. */
   using Self = ImageShapeModelEstimatorBase;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageShapeModelEstimatorBase, ImageToImageFilter);
@@ -68,22 +66,24 @@ public:
 protected:
   ImageShapeModelEstimatorBase() = default;
   ~ImageShapeModelEstimatorBase() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
-
   /**Container for holding the training image */
   InputImagePointer m_InputImage;
 
   /** The core virtual function to perform ShapeModelling of the input data */
-  virtual void EstimateShapeModels() = 0;
+  virtual void
+  EstimateShapeModels() = 0;
 }; // class ImageShapeModelEstimator
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageShapeModelEstimatorBase.hxx"
+#  include "itkImageShapeModelEstimatorBase.hxx"
 #endif
 
 #endif

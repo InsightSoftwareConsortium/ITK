@@ -29,270 +29,266 @@ template class itk::BSplineInterpolationWeightFunction<float, 2U, 1U>;
  * This test exercises methods in the
  * BSplineInterpolationWeightFunction class.
  */
-int itkBSplineInterpolationWeightFunctionTest(int, char* [] )
+int
+itkBSplineInterpolationWeightFunctionTest(int, char *[])
 {
 
   { // Creating a local scope
-  using CoordRepType = double;
-  constexpr unsigned int SpaceDimension = 1;
-  constexpr unsigned int SplineOrder = 2;
+    using CoordRepType = double;
+    constexpr unsigned int SpaceDimension = 1;
+    constexpr unsigned int SplineOrder = 2;
 
-  std::cout << "Testing SpaceDimension= " << SpaceDimension;
-  std::cout << " and SplineOrder= " << SplineOrder << "  ";
+    std::cout << "Testing SpaceDimension= " << SpaceDimension;
+    std::cout << " and SplineOrder= " << SplineOrder << "  ";
 
-  using FunctionType = itk::BSplineInterpolationWeightFunction<CoordRepType,
-    SpaceDimension, SplineOrder>;
-  using ContinuousIndexType = FunctionType::ContinuousIndexType;
-  using IndexType = FunctionType::IndexType;
-  using WeightsType = FunctionType::WeightsType;
+    using FunctionType = itk::BSplineInterpolationWeightFunction<CoordRepType, SpaceDimension, SplineOrder>;
+    using ContinuousIndexType = FunctionType::ContinuousIndexType;
+    using IndexType = FunctionType::IndexType;
+    using WeightsType = FunctionType::WeightsType;
 
-  FunctionType::Pointer function = FunctionType::New();
+    FunctionType::Pointer function = FunctionType::New();
 
-  WeightsType weights1;
-  WeightsType weights2;
+    WeightsType weights1;
+    WeightsType weights2;
 
-  weights1.SetSize( SplineOrder + 1 );
-  weights2.SetSize( SplineOrder + 1 );
+    weights1.SetSize(SplineOrder + 1);
+    weights2.SetSize(SplineOrder + 1);
 
-  ContinuousIndexType position1;
-  ContinuousIndexType position2;
+    ContinuousIndexType position1;
+    ContinuousIndexType position2;
 
-  IndexType startIndex1;
-  IndexType startIndex2;
+    IndexType startIndex1;
+    IndexType startIndex2;
 
-  double testFailed = false;
+    double testFailed = false;
 
-  for(double x=0.0; x<=2.0; x+=0.1 )
+    for (double x = 0.0; x <= 2.0; x += 0.1)
     {
 
-    position1[0] =  x;
-    position2[0] = -x;
+      position1[0] = x;
+      position2[0] = -x;
 
-    function->Evaluate( position1, weights1, startIndex1 );
-    function->Evaluate( position2, weights2, startIndex2 );
+      function->Evaluate(position1, weights1, startIndex1);
+      function->Evaluate(position2, weights2, startIndex2);
 
-    const unsigned int numberOfWeigts = weights1.size();
+      const unsigned int numberOfWeigts = weights1.size();
 
-    const int indexDifference = itk::Math::abs( startIndex2[0] + startIndex1[0] ) & 1;
+      const int indexDifference = itk::Math::abs(startIndex2[0] + startIndex1[0]) & 1;
 
 
-    const double tolerance = 1e-6;
-    bool symmetryForXBroken = false;
+      const double tolerance = 1e-6;
+      bool         symmetryForXBroken = false;
 
-    for( unsigned int nw = 0; nw < numberOfWeigts - indexDifference; nw++ )
+      for (unsigned int nw = 0; nw < numberOfWeigts - indexDifference; nw++)
       {
-      if( itk::Math::abs( weights1[nw] - weights2[numberOfWeigts-nw-1-indexDifference] ) > tolerance )
+        if (itk::Math::abs(weights1[nw] - weights2[numberOfWeigts - nw - 1 - indexDifference]) > tolerance)
         {
-        symmetryForXBroken = true;
+          symmetryForXBroken = true;
         }
       }
 
-    if( symmetryForXBroken )
+      if (symmetryForXBroken)
       {
-      std::cerr << std::endl;
-      std::cerr << "Error in weights symmetry for X = " << x << std::endl;
-      testFailed = true;
-      std::cerr << "indexDifference= " << indexDifference << std::endl;
-      for( unsigned int nw = 0; nw < numberOfWeigts; nw++ )
+        std::cerr << std::endl;
+        std::cerr << "Error in weights symmetry for X = " << x << std::endl;
+        testFailed = true;
+        std::cerr << "indexDifference= " << indexDifference << std::endl;
+        for (unsigned int nw = 0; nw < numberOfWeigts; nw++)
         {
-        std::cerr << weights1[nw] << "\t";
+          std::cerr << weights1[nw] << "\t";
         }
-      std::cerr << std::endl;
-      for( unsigned int nw = 0; nw < numberOfWeigts; nw++ )
+        std::cerr << std::endl;
+        for (unsigned int nw = 0; nw < numberOfWeigts; nw++)
         {
-        std::cerr << weights2[nw] << "\t";
+          std::cerr << weights2[nw] << "\t";
         }
-      std::cerr << std::endl;
-      for( unsigned int sd = 0; sd < SpaceDimension; sd++ )
+        std::cerr << std::endl;
+        for (unsigned int sd = 0; sd < SpaceDimension; sd++)
         {
-        std::cerr << startIndex1[sd] << "\t";
+          std::cerr << startIndex1[sd] << "\t";
         }
-      std::cerr << std::endl;
-      for( unsigned int sd = 0; sd < SpaceDimension; sd++ )
+        std::cerr << std::endl;
+        for (unsigned int sd = 0; sd < SpaceDimension; sd++)
         {
-        std::cerr << startIndex2[sd] << "\t";
+          std::cerr << startIndex2[sd] << "\t";
         }
-      std::cerr << std::endl;
-      }
-    }
-  if( testFailed )
-    {
-    std::cerr << "Test Failed !" << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  std::cout << "Test passed. " << std::endl;
-  }
-  { // Creating a local scope
-  using CoordRepType = double;
-  constexpr unsigned int SpaceDimension = 1;
-  constexpr unsigned int SplineOrder = 3;
-
-  std::cout << "Testing SpaceDimension= " << SpaceDimension;
-  std::cout << " and SplineOrder= " << SplineOrder << "  ";
-
-  using FunctionType = itk::BSplineInterpolationWeightFunction<CoordRepType,
-    SpaceDimension, SplineOrder>;
-  using ContinuousIndexType = FunctionType::ContinuousIndexType;
-  using IndexType = FunctionType::IndexType;
-  using WeightsType = FunctionType::WeightsType;
-
-  FunctionType::Pointer function = FunctionType::New();
-
-  WeightsType weights1;
-  WeightsType weights2;
-
-  weights1.SetSize( SplineOrder + 1 );
-  weights2.SetSize( SplineOrder + 1 );
-
-  ContinuousIndexType position1;
-  ContinuousIndexType position2;
-
-  IndexType startIndex1;
-  IndexType startIndex2;
-
-  double testFailed = false;
-
-  for(double x=0.0; x<=2.0; x+=0.1 )
-    {
-
-    position1[0] =  x;
-    position2[0] = -x;
-
-    function->Evaluate( position1, weights1, startIndex1 );
-    function->Evaluate( position2, weights2, startIndex2 );
-
-    const unsigned int numberOfWeigts = weights1.size();
-
-    const int indexDifference = itk::Math::abs( startIndex2[0] + startIndex1[0] + 1 ) & 1;
-
-
-    const double tolerance = 1e-6;
-    bool symmetryForXBroken = false;
-
-    for( unsigned int nw = 0; nw < numberOfWeigts - indexDifference; nw++ )
-      {
-      if( itk::Math::abs( weights1[nw] - weights2[numberOfWeigts-nw-1-indexDifference] ) > tolerance )
-        {
-        symmetryForXBroken = true;
-        }
-      }
-
-    if( symmetryForXBroken )
-      {
-      std::cerr << std::endl;
-      std::cerr << "Error in weights symmetry for X = " << x << std::endl;
-      testFailed = true;
-      std::cerr << "indexDifference= " << indexDifference << std::endl;
-      for( unsigned int nw = 0; nw < numberOfWeigts; nw++ )
-        {
-        std::cerr << weights1[nw] << "\t";
-        }
-      std::cerr << std::endl;
-      for( unsigned int nw = 0; nw < numberOfWeigts; nw++ )
-        {
-        std::cerr << weights2[nw] << "\t";
-        }
-      std::cerr << std::endl;
-      for( unsigned int sd = 0; sd < SpaceDimension; sd++ )
-        {
-        std::cerr << startIndex1[sd] << "\t";
-        }
-      std::cerr << std::endl;
-      for( unsigned int sd = 0; sd < SpaceDimension; sd++ )
-        {
-        std::cerr << startIndex2[sd] << "\t";
-        }
-      std::cerr << std::endl;
+        std::cerr << std::endl;
       }
     }
-  if( testFailed )
+    if (testFailed)
     {
-    std::cerr << "Test Failed !" << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  std::cout << "Test passed. " << std::endl;
-  }
-
-  { // Creating a local scope
-  using CoordRepType = double;
-  constexpr unsigned int SpaceDimension = 3;
-  constexpr unsigned int SplineOrder = 3;
-  std::cout << "Testing SpaceDimension= " << SpaceDimension;
-  std::cout << " and SplineOrder= " << SplineOrder << "  ";
-
-  using FunctionType = itk::BSplineInterpolationWeightFunction<CoordRepType,
-    SpaceDimension, SplineOrder>;
-  using ContinuousIndexType = FunctionType::ContinuousIndexType;
-  using IndexType = FunctionType::IndexType;
-  using WeightsType = FunctionType::WeightsType;
-  using SizeType = FunctionType::SizeType;
-
-  FunctionType::Pointer function = FunctionType::New();
-  function->Print( std::cout );
-
-  SizeType size = function->GetSupportSize();
-  unsigned long numberOfWeights = function->GetNumberOfWeights();
-
-  std::cout << "Number Of Weights: " << numberOfWeights << std::endl;
-
-  ContinuousIndexType position;
-  WeightsType weights;
-  IndexType startIndex;
-
-  position.Fill( 4.15 );
-  weights = function->Evaluate( position );
-
-  std::cout << "Position: " << position << std::endl;
-  std::cout << "Weights: " << weights << std::endl;
-
-  function->Evaluate( position, weights, startIndex );
-  std::cout << "Position: " << position << std::endl;
-  std::cout << "Weights: " << weights << std::endl;
-  std::cout << "Start Index: " << startIndex << std::endl;
-
-
-  // Check for accuracy
-  using KernelType = itk::BSplineKernelFunction<SplineOrder>;
-  KernelType::Pointer kernel = KernelType::New();
-
-  using ImageType = itk::Image<char,SpaceDimension>;
-  ImageType::Pointer image = ImageType::New();
-  ImageType::RegionType region;
-  region.SetIndex( startIndex );
-  region.SetSize( size );
-
-  image->SetRegions( region );
-  image->Allocate(true); // initialize buffer to zero
-
-  using IteratorType = itk::ImageRegionConstIteratorWithIndex<ImageType>;
-  IteratorType iter( image, image->GetBufferedRegion() );
-  unsigned long counter = 0;
-
-  while ( !iter.IsAtEnd() )
-    {
-
-    double value = 1.0;
-    for ( unsigned int j = 0; j < SpaceDimension; j++ )
-      {
-      value *= kernel->Evaluate(
-        static_cast<double>(iter.GetIndex()[j]) - position[j] );
-      }
-    if ( itk::Math::abs(weights[counter] - value) > 1e-7 )
-      {
-      std::cout << "Error at weights[" << counter << "]" << std::endl;
-      std::cout << "Compuated value: " << weights[counter] << std::endl;
-      std::cout << "Expected value: " << value  << std::endl;
+      std::cerr << "Test Failed !" << std::endl;
       return EXIT_FAILURE;
-      }
-
-    ++counter;
-    ++iter;
     }
 
-  std::cout << "Test passed. " << std::endl;
+    std::cout << "Test passed. " << std::endl;
+  }
+  { // Creating a local scope
+    using CoordRepType = double;
+    constexpr unsigned int SpaceDimension = 1;
+    constexpr unsigned int SplineOrder = 3;
+
+    std::cout << "Testing SpaceDimension= " << SpaceDimension;
+    std::cout << " and SplineOrder= " << SplineOrder << "  ";
+
+    using FunctionType = itk::BSplineInterpolationWeightFunction<CoordRepType, SpaceDimension, SplineOrder>;
+    using ContinuousIndexType = FunctionType::ContinuousIndexType;
+    using IndexType = FunctionType::IndexType;
+    using WeightsType = FunctionType::WeightsType;
+
+    FunctionType::Pointer function = FunctionType::New();
+
+    WeightsType weights1;
+    WeightsType weights2;
+
+    weights1.SetSize(SplineOrder + 1);
+    weights2.SetSize(SplineOrder + 1);
+
+    ContinuousIndexType position1;
+    ContinuousIndexType position2;
+
+    IndexType startIndex1;
+    IndexType startIndex2;
+
+    double testFailed = false;
+
+    for (double x = 0.0; x <= 2.0; x += 0.1)
+    {
+
+      position1[0] = x;
+      position2[0] = -x;
+
+      function->Evaluate(position1, weights1, startIndex1);
+      function->Evaluate(position2, weights2, startIndex2);
+
+      const unsigned int numberOfWeigts = weights1.size();
+
+      const int indexDifference = itk::Math::abs(startIndex2[0] + startIndex1[0] + 1) & 1;
+
+
+      const double tolerance = 1e-6;
+      bool         symmetryForXBroken = false;
+
+      for (unsigned int nw = 0; nw < numberOfWeigts - indexDifference; nw++)
+      {
+        if (itk::Math::abs(weights1[nw] - weights2[numberOfWeigts - nw - 1 - indexDifference]) > tolerance)
+        {
+          symmetryForXBroken = true;
+        }
+      }
+
+      if (symmetryForXBroken)
+      {
+        std::cerr << std::endl;
+        std::cerr << "Error in weights symmetry for X = " << x << std::endl;
+        testFailed = true;
+        std::cerr << "indexDifference= " << indexDifference << std::endl;
+        for (unsigned int nw = 0; nw < numberOfWeigts; nw++)
+        {
+          std::cerr << weights1[nw] << "\t";
+        }
+        std::cerr << std::endl;
+        for (unsigned int nw = 0; nw < numberOfWeigts; nw++)
+        {
+          std::cerr << weights2[nw] << "\t";
+        }
+        std::cerr << std::endl;
+        for (unsigned int sd = 0; sd < SpaceDimension; sd++)
+        {
+          std::cerr << startIndex1[sd] << "\t";
+        }
+        std::cerr << std::endl;
+        for (unsigned int sd = 0; sd < SpaceDimension; sd++)
+        {
+          std::cerr << startIndex2[sd] << "\t";
+        }
+        std::cerr << std::endl;
+      }
+    }
+    if (testFailed)
+    {
+      std::cerr << "Test Failed !" << std::endl;
+      return EXIT_FAILURE;
+    }
+
+    std::cout << "Test passed. " << std::endl;
+  }
+
+  { // Creating a local scope
+    using CoordRepType = double;
+    constexpr unsigned int SpaceDimension = 3;
+    constexpr unsigned int SplineOrder = 3;
+    std::cout << "Testing SpaceDimension= " << SpaceDimension;
+    std::cout << " and SplineOrder= " << SplineOrder << "  ";
+
+    using FunctionType = itk::BSplineInterpolationWeightFunction<CoordRepType, SpaceDimension, SplineOrder>;
+    using ContinuousIndexType = FunctionType::ContinuousIndexType;
+    using IndexType = FunctionType::IndexType;
+    using WeightsType = FunctionType::WeightsType;
+    using SizeType = FunctionType::SizeType;
+
+    FunctionType::Pointer function = FunctionType::New();
+    function->Print(std::cout);
+
+    SizeType      size = function->GetSupportSize();
+    unsigned long numberOfWeights = function->GetNumberOfWeights();
+
+    std::cout << "Number Of Weights: " << numberOfWeights << std::endl;
+
+    ContinuousIndexType position;
+    WeightsType         weights;
+    IndexType           startIndex;
+
+    position.Fill(4.15);
+    weights = function->Evaluate(position);
+
+    std::cout << "Position: " << position << std::endl;
+    std::cout << "Weights: " << weights << std::endl;
+
+    function->Evaluate(position, weights, startIndex);
+    std::cout << "Position: " << position << std::endl;
+    std::cout << "Weights: " << weights << std::endl;
+    std::cout << "Start Index: " << startIndex << std::endl;
+
+
+    // Check for accuracy
+    using KernelType = itk::BSplineKernelFunction<SplineOrder>;
+    KernelType::Pointer kernel = KernelType::New();
+
+    using ImageType = itk::Image<char, SpaceDimension>;
+    ImageType::Pointer    image = ImageType::New();
+    ImageType::RegionType region;
+    region.SetIndex(startIndex);
+    region.SetSize(size);
+
+    image->SetRegions(region);
+    image->Allocate(true); // initialize buffer to zero
+
+    using IteratorType = itk::ImageRegionConstIteratorWithIndex<ImageType>;
+    IteratorType  iter(image, image->GetBufferedRegion());
+    unsigned long counter = 0;
+
+    while (!iter.IsAtEnd())
+    {
+
+      double value = 1.0;
+      for (unsigned int j = 0; j < SpaceDimension; j++)
+      {
+        value *= kernel->Evaluate(static_cast<double>(iter.GetIndex()[j]) - position[j]);
+      }
+      if (itk::Math::abs(weights[counter] - value) > 1e-7)
+      {
+        std::cout << "Error at weights[" << counter << "]" << std::endl;
+        std::cout << "Compuated value: " << weights[counter] << std::endl;
+        std::cout << "Expected value: " << value << std::endl;
+        return EXIT_FAILURE;
+      }
+
+      ++counter;
+      ++iter;
+    }
+
+    std::cout << "Test passed. " << std::endl;
   }
   return EXIT_SUCCESS;
-
 }

@@ -59,21 +59,19 @@ namespace itk
  * \ingroup ITKFiniteDifference
  */
 
-template< typename TInputImageType, typename TSparseOutputImageType >
-class ITK_TEMPLATE_EXPORT FiniteDifferenceSparseImageFilter:
-  public FiniteDifferenceImageFilter< TInputImageType,
-                                      TSparseOutputImageType >
+template <typename TInputImageType, typename TSparseOutputImageType>
+class ITK_TEMPLATE_EXPORT FiniteDifferenceSparseImageFilter
+  : public FiniteDifferenceImageFilter<TInputImageType, TSparseOutputImageType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FiniteDifferenceSparseImageFilter);
 
   /** Standard class type alias */
   using Self = FiniteDifferenceSparseImageFilter;
-  using Superclass = FiniteDifferenceImageFilter<
-    TInputImageType, TSparseOutputImageType >;
+  using Superclass = FiniteDifferenceImageFilter<TInputImageType, TSparseOutputImageType>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(FiniteDifferenceSparseImageFilter, FiniteDifferenceImageFilter);
@@ -108,7 +106,8 @@ public:
   using SparseFunctionType = FiniteDifferenceSparseImageFunction<SparseOutputImageType>;
 
   /** Sets the function object that will be called for computing updates. */
-  void SetSparseFunction(SparseFunctionType *sf);
+  void
+  SetSparseFunction(SparseFunctionType * sf);
 
   itkSetMacro(PrecomputeFlag, bool);
   itkGetConstMacro(PrecomputeFlag, bool);
@@ -116,25 +115,33 @@ public:
 protected:
   FiniteDifferenceSparseImageFilter();
   ~FiniteDifferenceSparseImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** This method splits the active pixels of the sparse image into equal size
    *  lists for multi-threading. These lists remain constant throughout the
    *  operation of this filter. */
-  void Initialize() override;
+  void
+  Initialize() override;
 
   /** This class does not use AllocateUpdateBuffer to allocate memory for its
    *  narrow band. All memory is handled through the SparseImage class. */
-  void AllocateUpdateBuffer() override {}
+  void
+  AllocateUpdateBuffer() override
+  {}
 
   /** This function can be used to implements constraints on the range of data
    * values. Default is no constraint. */
-  virtual NodeDataType DataConstraint(const NodeDataType & data) const
-  { return data; }
+  virtual NodeDataType
+  DataConstraint(const NodeDataType & data) const
+  {
+    return data;
+  }
 
 private:
   /** The type of region used in multithreading. */
-  struct ThreadRegionType {
+  struct ThreadRegionType
+  {
     // this is the first element
     typename NodeListType::Iterator first;
     // this is one past the last element
@@ -143,47 +150,54 @@ private:
 
 protected:
   /** This function returns a single region for use in multi-threading. */
-  ThreadIdType GetSplitRegion(ThreadIdType i, ThreadIdType num, ThreadRegionType & splitRegion);
+  ThreadIdType
+  GetSplitRegion(ThreadIdType i, ThreadIdType num, ThreadRegionType & splitRegion);
 
   /** This function updates the m_Data variable in the output image nodes using
       the update values computed by CalculateChange. */
-  void ApplyUpdate(const TimeStepType& dt) override;
+  void
+  ApplyUpdate(const TimeStepType & dt) override;
 
   /** Multi-threaded implementation of ApplyUpdate. */
-  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION ApplyUpdateThreaderCallback(void *arg);
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
+  ApplyUpdateThreaderCallback(void * arg);
 
-  virtual void ThreadedApplyUpdate(const TimeStepType& dt,
-                                   const ThreadRegionType & regionToProcess,
-                                   ThreadIdType threadId);
+  virtual void
+  ThreadedApplyUpdate(const TimeStepType & dt, const ThreadRegionType & regionToProcess, ThreadIdType threadId);
 
   /** This method computes changes to the output image using the
       ComputeSparseUpdate method in the Sparse Function object. */
-  TimeStepType CalculateChange() override;
+  TimeStepType
+  CalculateChange() override;
 
   /** Multuthreaded implementation of CalculateChange */
-  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION CalculateChangeThreaderCallback(void *arg);
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
+  CalculateChangeThreaderCallback(void * arg);
 
-  virtual TimeStepType ThreadedCalculateChange
-    (const ThreadRegionType & regionToProcess, ThreadIdType threadId);
+  virtual TimeStepType
+  ThreadedCalculateChange(const ThreadRegionType & regionToProcess, ThreadIdType threadId);
 
   /** This method provides a means of performing a first pass for computing the
    *  change and storing intermediate values that will then be used by
    *  CalculateChange. This can be used to speed up certain update rules. */
-  virtual void PrecalculateChange();
+  virtual void
+  PrecalculateChange();
 
   /** Multi-threaded implementation of PrecalculateChange */
-  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION PrecalculateChangeThreaderCallback(void *arg);
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
+  PrecalculateChangeThreaderCallback(void * arg);
 
-  virtual void ThreadedPrecalculateChange
-    (const ThreadRegionType & regionToProcess, ThreadIdType threadId);
+  virtual void
+  ThreadedPrecalculateChange(const ThreadRegionType & regionToProcess, ThreadIdType threadId);
 
   /** Structure for passing information into static callback methods.
    *  Used in  the subclasses' threading mechanisms. */
-  struct FDThreadStruct {
-    FiniteDifferenceSparseImageFilter *Filter;
-    TimeStepType TimeStep;
-    std::vector< TimeStepType > TimeStepList;
-    std::vector< bool > ValidTimeStepList;
+  struct FDThreadStruct
+  {
+    FiniteDifferenceSparseImageFilter * Filter;
+    TimeStepType                        TimeStep;
+    std::vector<TimeStepType>           TimeStepList;
+    std::vector<bool>                   ValidTimeStepList;
   };
 
 private:
@@ -191,17 +205,16 @@ private:
   bool m_PrecomputeFlag;
 
   /** The Sparse function type. */
-  SparseFunctionType *m_SparseFunction;
+  SparseFunctionType * m_SparseFunction;
 
   /** A list of subregions of the active set of pixels in the sparse image
       which are passed to each thread for parallel processing. */
   typename NodeListType::RegionListType m_RegionList;
-
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFiniteDifferenceSparseImageFilter.hxx"
+#  include "itkFiniteDifferenceSparseImageFilter.hxx"
 #endif
 
 #endif

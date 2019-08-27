@@ -21,7 +21,8 @@
 #include "itkMaximumRatioDecisionRule.h"
 
 
-int itkMaximumRatioDecisionRuleTest(int,char *[] )
+int
+itkMaximumRatioDecisionRuleTest(int, char *[])
 {
 
   std::cout << "==================================" << std::endl;
@@ -31,7 +32,7 @@ int itkMaximumRatioDecisionRuleTest(int,char *[] )
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
 
   DecisionRuleType::MembershipVectorType discriminantScores;
-  discriminantScores.resize( 3 );
+  discriminantScores.resize(3);
 
   discriminantScores[0] = 0.3;
   discriminantScores[1] = 0.5;
@@ -44,23 +45,23 @@ int itkMaximumRatioDecisionRuleTest(int,char *[] )
   aPrioris[1] = 0.1;
   aPrioris[2] = 0.6;
 
-  decisionRule->SetPriorProbabilities( aPrioris );
+  decisionRule->SetPriorProbabilities(aPrioris);
 
-  if ( decisionRule->Evaluate( discriminantScores ) != 2 )
-    {
+  if (decisionRule->Evaluate(discriminantScores) != 2)
+  {
     std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // run with uniform prior
   aPrioris.clear();
-  decisionRule->SetPriorProbabilities( aPrioris );
+  decisionRule->SetPriorProbabilities(aPrioris);
 
-  if ( decisionRule->Evaluate( discriminantScores ) != 1 )
-    {
+  if (decisionRule->Evaluate(discriminantScores) != 1)
+  {
     std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "[SUCCEEDED]" << std::endl;
   return EXIT_SUCCESS;

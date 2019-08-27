@@ -25,10 +25,9 @@ namespace itk
 /**
  * Get the interpolation order of the cell.  Usually linear.
  */
-template< typename TPixelType, typename TCellTraits >
+template <typename TPixelType, typename TCellTraits>
 unsigned int
-CellInterface< TPixelType, TCellTraits >
-::GetInterpolationOrder() const
+CellInterface<TPixelType, TCellTraits>::GetInterpolationOrder() const
 {
   return 1;
 }
@@ -38,42 +37,39 @@ CellInterface< TPixelType, TCellTraits >
  * SetPointIds(first) on another cell.  This is equivalent to
  * PointIdsBegin() const.
  */
-template< typename TPixelType, typename TCellTraits >
-typename CellInterface< TPixelType, TCellTraits >::PointIdConstIterator
-CellInterface< TPixelType, TCellTraits >
-::GetPointIds() const
+template <typename TPixelType, typename TCellTraits>
+typename CellInterface<TPixelType, TCellTraits>::PointIdConstIterator
+CellInterface<TPixelType, TCellTraits>::GetPointIds() const
 {
   return this->PointIdsBegin();
 }
 
-template< typename TPixelType, typename TCellTraits >
-typename CellInterface< TPixelType, TCellTraits >::PointIdentifierContainerType
-CellInterface< TPixelType, TCellTraits >
-::GetPointIdsContainer() const
+template <typename TPixelType, typename TCellTraits>
+typename CellInterface<TPixelType, TCellTraits>::PointIdentifierContainerType
+CellInterface<TPixelType, TCellTraits>::GetPointIdsContainer() const
 {
   PointIdentifierContainerType res;
-  res.SetSize( this->GetNumberOfPoints() );
-  int i = 0;
+  res.SetSize(this->GetNumberOfPoints());
+  int                  i = 0;
   PointIdConstIterator it = this->PointIdsBegin();
   PointIdConstIterator end = this->PointIdsEnd();
-  while( it != end )
-    {
+  while (it != end)
+  {
     res[i] = *it;
     ++i;
     ++it;
-    }
+  }
   return res;
 }
 
-template< typename TPixelType, typename TCellTraits >
+template <typename TPixelType, typename TCellTraits>
 void
-CellInterface< TPixelType, TCellTraits >
-::SetPointIdsContainer( const PointIdentifierContainerType & container )
+CellInterface<TPixelType, TCellTraits>::SetPointIdsContainer(const PointIdentifierContainerType & container)
 {
-  for( unsigned int i=0; i<container.Size(); i++ )
-    {
-    this->SetPointId( i, container[i] );
-    }
+  for (unsigned int i = 0; i < container.Size(); i++)
+  {
+    this->SetPointId(i, container[i]);
+  }
 }
 
 /**
@@ -84,10 +80,9 @@ CellInterface< TPixelType, TCellTraits >
  * the boundary information has not been computed, this method always
  * returns false.
  */
-template< typename TPixelType, typename TCellTraits >
+template <typename TPixelType, typename TCellTraits>
 bool
-CellInterface< TPixelType, TCellTraits >
-::IsExplicitBoundary()
+CellInterface<TPixelType, TCellTraits>::IsExplicitBoundary()
 {
   return !m_UsingCells.empty();
 }
@@ -96,10 +91,9 @@ CellInterface< TPixelType, TCellTraits >
  * Register the fact that this cell is a part of the boundary of the
  * cell \a cellId, by adding \a cellId to the UsingCellsContainer.
  */
-template< typename TPixelType, typename TCellTraits >
+template <typename TPixelType, typename TCellTraits>
 void
-CellInterface< TPixelType, TCellTraits >
-::AddUsingCell(CellIdentifier cellId)
+CellInterface<TPixelType, TCellTraits>::AddUsingCell(CellIdentifier cellId)
 {
   m_UsingCells.insert(cellId);
 }
@@ -107,10 +101,9 @@ CellInterface< TPixelType, TCellTraits >
 /**
  * Remove a cell from the UsingCellsContainer.
  */
-template< typename TPixelType, typename TCellTraits >
+template <typename TPixelType, typename TCellTraits>
 void
-CellInterface< TPixelType, TCellTraits >
-::RemoveUsingCell(CellIdentifier cellId)
+CellInterface<TPixelType, TCellTraits>::RemoveUsingCell(CellIdentifier cellId)
 {
   m_UsingCells.erase(cellId);
 }
@@ -120,34 +113,31 @@ CellInterface< TPixelType, TCellTraits >
  * indicates that this cell is part of the boundary of the cell \c
  * cellId, assuming that boundary information has been recorded.
  */
-template< typename TPixelType, typename TCellTraits >
+template <typename TPixelType, typename TCellTraits>
 bool
-CellInterface< TPixelType, TCellTraits >
-::IsUsingCell(CellIdentifier cellId)
+CellInterface<TPixelType, TCellTraits>::IsUsingCell(CellIdentifier cellId)
 {
-  return ( m_UsingCells.count(cellId) > 0 );
+  return (m_UsingCells.count(cellId) > 0);
 }
 
 /**
  * Get the number of cells in the UsingCellsContainer.
  */
-template< typename TPixelType, typename TCellTraits >
+template <typename TPixelType, typename TCellTraits>
 unsigned int
-CellInterface< TPixelType, TCellTraits >
-::GetNumberOfUsingCells()
+CellInterface<TPixelType, TCellTraits>::GetNumberOfUsingCells()
 {
-  return static_cast< unsigned int >( m_UsingCells.size() );
+  return static_cast<unsigned int>(m_UsingCells.size());
 }
 
-#if !defined( ITK_WRAPPING_PARSER )
+#if !defined(ITK_WRAPPING_PARSER)
 
 /**
  * Get a begin iterator for the UsingCellsContainer.
  */
-template< typename TPixelType, typename TCellTraits >
-typename CellInterface< TPixelType, TCellTraits >::UsingCellsContainerIterator
-CellInterface< TPixelType, TCellTraits >
-::UsingCellsBegin()
+template <typename TPixelType, typename TCellTraits>
+typename CellInterface<TPixelType, TCellTraits>::UsingCellsContainerIterator
+CellInterface<TPixelType, TCellTraits>::UsingCellsBegin()
 {
   return m_UsingCells.begin();
 }
@@ -155,10 +145,9 @@ CellInterface< TPixelType, TCellTraits >
 /**
  * Get an end iterator for the UsingCellsContainer.
  */
-template< typename TPixelType, typename TCellTraits >
-typename CellInterface< TPixelType, TCellTraits >::UsingCellsContainerIterator
-CellInterface< TPixelType, TCellTraits >
-::UsingCellsEnd()
+template <typename TPixelType, typename TCellTraits>
+typename CellInterface<TPixelType, TCellTraits>::UsingCellsContainerIterator
+CellInterface<TPixelType, TCellTraits>::UsingCellsEnd()
 {
   return m_UsingCells.end();
 }

@@ -24,20 +24,20 @@
 /**
  * Some type alias to make things easier.
  */
-using PointType = itk::Point<float,3>;
-using VectorType = itk::Vector<float,3>;
+using PointType = itk::Point<float, 3>;
+using VectorType = itk::Vector<float, 3>;
 
-using ContainerType = itk::MapContainer< unsigned long,
-                           PointType >;
+using ContainerType = itk::MapContainer<unsigned long, PointType>;
 using ContainerPointer = ContainerType::Pointer;
 
-int itkMapContainerTest(int, char* [] )
+int
+itkMapContainerTest(int, char *[])
 {
 
   /**
    * Create the Container
    */
-  ContainerPointer  container = ContainerType::New();
+  ContainerPointer container = ContainerType::New();
 
   PointType pointA;
   PointType pointB;
@@ -50,31 +50,30 @@ int itkMapContainerTest(int, char* [] )
   displacement[1] = 5;
   displacement[2] = 9;
 
-  pointA.Fill( 0.0 );
+  pointA.Fill(0.0);
   pointB = pointA + displacement;
   pointC = pointB + displacement;
   pointD = pointC + displacement;
 
-  container->SetElement( 0, pointA );
-  container->SetElement( 1, pointB );
-  container->SetElement( 2, pointC );
-  container->SetElement( 3, pointD );
+  container->SetElement(0, pointA);
+  container->SetElement(1, pointB);
+  container->SetElement(2, pointC);
+  container->SetElement(3, pointD);
 
   ContainerType::Iterator p = container->Begin();
 
-  while( p != container->End() )
-   {
-   std::cout << p.Value() << std::endl;
-   p++;
-   }
+  while (p != container->End())
+  {
+    std::cout << p.Value() << std::endl;
+    p++;
+  }
 
   container->Initialize();
-  if( container->Size() != 0 )
-    {
+  if (container->Size() != 0)
+  {
     std::cerr << "Initialize() didn't get rid of elements" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
-
 }

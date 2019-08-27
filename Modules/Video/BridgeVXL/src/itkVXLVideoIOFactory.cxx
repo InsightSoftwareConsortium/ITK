@@ -23,15 +23,10 @@ namespace itk
 {
 VXLVideoIOFactory::VXLVideoIOFactory()
 {
-  this->RegisterOverride( "itkVideoIOBase",
-                          "itkVXLVideoIO",
-                          "VXL Video IO",
-                          1,
-                          CreateObjectFunction< VXLVideoIO >::New() );
+  this->RegisterOverride("itkVideoIOBase", "itkVXLVideoIO", "VXL Video IO", 1, CreateObjectFunction<VXLVideoIO>::New());
 }
 
-VXLVideoIOFactory::~VXLVideoIOFactory()
-{}
+VXLVideoIOFactory::~VXLVideoIOFactory() {}
 
 const char *
 VXLVideoIOFactory::GetITKSourceVersion() const
@@ -50,13 +45,14 @@ VXLVideoIOFactory::GetDescription() const
 
 static bool VXLVideoIOFactoryHasBeenRegistered;
 
-void VXLVideoIOFactoryRegister__Private()
+void
+VXLVideoIOFactoryRegister__Private()
 {
-  if( ! VXLVideoIOFactoryHasBeenRegistered )
-    {
+  if (!VXLVideoIOFactoryHasBeenRegistered)
+  {
     VXLVideoIOFactoryHasBeenRegistered = true;
     VXLVideoIOFactory::RegisterOneFactory();
-    }
+  }
 }
 
 } // end namespace itk

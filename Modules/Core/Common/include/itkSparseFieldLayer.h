@@ -32,96 +32,116 @@ namespace itk
  *  iterate through an itkSparseFieldLayer.
  * \ingroup ITKCommon
  */
-template< typename TNodeType >
+template <typename TNodeType>
 class ITK_TEMPLATE_EXPORT ConstSparseFieldLayerIterator
 {
 public:
-  const TNodeType & operator*() const
-  { return *m_Pointer; }
+  const TNodeType & operator*() const { return *m_Pointer; }
 
-  const TNodeType * operator->() const
-  { return m_Pointer; }
+  const TNodeType * operator->() const { return m_Pointer; }
 
-  const TNodeType * GetPointer() const
-  { return m_Pointer; }
-
-  bool operator==(const ConstSparseFieldLayerIterator o) const
+  const TNodeType *
+  GetPointer() const
   {
-    if ( m_Pointer == o.m_Pointer ) { return true; }
-    else { return false; }
+    return m_Pointer;
   }
 
-  bool operator!=(const ConstSparseFieldLayerIterator o) const
+  bool
+  operator==(const ConstSparseFieldLayerIterator o) const
   {
-    if ( m_Pointer != o.m_Pointer ) { return true; }
-    else { return false; }
+    if (m_Pointer == o.m_Pointer)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
   }
 
-  ConstSparseFieldLayerIterator & operator++()
+  bool
+  operator!=(const ConstSparseFieldLayerIterator o) const
+  {
+    if (m_Pointer != o.m_Pointer)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
+
+  ConstSparseFieldLayerIterator &
+  operator++()
   {
     m_Pointer = m_Pointer->Next;
     return *this;
   }
 
-  ConstSparseFieldLayerIterator & operator--()
+  ConstSparseFieldLayerIterator &
+  operator--()
   {
     m_Pointer = m_Pointer->Previous;
     return *this;
   }
 
-  ConstSparseFieldLayerIterator()
-  { m_Pointer = nullptr; }
+  ConstSparseFieldLayerIterator() { m_Pointer = nullptr; }
 
-  ConstSparseFieldLayerIterator(TNodeType *p)
-  { m_Pointer = p; }
+  ConstSparseFieldLayerIterator(TNodeType * p) { m_Pointer = p; }
 
   ~ConstSparseFieldLayerIterator() = default;
 
 protected:
-  TNodeType *m_Pointer;
+  TNodeType * m_Pointer;
 };
 
 /** \class SparseFieldLayerIterator
  *  \brief The non-const version of the ConstSparseFieldLayerIterator.
  * \ingroup ITKCommon
  */
-template< typename TNodeType >
-class ITK_TEMPLATE_EXPORT SparseFieldLayerIterator:
-  public ConstSparseFieldLayerIterator< TNodeType >
+template <typename TNodeType>
+class ITK_TEMPLATE_EXPORT SparseFieldLayerIterator : public ConstSparseFieldLayerIterator<TNodeType>
 {
 public:
-  using Superclass = ConstSparseFieldLayerIterator< TNodeType >;
+  using Superclass = ConstSparseFieldLayerIterator<TNodeType>;
 
-  SparseFieldLayerIterator():Superclass()
+  SparseFieldLayerIterator()
+    : Superclass()
   {}
 
-  SparseFieldLayerIterator(TNodeType *p):Superclass(p)
+  SparseFieldLayerIterator(TNodeType * p)
+    : Superclass(p)
   {}
 
-  TNodeType & operator*()
-  { return *this->m_Pointer; }
+  TNodeType & operator*() { return *this->m_Pointer; }
 
-  TNodeType * operator->()
-  { return this->m_Pointer; }
+  TNodeType * operator->() { return this->m_Pointer; }
 
-  TNodeType * GetPointer()
-  { return this->m_Pointer; }
+  TNodeType *
+  GetPointer()
+  {
+    return this->m_Pointer;
+  }
 
-  SparseFieldLayerIterator & operator++()
+  SparseFieldLayerIterator &
+  operator++()
   {
     this->m_Pointer = this->m_Pointer->Next;
     return *this;
   }
 
-  SparseFieldLayerIterator & operator--()
+  SparseFieldLayerIterator &
+  operator--()
   {
     this->m_Pointer = this->m_Pointer->Previous;
     return *this;
   }
 
-  SparseFieldLayerIterator & operator=(Superclass & sc)
+  SparseFieldLayerIterator &
+  operator=(Superclass & sc)
   {
-    this->m_Pointer = const_cast< TNodeType * >( sc.GetPointer() );
+    this->m_Pointer = const_cast<TNodeType *>(sc.GetPointer());
     return *this;
   }
 };
@@ -148,9 +168,8 @@ public:
  *  the list nodes.
  * \ingroup ITKCommon
  */
-template< typename TNodeType >
-class ITK_TEMPLATE_EXPORT SparseFieldLayer:
-  public Object
+template <typename TNodeType>
+class ITK_TEMPLATE_EXPORT SparseFieldLayer : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SparseFieldLayer);
@@ -158,8 +177,8 @@ public:
   /** Standard type alias. */
   using Self = SparseFieldLayer;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -175,30 +194,38 @@ public:
   using ValueType = NodeType;
 
   /** Iterator type for the list. */
-  using Iterator = SparseFieldLayerIterator< NodeType >;
+  using Iterator = SparseFieldLayerIterator<NodeType>;
 
   /** Const iterator type for the list. */
-  using ConstIterator = ConstSparseFieldLayerIterator< NodeType >;
+  using ConstIterator = ConstSparseFieldLayerIterator<NodeType>;
 
   /** Regions used for multithreading */
-  struct RegionType {
+  struct RegionType
+  {
     ConstIterator first;
-    ConstIterator last;  // this is one past the actual last element
+    ConstIterator last; // this is one past the actual last element
   };
 
-  using RegionListType = std::vector< RegionType >;
+  using RegionListType = std::vector<RegionType>;
 
   /** Returns a pointer to the first node in the list.  Constant
    * time. */
-  NodeType * Front()
-  { return m_HeadNode->Next; }
+  NodeType *
+  Front()
+  {
+    return m_HeadNode->Next;
+  }
 
   /** Returns a const pointer to the first node in the list. Constant time. */
-  const NodeType * Front() const
-  { return m_HeadNode->Next; }
+  const NodeType *
+  Front() const
+  {
+    return m_HeadNode->Next;
+  }
 
   /** Unlinks the first node from the list. Constant time. */
-  void PopFront()
+  void
+  PopFront()
   {
     m_HeadNode->Next = m_HeadNode->Next->Next;
     m_HeadNode->Next->Previous = m_HeadNode;
@@ -206,7 +233,8 @@ public:
   }
 
   /** Links a node into the front of the list. Constant time. */
-  void PushFront(NodeType *n)
+  void
+  PushFront(NodeType * n)
   {
     n->Next = m_HeadNode->Next;
     n->Previous = m_HeadNode;
@@ -216,7 +244,8 @@ public:
   }
 
   /** Unlinks a node from the list */
-  void Unlink(NodeType *n)
+  void
+  Unlink(NodeType * n)
   {
     n->Previous->Next = n->Next;
     n->Next->Previous = n->Previous;
@@ -224,42 +253,64 @@ public:
   }
 
   /** Returns an iterator pointing to the first node in the list. */
-  Iterator Begin()
-  { return Iterator(m_HeadNode->Next); }
+  Iterator
+  Begin()
+  {
+    return Iterator(m_HeadNode->Next);
+  }
 
   /** Returns a const iterator pointing to the first node in the
    * list. */
-  ConstIterator Begin() const
-  { return ConstIterator(m_HeadNode->Next); }
+  ConstIterator
+  Begin() const
+  {
+    return ConstIterator(m_HeadNode->Next);
+  }
 
   /** Returns an iterator pointing one node past the end of the list. */
-  Iterator End()
-  { return Iterator(m_HeadNode); }
+  Iterator
+  End()
+  {
+    return Iterator(m_HeadNode);
+  }
 
   /** Returns a const iterator pointing one node past the end of the list. */
-  ConstIterator End() const
-  { return ConstIterator(m_HeadNode); }
+  ConstIterator
+  End() const
+  {
+    return ConstIterator(m_HeadNode);
+  }
 
   /** Returns TRUE if the list is empty, FALSE otherwise. Executes in constant
    *  time. */
-  bool Empty() const
+  bool
+  Empty() const
   {
-    if ( m_HeadNode->Next == m_HeadNode ) { return true; }
-    else { return false; }
+    if (m_HeadNode->Next == m_HeadNode)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
   }
 
   /** Returns the number of elements in the list. Size() executes in constant
    *  time. */
-  unsigned int Size() const;
+  unsigned int
+  Size() const;
 
   /** Returns pointers to first and last+1 elements of num partitions of
       the itkSparseFieldLayer */
-  RegionListType SplitRegions(int num) const;
+  RegionListType
+  SplitRegions(int num) const;
 
 protected:
   SparseFieldLayer();
   ~SparseFieldLayer() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /** The anchor node of the list.  m_HeadNode->Next is the first node in the
@@ -270,7 +321,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSparseFieldLayer.hxx"
+#  include "itkSparseFieldLayer.hxx"
 #endif
 
 #endif

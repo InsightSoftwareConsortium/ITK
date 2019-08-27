@@ -42,18 +42,17 @@ namespace itk
  *
  * \ingroup ITKImageGrid
  */
-template< typename TInputImage, typename TOutputImage = TInputImage >
-class ITK_TEMPLATE_EXPORT CyclicShiftImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage = TInputImage>
+class ITK_TEMPLATE_EXPORT CyclicShiftImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(CyclicShiftImageFilter);
 
   /** Standard class type aliases. */
   using Self = CyclicShiftImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Some convenient type alias. */
   using InputImageType = TInputImage;
@@ -87,14 +86,17 @@ public:
 protected:
   CyclicShiftImageFilter();
   ~CyclicShiftImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** This filter needs the entire input be available so it needs to
    * provide an implementation of GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** This filter is multi-threaded. */
-  void  DynamicThreadedGenerateData(const OutputImageRegionType &) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType &) override;
 
 
   /** Protected so that subclasses may set it without calling
@@ -104,7 +106,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCyclicShiftImageFilter.hxx"
+#  include "itkCyclicShiftImageFilter.hxx"
 #endif
 
 

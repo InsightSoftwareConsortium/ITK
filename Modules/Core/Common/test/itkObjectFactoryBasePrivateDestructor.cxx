@@ -18,7 +18,8 @@
 #include "SharedTestLibraryA.h"
 #include "SharedTestLibraryB.h"
 
-int main()
+int
+main()
 {
   foo();
   bar();

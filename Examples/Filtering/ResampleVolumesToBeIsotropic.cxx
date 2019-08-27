@@ -160,334 +160,333 @@
 // Software Guide : EndCodeSnippet
 
 
-int main( int argc, char * argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 5 )
-    {
+  if (argc < 5)
+  {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile  outputImageFile  lower upper " << std::endl;
+    std::cerr << argv[0] << "  inputImageFile  outputImageFile  lower upper "
+              << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-// Software Guide : BeginLatex
-//
-// We make explicit now our choices for the pixel type and dimension of the
-// input image to be processed, as well as the pixel type that we intend to use
-// for the internal computation during the smoothing and resampling.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // We make explicit now our choices for the pixel type and dimension of the
+  // input image to be processed, as well as the pixel type that we intend to use
+  // for the internal computation during the smoothing and resampling.
+  //
+  // Software Guide : EndLatex
 
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   constexpr unsigned int Dimension = 3;
 
   using InputPixelType = unsigned short;
   using InternalPixelType = float;
 
-  using InputImageType = itk::Image< InputPixelType,    Dimension >;
-  using InternalImageType = itk::Image< InternalPixelType, Dimension >;
-// Software Guide : EndCodeSnippet
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
+  using InternalImageType = itk::Image<InternalPixelType, Dimension>;
+  // Software Guide : EndCodeSnippet
 
 
-  using ReaderType = itk::ImageFileReader< InputImageType  >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
 
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
   try
-    {
+  {
     reader->Update();
-    }
-  catch( itk::ExceptionObject & excep )
-    {
+  }
+  catch (itk::ExceptionObject & excep)
+  {
     std::cerr << "Exception caught!" << std::endl;
     std::cerr << excep << std::endl;
-    }
+  }
 
-  using IntensityFilterType = itk::IntensityWindowingImageFilter<
-                                  InputImageType,
-                                  InternalImageType >;
+  using IntensityFilterType =
+    itk::IntensityWindowingImageFilter<InputImageType, InternalImageType>;
 
   IntensityFilterType::Pointer intensityWindowing = IntensityFilterType::New();
 
-  intensityWindowing->SetWindowMinimum( std::stoi( argv[3] ) );
-  intensityWindowing->SetWindowMaximum( std::stoi( argv[4] ) );
+  intensityWindowing->SetWindowMinimum(std::stoi(argv[3]));
+  intensityWindowing->SetWindowMaximum(std::stoi(argv[4]));
 
-  intensityWindowing->SetOutputMinimum(   0.0 );
-  intensityWindowing->SetOutputMaximum( 255.0 ); // floats but in the range of chars.
+  intensityWindowing->SetOutputMinimum(0.0);
+  intensityWindowing->SetOutputMaximum(255.0); // floats but in the range of chars.
 
-  intensityWindowing->SetInput( reader->GetOutput() );
-
-
-// Software Guide : BeginLatex
-//
-// We instantiate the smoothing filter that will be used on the preprocessing
-// for subsampling the in-plane resolution of the dataset.
-//
-// Software Guide : EndLatex
-
-// Software Guide : BeginCodeSnippet
-  using GaussianFilterType = itk::RecursiveGaussianImageFilter<
-                                InternalImageType,
-                                InternalImageType >;
-// Software Guide : EndCodeSnippet
+  intensityWindowing->SetInput(reader->GetOutput());
 
 
-// Software Guide : BeginLatex
-//
-// We create two instances of the smoothing filter: one will smooth along the
-// $X$ direction while the other will smooth along the $Y$ direction. They are
-// connected in a cascade in the pipeline, while taking their input from the
-// intensity windowing filter. Note that you may want to skip the intensity
-// windowing scale and simply take the input directly from the reader.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // We instantiate the smoothing filter that will be used on the preprocessing
+  // for subsampling the in-plane resolution of the dataset.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
+  using GaussianFilterType =
+    itk::RecursiveGaussianImageFilter<InternalImageType, InternalImageType>;
+  // Software Guide : EndCodeSnippet
+
+
+  // Software Guide : BeginLatex
+  //
+  // We create two instances of the smoothing filter: one will smooth along the
+  // $X$ direction while the other will smooth along the $Y$ direction. They are
+  // connected in a cascade in the pipeline, while taking their input from the
+  // intensity windowing filter. Note that you may want to skip the intensity
+  // windowing scale and simply take the input directly from the reader.
+  //
+  // Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
   GaussianFilterType::Pointer smootherX = GaussianFilterType::New();
   GaussianFilterType::Pointer smootherY = GaussianFilterType::New();
 
-  smootherX->SetInput( intensityWindowing->GetOutput() );
-  smootherY->SetInput( smootherX->GetOutput() );
-// Software Guide : EndCodeSnippet
+  smootherX->SetInput(intensityWindowing->GetOutput());
+  smootherY->SetInput(smootherX->GetOutput());
+  // Software Guide : EndCodeSnippet
 
 
-// Software Guide : BeginLatex
-//
-// We must now provide the settings for the resampling itself. This is done by
-// searching for a value of isotropic resolution that will provide a trade-off
-// between the evil of subsampling and the evil of supersampling. We advance
-// here the conjecture that the geometrical mean between the in-plane and the
-// inter-slice resolutions should be a convenient isotropic resolution to use.
-// This conjecture is supported on nothing other than intuition and common
-// sense. You can rightfully argue that this choice deserves a more technical
-// consideration, but then, if you are so concerned about the technical integrity
-// of the image sampling process, you should not be using this code, and should
-// discuss these issues with the radiologist who
-// acquired this ugly anisotropic dataset.
-//
-// We take the image from the input and then request its array of pixel spacing
-// values.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // We must now provide the settings for the resampling itself. This is done by
+  // searching for a value of isotropic resolution that will provide a trade-off
+  // between the evil of subsampling and the evil of supersampling. We advance
+  // here the conjecture that the geometrical mean between the in-plane and the
+  // inter-slice resolutions should be a convenient isotropic resolution to use.
+  // This conjecture is supported on nothing other than intuition and common
+  // sense. You can rightfully argue that this choice deserves a more technical
+  // consideration, but then, if you are so concerned about the technical integrity
+  // of the image sampling process, you should not be using this code, and should
+  // discuss these issues with the radiologist who
+  // acquired this ugly anisotropic dataset.
+  //
+  // We take the image from the input and then request its array of pixel spacing
+  // values.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   InputImageType::ConstPointer inputImage = reader->GetOutput();
 
-  const InputImageType::SpacingType& inputSpacing = inputImage->GetSpacing();
-// Software Guide : EndCodeSnippet
+  const InputImageType::SpacingType & inputSpacing = inputImage->GetSpacing();
+  // Software Guide : EndCodeSnippet
 
 
-// Software Guide : BeginLatex
-//
-// and apply our ad-hoc conjecture that the correct anisotropic resolution
-// to use is the geometrical mean of the in-plane and inter-slice resolutions.
-// Then set this spacing as the Sigma value to be used for the Gaussian
-// smoothing at the preprocessing stage.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // and apply our ad-hoc conjecture that the correct anisotropic resolution
+  // to use is the geometrical mean of the in-plane and inter-slice resolutions.
+  // Then set this spacing as the Sigma value to be used for the Gaussian
+  // smoothing at the preprocessing stage.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
-  const double isoSpacing = std::sqrt( inputSpacing[2] * inputSpacing[0] );
+  // Software Guide : BeginCodeSnippet
+  const double isoSpacing = std::sqrt(inputSpacing[2] * inputSpacing[0]);
 
-  smootherX->SetSigma( isoSpacing );
-  smootherY->SetSigma( isoSpacing );
-// Software Guide : EndCodeSnippet
-
-
-// Software Guide : BeginLatex
-//
-// We instruct the smoothing filters to act along the $X$ and $Y$ direction
-// respectively.
-//
-// Software Guide : EndLatex
+  smootherX->SetSigma(isoSpacing);
+  smootherY->SetSigma(isoSpacing);
+  // Software Guide : EndCodeSnippet
 
 
-// Software Guide : BeginCodeSnippet
-  smootherX->SetDirection( 0 );
-  smootherY->SetDirection( 1 );
-// Software Guide : EndCodeSnippet
+  // Software Guide : BeginLatex
+  //
+  // We instruct the smoothing filters to act along the $X$ and $Y$ direction
+  // respectively.
+  //
+  // Software Guide : EndLatex
 
 
-// Software Guide : BeginLatex
-//
-// Now that we have taken care of the smoothing in-plane, we proceed to
-// instantiate the resampling filter that will reconstruct an isotropic image.
-// We start by declaring the pixel type to be used as the output of this filter,
-// then instantiate the image type and the type for the resampling filter.
-// Finally we construct an instantiation of the filter.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginCodeSnippet
+  smootherX->SetDirection(0);
+  smootherY->SetDirection(1);
+  // Software Guide : EndCodeSnippet
 
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginLatex
+  //
+  // Now that we have taken care of the smoothing in-plane, we proceed to
+  // instantiate the resampling filter that will reconstruct an isotropic image.
+  // We start by declaring the pixel type to be used as the output of this filter,
+  // then instantiate the image type and the type for the resampling filter.
+  // Finally we construct an instantiation of the filter.
+  //
+  // Software Guide : EndLatex
+
+
+  // Software Guide : BeginCodeSnippet
   using OutputPixelType = unsigned char;
 
-  using OutputImageType = itk::Image< OutputPixelType,   Dimension >;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  using ResampleFilterType = itk::ResampleImageFilter<
-                InternalImageType, OutputImageType >;
+  using ResampleFilterType =
+    itk::ResampleImageFilter<InternalImageType, OutputImageType>;
 
   ResampleFilterType::Pointer resampler = ResampleFilterType::New();
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
 
-// Software Guide : BeginLatex
-//
-// The resampling filter requires that we provide a Transform, which in this
-// particular case can simply be an identity transform.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // The resampling filter requires that we provide a Transform, which in this
+  // particular case can simply be an identity transform.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
-  using TransformType = itk::IdentityTransform< double, Dimension >;
+  // Software Guide : BeginCodeSnippet
+  using TransformType = itk::IdentityTransform<double, Dimension>;
 
   TransformType::Pointer transform = TransformType::New();
   transform->SetIdentity();
 
-  resampler->SetTransform( transform );
-// Software Guide : EndCodeSnippet
+  resampler->SetTransform(transform);
+  // Software Guide : EndCodeSnippet
 
 
-// Software Guide : BeginLatex
-//
-// The filter also requires an interpolator to be passed to it. In this case we
-// chose to use a linear interpolator.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // The filter also requires an interpolator to be passed to it. In this case we
+  // chose to use a linear interpolator.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
-  using InterpolatorType = itk::LinearInterpolateImageFunction<
-                          InternalImageType, double >;
+  // Software Guide : BeginCodeSnippet
+  using InterpolatorType =
+    itk::LinearInterpolateImageFunction<InternalImageType, double>;
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
-  resampler->SetInterpolator( interpolator );
-// Software Guide : EndCodeSnippet
+  resampler->SetInterpolator(interpolator);
+  // Software Guide : EndCodeSnippet
 
 
-  resampler->SetDefaultPixelValue( 255 ); // highlight regions without source
+  resampler->SetDefaultPixelValue(255); // highlight regions without source
 
 
-// Software Guide : BeginLatex
-//
-// The pixel spacing of the resampled dataset is loaded in a \code{SpacingType}
-// and passed to the resampling filter.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // The pixel spacing of the resampled dataset is loaded in a \code{SpacingType}
+  // and passed to the resampling filter.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   OutputImageType::SpacingType spacing;
 
   spacing[0] = isoSpacing;
   spacing[1] = isoSpacing;
   spacing[2] = isoSpacing;
 
-  resampler->SetOutputSpacing( spacing );
-// Software Guide : EndCodeSnippet
+  resampler->SetOutputSpacing(spacing);
+  // Software Guide : EndCodeSnippet
 
 
-// Software Guide : BeginLatex
-//
-// The origin and orientation of the output image is maintained, since we
-// decided to resample the image in the same physical extent of the input
-// anisotropic image.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // The origin and orientation of the output image is maintained, since we
+  // decided to resample the image in the same physical extent of the input
+  // anisotropic image.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
-  resampler->SetOutputOrigin( inputImage->GetOrigin() );
-  resampler->SetOutputDirection( inputImage->GetDirection() );
-// Software Guide : EndCodeSnippet
+  // Software Guide : BeginCodeSnippet
+  resampler->SetOutputOrigin(inputImage->GetOrigin());
+  resampler->SetOutputDirection(inputImage->GetDirection());
+  // Software Guide : EndCodeSnippet
 
 
-// Software Guide : BeginLatex
-//
-// The number of pixels to use along each dimension in the grid of the
-// resampled image is computed using the ratio between the pixel spacings of the
-// input image and those of the output image. Note that the computation of the
-// number of pixels along the $Z$ direction is slightly different with the
-// purpose of making sure that we don't attempt to compute pixels that are
-// outside of the original anisotropic dataset.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // The number of pixels to use along each dimension in the grid of the
+  // resampled image is computed using the ratio between the pixel spacings of the
+  // input image and those of the output image. Note that the computation of the
+  // number of pixels along the $Z$ direction is slightly different with the
+  // purpose of making sure that we don't attempt to compute pixels that are
+  // outside of the original anisotropic dataset.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
-  InputImageType::SizeType   inputSize =
-                    inputImage->GetLargestPossibleRegion().GetSize();
+  // Software Guide : BeginCodeSnippet
+  InputImageType::SizeType inputSize = inputImage->GetLargestPossibleRegion().GetSize();
 
   using SizeValueType = InputImageType::SizeType::SizeValueType;
 
   const double dx = inputSize[0] * inputSpacing[0] / isoSpacing;
   const double dy = inputSize[1] * inputSpacing[1] / isoSpacing;
 
-  const double dz = (inputSize[2] - 1 ) * inputSpacing[2] / isoSpacing;
-// Software Guide : EndCodeSnippet
+  const double dz = (inputSize[2] - 1) * inputSpacing[2] / isoSpacing;
+  // Software Guide : EndCodeSnippet
 
 
-// Software Guide : BeginLatex
-//
-// Finally the values are stored in a \code{SizeType} and passed to the
-// resampling filter. Note that this process requires a casting since the
-// computations are performed in \code{double}, while the elements of the
-// \code{SizeType} are integers.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // Finally the values are stored in a \code{SizeType} and passed to the
+  // resampling filter. Note that this process requires a casting since the
+  // computations are performed in \code{double}, while the elements of the
+  // \code{SizeType} are integers.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
-  InputImageType::SizeType   size;
+  // Software Guide : BeginCodeSnippet
+  InputImageType::SizeType size;
 
-  size[0] = static_cast<SizeValueType>( dx );
-  size[1] = static_cast<SizeValueType>( dy );
-  size[2] = static_cast<SizeValueType>( dz );
+  size[0] = static_cast<SizeValueType>(dx);
+  size[1] = static_cast<SizeValueType>(dy);
+  size[2] = static_cast<SizeValueType>(dz);
 
-  resampler->SetSize( size );
-// Software Guide : EndCodeSnippet
-
-
-// Software Guide : BeginLatex
-//
-// Our last action is to take the input for the resampling image filter from
-// the output of the cascade of smoothing filters, and then to trigger the
-// execution of the pipeline by invoking the \code{Update()} method on the
-// resampling filter.
-//
-// Software Guide : EndLatex
+  resampler->SetSize(size);
+  // Software Guide : EndCodeSnippet
 
 
-// Software Guide : BeginCodeSnippet
-  resampler->SetInput( smootherY->GetOutput() );
+  // Software Guide : BeginLatex
+  //
+  // Our last action is to take the input for the resampling image filter from
+  // the output of the cascade of smoothing filters, and then to trigger the
+  // execution of the pipeline by invoking the \code{Update()} method on the
+  // resampling filter.
+  //
+  // Software Guide : EndLatex
+
+
+  // Software Guide : BeginCodeSnippet
+  resampler->SetInput(smootherY->GetOutput());
 
   resampler->Update();
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
 
-// Software Guide : BeginLatex
-//
-// At this point we should take a moment in silence to reflect on the
-// circumstances that have led us to accept this cover-up for the improper
-// acquisition of medical data.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // At this point we should take a moment in silence to reflect on the
+  // circumstances that have led us to accept this cover-up for the improper
+  // acquisition of medical data.
+  //
+  // Software Guide : EndLatex
 
 
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   WriterType::Pointer writer = WriterType::New();
 
-  writer->SetFileName( argv[2] );
-  writer->SetInput( resampler->GetOutput() );
+  writer->SetFileName(argv[2]);
+  writer->SetInput(resampler->GetOutput());
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excep )
-    {
+  }
+  catch (itk::ExceptionObject & excep)
+  {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
-    }
+  }
 
 
   return EXIT_SUCCESS;

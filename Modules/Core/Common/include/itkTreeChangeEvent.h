@@ -29,47 +29,64 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-template< typename TTreeType >
-class ITK_TEMPLATE_EXPORT TreeChangeEvent:public ModifiedEvent
+template <typename TTreeType>
+class ITK_TEMPLATE_EXPORT TreeChangeEvent : public ModifiedEvent
 {
 public:
-
   /** Typedefs */
   using Self = TreeChangeEvent;
   using Superclass = ModifiedEvent;
 
   /** Constructor */
-  TreeChangeEvent():
-    m_ChangePosition( nullptr )
-    {}
+  TreeChangeEvent()
+    : m_ChangePosition(nullptr)
+  {}
 
   /** Copy constructor */
-  TreeChangeEvent(const TreeIteratorBase< TTreeType > & position) { m_ChangePosition = &position; }
+  TreeChangeEvent(const TreeIteratorBase<TTreeType> & position) { m_ChangePosition = &position; }
 
   /** Destructor */
   ~TreeChangeEvent() override = default;
 
   /** Get the event name */
-  const char * GetEventName() const override { return "TreeChangeEvent"; }
+  const char *
+  GetEventName() const override
+  {
+    return "TreeChangeEvent";
+  }
 
   /** Check the event */
-  bool CheckEvent(const::itk::EventObject *e) const override { return (dynamic_cast< const Self * >( e ) != nullptr); }
+  bool
+  CheckEvent(const ::itk::EventObject * e) const override
+  {
+    return (dynamic_cast<const Self *>(e) != nullptr);
+  }
 
   /** Make the event object */
-  ::itk::EventObject * MakeObject() const override { return new Self(*m_ChangePosition); }
+  ::itk::EventObject *
+  MakeObject() const override
+  {
+    return new Self(*m_ChangePosition);
+  }
 
   /** Get the change position */
-  const TreeIteratorBase< TTreeType > & GetChangePosition() const { return *m_ChangePosition; }
+  const TreeIteratorBase<TTreeType> &
+  GetChangePosition() const
+  {
+    return *m_ChangePosition;
+  }
 
   // cppcheck-suppress uninitVar
-  TreeChangeEvent(const Self & s):itk::ModifiedEvent(s) {}
+  TreeChangeEvent(const Self & s)
+    : itk::ModifiedEvent(s)
+  {}
 
 protected:
-
-  const TreeIteratorBase< TTreeType > *m_ChangePosition;
+  const TreeIteratorBase<TTreeType> * m_ChangePosition;
 
 private:
-  void operator=(const Self &) = delete;
+  void
+  operator=(const Self &) = delete;
 };
 
 /**  \class TreeNodeChangeEvent
@@ -77,102 +94,145 @@ private:
  *          changed node is provided.
  * \ingroup ITKCommon
  */
-template< typename TTreeType >
-class TreeNodeChangeEvent:public TreeChangeEvent< TTreeType >
+template <typename TTreeType>
+class TreeNodeChangeEvent : public TreeChangeEvent<TTreeType>
 {
 public:
   using Self = TreeNodeChangeEvent;
-  using Superclass = TreeChangeEvent< TTreeType >;
+  using Superclass = TreeChangeEvent<TTreeType>;
 
   TreeNodeChangeEvent() = default;
 
-  TreeNodeChangeEvent(const TreeIteratorBase< TTreeType > & position):
-    TreeChangeEvent< TTreeType >(position) {}
+  TreeNodeChangeEvent(const TreeIteratorBase<TTreeType> & position)
+    : TreeChangeEvent<TTreeType>(position)
+  {}
 
-  const char * GetEventName() const override { return "TreeNodeChangeEvent"; }
-
-  bool CheckEvent(const::itk::EventObject *e) const override
+  const char *
+  GetEventName() const override
   {
-    auto eSelf = dynamic_cast< const Self* >( e );
+    return "TreeNodeChangeEvent";
+  }
+
+  bool
+  CheckEvent(const ::itk::EventObject * e) const override
+  {
+    auto eSelf = dynamic_cast<const Self *>(e);
     return eSelf != nullptr;
   }
 
-  ::itk::EventObject * MakeObject() const override { return new Self(*this->m_ChangePosition); }
+  ::itk::EventObject *
+  MakeObject() const override
+  {
+    return new Self(*this->m_ChangePosition);
+  }
 
-  TreeNodeChangeEvent(const Self & s):TreeChangeEvent< TTreeType >(s) {}
+  TreeNodeChangeEvent(const Self & s)
+    : TreeChangeEvent<TTreeType>(s)
+  {}
 
 private:
-  void operator=(const Self &) = delete;
+  void
+  operator=(const Self &) = delete;
 };
 
 /** \class TreeAddEvent
  *  \brief Checks if a node has been added to the tree.
  * \ingroup ITKCommon
  */
-template< typename TTreeType >
-class ITK_TEMPLATE_EXPORT TreeAddEvent:public TreeChangeEvent< TTreeType >
+template <typename TTreeType>
+class ITK_TEMPLATE_EXPORT TreeAddEvent : public TreeChangeEvent<TTreeType>
 {
 public:
-
   /** Typedefs */
   using Self = TreeAddEvent;
-  using Superclass = TreeChangeEvent< TTreeType >;
+  using Superclass = TreeChangeEvent<TTreeType>;
 
   /** Constructor */
   TreeAddEvent() = default;
 
   /** Copy constructor */
-  TreeAddEvent(const TreeIteratorBase< TTreeType > & position):
-    TreeChangeEvent< TTreeType >(position) {}
+  TreeAddEvent(const TreeIteratorBase<TTreeType> & position)
+    : TreeChangeEvent<TTreeType>(position)
+  {}
 
   /** Get the name of the event */
-  const char * GetEventName() const override { return "TreeAddEvent"; }
+  const char *
+  GetEventName() const override
+  {
+    return "TreeAddEvent";
+  }
 
   /** Check event function */
-  bool CheckEvent(const::itk::EventObject *e) const override { return (dynamic_cast< const Self * >( e ) != nullptr); }
+  bool
+  CheckEvent(const ::itk::EventObject * e) const override
+  {
+    return (dynamic_cast<const Self *>(e) != nullptr);
+  }
 
   /** Make the event object */
-  ::itk::EventObject * MakeObject() const override { return new Self(*this->m_ChangePosition); }
+  ::itk::EventObject *
+  MakeObject() const override
+  {
+    return new Self(*this->m_ChangePosition);
+  }
 
-  TreeAddEvent(const Self & s):TreeChangeEvent< TTreeType >(s) {}
+  TreeAddEvent(const Self & s)
+    : TreeChangeEvent<TTreeType>(s)
+  {}
 
 private:
-  void operator=(const Self &) = delete;
+  void
+  operator=(const Self &) = delete;
 };
 
 /** \class TreeRemoveEvent
  *  \brief Checks if a node has been removed from the tree.
  * \ingroup ITKCommon
  */
-template< typename TTreeType >
-class ITK_TEMPLATE_EXPORT TreeRemoveEvent:public TreeChangeEvent< TTreeType >
+template <typename TTreeType>
+class ITK_TEMPLATE_EXPORT TreeRemoveEvent : public TreeChangeEvent<TTreeType>
 {
 public:
-
   /** Typedefs */
   using Self = TreeRemoveEvent;
-  using Superclass = TreeChangeEvent< TTreeType >;
+  using Superclass = TreeChangeEvent<TTreeType>;
 
   /** Constructor */
-  TreeRemoveEvent()= default;
+  TreeRemoveEvent() = default;
 
   /** Copy constructor */
-  TreeRemoveEvent(const TreeIteratorBase< TTreeType > & position):
-    TreeChangeEvent< TTreeType >(position) {}
+  TreeRemoveEvent(const TreeIteratorBase<TTreeType> & position)
+    : TreeChangeEvent<TTreeType>(position)
+  {}
 
   /** Get the event name */
-  const char * GetEventName() const override { return "TreeRemoveEvent"; }
+  const char *
+  GetEventName() const override
+  {
+    return "TreeRemoveEvent";
+  }
 
   /** Check the event */
-  bool CheckEvent(const::itk::EventObject *e) const override { return (dynamic_cast< const Self * >( e ) != nullptr); }
+  bool
+  CheckEvent(const ::itk::EventObject * e) const override
+  {
+    return (dynamic_cast<const Self *>(e) != nullptr);
+  }
 
   /** Make the event object */
-  ::itk::EventObject * MakeObject() const override { return new Self(*this->m_ChangePosition); }
+  ::itk::EventObject *
+  MakeObject() const override
+  {
+    return new Self(*this->m_ChangePosition);
+  }
 
-  TreeRemoveEvent(const Self & s):TreeChangeEvent< TTreeType >(s) {}
+  TreeRemoveEvent(const Self & s)
+    : TreeChangeEvent<TTreeType>(s)
+  {}
 
 private:
-  void operator=(const Self &) = delete;
+  void
+  operator=(const Self &) = delete;
 };
 
 /** \class TreePruneEvent
@@ -180,28 +240,44 @@ private:
  *         removed. The position of the top-level removed node is provided.
  * \ingroup ITKCommon
  */
-template< typename TTreeType >
-class ITK_TEMPLATE_EXPORT TreePruneEvent:public TreeRemoveEvent< TTreeType >
+template <typename TTreeType>
+class ITK_TEMPLATE_EXPORT TreePruneEvent : public TreeRemoveEvent<TTreeType>
 {
 public:
   using Self = TreePruneEvent;
-  using Superclass = TreeRemoveEvent< TTreeType >;
+  using Superclass = TreeRemoveEvent<TTreeType>;
 
-  TreePruneEvent()= default;
+  TreePruneEvent() = default;
 
-  TreePruneEvent(const TreeIteratorBase< TTreeType > & position):
-  TreeRemoveEvent< TTreeType >(position) {}
+  TreePruneEvent(const TreeIteratorBase<TTreeType> & position)
+    : TreeRemoveEvent<TTreeType>(position)
+  {}
 
-  const char * GetEventName() const override { return "TreePruneEvent"; }
+  const char *
+  GetEventName() const override
+  {
+    return "TreePruneEvent";
+  }
 
-  bool CheckEvent(const::itk::EventObject *e) const override { return (dynamic_cast< const Self * >( e ) != nullptr); }
+  bool
+  CheckEvent(const ::itk::EventObject * e) const override
+  {
+    return (dynamic_cast<const Self *>(e) != nullptr);
+  }
 
-  ::itk::EventObject * MakeObject() const override { return new Self(*this->m_ChangePosition); }
+  ::itk::EventObject *
+  MakeObject() const override
+  {
+    return new Self(*this->m_ChangePosition);
+  }
 
-  TreePruneEvent(const Self & s):TreeRemoveEvent< TTreeType >(s) {}
+  TreePruneEvent(const Self & s)
+    : TreeRemoveEvent<TTreeType>(s)
+  {}
 
 private:
-  void operator=(const Self &) = delete;
+  void
+  operator=(const Self &) = delete;
 };
 } // namespace itk
 

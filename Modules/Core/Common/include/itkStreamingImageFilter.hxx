@@ -27,9 +27,8 @@ namespace itk
 /**
  *
  */
-template< typename TInputImage, typename TOutputImage >
-StreamingImageFilter< TInputImage, TOutputImage >
-::StreamingImageFilter()
+template <typename TInputImage, typename TOutputImage>
+StreamingImageFilter<TInputImage, TOutputImage>::StreamingImageFilter()
 {
   // default to 10 divisions
   m_NumberOfStreamDivisions = 10;
@@ -41,34 +40,31 @@ StreamingImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-StreamingImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+StreamingImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Number of stream divisions: " << m_NumberOfStreamDivisions
-     << std::endl;
+  os << indent << "Number of stream divisions: " << m_NumberOfStreamDivisions << std::endl;
 
-  itkPrintSelfObjectMacro( RegionSplitter );
+  itkPrintSelfObjectMacro(RegionSplitter);
 }
 
 /**
  *
  */
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-StreamingImageFilter< TInputImage, TOutputImage >
-::PropagateRequestedRegion(DataObject *output)
+StreamingImageFilter<TInputImage, TOutputImage>::PropagateRequestedRegion(DataObject * output)
 {
   /**
    * check flag to avoid executing forever if there is a loop
    */
-  if ( this->m_Updating )
-    {
+  if (this->m_Updating)
+  {
     return;
-    }
+  }
 
   /**
    * Give the subclass a chance to indicate that it will provide
@@ -98,19 +94,18 @@ StreamingImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-StreamingImageFilter< TInputImage, TOutputImage >
-::UpdateOutputData( DataObject *itkNotUsed(output) )
+StreamingImageFilter<TInputImage, TOutputImage>::UpdateOutputData(DataObject * itkNotUsed(output))
 {
 
   /**
    * prevent chasing our tail
    */
-  if ( this->m_Updating )
-    {
+  if (this->m_Updating)
+  {
     return;
-    }
+  }
 
   /**
    * Prepare all the outputs. This may deallocate previous bulk data.
@@ -121,19 +116,18 @@ StreamingImageFilter< TInputImage, TOutputImage >
    * Make sure we have the necessary inputs
    */
   const itk::ProcessObject::DataObjectPointerArraySizeType ninputs = this->GetNumberOfValidRequiredInputs();
-  if ( ninputs < this->GetNumberOfRequiredInputs() )
-    {
-    itkExceptionMacro(
-      << "At least " << this->GetNumberOfRequiredInputs()
-      << " inputs are required but only " << ninputs << " are specified.");
+  if (ninputs < this->GetNumberOfRequiredInputs())
+  {
+    itkExceptionMacro(<< "At least " << this->GetNumberOfRequiredInputs() << " inputs are required but only " << ninputs
+                      << " are specified.");
     return;
-    }
+  }
 
   /**
    * Tell all Observers that the filter is starting, before emiting
    * the 0.0 Progress event
    */
-  this->InvokeEvent( StartEvent() );
+  this->InvokeEvent(StartEvent());
 
 
   this->SetAbortGenerateData(0);
@@ -144,7 +138,7 @@ StreamingImageFilter< TInputImage, TOutputImage >
   /**
    * Allocate the output buffer.
    */
-  OutputImageType      *outputPtr = this->GetOutput(0);
+  OutputImageType *           outputPtr = this->GetOutput(0);
   const OutputImageRegionType outputRegion = outputPtr->GetRequestedRegion();
   outputPtr->SetBufferedRegion(outputRegion);
   outputPtr->Allocate();
@@ -152,7 +146,7 @@ StreamingImageFilter< TInputImage, TOutputImage >
   /**
    * Grab the input
    */
-  auto * inputPtr = const_cast< InputImageType * >( this->GetInput(0) );
+  auto * inputPtr = const_cast<InputImageType *>(this->GetInput(0));
 
   /**
    * Determine of number of pieces to divide the input.  This will be the
@@ -162,23 +156,19 @@ StreamingImageFilter< TInputImage, TOutputImage >
   unsigned int numDivisions, numDivisionsFromSplitter;
 
   numDivisions = m_NumberOfStreamDivisions;
-  numDivisionsFromSplitter =
-    m_RegionSplitter
-    ->GetNumberOfSplits(outputRegion, m_NumberOfStreamDivisions);
-  if ( numDivisionsFromSplitter < numDivisions )
-    {
+  numDivisionsFromSplitter = m_RegionSplitter->GetNumberOfSplits(outputRegion, m_NumberOfStreamDivisions);
+  if (numDivisionsFromSplitter < numDivisions)
+  {
     numDivisions = numDivisionsFromSplitter;
-    }
+  }
 
   /**
    * Loop over the number of pieces, execute the upstream pipeline on each
    * piece, and copy the results into the output image.
    */
-  unsigned int         piece=0;
-  for (;
-       piece < numDivisions && !this->GetAbortGenerateData();
-       piece++ )
-    {
+  unsigned int piece = 0;
+  for (; piece < numDivisions && !this->GetAbortGenerateData(); piece++)
+  {
     InputImageRegionType streamRegion = outputRegion;
     m_RegionSplitter->GetSplit(piece, numDivisions, streamRegion);
 
@@ -190,34 +180,34 @@ StreamingImageFilter< TInputImage, TOutputImage >
     // requested region determined by the RegionSplitter (as opposed
     // to what the pipeline might have enlarged it to) is used to
     // copy the regions from the input to output
-    ImageAlgorithm::Copy( inputPtr, outputPtr, streamRegion, streamRegion );
+    ImageAlgorithm::Copy(inputPtr, outputPtr, streamRegion, streamRegion);
 
 
-    this->UpdateProgress( static_cast<float>(piece) / static_cast<float>(numDivisions) );
-    }
+    this->UpdateProgress(static_cast<float>(piece) / static_cast<float>(numDivisions));
+  }
 
   /**
    * If we ended due to aborting, push the progress up to 1.0 (since
    * it probably didn't end there)
    */
-  if ( !this->GetAbortGenerateData() )
-    {
+  if (!this->GetAbortGenerateData())
+  {
     this->UpdateProgress(1.0);
-    }
+  }
 
   // Notify end event observers
-  this->InvokeEvent( EndEvent() );
+  this->InvokeEvent(EndEvent());
 
   /**
    * Now we have to mark the data as up to data.
    */
-  for (auto &outputName : this->GetOutputNames() )
-    {
+  for (auto & outputName : this->GetOutputNames())
+  {
     if (this->ProcessObject::GetOutput(outputName))
-      {
+    {
       this->ProcessObject::GetOutput(outputName)->DataHasBeenGenerated();
-      }
     }
+  }
 
   /**
    * Release any inputs if marked for release

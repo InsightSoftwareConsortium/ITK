@@ -27,11 +27,10 @@ namespace itk
 /**
  *
  */
-template< typename TInputImage, typename TOutputImage >
-WrapPadImageFilter< TInputImage, TOutputImage >
-::WrapPadImageFilter()
+template <typename TInputImage, typename TOutputImage>
+WrapPadImageFilter<TInputImage, TOutputImage>::WrapPadImageFilter()
 {
-  this->InternalSetBoundaryCondition( &m_InternalBoundaryCondition );
+  this->InternalSetBoundaryCondition(&m_InternalBoundaryCondition);
 }
 
 } // end namespace itk

@@ -21,93 +21,94 @@
 #include "itkSimpleFilterWatcher.h"
 #include "itkTestingMacros.h"
 
-int itkConnectedComponentImageFilterBackgroundTest( int argc, char* argv[] )
+int
+itkConnectedComponentImageFilterBackgroundTest(int argc, char * argv[])
 {
 
-  if ( argc < 2 )
-    {
+  if (argc < 2)
+  {
     std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " <background value>\n";
     return EXIT_FAILURE;
-    }
+  }
 
   using PixelType = int;
   constexpr unsigned int Dimension = 2;
-  using ImageType = itk::Image< PixelType, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
-  auto background = static_cast< PixelType >( std::stoi( argv[ 1 ] ) );
+  auto background = static_cast<PixelType>(std::stoi(argv[1]));
 
   // Create an image with an arbitrary background value and a number
   // of islands with pixel values above and below the background value
-  ImageType::Pointer image = ImageType::New();
+  ImageType::Pointer  image = ImageType::New();
   ImageType::SizeType size;
-  size.Fill( 512 );
-  image->SetRegions( size );
+  size.Fill(512);
+  image->SetRegions(size);
   image->Allocate();
-  image->FillBuffer( 0 );
+  image->FillBuffer(0);
 
   // Set up islands
   ImageType::IndexType index1;
   index1[0] = 10;
   index1[1] = 11;
-  image->SetPixel( index1, 1 );
+  image->SetPixel(index1, 1);
 
   ImageType::IndexType index2;
   index2[0] = 100;
   index2[1] = 101;
-  image->SetPixel( index2, 2 );
+  image->SetPixel(index2, 2);
 
   // Instantiate and run the filter
-  using FilterType = itk::ConnectedComponentImageFilter< ImageType, ImageType >;
+  using FilterType = itk::ConnectedComponentImageFilter<ImageType, ImageType>;
   FilterType::Pointer filter = FilterType::New();
-  filter->SetBackgroundValue( background );
-  filter->SetInput( image );
-  itk::SimpleFilterWatcher watcher( filter );
+  filter->SetBackgroundValue(background);
+  filter->SetInput(image);
+  itk::SimpleFilterWatcher watcher(filter);
 
   try
-    {
+  {
     filter->Update();
-     }
-  catch( itk::ExceptionObject & excep )
-    {
+  }
+  catch (itk::ExceptionObject & excep)
+  {
     std::cerr << "exception caught:" << std::endl;
     std::cerr << excep << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  if ( filter->GetObjectCount() != 2 )
-    {
+  if (filter->GetObjectCount() != 2)
+  {
     std::cerr << "Expected 2 objects, got " << filter->GetObjectCount() << " instead.\n";
-    }
+  }
 
   ImageType * output = filter->GetOutput();
 
-  using IteratorType = itk::ImageRegionConstIteratorWithIndex< ImageType >;
-  IteratorType iterator( output, output->GetLargestPossibleRegion() );
-  while ( !iterator.IsAtEnd() )
-    {
-    PixelType value = iterator.Get();
+  using IteratorType = itk::ImageRegionConstIteratorWithIndex<ImageType>;
+  IteratorType iterator(output, output->GetLargestPossibleRegion());
+  while (!iterator.IsAtEnd())
+  {
+    PixelType            value = iterator.Get();
     ImageType::IndexType index = iterator.GetIndex();
-    if ( index == index1 || index == index2 )
-      {
+    if (index == index1 || index == index2)
+    {
       // Check that objects don't have the background value
-      if ( value == background )
-        {
+      if (value == background)
+      {
         std::cerr << "Pixel at index " << index << " has background value "
                   << "but should have an object label instead.\n";
         return EXIT_FAILURE;
-        }
       }
+    }
     else
+    {
+      if (value != background)
       {
-      if ( value != background )
-        {
         std::cerr << "Pixel at index " << index << " has value " << value
                   << " but should have bacground value: " << background << "\n";
         return EXIT_FAILURE;
-        }
       }
-    ++iterator;
     }
+    ++iterator;
+  }
 
   return EXIT_SUCCESS;
 }

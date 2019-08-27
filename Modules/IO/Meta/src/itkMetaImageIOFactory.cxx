@@ -23,11 +23,8 @@ namespace itk
 {
 MetaImageIOFactory::MetaImageIOFactory()
 {
-  this->RegisterOverride( "itkImageIOBase",
-                          "itkMetaImageIO",
-                          "Meta Image IO",
-                          true,
-                          CreateObjectFunction< MetaImageIO >::New() );
+  this->RegisterOverride(
+    "itkImageIOBase", "itkMetaImageIO", "Meta Image IO", true, CreateObjectFunction<MetaImageIO>::New());
 }
 
 MetaImageIOFactory::~MetaImageIOFactory() = default;
@@ -49,13 +46,14 @@ MetaImageIOFactory::GetDescription() const
 
 static bool MetaImageIOFactoryHasBeenRegistered;
 
-void ITKIOMeta_EXPORT MetaImageIOFactoryRegister__Private()
+void ITKIOMeta_EXPORT
+     MetaImageIOFactoryRegister__Private()
 {
-  if( ! MetaImageIOFactoryHasBeenRegistered )
-    {
+  if (!MetaImageIOFactoryHasBeenRegistered)
+  {
     MetaImageIOFactoryHasBeenRegistered = true;
     MetaImageIOFactory::RegisterOneFactory();
-    }
+  }
 }
 
 } // end namespace itk

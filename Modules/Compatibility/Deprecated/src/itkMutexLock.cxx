@@ -28,23 +28,25 @@
 #include "itkMutexLock.h"
 
 #if defined(ITK_USE_PTHREADS)
-#include "itkMutexLockPThreads.cxx"
+#  include "itkMutexLockPThreads.cxx"
 #elif defined(ITK_USE_WIN32_THREADS)
-#include "itkMutexLockWinThreads.cxx"
+#  include "itkMutexLockWinThreads.cxx"
 #else
-#include "itkMutexLockNoThreads.cxx"
+#  include "itkMutexLockNoThreads.cxx"
 #endif
 
 namespace itk
 {
 // New for the SimpleMutex
-SimpleMutexLock * SimpleMutexLock::New()
+SimpleMutexLock *
+SimpleMutexLock::New()
 {
   return new SimpleMutexLock;
 }
 
-void MutexLock::PrintSelf(std::ostream & os, Indent indent) const
+void
+MutexLock::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
-} //end namespace itk
+} // end namespace itk

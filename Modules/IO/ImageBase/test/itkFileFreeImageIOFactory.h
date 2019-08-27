@@ -37,18 +37,25 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
-  const char* GetITKSourceVersion() const override;
-  const char* GetDescription() const override;
+  const char *
+  GetITKSourceVersion() const override;
+  const char *
+  GetDescription() const override;
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
-  static FileFreeImageIOFactory* FactoryNew() { return new FileFreeImageIOFactory;}
+  static FileFreeImageIOFactory *
+  FactoryNew()
+  {
+    return new FileFreeImageIOFactory;
+  }
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(FileFreeImageIOFactory, ObjectFactoryBase);
 
   /** Register one factory of this type  */
-  static void RegisterOneFactory()
+  static void
+  RegisterOneFactory()
   {
     FileFreeImageIOFactory::Pointer fileFreeFactory = FileFreeImageIOFactory::New();
     ObjectFactoryBase::RegisterFactory(fileFreeFactory);

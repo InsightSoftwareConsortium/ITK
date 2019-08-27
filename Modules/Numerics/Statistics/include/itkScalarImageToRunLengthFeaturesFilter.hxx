@@ -26,17 +26,16 @@ namespace itk
 {
 namespace Statistics
 {
-template<typename TImage, typename THistogramFrequencyContainer>
-ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
-::ScalarImageToRunLengthFeaturesFilter()
+template <typename TImage, typename THistogramFrequencyContainer>
+ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::ScalarImageToRunLengthFeaturesFilter()
 {
-  this->SetNumberOfRequiredInputs( 1 );
-  this->SetNumberOfRequiredOutputs( 1 );
+  this->SetNumberOfRequiredInputs(1);
+  this->SetNumberOfRequiredOutputs(1);
 
-  for( int i = 0; i < 2; ++i )
-    {
-    this->ProcessObject::SetNthOutput( i, this->MakeOutput( i ) );
-    }
+  for (int i = 0; i < 2; ++i)
+  {
+    this->ProcessObject::SetNthOutput(i, this->MakeOutput(i));
+  }
 
   this->m_RunLengthMatrixGenerator = RunLengthMatrixFilterType::New();
   this->m_FeatureMeans = FeatureValueVector::New();
@@ -48,112 +47,96 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
   FeatureNameVectorPointer requestedFeatures = FeatureNameVector::New();
   // can't directly set this->m_RequestedFeatures since it is const!
 
-  requestedFeatures->push_back( RunLengthFeaturesFilterType::ShortRunEmphasis );
-  requestedFeatures->push_back( RunLengthFeaturesFilterType::LongRunEmphasis );
-  requestedFeatures->push_back(
-    RunLengthFeaturesFilterType::GreyLevelNonuniformity );
-  requestedFeatures->push_back(
-    RunLengthFeaturesFilterType::RunLengthNonuniformity );
-  requestedFeatures->push_back(
-    RunLengthFeaturesFilterType::LowGreyLevelRunEmphasis );
-  requestedFeatures->push_back(
-    RunLengthFeaturesFilterType::HighGreyLevelRunEmphasis );
-  requestedFeatures->push_back(
-    RunLengthFeaturesFilterType::ShortRunLowGreyLevelEmphasis );
-  requestedFeatures->push_back(
-    RunLengthFeaturesFilterType::ShortRunHighGreyLevelEmphasis );
-  requestedFeatures->push_back(
-    RunLengthFeaturesFilterType::LongRunLowGreyLevelEmphasis );
-  requestedFeatures->push_back(
-    RunLengthFeaturesFilterType::LongRunHighGreyLevelEmphasis );
+  requestedFeatures->push_back(RunLengthFeaturesFilterType::ShortRunEmphasis);
+  requestedFeatures->push_back(RunLengthFeaturesFilterType::LongRunEmphasis);
+  requestedFeatures->push_back(RunLengthFeaturesFilterType::GreyLevelNonuniformity);
+  requestedFeatures->push_back(RunLengthFeaturesFilterType::RunLengthNonuniformity);
+  requestedFeatures->push_back(RunLengthFeaturesFilterType::LowGreyLevelRunEmphasis);
+  requestedFeatures->push_back(RunLengthFeaturesFilterType::HighGreyLevelRunEmphasis);
+  requestedFeatures->push_back(RunLengthFeaturesFilterType::ShortRunLowGreyLevelEmphasis);
+  requestedFeatures->push_back(RunLengthFeaturesFilterType::ShortRunHighGreyLevelEmphasis);
+  requestedFeatures->push_back(RunLengthFeaturesFilterType::LongRunLowGreyLevelEmphasis);
+  requestedFeatures->push_back(RunLengthFeaturesFilterType::LongRunHighGreyLevelEmphasis);
 
-  this->SetRequestedFeatures( requestedFeatures );
+  this->SetRequestedFeatures(requestedFeatures);
 
   // Set the offset directions to their defaults: half of all the possible
   // directions 1 pixel away. (The other half is included by symmetry.)
   // We use a neighborhood iterator to calculate the appropriate offsets.
-  using NeighborhoodType = Neighborhood<typename ImageType::PixelType,
-    ImageType::ImageDimension>;
+  using NeighborhoodType = Neighborhood<typename ImageType::PixelType, ImageType::ImageDimension>;
   NeighborhoodType hood;
-  hood.SetRadius( 1 );
+  hood.SetRadius(1);
 
   // select all "previous" neighbors that are face+edge+vertex
   // connected to the current pixel. do not include the center pixel.
-  unsigned int centerIndex = hood.GetCenterNeighborhoodIndex();
+  unsigned int        centerIndex = hood.GetCenterNeighborhoodIndex();
   OffsetVectorPointer offsets = OffsetVector::New();
-  for( unsigned int d = 0; d < centerIndex; d++ )
-    {
-    OffsetType offset = hood.GetOffset( d );
-    offsets->push_back( offset );
-    }
-  this->SetOffsets( offsets );
+  for (unsigned int d = 0; d < centerIndex; d++)
+  {
+    OffsetType offset = hood.GetOffset(d);
+    offsets->push_back(offset);
+  }
+  this->SetOffsets(offsets);
   this->m_FastCalculations = false;
 }
 
-template<typename TImage, typename THistogramFrequencyContainer>
-typename
-ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
-::DataObjectPointer
-ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
-::MakeOutput( DataObjectPointerArraySizeType itkNotUsed(idx) )
+template <typename TImage, typename THistogramFrequencyContainer>
+typename ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::DataObjectPointer
+ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::MakeOutput(
+  DataObjectPointerArraySizeType itkNotUsed(idx))
 {
   return FeatureValueVectorDataObjectType::New().GetPointer();
 }
 
-template<typename TImage, typename THistogramFrequencyContainer>
+template <typename TImage, typename THistogramFrequencyContainer>
 void
-ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
-::GenerateData()
+ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::GenerateData()
 {
-  if ( this->m_FastCalculations )
-    {
+  if (this->m_FastCalculations)
+  {
     this->FastCompute();
-    }
+  }
   else
-    {
+  {
     this->FullCompute();
-    }
+  }
 }
 
-template<typename TImage, typename THistogramFrequencyContainer>
+template <typename TImage, typename THistogramFrequencyContainer>
 void
-ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
-::FullCompute()
+ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::FullCompute()
 {
-  size_t numOffsets = this->m_Offsets->size();
-  size_t numFeatures = this->m_RequestedFeatures->size();
-  double **features;
+  size_t    numOffsets = this->m_Offsets->size();
+  size_t    numFeatures = this->m_RequestedFeatures->size();
+  double ** features;
 
   features = new double *[numOffsets];
-  for( size_t i = 0; i < numOffsets; i++ )
-    {
+  for (size_t i = 0; i < numOffsets; i++)
+  {
     features[i] = new double[numFeatures];
-    }
+  }
 
   // For each offset, calculate each feature
   typename OffsetVector::ConstIterator offsetIt;
-  size_t offsetNum, featureNum;
+  size_t                               offsetNum, featureNum;
   using InternalRunLengthFeatureName = typename RunLengthFeaturesFilterType::RunLengthFeatureName;
 
-  for( offsetIt = this->m_Offsets->Begin(), offsetNum = 0;
-    offsetIt != this->m_Offsets->End(); ++offsetIt, offsetNum++ )
-    {
-    this->m_RunLengthMatrixGenerator->SetOffset( offsetIt.Value() );
+  for (offsetIt = this->m_Offsets->Begin(), offsetNum = 0; offsetIt != this->m_Offsets->End(); ++offsetIt, offsetNum++)
+  {
+    this->m_RunLengthMatrixGenerator->SetOffset(offsetIt.Value());
     this->m_RunLengthMatrixGenerator->Update();
-    typename RunLengthFeaturesFilterType::Pointer runLengthMatrixCalculator =
-      RunLengthFeaturesFilterType::New();
-    runLengthMatrixCalculator->SetInput(
-      this->m_RunLengthMatrixGenerator->GetOutput() );
+    typename RunLengthFeaturesFilterType::Pointer runLengthMatrixCalculator = RunLengthFeaturesFilterType::New();
+    runLengthMatrixCalculator->SetInput(this->m_RunLengthMatrixGenerator->GetOutput());
     runLengthMatrixCalculator->Update();
 
     typename FeatureNameVector::ConstIterator fnameIt;
-    for( fnameIt = this->m_RequestedFeatures->Begin(), featureNum = 0;
-      fnameIt != this->m_RequestedFeatures->End(); ++fnameIt, featureNum++ )
-      {
-      features[offsetNum][featureNum] = runLengthMatrixCalculator->GetFeature(
-        ( InternalRunLengthFeatureName )fnameIt.Value() );
-      }
+    for (fnameIt = this->m_RequestedFeatures->Begin(), featureNum = 0; fnameIt != this->m_RequestedFeatures->End();
+         ++fnameIt, featureNum++)
+    {
+      features[offsetNum][featureNum] =
+        runLengthMatrixCalculator->GetFeature((InternalRunLengthFeatureName)fnameIt.Value());
     }
+  }
 
   // Now get the mean and deviaton of each feature across the offsets.
   this->m_FeatureMeans->clear();
@@ -172,213 +155,193 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
   */
 
   // Set up the initial conditions (k = 1)
-  for( featureNum = 0; featureNum < numFeatures; featureNum++ )
-    {
+  for (featureNum = 0; featureNum < numFeatures; featureNum++)
+  {
     tempFeatureMeans[featureNum] = features[0][featureNum];
     tempFeatureDevs[featureNum] = 0;
-    }
+  }
   // Run through the recurrence (k = 2 ... N)
-  for( offsetNum = 1; offsetNum < numOffsets; offsetNum++ )
-    {
+  for (offsetNum = 1; offsetNum < numOffsets; offsetNum++)
+  {
     int k = offsetNum + 1;
-    for( featureNum = 0; featureNum < numFeatures; featureNum++ )
-      {
+    for (featureNum = 0; featureNum < numFeatures; featureNum++)
+    {
       double M_k_minus_1 = tempFeatureMeans[featureNum];
       double S_k_minus_1 = tempFeatureDevs[featureNum];
       double x_k = features[offsetNum][featureNum];
 
-      double M_k = M_k_minus_1 + ( x_k - M_k_minus_1 ) / k;
-      double S_k = S_k_minus_1 + ( x_k - M_k_minus_1 ) * ( x_k - M_k );
+      double M_k = M_k_minus_1 + (x_k - M_k_minus_1) / k;
+      double S_k = S_k_minus_1 + (x_k - M_k_minus_1) * (x_k - M_k);
 
       tempFeatureMeans[featureNum] = M_k;
       tempFeatureDevs[featureNum] = S_k;
-      }
     }
-  for( featureNum = 0; featureNum < numFeatures; featureNum++ )
-    {
-    tempFeatureDevs[featureNum] = std::sqrt( tempFeatureDevs[featureNum] /
-      numOffsets );
+  }
+  for (featureNum = 0; featureNum < numFeatures; featureNum++)
+  {
+    tempFeatureDevs[featureNum] = std::sqrt(tempFeatureDevs[featureNum] / numOffsets);
 
-    this->m_FeatureMeans->push_back( tempFeatureMeans[featureNum] );
-    this->m_FeatureStandardDeviations->push_back( tempFeatureDevs[featureNum] );
-    }
+    this->m_FeatureMeans->push_back(tempFeatureMeans[featureNum]);
+    this->m_FeatureStandardDeviations->push_back(tempFeatureDevs[featureNum]);
+  }
 
-  auto * meanOutputObject = itkDynamicCastInDebugMode<FeatureValueVectorDataObjectType *>(
-                                                 this->ProcessObject::GetOutput( 0 ) );
-  meanOutputObject->Set( this->m_FeatureMeans );
+  auto * meanOutputObject =
+    itkDynamicCastInDebugMode<FeatureValueVectorDataObjectType *>(this->ProcessObject::GetOutput(0));
+  meanOutputObject->Set(this->m_FeatureMeans);
 
-  auto * standardDeviationOutputObject = itkDynamicCastInDebugMode<FeatureValueVectorDataObjectType *>(
-                                                 this->ProcessObject::GetOutput( 1 ) );
-  standardDeviationOutputObject->Set( this->m_FeatureStandardDeviations );
+  auto * standardDeviationOutputObject =
+    itkDynamicCastInDebugMode<FeatureValueVectorDataObjectType *>(this->ProcessObject::GetOutput(1));
+  standardDeviationOutputObject->Set(this->m_FeatureStandardDeviations);
 
   delete[] tempFeatureMeans;
   delete[] tempFeatureDevs;
-  for( size_t i = 0; i < numOffsets; i++ )
-    {
+  for (size_t i = 0; i < numOffsets; i++)
+  {
     delete[] features[i];
-    }
+  }
   delete[] features;
 }
 
-template<typename TImage, typename THistogramFrequencyContainer>
+template <typename TImage, typename THistogramFrequencyContainer>
 void
-ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
-::FastCompute()
+ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::FastCompute()
 {
   // Compute the feature for the first offset
   typename OffsetVector::ConstIterator offsetIt = this->m_Offsets->Begin();
-  this->m_RunLengthMatrixGenerator->SetOffset( offsetIt.Value() );
+  this->m_RunLengthMatrixGenerator->SetOffset(offsetIt.Value());
 
   this->m_RunLengthMatrixGenerator->Update();
-  typename RunLengthFeaturesFilterType::Pointer runLengthMatrixCalculator =
-    RunLengthFeaturesFilterType::New();
-  runLengthMatrixCalculator->SetInput(
-    this->m_RunLengthMatrixGenerator->GetOutput() );
+  typename RunLengthFeaturesFilterType::Pointer runLengthMatrixCalculator = RunLengthFeaturesFilterType::New();
+  runLengthMatrixCalculator->SetInput(this->m_RunLengthMatrixGenerator->GetOutput());
   runLengthMatrixCalculator->Update();
 
   using InternalRunLengthFeatureName = typename RunLengthFeaturesFilterType::RunLengthFeatureName;
   this->m_FeatureMeans->clear();
   this->m_FeatureStandardDeviations->clear();
   typename FeatureNameVector::ConstIterator fnameIt;
-  for( fnameIt = this->m_RequestedFeatures->Begin();
-    fnameIt != this->m_RequestedFeatures->End(); ++fnameIt )
-    {
-    this->m_FeatureMeans->push_back( runLengthMatrixCalculator->GetFeature(
-      ( InternalRunLengthFeatureName )fnameIt.Value() ) );
-    this->m_FeatureStandardDeviations->push_back( 0.0 );
-    }
+  for (fnameIt = this->m_RequestedFeatures->Begin(); fnameIt != this->m_RequestedFeatures->End(); ++fnameIt)
+  {
+    this->m_FeatureMeans->push_back(
+      runLengthMatrixCalculator->GetFeature((InternalRunLengthFeatureName)fnameIt.Value()));
+    this->m_FeatureStandardDeviations->push_back(0.0);
+  }
 
-  auto * meanOutputObject = itkDynamicCastInDebugMode<FeatureValueVectorDataObjectType *>(
-                                                 this->ProcessObject::GetOutput( 0 ) );
-  meanOutputObject->Set( this->m_FeatureMeans );
+  auto * meanOutputObject =
+    itkDynamicCastInDebugMode<FeatureValueVectorDataObjectType *>(this->ProcessObject::GetOutput(0));
+  meanOutputObject->Set(this->m_FeatureMeans);
 
-  auto * standardDeviationOutputObject = itkDynamicCastInDebugMode<FeatureValueVectorDataObjectType *>(
-                                                 this->ProcessObject::GetOutput( 1 ) );
-  standardDeviationOutputObject->Set( this->m_FeatureStandardDeviations );
+  auto * standardDeviationOutputObject =
+    itkDynamicCastInDebugMode<FeatureValueVectorDataObjectType *>(this->ProcessObject::GetOutput(1));
+  standardDeviationOutputObject->Set(this->m_FeatureStandardDeviations);
 }
 
-template<typename TImage, typename THistogramFrequencyContainer>
+template <typename TImage, typename THistogramFrequencyContainer>
 void
-ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
-::SetInput( const ImageType *image )
+ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::SetInput(const ImageType * image)
 {
   // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput( 0,
-    const_cast<ImageType *>( image ) );
+  this->ProcessObject::SetNthInput(0, const_cast<ImageType *>(image));
 
-  this->m_RunLengthMatrixGenerator->SetInput( image );
+  this->m_RunLengthMatrixGenerator->SetInput(image);
 }
 
-template<typename TImage, typename THistogramFrequencyContainer>
+template <typename TImage, typename THistogramFrequencyContainer>
 void
-ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
-::SetNumberOfBinsPerAxis( unsigned int numberOfBins )
+ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::SetNumberOfBinsPerAxis(
+  unsigned int numberOfBins)
 {
-  itkDebugMacro( "setting NumberOfBinsPerAxis to " << numberOfBins );
-  this->m_RunLengthMatrixGenerator->SetNumberOfBinsPerAxis( numberOfBins );
+  itkDebugMacro("setting NumberOfBinsPerAxis to " << numberOfBins);
+  this->m_RunLengthMatrixGenerator->SetNumberOfBinsPerAxis(numberOfBins);
   this->Modified();
 }
 
-template<typename TImage, typename THistogramFrequencyContainer>
+template <typename TImage, typename THistogramFrequencyContainer>
 void
-ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
-::SetPixelValueMinMax( PixelType min, PixelType max )
+ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::SetPixelValueMinMax(PixelType min,
+                                                                                                PixelType max)
 {
-  itkDebugMacro( "setting Min to " << min << "and Max to " << max );
-  this->m_RunLengthMatrixGenerator->SetPixelValueMinMax( min, max );
+  itkDebugMacro("setting Min to " << min << "and Max to " << max);
+  this->m_RunLengthMatrixGenerator->SetPixelValueMinMax(min, max);
   this->Modified();
 }
 
-template<typename TImage, typename THistogramFrequencyContainer>
+template <typename TImage, typename THistogramFrequencyContainer>
 void
-ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
-::SetDistanceValueMinMax( double min, double max )
+ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::SetDistanceValueMinMax(double min,
+                                                                                                   double max)
 {
-  itkDebugMacro( "setting Min to " << min << "and Max to " << max );
-  this->m_RunLengthMatrixGenerator->SetDistanceValueMinMax( min, max );
+  itkDebugMacro("setting Min to " << min << "and Max to " << max);
+  this->m_RunLengthMatrixGenerator->SetDistanceValueMinMax(min, max);
   this->Modified();
 }
 
-template<typename TImage, typename THistogramFrequencyContainer>
+template <typename TImage, typename THistogramFrequencyContainer>
 void
-ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
-::SetMaskImage( const ImageType *image )
+ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::SetMaskImage(const ImageType * image)
 {
   // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput( 1,
-    const_cast< ImageType * >( image ) );
+  this->ProcessObject::SetNthInput(1, const_cast<ImageType *>(image));
 
-  this->m_RunLengthMatrixGenerator->SetMaskImage( image );
+  this->m_RunLengthMatrixGenerator->SetMaskImage(image);
 }
 
-template<typename TImage, typename THistogramFrequencyContainer>
+template <typename TImage, typename THistogramFrequencyContainer>
 const TImage *
-ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
-::GetInput() const
+ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::GetInput() const
 {
-  if ( this->GetNumberOfInputs() < 1 )
-    {
+  if (this->GetNumberOfInputs() < 1)
+  {
     return nullptr;
-    }
-  return static_cast<const ImageType *>( this->ProcessObject::GetInput( 0 ) );
+  }
+  return static_cast<const ImageType *>(this->ProcessObject::GetInput(0));
 }
 
-template<typename TImage, typename THistogramFrequencyContainer>
-const typename
-ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
-::FeatureValueVectorDataObjectType *
-ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
-::GetFeatureMeansOutput() const
+template <typename TImage, typename THistogramFrequencyContainer>
+const typename ScalarImageToRunLengthFeaturesFilter<TImage,
+                                                    THistogramFrequencyContainer>::FeatureValueVectorDataObjectType *
+ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::GetFeatureMeansOutput() const
 {
-  return itkDynamicCastInDebugMode<const FeatureValueVectorDataObjectType *>
-    (this->ProcessObject::GetOutput( 0 ) );
+  return itkDynamicCastInDebugMode<const FeatureValueVectorDataObjectType *>(this->ProcessObject::GetOutput(0));
 }
 
-template<typename TImage, typename THistogramFrequencyContainer>
-const typename
-ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
-::FeatureValueVectorDataObjectType *
-ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
-::GetFeatureStandardDeviationsOutput() const
+template <typename TImage, typename THistogramFrequencyContainer>
+const typename ScalarImageToRunLengthFeaturesFilter<TImage,
+                                                    THistogramFrequencyContainer>::FeatureValueVectorDataObjectType *
+ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::GetFeatureStandardDeviationsOutput() const
 {
-  return itkDynamicCastInDebugMode< const FeatureValueVectorDataObjectType * >
-    ( this->ProcessObject::GetOutput( 1 ) );
+  return itkDynamicCastInDebugMode<const FeatureValueVectorDataObjectType *>(this->ProcessObject::GetOutput(1));
 }
 
-template<typename TImage, typename THistogramFrequencyContainer>
+template <typename TImage, typename THistogramFrequencyContainer>
 const TImage *
-ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
-::GetMaskImage() const
+ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::GetMaskImage() const
 {
-  if ( this->GetNumberOfInputs() < 2 )
-    {
+  if (this->GetNumberOfInputs() < 2)
+  {
     return nullptr;
-    }
-  return static_cast< const ImageType *>( this->ProcessObject::GetInput( 1 ) );
+  }
+  return static_cast<const ImageType *>(this->ProcessObject::GetInput(1));
 }
 
-template<typename TImage, typename THistogramFrequencyContainer>
+template <typename TImage, typename THistogramFrequencyContainer>
 void
-ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
-::SetInsidePixelValue( PixelType insidePixelValue )
+ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::SetInsidePixelValue(
+  PixelType insidePixelValue)
 {
-  itkDebugMacro( "setting InsidePixelValue to " << insidePixelValue );
-  this->m_RunLengthMatrixGenerator->SetInsidePixelValue( insidePixelValue );
+  itkDebugMacro("setting InsidePixelValue to " << insidePixelValue);
+  this->m_RunLengthMatrixGenerator->SetInsidePixelValue(insidePixelValue);
   this->Modified();
 }
 
-template<typename TImage, typename THistogramFrequencyContainer>
+template <typename TImage, typename THistogramFrequencyContainer>
 void
-ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
-::PrintSelf(std::ostream & os, Indent indent) const
+ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::PrintSelf(std::ostream & os,
+                                                                                      Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "RequestedFeatures: "
-     << this->GetRequestedFeatures() << std::endl;
-  os << indent << "FeatureStandardDeviations: "
-     << this->GetFeatureStandardDeviations() << std::endl;
-  os << indent << "FastCalculations: "
-     << this->GetFastCalculations() << std::endl;
+  os << indent << "RequestedFeatures: " << this->GetRequestedFeatures() << std::endl;
+  os << indent << "FeatureStandardDeviations: " << this->GetFeatureStandardDeviations() << std::endl;
+  os << indent << "FastCalculations: " << this->GetFastCalculations() << std::endl;
   os << indent << "Offsets: " << this->GetOffsets() << std::endl;
   os << indent << "FeatureMeans: " << this->GetFeatureMeans() << std::endl;
 }

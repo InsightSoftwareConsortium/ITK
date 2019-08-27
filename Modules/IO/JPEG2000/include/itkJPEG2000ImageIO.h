@@ -48,7 +48,7 @@ class JPEG2000ImageIOInternal;
  *  \ingroup IOFilters
  * \ingroup ITKIOJPEG2000
  */
-class ITKIOJPEG2000_EXPORT JPEG2000ImageIO:public StreamingImageIOBase
+class ITKIOJPEG2000_EXPORT JPEG2000ImageIO : public StreamingImageIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(JPEG2000ImageIO);
@@ -56,7 +56,7 @@ public:
   /** Standard class type aliases. */
   using Self = JPEG2000ImageIO;
   using Superclass = StreamingImageIOBase;
-  using Pointer = SmartPointer< Self >;
+  using Pointer = SmartPointer<Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -68,26 +68,32 @@ public:
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  bool CanReadFile(const char *) override;
+  bool
+  CanReadFile(const char *) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  void ReadImageInformation() override;
+  void
+  ReadImageInformation() override;
 
   /** Reads the data from disk into the memory buffer provided. */
-  void Read(void *buffer) override;
+  void
+  Read(void * buffer) override;
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
   /** Determine the file type. Returns true if this ImageIO can write the
    * file specified. */
-  bool CanWriteFile(const char *) override;
+  bool
+  CanWriteFile(const char *) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  void WriteImageInformation() override;
+  void
+  WriteImageInformation() override;
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. */
-  void Write(const void *buffer) override;
+  void
+  Write(const void * buffer) override;
 
   /** Method for supporting streaming.  Given a requested region, determine what
    * could be the region that we can read from the file. This is called the
@@ -97,32 +103,36 @@ public:
   GenerateStreamableReadRegionFromRequestedRegion(const ImageIORegion & requested) const override;
 
   /** Method required by the base class StreamingImageIOBase */
-  SizeType GetHeaderSize() const override;
+  SizeType
+  GetHeaderSize() const override;
 
   /** Define the tile size to use when writing out an image. */
-  void SetTileSize(int x, int y);
+  void
+  SetTileSize(int x, int y);
 
   /** Currently JPEG2000 does not support streamed writing
    *
    * These methods are re-overridden to not support streaming for
    * now...
    */
-  bool CanStreamWrite() override;
+  bool
+  CanStreamWrite() override;
 
 protected:
   JPEG2000ImageIO();
   ~JPEG2000ImageIO() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  std::unique_ptr< JPEG2000ImageIOInternal >  m_Internal;
+  std::unique_ptr<JPEG2000ImageIOInternal> m_Internal;
 
   using SizeValueType = ImageIORegion::SizeValueType;
   using IndexValueType = ImageIORegion::IndexValueType;
 
-  void ComputeRegionInTileBoundaries(unsigned int dimension,
-                                     SizeValueType tileSize, ImageIORegion & streamableRegion) const;
+  void
+  ComputeRegionInTileBoundaries(unsigned int dimension, SizeValueType tileSize, ImageIORegion & streamableRegion) const;
 };
 } // end namespace itk
 

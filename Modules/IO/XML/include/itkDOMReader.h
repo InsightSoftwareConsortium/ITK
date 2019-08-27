@@ -61,7 +61,7 @@ namespace itk
  *
  * \ingroup ITKIOXML
  */
-template< typename TOutput >
+template <typename TOutput>
 class ITK_TEMPLATE_EXPORT DOMReader : public Object
 {
 public:
@@ -90,31 +90,36 @@ public:
    * The output object will be created automatically, but the user
    * can appoint a user object as the output by calling this function.
    */
-  virtual void SetOutput( OutputType* output );
+  virtual void
+  SetOutput(OutputType * output);
 
   /** Get the output object for full access. */
-  OutputType* GetOutput();
+  OutputType *
+  GetOutput();
 
   /** Get the output object for read-only access. */
-  const OutputType* GetOutput() const;
+  const OutputType *
+  GetOutput() const;
 
   /**
    * Return the internal logger so that users can change the
    * output format or add/remove logging destinations.
    */
-  itkGetConstMacro( Logger, LoggerType* );
+  itkGetConstMacro(Logger, LoggerType *);
 
   /**
    * Function called by Update() or end-users to generate the output object from a DOM object.
    * Some derived readers may accept an incomplete DOM object during the reading process, in those cases
    * the optional argument 'userdata' can be used to provide the missed information.
    */
-  void Update( const DOMNodeType* inputdom, const void* userdata = nullptr );
+  void
+  Update(const DOMNodeType * inputdom, const void * userdata = nullptr);
 
   /**
    * Function called by end-users to generate the output object from the input XML file.
    */
-  virtual void Update();
+  virtual void
+  Update();
 
 protected:
   DOMReader();
@@ -126,18 +131,19 @@ protected:
    * Some derived readers may accept an incomplete DOM object during the reading process, in those cases
    * the optional argument 'userdata' can be used to provide the missed information.
    */
-  virtual void GenerateData( const DOMNodeType* inputdom, const void* userdata ) = 0;
+  virtual void
+  GenerateData(const DOMNodeType * inputdom, const void * userdata) = 0;
 
 private:
   /** Get/Set the intermediate DOM object. */
-  itkSetObjectMacro( IntermediateDOM, DOMNodeType );
-  itkGetModifiableObjectMacro(IntermediateDOM, DOMNodeType );
+  itkSetObjectMacro(IntermediateDOM, DOMNodeType);
+  itkGetModifiableObjectMacro(IntermediateDOM, DOMNodeType);
 
   /** Variable to hold the input XML file name. */
   std::string m_FileName;
 
   /** Variable to hold the output object, created internally or supplied by the user. */
-  OutputType* m_Output;
+  OutputType * m_Output;
   /** Variable to hold the output object if it is a smart object. */
   typename LightObject::Pointer m_OutputHolder;
 
@@ -151,7 +157,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDOMReader.hxx"
+#  include "itkDOMReader.hxx"
 #endif
 
 #endif // itkDOMReader_h

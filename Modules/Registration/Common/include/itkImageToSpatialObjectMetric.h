@@ -57,17 +57,16 @@ namespace itk
  * \ingroup ITKRegistrationCommon
  */
 
-template< typename TFixedImage, typename TMovingSpatialObject >
-class ITK_TEMPLATE_EXPORT ImageToSpatialObjectMetric:
-  public SingleValuedCostFunction
+template <typename TFixedImage, typename TMovingSpatialObject>
+class ITK_TEMPLATE_EXPORT ImageToSpatialObjectMetric : public SingleValuedCostFunction
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageToSpatialObjectMetric);
 
   using Self = ImageToSpatialObjectMetric;
   using Superclass = SingleValuedCostFunction;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Type of the fixed image */
   using FixedImageType = TFixedImage;
@@ -85,9 +84,7 @@ public:
   static constexpr unsigned int ObjectDimension = MovingSpatialObjectType::ObjectDimension;
 
   /**  Type of the Transform Base class */
-  using TransformType = Transform< CoordinateRepresentationType,
-                     Self::ObjectDimension,
-                     Self::ImageDimension >;
+  using TransformType = Transform<CoordinateRepresentationType, Self::ObjectDimension, Self::ImageDimension>;
 
   using TransformPointer = typename TransformType::Pointer;
   using InputPointType = typename TransformType::InputPointType;
@@ -96,15 +93,12 @@ public:
   using TransformJacobianType = typename TransformType::JacobianType;
 
   /**  Type of the Interpolator Base class */
-  using InterpolatorType = LinearInterpolateImageFunction<
-    TFixedImage,
-    CoordinateRepresentationType >;
+  using InterpolatorType = LinearInterpolateImageFunction<TFixedImage, CoordinateRepresentationType>;
 
   using InterpolatorPointer = typename InterpolatorType::Pointer;
 
   /** Typede of the vector type to return derivatives */
-  using VectorType = vnl_vector_fixed< double,
-                            Self::ObjectDimension >;
+  using VectorType = vnl_vector_fixed<double, Self::ObjectDimension>;
 
   /**  Type of the match measure */
   using MeasureType = Superclass::MeasureType;
@@ -146,15 +140,18 @@ public:
   itkGetModifiableObjectMacro(Interpolator, InterpolatorType);
 
   /** Get Value and Derivatives for MultipleValuedOptimizers */
-  void GetValueAndDerivative(const ParametersType & parameters,
-                                     MeasureType & Value,
-                                     DerivativeType  & Derivative) const override = 0;
+  void
+  GetValueAndDerivative(const ParametersType & parameters,
+                        MeasureType &          Value,
+                        DerivativeType &       Derivative) const override = 0;
 
   /** Return the number of parameters required by the Transform */
-  unsigned int GetNumberOfParameters() const override;
+  unsigned int
+  GetNumberOfParameters() const override;
 
   /** Initialize the metric */
-  virtual void Initialize();
+  virtual void
+  Initialize();
 
   /** Get the last transformation parameters visited by
    * the optimizer. This function overload the superclass's one */
@@ -164,13 +161,13 @@ public:
   itkSetObjectMacro(Transform, TransformType);
 
 protected:
-
   ImageToSpatialObjectMetric();
   ~ImageToSpatialObjectMetric() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  MeasureType              m_MatchMeasure{0};
+  MeasureType              m_MatchMeasure{ 0 };
   DerivativeType           m_MatchMeasureDerivatives;
   mutable TransformPointer m_Transform;
   InterpolatorPointer      m_Interpolator;
@@ -182,7 +179,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageToSpatialObjectMetric.hxx"
+#  include "itkImageToSpatialObjectMetric.hxx"
 #endif
 
 #endif

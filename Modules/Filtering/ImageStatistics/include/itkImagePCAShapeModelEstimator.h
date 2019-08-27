@@ -72,19 +72,17 @@ namespace itk
  * \endsphinx
  */
 
-template< typename TInputImage,
-          typename TOutputImage = Image< double, TInputImage::ImageDimension > >
-class ITK_TEMPLATE_EXPORT ImagePCAShapeModelEstimator:
-  public ImageShapeModelEstimatorBase< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage = Image<double, TInputImage::ImageDimension>>
+class ITK_TEMPLATE_EXPORT ImagePCAShapeModelEstimator : public ImageShapeModelEstimatorBase<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImagePCAShapeModelEstimator);
 
   /** Standard class type aliases. */
   using Self = ImagePCAShapeModelEstimator;
-  using Superclass = ImageShapeModelEstimatorBase< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageShapeModelEstimatorBase<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -101,8 +99,8 @@ public:
   using InputImagePixelType = typename TInputImage::PixelType;
 
   /** Type definition for the input image iterator type. */
-  using InputImageIterator = ImageRegionIterator< TInputImage >;
-  using InputImageConstIterator = ImageRegionConstIterator< TInputImage >;
+  using InputImageIterator = ImageRegionIterator<TInputImage>;
+  using InputImageConstIterator = ImageRegionConstIterator<TInputImage>;
 
   /** Input Image dimension */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
@@ -112,27 +110,29 @@ public:
   using OutputImagePointer = typename TOutputImage::Pointer;
 
   /** Type definition for the input image iterator type. */
-  using OutputImageIterator = ImageRegionIterator< TOutputImage >;
+  using OutputImageIterator = ImageRegionIterator<TOutputImage>;
 
   /** Type definition for a double matrix. */
-  using MatrixOfDoubleType = vnl_matrix< double >;
+  using MatrixOfDoubleType = vnl_matrix<double>;
 
   /** Type definition for an integer vector. */
-  using MatrixOfIntegerType = vnl_matrix< int >;
+  using MatrixOfIntegerType = vnl_matrix<int>;
 
   /** Type definition for a double vector. */
-  using VectorOfDoubleType = vnl_vector< double >;
+  using VectorOfDoubleType = vnl_vector<double>;
 
   /** Set/Get the number of required largest principal components. The
    * filter produces the required number of principal components plus
    * one outputs. Output index 0 represents the mean image and the
    * remaining outputs the requested principal components. */
-  virtual void SetNumberOfPrincipalComponentsRequired(unsigned int n);
+  virtual void
+  SetNumberOfPrincipalComponentsRequired(unsigned int n);
 
   itkGetConstMacro(NumberOfPrincipalComponentsRequired, unsigned int);
 
   /** Set/Get the number of training images in the input. */
-  virtual void SetNumberOfTrainingImages(unsigned int n);
+  virtual void
+  SetNumberOfTrainingImages(unsigned int n);
 
   itkGetConstMacro(NumberOfTrainingImages, unsigned int);
 
@@ -142,27 +142,30 @@ public:
 protected:
   ImagePCAShapeModelEstimator();
   ~ImagePCAShapeModelEstimator() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** This filter must produce all of the outputs at once, as such it
    * must override the EnlargeOutputRequestedRegion method to enlarge the
    * output request region. */
-  void EnlargeOutputRequestedRegion(DataObject *) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject *) override;
 
   /** This filter requires all the input image at once, as such it
    * must override the GenerateInputRequestedRegion method. Additionally,
    * this filter assumes that the input images are at least the size as
    * the first input image. */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** Starts the image modelling process */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
-
   /** Local variable type alias */
-  using InputImagePointerArray = std::vector< InputImageConstPointer >;
-  using InputImageIteratorArray = std::vector< InputImageConstIterator >;
+  using InputImagePointerArray = std::vector<InputImageConstPointer>;
+  using InputImageIteratorArray = std::vector<InputImageConstIterator>;
 
   using ImageSizeType = typename TInputImage::SizeType;
 
@@ -177,11 +180,14 @@ private:
    * determine the cluster centers or the Shape model. This is the
    * the base function to call the K-means classifier. */
 
-  void EstimateShapeModels() override;
+  void
+  EstimateShapeModels() override;
 
-  void EstimatePCAShapeModelParameters();
+  void
+  EstimatePCAShapeModelParameters();
 
-  void CalculateInnerProduct();
+  void
+  CalculateInnerProduct();
 
   /** Local storage variables */
   InputImageIteratorArray m_InputImageIteratorArray;
@@ -198,10 +204,10 @@ private:
 
   ImageSizeType m_InputImageSize;
 
-  unsigned int m_NumberOfPixels{0};
+  unsigned int m_NumberOfPixels{ 0 };
 
   // The number of input images for PCA
-  unsigned int m_NumberOfTrainingImages{0};
+  unsigned int m_NumberOfTrainingImages{ 0 };
 
   // The number of output Principal Components
   unsigned int m_NumberOfPrincipalComponentsRequired;
@@ -209,7 +215,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImagePCAShapeModelEstimator.hxx"
+#  include "itkImagePCAShapeModelEstimator.hxx"
 #endif
 
 #endif

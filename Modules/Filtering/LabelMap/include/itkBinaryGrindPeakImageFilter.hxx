@@ -24,46 +24,41 @@
 #include "itkLabelMapToBinaryImageFilter.h"
 #include "itkProgressAccumulator.h"
 
-namespace itk {
+namespace itk
+{
 
 template <typename TInputImage>
-BinaryGrindPeakImageFilter<TInputImage>
-::BinaryGrindPeakImageFilter() :
-  m_ForegroundValue( NumericTraits<InputImagePixelType>::max() ),
-  m_BackgroundValue( NumericTraits<InputImagePixelType>::ZeroValue() )
+BinaryGrindPeakImageFilter<TInputImage>::BinaryGrindPeakImageFilter()
+  : m_ForegroundValue(NumericTraits<InputImagePixelType>::max())
+  , m_BackgroundValue(NumericTraits<InputImagePixelType>::ZeroValue())
 
-{
-}
+{}
 
 template <typename TInputImage>
 void
-BinaryGrindPeakImageFilter<TInputImage>
-::GenerateInputRequestedRegion()
+BinaryGrindPeakImageFilter<TInputImage>::GenerateInputRequestedRegion()
 {
   // Call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // We need the whole input
   InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
-  if( input )
-    {
-    input->SetRequestedRegion( input->GetLargestPossibleRegion() );
-    }
+  if (input)
+  {
+    input->SetRequestedRegion(input->GetLargestPossibleRegion());
+  }
 }
 
 template <typename TInputImage>
 void
-BinaryGrindPeakImageFilter<TInputImage>
-::EnlargeOutputRequestedRegion(DataObject *)
+BinaryGrindPeakImageFilter<TInputImage>::EnlargeOutputRequestedRegion(DataObject *)
 {
-  this->GetOutput()
-    ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
+  this->GetOutput()->SetRequestedRegion(this->GetOutput()->GetLargestPossibleRegion());
 }
 
-template<typename TInputImage>
+template <typename TInputImage>
 void
-BinaryGrindPeakImageFilter<TInputImage>
-::GenerateData()
+BinaryGrindPeakImageFilter<TInputImage>::GenerateData()
 {
   // Create a process accumulator for tracking the progress of this minipipeline
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
@@ -72,48 +67,51 @@ BinaryGrindPeakImageFilter<TInputImage>
   // Allocate the output
   this->AllocateOutputs();
 
-  using LabelizerType = typename itk::BinaryImageToShapeLabelMapFilter< InputImageType >;
+  using LabelizerType = typename itk::BinaryImageToShapeLabelMapFilter<InputImageType>;
   typename LabelizerType::Pointer labelizer = LabelizerType::New();
-  labelizer->SetInput( this->GetInput() );
-  labelizer->SetInputForegroundValue( m_ForegroundValue );
-  labelizer->SetOutputBackgroundValue( m_BackgroundValue );
-  labelizer->SetFullyConnected( m_FullyConnected );
-  labelizer->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
+  labelizer->SetInput(this->GetInput());
+  labelizer->SetInputForegroundValue(m_ForegroundValue);
+  labelizer->SetOutputBackgroundValue(m_BackgroundValue);
+  labelizer->SetFullyConnected(m_FullyConnected);
+  labelizer->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   progress->RegisterInternalFilter(labelizer, .65f);
 
   using LabelMapType = typename LabelizerType::OutputImageType;
-  using OpeningType = typename itk::ShapeOpeningLabelMapFilter< LabelMapType >;
+  using OpeningType = typename itk::ShapeOpeningLabelMapFilter<LabelMapType>;
   typename OpeningType::Pointer opening = OpeningType::New();
-  opening->SetInput( labelizer->GetOutput() );
-  opening->SetAttribute( LabelMapType::LabelObjectType::NUMBER_OF_PIXELS_ON_BORDER );
-  opening->SetLambda( 1 );
-  opening->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
+  opening->SetInput(labelizer->GetOutput());
+  opening->SetAttribute(LabelMapType::LabelObjectType::NUMBER_OF_PIXELS_ON_BORDER);
+  opening->SetLambda(1);
+  opening->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   progress->RegisterInternalFilter(opening, .1f);
 
-  using BinarizerType = typename itk::LabelMapToBinaryImageFilter< LabelMapType, OutputImageType >;
+  using BinarizerType = typename itk::LabelMapToBinaryImageFilter<LabelMapType, OutputImageType>;
   typename BinarizerType::Pointer binarizer = BinarizerType::New();
-  binarizer->SetInput( opening->GetOutput() );
-  binarizer->SetForegroundValue( m_ForegroundValue );
-  binarizer->SetBackgroundValue( m_BackgroundValue );
-  binarizer->SetBackgroundImage( this->GetInput() );
-  binarizer->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
+  binarizer->SetInput(opening->GetOutput());
+  binarizer->SetForegroundValue(m_ForegroundValue);
+  binarizer->SetBackgroundValue(m_BackgroundValue);
+  binarizer->SetBackgroundImage(this->GetInput());
+  binarizer->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   progress->RegisterInternalFilter(binarizer, .25f);
 
-  binarizer->GraftOutput( this->GetOutput() );
+  binarizer->GraftOutput(this->GetOutput());
   binarizer->Update();
-  this->GraftOutput( binarizer->GetOutput() );
+  this->GraftOutput(binarizer->GetOutput());
 }
 
-template<typename TInputImage>
+template <typename TInputImage>
 void
-BinaryGrindPeakImageFilter<TInputImage>
-::PrintSelf(std::ostream &os, Indent indent) const
+BinaryGrindPeakImageFilter<TInputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ForegroundValue: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_ForegroundValue) << std::endl;
-  os << indent << "BackgroundValue: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_BackgroundValue) << std::endl;
-  os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
+  os << indent
+     << "ForegroundValue: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_ForegroundValue)
+     << std::endl;
+  os << indent
+     << "BackgroundValue: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_BackgroundValue)
+     << std::endl;
+  os << indent << "FullyConnected: " << m_FullyConnected << std::endl;
 }
-}// end namespace itk
+} // end namespace itk
 #endif

@@ -40,18 +40,17 @@ namespace itk
  *
  * \ingroup ITKSignedDistanceFunction
  */
-template< typename TCoordRep, unsigned int VSpaceDimension >
-class ITK_TEMPLATE_EXPORT SphereSignedDistanceFunction:
-  public ShapeSignedDistanceFunction< TCoordRep, VSpaceDimension >
+template <typename TCoordRep, unsigned int VSpaceDimension>
+class ITK_TEMPLATE_EXPORT SphereSignedDistanceFunction : public ShapeSignedDistanceFunction<TCoordRep, VSpaceDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SphereSignedDistanceFunction);
 
   /** Standard class type aliases. */
   using Self = SphereSignedDistanceFunction;
-  using Superclass = ShapeSignedDistanceFunction< TCoordRep, VSpaceDimension >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ShapeSignedDistanceFunction<TCoordRep, VSpaceDimension>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(SphereSignedDistanceFunction, ShapeSignedDistancFunction);
@@ -79,24 +78,33 @@ public:
 
   /** A sphere is defined by a set of shape parameters. The first parameter
    * is the radius and the next SpaceDimension parameters represent the center. */
-  void SetParameters(const ParametersType &) override;
+  void
+  SetParameters(const ParametersType &) override;
 
-  unsigned int GetNumberOfShapeParameters() const override
-  { return 1; }
-  unsigned int GetNumberOfPoseParameters() const override
-  { return SpaceDimension; }
+  unsigned int
+  GetNumberOfShapeParameters() const override
+  {
+    return 1;
+  }
+  unsigned int
+  GetNumberOfPoseParameters() const override
+  {
+    return SpaceDimension;
+  }
 
   /** Evaluate the signed distance from a shape at a given position. */
-  OutputType Evaluate(const PointType & point) const override;
+  OutputType
+  Evaluate(const PointType & point) const override;
 
 protected:
   SphereSignedDistanceFunction();
   ~SphereSignedDistanceFunction() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  using VectorType = Vector< CoordRepType, Self::SpaceDimension >;
+  using VectorType = Vector<CoordRepType, Self::SpaceDimension>;
 
   VectorType m_Translation;
   double     m_Radius;
@@ -104,7 +112,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSphereSignedDistanceFunction.hxx"
+#  include "itkSphereSignedDistanceFunction.hxx"
 #endif
 
 #endif

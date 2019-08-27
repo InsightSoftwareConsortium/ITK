@@ -31,7 +31,7 @@
 #include "itkQuaternionRigidTransform.h"
 #if !defined ITK_LEGACY_REMOVE
 // The v3 Rigid3DTransform will be removed in ITKv6
-#include "itkv3Rigid3DTransform.h"
+#  include "itkv3Rigid3DTransform.h"
 #endif
 #include "itkRigid3DPerspectiveTransform.h"
 #include "itkScaleLogarithmicTransform.h"
@@ -43,7 +43,7 @@
 #include "itkBSplineTransform.h"
 #include "itkCompositeTransform.h"
 
-//Transforms from Filtering/DisplacementField/include
+// Transforms from Filtering/DisplacementField/include
 #include "itkBSplineExponentialDiffeomorphicTransform.h"
 #include "itkBSplineSmoothingOnUpdateDisplacementFieldTransform.h"
 #include "itkConstantVelocityFieldTransform.h"
@@ -55,12 +55,12 @@
 #include "itkTimeVaryingVelocityFieldTransform.h"
 #include "itkVelocityFieldTransform.h"
 
-#if !defined ( ITK_LEGACY_REMOVE )
-#include "itkBSplineDeformableTransform.h"
+#if !defined(ITK_LEGACY_REMOVE)
+#  include "itkBSplineDeformableTransform.h"
 #endif
 
 #ifndef ITK_TRANSFORM_FACTORY_MAX_DIM
-#define ITK_TRANSFORM_FACTORY_MAX_DIM 9
+#  define ITK_TRANSFORM_FACTORY_MAX_DIM 9
 #endif
 
 
@@ -72,31 +72,35 @@ namespace
 {
 
 // Class to register generic transform for dimension D and lower
-template< typename TParameterType, unsigned int D>
+template <typename TParameterType, unsigned int D>
 struct RegisterTransformsD
 {
-  static void Register()
-    {
-      TransformFactory< AffineTransform<TParameterType, D> >::RegisterTransform ();
-      TransformFactory< CompositeTransform<TParameterType, D> >::RegisterTransform();
-      TransformFactory< IdentityTransform<TParameterType, D> >::RegisterTransform ();
-      TransformFactory< TranslationTransform<TParameterType, D> >::RegisterTransform ();
+  static void
+  Register()
+  {
+    TransformFactory<AffineTransform<TParameterType, D>>::RegisterTransform();
+    TransformFactory<CompositeTransform<TParameterType, D>>::RegisterTransform();
+    TransformFactory<IdentityTransform<TParameterType, D>>::RegisterTransform();
+    TransformFactory<TranslationTransform<TParameterType, D>>::RegisterTransform();
 
-      // register transforms of one less dimension
-      RegisterTransformsD<TParameterType, D-1>::Register();
-    }
+    // register transforms of one less dimension
+    RegisterTransformsD<TParameterType, D - 1>::Register();
+  }
 };
 
 // Template specialized class to stop registering transform.
-template<typename TParameterType>
+template <typename TParameterType>
 struct RegisterTransformsD<TParameterType, 1>
 {
-  static void Register() {}
+  static void
+  Register()
+  {}
 };
-}
+} // namespace
 
 template <typename TParameterType>
-void TransformFactoryBase::RegisterTransformFactory()
+void
+TransformFactoryBase::RegisterTransformFactory()
 {
   // All generic transforms for any dimension, are registered in a
   // recursive class 2-MAX_TRANSFORM_DIM
@@ -106,73 +110,72 @@ void TransformFactoryBase::RegisterTransformFactory()
   //   TParameterType FixedParameters instances (in alphabetical order)
   //
 
-  TransformFactory< AzimuthElevationToCartesianTransform<TParameterType, 3> >::RegisterTransform ();
+  TransformFactory<AzimuthElevationToCartesianTransform<TParameterType, 3>>::RegisterTransform();
 
-  TransformFactory< BSplineTransform<TParameterType, 2, 3> >::RegisterTransform ();
-  TransformFactory< BSplineTransform<TParameterType, 3, 3> >::RegisterTransform ();
-#if !defined ( ITK_LEGACY_REMOVE )
-  TransformFactory< BSplineDeformableTransform<TParameterType, 2, 2> >::RegisterTransform ();
-  TransformFactory< BSplineDeformableTransform<TParameterType, 3, 3> >::RegisterTransform ();
+  TransformFactory<BSplineTransform<TParameterType, 2, 3>>::RegisterTransform();
+  TransformFactory<BSplineTransform<TParameterType, 3, 3>>::RegisterTransform();
+#if !defined(ITK_LEGACY_REMOVE)
+  TransformFactory<BSplineDeformableTransform<TParameterType, 2, 2>>::RegisterTransform();
+  TransformFactory<BSplineDeformableTransform<TParameterType, 3, 3>>::RegisterTransform();
 #endif
 
-  TransformFactory< CenteredAffineTransform<TParameterType, 2> >::RegisterTransform ();
-  TransformFactory< CenteredAffineTransform<TParameterType, 3> >::RegisterTransform ();
-  TransformFactory< CenteredEuler3DTransform<TParameterType > >::RegisterTransform ();
-  TransformFactory< CenteredRigid2DTransform<TParameterType > >::RegisterTransform();
-  TransformFactory< CenteredSimilarity2DTransform<TParameterType > >::RegisterTransform ();
+  TransformFactory<CenteredAffineTransform<TParameterType, 2>>::RegisterTransform();
+  TransformFactory<CenteredAffineTransform<TParameterType, 3>>::RegisterTransform();
+  TransformFactory<CenteredEuler3DTransform<TParameterType>>::RegisterTransform();
+  TransformFactory<CenteredRigid2DTransform<TParameterType>>::RegisterTransform();
+  TransformFactory<CenteredSimilarity2DTransform<TParameterType>>::RegisterTransform();
 
 
-  TransformFactory< Euler2DTransform<TParameterType > >::RegisterTransform ();
-  TransformFactory< Euler3DTransform<TParameterType > >::RegisterTransform ();
+  TransformFactory<Euler2DTransform<TParameterType>>::RegisterTransform();
+  TransformFactory<Euler3DTransform<TParameterType>>::RegisterTransform();
 
-  TransformFactory< FixedCenterOfRotationAffineTransform<TParameterType, 3> >::RegisterTransform ();
+  TransformFactory<FixedCenterOfRotationAffineTransform<TParameterType, 3>>::RegisterTransform();
 
-  TransformFactory< QuaternionRigidTransform<TParameterType > >::RegisterTransform ();
+  TransformFactory<QuaternionRigidTransform<TParameterType>>::RegisterTransform();
 
-  TransformFactory< Rigid2DTransform<TParameterType > >::RegisterTransform ();
+  TransformFactory<Rigid2DTransform<TParameterType>>::RegisterTransform();
 
 #if !defined ITK_LEGACY_REMOVE
   // We cannot register Rigid3DTransform because in ITKv4 the NewMacro was removed.
   // Rigid3DTransforms are only intended to be used as a baseclass.
   // Consider VersorRigid3D as a much more stable (under optimizatoin) registration type.
   // itk::v3::Rigid3DTransform is used as a wrapper to simply add the NewMacro.
-  TransformFactory< v3::Rigid3DTransform<TParameterType > >::RegisterTransform ();
+  TransformFactory<v3::Rigid3DTransform<TParameterType>>::RegisterTransform();
 #endif
-  TransformFactory< Rigid3DPerspectiveTransform<TParameterType > >::RegisterTransform ();
+  TransformFactory<Rigid3DPerspectiveTransform<TParameterType>>::RegisterTransform();
 
-  TransformFactory< ScalableAffineTransform<TParameterType, 3> >::RegisterTransform ();
-  TransformFactory< ScaleLogarithmicTransform<TParameterType, 3> >::RegisterTransform ();
-  TransformFactory< ScaleSkewVersor3DTransform<TParameterType > >::RegisterTransform ();
-  TransformFactory< ScaleTransform<TParameterType, 2> >::RegisterTransform ();
-  TransformFactory< ScaleTransform<TParameterType, 3> >::RegisterTransform ();
-  TransformFactory< ScaleTransform<TParameterType, 4> >::RegisterTransform ();
-  TransformFactory< ScaleVersor3DTransform<TParameterType > >::RegisterTransform ();
+  TransformFactory<ScalableAffineTransform<TParameterType, 3>>::RegisterTransform();
+  TransformFactory<ScaleLogarithmicTransform<TParameterType, 3>>::RegisterTransform();
+  TransformFactory<ScaleSkewVersor3DTransform<TParameterType>>::RegisterTransform();
+  TransformFactory<ScaleTransform<TParameterType, 2>>::RegisterTransform();
+  TransformFactory<ScaleTransform<TParameterType, 3>>::RegisterTransform();
+  TransformFactory<ScaleTransform<TParameterType, 4>>::RegisterTransform();
+  TransformFactory<ScaleVersor3DTransform<TParameterType>>::RegisterTransform();
 
-  TransformFactory< Similarity2DTransform<TParameterType > >::RegisterTransform ();
-  TransformFactory< Similarity3DTransform<TParameterType > >::RegisterTransform ();
+  TransformFactory<Similarity2DTransform<TParameterType>>::RegisterTransform();
+  TransformFactory<Similarity3DTransform<TParameterType>>::RegisterTransform();
 
-  TransformFactory< VersorRigid3DTransform<TParameterType > >::RegisterTransform ();
-  TransformFactory< VersorTransform<TParameterType > >::RegisterTransform ();
+  TransformFactory<VersorRigid3DTransform<TParameterType>>::RegisterTransform();
+  TransformFactory<VersorTransform<TParameterType>>::RegisterTransform();
 
-  TransformFactory< BSplineSmoothingOnUpdateDisplacementFieldTransform<TParameterType,2> >::RegisterTransform ();
-  TransformFactory< BSplineSmoothingOnUpdateDisplacementFieldTransform<TParameterType,3> >::RegisterTransform ();
-  TransformFactory< ConstantVelocityFieldTransform<TParameterType,2> >::RegisterTransform ();
-  TransformFactory< ConstantVelocityFieldTransform<TParameterType,3> >::RegisterTransform ();
-  TransformFactory< DisplacementFieldTransform<TParameterType, 2> >::RegisterTransform ();
-  TransformFactory< DisplacementFieldTransform<TParameterType, 3> >::RegisterTransform ();
-  TransformFactory< GaussianExponentialDiffeomorphicTransform<TParameterType,2> >::RegisterTransform ();
-  TransformFactory< GaussianExponentialDiffeomorphicTransform<TParameterType,3> >::RegisterTransform ();
-  TransformFactory< GaussianSmoothingOnUpdateDisplacementFieldTransform<TParameterType,2> >::RegisterTransform ();
-  TransformFactory< GaussianSmoothingOnUpdateDisplacementFieldTransform<TParameterType,3> >::RegisterTransform ();
-  TransformFactory< GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParameterType,2> >::RegisterTransform ();
-  TransformFactory< GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParameterType,3> >::RegisterTransform ();
-  TransformFactory< TimeVaryingBSplineVelocityFieldTransform<TParameterType,2> >::RegisterTransform ();
-  TransformFactory< TimeVaryingBSplineVelocityFieldTransform<TParameterType,3> >::RegisterTransform ();
-  TransformFactory< TimeVaryingVelocityFieldTransform<TParameterType,2> >::RegisterTransform ();
-  TransformFactory< TimeVaryingVelocityFieldTransform<TParameterType,3> >::RegisterTransform ();
-  TransformFactory< VelocityFieldTransform<TParameterType,2> >::RegisterTransform ();
-  TransformFactory< VelocityFieldTransform<TParameterType,3> >::RegisterTransform ();
-
+  TransformFactory<BSplineSmoothingOnUpdateDisplacementFieldTransform<TParameterType, 2>>::RegisterTransform();
+  TransformFactory<BSplineSmoothingOnUpdateDisplacementFieldTransform<TParameterType, 3>>::RegisterTransform();
+  TransformFactory<ConstantVelocityFieldTransform<TParameterType, 2>>::RegisterTransform();
+  TransformFactory<ConstantVelocityFieldTransform<TParameterType, 3>>::RegisterTransform();
+  TransformFactory<DisplacementFieldTransform<TParameterType, 2>>::RegisterTransform();
+  TransformFactory<DisplacementFieldTransform<TParameterType, 3>>::RegisterTransform();
+  TransformFactory<GaussianExponentialDiffeomorphicTransform<TParameterType, 2>>::RegisterTransform();
+  TransformFactory<GaussianExponentialDiffeomorphicTransform<TParameterType, 3>>::RegisterTransform();
+  TransformFactory<GaussianSmoothingOnUpdateDisplacementFieldTransform<TParameterType, 2>>::RegisterTransform();
+  TransformFactory<GaussianSmoothingOnUpdateDisplacementFieldTransform<TParameterType, 3>>::RegisterTransform();
+  TransformFactory<GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParameterType, 2>>::RegisterTransform();
+  TransformFactory<GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParameterType, 3>>::RegisterTransform();
+  TransformFactory<TimeVaryingBSplineVelocityFieldTransform<TParameterType, 2>>::RegisterTransform();
+  TransformFactory<TimeVaryingBSplineVelocityFieldTransform<TParameterType, 3>>::RegisterTransform();
+  TransformFactory<TimeVaryingVelocityFieldTransform<TParameterType, 2>>::RegisterTransform();
+  TransformFactory<TimeVaryingVelocityFieldTransform<TParameterType, 3>>::RegisterTransform();
+  TransformFactory<VelocityFieldTransform<TParameterType, 2>>::RegisterTransform();
+  TransformFactory<VelocityFieldTransform<TParameterType, 3>>::RegisterTransform();
 }
 
 } // end namespace itk

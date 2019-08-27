@@ -42,18 +42,17 @@ namespace itk
  * \ingroup RegistrationMetrics
  * \ingroup ITKRegistrationCommon
  */
-template< typename TFixedImage, typename TMovingImage >
-class ITK_TEMPLATE_EXPORT NormalizedCorrelationImageToImageMetric:
-  public ImageToImageMetric< TFixedImage, TMovingImage >
+template <typename TFixedImage, typename TMovingImage>
+class ITK_TEMPLATE_EXPORT NormalizedCorrelationImageToImageMetric : public ImageToImageMetric<TFixedImage, TMovingImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(NormalizedCorrelationImageToImageMetric);
 
   /** Standard class type aliases. */
   using Self = NormalizedCorrelationImageToImageMetric;
-  using Superclass = ImageToImageMetric< TFixedImage, TMovingImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageMetric<TFixedImage, TMovingImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -79,15 +78,18 @@ public:
   using MovingImageConstPointer = typename Superclass::MovingImageConstPointer;
 
   /** Get the derivatives of the match measure. */
-  void GetDerivative(const TransformParametersType & parameters,
-                     DerivativeType & Derivative) const override;
+  void
+  GetDerivative(const TransformParametersType & parameters, DerivativeType & Derivative) const override;
 
   /**  Get the value for single valued optimizers. */
-  MeasureType GetValue(const TransformParametersType & parameters) const override;
+  MeasureType
+  GetValue(const TransformParametersType & parameters) const override;
 
   /**  Get value and derivatives for multiple valued optimizers. */
-  void GetValueAndDerivative(const TransformParametersType & parameters,
-                             MeasureType & Value, DerivativeType & Derivative) const override;
+  void
+  GetValueAndDerivative(const TransformParametersType & parameters,
+                        MeasureType &                   Value,
+                        DerivativeType &                Derivative) const override;
 
   /** Set/Get SubtractMean boolean. If true, the sample mean is subtracted
    * from the sample values in the cross-correlation formula and
@@ -100,7 +102,8 @@ public:
 protected:
   NormalizedCorrelationImageToImageMetric();
   ~NormalizedCorrelationImageToImageMetric() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   bool m_SubtractMean;
@@ -108,7 +111,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNormalizedCorrelationImageToImageMetric.hxx"
+#  include "itkNormalizedCorrelationImageToImageMetric.hxx"
 #endif
 
 #endif

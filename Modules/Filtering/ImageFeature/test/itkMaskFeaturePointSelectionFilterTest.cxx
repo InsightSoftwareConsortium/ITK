@@ -28,108 +28,107 @@
 #include "itkRGBPixel.h"
 
 
-int itkMaskFeaturePointSelectionFilterTest( int argc, char * argv[] )
+int
+itkMaskFeaturePointSelectionFilterTest(int argc, char * argv[])
 {
-  if( argc < 2 )
-    {
+  if (argc < 2)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << " itkMaskFeaturePointSelectionFilterTest inputImageFile outputImageFile [Mask File] ";
     return EXIT_FAILURE;
-    }
+  }
 
   using InputPixelType = unsigned char;
   using OutputPixelType = itk::RGBPixel<InputPixelType>;
 
-  using InputImageType = itk::Image< InputPixelType,  3 >;
-  using OutputImageType = itk::Image< OutputPixelType, 3 >;
+  using InputImageType = itk::Image<InputPixelType, 3>;
+  using OutputImageType = itk::Image<OutputPixelType, 3>;
 
-  using PointSetPixelType = itk::Matrix< itk::SpacePrecisionType, 3, 3 >;
-  using PointSetType = itk::PointSet< PointSetPixelType, 3 >;
+  using PointSetPixelType = itk::Matrix<itk::SpacePrecisionType, 3, 3>;
+  using PointSetType = itk::PointSet<PointSetPixelType, 3>;
 
-  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
 
-  using FilterType = itk::MaskFeaturePointSelectionFilter< InputImageType, InputImageType, PointSetType >;
+  using FilterType = itk::MaskFeaturePointSelectionFilter<InputImageType, InputImageType, PointSetType>;
 
-  //Set up the reader
+  // Set up the reader
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
   // Set up filter
   FilterType::Pointer filter = FilterType::New();
 
-  filter->SetInput( reader->GetOutput() );
+  filter->SetInput(reader->GetOutput());
 
-  filter->SetSelectFraction( 0.01 );
+  filter->SetSelectFraction(0.01);
   filter->ComputeStructureTensorsOff();
 
   std::cout << "Filter: " << filter << std::endl;
 
   try
-    {
-      filter->Update();
-    }
-  catch ( itk::ExceptionObject &err )
-    {
-      std::cerr << err << std::endl;
-      return EXIT_FAILURE;
-    }
+  {
+    filter->Update();
+  }
+  catch (itk::ExceptionObject & err)
+  {
+    std::cerr << err << std::endl;
+    return EXIT_FAILURE;
+  }
 
-  //Set up the writer
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  // Set up the writer
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
   WriterType::Pointer writer = WriterType::New();
 
-  using InputIteratorType = itk::ImageRegionConstIterator< InputImageType >;
-  InputIteratorType inputIterator( reader->GetOutput(), reader->GetOutput()->GetBufferedRegion() );
-  using OutputIteratorType = itk::ImageRegionIterator< OutputImageType >;
+  using InputIteratorType = itk::ImageRegionConstIterator<InputImageType>;
+  InputIteratorType inputIterator(reader->GetOutput(), reader->GetOutput()->GetBufferedRegion());
+  using OutputIteratorType = itk::ImageRegionIterator<OutputImageType>;
 
   OutputImageType::Pointer outputImage = OutputImageType::New();
-  outputImage->CopyInformation( reader->GetOutput() );
-  outputImage->SetBufferedRegion( reader->GetOutput()->GetBufferedRegion() );
-  outputImage->SetRequestedRegion( reader->GetOutput()->GetRequestedRegion() );
+  outputImage->CopyInformation(reader->GetOutput());
+  outputImage->SetBufferedRegion(reader->GetOutput()->GetBufferedRegion());
+  outputImage->SetRequestedRegion(reader->GetOutput()->GetRequestedRegion());
   outputImage->Allocate();
 
-  OutputIteratorType outputIterator( outputImage, outputImage->GetBufferedRegion() );
+  OutputIteratorType outputIterator(outputImage, outputImage->GetBufferedRegion());
   inputIterator.GoToBegin();
   outputIterator.GoToBegin();
 
   // Copy input image to output image
   while (!outputIterator.IsAtEnd())
-    {
+  {
     OutputPixelType rgbPixel;
-    rgbPixel.SetRed( inputIterator.Get() );
-    rgbPixel.SetGreen( inputIterator.Get());
-    rgbPixel.SetBlue( inputIterator.Get() );
-    outputIterator.Set( rgbPixel );
+    rgbPixel.SetRed(inputIterator.Get());
+    rgbPixel.SetGreen(inputIterator.Get());
+    rgbPixel.SetBlue(inputIterator.Get());
+    outputIterator.Set(rgbPixel);
     ++outputIterator;
     ++inputIterator;
-    }
+  }
 
-  //Highlight the feature points identified in the output image
+  // Highlight the feature points identified in the output image
   using PointIteratorType = PointSetType::PointsContainer::ConstIterator;
 
-  PointIteratorType pointItr =
-          filter->GetOutput()->GetPoints()->Begin();
-  PointIteratorType pointEnd =
-          filter->GetOutput()->GetPoints()->End();
+  PointIteratorType pointItr = filter->GetOutput()->GetPoints()->Begin();
+  PointIteratorType pointEnd = filter->GetOutput()->GetPoints()->End();
 
   OutputImageType::IndexType index;
 
-  //Highlight the feature point in red color
+  // Highlight the feature point in red color
   OutputPixelType colorValue;
-  colorValue.SetRed( 255u );
-  colorValue.SetGreen( 0u );
-  colorValue.SetBlue(  0u );
+  colorValue.SetRed(255u);
+  colorValue.SetGreen(0u);
+  colorValue.SetBlue(0u);
 
-  while ( pointItr != pointEnd )
+  while (pointItr != pointEnd)
+  {
+    if (outputImage->TransformPhysicalPointToIndex(pointItr.Value(), index))
     {
-    if ( outputImage->TransformPhysicalPointToIndex(pointItr.Value(), index) )
-      {
       outputImage->SetPixel(index, colorValue);
-      }
-    pointItr++;
     }
-  writer->SetFileName( argv[2] );
-  writer->SetInput( outputImage );
+    pointItr++;
+  }
+  writer->SetFileName(argv[2]);
+  writer->SetInput(outputImage);
   writer->Update();
 
   return EXIT_SUCCESS;

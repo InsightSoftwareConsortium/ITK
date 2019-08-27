@@ -52,9 +52,9 @@ namespace itk
  *
  * \ingroup ITKDisplacementField
  */
-template<typename TParametersValueType, unsigned int NDimensions>
-class ITK_TEMPLATE_EXPORT BSplineExponentialDiffeomorphicTransform :
-  public ConstantVelocityFieldTransform<TParametersValueType, NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
+class ITK_TEMPLATE_EXPORT BSplineExponentialDiffeomorphicTransform
+  : public ConstantVelocityFieldTransform<TParametersValueType, NDimensions>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BSplineExponentialDiffeomorphicTransform);
@@ -66,10 +66,10 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( BSplineExponentialDiffeomorphicTransform, ConstantVelocityFieldTransform );
+  itkTypeMacro(BSplineExponentialDiffeomorphicTransform, ConstantVelocityFieldTransform);
 
   /** New macro for creation of through a Smart Pointer */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Dimension of the velocity field . */
   static constexpr unsigned int ConstantVelocityFieldDimension = NDimensions;
@@ -110,18 +110,20 @@ public:
    * base class implementation as we might want to smooth the update field before
    * adding it to the velocity field
    */
-  void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 ) override;
+  void
+  UpdateTransformParameters(const DerivativeType & update, ScalarType factor = 1.0) override;
 
   /**
    * Smooth the constant velocity field in-place.
    */
-  virtual ConstantVelocityFieldPointer BSplineSmoothConstantVelocityField( const ConstantVelocityFieldType *, const ArrayType & );
+  virtual ConstantVelocityFieldPointer
+  BSplineSmoothConstantVelocityField(const ConstantVelocityFieldType *, const ArrayType &);
 
   /**
    * Set/Get the spline order.
    */
-  itkSetMacro( SplineOrder, SplineOrderType );
-  itkGetConstMacro( SplineOrder, SplineOrderType );
+  itkSetMacro(SplineOrder, SplineOrderType);
+  itkGetConstMacro(SplineOrder, SplineOrderType);
 
   /**
    * Set/Get the control point grid size defining the B-spline estimate of the
@@ -130,8 +132,8 @@ public:
    * Default = 4 control points in each dimension for a mesh size of 1 in each
    * dimension.
    */
-  itkSetMacro( NumberOfControlPointsForTheConstantVelocityField, ArrayType );
-  itkGetConstMacro( NumberOfControlPointsForTheConstantVelocityField, ArrayType );
+  itkSetMacro(NumberOfControlPointsForTheConstantVelocityField, ArrayType);
+  itkGetConstMacro(NumberOfControlPointsForTheConstantVelocityField, ArrayType);
 
   /**
    * Set the control point grid size defining the B-spline estimate of the
@@ -140,8 +142,8 @@ public:
    * Default = 4 control points in each dimension for a mesh size of 1 in each
    * dimension.
    */
-  itkSetMacro( NumberOfControlPointsForTheUpdateField, ArrayType );
-  itkGetConstMacro( NumberOfControlPointsForTheUpdateField, ArrayType );
+  itkSetMacro(NumberOfControlPointsForTheUpdateField, ArrayType);
+  itkGetConstMacro(NumberOfControlPointsForTheUpdateField, ArrayType);
 
   /**
    * Set the update field mesh size which is used to specify the control point
@@ -149,7 +151,8 @@ public:
    * difference between the control point grid size and the spline order, i.e.
    * meshSize = controlPointGridSize - SplineOrder.
    */
-  void SetMeshSizeForTheConstantVelocityField( const ArrayType & );
+  void
+  SetMeshSizeForTheConstantVelocityField(const ArrayType &);
 
   /**
    * Set the velocity field mesh size which is used to specify the control point
@@ -157,25 +160,27 @@ public:
    * difference between the control point grid size and the spline order, i.e.
    * meshSize = controlPointGridSize - SplineOrder.
    */
-  void SetMeshSizeForTheUpdateField( const ArrayType & );
+  void
+  SetMeshSizeForTheUpdateField(const ArrayType &);
 
 protected:
   BSplineExponentialDiffeomorphicTransform();
   ~BSplineExponentialDiffeomorphicTransform() override = default;
 
-  void PrintSelf( std::ostream &, Indent ) const override;
+  void
+  PrintSelf(std::ostream &, Indent) const override;
 
 private:
-  ArrayType                               m_NumberOfControlPointsForTheConstantVelocityField;
-  ArrayType                               m_NumberOfControlPointsForTheUpdateField;
+  ArrayType m_NumberOfControlPointsForTheConstantVelocityField;
+  ArrayType m_NumberOfControlPointsForTheUpdateField;
 
-  SplineOrderType                         m_SplineOrder{ 3 };
+  SplineOrderType m_SplineOrder{ 3 };
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-# include "itkBSplineExponentialDiffeomorphicTransform.hxx"
+#  include "itkBSplineExponentialDiffeomorphicTransform.hxx"
 #endif
 
 #endif // itkBSplineExponentialDiffeomorphicTransform_h

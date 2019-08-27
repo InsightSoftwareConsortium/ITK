@@ -19,18 +19,15 @@
 
 namespace itk
 {
-CacheableScalarFunction
-::CacheableScalarFunction() :
-  m_CacheTable(0)
+CacheableScalarFunction ::CacheableScalarFunction()
+  : m_CacheTable(0)
 
-{
-}
+{}
 
 CacheableScalarFunction::~CacheableScalarFunction() = default;
 
 void
-CacheableScalarFunction
-::CreateCache(double lowerBound, double upperBound, SizeValueType sampleSize)
+CacheableScalarFunction ::CreateCache(double lowerBound, double upperBound, SizeValueType sampleSize)
 {
   m_NumberOfSamples = sampleSize;
   m_CacheLowerBound = lowerBound;
@@ -41,20 +38,21 @@ CacheableScalarFunction
 
   m_CacheTable = MeasureArrayType(m_NumberOfSamples);
 
-  m_TableInc =
-    static_cast< MeasureType >( ( m_CacheUpperBound - m_CacheLowerBound )
-                                / double(m_NumberOfSamples - 1) );
+  m_TableInc = static_cast<MeasureType>((m_CacheUpperBound - m_CacheLowerBound) / double(m_NumberOfSamples - 1));
 
-  d = static_cast< MeasureType >( m_CacheLowerBound );
-  for ( i = 0; i < m_NumberOfSamples; i++ )
-    {
+  d = static_cast<MeasureType>(m_CacheLowerBound);
+  for (i = 0; i < m_NumberOfSamples; i++)
+  {
     m_CacheTable[i] = Evaluate(d);
     d += m_TableInc;
-    }
+  }
 
   m_CacheAvailable = true;
 }
 
-CacheableScalarFunction::MeasureType CacheableScalarFunction::Evaluate(MeasureType x)
-{ return x; }
+CacheableScalarFunction::MeasureType
+CacheableScalarFunction::Evaluate(MeasureType x)
+{
+  return x;
+}
 } // end of namespace itk

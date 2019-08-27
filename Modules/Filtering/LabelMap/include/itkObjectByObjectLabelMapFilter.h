@@ -27,10 +27,12 @@
 #include "itkPadLabelMapFilter.h"
 
 
-namespace itk {
+namespace itk
+{
 
 /** \class ObjectByObjectLabelMapFilter
- * \brief ObjectByObjectLabelMapFilter applies an image pipeline to all the objects of a label map and produce a new label map
+ * \brief ObjectByObjectLabelMapFilter applies an image pipeline to all the objects of a label map and produce a new
+ * label map
  *
  * The image pipeline can simply produce a modified object or produce several objects
  * from the single input object. Several options are provided to handle the different
@@ -71,18 +73,17 @@ namespace itk {
  * \ingroup ITKLabelMap
  *
  * \sphinx
- * \sphinxexample{Filtering/LabelMap/ApplyMorphologicalClosingOnAllLabelObjects,Apply Morphological Closing On All Label Objects}
- * \endsphinx
+ * \sphinxexample{Filtering/LabelMap/ApplyMorphologicalClosingOnAllLabelObjects,Apply Morphological Closing On All Label
+ * Objects} \endsphinx
  */
-template<typename TInputImage, typename TOutputImage=TInputImage,
-  typename TInputFilter=ImageToImageFilter<
-    Image< unsigned char, TInputImage::ImageDimension >,
-    Image< unsigned char, TOutputImage::ImageDimension > >,
-  class TOutputFilter=typename TInputFilter::Superclass,
-  class TInternalInputImage=typename TInputFilter::InputImageType,
-  class TInternalOutputImage=typename TOutputFilter::OutputImageType >
-class ITK_TEMPLATE_EXPORT ObjectByObjectLabelMapFilter :
-    public LabelMapFilter<TInputImage, TOutputImage>
+template <typename TInputImage,
+          typename TOutputImage = TInputImage,
+          typename TInputFilter = ImageToImageFilter<Image<unsigned char, TInputImage::ImageDimension>,
+                                                     Image<unsigned char, TOutputImage::ImageDimension>>,
+          class TOutputFilter = typename TInputFilter::Superclass,
+          class TInternalInputImage = typename TInputFilter::InputImageType,
+          class TInternalOutputImage = typename TOutputFilter::OutputImageType>
+class ITK_TEMPLATE_EXPORT ObjectByObjectLabelMapFilter : public LabelMapFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ObjectByObjectLabelMapFilter);
@@ -130,25 +131,29 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ObjectByObjectLabelMapFilter,
-               LabelMapFilter);
+  itkTypeMacro(ObjectByObjectLabelMapFilter, LabelMapFilter);
 
-  void SetFilter(InputFilterType * filter);
-  InputFilterType * GetFilter()
-    {
+  void
+  SetFilter(InputFilterType * filter);
+  InputFilterType *
+  GetFilter()
+  {
     return this->m_InputFilter;
-    }
+  }
 
-  const InputFilterType * GetFilter() const
-    {
+  const InputFilterType *
+  GetFilter() const
+  {
     return this->m_InputFilter;
-    }
+  }
 
-  void SetInputFilter( InputFilterType * filter );
-  itkGetModifiableObjectMacro(InputFilter, InputFilterType );
+  void
+  SetInputFilter(InputFilterType * filter);
+  itkGetModifiableObjectMacro(InputFilter, InputFilterType);
 
-  void SetOutputFilter( OutputFilterType * filter );
-  itkGetModifiableObjectMacro(OutputFilter, OutputFilterType );
+  void
+  SetOutputFilter(OutputFilterType * filter);
+  itkGetModifiableObjectMacro(OutputFilter, OutputFilterType);
 
   /** If KeepLabels is set to true, the filter will do its best to reuse the labels
    * of the input objects in the output ones. However, this is possible only if the
@@ -162,8 +167,8 @@ public:
   itkBooleanMacro(KeepLabels);
 
   /** If PadSize is not zero, the image produce for each object will be padded.
-    * The default value is 1 on all the dimensions.
-    */
+   * The default value is 1 on all the dimensions.
+   */
   itkSetMacro(PadSize, SizeType);
   itkGetMacro(PadSize, SizeType);
 
@@ -200,49 +205,51 @@ public:
 protected:
   ObjectByObjectLabelMapFilter();
   ~ObjectByObjectLabelMapFilter() override = default;
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   bool     m_ConstrainPaddingToImage;
   SizeType m_PadSize;
   bool     m_BinaryInternalOutput;
 
-  bool     m_KeepLabels;
+  bool m_KeepLabels;
 
   InternalOutputPixelType m_InternalForegroundValue;
 
-  using SelectType = itk::LabelSelectionLabelMapFilter< LabelMapType >;
+  using SelectType = itk::LabelSelectionLabelMapFilter<LabelMapType>;
   typename SelectType::Pointer m_Select;
 
-  using CropType = itk::AutoCropLabelMapFilter< LabelMapType >;
-  typename CropType::Pointer   m_Crop;
+  using CropType = itk::AutoCropLabelMapFilter<LabelMapType>;
+  typename CropType::Pointer m_Crop;
 
-  using PadType = itk::PadLabelMapFilter< LabelMapType >;
-  typename PadType::Pointer    m_Pad;
+  using PadType = itk::PadLabelMapFilter<LabelMapType>;
+  typename PadType::Pointer m_Pad;
 
-  using LM2BIType = itk::LabelMapToBinaryImageFilter< LabelMapType, InternalInputImageType>;
-  typename LM2BIType::Pointer  m_LM2BI;
+  using LM2BIType = itk::LabelMapToBinaryImageFilter<LabelMapType, InternalInputImageType>;
+  typename LM2BIType::Pointer m_LM2BI;
 
-  using LI2LMType = itk::LabelImageToLabelMapFilter< InternalOutputImageType, LabelMapType>;
-  typename LI2LMType::Pointer  m_LI2LM;
+  using LI2LMType = itk::LabelImageToLabelMapFilter<InternalOutputImageType, LabelMapType>;
+  typename LI2LMType::Pointer m_LI2LM;
 
-  using BI2LMType = itk::BinaryImageToLabelMapFilter< InternalOutputImageType, LabelMapType>;
-  typename BI2LMType::Pointer  m_BI2LM;
+  using BI2LMType = itk::BinaryImageToLabelMapFilter<InternalOutputImageType, LabelMapType>;
+  typename BI2LMType::Pointer m_BI2LM;
 
-  typename InputFilterType::Pointer       m_InputFilter;
-  typename OutputFilterType::Pointer      m_OutputFilter;
+  typename InputFilterType::Pointer  m_InputFilter;
+  typename OutputFilterType::Pointer m_OutputFilter;
 
 
-  InputImagePixelType          m_Label;
+  InputImagePixelType m_Label;
 
 }; // end of class
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkObjectByObjectLabelMapFilter.hxx"
+#  include "itkObjectByObjectLabelMapFilter.hxx"
 #endif
 
 #endif

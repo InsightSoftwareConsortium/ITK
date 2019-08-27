@@ -33,7 +33,8 @@
  * The test fails if the evaluated results is not within a certain tolerance
  * of the expected results.
  */
-int itkPCAShapeSignedDistanceFunctionTest( int, char *[])
+int
+itkPCAShapeSignedDistanceFunctionTest(int, char *[])
 {
   unsigned int i;
   using CoordRep = double;
@@ -44,9 +45,9 @@ int itkPCAShapeSignedDistanceFunctionTest( int, char *[])
 
 
   // define a pca shape function
-  using ShapeFunction = itk::PCAShapeSignedDistanceFunction<CoordRep,Dimension>;
+  using ShapeFunction = itk::PCAShapeSignedDistanceFunction<CoordRep, Dimension>;
   ShapeFunction::Pointer shape = ShapeFunction::New();
-//  shape->DebugOn();
+  //  shape->DebugOn();
   shape->SetNumberOfPrincipalComponents(NumberOfPCs);
 
 
@@ -59,12 +60,12 @@ int itkPCAShapeSignedDistanceFunctionTest( int, char *[])
   // prepare for image creation
   using ImageType = ShapeFunction::ImageType;
 
-  ImageType::SizeType imageSize = {{ImageWidth, ImageHeight}};
+  ImageType::SizeType imageSize = { { ImageWidth, ImageHeight } };
 
   ImageType::IndexType startIndex;
   startIndex.Fill(0);
 
-  ImageType::RegionType  region;
+  ImageType::RegionType region;
   region.SetSize(imageSize);
   region.SetIndex(startIndex);
 
@@ -82,34 +83,34 @@ int itkPCAShapeSignedDistanceFunctionTest( int, char *[])
   using ImageIterator = itk::ImageRegionIterator<ImageType>;
   ImageIterator meanImageIt(meanImage, meanImage->GetBufferedRegion());
 
-  for(meanImageIt.GoToBegin(); !meanImageIt.IsAtEnd(); ++meanImageIt)
-    {
+  for (meanImageIt.GoToBegin(); !meanImageIt.IsAtEnd(); ++meanImageIt)
+  {
     randomPixel = vnl_sample_normal(0, 1);
     meanImageIt.Set(randomPixel);
-    }
+  }
 
   shape->SetMeanImage(meanImage);
 
 
   // set up the NumberOfPCs principal component images
-  ShapeFunction::ImagePointerVector   pcImages(NumberOfPCs);
+  ShapeFunction::ImagePointerVector pcImages(NumberOfPCs);
   using ImageIteratorVector = std::vector<ImageIterator>;
-  ImageIteratorVector                 pcImageIts(NumberOfPCs);
+  ImageIteratorVector pcImageIts(NumberOfPCs);
 
-  for(i=0; i<NumberOfPCs; i++)
-    {
+  for (i = 0; i < NumberOfPCs; i++)
+  {
     pcImages[i] = ImageType::New();
     pcImages[i]->SetRegions(region);
     pcImages[i]->Allocate();
 
     pcImageIts[i] = ImageIterator(pcImages[i], pcImages[i]->GetBufferedRegion());
 
-    for(pcImageIts[i].GoToBegin(); !pcImageIts[i].IsAtEnd(); ++pcImageIts[i])
-      {
+    for (pcImageIts[i].GoToBegin(); !pcImageIts[i].IsAtEnd(); ++pcImageIts[i])
+    {
       randomPixel = vnl_sample_normal(0, 1);
       pcImageIts[i].Set(randomPixel);
-      }
     }
+  }
 
   shape->SetPrincipalComponentImages(pcImages);
 
@@ -117,21 +118,24 @@ int itkPCAShapeSignedDistanceFunctionTest( int, char *[])
   // set up the standard deviation for each principal component images
   ShapeFunction::ParametersType pcStandardDeviations(NumberOfPCs);
 
-  for(i=0; i<NumberOfPCs; i++)
-    { pcStandardDeviations[i] = vnl_sample_normal(0, 1); }
+  for (i = 0; i < NumberOfPCs; i++)
+  {
+    pcStandardDeviations[i] = vnl_sample_normal(0, 1);
+  }
 
   shape->SetPrincipalComponentStandardDeviations(pcStandardDeviations);
 
 
   // set up the parameters
-  unsigned int numberOfShapeParameters  = shape->GetNumberOfShapeParameters();
-  unsigned int numberOfPoseParameters   = shape->GetNumberOfPoseParameters();
-  unsigned int numberOfParameters =
-    numberOfShapeParameters  + numberOfPoseParameters;
+  unsigned int                  numberOfShapeParameters = shape->GetNumberOfShapeParameters();
+  unsigned int                  numberOfPoseParameters = shape->GetNumberOfPoseParameters();
+  unsigned int                  numberOfParameters = numberOfShapeParameters + numberOfPoseParameters;
   ShapeFunction::ParametersType parameters(numberOfParameters);
 
-  for(i=0; i<numberOfParameters; i++)
-    { parameters[i] = vnl_sample_normal(0, 1); }
+  for (i = 0; i < numberOfParameters; i++)
+  {
+    parameters[i] = vnl_sample_normal(0, 1);
+  }
 
   shape->SetParameters(parameters);
 
@@ -146,119 +150,112 @@ int itkPCAShapeSignedDistanceFunctionTest( int, char *[])
   ShapeFunction::OutputType expected;
 
   std::cout << "check results:" << std::endl;
-  unsigned int numberOfRotationParameters = Dimension*(Dimension-1)/2;
-  unsigned int startIndexOfTranslationParameters =
-    numberOfShapeParameters + numberOfRotationParameters;
+  unsigned int numberOfRotationParameters = Dimension * (Dimension - 1) / 2;
+  unsigned int startIndexOfTranslationParameters = numberOfShapeParameters + numberOfRotationParameters;
 
   ShapeFunction::TransformType::InputPointType p;
   ShapeFunction::TransformType::InputPointType q;
 
-  for(meanImageIt.GoToBegin(); !meanImageIt.IsAtEnd(); ++meanImageIt)
-    {
+  for (meanImageIt.GoToBegin(); !meanImageIt.IsAtEnd(); ++meanImageIt)
+  {
     // from index to physical point
     index = meanImageIt.GetIndex();
     meanImage->TransformIndexToPhysicalPoint(index, point);
 
     // inverse Euler2DTransform: first translation then rotation
-    p[0] =  point[0] - parameters[startIndexOfTranslationParameters];
-    p[1] =  point[1] - parameters[startIndexOfTranslationParameters + 1];
+    p[0] = point[0] - parameters[startIndexOfTranslationParameters];
+    p[1] = point[1] - parameters[startIndexOfTranslationParameters + 1];
 
     double angle = parameters[numberOfShapeParameters];
-    q[0] =  p[0] * std::cos(-angle) - p[1] * std::sin(-angle);
-    q[1] =  p[0] * std::sin(-angle) + p[1] * std::cos(-angle);
+    q[0] = p[0] * std::cos(-angle) - p[1] * std::sin(-angle);
+    q[1] = p[0] * std::sin(-angle) + p[1] * std::cos(-angle);
 
     // evaluate shape function
     output = shape->Evaluate(q);
 
     // calculate expected function value
     expected = meanImage->GetPixel(index);
-    for(i=0; i<NumberOfPCs; i++)
-      {
-      expected += pcImages[i]->GetPixel(index) *
-      pcStandardDeviations[i] *
-      parameters[i];
-      }
+    for (i = 0; i < NumberOfPCs; i++)
+    {
+      expected += pcImages[i]->GetPixel(index) * pcStandardDeviations[i] * parameters[i];
+    }
 
     // check result
     std::cout << "f(" << point << ") = " << output << std::endl;
 
-    if(itk::Math::abs( output - expected ) > 1e-9)
-      {
+    if (itk::Math::abs(output - expected) > 1e-9)
+    {
       std::cout << "But expected value is: " << expected << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
 
- // Evaluate at a point outside the image domain
- std::cout << "Evaluate at point outside image domain" << std::endl;
- q.Fill( 5.0 );
- output = shape->Evaluate( q );
- std::cout << "f(" << q << ") = " << output << std::endl;
+  // Evaluate at a point outside the image domain
+  std::cout << "Evaluate at point outside image domain" << std::endl;
+  q.Fill(5.0);
+  output = shape->Evaluate(q);
+  std::cout << "f(" << q << ") = " << output << std::endl;
 
- // Exercise other methods for test coverage
- shape->Print( std::cout );
+  // Exercise other methods for test coverage
+  shape->Print(std::cout);
 
- std::cout << "NumberOfPrincipalComponents: "
-           << shape->GetNumberOfPrincipalComponents() << std::endl;
- std::cout << "MeanImage: "
-           << shape->GetMeanImage() << std::endl;
- std::cout << "PrincipalComponentStandardDeviations: "
-           << shape->GetPrincipalComponentStandardDeviations() << std::endl;
- std::cout << "Transform: "
-           << shape->GetTransform() << std::endl;
- std::cout << "Parameters: "
-           << shape->GetParameters() << std::endl;
+  std::cout << "NumberOfPrincipalComponents: " << shape->GetNumberOfPrincipalComponents() << std::endl;
+  std::cout << "MeanImage: " << shape->GetMeanImage() << std::endl;
+  std::cout << "PrincipalComponentStandardDeviations: " << shape->GetPrincipalComponentStandardDeviations()
+            << std::endl;
+  std::cout << "Transform: " << shape->GetTransform() << std::endl;
+  std::cout << "Parameters: " << shape->GetParameters() << std::endl;
 
   // Exercise error testing
   bool pass;
 
-#define TEST_INITIALIZATION_ERROR( ComponentName, badComponent, goodComponent ) \
-  shape->Set##ComponentName( badComponent ); \
-  try \
-    { \
-    pass = false; \
-    shape->Initialize(); \
-    } \
-  catch( itk::ExceptionObject& err ) \
-    { \
-    std::cout << "Caught expected ExceptionObject" << std::endl; \
-    std::cout << err << std::endl; \
-    pass = true; \
-    } \
-  shape->Set##ComponentName( goodComponent ); \
-  \
-  if( !pass ) \
-    { \
-    std::cout << "Test failed." << std::endl; \
-    return EXIT_FAILURE; \
-    }
+#define TEST_INITIALIZATION_ERROR(ComponentName, badComponent, goodComponent)                                          \
+  shape->Set##ComponentName(badComponent);                                                                             \
+  try                                                                                                                  \
+  {                                                                                                                    \
+    pass = false;                                                                                                      \
+    shape->Initialize();                                                                                               \
+  }                                                                                                                    \
+  catch (itk::ExceptionObject & err)                                                                                   \
+  {                                                                                                                    \
+    std::cout << "Caught expected ExceptionObject" << std::endl;                                                       \
+    std::cout << err << std::endl;                                                                                     \
+    pass = true;                                                                                                       \
+  }                                                                                                                    \
+  shape->Set##ComponentName(goodComponent);                                                                            \
+                                                                                                                       \
+  if (!pass)                                                                                                           \
+  {                                                                                                                    \
+    std::cout << "Test failed." << std::endl;                                                                          \
+    return EXIT_FAILURE;                                                                                               \
+  }
 
   // nullptr MeanImage
-  TEST_INITIALIZATION_ERROR( MeanImage, nullptr, meanImage );
+  TEST_INITIALIZATION_ERROR(MeanImage, nullptr, meanImage);
 
   // Wrong number of PC images
-  ShapeFunction::ImagePointerVector   badPCImages;
+  ShapeFunction::ImagePointerVector badPCImages;
   badPCImages.resize(1);
   badPCImages[0] = nullptr;
 
-  TEST_INITIALIZATION_ERROR( PrincipalComponentImages, badPCImages, pcImages );
+  TEST_INITIALIZATION_ERROR(PrincipalComponentImages, badPCImages, pcImages);
 
   // A nullptr PC image
   badPCImages = pcImages;
   badPCImages[1] = nullptr;
 
-  TEST_INITIALIZATION_ERROR( PrincipalComponentImages, badPCImages, pcImages );
+  TEST_INITIALIZATION_ERROR(PrincipalComponentImages, badPCImages, pcImages);
 
   // A PC image of the wrong size
   ImageType::SizeType badSize;
-  badSize.Fill( 1 );
-  ImageType::RegionType badRegion( badSize );
+  badSize.Fill(1);
+  ImageType::RegionType badRegion(badSize);
   badPCImages[1] = ImageType::New();
-  badPCImages[1]->SetRegions( badRegion );
+  badPCImages[1]->SetRegions(badRegion);
   badPCImages[1]->Allocate();
-  badPCImages[1]->FillBuffer( 0.0 );
+  badPCImages[1]->FillBuffer(0.0);
 
-  TEST_INITIALIZATION_ERROR( PrincipalComponentImages, badPCImages, pcImages );
+  TEST_INITIALIZATION_ERROR(PrincipalComponentImages, badPCImages, pcImages);
 
   std::cout << "Test passed. " << std::endl;
   return EXIT_SUCCESS;

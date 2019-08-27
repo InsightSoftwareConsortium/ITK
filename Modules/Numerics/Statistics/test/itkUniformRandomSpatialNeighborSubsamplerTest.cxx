@@ -27,29 +27,28 @@
 
 #include "itkUniformRandomSpatialNeighborSubsampler.h"
 
-int itkUniformRandomSpatialNeighborSubsamplerTest(int argc, char* argv[] )
+int
+itkUniformRandomSpatialNeighborSubsamplerTest(int argc, char * argv[])
 {
   std::cout << "UniformRandomSpatialNeighborSubsampler Test \n \n";
 
   std::string outFile = "";
   if (argc > 1)
-    {
+  {
     outFile = argv[1];
-    }
+  }
 
-  using FloatImage = itk::Image< float, 2 >;
+  using FloatImage = itk::Image<float, 2>;
   using RegionType = FloatImage::RegionType;
   using IndexType = FloatImage::IndexType;
   using SizeType = FloatImage::SizeType;
   using BoundaryCondition = itk::ZeroFluxNeumannBoundaryCondition<FloatImage>;
-  using AdaptorType =
-      itk::Statistics::ImageToNeighborhoodSampleAdaptor< FloatImage, BoundaryCondition >;
-  using SamplerType =
-      itk::Statistics::UniformRandomSpatialNeighborSubsampler< AdaptorType, RegionType >;
+  using AdaptorType = itk::Statistics::ImageToNeighborhoodSampleAdaptor<FloatImage, BoundaryCondition>;
+  using SamplerType = itk::Statistics::UniformRandomSpatialNeighborSubsampler<AdaptorType, RegionType>;
   using WriterType = itk::ImageFileWriter<FloatImage>;
 
   FloatImage::Pointer inImage = FloatImage::New();
-  SizeType sz;
+  SizeType            sz;
   sz.Fill(35);
   IndexType idx;
   idx.Fill(0);
@@ -59,7 +58,7 @@ int itkUniformRandomSpatialNeighborSubsamplerTest(int argc, char* argv[] )
 
   inImage->SetRegions(region);
   inImage->Allocate(true); // initialize buffer
-                                                  // to zero
+                           // to zero
 
   AdaptorType::Pointer sample = AdaptorType::New();
   sample->SetImage(inImage);
@@ -75,62 +74,60 @@ int itkUniformRandomSpatialNeighborSubsamplerTest(int argc, char* argv[] )
   // test clone mechanism
   SamplerType::Pointer sampler = sampler_orig->Clone().GetPointer();
   if (sampler->GetSample() != sampler_orig->GetSample())
-    {
+  {
     std::cerr << "Clone did not copy the sample correctly!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   if (sampler->GetSampleRegion() != sampler_orig->GetSampleRegion())
-    {
+  {
     std::cerr << "Clone did not copy the region correctly!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   if (sampler->GetRadius() != sampler_orig->GetRadius())
-    {
+  {
     std::cerr << "Clone did not copy the radius correctly!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   if (sampler->GetNumberOfResultsRequested() != sampler_orig->GetNumberOfResultsRequested())
-    {
+  {
     std::cerr << "Clone did not copy the number of results requested correctly!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   if (sampler->GetSeed() != sampler_orig->GetSeed())
-    {
+  {
     std::cerr << "Clone did not copy the seed correctly!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   if (sampler->GetCanSelectQuery() != sampler_orig->GetCanSelectQuery())
-    {
+  {
     std::cerr << "Clone did not copy CanSelectQuery correctly!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   SamplerType::SubsamplePointer subsample = SamplerType::SubsampleType::New();
   sampler->Search(612, subsample);
 
-  for (SamplerType::SubsampleConstIterator sIt = subsample->Begin();
-       sIt != subsample->End();
-       ++sIt)
-    {
+  for (SamplerType::SubsampleConstIterator sIt = subsample->Begin(); sIt != subsample->End(); ++sIt)
+  {
     IndexType index;
     index = sIt.GetMeasurementVector()[0].GetIndex();
     inImage->SetPixel(index, 255);
-    }
+  }
 
   if (!outFile.empty())
-    {
+  {
     WriterType::Pointer writer = WriterType::New();
-    writer->SetFileName( outFile );
-    writer->SetInput( inImage );
+    writer->SetFileName(outFile);
+    writer->SetInput(inImage);
     try
-      {
+    {
       writer->Update();
-      }
-    catch( itk::ExceptionObject & excp )
-      {
-      std::cerr << excp << std::endl;
-      }
     }
+    catch (itk::ExceptionObject & excp)
+    {
+      std::cerr << excp << std::endl;
+    }
+  }
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;

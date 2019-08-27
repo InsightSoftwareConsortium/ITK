@@ -26,9 +26,8 @@ namespace itk
 /**
  * Constructor
  */
-template< typename TInputImage, typename TCoordRep >
-VectorMeanImageFunction< TInputImage, TCoordRep >
-::VectorMeanImageFunction()
+template <typename TInputImage, typename TCoordRep>
+VectorMeanImageFunction<TInputImage, TCoordRep>::VectorMeanImageFunction()
 {
   m_NeighborhoodRadius = 1;
 }
@@ -36,42 +35,39 @@ VectorMeanImageFunction< TInputImage, TCoordRep >
 /**
  *
  */
-template< typename TInputImage, typename TCoordRep >
+template <typename TInputImage, typename TCoordRep>
 void
-VectorMeanImageFunction< TInputImage, TCoordRep >
-::PrintSelf(std::ostream & os, Indent indent) const
+VectorMeanImageFunction<TInputImage, TCoordRep>::PrintSelf(std::ostream & os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
-  os << indent << "NeighborhoodRadius: "  << m_NeighborhoodRadius << std::endl;
+  os << indent << "NeighborhoodRadius: " << m_NeighborhoodRadius << std::endl;
 }
 
 /**
  *
  */
-template< typename TInputImage, typename TCoordRep >
-typename VectorMeanImageFunction< TInputImage, TCoordRep >
-::RealType
-VectorMeanImageFunction< TInputImage, TCoordRep >
-::EvaluateAtIndex(const IndexType & index) const
+template <typename TInputImage, typename TCoordRep>
+typename VectorMeanImageFunction<TInputImage, TCoordRep>::RealType
+VectorMeanImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & index) const
 {
 
   using PixelType = typename TInputImage::PixelType;
   using PixelComponentType = typename PixelType::ValueType;
-  using PixelComponentRealType = typename NumericTraits< PixelComponentType >::RealType;
+  using PixelComponentRealType = typename NumericTraits<PixelComponentType>::RealType;
 
-  if ( !this->GetInputImage() || !this->IsInsideBuffer(index) )
-    {
+  if (!this->GetInputImage() || !this->IsInsideBuffer(index))
+  {
     RealType sum;
-    sum.Fill( NumericTraits< PixelComponentRealType >::max() );
+    sum.Fill(NumericTraits<PixelComponentRealType>::max());
     return sum;
-    }
+  }
 
   // Create an N-d neighborhood kernel, using a zeroflux boundary condition
   typename InputImageType::SizeType kernelSize;
   kernelSize.Fill(m_NeighborhoodRadius);
 
-  ConstNeighborhoodIterator< InputImageType >
-  it( kernelSize, this->GetInputImage(), this->GetInputImage()->GetBufferedRegion() );
+  ConstNeighborhoodIterator<InputImageType> it(
+    kernelSize, this->GetInputImage(), this->GetInputImage()->GetBufferedRegion());
 
   // Set the iterator at the desired location
   it.SetLocation(index);
@@ -80,29 +76,29 @@ VectorMeanImageFunction< TInputImage, TCoordRep >
 
   // Walk the neighborhood
   const unsigned int size = it.Size();
-  for ( unsigned int i = 0; i < size; ++i )
+  for (unsigned int i = 0; i < size; ++i)
+  {
+    PixelType          p = it.GetPixel(i);
+    const unsigned int VectorDimension = NumericTraits<PixelType>::GetLength(p);
+
+    if (i == 0)
     {
-    PixelType p = it.GetPixel(i);
-    const unsigned int VectorDimension = NumericTraits<PixelType>::GetLength( p );
-
-    if ( i == 0 )
-      {
-      sum = static_cast< RealType >( NumericTraits<PixelType>::ZeroValue( p ) );
-      }
-
-    for ( unsigned int dim = 0; dim < VectorDimension; dim++ )
-      {
-      sum[dim] += static_cast< PixelComponentRealType >( p[dim] );
-      }
+      sum = static_cast<RealType>(NumericTraits<PixelType>::ZeroValue(p));
     }
 
-  const unsigned int VectorDimension = NumericTraits<RealType>::GetLength( sum );
-  for ( unsigned int dim = 0; dim < VectorDimension; dim++ )
+    for (unsigned int dim = 0; dim < VectorDimension; dim++)
     {
-    sum[dim] /= double( it.Size() );
+      sum[dim] += static_cast<PixelComponentRealType>(p[dim]);
     }
+  }
 
-  return ( sum );
+  const unsigned int VectorDimension = NumericTraits<RealType>::GetLength(sum);
+  for (unsigned int dim = 0; dim < VectorDimension; dim++)
+  {
+    sum[dim] /= double(it.Size());
+  }
+
+  return (sum);
 }
 } // end namespace itk
 

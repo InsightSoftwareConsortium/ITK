@@ -23,91 +23,86 @@
 namespace itk
 {
 /** Constructor.  Initializes iterators, pointers, and m_IsAtEnd. */
-template< typename TStructureType >
-CorrespondenceDataStructureIterator< TStructureType >
-::CorrespondenceDataStructureIterator(TStructureType *StructurePtr)
+template <typename TStructureType>
+CorrespondenceDataStructureIterator<TStructureType>::CorrespondenceDataStructureIterator(TStructureType * StructurePtr)
 {
   m_Structure = StructurePtr;
   m_NodeListPointer = StructurePtr->m_NodeList;
   m_NodeListIterator = m_NodeListPointer->begin();
-  m_SecondaryListPointer = &( *m_NodeListIterator );
+  m_SecondaryListPointer = &(*m_NodeListIterator);
   m_SecondaryListIterator = m_SecondaryListPointer->begin();
-  m_CorrespondingListPointer = &( *m_SecondaryListIterator );
+  m_CorrespondingListPointer = &(*m_SecondaryListIterator);
   m_CorrespondingListIterator = m_CorrespondingListPointer->begin();
 
   m_IsAtEnd = false;
 }
 
 /** Used to verify that the iterator is at the end of the data structure. */
-template< typename TStructureType >
+template <typename TStructureType>
 bool
-CorrespondenceDataStructureIterator< TStructureType >
-::IsAtEnd() const
+CorrespondenceDataStructureIterator<TStructureType>::IsAtEnd() const
 {
   return m_IsAtEnd;
 }
 
 /** Goes to the next corresponding node clique in the structure,
  *  moving on to the next base node clique if necessary. */
-template< typename TStructureType >
+template <typename TStructureType>
 void
-CorrespondenceDataStructureIterator< TStructureType >
-::GoToNext()
+CorrespondenceDataStructureIterator<TStructureType>::GoToNext()
 {
   m_CorrespondingListIterator++;
 
-  if ( m_CorrespondingListIterator == m_CorrespondingListPointer->end() )
-    {
-      this->GoToNextBaseGroup();
-    }
+  if (m_CorrespondingListIterator == m_CorrespondingListPointer->end())
+  {
+    this->GoToNextBaseGroup();
+  }
 }
 
 /** Goes to the next base node clique. */
-template< typename TStructureType >
+template <typename TStructureType>
 void
-CorrespondenceDataStructureIterator< TStructureType >
-::GoToNextBaseGroup()
+CorrespondenceDataStructureIterator<TStructureType>::GoToNextBaseGroup()
 {
   m_SecondaryListIterator++;
-  if ( m_SecondaryListIterator != m_SecondaryListPointer->end() )
-    {
-    m_CorrespondingListPointer = &( *m_SecondaryListIterator );
+  if (m_SecondaryListIterator != m_SecondaryListPointer->end())
+  {
+    m_CorrespondingListPointer = &(*m_SecondaryListIterator);
     m_CorrespondingListIterator = m_CorrespondingListPointer->begin();
-    }
-  else if ( m_SecondaryListIterator == m_SecondaryListPointer->end() )
-    {
+  }
+  else if (m_SecondaryListIterator == m_SecondaryListPointer->end())
+  {
     m_NodeListIterator++;
 
-    if ( m_NodeListIterator != m_NodeListPointer->end() )
-      {
-      m_SecondaryListPointer = &( *m_NodeListIterator );
+    if (m_NodeListIterator != m_NodeListPointer->end())
+    {
+      m_SecondaryListPointer = &(*m_NodeListIterator);
       m_SecondaryListIterator = m_SecondaryListPointer->begin();
 
-      m_CorrespondingListPointer = &( *m_SecondaryListIterator );
+      m_CorrespondingListPointer = &(*m_SecondaryListIterator);
       m_CorrespondingListIterator = m_CorrespondingListPointer->begin();
-      }
-    else if ( m_NodeListIterator == m_NodeListPointer->end() )
-      {
-      m_IsAtEnd = true;
-      }
     }
+    else if (m_NodeListIterator == m_NodeListPointer->end())
+    {
+      m_IsAtEnd = true;
+    }
+  }
 }
 
 /** Resets the iterator to the default settings/placement.*/
-template< typename TStructureType >
+template <typename TStructureType>
 void
-CorrespondenceDataStructureIterator< TStructureType >
-::Reset()
+CorrespondenceDataStructureIterator<TStructureType>::Reset()
 {
   m_IsAtEnd = false;
 
   m_NodeListPointer = m_Structure->m_NodeList;
   m_NodeListIterator = m_NodeListPointer->begin();
 
-  m_SecondaryListPointer = &( *m_NodeListIterator );
+  m_SecondaryListPointer = &(*m_NodeListIterator);
   m_SecondaryListIterator = m_SecondaryListPointer->begin();
 
-  m_CorrespondingListPointer = &( *m_SecondaryListIterator );
+  m_CorrespondingListPointer = &(*m_SecondaryListIterator);
   m_CorrespondingListIterator = m_CorrespondingListPointer->begin();
 }
 } // end namespace itk

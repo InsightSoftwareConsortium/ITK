@@ -80,18 +80,17 @@ namespace itk
  * \sphinxexample{Segmentation/KLMRegionGrowing/BasicRegionGrowing,Basic Region Growing}
  * \endsphinx
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT RegionGrowImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT RegionGrowImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(RegionGrowImageFilter);
 
   /** Standard class type aliases. */
   using Self = RegionGrowImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(RegionGrowImageFilter, ImageToImageFilter);
@@ -123,15 +122,18 @@ public:
   itkGetConstReferenceMacro(MaximumNumberOfRegions, unsigned int);
 
   /** Define a virtual RegionGrowImageFilter function. */
-  virtual void ApplyRegionGrowImageFilter() = 0;
+  virtual void
+  ApplyRegionGrowImageFilter() = 0;
 
   /** Merge two regions. */
-  virtual void MergeRegions() = 0;
+  virtual void
+  MergeRegions() = 0;
 
 protected:
   RegionGrowImageFilter();
   ~RegionGrowImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   unsigned int m_MaximumNumberOfRegions;
@@ -141,7 +143,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRegionGrowImageFilter.hxx"
+#  include "itkRegionGrowImageFilter.hxx"
 #endif
 
 #endif

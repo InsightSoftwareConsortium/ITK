@@ -27,9 +27,8 @@ namespace itk
 /**
  * Constructor
  */
-template< typename TInputImage, typename TCoordRep >
-VarianceImageFunction< TInputImage, TCoordRep >
-::VarianceImageFunction()
+template <typename TInputImage, typename TCoordRep>
+VarianceImageFunction<TInputImage, TCoordRep>::VarianceImageFunction()
 {
   m_NeighborhoodRadius = 1;
 }
@@ -37,64 +36,61 @@ VarianceImageFunction< TInputImage, TCoordRep >
 /**
  *
  */
-template< typename TInputImage, typename TCoordRep >
+template <typename TInputImage, typename TCoordRep>
 void
-VarianceImageFunction< TInputImage, TCoordRep >
-::PrintSelf(std::ostream & os, Indent indent) const
+VarianceImageFunction<TInputImage, TCoordRep>::PrintSelf(std::ostream & os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
-  os << indent << "NeighborhoodRadius: "  << m_NeighborhoodRadius << std::endl;
+  os << indent << "NeighborhoodRadius: " << m_NeighborhoodRadius << std::endl;
 }
 
 /**
  *
  */
-template< typename TInputImage, typename TCoordRep >
-typename VarianceImageFunction< TInputImage, TCoordRep >
-::RealType
-VarianceImageFunction< TInputImage, TCoordRep >
-::EvaluateAtIndex(const IndexType & index) const
+template <typename TInputImage, typename TCoordRep>
+typename VarianceImageFunction<TInputImage, TCoordRep>::RealType
+VarianceImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & index) const
 {
   RealType sum;
   RealType sumOfSquares;
   RealType var;
 
-  sum = NumericTraits< RealType >::ZeroValue();
-  sumOfSquares = NumericTraits< RealType >::ZeroValue();
+  sum = NumericTraits<RealType>::ZeroValue();
+  sumOfSquares = NumericTraits<RealType>::ZeroValue();
 
-  if ( !this->GetInputImage() )
-    {
-    return ( NumericTraits< RealType >::max() );
-    }
+  if (!this->GetInputImage())
+  {
+    return (NumericTraits<RealType>::max());
+  }
 
-  if ( !this->IsInsideBuffer(index) )
-    {
-    return ( NumericTraits< RealType >::max() );
-    }
+  if (!this->IsInsideBuffer(index))
+  {
+    return (NumericTraits<RealType>::max());
+  }
 
   // Create an N-d neighborhood kernel, using a zeroflux boundary condition
   typename InputImageType::SizeType kernelSize;
   kernelSize.Fill(m_NeighborhoodRadius);
 
-  ConstNeighborhoodIterator< InputImageType >
-  it( kernelSize, this->GetInputImage(), this->GetInputImage()->GetBufferedRegion() );
+  ConstNeighborhoodIterator<InputImageType> it(
+    kernelSize, this->GetInputImage(), this->GetInputImage()->GetBufferedRegion());
 
   // Set the iterator at the desired location
   it.SetLocation(index);
 
   // Walk the neighborhood
   const unsigned int size = it.Size();
-  for ( unsigned int i = 0; i < size; ++i )
-    {
-    const auto value = static_cast< RealType >( it.GetPixel(i) );
+  for (unsigned int i = 0; i < size; ++i)
+  {
+    const auto value = static_cast<RealType>(it.GetPixel(i));
     sum += value;
     sumOfSquares += value * value;
-    }
+  }
 
-  const auto num = static_cast< double >( size );
-  var = ( sumOfSquares - ( sum * sum / num ) ) / ( num - 1.0 );
+  const auto num = static_cast<double>(size);
+  var = (sumOfSquares - (sum * sum / num)) / (num - 1.0);
 
-  return ( var );
+  return (var);
 }
 } // end namespace itk
 

@@ -45,8 +45,8 @@ public:
   /** Standard class type aliases. */
   using Self = DOMTextNode;
   using Superclass = DOMNode;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -55,19 +55,15 @@ public:
   itkTypeMacro(DOMTextNode, DOMNode);
 
   /** Functions to set/get the enclosed text of this node. */
-  itkSetMacro( Text, std::string& );
-  itkGetConstReferenceMacro( Text, std::string );
+  itkSetMacro(Text, std::string &);
+  itkGetConstReferenceMacro(Text, std::string);
 
 protected:
-  DOMTextNode()
-  {
-    this->SetName( "!" );
-  }
+  DOMTextNode() { this->SetName("!"); }
 
 private:
   /** Variable to hold the text string of this node. */
   std::string m_Text;
-
 };
 
 } // namespace itk

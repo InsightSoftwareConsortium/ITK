@@ -34,8 +34,7 @@ namespace itk
  * \sphinxexample{Numerics/Optimizers/LevenbergMarquardtOptimization, Levenberg-Marquardt Optimiztion}
  * \endsphinx
  */
-class ITKOptimizers_EXPORT LevenbergMarquardtOptimizer:
-  public MultipleValuedNonLinearVnlOptimizer
+class ITKOptimizers_EXPORT LevenbergMarquardtOptimizer : public MultipleValuedNonLinearVnlOptimizer
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevenbergMarquardtOptimizer);
@@ -43,8 +42,8 @@ public:
   /** Standard "Self" type alias. */
   using Self = LevenbergMarquardtOptimizer;
   using Superclass = MultipleValuedNonLinearVnlOptimizer;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -53,32 +52,41 @@ public:
   itkTypeMacro(LevenbergMarquardtOptimizer, MultipleValuedNonLinearVnlOptimizer);
 
   /** InternalParameters type alias. */
-  using InternalParametersType = vnl_vector< double >;
+  using InternalParametersType = vnl_vector<double>;
 
   /** Internal optimizer type. */
   using InternalOptimizerType = vnl_levenberg_marquardt;
 
   /** Method for getting access to the internal optimizer. */
-  vnl_levenberg_marquardt * GetOptimizer() const;
+  vnl_levenberg_marquardt *
+  GetOptimizer() const;
 
   /** Start optimization with an initial value. */
-  void StartOptimization() override;
+  void
+  StartOptimization() override;
 
   /** Plug in a Cost Function into the optimizer  */
-  void SetCostFunction(MultipleValuedCostFunction *costFunction) override;
+  void
+  SetCostFunction(MultipleValuedCostFunction * costFunction) override;
 
-  void SetNumberOfIterations(unsigned int iterations);
+  void
+  SetNumberOfIterations(unsigned int iterations);
 
-  void SetValueTolerance(double tol);
+  void
+  SetValueTolerance(double tol);
 
-  void SetGradientTolerance(double tol);
+  void
+  SetGradientTolerance(double tol);
 
-  void SetEpsilonFunction(double epsilon);
+  void
+  SetEpsilonFunction(double epsilon);
 
   /** Get the current value */
-  MeasureType GetValue() const;
+  MeasureType
+  GetValue() const;
 
-  const std::string GetStopConditionDescription() const override;
+  const std::string
+  GetStopConditionDescription() const override;
 
 protected:
   LevenbergMarquardtOptimizer();
@@ -87,12 +95,12 @@ protected:
   using CostFunctionAdaptorType = Superclass::CostFunctionAdaptorType;
 
 private:
-  bool                   m_OptimizerInitialized;
-  InternalOptimizerType *m_VnlOptimizer;
-  unsigned int           m_NumberOfIterations;
-  double                 m_ValueTolerance;
-  double                 m_GradientTolerance;
-  double                 m_EpsilonFunction;
+  bool                    m_OptimizerInitialized;
+  InternalOptimizerType * m_VnlOptimizer;
+  unsigned int            m_NumberOfIterations;
+  double                  m_ValueTolerance;
+  double                  m_GradientTolerance;
+  double                  m_EpsilonFunction;
 };
 } // end namespace itk
 

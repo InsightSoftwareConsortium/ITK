@@ -24,7 +24,8 @@
 #include "itkRGBPixel.h"
 
 
-namespace itk {
+namespace itk
+{
 
 /** \class LabelMapToRGBImageFilter
  * \brief Convert a LabelMap to a colored image
@@ -40,9 +41,8 @@ namespace itk {
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKImageFusion
  */
-template<typename TInputImage, typename TOutputImage=Image< RGBPixel<unsigned char>, TInputImage::ImageDimension > >
-class ITK_TEMPLATE_EXPORT LabelMapToRGBImageFilter :
-    public LabelMapFilter<TInputImage, TOutputImage>
+template <typename TInputImage, typename TOutputImage = Image<RGBPixel<unsigned char>, TInputImage::ImageDimension>>
+class ITK_TEMPLATE_EXPORT LabelMapToRGBImageFilter : public LabelMapFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LabelMapToRGBImageFilter);
@@ -68,7 +68,7 @@ public:
   using OutputImagePixelType = typename OutputImageType::PixelType;
   using IndexType = typename OutputImageType::IndexType;
 
-  using FunctorType = typename Functor::LabelToRGBFunctor< InputImagePixelType, OutputImagePixelType >;
+  using FunctorType = typename Functor::LabelToRGBFunctor<InputImagePixelType, OutputImagePixelType>;
 
   /** ImageDimension constants */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
@@ -78,41 +78,52 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(LabelMapToRGBImageFilter,
-               ImageToImageFilter);
+  itkTypeMacro(LabelMapToRGBImageFilter, ImageToImageFilter);
 
   /** Set/Get the rgb functor - defaults to a reasonable set of colors.
    * This can be used to apply a different colormap.
    */
-  virtual void SetFunctor(const FunctorType & functor)
+  virtual void
+  SetFunctor(const FunctorType & functor)
   {
-    if ( m_Functor != functor )
-      {
+    if (m_Functor != functor)
+    {
       m_Functor = functor;
       this->Modified();
-      }
+    }
   }
-  FunctorType &       GetFunctor() { return m_Functor; }
-  const FunctorType & GetFunctor() const { return m_Functor; }
+  FunctorType &
+  GetFunctor()
+  {
+    return m_Functor;
+  }
+  const FunctorType &
+  GetFunctor() const
+  {
+    return m_Functor;
+  }
 
 protected:
   LabelMapToRGBImageFilter() = default;
   ~LabelMapToRGBImageFilter() override = default;
 
-  void BeforeThreadedGenerateData() override;
+  void
+  BeforeThreadedGenerateData() override;
 
-  void ThreadedProcessLabelObject( LabelObjectType * labelObject ) override;
+  void
+  ThreadedProcessLabelObject(LabelObjectType * labelObject) override;
 
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
 private:
-  FunctorType               m_Functor;
+  FunctorType m_Functor;
 }; // end of class
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLabelMapToRGBImageFilter.hxx"
+#  include "itkLabelMapToRGBImageFilter.hxx"
 #endif
 
 #endif

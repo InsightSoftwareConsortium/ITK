@@ -34,18 +34,17 @@ namespace itk
 /** Create a helper GPU Kernel class for GPUScalarAnisotropicDiffusionFunction */
 itkGPUKernelClassMacro(GPUScalarAnisotropicDiffusionFunctionKernel);
 
-template< typename TImage >
-class ITK_TEMPLATE_EXPORT GPUScalarAnisotropicDiffusionFunction :
-  public GPUAnisotropicDiffusionFunction< TImage >
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT GPUScalarAnisotropicDiffusionFunction : public GPUAnisotropicDiffusionFunction<TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GPUScalarAnisotropicDiffusionFunction);
 
   /** Standard class type aliases. */
   using Self = GPUScalarAnisotropicDiffusionFunction;
-  using Superclass = GPUAnisotropicDiffusionFunction< TImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = GPUAnisotropicDiffusionFunction<TImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   itkTypeMacro(GPUScalarAnisotropicDiffusionFunction, GPUAnisotropicDiffusionFunction);
 
@@ -64,7 +63,8 @@ public:
   itkGetOpenCLSourceFromKernelMacro(GPUScalarAnisotropicDiffusionFunctionKernel);
 
   /** Compute average squared gradient of magnitude using the GPU */
-  void GPUCalculateAverageGradientMagnitudeSquared(TImage *) override;
+  void
+  GPUCalculateAverageGradientMagnitudeSquared(TImage *) override;
 
 protected:
   GPUScalarAnisotropicDiffusionFunction();
@@ -73,7 +73,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGPUScalarAnisotropicDiffusionFunction.hxx"
+#  include "itkGPUScalarAnisotropicDiffusionFunction.hxx"
 #endif
 
 #endif

@@ -34,18 +34,17 @@ namespace itk
  * \ingroup PathFilters
  * \ingroup ITKPath
  */
-template< typename TInputPath, typename TInputImage, typename TOutputPath >
-class ITK_TEMPLATE_EXPORT PathAndImageToPathFilter:
-  public PathToPathFilter< TInputPath, TOutputPath >
+template <typename TInputPath, typename TInputImage, typename TOutputPath>
+class ITK_TEMPLATE_EXPORT PathAndImageToPathFilter : public PathToPathFilter<TInputPath, TOutputPath>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PathAndImageToPathFilter);
 
   /** Standard class type aliases. */
   using Self = PathAndImageToPathFilter;
-  using Superclass = PathToPathFilter< TInputPath, TOutputPath >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = PathToPathFilter<TInputPath, TOutputPath>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -76,20 +75,25 @@ public:
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
 
   /** Set/Get the path input of this process object. */
-  virtual void SetPathInput(const TInputPath *path);
+  virtual void
+  SetPathInput(const TInputPath * path);
 
-  const InputPathType * GetPathInput();
+  const InputPathType *
+  GetPathInput();
 
   /** Set/Get the image input of this process object. */
-  virtual void SetImageInput(const TInputImage *image);
+  virtual void
+  SetImageInput(const TInputImage * image);
 
-  const InputImageType * GetImageInput();
+  const InputImageType *
+  GetImageInput();
 
 protected:
   PathAndImageToPathFilter();
   ~PathAndImageToPathFilter() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** What is the input requested region that is required to produce the output
    * requested region?  Up till and including now, the base assumption is that
@@ -98,12 +102,13 @@ protected:
    * its first step.
    *
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPathAndImageToPathFilter.hxx"
+#  include "itkPathAndImageToPathFilter.hxx"
 #endif
 
 #endif

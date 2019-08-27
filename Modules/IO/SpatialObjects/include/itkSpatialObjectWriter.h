@@ -29,35 +29,31 @@ namespace itk
  * \brief TODO
  * \ingroup ITKIOSpatialObjects
  */
-template< unsigned int NDimensions = 3,
+template <unsigned int NDimensions = 3,
           typename PixelType = unsigned char,
-          typename TMeshTraits = DefaultStaticMeshTraits< PixelType,
-                                                          NDimensions,
-                                                          NDimensions >
-          >
-class ITK_TEMPLATE_EXPORT SpatialObjectWriter:public Object
+          typename TMeshTraits = DefaultStaticMeshTraits<PixelType, NDimensions, NDimensions>>
+class ITK_TEMPLATE_EXPORT SpatialObjectWriter : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectWriter);
 
   /** SmartPointer type alias support */
   using Self = SpatialObjectWriter;
-  using Pointer = SmartPointer< Self >;
+  using Pointer = SmartPointer<Self>;
 
   /** Run-time type information (and related methods). */
   using Superclass = Object;
 
-  using SpatialObjectType = SpatialObject< NDimensions >;
+  using SpatialObjectType = SpatialObject<NDimensions>;
   using SpatialObjectPointer = typename SpatialObjectType::Pointer;
-  using SceneType = GroupSpatialObject< NDimensions >;
+  using SceneType = GroupSpatialObject<NDimensions>;
 
   /** base type for MetaConverters -- bidirections conversion btw
    *  SpatialObject & MetaObject
    */
-  using MetaConverterBaseType = MetaConverterBase< NDimensions >;
+  using MetaConverterBaseType = MetaConverterBase<NDimensions>;
 
-  using MetaSceneConverterType
-    = MetaSceneConverter< NDimensions, PixelType, TMeshTraits >;
+  using MetaSceneConverterType = MetaSceneConverter<NDimensions, PixelType, TMeshTraits>;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
@@ -65,7 +61,8 @@ public:
   itkTypeMacro(SpatialObjectWriter, Object);
 
   /** Load a tube file. */
-  void Update();
+  void
+  Update();
 
   /** Set the filename  */
   itkSetStringMacro(FileName);
@@ -74,25 +71,36 @@ public:
   itkGetStringMacro(FileName);
 
   /** Set the Input  */
-  void SetInput(SpatialObjectType *input){ m_SpatialObject = input; }
+  void
+  SetInput(SpatialObjectType * input)
+  {
+    m_SpatialObject = input;
+  }
 
-  void SetInput(SceneType *input){ m_Scene = input; }
+  void
+  SetInput(SceneType * input)
+  {
+    m_Scene = input;
+  }
 
   itkSetMacro(BinaryPoints, bool);
   itkGetConstMacro(BinaryPoints, bool);
 
-  void SetTransformPrecision(unsigned int precision);
+  void
+  SetTransformPrecision(unsigned int precision);
 
-  unsigned int GetTransformPrecision();
+  unsigned int
+  GetTransformPrecision();
 
   /** Set/Get if the images should be written in a different file */
   itkSetMacro(WriteImagesInSeparateFile, bool);
   itkGetConstMacro(WriteImagesInSeparateFile, bool);
 
   /** Add a converter for a new MetaObject/SpatialObject type */
-  void RegisterMetaConverter(const char *metaTypeName,
-                             const char *spatialObjectTypeName,
-                             MetaConverterBaseType *converter);
+  void
+  RegisterMetaConverter(const char *            metaTypeName,
+                        const char *            spatialObjectTypeName,
+                        MetaConverterBaseType * converter);
 
 protected:
   std::string m_FileName;
@@ -103,7 +111,6 @@ protected:
   ~SpatialObjectWriter() override = default;
 
 private:
-
   SpatialObjectPointer m_SpatialObject;
   SceneType *          m_Scene;
 
@@ -112,7 +119,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSpatialObjectWriter.hxx"
+#  include "itkSpatialObjectWriter.hxx"
 #endif
 
 #endif // itkSpatialObjectWriter_h

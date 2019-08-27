@@ -27,59 +27,76 @@ namespace itk
 // to input values.
 namespace Functor
 {
-template< typename TInput, typename  TOutput >
+template <typename TInput, typename TOutput>
 class ITK_TEMPLATE_EXPORT IntensityLinearTransform
 {
 public:
-  using RealType = typename NumericTraits< TInput >::RealType;
+  using RealType = typename NumericTraits<TInput>::RealType;
   IntensityLinearTransform()
   {
     m_Factor = 1.0;
     m_Offset = 0.0;
-    m_Minimum = NumericTraits< TOutput >::NonpositiveMin();
-    m_Maximum = NumericTraits< TOutput >::max();
-#if defined (__GNUC__) && (__GNUC__ == 5) && (__GNUC_MINOR__ == 2) && defined(NDEBUG) && defined(__i386__)
+    m_Minimum = NumericTraits<TOutput>::NonpositiveMin();
+    m_Maximum = NumericTraits<TOutput>::max();
+#if defined(__GNUC__) && (__GNUC__ == 5) && (__GNUC_MINOR__ == 2) && defined(NDEBUG) && defined(__i386__)
     m_EpsilonCompensation = static_cast<RealType>(std::numeric_limits<TOutput>::epsilon());
     if (m_EpsilonCompensation == 0)
-      {
+    {
       m_EpsilonCompensation = std::numeric_limits<RealType>::epsilon();
-      }
+    }
 #endif
   }
 
   ~IntensityLinearTransform() = default;
-  void SetFactor(RealType a) { m_Factor = a; }
-  void SetOffset(RealType b) { m_Offset = b; }
-  void SetMinimum(TOutput min) { m_Minimum = min; }
-  void SetMaximum(TOutput max) { m_Maximum = max; }
-  bool operator!=(const IntensityLinearTransform & other) const
+  void
+  SetFactor(RealType a)
   {
-    if ( Math::NotExactlyEquals(m_Factor, other.m_Factor)
-         || Math::NotExactlyEquals(m_Offset, other.m_Offset)
-         || Math::NotExactlyEquals(m_Maximum, other.m_Maximum)
-         || Math::NotExactlyEquals(m_Minimum, other.m_Minimum) )
-      {
+    m_Factor = a;
+  }
+  void
+  SetOffset(RealType b)
+  {
+    m_Offset = b;
+  }
+  void
+  SetMinimum(TOutput min)
+  {
+    m_Minimum = min;
+  }
+  void
+  SetMaximum(TOutput max)
+  {
+    m_Maximum = max;
+  }
+  bool
+  operator!=(const IntensityLinearTransform & other) const
+  {
+    if (Math::NotExactlyEquals(m_Factor, other.m_Factor) || Math::NotExactlyEquals(m_Offset, other.m_Offset) ||
+        Math::NotExactlyEquals(m_Maximum, other.m_Maximum) || Math::NotExactlyEquals(m_Minimum, other.m_Minimum))
+    {
       return true;
-      }
+    }
     return false;
   }
 
-  bool operator==(const IntensityLinearTransform & other) const
+  bool
+  operator==(const IntensityLinearTransform & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 
-  inline TOutput operator()(const TInput & x) const
+  inline TOutput
+  operator()(const TInput & x) const
   {
-#if defined (__GNUC__) && (__GNUC__ == 5) && (__GNUC_MINOR__ == 2) && defined(NDEBUG) && defined(__i386__)
-    RealType value  = static_cast< RealType >( x ) * m_Factor + m_Offset + m_EpsilonCompensation;
-    TOutput  result = static_cast< TOutput >( value ) - static_cast< TOutput >( m_EpsilonCompensation );
+#if defined(__GNUC__) && (__GNUC__ == 5) && (__GNUC_MINOR__ == 2) && defined(NDEBUG) && defined(__i386__)
+    RealType value = static_cast<RealType>(x) * m_Factor + m_Offset + m_EpsilonCompensation;
+    TOutput  result = static_cast<TOutput>(value) - static_cast<TOutput>(m_EpsilonCompensation);
 #else
-    RealType value  = static_cast< RealType >( x ) * m_Factor + m_Offset;
-    auto result = static_cast< TOutput >( value );
+    RealType value = static_cast<RealType>(x) * m_Factor + m_Offset;
+    auto     result = static_cast<TOutput>(value);
 #endif
-    result = ( result > m_Maximum ) ? m_Maximum : result;
-    result = ( result < m_Minimum ) ? m_Minimum : result;
+    result = (result > m_Maximum) ? m_Maximum : result;
+    result = (result < m_Minimum) ? m_Minimum : result;
     return result;
   }
 
@@ -88,11 +105,11 @@ private:
   RealType m_Offset;
   TOutput  m_Maximum;
   TOutput  m_Minimum;
-#if defined (__GNUC__) && (__GNUC__ == 5) && (__GNUC_MINOR__ == 2) && defined(NDEBUG) && defined(__i386__)
+#if defined(__GNUC__) && (__GNUC__ == 5) && (__GNUC_MINOR__ == 2) && defined(NDEBUG) && defined(__i386__)
   RealType m_EpsilonCompensation;
 #endif
 };
-}  // end namespace Functor
+} // end namespace Functor
 
 /** \class RescaleIntensityImageFilter
  * \brief Applies a linear transformation to the intensity levels of the
@@ -132,13 +149,12 @@ private:
  * \sphinxexample{Filtering/ImageIntensity/RescaleAnImage,Rescale An Image}
  * \endsphinx
  */
-template< typename  TInputImage, typename  TOutputImage = TInputImage >
-class ITK_TEMPLATE_EXPORT RescaleIntensityImageFilter:
-  public
-  UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                           Functor::IntensityLinearTransform<
-                             typename TInputImage::PixelType,
-                             typename TOutputImage::PixelType >   >
+template <typename TInputImage, typename TOutputImage = TInputImage>
+class ITK_TEMPLATE_EXPORT RescaleIntensityImageFilter
+  : public UnaryFunctorImageFilter<
+      TInputImage,
+      TOutputImage,
+      Functor::IntensityLinearTransform<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(RescaleIntensityImageFilter);
@@ -146,24 +162,22 @@ public:
   /** Standard class type aliases. */
   using Self = RescaleIntensityImageFilter;
   using Superclass = UnaryFunctorImageFilter<
-    TInputImage, TOutputImage,
-    Functor::IntensityLinearTransform<
-      typename TInputImage::PixelType,
-      typename TOutputImage::PixelType > >;
+    TInputImage,
+    TOutputImage,
+    Functor::IntensityLinearTransform<typename TInputImage::PixelType, typename TOutputImage::PixelType>>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using OutputPixelType = typename TOutputImage::PixelType;
   using InputPixelType = typename TInputImage::PixelType;
-  using RealType = typename NumericTraits< InputPixelType >::RealType;
+  using RealType = typename NumericTraits<InputPixelType>::RealType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(RescaleIntensityImageFilter,
-               UnaryFunctorImageFilter);
+  itkTypeMacro(RescaleIntensityImageFilter, UnaryFunctorImageFilter);
 
   itkSetMacro(OutputMinimum, OutputPixelType);
   itkSetMacro(OutputMaximum, OutputPixelType);
@@ -182,21 +196,19 @@ public:
   itkGetConstReferenceMacro(InputMaximum, InputPixelType);
 
   /** Process to execute before entering the multithreaded section */
-  void BeforeThreadedGenerateData() override;
+  void
+  BeforeThreadedGenerateData() override;
 
   /** Print internal ivars */
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< InputPixelType > ) );
-  itkConceptMacro( OutputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< OutputPixelType > ) );
-  itkConceptMacro( RealTypeMultiplyOperatorCheck,
-                   ( Concept::MultiplyOperator< RealType > ) );
-  itkConceptMacro( RealTypeAdditiveOperatorsCheck,
-                   ( Concept::AdditiveOperators< RealType > ) );
+  itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputPixelType>));
+  itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<OutputPixelType>));
+  itkConceptMacro(RealTypeMultiplyOperatorCheck, (Concept::MultiplyOperator<RealType>));
+  itkConceptMacro(RealTypeAdditiveOperatorsCheck, (Concept::AdditiveOperators<RealType>));
   // End concept checking
 #endif
 
@@ -217,7 +229,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRescaleIntensityImageFilter.hxx"
+#  include "itkRescaleIntensityImageFilter.hxx"
 #endif
 
 #endif

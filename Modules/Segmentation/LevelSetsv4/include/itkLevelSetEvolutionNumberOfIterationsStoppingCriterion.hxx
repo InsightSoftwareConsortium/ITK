@@ -23,21 +23,19 @@
 
 namespace itk
 {
-template< typename TLevelSetContainer >
+template <typename TLevelSetContainer>
 bool
-LevelSetEvolutionNumberOfIterationsStoppingCriterion< TLevelSetContainer >::
-IsSatisfied() const
+LevelSetEvolutionNumberOfIterationsStoppingCriterion<TLevelSetContainer>::IsSatisfied() const
 {
-  return ( this->m_CurrentIteration >= this->m_NumberOfIterations );
+  return (this->m_CurrentIteration >= this->m_NumberOfIterations);
 }
 
-template< typename TLevelSetContainer >
+template <typename TLevelSetContainer>
 std::string
-LevelSetEvolutionNumberOfIterationsStoppingCriterion< TLevelSetContainer >::
-GetDescription() const
+LevelSetEvolutionNumberOfIterationsStoppingCriterion<TLevelSetContainer>::GetDescription() const
 {
   return "Current Iteration Number >= Number Of Iterations";
 }
 
-}
- #endif
+} // namespace itk
+#endif

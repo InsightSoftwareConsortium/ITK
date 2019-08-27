@@ -23,111 +23,112 @@
  * Simple test to run using unix 'time' function for speed test.
  */
 
-int itkMeanSquaresImageToImageMetricv4SpeedTest(int argc, char *argv[] )
+int
+itkMeanSquaresImageToImageMetricv4SpeedTest(int argc, char * argv[])
 {
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << ": image-dimension number-of-reps" << std::endl;
     return EXIT_FAILURE;
-    }
-  int imageSize = std::stoi( argv[1] );
-  int numberOfReps = std::stoi( argv[2] );
+  }
+  int imageSize = std::stoi(argv[1]);
+  int numberOfReps = std::stoi(argv[2]);
 
   std::cout << "image dim: " << imageSize << ", reps: " << numberOfReps << std::endl;
 
   constexpr unsigned int imageDimensionality = 3;
-  using ImageType = itk::Image< double, imageDimensionality >;
+  using ImageType = itk::Image<double, imageDimensionality>;
 
-  ImageType::SizeType       size;
-  size.Fill( imageSize );
-  ImageType::IndexType      index;
-  index.Fill( 0 );
-  ImageType::RegionType     region;
-  region.SetSize( size );
-  region.SetIndex( index );
-  ImageType::SpacingType    spacing;
+  ImageType::SizeType size;
+  size.Fill(imageSize);
+  ImageType::IndexType index;
+  index.Fill(0);
+  ImageType::RegionType region;
+  region.SetSize(size);
+  region.SetIndex(index);
+  ImageType::SpacingType spacing;
   spacing.Fill(1.0);
-  ImageType::PointType      origin;
+  ImageType::PointType origin;
   origin.Fill(0);
-  ImageType::DirectionType  direction;
+  ImageType::DirectionType direction;
   direction.SetIdentity();
 
   /* Create simple test images. */
   ImageType::Pointer fixedImage = ImageType::New();
-  fixedImage->SetRegions( region );
-  fixedImage->SetSpacing( spacing );
-  fixedImage->SetOrigin( origin );
-  fixedImage->SetDirection( direction );
+  fixedImage->SetRegions(region);
+  fixedImage->SetSpacing(spacing);
+  fixedImage->SetOrigin(origin);
+  fixedImage->SetDirection(direction);
   fixedImage->Allocate();
 
   ImageType::Pointer movingImage = ImageType::New();
-  movingImage->SetRegions( region );
-  movingImage->SetSpacing( spacing );
-  movingImage->SetOrigin( origin );
-  movingImage->SetDirection( direction );
+  movingImage->SetRegions(region);
+  movingImage->SetSpacing(spacing);
+  movingImage->SetOrigin(origin);
+  movingImage->SetDirection(direction);
   movingImage->Allocate();
 
   /* Fill images */
-  itk::ImageRegionIterator<ImageType> itFixed( fixedImage, region );
+  itk::ImageRegionIterator<ImageType> itFixed(fixedImage, region);
   itFixed.GoToBegin();
   unsigned int count = 1;
-  while( !itFixed.IsAtEnd() )
-    {
-    itFixed.Set( count );
+  while (!itFixed.IsAtEnd())
+  {
+    itFixed.Set(count);
     count++;
     ++itFixed;
-    }
+  }
 
-  itk::ImageRegionIteratorWithIndex<ImageType> itMoving( movingImage, region );
+  itk::ImageRegionIteratorWithIndex<ImageType> itMoving(movingImage, region);
 
   itMoving.GoToBegin();
   count = 1;
 
-  while( !itMoving.IsAtEnd() )
-    {
-    itMoving.Set( count*count );
+  while (!itMoving.IsAtEnd())
+  {
+    itMoving.Set(count * count);
     count++;
     ++itMoving;
-    }
+  }
 
   /* Transforms */
-  using FixedTransformType = itk::TranslationTransform<double,imageDimensionality>;
-  using MovingTransformType = itk::TranslationTransform<double,imageDimensionality>;
+  using FixedTransformType = itk::TranslationTransform<double, imageDimensionality>;
+  using MovingTransformType = itk::TranslationTransform<double, imageDimensionality>;
 
-  FixedTransformType::Pointer fixedTransform = FixedTransformType::New();
+  FixedTransformType::Pointer  fixedTransform = FixedTransformType::New();
   MovingTransformType::Pointer movingTransform = MovingTransformType::New();
 
   fixedTransform->SetIdentity();
   movingTransform->SetIdentity();
 
   /* The metric */
-  using MetricType = itk::MeanSquaresImageToImageMetricv4< ImageType, ImageType, ImageType >;
+  using MetricType = itk::MeanSquaresImageToImageMetricv4<ImageType, ImageType, ImageType>;
 
   MetricType::Pointer metric = MetricType::New();
 
   /* Assign images and transforms.
    * By not setting a virtual domain image or virtual domain settings,
    * the metric will use the fixed image for the virtual domain. */
-  metric->SetFixedImage( fixedImage );
-  metric->SetMovingImage( movingImage );
-  metric->SetFixedTransform( fixedTransform );
-  metric->SetMovingTransform( movingTransform );
+  metric->SetFixedImage(fixedImage);
+  metric->SetMovingImage(movingImage);
+  metric->SetFixedTransform(fixedTransform);
+  metric->SetMovingTransform(movingTransform);
 
   /* Initialize. */
   std::cout << "Calling Initialize..." << std::endl;
   metric->Initialize();
 
   // Evaluate with GetValueAndDerivative
-  MetricType::MeasureType valueReturn1;
+  MetricType::MeasureType    valueReturn1;
   MetricType::DerivativeType derivativeReturn;
 
   MetricType::MeasureType sum = itk::NumericTraits<MetricType::MeasureType>::ZeroValue();
-  for( int r=0; r < numberOfReps; r++ )
-    {
-    metric->GetValueAndDerivative( valueReturn1, derivativeReturn );
-    //Sum results to prevent optimizations
+  for (int r = 0; r < numberOfReps; r++)
+  {
+    metric->GetValueAndDerivative(valueReturn1, derivativeReturn);
+    // Sum results to prevent optimizations
     sum += valueReturn1 + derivativeReturn[0];
-    }
+  }
 
   std::cout << "sum: " << sum << std::endl;
 

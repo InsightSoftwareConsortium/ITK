@@ -23,18 +23,16 @@
 namespace itk
 {
 
-template< typename TInputPath, typename TOutputChainCodePath >
-PathToChainCodePathFilter< TInputPath, TOutputChainCodePath >
-::PathToChainCodePathFilter()
+template <typename TInputPath, typename TOutputChainCodePath>
+PathToChainCodePathFilter<TInputPath, TOutputChainCodePath>::PathToChainCodePathFilter()
 
 {
   this->SetNumberOfRequiredInputs(1);
 }
 
-template< typename TInputPath, typename TOutputChainCodePath >
+template <typename TInputPath, typename TOutputChainCodePath>
 void
-PathToChainCodePathFilter< TInputPath, TOutputChainCodePath >
-::GenerateData()
+PathToChainCodePathFilter<TInputPath, TOutputChainCodePath>::GenerateData()
 {
   OffsetType offset;
   OffsetType tempOffset;
@@ -46,46 +44,48 @@ PathToChainCodePathFilter< TInputPath, TOutputChainCodePath >
 
   int dimension = OffsetType::GetOffsetDimension();
 
-  typename Superclass::InputPathConstPointer inputPtr  = this->GetInput();
-  typename Superclass::OutputPathPointer outputPtr = this->GetOutput(0);
+  typename Superclass::InputPathConstPointer inputPtr = this->GetInput();
+  typename Superclass::OutputPathPointer     outputPtr = this->GetOutput(0);
 
-  //outputPtr->SetRequestedRegion( inputPtr->GetRequestedRegion() );
-  //outputPtr->SetBufferedRegion( inputPtr->GetBufferedRegion() );
-  //outputPtr->SetLargestPossibleRegion( inputPtr->GetLargestPossibleRegion() );
-  //outputPtr->Allocate();  // Allocate() is an Image function
+  // outputPtr->SetRequestedRegion( inputPtr->GetRequestedRegion() );
+  // outputPtr->SetBufferedRegion( inputPtr->GetBufferedRegion() );
+  // outputPtr->SetLargestPossibleRegion( inputPtr->GetLargestPossibleRegion() );
+  // outputPtr->Allocate();  // Allocate() is an Image function
 
   outputPtr->Clear();
   inputPathInput = inputPtr->StartOfInput();
-  outputPtr->SetStart( inputPtr->EvaluateToIndex(inputPathInput) );
+  outputPtr->SetStart(inputPtr->EvaluateToIndex(inputPathInput));
 
-  for ( OutputPathInputType outputPathInput = 0;; )
+  for (OutputPathInputType outputPathInput = 0;;)
+  {
+    offset = inputPtr->IncrementInput(inputPathInput);
+    if (zeroOffset == offset)
     {
-    offset  = inputPtr->IncrementInput(inputPathInput);
-    if ( zeroOffset == offset ) { break; }
+      break;
+    }
 
-    if ( !m_MaximallyConnected )
-      {
+    if (!m_MaximallyConnected)
+    {
       outputPtr->InsertStep(outputPathInput++, offset);
-      }
+    }
     else
+    {
+      for (int d = 0; d < dimension; d++)
       {
-      for ( int d = 0; d < dimension; d++ )
+        if (offset[d])
         {
-        if ( offset[d] )
-          {
           tempOffset.Fill(0);
           tempOffset[d] = offset[d];
           outputPtr->InsertStep(outputPathInput++, tempOffset);
-          }
         }
       }
     }
+  }
 }
 
-template< typename TInputPath, typename TOutputChainCodePath >
+template <typename TInputPath, typename TOutputChainCodePath>
 void
-PathToChainCodePathFilter< TInputPath, TOutputChainCodePath >
-::PrintSelf(std::ostream & os, Indent indent) const
+PathToChainCodePathFilter<TInputPath, TOutputChainCodePath>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

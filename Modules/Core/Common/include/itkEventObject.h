@@ -61,45 +61,54 @@ public:
    * called when children are instantiated. */
   EventObject() = default;
 
-  EventObject(const EventObject &)= default;
+  EventObject(const EventObject &) = default;
 
   /** Virtual destructor needed  */
   virtual ~EventObject() = default;
 
   /**  Create an Event of this type This method work as a Factory for
    *  creating events of each particular type. */
-  virtual EventObject * MakeObject() const = 0;
+  virtual EventObject *
+  MakeObject() const = 0;
 
   /** Print Event information.  This method can be overridden by
    * specific Event subtypes.  The default is to print out the type of
    * the event. */
-  virtual void Print(std::ostream & os) const;
+  virtual void
+  Print(std::ostream & os) const;
 
   /** Return the StringName associated with the event. */
-  virtual const char * GetEventName() const = 0;
+  virtual const char *
+  GetEventName() const = 0;
 
   /** Check if given event matches or derives from this event. */
-  virtual bool CheckEvent(const EventObject *) const = 0;
+  virtual bool
+  CheckEvent(const EventObject *) const = 0;
 
 protected:
   /** Methods invoked by Print() to print information about the object
    * including superclasses. Typically not called by the user (use Print()
    * instead) but used in the hierarchical print process to combine the
    * output of several classes.  */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void
+  PrintSelf(std::ostream & os, Indent indent) const;
 
-  virtual void PrintHeader(std::ostream & os, Indent indent) const;
+  virtual void
+  PrintHeader(std::ostream & os, Indent indent) const;
 
-  virtual void PrintTrailer(std::ostream & os, Indent indent) const;
+  virtual void
+  PrintTrailer(std::ostream & os, Indent indent) const;
 
 private:
-  void operator=(const EventObject &) = delete;
+  void
+  operator=(const EventObject &) = delete;
 };
 
 /** Generic inserter operator for EventObject and its subclasses. */
-inline std::ostream & operator<<(std::ostream & os, EventObject & e)
+inline std::ostream &
+operator<<(std::ostream & os, EventObject & e)
 {
-  ( &e )->Print(os);
+  (&e)->Print(os);
   return os;
 }
 
@@ -110,31 +119,39 @@ inline std::ostream & operator<<(std::ostream & os, EventObject & e)
  *  Macros for creating new Events
  */
 
-#define itkEventMacroDeclaration(classname, super)                   \
-  /** \class classname */                                            \
-  class ITKEvent_EXPORT classname:public super                       \
-  {                                                                  \
-public:                                                              \
-    using Self = classname;                                          \
-    using Superclass = super;                                    \
-    classname();                                                     \
-    classname(const Self &s);                                        \
-    virtual ~classname();                                            \
-    virtual const char *GetEventName() const;                        \
-    virtual bool CheckEvent(const::itk::EventObject * e) const;      \
-    virtual ::itk::EventObject *MakeObject() const;                   \
-private:                                                             \
-    void operator=(const Self &);                                    \
+#define itkEventMacroDeclaration(classname, super)                                                                     \
+  /** \class classname */                                                                                              \
+  class ITKEvent_EXPORT classname : public super                                                                       \
+  {                                                                                                                    \
+  public:                                                                                                              \
+    using Self = classname;                                                                                            \
+    using Superclass = super;                                                                                          \
+    classname();                                                                                                       \
+    classname(const Self & s);                                                                                         \
+    virtual ~classname();                                                                                              \
+    virtual const char *                                                                                               \
+    GetEventName() const;                                                                                              \
+    virtual bool                                                                                                       \
+    CheckEvent(const ::itk::EventObject * e) const;                                                                    \
+    virtual ::itk::EventObject *                                                                                       \
+    MakeObject() const;                                                                                                \
+                                                                                                                       \
+  private:                                                                                                             \
+    void                                                                                                               \
+    operator=(const Self &);                                                                                           \
   };
 
-#define itkEventMacroDefinition(classname, super)                           \
-classname::classname() {}                                                   \
-classname::classname(const classname &s):super(s){};                        \
-classname::~classname() {}                                                  \
-const char * classname::GetEventName() const { return #classname; }          \
-bool classname::CheckEvent(const::itk::EventObject * e) const               \
-      { return ( dynamic_cast< const classname * >( e ) != nullptr ); } \
-::itk::EventObject *classname::MakeObject() const { return new classname; } \
+#define itkEventMacroDefinition(classname, super)                                                                      \
+  classname::classname() {}                                                                                            \
+  classname::classname(const classname & s)                                                                            \
+    : super(s){};                                                                                                      \
+  classname::~classname() {}                                                                                           \
+  const char * classname::GetEventName() const { return #classname; }                                                  \
+  bool         classname::CheckEvent(const ::itk::EventObject * e) const                                               \
+  {                                                                                                                    \
+    return (dynamic_cast<const classname *>(e) != nullptr);                                                            \
+  }                                                                                                                    \
+  ::itk::EventObject * classname::MakeObject() const { return new classname; }
 
 //
 // This macro duplicates some of the declaration and definition
@@ -145,48 +162,54 @@ bool classname::CheckEvent(const::itk::EventObject * e) const               \
 // file). This new approach guarantees that only one copy of the
 // implementation will be present.
 //
-#define itkEventMacro(classname, super)                              \
-  /** \class classname */                                            \
-  class ITKEvent_EXPORT classname:public super                       \
-  {                                                                  \
-public:                                                              \
-    using Self = classname;                                          \
-    using Superclass = super;                                    \
-    classname() {}                                                   \
-    virtual ~classname() {}                                          \
-    virtual const char *GetEventName() const { return #classname; } \
-    virtual bool CheckEvent(const::itk::EventObject * e) const       \
-               { return ( dynamic_cast< const Self * >( e ) != nullptr ); }         \
-    virtual::itk::EventObject *MakeObject() const                    \
-               { return new Self; }                                  \
-    classname(const Self &s):super(s){};                             \
-private:                                                             \
-    void operator=(const Self &);                                    \
+#define itkEventMacro(classname, super)                                                                                \
+  /** \class classname */                                                                                              \
+  class ITKEvent_EXPORT classname : public super                                                                       \
+  {                                                                                                                    \
+  public:                                                                                                              \
+    using Self = classname;                                                                                            \
+    using Superclass = super;                                                                                          \
+    classname() {}                                                                                                     \
+    virtual ~classname() {}                                                                                            \
+    virtual const char *                                                                                               \
+    GetEventName() const                                                                                               \
+    {                                                                                                                  \
+      return #classname;                                                                                               \
+    }                                                                                                                  \
+    virtual bool                                                                                                       \
+    CheckEvent(const ::itk::EventObject * e) const                                                                     \
+    {                                                                                                                  \
+      return (dynamic_cast<const Self *>(e) != nullptr);                                                               \
+    }                                                                                                                  \
+    virtual ::itk::EventObject *                                                                                       \
+    MakeObject() const                                                                                                 \
+    {                                                                                                                  \
+      return new Self;                                                                                                 \
+    }                                                                                                                  \
+    classname(const Self & s)                                                                                          \
+      : super(s){};                                                                                                    \
+                                                                                                                       \
+  private:                                                                                                             \
+    void                                                                                                               \
+    operator=(const Self &);                                                                                           \
   };
 
 /**
  *      Delclare some common ITK events
  */
-itkEventMacroDeclaration(NoEvent, EventObject)
-itkEventMacroDeclaration(AnyEvent, EventObject)
-itkEventMacroDeclaration(DeleteEvent, AnyEvent)
-itkEventMacroDeclaration(StartEvent, AnyEvent)
-itkEventMacroDeclaration(EndEvent, AnyEvent)
-itkEventMacroDeclaration(ProgressEvent, AnyEvent)
-itkEventMacroDeclaration(ExitEvent, AnyEvent)
-itkEventMacroDeclaration(AbortEvent, AnyEvent)
-itkEventMacroDeclaration(ModifiedEvent, AnyEvent)
-itkEventMacroDeclaration(InitializeEvent, AnyEvent)
-itkEventMacroDeclaration(IterationEvent, AnyEvent)
-itkEventMacroDeclaration(MultiResolutionIterationEvent,IterationEvent)
-itkEventMacroDeclaration(PickEvent, AnyEvent)
-itkEventMacroDeclaration(StartPickEvent, PickEvent)
-itkEventMacroDeclaration(EndPickEvent, PickEvent)
-itkEventMacroDeclaration(AbortCheckEvent, PickEvent)
-itkEventMacroDeclaration(FunctionEvaluationIterationEvent, IterationEvent)
-itkEventMacroDeclaration(GradientEvaluationIterationEvent, IterationEvent)
-itkEventMacroDeclaration(FunctionAndGradientEvaluationIterationEvent, IterationEvent)
-itkEventMacroDeclaration(UserEvent, AnyEvent)
+itkEventMacroDeclaration(NoEvent, EventObject) itkEventMacroDeclaration(AnyEvent, EventObject)
+  itkEventMacroDeclaration(DeleteEvent, AnyEvent) itkEventMacroDeclaration(StartEvent, AnyEvent)
+    itkEventMacroDeclaration(EndEvent, AnyEvent) itkEventMacroDeclaration(ProgressEvent, AnyEvent)
+      itkEventMacroDeclaration(ExitEvent, AnyEvent) itkEventMacroDeclaration(AbortEvent, AnyEvent)
+        itkEventMacroDeclaration(ModifiedEvent, AnyEvent) itkEventMacroDeclaration(InitializeEvent, AnyEvent)
+          itkEventMacroDeclaration(IterationEvent, AnyEvent)
+            itkEventMacroDeclaration(MultiResolutionIterationEvent, IterationEvent)
+              itkEventMacroDeclaration(PickEvent, AnyEvent) itkEventMacroDeclaration(StartPickEvent, PickEvent)
+                itkEventMacroDeclaration(EndPickEvent, PickEvent) itkEventMacroDeclaration(AbortCheckEvent, PickEvent)
+                  itkEventMacroDeclaration(FunctionEvaluationIterationEvent, IterationEvent)
+                    itkEventMacroDeclaration(GradientEvaluationIterationEvent, IterationEvent)
+                      itkEventMacroDeclaration(FunctionAndGradientEvaluationIterationEvent, IterationEvent)
+                        itkEventMacroDeclaration(UserEvent, AnyEvent)
 
 #undef ITKEvent_EXPORT
 #define ITKEvent_EXPORT ITK_ABI_EXPORT

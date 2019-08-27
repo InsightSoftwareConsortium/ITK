@@ -31,18 +31,18 @@ namespace itk
  * \ingroup QuadEdgeMeshModifierFunctions
  * \ingroup ITKQuadEdgeMesh
  */
-template< typename TMesh, typename TQEType >
-class ITK_TEMPLATE_EXPORT QuadEdgeMeshEulerOperatorSplitFacetFunction:
-  public QuadEdgeMeshFunctionBase< TMesh, TQEType * >
+template <typename TMesh, typename TQEType>
+class ITK_TEMPLATE_EXPORT QuadEdgeMeshEulerOperatorSplitFacetFunction
+  : public QuadEdgeMeshFunctionBase<TMesh, TQEType *>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshEulerOperatorSplitFacetFunction);
 
   /** Standard class type aliases. */
   using Self = QuadEdgeMeshEulerOperatorSplitFacetFunction;
-  using Superclass = QuadEdgeMeshFunctionBase< TMesh, TQEType * >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = QuadEdgeMeshFunctionBase<TMesh, TQEType *>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   itkNewMacro(Self);
   /** Run-time type information (and related methods). */
@@ -56,10 +56,11 @@ public:
   using EdgeCellType = typename Superclass::EdgeCellType;
 
   /** Evaluate at the specified input position */
-  virtual OutputType Evaluate(QEType *h, QEType *g);
+  virtual OutputType
+  Evaluate(QEType * h, QEType * g);
 
 protected:
-  QuadEdgeMeshEulerOperatorSplitFacetFunction()= default;
+  QuadEdgeMeshEulerOperatorSplitFacetFunction() = default;
   ~QuadEdgeMeshEulerOperatorSplitFacetFunction() override = default;
 };
 } // end namespace itk

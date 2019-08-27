@@ -30,31 +30,32 @@ namespace
 // Simple signed distance function
 template <typename TPoint>
 double
-SimpleSignedDistance( const TPoint & p )
+SimpleSignedDistance(const TPoint & p)
 {
   TPoint center;
-  center.Fill( 32 );
+  center.Fill(32);
   double radius = 16;
 
   double accum = 0.0;
-  for( unsigned int j = 0; j < TPoint::PointDimension; j++ )
-    {
-    accum += itk::Math::sqr( p[j] - center[j] );
-    }
-  accum = std::sqrt( accum );
-  return ( accum - radius );
+  for (unsigned int j = 0; j < TPoint::PointDimension; j++)
+  {
+    accum += itk::Math::sqr(p[j] - center[j]);
+  }
+  accum = std::sqrt(accum);
+  return (accum - radius);
 }
 
-}
+} // namespace
 
-int itkApproximateSignedDistanceMapImageFilterTest( int argc, char* argv[] )
+int
+itkApproximateSignedDistanceMapImageFilterTest(int argc, char * argv[])
 {
-  if(argc < 3)
-    {
+  if (argc < 3)
+  {
     std::cerr << "Missing parameters" << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " insideValue outputImage" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int ImageDimension = 2;
 
@@ -63,117 +64,113 @@ int itkApproximateSignedDistanceMapImageFilterTest( int argc, char* argv[] )
   using WriterPixelType = short;
   using PointPixelType = double;
 
-  using InputImageType = itk::Image< InputPixelType, ImageDimension >;
-  using OutputImageType = itk::Image< OutputPixelType, ImageDimension >;
-  using WriterImageType = itk::Image< WriterPixelType, ImageDimension >;
-  using PointType = itk::Point< PointPixelType, ImageDimension >;
+  using InputImageType = itk::Image<InputPixelType, ImageDimension>;
+  using OutputImageType = itk::Image<OutputPixelType, ImageDimension>;
+  using WriterImageType = itk::Image<WriterPixelType, ImageDimension>;
+  using PointType = itk::Point<PointPixelType, ImageDimension>;
 
   // Make a binary input image based on the signed distance function
   // using the inside and outside values
-  const InputPixelType insideValue =  std::stoi( argv[1] );
-  constexpr InputPixelType outsideValue  = 0;
+  const InputPixelType     insideValue = std::stoi(argv[1]);
+  constexpr InputPixelType outsideValue = 0;
 
-  InputImageType::Pointer image = InputImageType::New();
+  InputImageType::Pointer  image = InputImageType::New();
   InputImageType::SizeType size;
-  size.Fill( 64 );
-  InputImageType::RegionType region( size );
+  size.Fill(64);
+  InputImageType::RegionType region(size);
 
-  image->SetRegions( region );
+  image->SetRegions(region);
   image->Allocate();
 
-  using InputIteratorType = itk::ImageRegionIteratorWithIndex< InputImageType >;
-  InputIteratorType iter( image, region );
+  using InputIteratorType = itk::ImageRegionIteratorWithIndex<InputImageType>;
+  InputIteratorType iter(image, region);
   iter.GoToBegin();
 
-  while( !iter.IsAtEnd() )
-    {
+  while (!iter.IsAtEnd())
+  {
     PointType point;
-    image->TransformIndexToPhysicalPoint( iter.GetIndex(), point );
-    iter.Set( SimpleSignedDistance( point ) > 0 ? outsideValue : insideValue );
+    image->TransformIndexToPhysicalPoint(iter.GetIndex(), point);
+    iter.Set(SimpleSignedDistance(point) > 0 ? outsideValue : insideValue);
     ++iter;
-    }
+  }
 
   // Set up the filter
-  using DistanceMapFilterType =
-      itk::ApproximateSignedDistanceMapImageFilter< InputImageType, OutputImageType >;
-  DistanceMapFilterType::Pointer signedDistanceMapFilter =
-    DistanceMapFilterType::New();
+  using DistanceMapFilterType = itk::ApproximateSignedDistanceMapImageFilter<InputImageType, OutputImageType>;
+  DistanceMapFilterType::Pointer signedDistanceMapFilter = DistanceMapFilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( signedDistanceMapFilter,
-    ApproximateSignedDistanceMapImageFilter, ImageToImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    signedDistanceMapFilter, ApproximateSignedDistanceMapImageFilter, ImageToImageFilter);
 
-  signedDistanceMapFilter->SetInput( image );
+  signedDistanceMapFilter->SetInput(image);
 
-  signedDistanceMapFilter->SetInsideValue( insideValue );
-  ITK_TEST_SET_GET_VALUE( insideValue, signedDistanceMapFilter->GetInsideValue() );
+  signedDistanceMapFilter->SetInsideValue(insideValue);
+  ITK_TEST_SET_GET_VALUE(insideValue, signedDistanceMapFilter->GetInsideValue());
 
-  signedDistanceMapFilter->SetOutsideValue( outsideValue );
-  ITK_TEST_SET_GET_VALUE( outsideValue, signedDistanceMapFilter->GetOutsideValue() );
+  signedDistanceMapFilter->SetOutsideValue(outsideValue);
+  ITK_TEST_SET_GET_VALUE(outsideValue, signedDistanceMapFilter->GetOutsideValue());
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( signedDistanceMapFilter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(signedDistanceMapFilter->Update());
 
 
   // Write the output image
-  using RescaleFilterType =
-      itk::ShiftScaleImageFilter< OutputImageType, WriterImageType >;
+  using RescaleFilterType = itk::ShiftScaleImageFilter<OutputImageType, WriterImageType>;
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
 
-  rescaler->SetInput( signedDistanceMapFilter->GetOutput() );
-  rescaler->SetScale( 1000 );
+  rescaler->SetInput(signedDistanceMapFilter->GetOutput());
+  rescaler->SetScale(1000);
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( rescaler->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(rescaler->Update());
 
 
-  if( rescaler->GetUnderflowCount() + rescaler->GetOverflowCount() > 0 )
-    {
+  if (rescaler->GetUnderflowCount() + rescaler->GetOverflowCount() > 0)
+  {
     std::cerr << "Test failed!" << std::endl;
     std::cerr << "Under-/overflow when scaling distances before writing distance map to disc: " << std::endl
-      << "Underflow: " << rescaler->GetUnderflowCount() << std::endl
-      << "Overflow: " << rescaler->GetOverflowCount() << std::endl;
+              << "Underflow: " << rescaler->GetUnderflowCount() << std::endl
+              << "Overflow: " << rescaler->GetOverflowCount() << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  using WriterType = itk::ImageFileWriter< WriterImageType >;
+  using WriterType = itk::ImageFileWriter<WriterImageType>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( rescaler->GetOutput() );
-  writer->SetFileName( argv[2] );
+  writer->SetInput(rescaler->GetOutput());
+  writer->SetFileName(argv[2]);
 
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
   OutputPixelType maxDistance = 0;
 
-  using OutputIteratorType = itk::ImageRegionConstIteratorWithIndex< OutputImageType >;
-  OutputIteratorType oIt( signedDistanceMapFilter->GetOutput(),
-    signedDistanceMapFilter->GetOutput()->GetLargestPossibleRegion() );
+  using OutputIteratorType = itk::ImageRegionConstIteratorWithIndex<OutputImageType>;
+  OutputIteratorType oIt(signedDistanceMapFilter->GetOutput(),
+                         signedDistanceMapFilter->GetOutput()->GetLargestPossibleRegion());
   oIt.GoToBegin();
 
-  while( !oIt.IsAtEnd() )
-    {
+  while (!oIt.IsAtEnd())
+  {
     PointType point;
-    image->TransformIndexToPhysicalPoint( oIt.GetIndex(), point );
-    OutputPixelType distance =
-      itk::Math::abs( oIt.Get() - SimpleSignedDistance( point ) );
-    if( distance > maxDistance )
-      {
+    image->TransformIndexToPhysicalPoint(oIt.GetIndex(), point);
+    OutputPixelType distance = itk::Math::abs(oIt.Get() - SimpleSignedDistance(point));
+    if (distance > maxDistance)
+    {
       maxDistance = distance;
-      }
-    ++oIt;
     }
+    ++oIt;
+  }
 
   // Regression test
   OutputPixelType maxAllowedDistance = 2;
-  if( maxDistance > maxAllowedDistance )
-    {
+  if (maxDistance > maxAllowedDistance)
+  {
     std::cout << "Test failed!" << std::endl;
     std::cout << "The output image had pixels too far away from the correct distance." << std::endl;
-    std::cout << "The maximum error was: "
-      <<  static_cast< itk::NumericTraits< OutputPixelType >::PrintType >( maxDistance ) << std::endl;
+    std::cout << "The maximum error was: " << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(maxDistance)
+              << std::endl;
     std::cout << "The maximum allowed error is: "
-      << static_cast< itk::NumericTraits< OutputPixelType >::PrintType >( maxAllowedDistance ) << std::endl;
+              << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(maxAllowedDistance) << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "Test passed" << std::endl;
   return EXIT_SUCCESS;

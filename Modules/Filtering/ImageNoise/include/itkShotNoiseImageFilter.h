@@ -89,16 +89,15 @@ namespace itk
  *
  * \ingroup ITKImageNoise
  */
-template <class TInputImage, class TOutputImage=TInputImage>
-class ITK_TEMPLATE_EXPORT ShotNoiseImageFilter :
-  public NoiseBaseImageFilter<TInputImage,TOutputImage >
+template <class TInputImage, class TOutputImage = TInputImage>
+class ITK_TEMPLATE_EXPORT ShotNoiseImageFilter : public NoiseBaseImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ShotNoiseImageFilter);
 
   /** Standard class type aliases. */
   using Self = ShotNoiseImageFilter;
-  using Superclass = NoiseBaseImageFilter< TInputImage,TOutputImage >;
+  using Superclass = NoiseBaseImageFilter<TInputImage, TOutputImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -131,8 +130,7 @@ public:
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(InputConvertibleToOutputCheck,
-                  (Concept::Convertible<typename TInputImage::PixelType,
-                                        typename TOutputImage::PixelType>) );
+                  (Concept::Convertible<typename TInputImage::PixelType, typename TOutputImage::PixelType>));
   /** End concept checking */
 #endif
 
@@ -140,19 +138,20 @@ protected:
   ShotNoiseImageFilter();
   ~ShotNoiseImageFilter() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 
 private:
   double m_Scale{ 1.0 };
-
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShotNoiseImageFilter.hxx"
+#  include "itkShotNoiseImageFilter.hxx"
 #endif
 
 #endif

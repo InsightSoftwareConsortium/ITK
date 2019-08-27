@@ -45,18 +45,17 @@ namespace itk
  * \ingroup ImageSource
  * \ingroup ITKDisplacementField
  */
-template< typename TOutputImage >
-class ITK_TEMPLATE_EXPORT LandmarkDisplacementFieldSource:
-  public ImageSource< TOutputImage >
+template <typename TOutputImage>
+class ITK_TEMPLATE_EXPORT LandmarkDisplacementFieldSource : public ImageSource<TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LandmarkDisplacementFieldSource);
 
   /** Standard class type aliases. */
   using Self = LandmarkDisplacementFieldSource;
-  using Superclass = ImageSource< TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageSource<TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using OutputImageType = TOutputImage;
   using OutputImagePointer = typename OutputImageType::Pointer;
@@ -75,7 +74,7 @@ public:
    *
    *  The KernelBased spline transform types are defined here.
    */
-  using KernelTransformType = KernelTransform< double, Self::ImageDimension >;
+  using KernelTransformType = KernelTransform<double, Self::ImageDimension>;
   using LandmarkPointSetType = typename KernelTransformType::PointSetType;
   using LandmarkPointType = typename LandmarkPointSetType::PointType;
   using KernelTransformPointerType = typename KernelTransformType::Pointer;
@@ -111,14 +110,16 @@ public:
 
   /** Set the output image spacing. */
   itkSetMacro(OutputSpacing, SpacingType);
-  virtual void SetOutputSpacing(const double *values);
+  virtual void
+  SetOutputSpacing(const double * values);
 
   /** Get the output image spacing. */
   itkGetConstReferenceMacro(OutputSpacing, SpacingType);
 
   /** Set the output image origin. */
   itkSetMacro(OutputOrigin, OriginPointType);
-  virtual void SetOutputOrigin(const double *values);
+  virtual void
+  SetOutputOrigin(const double * values);
 
   /** Set the output direciton cosine matrix. */
   itkSetMacro(OutputDirection, DirectionType);
@@ -136,45 +137,50 @@ public:
    * for GenerateOutputInformation() in order to inform the pipeline
    * execution model.  The original documentation of this method is
    * below. \sa ProcessObject::GenerateOutputInformaton() */
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
   /** Method Compute the Modified Time based on changed to the components. */
-  ModifiedTimeType GetMTime() const override;
+  ModifiedTimeType
+  GetMTime() const override;
 
 protected:
   LandmarkDisplacementFieldSource();
   ~LandmarkDisplacementFieldSource() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**
    * GenerateData() computes the internal KernelBase spline and resamples
    * the displacement field.
    */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /** Subsample the input displacement field and generate the
    *  landmarks for the kernel base spline
    */
-  void PrepareKernelBaseSpline();
+  void
+  PrepareKernelBaseSpline();
 
 private:
-  KernelTransformPointerType m_KernelTransform;      // Coordinate transform to
-                                                     // use
+  KernelTransformPointerType m_KernelTransform; // Coordinate transform to
+                                                // use
 
-  OutputImageRegionType m_OutputRegion;              // Region of the output
-                                                     // image
-  SpacingType     m_OutputSpacing;                   // output image spacing
-  OriginPointType m_OutputOrigin;                    // output image origin
-  DirectionType   m_OutputDirection;                 // output image direction
-                                                     // cosines
+  OutputImageRegionType m_OutputRegion; // Region of the output
+                                        // image
+  SpacingType     m_OutputSpacing;      // output image spacing
+  OriginPointType m_OutputOrigin;       // output image origin
+  DirectionType   m_OutputDirection;    // output image direction
+                                        // cosines
 
-  LandmarkContainerPointer m_SourceLandmarks;        // List of source landmarks
-  LandmarkContainerPointer m_TargetLandmarks;        // List of target landmarks
+  LandmarkContainerPointer m_SourceLandmarks; // List of source landmarks
+  LandmarkContainerPointer m_TargetLandmarks; // List of target landmarks
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLandmarkDisplacementFieldSource.hxx"
+#  include "itkLandmarkDisplacementFieldSource.hxx"
 #endif
 
 #endif

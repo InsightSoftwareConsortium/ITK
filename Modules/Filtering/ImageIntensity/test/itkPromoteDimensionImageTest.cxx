@@ -22,20 +22,21 @@
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkTestingMacros.h"
 
-int itkPromoteDimensionImageTest(int argc, char* argv[])
+int
+itkPromoteDimensionImageTest(int argc, char * argv[])
 {
-  if( argc < 3)
-    {
+  if (argc < 3)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImage outputImage " << std::endl;
     return -1;
-    }
+  }
 
-  const char * inputFilename  = argv[1];
+  const char * inputFilename = argv[1];
   const char * outputFilename = argv[2];
 
-  using CharPixelType = unsigned char;  //IO
-  using RealPixelType = double;  //Operations
+  using CharPixelType = unsigned char; // IO
+  using RealPixelType = double;        // Operations
 
   constexpr unsigned int InDimension = 2;
   constexpr unsigned int OutDimension = 3;
@@ -44,48 +45,47 @@ int itkPromoteDimensionImageTest(int argc, char* argv[])
   using OutCharImageType = itk::Image<CharPixelType, OutDimension>;
   using RealImageType = itk::Image<RealPixelType, InDimension>;
 
-  using ReaderType = itk::ImageFileReader< InCharImageType >;
-  using WriterType = itk::ImageFileWriter< OutCharImageType >;
+  using ReaderType = itk::ImageFileReader<InCharImageType>;
+  using WriterType = itk::ImageFileWriter<OutCharImageType>;
 
   using CastToRealFilterType = itk::CastImageFilter<InCharImageType, RealImageType>;
   using CastToCharFilterType = itk::CastImageFilter<RealImageType, OutCharImageType>;
 
   using RescaleFilter = itk::RescaleIntensityImageFilter<RealImageType, RealImageType>;
 
-  //Setting the IO
+  // Setting the IO
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
 
   CastToRealFilterType::Pointer toReal = CastToRealFilterType::New();
   CastToCharFilterType::Pointer toChar = CastToCharFilterType::New();
-  RescaleFilter::Pointer rescale = RescaleFilter::New();
+  RescaleFilter::Pointer        rescale = RescaleFilter::New();
 
-  //Setting the ITK pipeline filter
+  // Setting the ITK pipeline filter
 
-  reader->SetFileName( inputFilename  );
-  writer->SetFileName( outputFilename );
+  reader->SetFileName(inputFilename);
+  writer->SetFileName(outputFilename);
 
-  //The output of an edge filter is 0 or 1
-  rescale->SetOutputMinimum(   0 );
-  rescale->SetOutputMaximum( 255 );
+  // The output of an edge filter is 0 or 1
+  rescale->SetOutputMinimum(0);
+  rescale->SetOutputMaximum(255);
 
-  toReal->SetInput( reader->GetOutput() );
-  rescale->SetInput( toReal->GetOutput() );
-  toChar->SetInput( rescale->GetOutput() );
-  writer->SetInput( toChar->GetOutput() );
+  toReal->SetInput(reader->GetOutput());
+  rescale->SetInput(toReal->GetOutput());
+  toChar->SetInput(rescale->GetOutput());
+  writer->SetInput(toChar->GetOutput());
 
   try
-    {
+  {
     writer->Update();
-    //toChar->GetOutput()->Print(std::cout);
-    }
-  catch( itk::ExceptionObject & err )
-    {
+    // toChar->GetOutput()->Print(std::cout);
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cout << "ExceptionObject caught !" << std::endl;
     std::cout << err << std::endl;
     return -1;
-    }
+  }
 
   return EXIT_SUCCESS;
-
 }

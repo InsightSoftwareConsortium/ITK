@@ -48,7 +48,7 @@ namespace itk
  * \ingroup Operators
  * \ingroup ITKThresholding
  */
-template <typename THistogram, typename TOutput=double>
+template <typename THistogram, typename TOutput = double>
 class ITK_TEMPLATE_EXPORT HuangThresholdCalculator : public HistogramThresholdCalculator<THistogram, TOutput>
 {
 public:
@@ -71,11 +71,18 @@ public:
   using OutputType = TOutput;
 
 protected:
-  HuangThresholdCalculator() { m_FirstBin = 0; m_LastBin = 0; m_Size = 0; }
+  HuangThresholdCalculator()
+  {
+    m_FirstBin = 0;
+    m_LastBin = 0;
+    m_Size = 0;
+  }
   ~HuangThresholdCalculator() override = default;
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   using TotalAbsoluteFrequencyType = typename HistogramType::TotalAbsoluteFrequencyType;
   using AbsoluteFrequencyType = typename HistogramType::AbsoluteFrequencyType;
@@ -84,17 +91,16 @@ protected:
   using MeasurementType = typename HistogramType::MeasurementType;
 
 private:
-  InstanceIdentifier  m_FirstBin;
-  InstanceIdentifier  m_LastBin;
-  SizeValueType       m_Size;
-
+  InstanceIdentifier m_FirstBin;
+  InstanceIdentifier m_LastBin;
+  SizeValueType      m_Size;
 };
 
 } // end namespace itk
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkHuangThresholdCalculator.hxx"
+#  include "itkHuangThresholdCalculator.hxx"
 #endif
 
 #endif

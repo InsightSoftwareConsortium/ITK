@@ -57,18 +57,17 @@ namespace itk
  *
  * \ingroup ITKLevelSets
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT CollidingFrontsImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT CollidingFrontsImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(CollidingFrontsImageFilter);
 
   /** Standard class type aliases. */
   using Self = CollidingFrontsImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -80,7 +79,7 @@ public:
    * of the two images is assumed to be the same. */
   using OutputPixelType = typename TOutputImage::PixelType;
   using InputPixelType = typename TInputImage::PixelType;
-  using RealType = typename NumericTraits< InputPixelType >::RealType;
+  using RealType = typename NumericTraits<InputPixelType>::RealType;
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
@@ -98,8 +97,8 @@ public:
   using OutputImageRegionType = typename Superclass::OutputImageRegionType;
 
   /** FastMarchingUpwindGradientImageFilter type alias. */
-  using FastMarchingUpwindGradientImageFilterType = itk::FastMarchingUpwindGradientImageFilter< LevelSetImageType,
-                                                      SpeedImageType >;
+  using FastMarchingUpwindGradientImageFilterType =
+    itk::FastMarchingUpwindGradientImageFilter<LevelSetImageType, SpeedImageType>;
 
   /** Typedef support of level set method types. */
   using PixelType = typename FastMarchingUpwindGradientImageFilterType::PixelType;
@@ -111,27 +110,35 @@ public:
 
   /** Set the container of Seed Points representing the first initial front.
    * Seed points are represented as a VectorContainer of LevelSetNodes. */
-  void SetSeedPoints1(NodeContainer *points)
+  void
+  SetSeedPoints1(NodeContainer * points)
   {
     m_SeedPoints1 = points;
     this->Modified();
   }
 
   /** Get the container of Seed Points representing the first initial front. */
-  NodeContainerPointer GetSeedPoints1()
-  { return m_SeedPoints1; }
+  NodeContainerPointer
+  GetSeedPoints1()
+  {
+    return m_SeedPoints1;
+  }
 
   /** Set the container of Seed Points representing the second initial front.
    * Seed points are represented as a VectorContainer of LevelSetNodes. */
-  void SetSeedPoints2(NodeContainer *points)
+  void
+  SetSeedPoints2(NodeContainer * points)
   {
     m_SeedPoints2 = points;
     this->Modified();
   }
 
   /** Get the container of Seed Points representing the second initial front. */
-  NodeContainerPointer GetSeedPoints2()
-  { return m_SeedPoints2; }
+  NodeContainerPointer
+  GetSeedPoints2()
+  {
+    return m_SeedPoints2;
+  }
 
   itkSetMacro(NegativeEpsilon, double);
   itkGetConstMacro(NegativeEpsilon, double);
@@ -146,8 +153,7 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< InputPixelType > ) );
+  itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputPixelType>));
   // End concept checking
 #endif
 
@@ -155,9 +161,11 @@ protected:
   CollidingFrontsImageFilter();
   ~CollidingFrontsImageFilter() override = default;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  void PrintSelf(std::ostream &, Indent) const override;
+  void
+  PrintSelf(std::ostream &, Indent) const override;
 
 private:
   NodeContainerPointer m_SeedPoints1;
@@ -171,7 +179,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCollidingFrontsImageFilter.hxx"
+#  include "itkCollidingFrontsImageFilter.hxx"
 #endif
 
 #endif

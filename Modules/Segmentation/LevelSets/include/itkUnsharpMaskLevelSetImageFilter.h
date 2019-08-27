@@ -63,22 +63,21 @@ namespace itk
  * should be in the range [0.1,1] for reasonable results.
  * \ingroup ITKLevelSets
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT UnsharpMaskLevelSetImageFilter:
-  public SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT UnsharpMaskLevelSetImageFilter
+  : public SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(UnsharpMaskLevelSetImageFilter);
 
   /** Standard class type aliases */
   using Self = UnsharpMaskLevelSetImageFilter;
-  using Superclass = SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(UnsharpMaskLevelSetImageFilter,
-               SparseFieldFourthOrderLevelSetImageFilter);
+  itkTypeMacro(UnsharpMaskLevelSetImageFilter, SparseFieldFourthOrderLevelSetImageFilter);
 
   /** Standard new macro */
   itkNewMacro(Self);
@@ -88,7 +87,7 @@ public:
 
   /** The level set function class with a refit term that forces the curvature
       of the moving front to match a prescribed curvature image. */
-  using FunctionType = LevelSetFunctionWithRefitTerm< TOutputImage, SparseImageType >;
+  using FunctionType = LevelSetFunctionWithRefitTerm<TOutputImage, SparseImageType>;
 
   /** The radius type for the neighborhoods. */
   using RadiusType = typename FunctionType::RadiusType;
@@ -99,7 +98,8 @@ public:
 protected:
   UnsharpMaskLevelSetImageFilter();
   ~UnsharpMaskLevelSetImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** The LevelSetFunctionWithRefitTerm object. */
   typename FunctionType::Pointer m_Function;
@@ -108,22 +108,23 @@ protected:
   unsigned int m_MaxFilterIteration;
 
   /** This filter halts when the iteration count reaches the specified count. */
-  bool Halt() override
+  bool
+  Halt() override
   {
-    if ( this->GetElapsedIterations() == m_MaxFilterIteration )
-      {
+    if (this->GetElapsedIterations() == m_MaxFilterIteration)
+    {
       return true;
-      }
+    }
     else
-      {
+    {
       return false;
-      }
+    }
   }
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkUnsharpMaskLevelSetImageFilter.hxx"
+#  include "itkUnsharpMaskLevelSetImageFilter.hxx"
 #endif
 
 #endif

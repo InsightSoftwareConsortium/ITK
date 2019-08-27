@@ -21,29 +21,30 @@
 #include "itkDanielssonDistanceMapImageFilter.h"
 #include "itkSubtractImageFilter.h"
 
-//Simple functor to invert an image for Outside Danielsson distance map
+// Simple functor to invert an image for Outside Danielsson distance map
 namespace itk
 {
 namespace Functor
 {
-template< typename InputPixelType >
+template <typename InputPixelType>
 class ITK_TEMPLATE_EXPORT InvertIntensityFunctor
 {
 public:
-  InputPixelType operator()(InputPixelType input) const
+  InputPixelType
+  operator()(InputPixelType input) const
   {
-    if ( input )
-      {
-      return NumericTraits< InputPixelType >::ZeroValue();
-      }
+    if (input)
+    {
+      return NumericTraits<InputPixelType>::ZeroValue();
+    }
     else
-      {
-      return NumericTraits< InputPixelType >::OneValue();
-      }
+    {
+      return NumericTraits<InputPixelType>::OneValue();
+    }
   }
 };
-}
-}
+} // namespace Functor
+} // namespace itk
 
 namespace itk
 {
@@ -88,20 +89,17 @@ namespace itk
  * \endsphinx
  */
 
-template< typename TInputImage,
-          typename TOutputImage,
-          typename TVoronoiImage = TInputImage >
-class ITK_TEMPLATE_EXPORT SignedDanielssonDistanceMapImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage, typename TVoronoiImage = TInputImage>
+class ITK_TEMPLATE_EXPORT SignedDanielssonDistanceMapImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SignedDanielssonDistanceMapImageFilter);
 
   /** Standard class type aliases. */
   using Self = SignedDanielssonDistanceMapImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
@@ -135,8 +133,7 @@ public:
   static constexpr unsigned int InputImageDimension = InputImageType::ImageDimension;
 
   /** Pointer Type for the vector distance image */
-  using VectorImageType = Image< OffsetType,
-                 Self::InputImageDimension >;
+  using VectorImageType = Image<OffsetType, Self::InputImageDimension>;
 
   /** Pointer Type for input image. */
   using InputImagePointer = typename InputImageType::ConstPointer;
@@ -190,7 +187,8 @@ public:
    * Each object should be labeled by a number (larger than 0),
    * so the map has a value for each pixel corresponding to the label
    * of the closest object.  */
-  VoronoiImageType * GetVoronoiMap();
+  VoronoiImageType *
+  GetVoronoiMap();
 
   /** Get Distance map image.  The distance map is shown as a gray
    * value image depending on the pixel type of the output image.
@@ -200,32 +198,35 @@ public:
    * output image gives for each pixel its minimal distance from the
    * object (if there is more than one object the closest object is
    * considered). */
-  OutputImageType * GetDistanceMap();
+  OutputImageType *
+  GetDistanceMap();
 
   /** Get vector field of distances. */
-  VectorImageType * GetVectorDistanceMap();
+  VectorImageType *
+  GetVectorDistanceMap();
 
   /** This is overloaded to create the VectorDistanceMap output image */
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
+  DataObjectPointer
+  MakeOutput(DataObjectPointerArraySizeType idx) override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( IntConvertibleToInputCheck,
-                   ( Concept::Convertible< int, PixelType > ) );
-  itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< PixelType > ) );
+  itkConceptMacro(IntConvertibleToInputCheck, (Concept::Convertible<int, PixelType>));
+  itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<PixelType>));
   // End concept checking
 #endif
 
 protected:
   SignedDanielssonDistanceMapImageFilter();
   ~SignedDanielssonDistanceMapImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Compute Danielsson distance map and Voronoi Map. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   bool m_SquaredDistance;
@@ -233,10 +234,10 @@ private:
   bool m_InsideIsPositive; // ON is treated as inside pixels
 };                         // end of SignedDanielssonDistanceMapImageFilter
                            // class
-} //end namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSignedDanielssonDistanceMapImageFilter.hxx"
+#  include "itkSignedDanielssonDistanceMapImageFilter.hxx"
 #endif
 
 #endif

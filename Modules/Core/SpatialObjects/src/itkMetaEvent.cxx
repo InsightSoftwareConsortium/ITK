@@ -19,6 +19,6 @@
 
 namespace itk
 {
-MetaEvent::MetaEvent()= default;
+MetaEvent::MetaEvent() = default;
 MetaEvent::~MetaEvent() = default;
-}
+} // namespace itk

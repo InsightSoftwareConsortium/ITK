@@ -28,24 +28,23 @@ namespace itk
  * \brief Helper class used to share data in the ScalarChanAndVeseLevelSetFunction.
  * \ingroup ITKLevelSetsv4
  */
-template< typename TImage >
-class ITK_TEMPLATE_EXPORT LevelSetDomainPartition:
-  public LevelSetDomainPartitionBase< TImage >
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT LevelSetDomainPartition : public LevelSetDomainPartitionBase<TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetDomainPartition);
 
   using Self = LevelSetDomainPartition;
-  using Superclass = LevelSetDomainPartitionBase< TImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = LevelSetDomainPartitionBase<TImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   static constexpr unsigned int ImageDimension = TImage::ImageDimension;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  itkTypeMacro(LevelSetDomainPartition, LevelSetDomainPartitionBase );
+  itkTypeMacro(LevelSetDomainPartition, LevelSetDomainPartitionBase);
 
   using ImageType = TImage;
   using ImagePointer = typename ImageType::Pointer;
@@ -54,16 +53,17 @@ public:
 
   /** Populate a list image with each pixel being a list of overlapping
    *  level set support at that pixel */
-  void PopulateListImage();
+  void
+  PopulateListImage();
 
 protected:
   LevelSetDomainPartition() = default;
   ~LevelSetDomainPartition() = default;
 };
-} //end namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetDomainPartition.hxx"
+#  include "itkLevelSetDomainPartition.hxx"
 #endif
 
 #endif

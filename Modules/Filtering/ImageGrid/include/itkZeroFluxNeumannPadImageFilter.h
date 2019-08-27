@@ -57,9 +57,8 @@ namespace itk
  * \ingroup ITKImageGrid
  * \sa WrapPadImageFilter, MirrorPadImageFilter, ConstantPadImageFilter, ZeroFluxNeumannBoundaryCondition
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT ZeroFluxNeumannPadImageFilter :
-    public PadImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT ZeroFluxNeumannPadImageFilter : public PadImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ZeroFluxNeumannPadImageFilter);
@@ -99,14 +98,10 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro(OutputEqualityComparableCheck,
-    (Concept::EqualityComparable< OutputImagePixelType >));
-  itkConceptMacro(InputConvertibleToOutputCheck,
-    (Concept::Convertible< InputImagePixelType, OutputImagePixelType >));
-  itkConceptMacro(SameDimensionCheck,
-    (Concept::SameDimension< ImageDimension, OutputImageDimension >));
-  itkConceptMacro(OutputOStreamWritableCheck,
-    (Concept::OStreamWritable< OutputImagePixelType >));
+  itkConceptMacro(OutputEqualityComparableCheck, (Concept::EqualityComparable<OutputImagePixelType>));
+  itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
+  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
+  itkConceptMacro(OutputOStreamWritableCheck, (Concept::OStreamWritable<OutputImagePixelType>));
   // End concept checking
 #endif
 
@@ -115,12 +110,12 @@ protected:
   ~ZeroFluxNeumannPadImageFilter() override = default;
 
 private:
-  ZeroFluxNeumannBoundaryCondition< TInputImage, TOutputImage > m_InternalBoundaryCondition;
+  ZeroFluxNeumannBoundaryCondition<TInputImage, TOutputImage> m_InternalBoundaryCondition;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkZeroFluxNeumannPadImageFilter.hxx"
+#  include "itkZeroFluxNeumannPadImageFilter.hxx"
 #endif
 
 #endif

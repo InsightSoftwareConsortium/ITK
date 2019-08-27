@@ -21,12 +21,13 @@
 #include <iostream>
 
 //  Example taken from 'Fundamentals of the Finite ELement Method' - Grandin
-int itkFEMElement2DC0LinearQuadrilateralStrainItpackTest(int argc, char *argv[])
+int
+itkFEMElement2DC0LinearQuadrilateralStrainItpackTest(int argc, char * argv[])
 {
-  //Need to register default FEM object types,
-  //and setup SpatialReader to recognize FEM types
-  //which is all currently done as a HACK in
-  //the initializaiton of the itk::FEMFactoryBase::GetFactory()
+  // Need to register default FEM object types,
+  // and setup SpatialReader to recognize FEM types
+  // which is all currently done as a HACK in
+  // the initializaiton of the itk::FEMFactoryBase::GetFactory()
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
 
   using SolverType = itk::fem::Solver<2>;

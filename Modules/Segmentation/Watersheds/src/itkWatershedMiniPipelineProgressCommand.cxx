@@ -19,46 +19,48 @@
 
 namespace itk
 {
-void WatershedMiniPipelineProgressCommand
-::Execute(Object *caller, const EventObject & event)
+void
+WatershedMiniPipelineProgressCommand ::Execute(Object * caller, const EventObject & event)
 {
-  auto * po = dynamic_cast< ProcessObject * >( caller );
+  auto * po = dynamic_cast<ProcessObject *>(caller);
 
-  if ( !po ) { return; }
+  if (!po)
+  {
+    return;
+  }
 
-  if ( typeid( event ) == typeid( ProgressEvent ) )
+  if (typeid(event) == typeid(ProgressEvent))
+  {
+    m_Filter->UpdateProgress(static_cast<float>((m_Count + po->GetProgress()) / static_cast<float>(m_NumberOfFilters)));
+    if (po->GetProgress() == 1.0)
     {
-    m_Filter->UpdateProgress(
-      static_cast< float >( ( m_Count + po->GetProgress() ) /
-      static_cast< float >( m_NumberOfFilters ) ) );
-    if ( po->GetProgress() == 1.0 )
-      {
       m_Count += 1.0;
-      }
     }
+  }
 }
 
-void WatershedMiniPipelineProgressCommand
-::Execute(const Object *caller, const EventObject & event)
+void
+WatershedMiniPipelineProgressCommand ::Execute(const Object * caller, const EventObject & event)
 {
-  auto * po = dynamic_cast< ProcessObject * >( const_cast< Object * >( caller ) );
+  auto * po = dynamic_cast<ProcessObject *>(const_cast<Object *>(caller));
 
-  if ( !po ) { return; }
+  if (!po)
+  {
+    return;
+  }
 
-  if ( typeid( event ) == typeid( ProgressEvent ) )
+  if (typeid(event) == typeid(ProgressEvent))
+  {
+    m_Filter->UpdateProgress(static_cast<float>((m_Count + po->GetProgress()) / static_cast<float>(m_NumberOfFilters)));
+    if (po->GetProgress() == 1.0)
     {
-    m_Filter->UpdateProgress(
-      static_cast< float >( ( m_Count + po->GetProgress() ) /
-      static_cast< float >( m_NumberOfFilters ) ) );
-    if ( po->GetProgress() == 1.0 )
-      {
       m_Count += 1.0;
-      }
     }
+  }
 }
 
-void WatershedMiniPipelineProgressCommand
-::PrintSelf(std::ostream & os, Indent indent) const
+void
+WatershedMiniPipelineProgressCommand ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "NumberOfFilters: " << m_NumberOfFilters << std::endl;

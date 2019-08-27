@@ -22,19 +22,20 @@
 
 #include "itkDanielssonDistanceMapImageFilter.h"
 
-int itkDanielssonDistanceMapImageFilterTest2( int argc, char * argv[] )
+int
+itkDanielssonDistanceMapImageFilterTest2(int argc, char * argv[])
 {
-  if(argc < 3)
-    {
+  if (argc < 3)
+  {
     std::cerr << "Usage: " << argv[0] << " InputImage OutputImage\n";
     return -1;
-    }
+  }
 
   constexpr unsigned int ImageDimension = 2;
   using InputPixelType = unsigned char;
   using OutputPixelType = unsigned char;
 
-  using InputImageType = itk::Image<InputPixelType,  ImageDimension>;
+  using InputImageType = itk::Image<InputPixelType, ImageDimension>;
   using OutputImageType = itk::Image<OutputPixelType, ImageDimension>;
 
   using ReaderType = itk::ImageFileReader<InputImageType>;
@@ -44,27 +45,27 @@ int itkDanielssonDistanceMapImageFilterTest2( int argc, char * argv[] )
   reader->SetFileName(argv[1]);
   reader->Update();
 
-  using ConnectedType = itk::ConnectedComponentImageFilter<InputImageType,InputImageType>;
+  using ConnectedType = itk::ConnectedComponentImageFilter<InputImageType, InputImageType>;
   ConnectedType::Pointer connectedComponents = ConnectedType::New();
-  connectedComponents->SetInput( reader->GetOutput() );
+  connectedComponents->SetInput(reader->GetOutput());
 
-  using FilterType = itk::DanielssonDistanceMapImageFilter <InputImageType, OutputImageType>;
+  using FilterType = itk::DanielssonDistanceMapImageFilter<InputImageType, OutputImageType>;
   FilterType::Pointer filter = FilterType::New();
-  filter->SetInput( connectedComponents->GetOutput() );
+  filter->SetInput(connectedComponents->GetOutput());
   filter->Update();
   filter->Print(std::cout);
 
   // Extract the Voronoi map from the distance map filter, rescale it,
   // and write it out.
-  using RescaleType = itk::RescaleIntensityImageFilter<InputImageType,OutputImageType>;
+  using RescaleType = itk::RescaleIntensityImageFilter<InputImageType, OutputImageType>;
   RescaleType::Pointer rescaler = RescaleType::New();
-  rescaler->SetInput( filter->GetVoronoiMap() );
-  rescaler->SetOutputMinimum( 0 );
-  rescaler->SetOutputMaximum( 255 );
+  rescaler->SetInput(filter->GetVoronoiMap());
+  rescaler->SetOutputMinimum(0);
+  rescaler->SetOutputMaximum(255);
 
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( rescaler->GetOutput() );
-  writer->SetFileName( argv[2] );
+  writer->SetInput(rescaler->GetOutput());
+  writer->SetFileName(argv[2]);
   writer->UseCompressionOn();
   writer->Update();
 

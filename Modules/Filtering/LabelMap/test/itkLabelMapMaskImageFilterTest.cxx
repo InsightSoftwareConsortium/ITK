@@ -24,14 +24,16 @@
 #include "itkTestingMacros.h"
 
 
-int itkLabelMapMaskImageFilterTest( int argc, char * argv[] )
+int
+itkLabelMapMaskImageFilterTest(int argc, char * argv[])
 {
 
-  if( argc != 9 )
-    {
-    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " labelImage input output label bg neg crop cropBorder" << std::endl;
+  if (argc != 9)
+  {
+    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv)
+              << " labelImage input output label bg neg crop cropBorder" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int Dimension = 3;
 
@@ -39,28 +41,28 @@ int itkLabelMapMaskImageFilterTest( int argc, char * argv[] )
   using PixelType = unsigned char;
 
   // Declare the input image type
-  using ImageType = itk::Image< PixelType, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
   // And the label object type to use. The input image is a label image, so the
   // type of the label can be the same type than the pixel type. itk::LabelObject is
   // chosen, because only the mask feature is tested here, so we don't need any
   // attribute.
-  using LabelObjectType = itk::LabelObject< PixelType, Dimension >;
-  using LabelMapType = itk::LabelMap< LabelObjectType >;
+  using LabelObjectType = itk::LabelObject<PixelType, Dimension>;
+  using LabelMapType = itk::LabelMap<LabelObjectType>;
 
   // Read the label image and the input image to be masked.
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
   ReaderType::Pointer reader2 = ReaderType::New();
-  reader2->SetFileName( argv[2] );
+  reader2->SetFileName(argv[2]);
 
   // Convert the label image to a label collection image.
-  using I2LType = itk::LabelImageToLabelMapFilter< ImageType, LabelMapType>;
+  using I2LType = itk::LabelImageToLabelMapFilter<ImageType, LabelMapType>;
   I2LType::Pointer i2l = I2LType::New();
-  i2l->SetInput( reader->GetOutput() );
-  //i2l->SetUseBackground( true );
+  i2l->SetInput(reader->GetOutput());
+  // i2l->SetUseBackground( true );
 
   // Then mask the image. Two inputs are required (the label collection image, and
   // the image to be masked). The label used to mask the image is passed with the
@@ -72,66 +74,65 @@ int itkLabelMapMaskImageFilterTest( int argc, char * argv[] )
   // calling both SetCrop() and SetCropBorder(). The crop border defaults to 0, and the
   // image is not cropped by default.
 
-  using MaskFilterType = itk::LabelMapMaskImageFilter< LabelMapType, ImageType >;
+  using MaskFilterType = itk::LabelMapMaskImageFilter<LabelMapType, ImageType>;
   MaskFilterType::Pointer maskFilter = MaskFilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( maskFilter, LabelMapMaskImageFilter,
-    LabelMapFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(maskFilter, LabelMapMaskImageFilter, LabelMapFilter);
 
-  maskFilter->SetInput( i2l->GetOutput() );
+  maskFilter->SetInput(i2l->GetOutput());
 
-  maskFilter->SetFeatureImage( reader2->GetOutput() );
+  maskFilter->SetFeatureImage(reader2->GetOutput());
 
-  MaskFilterType::InputImagePixelType label = std::stoi( argv[4] );
-  maskFilter->SetLabel( label );
-  ITK_TEST_SET_GET_VALUE( label, maskFilter->GetLabel() );
+  MaskFilterType::InputImagePixelType label = std::stoi(argv[4]);
+  maskFilter->SetLabel(label);
+  ITK_TEST_SET_GET_VALUE(label, maskFilter->GetLabel());
 
-  MaskFilterType::OutputImagePixelType backgroundValue = std::stoi( argv[5] );
-  maskFilter->SetBackgroundValue( backgroundValue );
-  ITK_TEST_SET_GET_VALUE( backgroundValue, maskFilter->GetBackgroundValue() );
+  MaskFilterType::OutputImagePixelType backgroundValue = std::stoi(argv[5]);
+  maskFilter->SetBackgroundValue(backgroundValue);
+  ITK_TEST_SET_GET_VALUE(backgroundValue, maskFilter->GetBackgroundValue());
 
-  auto negated = static_cast< bool >(std::stoi( argv[6] ) );
-  maskFilter->SetNegated( negated );
-  ITK_TEST_SET_GET_VALUE( negated, maskFilter->GetNegated() );
-  if( negated )
-    {
+  auto negated = static_cast<bool>(std::stoi(argv[6]));
+  maskFilter->SetNegated(negated);
+  ITK_TEST_SET_GET_VALUE(negated, maskFilter->GetNegated());
+  if (negated)
+  {
     maskFilter->NegatedOn();
-    ITK_TEST_SET_GET_VALUE( true, maskFilter->GetNegated() );
-    }
+    ITK_TEST_SET_GET_VALUE(true, maskFilter->GetNegated());
+  }
   else
-    {
+  {
     maskFilter->NegatedOff();
-    ITK_TEST_SET_GET_VALUE( false, maskFilter->GetNegated() );
-    }
+    ITK_TEST_SET_GET_VALUE(false, maskFilter->GetNegated());
+  }
 
-  auto crop = static_cast< bool >( std::stoi( argv[7] ) );
-  maskFilter->SetCrop( crop );
-  ITK_TEST_SET_GET_VALUE( crop, maskFilter->GetCrop() );
-  if( crop )
-    {
+  auto crop = static_cast<bool>(std::stoi(argv[7]));
+  maskFilter->SetCrop(crop);
+  ITK_TEST_SET_GET_VALUE(crop, maskFilter->GetCrop());
+  if (crop)
+  {
     maskFilter->CropOn();
-    ITK_TEST_SET_GET_VALUE( true, maskFilter->GetCrop() );
-    }
+    ITK_TEST_SET_GET_VALUE(true, maskFilter->GetCrop());
+  }
   else
-    {
+  {
     maskFilter->CropOff();
-    ITK_TEST_SET_GET_VALUE( false, maskFilter->GetCrop() );
-    }
+    ITK_TEST_SET_GET_VALUE(false, maskFilter->GetCrop());
+  }
 
   MaskFilterType::SizeType border;
-  border.Fill( std::stoi(argv[8]) );
-  maskFilter->SetCropBorder( border );
-  ITK_TEST_SET_GET_VALUE( border, maskFilter->GetCropBorder() );
+  border.Fill(std::stoi(argv[8]));
+  maskFilter->SetCropBorder(border);
+  ITK_TEST_SET_GET_VALUE(border, maskFilter->GetCropBorder());
 
-  itk::SimpleFilterWatcher watcher( maskFilter, "LabelMapMaskImageFilter" );
+  itk::SimpleFilterWatcher watcher(maskFilter, "LabelMapMaskImageFilter");
 
   // Finally, save the output image.
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( maskFilter->GetOutput() );
-  writer->SetFileName( argv[3] );
+  writer->SetInput(maskFilter->GetOutput());
+  writer->SetFileName(argv[3]);
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   return EXIT_SUCCESS;
 }

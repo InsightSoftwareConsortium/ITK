@@ -39,18 +39,17 @@ namespace itk
  * \ingroup LabeledImageFilters
  * \ingroup ITKLabelMap
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT ConvertLabelMapFilter:
-  public LabelMapFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT ConvertLabelMapFilter : public LabelMapFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ConvertLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = ConvertLabelMapFilter;
-  using Superclass = LabelMapFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = LabelMapFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Some convenient type alias. */
   using InputImageType = TInputImage;
@@ -82,12 +81,13 @@ protected:
   ConvertLabelMapFilter() = default;
   ~ConvertLabelMapFilter() override = default;
 
-  void GenerateData() override;
-};                                          // end of class
+  void
+  GenerateData() override;
+}; // end of class
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkConvertLabelMapFilter.hxx"
+#  include "itkConvertLabelMapFilter.hxx"
 #endif
 
 #endif

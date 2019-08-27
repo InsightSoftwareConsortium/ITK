@@ -36,19 +36,20 @@ namespace itk
  * \ingroup ITKGPUImageFilterBase
  */
 
-template< typename TInputImage, typename TOutputImage, typename TParentImageFilter = BoxImageFilter< TInputImage, TOutputImage > >
-class GPUBoxImageFilter :
-  public GPUImageToImageFilter< TInputImage, TOutputImage, TParentImageFilter >
+template <typename TInputImage,
+          typename TOutputImage,
+          typename TParentImageFilter = BoxImageFilter<TInputImage, TOutputImage>>
+class GPUBoxImageFilter : public GPUImageToImageFilter<TInputImage, TOutputImage, TParentImageFilter>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GPUBoxImageFilter);
 
   /** Standard class type aliases. */
   using Self = GPUBoxImageFilter;
-  using GPUSuperclass = GPUImageToImageFilter< TInputImage, TOutputImage, TParentImageFilter >;
+  using GPUSuperclass = GPUImageToImageFilter<TInputImage, TOutputImage, TParentImageFilter>;
   using CPUSuperclass = TParentImageFilter;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -72,15 +73,15 @@ public:
   using RadiusValueType = typename InputImageType::SizeValueType;
 
 protected:
-  GPUBoxImageFilter() {
-  }
+  GPUBoxImageFilter() {}
   ~GPUBoxImageFilter() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const override
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override
   {
     GPUSuperclass::PrintSelf(os, indent);
   }
 };
-}
+} // namespace itk
 
 #endif

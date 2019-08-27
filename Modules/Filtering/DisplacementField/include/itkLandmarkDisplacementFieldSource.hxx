@@ -27,17 +27,14 @@ namespace itk
 /**
  * Initialize new instance
  */
-template< typename TOutputImage >
-LandmarkDisplacementFieldSource< TOutputImage >
-::LandmarkDisplacementFieldSource()
+template <typename TOutputImage>
+LandmarkDisplacementFieldSource<TOutputImage>::LandmarkDisplacementFieldSource()
 {
   m_OutputSpacing.Fill(1.0);
   m_OutputOrigin.Fill(0.0);
   m_OutputDirection.SetIdentity();
 
-  using DefaultTransformType = ThinPlateSplineKernelTransform<
-    double,
-    Self::ImageDimension >;
+  using DefaultTransformType = ThinPlateSplineKernelTransform<double, Self::ImageDimension>;
 
   m_KernelTransform = DefaultTransformType::New();
 }
@@ -47,10 +44,9 @@ LandmarkDisplacementFieldSource< TOutputImage >
  *
  * \todo Add details about this class
  */
-template< typename TOutputImage >
+template <typename TOutputImage>
 void
-LandmarkDisplacementFieldSource< TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+LandmarkDisplacementFieldSource<TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -66,17 +62,15 @@ LandmarkDisplacementFieldSource< TOutputImage >
 /**
  * Set the output image spacing.
  */
-template< typename TOutputImage >
+template <typename TOutputImage>
 void
-LandmarkDisplacementFieldSource< TOutputImage >
-::SetOutputSpacing(
-  const double *spacing)
+LandmarkDisplacementFieldSource<TOutputImage>::SetOutputSpacing(const double * spacing)
 {
   SpacingType s;
-  for(unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
-    {
-    s[i] = static_cast< typename SpacingType::ValueType >(spacing[i]);
-    }
+  for (unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
+  {
+    s[i] = static_cast<typename SpacingType::ValueType>(spacing[i]);
+  }
 
   this->SetOutputSpacing(s);
 }
@@ -84,11 +78,9 @@ LandmarkDisplacementFieldSource< TOutputImage >
 /**
  * Set the output image origin.
  */
-template< typename TOutputImage >
+template <typename TOutputImage>
 void
-LandmarkDisplacementFieldSource< TOutputImage >
-::SetOutputOrigin(
-  const double *origin)
+LandmarkDisplacementFieldSource<TOutputImage>::SetOutputOrigin(const double * origin)
 {
   this->SetOutputOrigin(OriginPointType(origin));
 }
@@ -97,17 +89,16 @@ LandmarkDisplacementFieldSource< TOutputImage >
  * Sub-sample the input displacement field and prepare the KernelBase
  * BSpline
  */
-template< typename TOutputImage >
+template <typename TOutputImage>
 void
-LandmarkDisplacementFieldSource< TOutputImage >
-::PrepareKernelBaseSpline()
+LandmarkDisplacementFieldSource<TOutputImage>::PrepareKernelBaseSpline()
 {
   // Shameful violation of const-correctness due to the
   // lack of constness in the PointSet. That is, the point
   // set is actually allowed to modify its points containers.
 
-  auto * sources = const_cast< LandmarkContainer * >( m_SourceLandmarks.GetPointer() );
-  auto * targets = const_cast< LandmarkContainer * >( m_TargetLandmarks.GetPointer() );
+  auto * sources = const_cast<LandmarkContainer *>(m_SourceLandmarks.GetPointer());
+  auto * targets = const_cast<LandmarkContainer *>(m_TargetLandmarks.GetPointer());
 
   m_KernelTransform->GetModifiableTargetLandmarks()->SetPoints(targets);
   m_KernelTransform->GetModifiableSourceLandmarks()->SetPoints(sources);
@@ -122,10 +113,9 @@ LandmarkDisplacementFieldSource< TOutputImage >
 /**
  * GenerateData
  */
-template< typename TOutputImage >
+template <typename TOutputImage>
 void
-LandmarkDisplacementFieldSource< TOutputImage >
-::GenerateData()
+LandmarkDisplacementFieldSource<TOutputImage>::GenerateData()
 {
   // First subsample the input displacement field in order to create
   // the KernelBased spline.
@@ -134,9 +124,9 @@ LandmarkDisplacementFieldSource< TOutputImage >
   itkDebugMacro(<< "Actually executing");
 
   // Get the output pointers
-  OutputImageType *outputPtr = this->GetOutput();
+  OutputImageType * outputPtr = this->GetOutput();
 
-  outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
+  outputPtr->SetBufferedRegion(outputPtr->GetRequestedRegion());
   outputPtr->Allocate();
 
   // Create an iterator that will walk the output region for this thread.
@@ -148,12 +138,12 @@ LandmarkDisplacementFieldSource< TOutputImage >
 
   // Define a few indices that will be used to translate from an input pixel
   // to an output pixel
-  OutputIndexType outputIndex;         // Index to current output pixel
+  OutputIndexType outputIndex; // Index to current output pixel
 
   using InputPointType = typename KernelTransformType::InputPointType;
   using OutputPointType = typename KernelTransformType::OutputPointType;
 
-  InputPointType outputPoint;    // Coordinates of current output pixel
+  InputPointType outputPoint; // Coordinates of current output pixel
 
   // Support for progress methods/callbacks
   ProgressReporter progress(this, 0, region.GetNumberOfPixels(), 10);
@@ -161,45 +151,43 @@ LandmarkDisplacementFieldSource< TOutputImage >
   outIt.GoToBegin();
 
   // Walk the output region
-  while ( !outIt.IsAtEnd() )
-    {
+  while (!outIt.IsAtEnd())
+  {
     // Determine the index of the current output pixel
     outputIndex = outIt.GetIndex();
     outputPtr->TransformIndexToPhysicalPoint(outputIndex, outputPoint);
 
     // Compute corresponding inverse displacement vector
-    OutputPointType interpolatedDisplacement =
-      m_KernelTransform->TransformPoint(outputPoint);
+    OutputPointType interpolatedDisplacement = m_KernelTransform->TransformPoint(outputPoint);
 
     OutputPixelType displacement;
-    for ( unsigned int i = 0; i < ImageDimension; i++ )
-      {
+    for (unsigned int i = 0; i < ImageDimension; i++)
+    {
       displacement[i] = interpolatedDisplacement[i] - outputPoint[i];
-      }
+    }
 
     outIt.Set(displacement);
     ++outIt;
     progress.CompletedPixel();
-    }
+  }
 }
 
 /**
  * Inform pipeline of required output region
  */
-template< typename TOutputImage >
+template <typename TOutputImage>
 void
-LandmarkDisplacementFieldSource< TOutputImage >
-::GenerateOutputInformation()
+LandmarkDisplacementFieldSource<TOutputImage>::GenerateOutputInformation()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateOutputInformation();
 
   // get pointers to the input and output
   OutputImagePointer outputPtr = this->GetOutput();
-  if ( !outputPtr )
-    {
+  if (!outputPtr)
+  {
     return;
-    }
+  }
 
   // Set the size of the output region
   outputPtr->SetLargestPossibleRegion(m_OutputRegion);
@@ -213,36 +201,35 @@ LandmarkDisplacementFieldSource< TOutputImage >
 /**
  * Verify if any of the components has been modified.
  */
-template< typename TOutputImage >
+template <typename TOutputImage>
 ModifiedTimeType
-LandmarkDisplacementFieldSource< TOutputImage >
-::GetMTime() const
+LandmarkDisplacementFieldSource<TOutputImage>::GetMTime() const
 {
   ModifiedTimeType latestTime = Object::GetMTime();
 
-  if ( m_KernelTransform )
+  if (m_KernelTransform)
+  {
+    if (latestTime < m_KernelTransform->GetMTime())
     {
-    if ( latestTime < m_KernelTransform->GetMTime() )
-      {
       latestTime = m_KernelTransform->GetMTime();
-      }
     }
+  }
 
-  if ( m_SourceLandmarks )
+  if (m_SourceLandmarks)
+  {
+    if (latestTime < m_SourceLandmarks->GetMTime())
     {
-    if ( latestTime < m_SourceLandmarks->GetMTime() )
-      {
       latestTime = m_SourceLandmarks->GetMTime();
-      }
     }
+  }
 
-  if ( m_TargetLandmarks )
+  if (m_TargetLandmarks)
+  {
+    if (latestTime < m_TargetLandmarks->GetMTime())
     {
-    if ( latestTime < m_TargetLandmarks->GetMTime() )
-      {
       latestTime = m_TargetLandmarks->GetMTime();
-      }
     }
+  }
   return latestTime;
 }
 } // end namespace itk

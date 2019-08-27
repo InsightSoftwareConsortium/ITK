@@ -173,21 +173,23 @@ namespace itk
  *
  * \ingroup ITKReview
  */
-template< typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction,
-          typename TIdCell = unsigned int >
-class ITK_TEMPLATE_EXPORT MultiphaseSparseFiniteDifferenceImageFilter:
-  public MultiphaseFiniteDifferenceImageFilter< TInputImage,
-                                                TFeatureImage, TOutputImage, TFunction, TIdCell >
+template <typename TInputImage,
+          typename TFeatureImage,
+          typename TOutputImage,
+          typename TFunction,
+          typename TIdCell = unsigned int>
+class ITK_TEMPLATE_EXPORT MultiphaseSparseFiniteDifferenceImageFilter
+  : public MultiphaseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MultiphaseSparseFiniteDifferenceImageFilter);
 
   /** Standard class type aliases */
   using Self = MultiphaseSparseFiniteDifferenceImageFilter;
-  using Superclass = MultiphaseFiniteDifferenceImageFilter< TInputImage,
-                                                 TFeatureImage, TOutputImage, TFunction, TIdCell >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass =
+    MultiphaseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -236,16 +238,16 @@ public:
   using FiniteDifferenceFunctionFloatOffsetType = typename FiniteDifferenceFunctionType::FloatOffsetType;
 
   /** Node type used in sparse field layer lists. */
-  using LayerNodeType = SparseFieldLevelSetNode< OutputIndexType >;
+  using LayerNodeType = SparseFieldLevelSetNode<OutputIndexType>;
 
   /** A list type used in the algorithm. */
-  using LayerType = SparseFieldLayer< LayerNodeType >;
+  using LayerType = SparseFieldLayer<LayerNodeType>;
   using LayerPointerType = typename LayerType::Pointer;
   using LayerIterator = typename LayerType::Iterator;
   using LayerConstIterator = typename LayerType::ConstIterator;
 
   /** A type for a list of LayerPointerTypes */
-  using LayerListType = std::vector< LayerPointerType >;
+  using LayerListType = std::vector<LayerPointerType>;
   using LayerListIterator = typename LayerListType::iterator;
   using LayerListConstIterator = typename LayerListType::const_iterator;
 
@@ -254,26 +256,24 @@ public:
 
   /** The type of the image used to index status information.  Necessary for
    *  the internals of the algorithm. */
-  using StatusImageType =
-      Image< StatusType, Self::ImageDimension >;
+  using StatusImageType = Image<StatusType, Self::ImageDimension>;
   using StatusImagePointer = typename StatusImageType::Pointer;
 
-  using ZeroCrossingFilterType =
-      ZeroCrossingImageFilter< InputImageType, InputImageType >;
+  using ZeroCrossingFilterType = ZeroCrossingImageFilter<InputImageType, InputImageType>;
   using ZeroCrossingFilterPointer = typename ZeroCrossingFilterType::Pointer;
 
-  using BFCType = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< StatusImageType >;
+  using BFCType = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<StatusImageType>;
 
   /** Memory pre-allocator used to manage layer nodes in a multi-threaded
    *  environment. */
-  using LayerNodeStorageType = ObjectStore< LayerNodeType >;
+  using LayerNodeStorageType = ObjectStore<LayerNodeType>;
   using LayerNodeStoragePointer = typename LayerNodeStorageType::Pointer;
 
   /** Container type used to store updates to the active layer. */
-  using UpdateBufferType = std::vector< ValueType >;
+  using UpdateBufferType = std::vector<ValueType>;
   using UpdateBufferConstIterator = typename UpdateBufferType::const_iterator;
 
-  using NeighborListType = SparseFieldCityBlockNeighborList< NeighborhoodIterator< OutputImageType > >;
+  using NeighborListType = SparseFieldCityBlockNeighborList<NeighborhoodIterator<OutputImageType>>;
   using OffsetType = typename NeighborListType::OffsetType;
 
   /** Set/Get the number of layers to use in the sparse field.  Argument is the
@@ -294,31 +294,35 @@ public:
   itkGetConstMacro(InterpolateSurfaceLocation, bool);
 
   /** See Get/SetInterpolateSurfaceLocation */
-  void InterpolateSurfaceLocationOn()
-  { this->SetInterpolateSurfaceLocation(true); }
-  void InterpolateSurfaceLocationOff()
-  { this->SetInterpolateSurfaceLocation(false); }
+  void
+  InterpolateSurfaceLocationOn()
+  {
+    this->SetInterpolateSurfaceLocation(true);
+  }
+  void
+  InterpolateSurfaceLocationOff()
+  {
+    this->SetInterpolateSurfaceLocation(false);
+  }
 
-  void SetFunctionCount(const IdCellType & n)
+  void
+  SetFunctionCount(const IdCellType & n)
   {
     this->Superclass::SetFunctionCount(n);
 
     m_SparseData.resize(this->m_FunctionCount, nullptr);
 
-    for ( IdCellType i = 0; i < this->m_FunctionCount; i++ )
-      {
+    for (IdCellType i = 0; i < this->m_FunctionCount; i++)
+    {
       m_SparseData[i] = new SparseDataStruct(i);
-      }
+    }
   }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( OutputEqualityComparableCheck,
-                   ( Concept::EqualityComparable< typename TOutputImage::PixelType > ) );
-  itkConceptMacro( DoubleConvertibleToOutputCheck,
-                   ( Concept::Convertible< double, typename TOutputImage::PixelType > ) );
-  itkConceptMacro( OutputOStreamWritableCheck,
-                   ( Concept::OStreamWritable< typename TOutputImage::PixelType > ) );
+  itkConceptMacro(OutputEqualityComparableCheck, (Concept::EqualityComparable<typename TOutputImage::PixelType>));
+  itkConceptMacro(DoubleConvertibleToOutputCheck, (Concept::Convertible<double, typename TOutputImage::PixelType>));
+  itkConceptMacro(OutputOStreamWritableCheck, (Concept::OStreamWritable<typename TOutputImage::PixelType>));
   // End concept checking
 #endif
 
@@ -326,17 +330,19 @@ protected:
   MultiphaseSparseFiniteDifferenceImageFilter();
   ~MultiphaseSparseFiniteDifferenceImageFilter() override
   {
-    while ( !m_SparseData.empty() )
-      {
+    while (!m_SparseData.empty())
+    {
       delete m_SparseData.back();
       m_SparseData.pop_back();
-      }
+    }
   }
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   // This data structure is created for each phase
-  struct SparseDataStruct {
+  struct SparseDataStruct
+  {
     SparseDataStruct(const IdCellType & index)
     {
       m_LayerNodeStore = LayerNodeStorageType::New();
@@ -345,9 +351,9 @@ protected:
     }
 
     /** An array which contains all of the layers needed in the sparse
-    * field. Layers are organized as follows: m_Layer[0] = active layer,
-    * m_Layer[i:odd] = inside layer (i+1)/2, m_Layer[i:even] = outside layer i/2
-    */
+     * field. Layers are organized as follows: m_Layer[0] = active layer,
+     * m_Layer[i:odd] = inside layer (i+1)/2, m_Layer[i:even] = outside layer i/2
+     */
     LayerListType m_Layers;
 
     /** An image of status values used internally by the algorithm. */
@@ -357,7 +363,7 @@ protected:
     LayerNodeStoragePointer m_LayerNodeStore;
 
     /** The update buffer used to store a vector of change values computed in
-    *  CalculateChange. */
+     *  CalculateChange. */
     UpdateBufferType m_UpdateBuffer;
 
     IdCellType m_Index;
@@ -367,70 +373,81 @@ protected:
   NeighborListType m_NeighborList;
 
   /** Stores the distance between pixels in the neighborhood iterator. */
-  std::vector< ValueType > m_PixelDistance;
+  std::vector<ValueType> m_PixelDistance;
 
   /**This function allows a subclass to override the way in which updates to
    * output values are applied during each iteration.  The default simply
    * follows the standard finite difference scheme of scaling the change by the
    * timestep and adding to the value of the previous iteration. */
-  inline virtual ValueType CalculateUpdateValue(
-    const OutputIndexType & itkNotUsed(idx),
-    const TimeStepType & dt,
-    const ValueType & value,
-    const ValueType & change)
+  inline virtual ValueType
+  CalculateUpdateValue(const OutputIndexType & itkNotUsed(idx),
+                       const TimeStepType &    dt,
+                       const ValueType &       value,
+                       const ValueType &       change)
   {
-    return ( value + dt * change );
+    return (value + dt * change);
   }
 
   /**This method packages the output(s) into a consistent format.  The default
    * implementation produces a volume with the final solution values in the
    * sparse field, and inside and outside values elsewhere as appropriate. */
-  void PostProcessOutput() override;
+  void
+  PostProcessOutput() override;
 
   /**This method pre-processes pixels inside and outside the sparse field
    * layers.  The default is to set them to positive and negative values,
    * respectively. This is not necessary as part of the calculations, but
    * produces a more intuitive output for the user. */
-  virtual void InitializeBackgroundPixels();
+  virtual void
+  InitializeBackgroundPixels();
 
   /** Constructs the sparse field layers and initializes their values. */
-  void Initialize() override;
+  void
+  Initialize() override;
 
   /** Copies the input to the output image.  Processing occurs on the output
    * image, so the data type of the output image determines the precision of
    * the calculations (i.e. double or float).  This method overrides the
    * parent class method to do some additional processing. */
-  void CopyInputToOutput() override;
+  void
+  CopyInputToOutput() override;
 
   /** Reserves memory in the update buffer. Called before each iteration. */
-  void AllocateUpdateBuffer() override {}
+  void
+  AllocateUpdateBuffer() override
+  {}
 
   /** Applies the update buffer values to the active layer and reconstructs the
    *  sparse field layers for the next iteration. */
-  void ApplyUpdate(TimeStepType dt) override;
+  void
+  ApplyUpdate(TimeStepType dt) override;
 
   /** Traverses the active layer list and calculates the change at these
    *  indices to be applied in the current iteration. */
-  TimeStepType CalculateChange() override;
+  TimeStepType
+  CalculateChange() override;
 
   /** Initializes a layer of the sparse field using a previously initialized
    * layer. Builds the list of nodes in m_Layer[to] using m_Layer[from].
    * Marks values in the m_StatusImage. */
-  void ConstructLayer(SparseDataStruct *sparsePtr, StatusType from, StatusType
-                      to);
+  void
+  ConstructLayer(SparseDataStruct * sparsePtr, StatusType from, StatusType to);
 
   /** Constructs the active layer and initialize the first layers inside and
    * outside of the active layer.  The active layer defines the position of the
    * zero level set by its values, which are constrained within a range around
    *  zero. */
-  void ConstructActiveLayer();
+  void
+  ConstructActiveLayer();
 
   /** Initializes the values of the active layer set. */
-  void InitializeActiveLayerValues();
+  void
+  InitializeActiveLayerValues();
 
   /** Initializes the pixel constants that will be set outside the
    *  sparse layer. */
-  void InitializeBackgroundConstants();
+  void
+  InitializeBackgroundConstants();
 
   /** Adjusts the values in a single layer "to" using values in a neighboring
    *  layer "from". The list of indices in "to" are traversed and assigned
@@ -439,36 +456,46 @@ protected:
    *  greater than the number of layers). "InOrOut" == 1 indicates this
    *  propagation is inwards (more negative).  "InOrOut" == 2 indicates this
    *  propagation is outwards (more positive). */
-  void PropagateLayerValues(SparseDataStruct *sparsePtr, StatusType from,
-                            StatusType to, StatusType promote, int InOrOut);
+  void
+  PropagateLayerValues(SparseDataStruct * sparsePtr, StatusType from, StatusType to, StatusType promote, int InOrOut);
 
   /** Adjusts the values associated with all the index layers of the sparse
    * field by propagating out one layer at a time from the active set. This
    * method also takes care of deleting nodes from the layers which have been
    * marked in the status image as having been moved to other layers. */
-  void PropagateAllLayerValues();
+  void
+  PropagateAllLayerValues();
 
-  void PropagateFunctionLayerValues(unsigned int functionIndex);
+  void
+  PropagateFunctionLayerValues(unsigned int functionIndex);
 
   /** Updates the active layer values using m_UpdateBuffer. Also creates an
    *  "up" and "down" list for promotion/demotion of indices leaving the
    *  active set. */
-  void UpdateActiveLayerValues(TimeStepType dt, LayerType *StatusUpList,
-                               LayerType *StatusDownList);
+  void
+  UpdateActiveLayerValues(TimeStepType dt, LayerType * StatusUpList, LayerType * StatusDownList);
 
   /** */
-  void ProcessStatusList(LayerType *InputList, LayerType *OutputList,
-                         StatusType ChangeToStatus, StatusType SearchForStatus);
+  void
+  ProcessStatusList(LayerType * InputList,
+                    LayerType * OutputList,
+                    StatusType  ChangeToStatus,
+                    StatusType  SearchForStatus);
 
   /** */
-  void ProcessOutsideList(LayerType *OutsideList, StatusType ChangeToStatus);
+  void
+  ProcessOutsideList(LayerType * OutsideList, StatusType ChangeToStatus);
 
-  void InitializeIteration() override;
+  void
+  InitializeIteration() override;
 
-  virtual void UpdatePixel( unsigned int itkNotUsed(functionIndex), unsigned int itkNotUsed(idx),
-                            NeighborhoodIterator< InputImageType > & itkNotUsed(iterator), ValueType & itkNotUsed(
-                              newValue),
-                            bool & itkNotUsed(status) ){}
+  virtual void
+  UpdatePixel(unsigned int                           itkNotUsed(functionIndex),
+              unsigned int                           itkNotUsed(idx),
+              NeighborhoodIterator<InputImageType> & itkNotUsed(iterator),
+              ValueType &                            itkNotUsed(newValue),
+              bool &                                 itkNotUsed(status))
+  {}
 
   itkGetConstMacro(ValueZero, ValueType);
   itkGetConstMacro(ValueOne, ValueType);
@@ -503,7 +530,7 @@ protected:
       meaningful status. */
   static const StatusType m_StatusNull;
 
-  std::vector< SparseDataStruct * > m_SparseData;
+  std::vector<SparseDataStruct *> m_SparseData;
 
   /** The number of layers to use in the sparse field.  Sparse field will
    * consist of m_NumberOfLayers layers on both sides of a single active layer.
@@ -535,7 +562,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMultiphaseSparseFiniteDifferenceImageFilter.hxx"
+#  include "itkMultiphaseSparseFiniteDifferenceImageFilter.hxx"
 #endif
 
 #endif

@@ -20,24 +20,25 @@
 
 /** Test writing and reading a Vector Image
  */
-int itkNiftiImageIOTest7(int ac, char* av[])
+int
+itkNiftiImageIOTest7(int ac, char * av[])
 {
   //
   // first argument is passing in the writable directory to do all testing
-  if(ac > 1)
-    {
-    char *testdir = *++av;
+  if (ac > 1)
+  {
+    char * testdir = *++av;
     itksys::SystemTools::ChangeDirectory(testdir);
-    }
+  }
   else
-    {
+  {
     return EXIT_FAILURE;
-    }
+  }
   int success(0);
-  success |= TestImageOfSymMats<itk::DiffusionTensor3D<float>,1>( std::string("testDtiImage_float_1.nii.gz"));
-  success |= TestImageOfSymMats<itk::DiffusionTensor3D<float>,2>( std::string("testDtiImage_float_2.nii.gz"));
-  success |= TestImageOfSymMats<itk::DiffusionTensor3D<float>,3>( std::string("testDtiImage_float_3.nii.gz"));
-  success |= TestImageOfSymMats<itk::DiffusionTensor3D<float>,4>( std::string("testDtiImage_float_4.nii.gz"));
-  success |= TestImageOfSymMats<itk::DiffusionTensor3D<double>,3>(std::string("testDtiImage_double_3.nii.gz"));
+  success |= TestImageOfSymMats<itk::DiffusionTensor3D<float>, 1>(std::string("testDtiImage_float_1.nii.gz"));
+  success |= TestImageOfSymMats<itk::DiffusionTensor3D<float>, 2>(std::string("testDtiImage_float_2.nii.gz"));
+  success |= TestImageOfSymMats<itk::DiffusionTensor3D<float>, 3>(std::string("testDtiImage_float_3.nii.gz"));
+  success |= TestImageOfSymMats<itk::DiffusionTensor3D<float>, 4>(std::string("testDtiImage_float_4.nii.gz"));
+  success |= TestImageOfSymMats<itk::DiffusionTensor3D<double>, 3>(std::string("testDtiImage_double_3.nii.gz"));
   return success;
 }

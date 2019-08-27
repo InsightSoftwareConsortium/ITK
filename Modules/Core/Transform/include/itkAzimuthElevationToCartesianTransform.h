@@ -84,10 +84,9 @@ r = std::sqrt(x^2 + y^2 + z^2)
  * \sphinxexample{Core/Transform/CartesianToAzimuthElevation,Cartesian To Azimuth Elevation}
  * \endsphinx
  */
-template<typename TParametersValueType=double,
-         unsigned int NDimensions = 3>
-class ITK_TEMPLATE_EXPORT AzimuthElevationToCartesianTransform:
-  public AffineTransform<TParametersValueType, NDimensions>
+template <typename TParametersValueType = double, unsigned int NDimensions = 3>
+class ITK_TEMPLATE_EXPORT AzimuthElevationToCartesianTransform
+  : public AffineTransform<TParametersValueType, NDimensions>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(AzimuthElevationToCartesianTransform);
@@ -100,7 +99,7 @@ public:
 
   /** Dimension of the domain space. */
   static constexpr unsigned int SpaceDimension = NDimensions;
-  static constexpr unsigned int ParametersDimension = NDimensions * ( NDimensions + 1 );
+  static constexpr unsigned int ParametersDimension = NDimensions * (NDimensions + 1);
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(AzimuthElevationToCartesianTransform, AffineTransform);
@@ -126,43 +125,46 @@ public:
   using OutputPointType = typename Superclass::OutputPointType;
 
   /** Standard matrix type for this class.   */
-  using MatrixType = Matrix< TParametersValueType, Self::SpaceDimension,
-                  Self::SpaceDimension >;
+  using MatrixType = Matrix<TParametersValueType, Self::SpaceDimension, Self::SpaceDimension>;
 
   /** Set the transformation parameters. */
-  void SetAzimuthElevationToCartesianParameters(
-    const double sampleSize,
-    const double blanking,
-    const long maxAzimuth,
-    const long maxElevation,
-    const double azimuthAngleSeparation,
-    const double elevationAngleSeparation);
+  void
+  SetAzimuthElevationToCartesianParameters(const double sampleSize,
+                                           const double blanking,
+                                           const long   maxAzimuth,
+                                           const long   maxElevation,
+                                           const double azimuthAngleSeparation,
+                                           const double elevationAngleSeparation);
 
-  void SetAzimuthElevationToCartesianParameters(const double sampleSize,
-                                                const double blanking,
-                                                const long maxAzimuth,
-                                                const long maxElevation);
+  void
+  SetAzimuthElevationToCartesianParameters(const double sampleSize,
+                                           const double blanking,
+                                           const long   maxAzimuth,
+                                           const long   maxElevation);
 
   /** Transform from azimuth-elevation to cartesian. */
-  OutputPointType     TransformPoint(const InputPointType  & point) const override;
+  OutputPointType
+  TransformPoint(const InputPointType & point) const override;
 
   /** Back transform from cartesian to azimuth-elevation.  */
-  inline InputPointType  BackTransform(const OutputPointType  & point) const
+  inline InputPointType
+  BackTransform(const OutputPointType & point) const
   {
     InputPointType result;
 
-    if ( m_ForwardAzimuthElevationToPhysical )
-      {
-      result = static_cast< InputPointType >( TransformCartesianToAzEl(point) );
-      }
+    if (m_ForwardAzimuthElevationToPhysical)
+    {
+      result = static_cast<InputPointType>(TransformCartesianToAzEl(point));
+    }
     else
-      {
-      result = static_cast< InputPointType >( TransformAzElToCartesian(point) );
-      }
+    {
+      result = static_cast<InputPointType>(TransformAzElToCartesian(point));
+    }
     return result;
   }
 
-  inline InputPointType  BackTransformPoint(const OutputPointType  & point) const
+  inline InputPointType
+  BackTransformPoint(const OutputPointType & point) const
   {
     return BackTransform(point);
   }
@@ -170,26 +172,31 @@ public:
 
   /** Overrides the TransformCategoryType to  UnknownTransformCategory. Even though
   this class derives from AffineTransform, its not a linear transform */
-  TransformCategoryType GetTransformCategory() const override
+  TransformCategoryType
+  GetTransformCategory() const override
   {
-       return Self::TransformCategoryType::UnknownTransformCategory;
+    return Self::TransformCategoryType::UnknownTransformCategory;
   }
 
   /** Defines that the forward transform goes from azimuth,elevation to
    *  cartesian. */
-  void SetForwardAzimuthElevationToCartesian();
+  void
+  SetForwardAzimuthElevationToCartesian();
 
   /** Defines that the forward transform goes from cartesian to azimuth,
    *  elevation.  */
-  void SetForwardCartesianToAzimuthElevation();
+  void
+  SetForwardCartesianToAzimuthElevation();
 
   /** Perform conversion from Azimuth Elevation coordinates to Cartesian
    *  Coordinates. */
-  OutputPointType TransformAzElToCartesian(const InputPointType & point) const;
+  OutputPointType
+  TransformAzElToCartesian(const InputPointType & point) const;
 
   /** Perform conversion from Cartesian Coordinates to Azimuth Elevation
    *  coordinates.  */
-  OutputPointType TransformCartesianToAzEl(const OutputPointType & point) const;
+  OutputPointType
+  TransformCartesianToAzEl(const OutputPointType & point) const;
 
   /**  Set the maximum azimuth.
    *  The maximum azimuth and elevation can be set so that the resulting
@@ -229,7 +236,8 @@ protected:
   ~AzimuthElevationToCartesianTransform() override = default;
 
   /** Print contents of an AzimuthElevationTransform. */
-  void PrintSelf(std::ostream & s, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & s, Indent indent) const override;
 
 private:
   long   m_MaxAzimuth;
@@ -239,11 +247,11 @@ private:
   double m_ElevationAngularSeparation;
   double m_FirstSampleDistance;
   bool   m_ForwardAzimuthElevationToPhysical;
-}; //class AzimuthElevationToCartesianTransform
-}  // namespace itk
+}; // class AzimuthElevationToCartesianTransform
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAzimuthElevationToCartesianTransform.hxx"
+#  include "itkAzimuthElevationToCartesianTransform.hxx"
 #endif
 
 #endif /* itkAzimuthElevationToCartesianTransform_h */

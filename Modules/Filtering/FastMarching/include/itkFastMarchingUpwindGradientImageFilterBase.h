@@ -49,26 +49,25 @@ namespace itk
  * \sa FastMarchingUpwindGradientImageFilter
  * \ingroup ITKFastMarching
  */
-template< typename TInput, typename TOutput >
-class ITK_TEMPLATE_EXPORT FastMarchingUpwindGradientImageFilterBase:
-  public FastMarchingImageFilterBase< TInput, TOutput >
+template <typename TInput, typename TOutput>
+class ITK_TEMPLATE_EXPORT FastMarchingUpwindGradientImageFilterBase
+  : public FastMarchingImageFilterBase<TInput, TOutput>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingUpwindGradientImageFilterBase);
 
   /** Standard class typdedefs. */
   using Self = FastMarchingUpwindGradientImageFilterBase;
-  using Superclass = FastMarchingImageFilterBase< TInput, TOutput >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = FastMarchingImageFilterBase<TInput, TOutput>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
   using Traits = typename Superclass::Traits;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FastMarchingUpwindGradientImageFilterBase,
-               FastMarchingImageFilterBase);
+  itkTypeMacro(FastMarchingUpwindGradientImageFilterBase, FastMarchingImageFilterBase);
 
   /** The dimension of the level set. */
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
@@ -79,48 +78,49 @@ public:
   using OutputSpacingType = typename Superclass::OutputSpacingType;
 
   /** GradientPixel type alias support */
-  using GradientPixelType = CovariantVector< OutputPixelType,
-                           ImageDimension >;
+  using GradientPixelType = CovariantVector<OutputPixelType, ImageDimension>;
 
   /** GradientImage type alias support */
-  using GradientImageType = Image< GradientPixelType,
-                 ImageDimension >;
+  using GradientImageType = Image<GradientPixelType, ImageDimension>;
 
   /** GradientImagePointer type alias support */
   using GradientImagePointer = typename GradientImageType::Pointer;
 
   /** Get the gradient image. */
-  GradientImageType* GetGradientImage();
+  GradientImageType *
+  GetGradientImage();
 
 protected:
   FastMarchingUpwindGradientImageFilterBase();
   ~FastMarchingUpwindGradientImageFilterBase() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void InitializeOutput( OutputImageType* oImage ) override;
+  void
+  InitializeOutput(OutputImageType * oImage) override;
 
-  void UpdateNeighbors( OutputImageType* oImage,
-                               const NodeType& iNode ) override;
+  void
+  UpdateNeighbors(OutputImageType * oImage, const NodeType & iNode) override;
 
-  virtual void ComputeGradient(OutputImageType* oImage,
-                               const NodeType& iNode );
+  virtual void
+  ComputeGradient(OutputImageType * oImage, const NodeType & iNode);
 };
 
 /* this class was made in the case where isotropic and anisotropic fast
     marching would be implemented in this effort. As of now, we focus only
     in the isotropic case. Let's keep it for reference (just as a reminder).
 */
-//template< unsigned int VDimension,
+// template< unsigned int VDimension,
 //         typename TInputPixel,
 //         typename TOutputPixel >
-//class IsotropicFastMarchingUpwindGradientImageFilterBase:
+// class IsotropicFastMarchingUpwindGradientImageFilterBase:
 //    public FastMarchingUpwindGradientImageFilterBase< VDimension, TInputPixel,
 //    TOutputPixel,
 //    FastMarchingImageFilterBase< VDimension, TInputPixel, TOutputPixel >
 //    >
 //  {
-//public:
+// public:
 //  using GrandParentClassType = FastMarchingImageFilterBase< VDimension, TInputPixel,
 //    TOutputPixel >;
 
@@ -157,18 +157,18 @@ protected:
 //  /** GradientImagePointer type alias support */
 //  using GradientImagePointer = typename GradientImageType::Pointer;
 
-//protected:
+// protected:
 //  IsotropicFastMarchingUpwindGradientImageFilterBase() : Superclass() {}
 //  ~IsotropicFastMarchingUpwindGradientImageFilterBase() {}
 
-//private:
+// private:
 //  void operator = ( const Self& );
 //  IsotropicFastMarchingUpwindGradientImageFilterBase( const Self& );
 //  };
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFastMarchingUpwindGradientImageFilterBase.hxx"
+#  include "itkFastMarchingUpwindGradientImageFilterBase.hxx"
 #endif
 
 #endif

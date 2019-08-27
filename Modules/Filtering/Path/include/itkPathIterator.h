@@ -64,8 +64,8 @@ namespace itk
  * \ingroup PathObjects
  * \ingroup ITKPath
  */
-template< typename TImage, typename TPath >
-class ITK_TEMPLATE_EXPORT PathIterator:public PathConstIterator< TImage, TPath >
+template <typename TImage, typename TPath>
+class ITK_TEMPLATE_EXPORT PathIterator : public PathConstIterator<TImage, TPath>
 {
 public:
   /** Standard class type aliases. */
@@ -78,7 +78,7 @@ public:
   static constexpr unsigned int ImageIteratorDimension = TImage::ImageDimension;
 
   /** Define the superclass */
-  using Superclass = PathConstIterator< TImage, TPath >;
+  using Superclass = PathConstIterator<TImage, TPath>;
 
   /** Inherit types from the superclass */
   using IndexType = typename Superclass::IndexType;
@@ -98,30 +98,32 @@ public:
   itkTypeMacro(PathIterator, PathConstIterator);
 
   /** Set the pixel value */
-  void Set(const PixelType & value)
+  void
+  Set(const PixelType & value)
   {
     // Normally, this would just be the following:
     //   m_Image->SetPixel(m_CurrentImageIndex,value);
     // However, we don't want a warning about m_Image being a ConstPointer
     // in the Superclass.
-    const_cast< ImageType * >( this->m_Image.GetPointer() )->
-    SetPixel(this->m_CurrentImageIndex, value);
+    const_cast<ImageType *>(this->m_Image.GetPointer())->SetPixel(this->m_CurrentImageIndex, value);
   }
 
   /** Return a reference to the pixel
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
-  PixelType & Value()
+  PixelType &
+  Value()
   {
     return this->GetImage()->GetPixel(this->m_ImageIndex);
   }
 
   /** operator= is provided to make sure the handles to the image and path are
    * properly reference counted. */
-  Self & operator=(const Self & it);
+  Self &
+  operator=(const Self & it);
 
   /** Constructor establishes an iterator to walk along a path */
-  PathIterator(ImageType *imagePtr, const PathType  *pathPtr);
+  PathIterator(ImageType * imagePtr, const PathType * pathPtr);
 
   /** Default Destructor. */
   ~PathIterator() override = default;
@@ -129,7 +131,7 @@ public:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPathIterator.hxx"
+#  include "itkPathIterator.hxx"
 #endif
 
 #endif

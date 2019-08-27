@@ -18,29 +18,30 @@
 
 #include "itkNormalVariateGenerator.h"
 
-int itkNormalVariateGeneratorTest1( int, char * [] )
+int
+itkNormalVariateGeneratorTest1(int, char *[])
 {
   using NormalGeneratorType = itk::Statistics::NormalVariateGenerator;
 
   NormalGeneratorType::Pointer normalGenerator = NormalGeneratorType::New();
 
-  normalGenerator->Initialize( 101 );
+  normalGenerator->Initialize(101);
 
   std::cout << normalGenerator->GetNameOfClass() << std::endl;
 
-  normalGenerator->Print( std::cout );
+  normalGenerator->Print(std::cout);
 
   constexpr unsigned int numberOfSamples = 1000;
 
   double sum = 0.0;
   double sum2 = 0.0;
 
-  for( unsigned int i=0; i<numberOfSamples; i++ )
-    {
+  for (unsigned int i = 0; i < numberOfSamples; i++)
+  {
     const double value = normalGenerator->GetVariate();
     sum += value;
     sum2 += value * value;
-    }
+  }
 
   const double average = sum / numberOfSamples;
 

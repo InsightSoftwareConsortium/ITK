@@ -49,93 +49,103 @@ namespace watershed
  * \sa EquivalencyTable
  * \ingroup ITKWatersheds
  */
-template< typename TScalar, unsigned int TImageDimension >
-class ITK_TEMPLATE_EXPORT EquivalenceRelabeler:
-  public ProcessObject
+template <typename TScalar, unsigned int TImageDimension>
+class ITK_TEMPLATE_EXPORT EquivalenceRelabeler : public ProcessObject
 {
 public:
   /** Expose templated image dimension parameter at run time */
   static constexpr unsigned int ImageDimension = TImageDimension;
 
   /**  Some convenient type alias.   */
-  using ImageType = Image< IdentifierType, TImageDimension >;
+  using ImageType = Image<IdentifierType, TImageDimension>;
   using Self = EquivalenceRelabeler;
   using Superclass = ProcessObject;
   using ScalarType = TScalar;
   using EquivalencyTableType = EquivalencyTable;
-  using SegmenterType = Segmenter< Image< ScalarType, TImageDimension > >;
+  using SegmenterType = Segmenter<Image<ScalarType, TImageDimension>>;
   using DataObjectPointer = DataObject::Pointer;
 
   /**  Define smart pointers for this object.   */
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
   itkNewMacro(Self);
   itkTypeMacro(WatershedEquivalenceRelabeler, ProcessObject);
 
   /** Set/Get the image to relabel.   */
-  void SetInputImage(ImageType *img)
-  { this->ProcessObject::SetNthInput(0, img); }
-  const ImageType * GetInputImage()
+  void
+  SetInputImage(ImageType * img)
   {
-    return static_cast< ImageType * >
-           ( this->ProcessObject::GetInput(0) );
+    this->ProcessObject::SetNthInput(0, img);
+  }
+  const ImageType *
+  GetInputImage()
+  {
+    return static_cast<ImageType *>(this->ProcessObject::GetInput(0));
   }
 
   /** Set/Get the output image */
-  void SetOutputImage(ImageType *img)
+  void
+  SetOutputImage(ImageType * img)
   {
     this->ProcessObject::SetNthOutput(0, img);
   }
 
-  typename ImageType::Pointer GetOutputImage()
+  typename ImageType::Pointer
+  GetOutputImage()
   {
-    return static_cast< ImageType * >
-           ( this->ProcessObject::GetOutput(0) );
+    return static_cast<ImageType *>(this->ProcessObject::GetOutput(0));
   }
 
   /** Set/Get the table to use in relabeling the input image.   */
-  void SetEquivalencyTable(EquivalencyTableType *et)
+  void
+  SetEquivalencyTable(EquivalencyTableType * et)
   {
     this->ProcessObject::SetNthInput(1, et);
   }
 
-  EquivalencyTableType::Pointer GetEquivalencyTable()
+  EquivalencyTableType::Pointer
+  GetEquivalencyTable()
   {
-    return static_cast< EquivalencyTableType * >
-           ( this->ProcessObject::GetInput(1) );
+    return static_cast<EquivalencyTableType *>(this->ProcessObject::GetInput(1));
   }
 
   /** Standard non-threaded pipeline method */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /** Standard itk::ProcessObject subclass method. */
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
+  DataObjectPointer
+  MakeOutput(DataObjectPointerArraySizeType idx) override;
 
 protected:
   EquivalenceRelabeler()
   {
-    typename ImageType::Pointer img =
-      static_cast< ImageType * >( this->MakeOutput(0).GetPointer() );
+    typename ImageType::Pointer img = static_cast<ImageType *>(this->MakeOutput(0).GetPointer());
     this->SetNumberOfRequiredOutputs(1);
-    this->ProcessObject::SetNthOutput( 0, img.GetPointer() );
+    this->ProcessObject::SetNthOutput(0, img.GetPointer());
   }
 
   ~EquivalenceRelabeler() override = default;
   EquivalenceRelabeler(const Self &) {}
-  void operator=(const Self &) {}
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  operator=(const Self &)
+  {}
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateOutputRequestedRegion(DataObject *output) override;
+  void
+  GenerateOutputRequestedRegion(DataObject * output) override;
 
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 };
 } // end namespace watershed
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkWatershedEquivalenceRelabeler.hxx"
+#  include "itkWatershedEquivalenceRelabeler.hxx"
 #endif
 
 #endif

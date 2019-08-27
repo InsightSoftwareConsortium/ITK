@@ -37,19 +37,22 @@ namespace itk
  *
  * \ingroup ITKMetricsv4
  */
-template <typename TFixedImage, typename TMovingImage, typename TVirtualImage = TFixedImage,
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TVirtualImage = TFixedImage,
           typename TInternalComputationValueType = double,
-          typename TMetricTraits = DefaultImageToImageMetricTraitsv4<TFixedImage,TMovingImage,TVirtualImage,TInternalComputationValueType>
-          >
-class ITK_TEMPLATE_EXPORT MeanSquaresImageToImageMetricv4 :
-  public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
+          typename TMetricTraits =
+            DefaultImageToImageMetricTraitsv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType>>
+class ITK_TEMPLATE_EXPORT MeanSquaresImageToImageMetricv4
+  : public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MeanSquaresImageToImageMetricv4);
 
   /** Standard class type aliases. */
   using Self = MeanSquaresImageToImageMetricv4;
-  using Superclass = ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>;
+  using Superclass =
+    ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -78,27 +81,36 @@ public:
 
   /* Image dimension accessors */
   static constexpr typename TVirtualImage::ImageDimensionType VirtualImageDimension = TVirtualImage::ImageDimension;
-  static constexpr typename TFixedImage::ImageDimensionType FixedImageDimension = TFixedImage::ImageDimension;
-  static constexpr typename TMovingImage::ImageDimensionType MovingImageDimension = TMovingImage::ImageDimension;
+  static constexpr typename TFixedImage::ImageDimensionType   FixedImageDimension = TFixedImage::ImageDimension;
+  static constexpr typename TMovingImage::ImageDimensionType  MovingImageDimension = TMovingImage::ImageDimension;
 
 protected:
   MeanSquaresImageToImageMetricv4();
   ~MeanSquaresImageToImageMetricv4() override = default;
 
-  friend class MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Superclass, Self >;
-  friend class MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >;
+  friend class MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader<
+    ThreadedImageRegionPartitioner<Superclass::VirtualImageDimension>,
+    Superclass,
+    Self>;
+  friend class MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader<ThreadedIndexedContainerPartitioner,
+                                                                            Superclass,
+                                                                            Self>;
   using MeanSquaresDenseGetValueAndDerivativeThreaderType =
-      MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Superclass, Self >;
+    MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader<
+      ThreadedImageRegionPartitioner<Superclass::VirtualImageDimension>,
+      Superclass,
+      Self>;
   using MeanSquaresSparseGetValueAndDerivativeThreaderType =
-      MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >;
+    MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader<ThreadedIndexedContainerPartitioner, Superclass, Self>;
 
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMeanSquaresImageToImageMetricv4.hxx"
+#  include "itkMeanSquaresImageToImageMetricv4.hxx"
 #endif
 
 #endif

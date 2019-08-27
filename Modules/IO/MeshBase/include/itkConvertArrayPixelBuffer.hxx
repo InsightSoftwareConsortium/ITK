@@ -22,23 +22,25 @@
 
 namespace itk
 {
-template< typename InputPixelType, typename T, typename OutputConvertTraits >
+template <typename InputPixelType, typename T, typename OutputConvertTraits>
 void
-ConvertPixelBuffer< InputPixelType, Array< T >, OutputConvertTraits >
-::Convert(InputPixelType *inputData, int inputNumberOfComponents, Array< T > *outputData, size_t size)
+ConvertPixelBuffer<InputPixelType, Array<T>, OutputConvertTraits>::Convert(InputPixelType * inputData,
+                                                                           int              inputNumberOfComponents,
+                                                                           Array<T> *       outputData,
+                                                                           size_t           size)
 {
-  InputPixelType *endInput = inputData + size * static_cast< size_t >( inputNumberOfComponents );
+  InputPixelType * endInput = inputData + size * static_cast<size_t>(inputNumberOfComponents);
 
-  while ( inputData != endInput )
+  while (inputData != endInput)
+  {
+    (*outputData).SetSize(inputNumberOfComponents);
+    for (int ii = 0; ii < inputNumberOfComponents; ++ii)
     {
-    ( *outputData ).SetSize(inputNumberOfComponents);
-    for ( int ii = 0; ii < inputNumberOfComponents; ++ii )
-      {
-      OutputConvertTraits::SetNthComponent( ii, *outputData, static_cast< T >( *inputData++ ) );
-      }
+      OutputConvertTraits::SetNthComponent(ii, *outputData, static_cast<T>(*inputData++));
+    }
 
     outputData++;
-    }
+  }
 }
 } // end namespace itk
 

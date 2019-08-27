@@ -21,7 +21,8 @@
 #include "itkTestingMacros.h"
 
 
-int itkMinimumImageFilterTest( int, char* [] )
+int
+itkMinimumImageFilterTest(int, char *[])
 {
 
   // Define the dimension of the images
@@ -30,20 +31,19 @@ int itkMinimumImageFilterTest( int, char* [] )
   using PixelType = unsigned char;
 
   // Declare the types of the images
-  using ImageType = itk::Image< PixelType, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
   // Declare the type of the index to access images
-  using IndexType = itk::Index< Dimension >;
+  using IndexType = itk::Index<Dimension>;
 
   // Declare the type of the size
-  using SizeType = itk::Size< Dimension >;
+  using SizeType = itk::Size<Dimension>;
 
   // Declare the type of the Region
-  using RegionType = itk::ImageRegion< Dimension >;
+  using RegionType = itk::ImageRegion<Dimension>;
 
   // Declare the type for the MULTIPLY filter
-  using MinimumFilterType = itk::MinimumImageFilter< ImageType, ImageType,
-    ImageType >;
+  using MinimumFilterType = itk::MinimumImageFilter<ImageType, ImageType, ImageType>;
 
   // Create two images
   ImageType::Pointer inputImageA = ImageType::New();
@@ -61,19 +61,19 @@ int itkMinimumImageFilterTest( int, char* [] )
   start[2] = 0;
 
   RegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
+  region.SetIndex(start);
+  region.SetSize(size);
 
   // Initialize Image A
-  inputImageA->SetLargestPossibleRegion( region );
-  inputImageA->SetBufferedRegion( region );
-  inputImageA->SetRequestedRegion( region );
+  inputImageA->SetLargestPossibleRegion(region);
+  inputImageA->SetBufferedRegion(region);
+  inputImageA->SetRequestedRegion(region);
   inputImageA->Allocate();
 
   // Initialize Image B
-  inputImageB->SetLargestPossibleRegion( region );
-  inputImageB->SetBufferedRegion( region );
-  inputImageB->SetRequestedRegion( region );
+  inputImageB->SetLargestPossibleRegion(region);
+  inputImageB->SetBufferedRegion(region);
+  inputImageB->SetRequestedRegion(region);
   inputImageB->Allocate();
 
   // Define the pixel values for each image
@@ -81,37 +81,36 @@ int itkMinimumImageFilterTest( int, char* [] )
   PixelType smallPixelValue = 2;
 
   // Declare Iterator types apropriated for each image
-  using IteratorType = itk::ImageRegionIteratorWithIndex< ImageType >;
+  using IteratorType = itk::ImageRegionIteratorWithIndex<ImageType>;
 
   // Create one iterator for Image A (this is a light object)
-  IteratorType it1( inputImageA, inputImageA->GetBufferedRegion() );
+  IteratorType it1(inputImageA, inputImageA->GetBufferedRegion());
 
   // Initialize the content of Image A
-  while( !it1.IsAtEnd() )
+  while (!it1.IsAtEnd())
   {
-    it1.Set( smallPixelValue );
+    it1.Set(smallPixelValue);
     ++it1;
   }
 
   // Create one iterator for Image B (this is a light object)
-  IteratorType it2( inputImageB, inputImageB->GetBufferedRegion() );
+  IteratorType it2(inputImageB, inputImageB->GetBufferedRegion());
 
   // Initialize the content of Image B
-  while( !it2.IsAtEnd() )
+  while (!it2.IsAtEnd())
   {
-    it2.Set( largePixelValue );
+    it2.Set(largePixelValue);
     ++it2;
   }
 
   // Create the filter
   MinimumFilterType::Pointer minimumImageFilter = MinimumFilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( minimumImageFilter, MinimumImageFilter,
-    BinaryGeneratorImageFilter);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(minimumImageFilter, MinimumImageFilter, BinaryGeneratorImageFilter);
 
   // Connect the input images
-  minimumImageFilter->SetInput1( inputImageA );
-  minimumImageFilter->SetInput2( inputImageB );
+  minimumImageFilter->SetInput1(inputImageA);
+  minimumImageFilter->SetInput2(inputImageB);
 
   // Get the Smart Pointer to the filter output
   ImageType::Pointer outputImage = minimumImageFilter->GetOutput();
@@ -124,12 +123,11 @@ int itkMinimumImageFilterTest( int, char* [] )
   // Note that we are not comparing the entirety of the filter output in order
   // to keep compile time as small as possible
 
-  ImageType::IndexType pixelIndex = {{0, 1, 1}};
+  ImageType::IndexType pixelIndex = { { 0, 1, 1 } };
 
-  ITK_TEST_EXPECT_EQUAL( outputImage->GetPixel( start ), smallPixelValue );
-  ITK_TEST_EXPECT_EQUAL( outputImage->GetPixel( pixelIndex ), smallPixelValue );
+  ITK_TEST_EXPECT_EQUAL(outputImage->GetPixel(start), smallPixelValue);
+  ITK_TEST_EXPECT_EQUAL(outputImage->GetPixel(pixelIndex), smallPixelValue);
 
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;
-
 }

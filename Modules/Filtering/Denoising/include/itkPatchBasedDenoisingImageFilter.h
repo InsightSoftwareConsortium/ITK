@@ -58,8 +58,8 @@ namespace itk
  * \sa PatchBasedDenoisingBaseImageFilter
  */
 template <typename TInputImage, typename TOutputImage>
-class ITK_TEMPLATE_EXPORT PatchBasedDenoisingImageFilter :
-  public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
+class ITK_TEMPLATE_EXPORT PatchBasedDenoisingImageFilter
+  : public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PatchBasedDenoisingImageFilter);
@@ -75,8 +75,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PatchBasedDenoisingImageFilter,
-    PatchBasedDenoisingBaseImageFilter);
+  itkTypeMacro(PatchBasedDenoisingImageFilter, PatchBasedDenoisingBaseImageFilter);
 
   /** Type definition for the input image. */
   using InputImageType = typename Superclass::InputImageType;
@@ -97,8 +96,8 @@ public:
   using PixelType = typename Superclass::PixelType;
   using PixelValueType = typename Superclass::PixelValueType;
 
-  using RealType = typename NumericTraits< PixelType >::RealType;
-  using RealValueType = typename NumericTraits< PixelValueType >::RealType;
+  using RealType = typename NumericTraits<PixelType>::RealType;
+  using RealValueType = typename NumericTraits<PixelValueType>::RealType;
   using PixelArrayType = Array<PixelValueType>;
   using RealArrayType = Array<RealValueType>;
   using ShortArrayType = Array<unsigned short>;
@@ -111,8 +110,7 @@ public:
   using PatchWeightsType = typename Superclass::PatchWeightsType;
 
   /** Type definitions for delegate classes. */
-  using BaseSamplerType = itk::Statistics::RegionConstrainedSubsampler<
-      PatchSampleType, InputImageRegionType >;
+  using BaseSamplerType = itk::Statistics::RegionConstrainedSubsampler<PatchSampleType, InputImageRegionType>;
   using BaseSamplerPointer = typename BaseSamplerType::Pointer;
   using InstanceIdentifier = typename BaseSamplerType::InstanceIdentifier;
 
@@ -121,23 +119,23 @@ public:
    * Since the LogMap computations are only valid for DiffusionTensor3D
    * pixels right now which always have a dimension of 3x3.
    */
-  using EigenValuesArrayType = FixedArray< PixelValueType, 3 >;
-  using EigenVectorsMatrixType = Matrix< PixelValueType, 3, 3 >;
+  using EigenValuesArrayType = FixedArray<PixelValueType, 3>;
+  using EigenVectorsMatrixType = Matrix<PixelValueType, 3, 3>;
   using EigenValuesCacheType = std::vector<EigenValuesArrayType>;
   using EigenVectorsCacheType = std::vector<EigenVectorsMatrixType>;
 
   struct ThreadDataStruct
-    {
-    ShortArrayType validDerivatives;
-    RealArrayType entropyFirstDerivative;
-    RealArrayType entropySecondDerivative;
-    ShortArrayType validNorms;
-    RealArrayType minNorm;
-    RealArrayType maxNorm;
-    BaseSamplerPointer sampler;
-    EigenValuesCacheType eigenValsCache;
+  {
+    ShortArrayType        validDerivatives;
+    RealArrayType         entropyFirstDerivative;
+    RealArrayType         entropySecondDerivative;
+    ShortArrayType        validNorms;
+    RealArrayType         minNorm;
+    RealArrayType         maxNorm;
+    BaseSamplerPointer    sampler;
+    EigenValuesCacheType  eigenValsCache;
     EigenVectorsCacheType eigenVecsCache;
-    };
+  };
 
   /** Set/Get flag indicating whether smooth-disc patch weights should be used.
    *  If this flag is true, the smooth-disc patch weights will override any
@@ -151,7 +149,8 @@ public:
    * To prevent the class from automatically modifying this estimate,
    * set KernelBandwidthEstimation to false in the base class.
    */
-  void SetKernelBandwidthSigma(const RealArrayType& kernelSigma);
+  void
+  SetKernelBandwidthSigma(const RealArrayType & kernelSigma);
   itkGetConstMacro(KernelBandwidthSigma, RealArrayType);
 
   /** Set/Get the fraction of the image to use for kernel bandwidth sigma estimation.
@@ -199,7 +198,8 @@ public:
   /** Set/Get the noise sigma.
    * Used by the noise model where appropriate, defaults to 5% of the image intensity range
    */
-  void SetNoiseSigma(const RealType& sigma);
+  void
+  SetNoiseSigma(const RealType & sigma);
 
   itkGetConstMacro(NoiseSigma, RealType);
 
@@ -213,23 +213,30 @@ public:
 protected:
   PatchBasedDenoisingImageFilter();
   ~PatchBasedDenoisingImageFilter() override;
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Clean up Eigensystem caches */
-  virtual void EmptyCaches();
+  virtual void
+  EmptyCaches();
 
   /** Allocate memory for a temporary update container in the subclass*/
-  void AllocateUpdateBuffer() override;
+  void
+  AllocateUpdateBuffer() override;
 
-  void CopyInputToOutput() override;
+  void
+  CopyInputToOutput() override;
 
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
-  template<typename T, typename U = void> using DisableIfMultiComponent =
-    typename std::enable_if<std::is_same<T, typename NumericTraits<T>::ValueType>::value, U >;
+  template <typename T, typename U = void>
+  using DisableIfMultiComponent =
+    typename std::enable_if<std::is_same<T, typename NumericTraits<T>::ValueType>::value, U>;
 
-  template<typename T, typename U = void> using EnableIfMultiComponent =
-    typename std::enable_if<!std::is_same<T, typename NumericTraits<T>::ValueType>::value, U >;
+  template <typename T, typename U = void>
+  using EnableIfMultiComponent =
+    typename std::enable_if<!std::is_same<T, typename NumericTraits<T>::ValueType>::value, U>;
 
 
   /** \brief A method to generically get a component.
@@ -237,11 +244,10 @@ protected:
    * The same function name can be used to generically access for
    * scalars and array-like types. For scalar types the idx parameter
    * is ignored.
-  */
-  template< typename T>
-    typename DisableIfMultiComponent<T, T>::type
-  GetComponent(const T pix,
-               unsigned int itkNotUsed( idx ) ) const
+   */
+  template <typename T>
+  typename DisableIfMultiComponent<T, T>::type
+  GetComponent(const T pix, unsigned int itkNotUsed(idx)) const
   {
     // The enable if idiom is used to overload this method for both
     // scalars and multi-component types. By exploiting that
@@ -252,58 +258,56 @@ protected:
     return pix;
   }
 
-  template< typename T>
-    typename EnableIfMultiComponent<T, typename NumericTraits<T>::ValueType>::type
-  GetComponent(const T& pix,
-               unsigned int idx ) const
+  template <typename T>
+  typename EnableIfMultiComponent<T, typename NumericTraits<T>::ValueType>::type
+  GetComponent(const T & pix, unsigned int idx) const
   {
     return pix[idx];
   }
 
   /** \brief A method to generically set a component */
-  template< typename T >
+  template <typename T>
   void
-  SetComponent( T &pix,
-                unsigned int itkNotUsed( idx ),
-                typename DisableIfMultiComponent<T, RealValueType>::type val) const
+  SetComponent(T &                                                      pix,
+               unsigned int                                             itkNotUsed(idx),
+               typename DisableIfMultiComponent<T, RealValueType>::type val) const
   {
     pix = val;
   }
 
-  template< typename T >
+  template <typename T>
   void
-  SetComponent( T &pix,
-                unsigned int idx,
-                typename EnableIfMultiComponent<T, RealValueType>::type val) const
+  SetComponent(T & pix, unsigned int idx, typename EnableIfMultiComponent<T, RealValueType>::type val) const
   {
-    pix[idx] =  val;
+    pix[idx] = val;
   }
 
   /** Compute the Minimum and Maximum pixel in the image for each independent
     component */
 
-  void ComputeMinMax(const Image< DiffusionTensor3D<PixelValueType> , ImageDimension>* img)
+  void
+  ComputeMinMax(const Image<DiffusionTensor3D<PixelValueType>, ImageDimension> * img)
   {
-    if( this->GetComponentSpace() == Superclass::RIEMANNIAN )
-      {
+    if (this->GetComponentSpace() == Superclass::RIEMANNIAN)
+    {
       DispatchedRiemannianMinMax(img);
-      }
+    }
     else
-      {
+    {
       DispatchedArrayMinMax(img);
-      }
+    }
   }
 
-  template< typename TImageType >
-    typename DisableIfMultiComponent<typename TImageType::PixelType>::type
-  ComputeMinMax(const TImageType* img)
+  template <typename TImageType>
+  typename DisableIfMultiComponent<typename TImageType::PixelType>::type
+  ComputeMinMax(const TImageType * img)
   {
     DispatchedMinMax(img);
   }
 
-  template< typename TImageType >
-    typename EnableIfMultiComponent<typename TImageType::PixelType>::type
-  ComputeMinMax(const TImageType* img)
+  template <typename TImageType>
+  typename EnableIfMultiComponent<typename TImageType::PixelType>::type
+  ComputeMinMax(const TImageType * img)
   {
     DispatchedArrayMinMax(img);
   }
@@ -316,184 +320,216 @@ protected:
    * ComputeLogMap since the eigen analysis will already have been computed
    * for that pixel.
    */
-  void ComputeDifferenceAndWeightedSquaredNorm(const DiffusionTensor3D<PixelValueType>& a,
-                                               const DiffusionTensor3D<PixelValueType>& b,
-                                               const RealArrayType& weight,
-                                               bool useCachedComputations,
-                                               SizeValueType cacheIndex,
-                                               EigenValuesCacheType& eigenValsCache,
-                                               EigenVectorsCacheType& eigenVecsCache,
-                                               RealType& diff, RealArrayType& norm)
+  void
+  ComputeDifferenceAndWeightedSquaredNorm(const DiffusionTensor3D<PixelValueType> & a,
+                                          const DiffusionTensor3D<PixelValueType> & b,
+                                          const RealArrayType &                     weight,
+                                          bool                                      useCachedComputations,
+                                          SizeValueType                             cacheIndex,
+                                          EigenValuesCacheType &                    eigenValsCache,
+                                          EigenVectorsCacheType &                   eigenVecsCache,
+                                          RealType &                                diff,
+                                          RealArrayType &                           norm)
   {
-    if( this->GetComponentSpace() == Superclass::RIEMANNIAN )
-      {
-      ComputeLogMapAndWeightedSquaredGeodesicDifference(a, b, weight,
-                                                        useCachedComputations, cacheIndex,
-                                                        eigenValsCache, eigenVecsCache,
-                                                        diff, norm);
-      }
+    if (this->GetComponentSpace() == Superclass::RIEMANNIAN)
+    {
+      ComputeLogMapAndWeightedSquaredGeodesicDifference(
+        a, b, weight, useCachedComputations, cacheIndex, eigenValsCache, eigenVecsCache, diff, norm);
+    }
     else
-      {
-      ComputeSignedEuclideanDifferenceAndWeightedSquaredNorm(a, b, weight,
-                                                             useCachedComputations, cacheIndex,
-                                                             eigenValsCache, eigenVecsCache,
-                                                             diff, norm);
-      }
+    {
+      ComputeSignedEuclideanDifferenceAndWeightedSquaredNorm(
+        a, b, weight, useCachedComputations, cacheIndex, eigenValsCache, eigenVecsCache, diff, norm);
+    }
   }
 
   template <typename PixelT>
-  void ComputeDifferenceAndWeightedSquaredNorm(const PixelT& a,
-                                               const PixelT& b,
-                                               const RealArrayType& weight,
-                                               bool useCachedComputations,
-                                               SizeValueType cacheIndex,
-                                               EigenValuesCacheType& eigenValsCache,
-                                               EigenVectorsCacheType& eigenVecsCache,
-                                               RealType& diff, RealArrayType& norm)
+  void
+  ComputeDifferenceAndWeightedSquaredNorm(const PixelT &          a,
+                                          const PixelT &          b,
+                                          const RealArrayType &   weight,
+                                          bool                    useCachedComputations,
+                                          SizeValueType           cacheIndex,
+                                          EigenValuesCacheType &  eigenValsCache,
+                                          EigenVectorsCacheType & eigenVecsCache,
+                                          RealType &              diff,
+                                          RealArrayType &         norm)
   {
-    ComputeSignedEuclideanDifferenceAndWeightedSquaredNorm(a, b, weight,
-                                                           useCachedComputations, cacheIndex,
-                                                           eigenValsCache, eigenVecsCache,
-                                                           diff, norm);
+    ComputeSignedEuclideanDifferenceAndWeightedSquaredNorm(
+      a, b, weight, useCachedComputations, cacheIndex, eigenValsCache, eigenVecsCache, diff, norm);
   }
 
   /**
    * Update a by adding b. In Riemannian space, b is in the tangent space of a.
    */
-  RealType AddUpdate(const DiffusionTensor3D<RealValueType>& a,
-                     const RealType& b)
+  RealType
+  AddUpdate(const DiffusionTensor3D<RealValueType> & a, const RealType & b)
   {
-    if( this->GetComponentSpace() == Superclass::RIEMANNIAN )
-      {
+    if (this->GetComponentSpace() == Superclass::RIEMANNIAN)
+    {
       return this->AddExponentialMapUpdate(a, b);
-      }
+    }
     else
-      {
+    {
       return this->AddEuclideanUpdate(a, b);
-      }
+    }
   }
 
   template <typename RealT>
-  RealType AddUpdate(const RealT& a,
-                     const RealType& b)
+  RealType
+  AddUpdate(const RealT & a, const RealType & b)
   {
     return this->AddEuclideanUpdate(a, b);
   }
 
-  virtual void EnforceConstraints();
+  virtual void
+  EnforceConstraints();
 
-  void Initialize() override;
+  void
+  Initialize() override;
 
-  virtual void InitializeKernelSigma();
+  virtual void
+  InitializeKernelSigma();
 
-  void InitializePatchWeights() override;
+  void
+  InitializePatchWeights() override;
 
-  virtual void InitializePatchWeightsSmoothDisc();
+  virtual void
+  InitializePatchWeightsSmoothDisc();
 
-  void InitializeIteration() override;
+  void
+  InitializeIteration() override;
 
-  void ComputeKernelBandwidthUpdate() override; // derived from base class;
+  void
+  ComputeKernelBandwidthUpdate() override; // derived from base class;
 
   // define here
 
-  virtual ThreadDataStruct ThreadedComputeSigmaUpdate(const InputImageRegionType& regionToProcess,
-                                                      const int itkNotUsed(threadId),
-                                                      ThreadDataStruct threadData);
+  virtual ThreadDataStruct
+  ThreadedComputeSigmaUpdate(const InputImageRegionType & regionToProcess,
+                             const int                    itkNotUsed(threadId),
+                             ThreadDataStruct             threadData);
 
-  virtual RealArrayType ResolveSigmaUpdate();
+  virtual RealArrayType
+  ResolveSigmaUpdate();
 
-  void ComputeImageUpdate() override;
+  void
+  ComputeImageUpdate() override;
 
-  virtual ThreadDataStruct ThreadedComputeImageUpdate(const InputImageRegionType& regionToProcess,
-                                                      const int threadId,
-                                                      ThreadDataStruct threadData);
+  virtual ThreadDataStruct
+  ThreadedComputeImageUpdate(const InputImageRegionType & regionToProcess,
+                             const int                    threadId,
+                             ThreadDataStruct             threadData);
 
-  virtual RealType ComputeGradientJointEntropy(InstanceIdentifier id,
-                                               typename ListAdaptorType::Pointer& inList,
-                                               BaseSamplerPointer& sampler,
-                                               ThreadDataStruct& threadData);
+  virtual RealType
+  ComputeGradientJointEntropy(InstanceIdentifier                  id,
+                              typename ListAdaptorType::Pointer & inList,
+                              BaseSamplerPointer &                sampler,
+                              ThreadDataStruct &                  threadData);
 
-  void ApplyUpdate() override;
+  void
+  ApplyUpdate() override;
 
-  virtual void ThreadedApplyUpdate(const InputImageRegionType& regionToProcess,
-                                   const int itkNotUsed(threadId) );
+  virtual void
+  ThreadedApplyUpdate(const InputImageRegionType & regionToProcess, const int itkNotUsed(threadId));
 
-  void PostProcessOutput() override;
+  void
+  PostProcessOutput() override;
 
-  virtual void SetThreadData(int threadId, const ThreadDataStruct& data);
+  virtual void
+  SetThreadData(int threadId, const ThreadDataStruct & data);
 
-  virtual ThreadDataStruct GetThreadData(int threadId);
+  virtual ThreadDataStruct
+  GetThreadData(int threadId);
 
 private:
   /** This callback method uses ImageSource::SplitRequestedRegion to acquire an
    * output region that it passes to ComputeSigma for processing. */
-  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION ComputeSigmaUpdateThreaderCallback( void *arg );
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
+  ComputeSigmaUpdateThreaderCallback(void * arg);
 
   /** This callback method uses ImageSource::SplitRequestedRegion to acquire a
    * region which it then passes to ComputeImageUpdate for processing. */
-  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION ComputeImageUpdateThreaderCallback( void *arg );
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
+  ComputeImageUpdateThreaderCallback(void * arg);
 
   /** This callback method uses ImageSource::SplitRequestedRegion to acquire a
    * region which it then passes to ThreadedApplyUpdate for processing. */
-  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION ApplyUpdateThreaderCallback( void *arg );
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
+  ApplyUpdateThreaderCallback(void * arg);
 
   template <typename TInputImageType>
-  void DispatchedMinMax(const TInputImageType* img);
+  void
+  DispatchedMinMax(const TInputImageType * img);
 
   template <typename TInputImageType>
-  void DispatchedArrayMinMax(const TInputImageType* img);
+  void
+  DispatchedArrayMinMax(const TInputImageType * img);
 
   template <typename TInputImageType>
-  void DispatchedVectorMinMax(const TInputImageType* img);
+  void
+  DispatchedVectorMinMax(const TInputImageType * img);
 
   template <typename TInputImageType>
-  void DispatchedRiemannianMinMax(const TInputImageType* img);
+  void
+  DispatchedRiemannianMinMax(const TInputImageType * img);
 
   /** This callback method uses ImageSource::SplitRequestedRegion to acquire a
    * region which it then passes to ThreadedRiemannianMinMax for processing. */
-  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION RiemannianMinMaxThreaderCallback( void *arg );
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
+  RiemannianMinMaxThreaderCallback(void * arg);
 
-  ThreadDataStruct ThreadedRiemannianMinMax(const InputImageRegionType& regionToProcess,
-                                            const int itkNotUsed(threadId),
-                                            const InputImageType* img,
-                                            ThreadDataStruct threadData);
+  ThreadDataStruct
+  ThreadedRiemannianMinMax(const InputImageRegionType & regionToProcess,
+                           const int                    itkNotUsed(threadId),
+                           const InputImageType *       img,
+                           ThreadDataStruct             threadData);
 
-  virtual void ResolveRiemannianMinMax();
+  virtual void
+  ResolveRiemannianMinMax();
 
-  void ComputeSignedEuclideanDifferenceAndWeightedSquaredNorm(const PixelType& a, const PixelType& b,
-                                                              const RealArrayType& weight,
-                                                              bool useCachedComputations,
-                                                              SizeValueType cacheIndex,
-                                                              EigenValuesCacheType& eigenValsCache,
-                                                              EigenVectorsCacheType& eigenVecsCache,
-                                                              RealType& diff, RealArrayType& norm);
+  void
+  ComputeSignedEuclideanDifferenceAndWeightedSquaredNorm(const PixelType &       a,
+                                                         const PixelType &       b,
+                                                         const RealArrayType &   weight,
+                                                         bool                    useCachedComputations,
+                                                         SizeValueType           cacheIndex,
+                                                         EigenValuesCacheType &  eigenValsCache,
+                                                         EigenVectorsCacheType & eigenVecsCache,
+                                                         RealType &              diff,
+                                                         RealArrayType &         norm);
 
   /** Returns the Log map in the tangent space of spdMatrixA. */
-  void ComputeLogMapAndWeightedSquaredGeodesicDifference(const DiffusionTensor3D<PixelValueType>& spdMatrixA,
-                                                         const DiffusionTensor3D<PixelValueType>& spdMatrixB,
-                                                         const RealArrayType& weight,
-                                                         bool useCachedComputations,
-                                                         SizeValueType cacheIndex,
-                                                         EigenValuesCacheType& eigenValsCache,
-                                                         EigenVectorsCacheType& eigenVecsCache,
-                                                         RealType& symMatrixLogMap, RealArrayType& geodesicDist);
+  void
+  ComputeLogMapAndWeightedSquaredGeodesicDifference(const DiffusionTensor3D<PixelValueType> & spdMatrixA,
+                                                    const DiffusionTensor3D<PixelValueType> & spdMatrixB,
+                                                    const RealArrayType &                     weight,
+                                                    bool                                      useCachedComputations,
+                                                    SizeValueType                             cacheIndex,
+                                                    EigenValuesCacheType &                    eigenValsCache,
+                                                    EigenVectorsCacheType &                   eigenVecsCache,
+                                                    RealType &                                symMatrixLogMap,
+                                                    RealArrayType &                           geodesicDist);
 
   template <typename TensorValueT>
-  void Compute3x3EigenAnalysis(const DiffusionTensor3D<TensorValueT>& spdMatrix,
-                               FixedArray< TensorValueT, 3 >&  eigenVals,
-                               Matrix< TensorValueT, 3, 3 >& eigenVecs);
+  void
+  Compute3x3EigenAnalysis(const DiffusionTensor3D<TensorValueT> & spdMatrix,
+                          FixedArray<TensorValueT, 3> &           eigenVals,
+                          Matrix<TensorValueT, 3, 3> &            eigenVecs);
 
-  RealType AddEuclideanUpdate(const RealType& a, const RealType& b);
+  RealType
+  AddEuclideanUpdate(const RealType & a, const RealType & b);
 
   /** Returns the Exp map */
-  RealType AddExponentialMapUpdate(const DiffusionTensor3D<RealValueType>& spdMatrix,
-                                   const DiffusionTensor3D<RealValueType>& symMatrix);
+  RealType
+  AddExponentialMapUpdate(const DiffusionTensor3D<RealValueType> & spdMatrix,
+                          const DiffusionTensor3D<RealValueType> & symMatrix);
 
   struct ThreadFilterStruct
-    {
-    PatchBasedDenoisingImageFilter *Filter;
-    InputImageType *Img;
-    };
+  {
+    PatchBasedDenoisingImageFilter * Filter;
+    InputImageType *                 Img;
+  };
 
   std::vector<ThreadDataStruct> m_ThreadData;
 
@@ -531,13 +567,16 @@ private:
   typename ListAdaptorType::Pointer m_SearchSpaceList;
 };
 /** Define how to print enumerations */
-extern ITKDenoising_EXPORT std::ostream& operator<<(std::ostream& out, const NoiseType value);
-extern ITKDenoising_EXPORT std::ostream& operator<<(std::ostream& out, const SpaceType value);
-extern ITKDenoising_EXPORT std::ostream& operator<<(std::ostream& out, const StateTypeOfFilter value);
+extern ITKDenoising_EXPORT std::ostream &
+                           operator<<(std::ostream & out, const NoiseType value);
+extern ITKDenoising_EXPORT std::ostream &
+                           operator<<(std::ostream & out, const SpaceType value);
+extern ITKDenoising_EXPORT std::ostream &
+                           operator<<(std::ostream & out, const StateTypeOfFilter value);
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPatchBasedDenoisingImageFilter.hxx"
+#  include "itkPatchBasedDenoisingImageFilter.hxx"
 #endif
 
 #endif

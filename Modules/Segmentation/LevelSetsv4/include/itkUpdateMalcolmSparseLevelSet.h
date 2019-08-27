@@ -38,27 +38,26 @@ namespace itk
  *  \tparam TEquationContainer Container of the system of levelset equations
  *  \ingroup ITKLevelSetsv4
  */
-template< unsigned int VDimension,
-          typename TEquationContainer >
+template <unsigned int VDimension, typename TEquationContainer>
 class ITK_TEMPLATE_EXPORT UpdateMalcolmSparseLevelSet : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(UpdateMalcolmSparseLevelSet);
 
   using Self = UpdateMalcolmSparseLevelSet;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
   using Superclass = Object;
 
   /** Method for creation through object factory */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information */
-  itkTypeMacro( UpdateMalcolmSparseLevelSet, Object );
+  itkTypeMacro(UpdateMalcolmSparseLevelSet, Object);
 
   static constexpr unsigned int ImageDimension = VDimension;
 
-  using LevelSetType = MalcolmSparseLevelSetImage< ImageDimension >;
+  using LevelSetType = MalcolmSparseLevelSetImage<ImageDimension>;
   using LevelSetPointer = typename LevelSetType::Pointer;
   using LevelSetInputType = typename LevelSetType::InputType;
   using LevelSetOutputType = typename LevelSetType::OutputType;
@@ -85,32 +84,33 @@ public:
   using EquationContainerPointer = typename EquationContainerType::Pointer;
   using TermContainerPointer = typename EquationContainerType::TermContainerPointer;
 
-  itkGetModifiableObjectMacro(OutputLevelSet, LevelSetType );
+  itkGetModifiableObjectMacro(OutputLevelSet, LevelSetType);
 
   /** Update function for initializing and computing the output level set */
-  void Update();
+  void
+  Update();
 
   /** Set/Get the sparse levet set image */
-  itkSetObjectMacro( InputLevelSet, LevelSetType );
-  itkGetModifiableObjectMacro(InputLevelSet, LevelSetType );
+  itkSetObjectMacro(InputLevelSet, LevelSetType);
+  itkGetModifiableObjectMacro(InputLevelSet, LevelSetType);
 
   /** Set/Get the RMS change for the update */
-  itkGetMacro( RMSChangeAccumulator, LevelSetOutputRealType );
+  itkGetMacro(RMSChangeAccumulator, LevelSetOutputRealType);
 
   /** Set/Get the Equation container for computing the update */
-  itkSetObjectMacro( EquationContainer, EquationContainerType );
-  itkGetModifiableObjectMacro(EquationContainer, EquationContainerType );
+  itkSetObjectMacro(EquationContainer, EquationContainerType);
+  itkGetModifiableObjectMacro(EquationContainer, EquationContainerType);
 
   /** Set/Get the current level set id */
-  itkSetMacro( CurrentLevelSetId, IdentifierType );
-  itkGetMacro( CurrentLevelSetId, IdentifierType );
+  itkSetMacro(CurrentLevelSetId, IdentifierType);
+  itkGetMacro(CurrentLevelSetId, IdentifierType);
 
 protected:
   UpdateMalcolmSparseLevelSet();
   ~UpdateMalcolmSparseLevelSet() override = default;
 
   // output
-  LevelSetPointer   m_OutputLevelSet;
+  LevelSetPointer m_OutputLevelSet;
 
   LevelSetLayerType m_Update;
 
@@ -118,45 +118,46 @@ protected:
   LevelSetOutputRealType   m_RMSChangeAccumulator;
   EquationContainerPointer m_EquationContainer;
 
-  using LabelImageType = Image< int8_t, ImageDimension >;
+  using LabelImageType = Image<int8_t, ImageDimension>;
   using LabelImagePointer = typename LabelImageType::Pointer;
 
   LabelImagePointer m_InternalImage;
 
-  using NeighborhoodIteratorType = ShapedNeighborhoodIterator< LabelImageType >;
+  using NeighborhoodIteratorType = ShapedNeighborhoodIterator<LabelImageType>;
 
   bool m_IsUsingUnPhasedPropagation{ true };
 
   /** Compute the updates for all points in the 0 layer and store in UpdateContainer */
-  void FillUpdateContainer();
+  void
+  FillUpdateContainer();
 
   /** Update the zero layer for all points with values stored in UpdateContainer
    *  Move points to -1 or +1 layers */
-  void EvolveWithUnPhasedPropagation();
+  void
+  EvolveWithUnPhasedPropagation();
 
   /** Update separately the zero layer for points with positive/negative update values
    *  Move points to -1 or +1 layers */
-  void EvolveWithPhasedPropagation( LevelSetLayerType& ioList,
-                                    LevelSetLayerType& ioUpdate,
-                                    const bool& iContraction );
+  void
+  EvolveWithPhasedPropagation(LevelSetLayerType & ioList, LevelSetLayerType & ioUpdate, const bool & iContraction);
 
   /** Make sure the layers are of single pixel thickness only. This method is related
     to the minimal interface function described in the original paper. */
-  void CompactLayersToSinglePixelThickness();
+  void
+  CompactLayersToSinglePixelThickness();
 
 private:
   // input
-  LevelSetPointer   m_InputLevelSet;
+  LevelSetPointer m_InputLevelSet;
 
   LevelSetOffsetType m_Offset;
 
-  using NodePairType = std::pair< LevelSetInputType, LevelSetOutputType >;
-
+  using NodePairType = std::pair<LevelSetInputType, LevelSetOutputType>;
 };
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkUpdateMalcolmSparseLevelSet.hxx"
+#  include "itkUpdateMalcolmSparseLevelSet.hxx"
 #endif
 
 #endif // itkUpdateMalcolmSparseLevelSet_h

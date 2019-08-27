@@ -23,9 +23,9 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TFeatureImage, typename TOutputType >
-GeodesicActiveContourLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
-::GeodesicActiveContourLevelSetImageFilter()
+template <typename TInputImage, typename TFeatureImage, typename TOutputType>
+GeodesicActiveContourLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>::
+  GeodesicActiveContourLevelSetImageFilter()
 {
   // Instantiate a geodesic active contour function and set it as the
   // segmentation function
@@ -37,33 +37,31 @@ GeodesicActiveContourLevelSetImageFilter< TInputImage, TFeatureImage, TOutputTyp
   this->InterpolateSurfaceLocationOff();
 }
 
-template< typename TInputImage, typename TFeatureImage, typename TOutputType >
+template <typename TInputImage, typename TFeatureImage, typename TOutputType>
 void
-GeodesicActiveContourLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
-::GenerateData()
+GeodesicActiveContourLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>::GenerateData()
 {
   // Make sure the SpeedImage is setup for the case when PropagationScaling
   // is zero
-  if ( this->GetSegmentationFunction()
-       && Math::ExactlyEquals(this->GetSegmentationFunction()->GetPropagationWeight(), 0) )
-    {
+  if (this->GetSegmentationFunction() &&
+      Math::ExactlyEquals(this->GetSegmentationFunction()->GetPropagationWeight(), 0))
+  {
     this->GetSegmentationFunction()->AllocateSpeedImage();
     this->GetSegmentationFunction()->CalculateSpeedImage();
-    }
+  }
 
   // Continue with Superclass implementation
   Superclass::GenerateData();
 }
 
-template< typename TInputImage, typename TFeatureImage, typename TOutputType >
+template <typename TInputImage, typename TFeatureImage, typename TOutputType>
 void
-GeodesicActiveContourLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
-::PrintSelf(std::ostream & os, Indent indent) const
+GeodesicActiveContourLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>::PrintSelf(std::ostream & os,
+                                                                                             Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << "GeodesicActiveContourFunction: " << m_GeodesicActiveContourFunction.GetPointer()
-    << std::endl;
+  os << "GeodesicActiveContourFunction: " << m_GeodesicActiveContourFunction.GetPointer() << std::endl;
 }
 
 } // end namespace itk

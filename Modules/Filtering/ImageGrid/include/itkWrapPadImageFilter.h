@@ -49,18 +49,17 @@ namespace itk
  * \sphinxexample{Filtering/ImageGrid/PadImageByWrapping,Pad Image By Wrapping}
  * \endsphinx
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT WrapPadImageFilter:
-  public PadImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT WrapPadImageFilter : public PadImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(WrapPadImageFilter);
 
   /** Standard class type aliases. */
   using Self = WrapPadImageFilter;
-  using Superclass = PadImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = PadImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -93,8 +92,7 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputConvertibleToOutputCheck,
-                   ( Concept::Convertible< InputImagePixelType, OutputImagePixelType > ) );
+  itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
   // End concept checking
 #endif
 
@@ -103,12 +101,12 @@ protected:
   ~WrapPadImageFilter() override = default;
 
 private:
-  PeriodicBoundaryCondition< TInputImage, TOutputImage > m_InternalBoundaryCondition;
+  PeriodicBoundaryCondition<TInputImage, TOutputImage> m_InternalBoundaryCondition;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkWrapPadImageFilter.hxx"
+#  include "itkWrapPadImageFilter.hxx"
 #endif
 
 #endif

@@ -19,59 +19,60 @@
 #include "itkNarrowBand.h"
 
 
-int itkNarrowBandTest (int, char*[])
+int
+itkNarrowBandTest(int, char *[])
 {
   unsigned int i;
   using IndexType = unsigned int;
   using DataType = float;
-  using BandNodeType = itk::BandNode<IndexType,DataType>;
+  using BandNodeType = itk::BandNode<IndexType, DataType>;
   using BandType = itk::NarrowBand<BandNodeType>;
   using RegionType = BandType::RegionType;
 
   BandType::Pointer band = BandType::New();
   band->Reserve(100);
-  //Create nodes
+  // Create nodes
   BandNodeType node;
   band->SetTotalRadius(10);
   band->SetInnerRadius(5);
-  for(i=0; i < 20; i++)
-    {
-    node.m_Data = i*5.0;
+  for (i = 0; i < 20; i++)
+  {
+    node.m_Data = i * 5.0;
     node.m_Index = i;
     node.m_NodeState = 0;
-    //Fill the band
+    // Fill the band
     band->PushBack(node);
-    }
+  }
 
-  std::cout<<"Band size: "<<band->Size()<<std::endl;
-  //Iterate over the band
+  std::cout << "Band size: " << band->Size() << std::endl;
+  // Iterate over the band
   using itType = BandType::ConstIterator;
 
   itType it = band->Begin();
   itType itend = band->End();
 
-  i= 0;
-//  BandNodeType *tmp;
-  for(; it != itend; it++)
+  i = 0;
+  //  BandNodeType *tmp;
+  for (; it != itend; it++)
   {
-  std::cout <<"Node "<<i<<std::endl<<"Index: "<<it->m_Index<<" Data: "<<it->m_Data<<std::endl;
-  i++;
+    std::cout << "Node " << i << std::endl << "Index: " << it->m_Index << " Data: " << it->m_Data << std::endl;
+    i++;
   }
 
-  //Split the band
+  // Split the band
   std::vector<RegionType> regions;
   regions = band->SplitBand(10);
-//  RegionType region;
+  //  RegionType region;
   using regionitType = std::vector<RegionType>::const_iterator;
   regionitType regionsit = regions.begin();
   regionitType regionsitend = regions.end();
-  std::cout<<"Number of regions: "<<regions.size()<<std::endl;
+  std::cout << "Number of regions: " << regions.size() << std::endl;
   i = 0;
-  for(; regionsit != regionsitend; ++regionsit)
+  for (; regionsit != regionsitend; ++regionsit)
   {
-    std::cout<<"Region "<<i<<std::endl;
-    for(; regions[i].Begin != regions[i].End; regions[i].Begin++)
-       std::cout<<"Index: "<<regions[i].Begin->m_Index<<" Data: "<<regions[i].Begin->m_Data<<std::endl;
+    std::cout << "Region " << i << std::endl;
+    for (; regions[i].Begin != regions[i].End; regions[i].Begin++)
+      std::cout << "Index: " << regions[i].Begin->m_Index << " Data: " << regions[i].Begin->m_Data << std::endl;
     i++;
   }
   std::cout << "Test Passed. " << std::endl;

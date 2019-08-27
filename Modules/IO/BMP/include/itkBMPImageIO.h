@@ -35,7 +35,7 @@ namespace itk
  *
  * \ingroup ITKIOBMP
  */
-class ITKIOBMP_EXPORT BMPImageIO:public ImageIOBase
+class ITKIOBMP_EXPORT BMPImageIO : public ImageIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BMPImageIO);
@@ -43,10 +43,10 @@ public:
   /** Standard class type aliases. */
   using Self = BMPImageIO;
   using Superclass = ImageIOBase;
-  using Pointer = SmartPointer< Self >;
+  using Pointer = SmartPointer<Self>;
 
-  using RGBPixelType = RGBPixel< unsigned char >; //Palette is only unsigned char in BMP files
-  using PaletteType = std::vector< RGBPixelType >;
+  using RGBPixelType = RGBPixel<unsigned char>; // Palette is only unsigned char in BMP files
+  using PaletteType = std::vector<RGBPixelType>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -67,51 +67,62 @@ public:
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  bool CanReadFile(const char *) override;
+  bool
+  CanReadFile(const char *) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  void ReadImageInformation() override;
+  void
+  ReadImageInformation() override;
 
   /** Reads the data from disk into the memory buffer provided. */
-  void Read(void *buffer) override;
+  void
+  Read(void * buffer) override;
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
   /** Determine the file type. Returns true if this ImageIO can write the
    * file specified. */
-  bool CanWriteFile(const char *) override;
+  bool
+  CanWriteFile(const char *) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  void WriteImageInformation() override;
+  void
+  WriteImageInformation() override;
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. */
-  void Write(const void *buffer) override;
+  void
+  Write(const void * buffer) override;
 
   BMPImageIO();
   ~BMPImageIO() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  void SwapBytesIfNecessary(void *buffer, SizeValueType numberOfPixels);
+  void
+  SwapBytesIfNecessary(void * buffer, SizeValueType numberOfPixels);
 
   /** This methods ensures that the endianness is respected */
-  void Write32BitsInteger(unsigned int value);
+  void
+  Write32BitsInteger(unsigned int value);
 
-  void Write16BitsInteger(unsigned short value);
+  void
+  Write16BitsInteger(unsigned short value);
 
-  RGBPixelType GetColorPaletteEntry(const unsigned char entry) const;
+  RGBPixelType
+  GetColorPaletteEntry(const unsigned char entry) const;
 
-  std::ifstream               m_Ifstream;
-  std::ofstream               m_Ofstream;
-  long                        m_BitMapOffset{ 0 };
-  bool                        m_FileLowerLeft{ false };
-  short                       m_Depth{ 8 };
-  unsigned short              m_NumberOfColors{ 0 };
-  unsigned int                m_ColorPaletteSize{ 0 };
-  long                        m_BMPCompression{ 0 };
-  unsigned long               m_BMPDataSize{ 0 };
-  PaletteType                 m_ColorPalette;
+  std::ifstream  m_Ifstream;
+  std::ofstream  m_Ofstream;
+  long           m_BitMapOffset{ 0 };
+  bool           m_FileLowerLeft{ false };
+  short          m_Depth{ 8 };
+  unsigned short m_NumberOfColors{ 0 };
+  unsigned int   m_ColorPaletteSize{ 0 };
+  long           m_BMPCompression{ 0 };
+  unsigned long  m_BMPDataSize{ 0 };
+  PaletteType    m_ColorPalette;
 };
 } // end namespace itk
 

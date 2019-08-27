@@ -19,35 +19,50 @@
 #include <iostream>
 #include "itkMesh.h"
 
-  class Bogus
+class Bogus
+{
+public:
+  // using Self = Bogus;
+  // using Pointer =  SmartPointer<Self>;
+  // itkNewMacro(Self);
+  //     static Bogus* New() { return new Bogus(); };
+  //     void Register() {};
+  //     void UnRegister() {};
+
+  float
+  operator()(double d, double)
   {
-   public:
-    // using Self = Bogus;
-    // using Pointer =  SmartPointer<Self>;
-    // itkNewMacro(Self);
-//     static Bogus* New() { return new Bogus(); };
-//     void Register() {};
-//     void UnRegister() {};
+    return (float)d;
+  }
+  void
+  Visit(int, Bogus *)
+  {}
+  int
+  GetCellTopologyId()
+  {
+    return 1;
+  }
+  int
+  GetTopologyId()
+  {
+    return 1;
+  }
+  Bogus() = default;
+  virtual ~Bogus() = default;
+};
 
-    float operator() ( double d, double ) { return (float) d; }
-    void Visit ( int, Bogus* ) {}
-    int GetCellTopologyId() { return 1; }
-    int GetTopologyId() { return 1; }
-    Bogus() = default;
-    virtual ~Bogus() = default;
-  };
-
-int itkNewTest ( int , char* [] )
+int
+itkNewTest(int, char *[])
 {
   // Call New and Print on as many classes as possible
 
   // CellInterfaceVisitorImplementation
-  itk::CellInterfaceVisitorImplementation<float, itk::Mesh<float>::CellTraits, Bogus, Bogus>::Pointer CIVI
-    = itk::CellInterfaceVisitorImplementation<float, itk::Mesh<float>::CellTraits, Bogus, Bogus>::New();
-  if(CIVI.IsNull())
-    {
+  itk::CellInterfaceVisitorImplementation<float, itk::Mesh<float>::CellTraits, Bogus, Bogus>::Pointer CIVI =
+    itk::CellInterfaceVisitorImplementation<float, itk::Mesh<float>::CellTraits, Bogus, Bogus>::New();
+  if (CIVI.IsNull())
+  {
     return EXIT_FAILURE;
-    }
+  }
 
   // CreateObjectFunction
   // itk::CreateObjectFunction<itk::Mesh<int> >::Pointer COF = itk::CreateObjectFunction<itk::Mesh<int> >::New();

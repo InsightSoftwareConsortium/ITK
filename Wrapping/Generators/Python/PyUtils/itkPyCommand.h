@@ -49,7 +49,7 @@ public:
   using Pointer = SmartPointer<Self>;
 
   ///! Run-time type information (and related methods).
-  itkTypeMacro(PyCommand,Command);
+  itkTypeMacro(PyCommand, Command);
 
   ///! Method for creation through the object factory.
   itkNewMacro(Self);
@@ -59,22 +59,28 @@ public:
    * a binding to the callable, PyCommand will also take out a reference
    * to make sure the Callable sticks around.
    */
-  void SetCommandCallable(PyObject *obj);
+  void
+  SetCommandCallable(PyObject * obj);
 
-  PyObject * GetCommandCallable();
+  PyObject *
+  GetCommandCallable();
 
-  void Execute(Object *, const EventObject&);
-  void Execute(const Object *, const EventObject&);
+  void
+  Execute(Object *, const EventObject &);
+  void
+  Execute(const Object *, const EventObject &);
 
 protected:
   PyCommand();
   ~PyCommand();
-  void PyExecute();
-  PyCommand(const Self&);     // Not implemented.
-  PyCommand & operator=(const Self&); // Not implemented.
+  void
+  PyExecute();
+  PyCommand(const Self &); // Not implemented.
+  PyCommand &
+  operator=(const Self &); // Not implemented.
 
 private:
-  PyObject *m_Object;
+  PyObject * m_Object;
 };
 
 

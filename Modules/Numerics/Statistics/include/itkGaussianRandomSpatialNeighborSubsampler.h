@@ -20,8 +20,10 @@
 
 #include "itkUniformRandomSpatialNeighborSubsampler.h"
 
-namespace itk {
-namespace Statistics {
+namespace itk
+{
+namespace Statistics
+{
 /** \class GaussianRandomSpatialNeighborSubsampler
  * \brief A subsampler that randomly selects points
  * according to a gaussian distribution
@@ -41,8 +43,9 @@ namespace Statistics {
  * \ingroup ITKStatistics
  */
 
-template < typename TSample, typename TRegion >
-  class ITK_TEMPLATE_EXPORT GaussianRandomSpatialNeighborSubsampler : public UniformRandomSpatialNeighborSubsampler<TSample, TRegion>
+template <typename TSample, typename TRegion>
+class ITK_TEMPLATE_EXPORT GaussianRandomSpatialNeighborSubsampler
+  : public UniformRandomSpatialNeighborSubsampler<TSample, TRegion>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GaussianRandomSpatialNeighborSubsampler);
@@ -55,8 +58,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(GaussianRandomSpatialNeighborSubsampler,
-               UniformRandomSpatialNeighborSubsampler);
+  itkTypeMacro(GaussianRandomSpatialNeighborSubsampler, UniformRandomSpatialNeighborSubsampler);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -99,19 +101,20 @@ protected:
    * This does a complete copy of the subsampler state
    * to the new subsampler
    */
-  typename LightObject::Pointer InternalClone() const override;
+  typename LightObject::Pointer
+  InternalClone() const override;
 
   GaussianRandomSpatialNeighborSubsampler();
   ~GaussianRandomSpatialNeighborSubsampler() override = default;
 
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-/** method to randomly generate an integer in the closed range
+  /** method to randomly generate an integer in the closed range
    * [0, upperBound]
    * usign a gaussian selection method. */
-  RandomIntType GetIntegerVariate(RandomIntType lowerBound,
-                                          RandomIntType upperBound,
-                                          RandomIntType mean) override;
+  RandomIntType
+  GetIntegerVariate(RandomIntType lowerBound, RandomIntType upperBound, RandomIntType mean) override;
 
   RealType m_Variance;
 }; // end of class GaussianRandomSpatialNeighborSubsampler
@@ -120,7 +123,7 @@ protected:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGaussianRandomSpatialNeighborSubsampler.hxx"
+#  include "itkGaussianRandomSpatialNeighborSubsampler.hxx"
 #endif
 
 #endif

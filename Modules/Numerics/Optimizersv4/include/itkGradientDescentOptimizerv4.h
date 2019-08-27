@@ -22,60 +22,60 @@
 
 namespace itk
 {
-  /** \class GradientDescentOptimizerv4Template
-   *  \brief Gradient descent optimizer.
-   *
-   * GradientDescentOptimizer implements a simple gradient descent optimizer.
-   * At each iteration the current position is updated according to
-   *
-   * \f[
-   *        p_{n+1} = p_n
-   *                + \mbox{learningRate}
-   \, \frac{\partial f(p_n) }{\partial p_n}
-   * \f]
-   *
-   * Optionally, the best metric value and matching parameters
-   * can be stored and retried via GetValue() and GetCurrentPosition().
-   * See SetReturnBestParametersAndValue().
-   *
-   * Gradient scales can be manually set or automatically estimated,
-   * as documented in the base class.
-   * The learing rate defaults to 1.0, and can be set in two ways:
-   * 1) manually, via \c SetLearningRate().
-   * Or,
-   * 2) automatically, either at each iteration or only at the first iteration,
-   * by assigning a ScalesEstimator via SetScalesEstimator(). When a
-   * ScalesEstimator is assigned, the optimizer is enabled by default to estimate
-   * learning rate only once, during the first iteration. This behavior can be changed via
-   * SetDoEstimateLearningRateAtEveryIteration() and
-   * SetDoEstimateLearningRateOnce(). For learning rate to be estimated at each iteration,
-   * the user must call SetDoEstimateLearningRateAtEveryIteration(true) and
-   * SetDoEstimateLearningRateOnce(false). When enabled, the optimizer computes learning
-   * rate(s) such that at each step, each voxel's change in physical space will be less
-   * than m_MaximumStepSizeInPhysicalUnits.
-   *
-   *      m_LearningRate =
-   *        m_MaximumStepSizeInPhysicalUnits /
-   *        m_ScalesEstimator->EstimateStepScale(scaledGradient)
-   *
-   * where m_MaximumStepSizeInPhysicalUnits defaults to the voxel spacing returned by
-   * m_ScalesEstimator->EstimateMaximumStepSize() (which is typically 1 voxel),
-   * and can be set by the user via SetMaximumStepSizeInPhysicalUnits().
-   * When SetDoEstimateLearningRateOnce is enabled, the voxel change may become
-   * being greater than m_MaximumStepSizeInPhysicalUnits in later iterations.
-   *
-   * \note Unlike the previous version of GradientDescentOptimizer, this version
-   * does not have a "maximize/minimize" option to modify the effect of the metric
-   * derivative. The assigned metric is assumed to return a parameter derivative
-   * result that "improves" the optimization when *added* to the current
-   * parameters via the metric::UpdateTransformParameters method, after the
-   * optimizer applies scales and a learning rate.
-   *
-   * \ingroup ITKOptimizersv4
-   */
-template<typename TInternalComputationValueType>
+/** \class GradientDescentOptimizerv4Template
+ *  \brief Gradient descent optimizer.
+ *
+ * GradientDescentOptimizer implements a simple gradient descent optimizer.
+ * At each iteration the current position is updated according to
+ *
+ * \f[
+ *        p_{n+1} = p_n
+ *                + \mbox{learningRate}
+ \, \frac{\partial f(p_n) }{\partial p_n}
+ * \f]
+ *
+ * Optionally, the best metric value and matching parameters
+ * can be stored and retried via GetValue() and GetCurrentPosition().
+ * See SetReturnBestParametersAndValue().
+ *
+ * Gradient scales can be manually set or automatically estimated,
+ * as documented in the base class.
+ * The learing rate defaults to 1.0, and can be set in two ways:
+ * 1) manually, via \c SetLearningRate().
+ * Or,
+ * 2) automatically, either at each iteration or only at the first iteration,
+ * by assigning a ScalesEstimator via SetScalesEstimator(). When a
+ * ScalesEstimator is assigned, the optimizer is enabled by default to estimate
+ * learning rate only once, during the first iteration. This behavior can be changed via
+ * SetDoEstimateLearningRateAtEveryIteration() and
+ * SetDoEstimateLearningRateOnce(). For learning rate to be estimated at each iteration,
+ * the user must call SetDoEstimateLearningRateAtEveryIteration(true) and
+ * SetDoEstimateLearningRateOnce(false). When enabled, the optimizer computes learning
+ * rate(s) such that at each step, each voxel's change in physical space will be less
+ * than m_MaximumStepSizeInPhysicalUnits.
+ *
+ *      m_LearningRate =
+ *        m_MaximumStepSizeInPhysicalUnits /
+ *        m_ScalesEstimator->EstimateStepScale(scaledGradient)
+ *
+ * where m_MaximumStepSizeInPhysicalUnits defaults to the voxel spacing returned by
+ * m_ScalesEstimator->EstimateMaximumStepSize() (which is typically 1 voxel),
+ * and can be set by the user via SetMaximumStepSizeInPhysicalUnits().
+ * When SetDoEstimateLearningRateOnce is enabled, the voxel change may become
+ * being greater than m_MaximumStepSizeInPhysicalUnits in later iterations.
+ *
+ * \note Unlike the previous version of GradientDescentOptimizer, this version
+ * does not have a "maximize/minimize" option to modify the effect of the metric
+ * derivative. The assigned metric is assumed to return a parameter derivative
+ * result that "improves" the optimization when *added* to the current
+ * parameters via the metric::UpdateTransformParameters method, after the
+ * optimizer applies scales and a learning rate.
+ *
+ * \ingroup ITKOptimizersv4
+ */
+template <typename TInternalComputationValueType>
 class ITK_TEMPLATE_EXPORT GradientDescentOptimizerv4Template
-: public GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
+  : public GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GradientDescentOptimizerv4Template);
@@ -83,8 +83,8 @@ public:
   /** Standard class type aliases. */
   using Self = GradientDescentOptimizerv4Template;
   using Superclass = GradientDescentOptimizerBasev4Template<TInternalComputationValueType>;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(GradientDescentOptimizerv4Template, Superclass);
@@ -167,7 +167,7 @@ public:
   /** Get current convergence value.
    *  WindowConvergenceMonitoringFunction always returns output convergence
    *  value in 'TInternalComputationValueType' precision. */
-  itkGetConstReferenceMacro( ConvergenceValue, TInternalComputationValueType);
+  itkGetConstReferenceMacro(ConvergenceValue, TInternalComputationValueType);
 
   /** Flag. Set to have the optimizer track and return the best
    *  best metric value and corresponding best parameters that were
@@ -185,28 +185,34 @@ public:
   itkBooleanMacro(ReturnBestParametersAndValue);
 
   /** Start and run the optimization. */
-  void StartOptimization( bool doOnlyInitialization = false ) override;
+  void
+  StartOptimization(bool doOnlyInitialization = false) override;
 
   /** Stop the optimization. */
-  void StopOptimization() override;
+  void
+  StopOptimization() override;
 
   /** Resume the optimization. */
-  void ResumeOptimization() override;
+  void
+  ResumeOptimization() override;
 
   /** Estimate the learning rate based on the current gradient. */
-  virtual void EstimateLearningRate();
+  virtual void
+  EstimateLearningRate();
 
 protected:
-
   /** Advance one step following the gradient direction.
    * Includes transform update. */
-  virtual void AdvanceOneStep();
+  virtual void
+  AdvanceOneStep();
 
   /** Modify the gradient by scales and weights over a given index range. */
-  void ModifyGradientByScalesOverSubRange( const IndexRangeType& subrange ) override;
+  void
+  ModifyGradientByScalesOverSubRange(const IndexRangeType & subrange) override;
 
   /** Modify the gradient by learning rate over a given index range. */
-  void ModifyGradientByLearningRateOverSubRange( const IndexRangeType& subrange ) override;
+  void
+  ModifyGradientByLearningRateOverSubRange(const IndexRangeType & subrange) override;
 
   /** Default constructor */
   GradientDescentOptimizerv4Template();
@@ -214,7 +220,8 @@ protected:
   /** Destructor */
   ~GradientDescentOptimizerv4Template() override = default;
 
-  void PrintSelf( std::ostream & os, Indent indent ) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 
   TInternalComputationValueType m_LearningRate;
@@ -222,20 +229,19 @@ protected:
   TInternalComputationValueType m_ConvergenceValue;
 
   /** Store the best value and related parameters. */
-  MeasureType                   m_CurrentBestValue;
-  ParametersType                m_BestParameters;
+  MeasureType    m_CurrentBestValue;
+  ParametersType m_BestParameters;
 
-  bool                          m_ReturnBestParametersAndValue{ false };
+  bool m_ReturnBestParametersAndValue{ false };
 
   /** Store the previous gradient value at each iteration,
    * so we can detect the changes in gradient direction.
    * This is needed by the regular step gradient descent and
    * Quasi Newton optimizers.
    */
-  DerivativeType                m_PreviousGradient;
+  DerivativeType m_PreviousGradient;
 
 private:
-
 };
 
 /** This helps to meet backward compatibility */
@@ -244,7 +250,7 @@ using GradientDescentOptimizerv4 = GradientDescentOptimizerv4Template<double>;
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGradientDescentOptimizerv4.hxx"
+#  include "itkGradientDescentOptimizerv4.hxx"
 #endif
 
 #endif

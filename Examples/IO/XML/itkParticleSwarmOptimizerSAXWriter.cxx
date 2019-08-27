@@ -26,58 +26,67 @@ namespace itk
 /**
  * Check that whether the file with given name is writable.
  */
-int ParticleSwarmOptimizerSAXWriter::CanWriteFile( const char* name )
+int
+ParticleSwarmOptimizerSAXWriter::CanWriteFile(const char * name)
 {
-  std::ofstream ofs( name );
-  int yes = ofs.is_open();
+  std::ofstream ofs(name);
+  int           yes = ofs.is_open();
   if (yes)
-    {
+  {
     ofs.close();
-    }
+  }
   return yes;
 }
 
 /**
  * Method for performing XML file generation from the input object.
  */
-int ParticleSwarmOptimizerSAXWriter::WriteFile()
+int
+ParticleSwarmOptimizerSAXWriter::WriteFile()
 {
   try
+  {
+    if (!this->CanWriteFile(this->m_Filename.c_str()))
     {
-    if ( !this->CanWriteFile( this->m_Filename.c_str() ) )
-      {
-      ExceptionObject e( __FILE__, __LINE__ );
-      std::string message = "Cannot write to ";
+      ExceptionObject e(__FILE__, __LINE__);
+      std::string     message = "Cannot write to ";
       message += this->m_Filename;
       message += "!\n";
-      e.SetDescription( message.c_str() );
+      e.SetDescription(message.c_str());
       throw e;
-      }
+    }
 
-    if ( this->m_InputObject == nullptr )
-      {
-      itkExceptionMacro( "Object to be written is null!\n" );
-      }
+    if (this->m_InputObject == nullptr)
+    {
+      itkExceptionMacro("Object to be written is null!\n");
+    }
 
-    std::ofstream ofs( this->m_Filename.c_str() );
+    std::ofstream ofs(this->m_Filename.c_str());
 
     // start the tag 'optimizer'
 
     ofs << "<optimizer type=\"ParticleSwarmOptimizer\"";
 
-    ofs << " NumberOfParticles=\"" << this->m_InputObject->GetNumberOfParticles() << "\"";
+    ofs << " NumberOfParticles=\"" << this->m_InputObject->GetNumberOfParticles()
+        << "\"";
 
-    ofs << " MaximumNumberOfIterations=\"" << this->m_InputObject->GetMaximalNumberOfIterations() << "\"";
+    ofs << " MaximumNumberOfIterations=\""
+        << this->m_InputObject->GetMaximalNumberOfIterations() << "\"";
 
-    ofs << " InertiaCoefficient=\"" << this->m_InputObject->GetInertiaCoefficient() << "\"";
+    ofs << " InertiaCoefficient=\"" << this->m_InputObject->GetInertiaCoefficient()
+        << "\"";
 
-    ofs << " GlobalCoefficient=\"" << this->m_InputObject->GetGlobalCoefficient() << "\"";
+    ofs << " GlobalCoefficient=\"" << this->m_InputObject->GetGlobalCoefficient()
+        << "\"";
 
-    ofs << " PersonalCoefficient=\"" << this->m_InputObject->GetPersonalCoefficient() << "\"";
+    ofs << " PersonalCoefficient=\"" << this->m_InputObject->GetPersonalCoefficient()
+        << "\"";
 
-    ofs << " FunctionConvergenceTolerance=\"" << this->m_InputObject->GetFunctionConvergenceTolerance() << "\"";
+    ofs << " FunctionConvergenceTolerance=\""
+        << this->m_InputObject->GetFunctionConvergenceTolerance() << "\"";
 
-    ofs << " ConvergedPercentageToStop=\"" << this->m_InputObject->GetPercentageParticlesConverged() << "\"";
+    ofs << " ConvergedPercentageToStop=\""
+        << this->m_InputObject->GetPercentageParticlesConverged() << "\"";
 
     ofs << ">";
     ofs << "\n";
@@ -86,10 +95,10 @@ int ParticleSwarmOptimizerSAXWriter::WriteFile()
     ofs << "  <bound id=\"lower\"";
 
     ofs << " value=\"";
-    for (const auto & bound : this->m_InputObject->GetParameterBounds() )
-      {
+    for (const auto & bound : this->m_InputObject->GetParameterBounds())
+    {
       ofs << " " << bound.first;
-      }
+    }
     ofs << "\"";
 
     ofs << "/>";
@@ -100,10 +109,10 @@ int ParticleSwarmOptimizerSAXWriter::WriteFile()
     ofs << "  <bound id=\"upper\"";
 
     ofs << " value=\"";
-    for (const auto & bound : this->m_InputObject->GetParameterBounds() )
-      {
+    for (const auto & bound : this->m_InputObject->GetParameterBounds())
+    {
       ofs << " " << bound.second;
-      }
+    }
     ofs << "\"";
 
     ofs << "/>";
@@ -116,10 +125,10 @@ int ParticleSwarmOptimizerSAXWriter::WriteFile()
     Array<double> ptols = this->m_InputObject->GetParametersConvergenceTolerance();
     // Note: The data-cast to unsigned int is required
     //       because itk::Array only supports 'unsigned int' number of elements.
-    for ( unsigned int i = 0; i < ptols.GetSize(); i++ )
-      {
-      ofs << " " << ptols[ i ];
-      }
+    for (unsigned int i = 0; i < ptols.GetSize(); i++)
+    {
+      ofs << " " << ptols[i];
+    }
 
     ofs << "</ParametersConvergenceTolerance>";
     ofs << "\n";
@@ -132,11 +141,11 @@ int ParticleSwarmOptimizerSAXWriter::WriteFile()
     ofs.close();
 
     return 1;
-    }
+  }
   catch (...)
-    {
+  {
     return 0;
-    }
+  }
 }
 
 } // namespace itk

@@ -23,7 +23,8 @@
 #include "itkTestingMacros.h"
 #include "itkUnaryFunctorImageFilter.h"
 
-int itkRescaleIntensityImageFilterTest( int, char* [] )
+int
+itkRescaleIntensityImageFilterTest(int, char *[])
 {
   std::cout << "itkRescaleIntensityImageFilterTest Start" << std::endl;
 
@@ -34,62 +35,60 @@ int itkRescaleIntensityImageFilterTest( int, char* [] )
   using PixelType = float;
 
   // Declare the types of the images
-  using TestInputImage = itk::Image< PixelType, ImageDimension >;
-  using TestOutputImage = itk::Image< PixelType, ImageDimension >;
+  using TestInputImage = itk::Image<PixelType, ImageDimension>;
+  using TestOutputImage = itk::Image<PixelType, ImageDimension>;
 
-  TestInputImage::RegionType  region;
+  TestInputImage::RegionType region;
 
-  TestInputImage::SizeType    size;
+  TestInputImage::SizeType size;
   size.Fill(64);
 
-  TestInputImage::IndexType   index;
+  TestInputImage::IndexType index;
   index.Fill(0);
 
-  region.SetIndex (index);
-  region.SetSize (size);
+  region.SetIndex(index);
+  region.SetSize(size);
 
 
-  using FilterType =
-      itk::RescaleIntensityImageFilter< TestInputImage, TestOutputImage >;
+  using FilterType = itk::RescaleIntensityImageFilter<TestInputImage, TestOutputImage>;
 
   FilterType::Pointer filter = FilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, RescaleIntensityImageFilter,
-    UnaryFunctorImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, RescaleIntensityImageFilter, UnaryFunctorImageFilter);
 
   // Now generate a real image
 
-  using SourceType = itk::RandomImageSource< TestInputImage >;
+  using SourceType = itk::RandomImageSource<TestInputImage>;
   SourceType::Pointer source = SourceType::New();
 
-  TestInputImage::SizeValueType randomSize[3] = {17, 8, 20};
+  TestInputImage::SizeValueType randomSize[3] = { 17, 8, 20 };
 
   // Set up source
-  source->SetSize( randomSize );
+  source->SetSize(randomSize);
   double minValue = -128.0;
   double maxValue = 127.0;
 
-  source->SetMin( static_cast< TestInputImage::PixelType >( minValue ) );
-  source->SetMax( static_cast< TestInputImage::PixelType >( maxValue ) );
+  source->SetMin(static_cast<TestInputImage::PixelType>(minValue));
+  source->SetMax(static_cast<TestInputImage::PixelType>(maxValue));
 
-  filter->SetFunctor( filter->GetFunctor() );
-  filter->SetInput( source->GetOutput() );
+  filter->SetFunctor(filter->GetFunctor());
+  filter->SetInput(source->GetOutput());
 
-  const double desiredMinimum = -1.0;
+  const double     desiredMinimum = -1.0;
   constexpr double desiredMaximum = 1.0;
 
-  filter->SetOutputMinimum( desiredMinimum );
-  ITK_TEST_SET_GET_VALUE( desiredMinimum, filter->GetOutputMinimum() );
+  filter->SetOutputMinimum(desiredMinimum);
+  ITK_TEST_SET_GET_VALUE(desiredMinimum, filter->GetOutputMinimum());
 
-  filter->SetOutputMaximum( desiredMaximum );
-  ITK_TEST_SET_GET_VALUE( desiredMaximum, filter->GetOutputMaximum() );
+  filter->SetOutputMaximum(desiredMaximum);
+  ITK_TEST_SET_GET_VALUE(desiredMaximum, filter->GetOutputMaximum());
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( filter->UpdateLargestPossibleRegion() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->UpdateLargestPossibleRegion());
 
-  using CalculatorType = itk::MinimumMaximumImageCalculator< TestOutputImage >;
+  using CalculatorType = itk::MinimumMaximumImageCalculator<TestOutputImage>;
   CalculatorType::Pointer calculator = CalculatorType::New();
 
-  calculator->SetImage( filter->GetOutput() );
+  calculator->SetImage(filter->GetOutput());
 
   calculator->Compute();
 
@@ -98,21 +97,21 @@ int itkRescaleIntensityImageFilterTest( int, char* [] )
   const double obtainedMinimum = calculator->GetMinimum();
   const double obtainedMaximum = calculator->GetMaximum();
 
-  if( !itk::Math::FloatAlmostEqual( obtainedMinimum, desiredMinimum, 10, tolerance ) )
-    {
+  if (!itk::Math::FloatAlmostEqual(obtainedMinimum, desiredMinimum, 10, tolerance))
+  {
     std::cerr << "Error in minimum" << std::endl;
-    std::cerr << "Expected minimum = " << desiredMinimum  << std::endl;
+    std::cerr << "Expected minimum = " << desiredMinimum << std::endl;
     std::cerr << "Obtained minimum = " << obtainedMinimum << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  if( !itk::Math::FloatAlmostEqual( obtainedMaximum, desiredMaximum, 10, tolerance ) )
-    {
+  if (!itk::Math::FloatAlmostEqual(obtainedMaximum, desiredMaximum, 10, tolerance))
+  {
     std::cerr << "Error in minimum" << std::endl;
-    std::cerr << "Expected minimum = " << desiredMaximum  << std::endl;
+    std::cerr << "Expected minimum = " << desiredMaximum << std::endl;
     std::cerr << "Obtained minimum = " << obtainedMaximum << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "Test PASSED ! " << std::endl;
   return EXIT_SUCCESS;

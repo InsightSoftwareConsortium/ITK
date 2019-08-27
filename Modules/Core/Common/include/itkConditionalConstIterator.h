@@ -34,7 +34,7 @@ namespace itk
  * \ingroup ImageIterators
  * \ingroup ITKCommon
  */
-template< typename TImage >
+template <typename TImage>
 class ITK_TEMPLATE_EXPORT ConditionalConstIterator
 {
 public:
@@ -66,11 +66,13 @@ public:
   using PixelType = typename TImage::PixelType;
 
   /** Compute whether the index of interest should be included in the flood */
-  virtual bool IsPixelIncluded(const IndexType & index) const = 0;
+  virtual bool
+  IsPixelIncluded(const IndexType & index) const = 0;
 
   /** operator= is provided to make sure the handle to the image is properly
    * reference counted. */
-  Self & operator=(const Self & it)
+  Self &
+  operator=(const Self & it)
   {
     m_IsAtEnd = it.m_IsAtEnd; // copy the end flag
     m_Image = it.m_Image;     // copy the smart pointer
@@ -79,22 +81,27 @@ public:
   }
 
   /** Get the dimension (size) of the index. */
-  static unsigned int GetIteratorDimension()
+  static unsigned int
+  GetIteratorDimension()
   {
     return Self::NDimension;
   }
 
   /** Get the index at the current iterator location. */
-  virtual const IndexType GetIndex() = 0;
+  virtual const IndexType
+  GetIndex() = 0;
 
   /** Get the pixel value at the current iterator location. */
-  virtual const PixelType Get() const = 0;
+  virtual const PixelType
+  Get() const = 0;
 
   /** Is the iterator at the end of the region? */
-  virtual bool IsAtEnd() const = 0;
+  virtual bool
+  IsAtEnd() const = 0;
 
   /** Walk forward one index. */
-  virtual void operator++() = 0;
+  virtual void
+  operator++() = 0;
 
   /** Constructor */
   ConditionalConstIterator() = default;
@@ -102,16 +109,16 @@ public:
   /** Destructor */
   virtual ~ConditionalConstIterator() = default;
 
-protected: //made protected so other iterators can access
+protected: // made protected so other iterators can access
   /** Smart pointer to the source image. */
-  //SmartPointer<const ImageType> m_Image;
+  // SmartPointer<const ImageType> m_Image;
   typename ImageType::ConstWeakPointer m_Image;
 
   /** Region type to iterate over. */
   RegionType m_Region;
 
   /** Is the iterator at the end of its walk? */
-  bool m_IsAtEnd{false};
+  bool m_IsAtEnd{ false };
 };
 } // end namespace itk
 

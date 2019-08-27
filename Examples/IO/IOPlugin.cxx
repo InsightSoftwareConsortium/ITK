@@ -20,36 +20,37 @@
 #include "itkImageFileWriter.h"
 #include "itksys/SystemTools.hxx"
 
-int main( int argc, char *argv[] )
+int
+main(int argc, char * argv[])
 {
   if (argc < 3)
-    {
+  {
     std::cout << "Usage: " << argv[0] << " FileName Output [FactoryPath]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
-  const char* envName = "ITK_AUTOLOAD_PATH";
-  char* oldenv = getenv( envName );
+  const char * envName = "ITK_AUTOLOAD_PATH";
+  char *       oldenv = getenv(envName);
 
-  std::string myenv = std::string(envName)+"=";
+  std::string myenv = std::string(envName) + "=";
 
   // if the FactoryPath  argument is not "" then add it to the env
-  if( argc >= 4 )
+  if (argc >= 4)
+  {
+    if (oldenv)
     {
-    if( oldenv )
-      {
 #if defined(_WIN32)
       myenv += std::string(oldenv) + ";";
 #else
       myenv += std::string(oldenv) + ":";
 #endif
-      }
+    }
     myenv += std::string(argv[3]);
     itksys::SystemTools::PutEnv(myenv.c_str());
 
     itk::ObjectFactoryBase::ReHash();
-    }
+  }
 
   std::cout << myenv << std::endl;
 
@@ -61,73 +62,71 @@ int main( int argc, char *argv[] )
   std::cout << "----- Registered factories -----" << std::endl;
   std::cout << "Count: " << numFactories << std::endl;
   if (!factories.empty())
-    {
+  {
     for (auto & factory : factories)
-      {
-      std::cout << "  Factory version: "
-                << factory->GetITKSourceVersion() << std::endl
-                << "  Factory description: "
-                << factory->GetDescription() << std::endl
+    {
+      std::cout << "  Factory version: " << factory->GetITKSourceVersion() << std::endl
+                << "  Factory description: " << factory->GetDescription() << std::endl
                 << "  Library Path: " << factory->GetLibraryPath() << std::endl;
 
       std::list<std::string> overrides = factory->GetClassOverrideNames();
       std::list<std::string> names = factory->GetClassOverrideWithNames();
       std::list<std::string> descriptions = factory->GetClassOverrideDescriptions();
-      std::list<bool> enableflags = factory->GetEnableFlags();
+      std::list<bool>        enableflags = factory->GetEnableFlags();
       std::list<std::string>::const_iterator n = names.begin();
       std::list<std::string>::const_iterator d = descriptions.begin();
-      std::list<bool>::const_iterator e = enableflags.begin();
-      for ( std::list<std::string>::const_iterator o = overrides.begin();
-            o != overrides.end(); ++o, ++n, ++d, e++ )
-        {
-        std::cout << "    Override " << *o
-                  << " with " << *n << std::endl
+      std::list<bool>::const_iterator        e = enableflags.begin();
+      for (std::list<std::string>::const_iterator o = overrides.begin();
+           o != overrides.end();
+           ++o, ++n, ++d, e++)
+      {
+        std::cout << "    Override " << *o << " with " << *n << std::endl
                   << "      described as \"" << *d << "\"" << std::endl
                   << "      enabled " << *e << std::endl;
-        }
       }
-    std::cout << "----- -----" << std::endl;
     }
+    std::cout << "----- -----" << std::endl;
+  }
   else
-    {
+  {
     std::cout << "Failed to load any factories" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   int status = EXIT_SUCCESS;
   {
-  using ImageNDType = itk::Image<unsigned char,2>;
+    using ImageNDType = itk::Image<unsigned char, 2>;
 
-  using ReaderType = itk::ImageFileReader<ImageNDType>;
-  using WriterType = itk::ImageFileWriter<ImageNDType>;
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+    using ReaderType = itk::ImageFileReader<ImageNDType>;
+    using WriterType = itk::ImageFileWriter<ImageNDType>;
+    ReaderType::Pointer reader = ReaderType::New();
+    WriterType::Pointer writer = WriterType::New();
 
-  try
+    try
     {
-    reader->SetFileName(argv[1]);
+      reader->SetFileName(argv[1]);
 
-    writer->SetFileName(argv[2]);
-    writer->SetInput(reader->GetOutput());
-    writer->Update();
-    reader->GetOutput()->Print(std::cout);
+      writer->SetFileName(argv[2]);
+      writer->SetInput(reader->GetOutput());
+      writer->Update();
+      reader->GetOutput()->Print(std::cout);
     }
-  catch (itk::ExceptionObject &ex)
+    catch (itk::ExceptionObject & ex)
     {
-    std::cout << "------------------ Caught unexpected exception!" << std::endl;
-    std::cout << ex;
-    status = EXIT_FAILURE;
+      std::cout << "------------------ Caught unexpected exception!" << std::endl;
+      std::cout << ex;
+      status = EXIT_FAILURE;
     }
 
-  try
+    try
     {
-    reader->SetFileName("foo");
-    reader->Update();
+      reader->SetFileName("foo");
+      reader->Update();
     }
-  catch (itk::ExceptionObject &ex)
+    catch (itk::ExceptionObject & ex)
     {
-    std::cout << "------------------ Caught expected exception!" << std::endl;
-    std::cout << ex;
+      std::cout << "------------------ Caught expected exception!" << std::endl;
+      std::cout << ex;
     }
   }
 
@@ -142,44 +141,43 @@ int main( int argc, char *argv[] )
   std::cout << "Count: " << factories.size() << std::endl;
 
   if (!factories.empty())
-    {
+  {
     for (auto & factory : factories)
-      {
-      std::cout << "check " << (void *) factory << std::endl;
-      std::cout << "  Factory version: "
-                << factory->GetITKSourceVersion() << std::endl
-                << "  Factory description: "
-                << factory->GetDescription() << std::endl;
+    {
+      std::cout << "check " << (void *)factory << std::endl;
+      std::cout << "  Factory version: " << factory->GetITKSourceVersion() << std::endl
+                << "  Factory description: " << factory->GetDescription() << std::endl;
 
       std::list<std::string> overrides = factory->GetClassOverrideNames();
       std::cout << "ClassOverrideNames size: " << overrides.size() << std::endl;
       std::list<std::string> names = factory->GetClassOverrideWithNames();
       std::cout << "ClassOverrideWithNames size: " << names.size() << std::endl;
       std::list<std::string> descriptions = factory->GetClassOverrideDescriptions();
-      std::cout << "ClassOverrideDescriptions size: " << descriptions.size() << std::endl;
+      std::cout << "ClassOverrideDescriptions size: " << descriptions.size()
+                << std::endl;
       std::list<bool> enableflags = factory->GetEnableFlags();
       std::cout << "EnableFlags size: " << enableflags.size() << std::endl;
       std::list<std::string>::const_iterator n = names.begin();
       std::list<std::string>::const_iterator d = descriptions.begin();
-      std::list<bool>::const_iterator e = enableflags.begin();
-      for ( std::list<std::string>::const_iterator o = overrides.begin();
-            o != overrides.end(); ++o, ++n, ++d, ++e )
-        {
-        std::cout << "    Override " << *o
-                  << " with " << *n << std::endl
+      std::list<bool>::const_iterator        e = enableflags.begin();
+      for (std::list<std::string>::const_iterator o = overrides.begin();
+           o != overrides.end();
+           ++o, ++n, ++d, ++e)
+      {
+        std::cout << "    Override " << *o << " with " << *n << std::endl
                   << "      described as \"" << *d << "\"" << std::endl
                   << "      enabled " << *e << std::endl;
-        }
       }
-    std::cout << "----- -----" << std::endl;
     }
+    std::cout << "----- -----" << std::endl;
+  }
 
 
-  if( numFactories != factories.size() )
-    {
+  if (numFactories != factories.size())
+  {
     std::cout << "Number of factories after rehasing differ!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return status;
 }

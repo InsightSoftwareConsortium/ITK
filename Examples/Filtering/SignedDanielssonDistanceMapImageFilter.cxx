@@ -40,17 +40,18 @@
 #include "itkRescaleIntensityImageFilter.h"
 
 
-int main( int argc, char * argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 5 )
-    {
+  if (argc < 5)
+  {
     std::cerr << "Usage: " << argv[0];
     std::cerr << " inputImageFile outputDistanceMapImageFile ";
     std::cerr << " outputVoronoiMapImageFilter ";
     std::cerr << " outputVectorMapImageFilter ";
     std::cerr << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Software Guide : BeginLatex
   //
@@ -69,9 +70,9 @@ int main( int argc, char * argv[] )
   using VoronoiPixelType = unsigned short;
   constexpr unsigned int Dimension = 2;
 
-  using InputImageType = itk::Image< InputPixelType,  Dimension >;
-  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
-  using VoronoiImageType = itk::Image< VoronoiPixelType, Dimension >;
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
+  using VoronoiImageType = itk::Image<VoronoiPixelType, Dimension>;
   // Software Guide : EndCodeSnippet
 
 
@@ -84,17 +85,16 @@ int main( int argc, char * argv[] )
   // SoftwareGuide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FilterType = itk::SignedDanielssonDistanceMapImageFilter<
-                                         InputImageType,
-                                         OutputImageType,
-                                         VoronoiImageType >;
+  using FilterType = itk::SignedDanielssonDistanceMapImageFilter<InputImageType,
+                                                                 OutputImageType,
+                                                                 VoronoiImageType>;
 
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 
 
-  using RescalerType = itk::RescaleIntensityImageFilter<
-                   OutputImageType, OutputImageType >;
+  using RescalerType =
+    itk::RescaleIntensityImageFilter<OutputImageType, OutputImageType>;
 
   RescalerType::Pointer scaler = RescalerType::New();
 
@@ -108,36 +108,36 @@ int main( int argc, char * argv[] )
 
   // Reader and Writer types are instantiated.
   //
-  using ReaderType = itk::ImageFileReader< InputImageType  >;
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
-  using VoronoiWriterType = itk::ImageFileWriter< VoronoiImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
+  using VoronoiWriterType = itk::ImageFileWriter<VoronoiImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
 
-  reader->SetFileName( argv[1] );
-  writer->SetFileName( argv[2] );
+  reader->SetFileName(argv[1]);
+  writer->SetFileName(argv[2]);
 
 
   //  The input to the filter is taken from a reader and its output is passed
   //  to a \doxygen{RescaleIntensityImageFilter} and then to a writer.
 
-  filter->SetInput( reader->GetOutput() );
-  scaler->SetInput( filter->GetOutput() );
-  writer->SetInput( scaler->GetOutput() );
+  filter->SetInput(reader->GetOutput());
+  scaler->SetInput(filter->GetOutput());
+  writer->SetInput(scaler->GetOutput());
 
-  scaler->SetOutputMaximum( 65535L );
-  scaler->SetOutputMinimum( 0L );
+  scaler->SetOutputMaximum(65535L);
+  scaler->SetOutputMinimum(0L);
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & exp )
-    {
+  }
+  catch (itk::ExceptionObject & exp)
+  {
     std::cerr << "Exception caught !" << std::endl;
-    std::cerr <<     exp    << std::endl;
-    }
+    std::cerr << exp << std::endl;
+  }
 
 
   const char * voronoiMapFileName = argv[3];
@@ -149,18 +149,18 @@ int main( int argc, char * argv[] )
   //  \index{itk::Danielsson\-Distance\-Map\-Image\-Filter!GetVoronoiMap()}
   //
   VoronoiWriterType::Pointer voronoiWriter = VoronoiWriterType::New();
-  voronoiWriter->SetFileName( voronoiMapFileName );
-  voronoiWriter->SetInput( filter->GetVoronoiMap() );
+  voronoiWriter->SetFileName(voronoiMapFileName);
+  voronoiWriter->SetInput(filter->GetVoronoiMap());
 
   try
-    {
+  {
     voronoiWriter->Update();
-    }
-  catch( itk::ExceptionObject & exp )
-    {
+  }
+  catch (itk::ExceptionObject & exp)
+  {
     std::cerr << "Exception caught !" << std::endl;
-    std::cerr <<     exp    << std::endl;
-    }
+    std::cerr << exp << std::endl;
+  }
 
 
   //  The distance filter also produces an image of \doxygen{Offset} pixels
@@ -173,20 +173,20 @@ int main( int argc, char * argv[] )
   //  We can use this type for instantiating an \doxygen{ImageFileWriter} type
   //  and creating an object of this class in the following lines.
 
-  using WriterOffsetType = itk::ImageFileWriter< OffsetImageType >;
+  using WriterOffsetType = itk::ImageFileWriter<OffsetImageType>;
   WriterOffsetType::Pointer offsetWriter = WriterOffsetType::New();
-  offsetWriter->SetInput(  filter->GetVectorDistanceMap()  );
-  offsetWriter->SetFileName( argv[4]  );
+  offsetWriter->SetInput(filter->GetVectorDistanceMap());
+  offsetWriter->SetFileName(argv[4]);
 
   try
-    {
+  {
     offsetWriter->Update();
-    }
-  catch( itk::ExceptionObject & exp )
-    {
+  }
+  catch (itk::ExceptionObject & exp)
+  {
     std::cerr << "Exception caught !" << std::endl;
-    std::cerr <<     exp    << std::endl;
-    }
+    std::cerr << exp << std::endl;
+  }
 
   //  Software Guide : BeginLatex
   //

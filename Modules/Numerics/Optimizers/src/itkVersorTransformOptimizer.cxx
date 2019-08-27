@@ -27,9 +27,7 @@ namespace itk
  * This method will be overrided in non-vector spaces
  */
 void
-VersorTransformOptimizer
-::StepAlongGradient(double factor,
-                    const DerivativeType & transformedGradient)
+VersorTransformOptimizer ::StepAlongGradient(double factor, const DerivativeType & transformedGradient)
 {
   const ParametersType & currentPosition = this->GetCurrentPosition();
   unsigned int           NumberOfParameters = m_CostFunction->GetNumberOfParameters();
@@ -38,10 +36,10 @@ VersorTransformOptimizer
   //
   VectorType rightPart;
 
-  for ( unsigned int i = 0; i < 3; i++ )
-    {
+  for (unsigned int i = 0; i < 3; i++)
+  {
     rightPart[i] = currentPosition[i];
-    }
+  }
 
   VersorType currentRotation;
   currentRotation.Set(rightPart);
@@ -62,7 +60,7 @@ VersorTransformOptimizer
   // direction.
 
   VersorType gradientRotation;
-  gradientRotation.Set( axis, factor * axis.GetNorm() );
+  gradientRotation.Set(axis, factor * axis.GetNorm());
 
   //
   // Composing the currentRotation with the gradientRotation
@@ -78,10 +76,10 @@ VersorTransformOptimizer
 
   // Optimize the non-versor parameters as the
   // RegularStepGradientDescentOptimizer
-  for ( unsigned int j = 3; j < NumberOfParameters; j++ )
-    {
+  for (unsigned int j = 3; j < NumberOfParameters; j++)
+  {
     newParameters[j] = currentPosition[j] + transformedGradient[j] * factor;
-    }
+  }
 
   this->SetCurrentPosition(newParameters);
 }

@@ -34,9 +34,9 @@ struct ThreadPoolGlobals
 {
   ThreadPoolGlobals() = default;
   // To lock on the internal variables.
-  std::mutex m_Mutex;
+  std::mutex          m_Mutex;
   ThreadPool::Pointer m_ThreadPoolInstance;
-#if defined( _WIN32 ) && defined( ITKCommon_EXPORTS )
+#if defined(_WIN32) && defined(ITKCommon_EXPORTS)
   // ThreadPool's destructor is called during DllMain's DLL_PROCESS_DETACH.
   // Because ITKCommon-5.X.dll is usually being detached due to process termination,
   // lpvReserved is non-NULL meaning that "all threads in the process
@@ -52,149 +52,135 @@ struct ThreadPoolGlobals
 itkGetGlobalSimpleMacro(ThreadPool, ThreadPoolGlobals, PimplGlobals);
 
 ThreadPool::Pointer
-ThreadPool
-::New()
+ThreadPool ::New()
 {
   return Self::GetInstance();
 }
 
 
 ThreadPool::Pointer
-ThreadPool
-::GetInstance()
+ThreadPool ::GetInstance()
 {
   // This is called once, on-demand to ensure that m_PimplGlobals is
   // initialized.
   itkInitGlobalsMacro(PimplGlobals);
 
-  if( m_PimplGlobals->m_ThreadPoolInstance.IsNull() )
-    {
+  if (m_PimplGlobals->m_ThreadPoolInstance.IsNull())
+  {
     std::unique_lock<std::mutex> mutexHolder(m_PimplGlobals->m_Mutex);
     // After we have the lock, double check the initialization
     // flag to ensure it hasn't been changed by another thread.
-    if( m_PimplGlobals->m_ThreadPoolInstance.IsNull() )
+    if (m_PimplGlobals->m_ThreadPoolInstance.IsNull())
+    {
+      m_PimplGlobals->m_ThreadPoolInstance = ObjectFactory<Self>::Create();
+      if (m_PimplGlobals->m_ThreadPoolInstance.IsNull())
       {
-      m_PimplGlobals->m_ThreadPoolInstance  = ObjectFactory< Self >::Create();
-      if ( m_PimplGlobals->m_ThreadPoolInstance.IsNull() )
-        {
-        new ThreadPool(); //constructor sets m_PimplGlobals->m_ThreadPoolInstance
-        }
+        new ThreadPool(); // constructor sets m_PimplGlobals->m_ThreadPoolInstance
       }
     }
+  }
   return m_PimplGlobals->m_ThreadPoolInstance;
 }
 
 bool
-ThreadPool
-::GetDoNotWaitForThreads()
+ThreadPool ::GetDoNotWaitForThreads()
 {
   itkInitGlobalsMacro(PimplGlobals);
   return !m_PimplGlobals->m_WaitForThreads;
 }
 
 void
-ThreadPool
-::SetDoNotWaitForThreads(bool doNotWaitForThreads)
+ThreadPool ::SetDoNotWaitForThreads(bool doNotWaitForThreads)
 {
   itkInitGlobalsMacro(PimplGlobals);
   m_PimplGlobals->m_WaitForThreads = !doNotWaitForThreads;
 }
 
-ThreadPool
-::ThreadPool()
+ThreadPool ::ThreadPool()
 {
-  m_PimplGlobals->m_ThreadPoolInstance = this; //threads need this
+  m_PimplGlobals->m_ThreadPoolInstance = this;        // threads need this
   m_PimplGlobals->m_ThreadPoolInstance->UnRegister(); // Remove extra reference
   ThreadIdType threadCount = MultiThreaderBase::GetGlobalDefaultNumberOfThreads();
-  m_Threads.reserve( threadCount );
-  for ( unsigned int i = 0; i < threadCount; ++i )
-    {
-    m_Threads.emplace_back( &ThreadPool::ThreadExecute );
-    }
+  m_Threads.reserve(threadCount);
+  for (unsigned int i = 0; i < threadCount; ++i)
+  {
+    m_Threads.emplace_back(&ThreadPool::ThreadExecute);
+  }
 }
 
 void
-ThreadPool
-::AddThreads(ThreadIdType count)
+ThreadPool ::AddThreads(ThreadIdType count)
 {
   std::unique_lock<std::mutex> mutexHolder(m_PimplGlobals->m_Mutex);
-  m_Threads.reserve( m_Threads.size() + count );
-  for( unsigned int i = 0; i < count; ++i )
-    {
-    m_Threads.emplace_back( &ThreadPool::ThreadExecute );
-    }
+  m_Threads.reserve(m_Threads.size() + count);
+  for (unsigned int i = 0; i < count; ++i)
+  {
+    m_Threads.emplace_back(&ThreadPool::ThreadExecute);
+  }
 }
 
-std::mutex&
-ThreadPool
-::GetMutex()
+std::mutex &
+ThreadPool ::GetMutex()
 {
   return m_PimplGlobals->m_Mutex;
 }
 
 int
-ThreadPool
-::GetNumberOfCurrentlyIdleThreads() const
+ThreadPool ::GetNumberOfCurrentlyIdleThreads() const
 {
-  std::unique_lock<std::mutex> mutexHolder( m_PimplGlobals->m_Mutex );
+  std::unique_lock<std::mutex> mutexHolder(m_PimplGlobals->m_Mutex);
   return int(m_Threads.size()) - int(m_WorkQueue.size()); // lousy approximation
 }
 
-ThreadPool
-::~ThreadPool()
+ThreadPool ::~ThreadPool()
 {
-    {
-    std::unique_lock< std::mutex > mutexHolder( m_PimplGlobals->m_Mutex );
+  {
+    std::unique_lock<std::mutex> mutexHolder(m_PimplGlobals->m_Mutex);
 
     this->m_Stopping = true;
-    }
+  }
 
-  if ( m_PimplGlobals->m_WaitForThreads && !m_Threads.empty() )
-    {
+  if (m_PimplGlobals->m_WaitForThreads && !m_Threads.empty())
+  {
     m_Condition.notify_all();
-    }
+  }
 
   // Even if the threads have already been terminated,
   // we should join() the std::thread variables.
   // Otherwise some sanity check in debug mode complains.
-  for ( ThreadIdType i = 0; i < m_Threads.size(); i++ )
-    {
+  for (ThreadIdType i = 0; i < m_Threads.size(); i++)
+  {
     m_Threads[i].join();
-    }
+  }
 }
 
 
 void
-ThreadPool
-::ThreadExecute()
+ThreadPool ::ThreadExecute()
 {
-  //plain pointer does not increase reference count
-  ThreadPool* threadPool = m_PimplGlobals->m_ThreadPoolInstance.GetPointer();
+  // plain pointer does not increase reference count
+  ThreadPool * threadPool = m_PimplGlobals->m_ThreadPoolInstance.GetPointer();
 
-  while ( true )
+  while (true)
+  {
+    std::function<void()> task;
+
     {
-      std::function< void() > task;
-
+      std::unique_lock<std::mutex> mutexHolder(m_PimplGlobals->m_Mutex);
+      threadPool->m_Condition.wait(mutexHolder,
+                                   [threadPool] { return threadPool->m_Stopping || !threadPool->m_WorkQueue.empty(); });
+      if (threadPool->m_Stopping && threadPool->m_WorkQueue.empty())
       {
-        std::unique_lock<std::mutex> mutexHolder( m_PimplGlobals->m_Mutex );
-        threadPool->m_Condition.wait( mutexHolder,
-          [threadPool]
-        {
-            return threadPool->m_Stopping || !threadPool->m_WorkQueue.empty();
-        }
-        );
-        if ( threadPool->m_Stopping && threadPool->m_WorkQueue.empty() )
-        {
-            return;
-        }
-        task = std::move( threadPool->m_WorkQueue.front() );
-        threadPool->m_WorkQueue.pop_front();
+        return;
       }
-
-      task(); //execute the task
+      task = std::move(threadPool->m_WorkQueue.front());
+      threadPool->m_WorkQueue.pop_front();
     }
+
+    task(); // execute the task
+  }
 }
 
 ThreadPoolGlobals * ThreadPool::m_PimplGlobals;
 
-}
+} // namespace itk

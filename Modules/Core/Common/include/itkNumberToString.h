@@ -38,23 +38,29 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-template< typename TValue>
+template <typename TValue>
 class ITK_TEMPLATE_EXPORT NumberToString
 {
 public:
-  std::string operator() (TValue val);
+  std::string
+  operator()(TValue val);
 
 private:
-  NumberToString & operator=(const NumberToString &) = delete;
+  NumberToString &
+  operator=(const NumberToString &) = delete;
 };
 
 // declaration of specialization
-template<> ITKCommon_EXPORT std::string NumberToString<double>::operator()(double val);
-template<> ITKCommon_EXPORT std::string NumberToString<float>::operator()(float val);
+template <>
+ITKCommon_EXPORT std::string
+NumberToString<double>::operator()(double val);
+template <>
+ITKCommon_EXPORT std::string
+NumberToString<float>::operator()(float val);
 
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNumberToString.hxx"
+#  include "itkNumberToString.hxx"
 #endif
 #endif

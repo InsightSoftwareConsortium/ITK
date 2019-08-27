@@ -23,63 +23,64 @@
 
 #include "itkResampleImageFilter.h"
 
-int main( int argc, char * argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 7 )
-    {
+  if (argc < 7)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  outputImageFile";
     std::cerr << "  direction cosines" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int Dimension = 2;
   using InputPixelType = unsigned char;
   using OutputPixelType = unsigned char;
-  using InputImageType = itk::Image< InputPixelType,  Dimension >;
-  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  using ReaderType = itk::ImageFileReader< InputImageType  >;
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
 
-  reader->SetFileName( argv[1] );
-  writer->SetFileName( argv[2] );
+  reader->SetFileName(argv[1]);
+  writer->SetFileName(argv[2]);
 
 
-  using FilterType = itk::ResampleImageFilter<InputImageType,OutputImageType>;
+  using FilterType = itk::ResampleImageFilter<InputImageType, OutputImageType>;
   FilterType::Pointer filter = FilterType::New();
 
-  filter->SetDefaultPixelValue( 0 );
+  filter->SetDefaultPixelValue(0);
 
-    {
-    //pixel spacing in millimeters
-    const double spacing[ Dimension ] = { 1.0, 1.0 };
-    filter->SetOutputSpacing( spacing );
-    }
+  {
+    // pixel spacing in millimeters
+    const double spacing[Dimension] = { 1.0, 1.0 };
+    filter->SetOutputSpacing(spacing);
+  }
 
-    {
+  {
     // space coordinate of origin
-    const double origin[ Dimension ] = { 0.0, 0.0 };
-    filter->SetOutputOrigin( origin );
-    }
+    const double origin[Dimension] = { 0.0, 0.0 };
+    filter->SetOutputOrigin(origin);
+  }
 
   OutputImageType::DirectionType direction;
-  direction(0,0) = std::stoi(argv[3]);
-  direction(1,0) = std::stoi(argv[4]);
-  direction(0,1) = std::stoi(argv[5]);
-  direction(1,1) = std::stoi(argv[6]);
+  direction(0, 0) = std::stoi(argv[3]);
+  direction(1, 0) = std::stoi(argv[4]);
+  direction(0, 1) = std::stoi(argv[5]);
+  direction(1, 1) = std::stoi(argv[6]);
   filter->SetOutputDirection(direction);
 
-  InputImageType::SizeType   size;
-  size[0] = 300;  // number of pixels along X
-  size[1] = 300;  // number of pixels along Y
+  InputImageType::SizeType size;
+  size[0] = 300; // number of pixels along X
+  size[1] = 300; // number of pixels along Y
 
-  filter->SetSize( size );
-  filter->SetInput( reader->GetOutput() );
-  writer->SetInput( filter->GetOutput() );
+  filter->SetSize(size);
+  filter->SetInput(reader->GetOutput());
+  writer->SetInput(filter->GetOutput());
   writer->Update();
 
   return EXIT_SUCCESS;

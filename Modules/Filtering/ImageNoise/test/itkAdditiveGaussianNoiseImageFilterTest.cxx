@@ -23,59 +23,58 @@
 #include "itkAdditiveGaussianNoiseImageFilter.h"
 #include "itkTestingMacros.h"
 
-int itkAdditiveGaussianNoiseImageFilterTest(int argc, char * argv[])
+int
+itkAdditiveGaussianNoiseImageFilterTest(int argc, char * argv[])
 {
 
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " input output [std_dev [mean]]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int Dimension = 2;
 
   using PixelType = unsigned char;
-  using ImageType = itk::Image< PixelType, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
-  using AdditiveGaussianNoiseFilterType =
-      itk::AdditiveGaussianNoiseImageFilter< ImageType, ImageType >;
+  using AdditiveGaussianNoiseFilterType = itk::AdditiveGaussianNoiseImageFilter<ImageType, ImageType>;
 
-  AdditiveGaussianNoiseFilterType::Pointer additiveGaussianNoiseFilter =
-    AdditiveGaussianNoiseFilterType::New();
+  AdditiveGaussianNoiseFilterType::Pointer additiveGaussianNoiseFilter = AdditiveGaussianNoiseFilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( additiveGaussianNoiseFilter, AdditiveGaussianNoiseImageFilter,
-    NoiseBaseImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    additiveGaussianNoiseFilter, AdditiveGaussianNoiseImageFilter, NoiseBaseImageFilter);
 
   double stdDev = 1.0;
-  if( argc >= 4 )
-    {
-    stdDev = std::stod( argv[3] );
-    }
-  additiveGaussianNoiseFilter->SetStandardDeviation( stdDev );
-  ITK_TEST_SET_GET_VALUE( stdDev, additiveGaussianNoiseFilter->GetStandardDeviation() );
+  if (argc >= 4)
+  {
+    stdDev = std::stod(argv[3]);
+  }
+  additiveGaussianNoiseFilter->SetStandardDeviation(stdDev);
+  ITK_TEST_SET_GET_VALUE(stdDev, additiveGaussianNoiseFilter->GetStandardDeviation());
 
   double mean = 0.0;
-  if( argc >= 5 )
-    {
-    mean = std::stod( argv[4] );
-    }
-  additiveGaussianNoiseFilter->SetMean( mean );
-  ITK_TEST_SET_GET_VALUE( mean, additiveGaussianNoiseFilter->GetMean() );
+  if (argc >= 5)
+  {
+    mean = std::stod(argv[4]);
+  }
+  additiveGaussianNoiseFilter->SetMean(mean);
+  ITK_TEST_SET_GET_VALUE(mean, additiveGaussianNoiseFilter->GetMean());
 
-  additiveGaussianNoiseFilter->SetInput( reader->GetOutput() );
+  additiveGaussianNoiseFilter->SetInput(reader->GetOutput());
 
-  itk::SimpleFilterWatcher watcher( additiveGaussianNoiseFilter, "AdditiveGaussianNoiseImageFilter" );
+  itk::SimpleFilterWatcher watcher(additiveGaussianNoiseFilter, "AdditiveGaussianNoiseImageFilter");
 
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( additiveGaussianNoiseFilter->GetOutput() );
-  writer->SetFileName( argv[2] );
+  writer->SetInput(additiveGaussianNoiseFilter->GetOutput());
+  writer->SetFileName(argv[2]);
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   return EXIT_SUCCESS;
 }

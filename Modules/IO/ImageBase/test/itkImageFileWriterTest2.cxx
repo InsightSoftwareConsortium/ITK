@@ -19,23 +19,24 @@
 #include "itkImageFileWriter.h"
 #include "itkImageFileReader.h"
 
-int itkImageFileWriterTest2(int ac, char* av[])
+int
+itkImageFileWriterTest2(int ac, char * av[])
 {
 
   if (ac < 2)
-    {
+  {
     std::cout << "usage: itkIOTests itkImageFileWriterTest2 outputFileName" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  using ImageNDType = itk::Image<unsigned char,2>;
+  using ImageNDType = itk::Image<unsigned char, 2>;
   using WriterType = itk::ImageFileWriter<ImageNDType>;
   using ReaderType = itk::ImageFileReader<ImageNDType>;
 
-  ImageNDType::Pointer image = ImageNDType::New();
+  ImageNDType::Pointer    image = ImageNDType::New();
   ImageNDType::RegionType region;
-  ImageNDType::IndexType index;
-  ImageNDType::SizeType size;
+  ImageNDType::IndexType  index;
+  ImageNDType::SizeType   size;
 
 
   ImageNDType::PointType originalPoint;
@@ -48,7 +49,7 @@ int itkImageFileWriterTest2(int ac, char* av[])
 
   image->SetRegions(region);
   image->Allocate(true); // initialize buffer
-                                                // to zero
+                         // to zero
 
   image->TransformIndexToPhysicalPoint(index, originalPoint);
   std::cout << "Original Starting Index: " << index << std::endl;
@@ -58,7 +59,7 @@ int itkImageFileWriterTest2(int ac, char* av[])
   WriterType::Pointer writer = WriterType::New();
   ReaderType::Pointer reader = ReaderType::New();
   try
-    {
+  {
     writer->SetInput(image);
     writer->SetFileName(av[1]);
     writer->Update();
@@ -71,23 +72,22 @@ int itkImageFileWriterTest2(int ac, char* av[])
     std::cout << "Read Starting Index: " << index << std::endl;
     std::cout << "Original Starting Point (physical cooridents) : " << readPoint << std::endl;
     std::cout << "Read Origin: " << image->GetOrigin() << std::endl;
-    }
-  catch (itk::ExceptionObject &ex)
-    {
+  }
+  catch (itk::ExceptionObject & ex)
+  {
     std::cout << "caught exception!" << std::endl;
     std::cout << ex;
     return EXIT_FAILURE;
-    }
+  }
 
   if (readPoint != originalPoint)
-    {
+  {
     std::cout << "Image locations changed!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // execute the PrintSelf methods
   std::cout << writer;
 
   return EXIT_SUCCESS;
-
 }

@@ -21,41 +21,37 @@
 namespace itk
 {
 
-ThreadedIndexedContainerPartitioner
-::ThreadedIndexedContainerPartitioner() = default;
+ThreadedIndexedContainerPartitioner ::ThreadedIndexedContainerPartitioner() = default;
 
-ThreadedIndexedContainerPartitioner
-::~ThreadedIndexedContainerPartitioner() = default;
+ThreadedIndexedContainerPartitioner ::~ThreadedIndexedContainerPartitioner() = default;
 
 ThreadIdType
-ThreadedIndexedContainerPartitioner
-::PartitionDomain( const ThreadIdType threadId,
-                        const ThreadIdType requestedTotal,
-                        const DomainType& completeIndexRange,
-                        DomainType& subIndexRange) const
+ThreadedIndexedContainerPartitioner ::PartitionDomain(const ThreadIdType threadId,
+                                                      const ThreadIdType requestedTotal,
+                                                      const DomainType & completeIndexRange,
+                                                      DomainType &       subIndexRange) const
 {
   // completeIndexRange and subIndexRange are inclusive
 
   // determine the actual number of pieces that will be generated
-  const auto count = static_cast<double>( completeIndexRange[1] - completeIndexRange[0] + 1 );
-  auto valuesPerThread = Math::Ceil<ThreadIdType>( count/static_cast<double>(requestedTotal) );
-  ThreadIdType maxThreadIdUsed =
-    Math::Ceil<ThreadIdType>( count/static_cast<double>(valuesPerThread) ) - 1;
+  const auto   count = static_cast<double>(completeIndexRange[1] - completeIndexRange[0] + 1);
+  auto         valuesPerThread = Math::Ceil<ThreadIdType>(count / static_cast<double>(requestedTotal));
+  ThreadIdType maxThreadIdUsed = Math::Ceil<ThreadIdType>(count / static_cast<double>(valuesPerThread)) - 1;
 
   // Split the index range
   if (threadId < maxThreadIdUsed)
-    {
+  {
     subIndexRange[0] = completeIndexRange[0] + threadId * valuesPerThread;
     subIndexRange[1] = subIndexRange[0] + valuesPerThread - 1;
-    }
+  }
   if (threadId == maxThreadIdUsed)
-    {
+  {
     subIndexRange[0] = completeIndexRange[0] + threadId * valuesPerThread;
     // last thread needs to process the "rest" of the range
     subIndexRange[1] = completeIndexRange[1];
-    }
+  }
 
-  itkDebugMacro("ThreadedIndexedContainerPartitioner:  Split : " << subIndexRange );
+  itkDebugMacro("ThreadedIndexedContainerPartitioner:  Split : " << subIndexRange);
 
   return maxThreadIdUsed + 1;
 }

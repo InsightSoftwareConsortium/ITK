@@ -43,68 +43,65 @@ namespace itk
  */
 namespace Functor
 {
-template< typename TInput, typename TOutput >
+template <typename TInput, typename TOutput>
 class BoundedReciprocal
 {
 public:
   BoundedReciprocal() = default;
   ~BoundedReciprocal() = default;
-  bool operator!=(const BoundedReciprocal &) const
+  bool
+  operator!=(const BoundedReciprocal &) const
   {
     return false;
   }
 
-  bool operator==(const BoundedReciprocal & other) const
+  bool
+  operator==(const BoundedReciprocal & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 
-  inline TOutput operator()(const TInput & A) const
+  inline TOutput
+  operator()(const TInput & A) const
   {
-    return static_cast< TOutput >( 1.0 / ( 1.0 +  static_cast< double >( A ) ) );
+    return static_cast<TOutput>(1.0 / (1.0 + static_cast<double>(A)));
   }
 };
-}
+} // namespace Functor
 
-template< typename TInputImage, typename TOutputImage >
-class BoundedReciprocalImageFilter:
-  public
-  UnaryGeneratorImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class BoundedReciprocalImageFilter : public UnaryGeneratorImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BoundedReciprocalImageFilter);
 
   /** Standard class type aliases. */
   using Self = BoundedReciprocalImageFilter;
-  using Superclass = UnaryGeneratorImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using FunctorType = Functor::BoundedReciprocal< typename TInputImage::PixelType,
-                                                  typename TOutputImage::PixelType >;
+  using Superclass = UnaryGeneratorImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using FunctorType = Functor::BoundedReciprocal<typename TInputImage::PixelType, typename TOutputImage::PixelType>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(BoundedReciprocalImageFilter,
-               UnaryGeneratorImageFilter);
+  itkTypeMacro(BoundedReciprocalImageFilter, UnaryGeneratorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputConvertibleToDoubleCheck,
-                   ( Concept::Convertible< typename TInputImage::PixelType, double > ) );
-  itkConceptMacro( DoubleConvertibleToOutputCheck,
-                   ( Concept::Convertible< double, typename TOutputImage::PixelType > ) );
+  itkConceptMacro(InputConvertibleToDoubleCheck, (Concept::Convertible<typename TInputImage::PixelType, double>));
+  itkConceptMacro(DoubleConvertibleToOutputCheck, (Concept::Convertible<double, typename TOutputImage::PixelType>));
   // End concept checking
 #endif
 
 protected:
   BoundedReciprocalImageFilter()
-    {
-#if !defined( ITK_WRAPPING_PARSER )
-      Superclass::SetFunctor(FunctorType());
+  {
+#if !defined(ITK_WRAPPING_PARSER)
+    Superclass::SetFunctor(FunctorType());
 #endif
-    }
+  }
 
   ~BoundedReciprocalImageFilter() override = default;
 };

@@ -49,15 +49,15 @@ namespace itk
  * \ingroup ImageObjects
  * \ingroup ITKCommon
  */
-template< typename TElementIdentifier, typename TElement >
-class ImageContainerInterface:public Object
+template <typename TElementIdentifier, typename TElement>
+class ImageContainerInterface : public Object
 {
 public:
   /** Standard class type aliases. */
   using Self = ImageContainerInterface;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard part of every itk Object. */
   itkTypeMacro(ImageContainerInterface, Object);
@@ -74,10 +74,12 @@ public:
 
   /** Return a pointer to the beginning of the buffer.  This is used by
    * the image iterator class. */
-  virtual TElement * GetBufferPointer() = 0;
+  virtual TElement *
+  GetBufferPointer() = 0;
 
   /** Get the number of elements currently stored in the container. */
-  virtual ElementIdentifier Size() const = 0;
+  virtual ElementIdentifier
+  Size() const = 0;
 
   /** Tell the container to allocate enough memory to allow at least
    * as many elements as the size given to be stored.  This is NOT
@@ -88,7 +90,8 @@ public:
   /** Tell the container to try to minimize its memory usage for storage of
    * the current number of elements.  This is NOT guaranteed to decrease
    * memory usage. */
-  virtual void Squeeze() = 0;
+  virtual void
+  Squeeze() = 0;
 };
 } // end namespace itk
 

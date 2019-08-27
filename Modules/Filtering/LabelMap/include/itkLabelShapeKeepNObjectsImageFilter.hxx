@@ -23,45 +23,40 @@
 
 namespace itk
 {
-template< typename TInputImage >
-LabelShapeKeepNObjectsImageFilter< TInputImage >
-::LabelShapeKeepNObjectsImageFilter()
+template <typename TInputImage>
+LabelShapeKeepNObjectsImageFilter<TInputImage>::LabelShapeKeepNObjectsImageFilter()
 {
-  m_BackgroundValue = NumericTraits< OutputImagePixelType >::NonpositiveMin();
+  m_BackgroundValue = NumericTraits<OutputImagePixelType>::NonpositiveMin();
   m_NumberOfObjects = 1;
   m_ReverseOrdering = false;
   m_Attribute = LabelObjectType::NUMBER_OF_PIXELS;
 }
 
-template< typename TInputImage >
+template <typename TInputImage>
 void
-LabelShapeKeepNObjectsImageFilter< TInputImage >
-::GenerateInputRequestedRegion()
+LabelShapeKeepNObjectsImageFilter<TInputImage>::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the input.
-  InputImagePointer input = const_cast< InputImageType * >( this->GetInput() );
-  if ( input )
-    {
-    input->SetRequestedRegion( input->GetLargestPossibleRegion() );
-    }
+  InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
+  if (input)
+  {
+    input->SetRequestedRegion(input->GetLargestPossibleRegion());
+  }
 }
 
-template< typename TInputImage >
+template <typename TInputImage>
 void
-LabelShapeKeepNObjectsImageFilter< TInputImage >
-::EnlargeOutputRequestedRegion(DataObject *)
+LabelShapeKeepNObjectsImageFilter<TInputImage>::EnlargeOutputRequestedRegion(DataObject *)
 {
-  this->GetOutput()
-  ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
+  this->GetOutput()->SetRequestedRegion(this->GetOutput()->GetLargestPossibleRegion());
 }
 
-template< typename TInputImage >
+template <typename TInputImage>
 void
-LabelShapeKeepNObjectsImageFilter< TInputImage >
-::GenerateData()
+LabelShapeKeepNObjectsImageFilter<TInputImage>::GenerateData()
 {
   // Create a process accumulator for tracking the progress of this minipipeline
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
@@ -72,55 +67,55 @@ LabelShapeKeepNObjectsImageFilter< TInputImage >
   this->AllocateOutputs();
 
   typename LabelizerType::Pointer labelizer = LabelizerType::New();
-  labelizer->SetInput( this->GetInput() );
+  labelizer->SetInput(this->GetInput());
   labelizer->SetBackgroundValue(m_BackgroundValue);
-  labelizer->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
+  labelizer->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   progress->RegisterInternalFilter(labelizer, .3f);
 
   typename LabelObjectValuatorType::Pointer valuator = LabelObjectValuatorType::New();
-  valuator->SetInput( labelizer->GetOutput() );
-  valuator->SetLabelImage( this->GetInput() );
-  valuator->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
-  if ( m_Attribute != LabelObjectType::PERIMETER && m_Attribute != LabelObjectType::ROUNDNESS )
-    {
+  valuator->SetInput(labelizer->GetOutput());
+  valuator->SetLabelImage(this->GetInput());
+  valuator->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
+  if (m_Attribute != LabelObjectType::PERIMETER && m_Attribute != LabelObjectType::ROUNDNESS)
+  {
     valuator->SetComputePerimeter(false);
-    }
-  if ( m_Attribute == LabelObjectType::FERET_DIAMETER )
-    {
+  }
+  if (m_Attribute == LabelObjectType::FERET_DIAMETER)
+  {
     valuator->SetComputeFeretDiameter(true);
-    }
+  }
   progress->RegisterInternalFilter(valuator, .3f);
 
   typename KeepNObjectsType::Pointer opening = KeepNObjectsType::New();
-  opening->SetInput( valuator->GetOutput() );
+  opening->SetInput(valuator->GetOutput());
   opening->SetNumberOfObjects(m_NumberOfObjects);
   opening->SetReverseOrdering(m_ReverseOrdering);
   opening->SetAttribute(m_Attribute);
-  opening->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
+  opening->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   progress->RegisterInternalFilter(opening, .2f);
 
   typename BinarizerType::Pointer binarizer = BinarizerType::New();
-  binarizer->SetInput( opening->GetOutput() );
-  binarizer->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
+  binarizer->SetInput(opening->GetOutput());
+  binarizer->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   progress->RegisterInternalFilter(binarizer, .2f);
 
-  binarizer->GraftOutput( this->GetOutput() );
+  binarizer->GraftOutput(this->GetOutput());
   binarizer->Update();
-  this->GraftOutput( binarizer->GetOutput() );
+  this->GraftOutput(binarizer->GetOutput());
 }
 
-template< typename TInputImage >
+template <typename TInputImage>
 void
-LabelShapeKeepNObjectsImageFilter< TInputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+LabelShapeKeepNObjectsImageFilter<TInputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "BackgroundValue: "
-     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_BackgroundValue ) << std::endl;
-  os << indent << "NumberOfObjects: "  << m_NumberOfObjects << std::endl;
-  os << indent << "ReverseOrdering: "  << m_ReverseOrdering << std::endl;
-  os << indent << "Attribute: "  << LabelObjectType::GetNameFromAttribute(m_Attribute) << " (" << m_Attribute << ")"
+  os << indent
+     << "BackgroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
+     << std::endl;
+  os << indent << "NumberOfObjects: " << m_NumberOfObjects << std::endl;
+  os << indent << "ReverseOrdering: " << m_ReverseOrdering << std::endl;
+  os << indent << "Attribute: " << LabelObjectType::GetNameFromAttribute(m_Attribute) << " (" << m_Attribute << ")"
      << std::endl;
 }
 } // end namespace itk

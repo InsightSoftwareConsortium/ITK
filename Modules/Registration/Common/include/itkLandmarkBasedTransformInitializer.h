@@ -82,11 +82,10 @@ namespace itk
  * \sphinxexample{Registration/Common/RegisterImageToAnotherUsingLandmarks,Register Image To Another Using Landmarks}
  * \endsphinx
  */
-template< typename TTransform,
-          typename TFixedImage = itk::ImageBase<TTransform::InputSpaceDimension > ,
-          typename TMovingImage = itk::ImageBase<TTransform::OutputSpaceDimension> >
-class ITK_TEMPLATE_EXPORT LandmarkBasedTransformInitializer:
-  public Object
+template <typename TTransform,
+          typename TFixedImage = itk::ImageBase<TTransform::InputSpaceDimension>,
+          typename TMovingImage = itk::ImageBase<TTransform::OutputSpaceDimension>>
+class ITK_TEMPLATE_EXPORT LandmarkBasedTransformInitializer : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LandmarkBasedTransformInitializer);
@@ -112,14 +111,14 @@ public:
   static constexpr unsigned int OutputSpaceDimension = TransformType::OutputSpaceDimension;
 
   /** Set the transform to be initialized */
-  itkSetObjectMacro(Transform,   TransformType);
+  itkSetObjectMacro(Transform, TransformType);
 
   /** Image Types to use in the initialization of the transform */
   using FixedImageType = TFixedImage;
   using MovingImageType = TMovingImage;
 
   /** Set the reference image to define the parametric domain for the BSpline transform */
-  itkSetConstObjectMacro(ReferenceImage,   FixedImageType);
+  itkSetConstObjectMacro(ReferenceImage, FixedImageType);
 
   /** Set the number of control points to define the parametric domain for the BSpline transform */
   itkSetMacro(BSplineNumberOfControlPoints, unsigned int);
@@ -134,23 +133,25 @@ public:
   using InputPointType = typename TransformType::InputPointType;
   using OutputVectorType = typename TransformType::OutputVectorType;
 
-  using LandmarkPointType = Point< double, ImageDimension >;
-  using LandmarkPointContainer = std::vector< LandmarkPointType >;
+  using LandmarkPointType = Point<double, ImageDimension>;
+  using LandmarkPointContainer = std::vector<LandmarkPointType>;
   using PointsContainerConstIterator = typename LandmarkPointContainer::const_iterator;
 
   using ParametersType = typename TransformType::ParametersType;
   using ParametersValueType = typename ParametersType::ValueType;
-  using LandmarkWeightType = std::vector< double >;
+  using LandmarkWeightType = std::vector<double>;
   using LandmarkWeightConstIterator = LandmarkWeightType::const_iterator;
 
   /** Set the Fixed landmark point containers */
-  void SetFixedLandmarks(const LandmarkPointContainer & fixedLandmarks)
+  void
+  SetFixedLandmarks(const LandmarkPointContainer & fixedLandmarks)
   {
     this->m_FixedLandmarks = fixedLandmarks;
   }
 
   /** Set the Moving landmark point containers */
-  void SetMovingLandmarks(const LandmarkPointContainer & movingLandmarks)
+  void
+  SetMovingLandmarks(const LandmarkPointContainer & movingLandmarks)
   {
     this->m_MovingLandmarks = movingLandmarks;
   }
@@ -158,57 +159,62 @@ public:
   /** Set the landmark weight point containers
    *  Weight includes diagonal elements of weight matrix
    */
-  void SetLandmarkWeight(LandmarkWeightType & landmarkWeight)
+  void
+  SetLandmarkWeight(LandmarkWeightType & landmarkWeight)
   {
-    this->m_LandmarkWeight= landmarkWeight;
+    this->m_LandmarkWeight = landmarkWeight;
   }
 
   /**  Supported Transform type alias */
-  using VersorRigid3DTransformType = VersorRigid3DTransform< ParametersValueType >;
-  using Rigid2DTransformType = Rigid2DTransform< ParametersValueType >;
-  using AffineTransformType = AffineTransform< ParametersValueType, FixedImageType::ImageDimension >;
+  using VersorRigid3DTransformType = VersorRigid3DTransform<ParametersValueType>;
+  using Rigid2DTransformType = Rigid2DTransform<ParametersValueType>;
+  using AffineTransformType = AffineTransform<ParametersValueType, FixedImageType::ImageDimension>;
 
-  constexpr static unsigned int SplineOrder  = 3;
-  using BSplineTransformType = BSplineTransform< ParametersValueType,
-                            FixedImageType::ImageDimension,
-                            SplineOrder>;
+  constexpr static unsigned int SplineOrder = 3;
+  using BSplineTransformType = BSplineTransform<ParametersValueType, FixedImageType::ImageDimension, SplineOrder>;
 
   /** Initialize the transform from the landmarks */
-  virtual void InitializeTransform();
+  virtual void
+  InitializeTransform();
 
 protected:
   LandmarkBasedTransformInitializer();
   ~LandmarkBasedTransformInitializer() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-
   /** fallback Initializer just sets transform to identity */
   template <typename TTransform2>
-  void InternalInitializeTransform(TTransform2 *);
+  void
+  InternalInitializeTransform(TTransform2 *);
   /** Initializer for VersorRigid3D */
-  void InternalInitializeTransform(VersorRigid3DTransformType *);
+  void
+  InternalInitializeTransform(VersorRigid3DTransformType *);
   /** Initializer for Rigid2DTransform */
-  void InternalInitializeTransform(Rigid2DTransformType *);
+  void
+  InternalInitializeTransform(Rigid2DTransformType *);
   /** Initializer for AffineTransform */
-  void InternalInitializeTransform(AffineTransformType *);
+  void
+  InternalInitializeTransform(AffineTransformType *);
   /** Initializer for BSplineTransform */
-  void InternalInitializeTransform(BSplineTransformType *);
+  void
+  InternalInitializeTransform(BSplineTransformType *);
 
   FixedImagePointer      m_ReferenceImage;
   TransformPointer       m_Transform;
   LandmarkPointContainer m_FixedLandmarks;
   LandmarkPointContainer m_MovingLandmarks;
   /** weights for affine landmarks */
-  LandmarkWeightType     m_LandmarkWeight;
-  unsigned int           m_BSplineNumberOfControlPoints{4};
+  LandmarkWeightType m_LandmarkWeight;
+  unsigned int       m_BSplineNumberOfControlPoints{ 4 };
 
-}; //class LandmarkBasedTransformInitializer
-}  // namespace itk
+}; // class LandmarkBasedTransformInitializer
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLandmarkBasedTransformInitializer.hxx"
+#  include "itkLandmarkBasedTransformInitializer.hxx"
 #endif
 
 #endif /* itkLandmarkBasedTransformInitializer_h */

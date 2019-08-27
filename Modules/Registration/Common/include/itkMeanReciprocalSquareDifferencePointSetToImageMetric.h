@@ -42,18 +42,18 @@ namespace itk
  * \ingroup RegistrationMetrics
  * \ingroup ITKRegistrationCommon
  */
-template< typename TFixedPointSet, typename TMovingImage >
-class ITK_TEMPLATE_EXPORT MeanReciprocalSquareDifferencePointSetToImageMetric:
-  public PointSetToImageMetric< TFixedPointSet, TMovingImage >
+template <typename TFixedPointSet, typename TMovingImage>
+class ITK_TEMPLATE_EXPORT MeanReciprocalSquareDifferencePointSetToImageMetric
+  : public PointSetToImageMetric<TFixedPointSet, TMovingImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MeanReciprocalSquareDifferencePointSetToImageMetric);
 
   /** Standard class type aliases. */
   using Self = MeanReciprocalSquareDifferencePointSetToImageMetric;
-  using Superclass = PointSetToImageMetric< TFixedPointSet, TMovingImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = PointSetToImageMetric<TFixedPointSet, TMovingImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -82,25 +82,29 @@ public:
   using PointDataIterator = typename Superclass::PointDataIterator;
 
   /** Get the derivatives of the match measure. */
-  void GetDerivative(const TransformParametersType & parameters,
-                     DerivativeType & Derivative) const override;
+  void
+  GetDerivative(const TransformParametersType & parameters, DerivativeType & Derivative) const override;
 
   /**  Get the value for single valued optimizers. */
-  MeasureType GetValue(const TransformParametersType & parameters) const override;
+  MeasureType
+  GetValue(const TransformParametersType & parameters) const override;
 
   /**  Get value and derivatives for multiple valued optimizers. */
-  void GetValueAndDerivative(const TransformParametersType & parameters,
-                             MeasureType & Value, DerivativeType & Derivative) const override;
+  void
+  GetValueAndDerivative(const TransformParametersType & parameters,
+                        MeasureType &                   Value,
+                        DerivativeType &                Derivative) const override;
 
   /**  Set/Get the lambda distance. (controls the capture radius of the metric).
-     */
+   */
   itkSetMacro(Lambda, double);
   itkGetConstMacro(Lambda, double);
 
 protected:
   MeanReciprocalSquareDifferencePointSetToImageMetric();
   ~MeanReciprocalSquareDifferencePointSetToImageMetric() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   double m_Lambda;
@@ -108,7 +112,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMeanReciprocalSquareDifferencePointSetToImageMetric.hxx"
+#  include "itkMeanReciprocalSquareDifferencePointSetToImageMetric.hxx"
 #endif
 
 #endif

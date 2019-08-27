@@ -26,31 +26,32 @@ namespace itk
 /** \class StopType
  *  \ingroup ITKOptimizersv4
  * Codes of stopping conditions. */
-enum class StopType : uint8_t {
-    MAXIMUM_NUMBER_OF_ITERATIONS,
-    COSTFUNCTION_ERROR,
-    UPDATE_PARAMETERS_ERROR,
-    STEP_TOO_SMALL,
-    CONVERGENCE_CHECKER_PASSED,
-    OTHER_ERROR
+enum class StopType : uint8_t
+{
+  MAXIMUM_NUMBER_OF_ITERATIONS,
+  COSTFUNCTION_ERROR,
+  UPDATE_PARAMETERS_ERROR,
+  STEP_TOO_SMALL,
+  CONVERGENCE_CHECKER_PASSED,
+  OTHER_ERROR
 };
 
-  /** \class MultiStartOptimizerv4Template
-   *  \brief Multi-start searches over input parameters and returns the best metric value
-   *
-   *   The multi-start algorithm performs gradient descent from N (large) number of starting points and
-   *   returns the best solution. Ideal start points would sample the solution space almost uniformly, thus,
-   *   in theory, this is a global optimizer.  In this implementation, the quality of the optimization
-   *   depends on the parameter space samples that the user inputs to the optimizer.  Multi-start can be
-   *   modified in numerous ways to improve robustness of standard approaches.  These improvements usually
-   *   focus modifying the parameter sample space.  This is why we place the burden on the user to provide
-   *   the parameter samples over which to optimize.
-   *
-   * \ingroup ITKOptimizersv4
-   */
-template<typename TInternalComputationValueType>
+/** \class MultiStartOptimizerv4Template
+ *  \brief Multi-start searches over input parameters and returns the best metric value
+ *
+ *   The multi-start algorithm performs gradient descent from N (large) number of starting points and
+ *   returns the best solution. Ideal start points would sample the solution space almost uniformly, thus,
+ *   in theory, this is a global optimizer.  In this implementation, the quality of the optimization
+ *   depends on the parameter space samples that the user inputs to the optimizer.  Multi-start can be
+ *   modified in numerous ways to improve robustness of standard approaches.  These improvements usually
+ *   focus modifying the parameter sample space.  This is why we place the burden on the user to provide
+ *   the parameter samples over which to optimize.
+ *
+ * \ingroup ITKOptimizersv4
+ */
+template <typename TInternalComputationValueType>
 class ITK_TEMPLATE_EXPORT MultiStartOptimizerv4Template
-: public ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
+  : public ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MultiStartOptimizerv4Template);
@@ -58,8 +59,8 @@ public:
   /** Standard class type aliases. */
   using Self = MultiStartOptimizerv4Template;
   using Superclass = ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(MultiStartOptimizerv4Template, Superclass);
@@ -68,7 +69,7 @@ public:
   itkNewMacro(Self);
 
   using ParametersType = typename Superclass::ParametersType;
-  using ParametersListType = std::vector< ParametersType >;
+  using ParametersListType = std::vector<ParametersType>;
   using ParameterListSizeType = typename ParametersListType::size_type;
 
   using OptimizerType = ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>;
@@ -79,14 +80,14 @@ public:
   /** Enables backwards compatibility for enum values */
   using StopConditionType = StopType;
 #if !defined(ITK_LEGACY_REMOVE)
-      //We need to expose the enum values at the class level
-      // for backwards compatibility
-      static constexpr StopConditionType MAXIMUM_NUMBER_OF_ITERATIONS = StopConditionType::MAXIMUM_NUMBER_OF_ITERATIONS;
-      static constexpr StopConditionType COSTFUNCTION_ERROR = StopConditionType::COSTFUNCTION_ERROR;
-      static constexpr StopConditionType UPDATE_PARAMETERS_ERROR = StopConditionType::UPDATE_PARAMETERS_ERROR;
-      static constexpr StopConditionType STEP_TOO_SMALL = StopConditionType::STEP_TOO_SMALL;
-      static constexpr StopConditionType CONVERGENCE_CHECKER_PASSED = StopConditionType::CONVERGENCE_CHECKER_PASSED;
-      static constexpr StopConditionType OTHER_ERROR = StopConditionType::OTHER_ERROR;
+  // We need to expose the enum values at the class level
+  // for backwards compatibility
+  static constexpr StopConditionType MAXIMUM_NUMBER_OF_ITERATIONS = StopConditionType::MAXIMUM_NUMBER_OF_ITERATIONS;
+  static constexpr StopConditionType COSTFUNCTION_ERROR = StopConditionType::COSTFUNCTION_ERROR;
+  static constexpr StopConditionType UPDATE_PARAMETERS_ERROR = StopConditionType::UPDATE_PARAMETERS_ERROR;
+  static constexpr StopConditionType STEP_TOO_SMALL = StopConditionType::STEP_TOO_SMALL;
+  static constexpr StopConditionType CONVERGENCE_CHECKER_PASSED = StopConditionType::CONVERGENCE_CHECKER_PASSED;
+  static constexpr StopConditionType OTHER_ERROR = StopConditionType::OTHER_ERROR;
 #endif
 
   /** Stop condition return string type */
@@ -108,75 +109,90 @@ public:
 
   /** Measure type */
   using MeasureType = typename Superclass::MeasureType;
-  using MetricValuesListType = std::vector< MeasureType >;
+  using MetricValuesListType = std::vector<MeasureType>;
 
   /** Get stop condition enum */
   itkGetConstReferenceMacro(StopCondition, StopConditionType);
 
   /** Create an instance of the local optimizer */
-  void InstantiateLocalOptimizer();
+  void
+  InstantiateLocalOptimizer();
 
   /** Begin the optimization */
-  void StartOptimization( bool doOnlyInitialization = false ) override;
+  void
+  StartOptimization(bool doOnlyInitialization = false) override;
 
   /** Stop optimization. The object is left in a state so the
    * optimization can be resumed by calling ResumeOptimization. */
-  virtual void StopOptimization();
+  virtual void
+  StopOptimization();
 
   /** Resume the optimization. Can be called after StopOptimization to
    * resume. The bulk of the optimization work loop is here. */
-  virtual void ResumeOptimization();
+  virtual void
+  ResumeOptimization();
 
   /** Get the reason for termination */
-  const StopConditionReturnStringType GetStopConditionDescription() const override;
+  const StopConditionReturnStringType
+  GetStopConditionDescription() const override;
 
   /** Get the list of parameters over which to search.  */
-  ParametersListType & GetParametersList();
+  ParametersListType &
+  GetParametersList();
 
   /** Set the list of parameters over which to search */
-  void SetParametersList(ParametersListType & p);
+  void
+  SetParametersList(ParametersListType & p);
 
   /** Get the list of metric values that we produced after the multi-start search.  */
-  const MetricValuesListType & GetMetricValuesList() const;
+  const MetricValuesListType &
+  GetMetricValuesList() const;
 
   /** Return the parameters from the best visited position */
-  ParametersType GetBestParameters( );
+  ParametersType
+  GetBestParameters();
 
   /** Set/Get the optimizer. */
-  itkSetObjectMacro( LocalOptimizer, OptimizerType );
-  itkGetModifiableObjectMacro(LocalOptimizer, OptimizerType );
+  itkSetObjectMacro(LocalOptimizer, OptimizerType);
+  itkGetModifiableObjectMacro(LocalOptimizer, OptimizerType);
 
-  inline ParameterListSizeType GetBestParametersIndex( ) { return this->m_BestParametersIndex; }
+  inline ParameterListSizeType
+  GetBestParametersIndex()
+  {
+    return this->m_BestParametersIndex;
+  }
 
 protected:
   /** Default constructor */
   MultiStartOptimizerv4Template();
   ~MultiStartOptimizerv4Template() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /* Common variables for optimization control and reporting */
-  bool                          m_Stop{false};
-  StopConditionType             m_StopCondition;
-  StopConditionDescriptionType  m_StopConditionDescription;
-  ParametersListType            m_ParametersList;
-  MetricValuesListType          m_MetricValuesList;
-  MeasureType                   m_MinimumMetricValue;
-  MeasureType                   m_MaximumMetricValue;
-  ParameterListSizeType         m_BestParametersIndex;
-  OptimizerPointer              m_LocalOptimizer;
+  bool                         m_Stop{ false };
+  StopConditionType            m_StopCondition;
+  StopConditionDescriptionType m_StopConditionDescription;
+  ParametersListType           m_ParametersList;
+  MetricValuesListType         m_MetricValuesList;
+  MeasureType                  m_MinimumMetricValue;
+  MeasureType                  m_MaximumMetricValue;
+  ParameterListSizeType        m_BestParametersIndex;
+  OptimizerPointer             m_LocalOptimizer;
 };
 
 /** This helps to meet backward compatibility */
 using MultiStartOptimizerv4 = MultiStartOptimizerv4Template<double>;
 
 /** Define how to print enumerations */
-extern ITKOptimizersv4_EXPORT std::ostream& operator<<(std::ostream& out, const StopType value);
+extern ITKOptimizersv4_EXPORT std::ostream &
+                              operator<<(std::ostream & out, const StopType value);
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMultiStartOptimizerv4.hxx"
+#  include "itkMultiStartOptimizerv4.hxx"
 #endif
 
 #endif

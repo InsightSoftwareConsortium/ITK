@@ -47,8 +47,8 @@ namespace itk
  * \ingroup IOFilters
  * \ingroup ITKIOMeshBase
  */
-template< typename TInputMesh >
-class ITK_TEMPLATE_EXPORT MeshFileWriter: public ProcessObject
+template <typename TInputMesh>
+class ITK_TEMPLATE_EXPORT MeshFileWriter : public ProcessObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MeshFileWriter);
@@ -56,8 +56,8 @@ public:
   /** Standard class type aliases. */
   using Self = MeshFileWriter;
   using Superclass = ProcessObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -75,48 +75,62 @@ public:
 
   /** Set/Get the mesh input of this writer.  */
   using Superclass::SetInput;
-  void  SetInput(const InputMeshType *input);
+  void
+  SetInput(const InputMeshType * input);
 
-  const InputMeshType * GetInput();
+  const InputMeshType *
+  GetInput();
 
-  const InputMeshType * GetInput(unsigned int idx);
+  const InputMeshType *
+  GetInput(unsigned int idx);
 
   /** Specify the name of the output file to write. */
   itkSetStringMacro(FileName);
   itkGetStringMacro(FileName);
 
   /** Set/Get the MeshIO helper class. Usually this is created via the object
-  * factory mechanism that determines whether a particular MeshIO can
-  * write a certain file. This method provides a way to get the MeshIO
-  * instance that is created, or one can be manually set where the
-  * IO factory mechanism may not work (some mesh files with non-standard filename suffix's.
-  * If the user specifies the MeshIO, we assume she makes the
-  * correct choice and will allow a file to be created regardless of
-  * the file extension. If the factory has set the MeshIO, the
-  * extension must be supported by the specified MeshIO. */
-  void SetMeshIO(MeshIOBase *io)
+   * factory mechanism that determines whether a particular MeshIO can
+   * write a certain file. This method provides a way to get the MeshIO
+   * instance that is created, or one can be manually set where the
+   * IO factory mechanism may not work (some mesh files with non-standard filename suffix's.
+   * If the user specifies the MeshIO, we assume she makes the
+   * correct choice and will allow a file to be created regardless of
+   * the file extension. If the factory has set the MeshIO, the
+   * extension must be supported by the specified MeshIO. */
+  void
+  SetMeshIO(MeshIOBase * io)
   {
-    if ( this->m_MeshIO != io )
-      {
+    if (this->m_MeshIO != io)
+    {
       this->Modified();
       this->m_MeshIO = io;
-      }
+    }
     m_FactorySpecifiedMeshIO = false;
     m_UserSpecifiedMeshIO = true;
   }
   itkGetModifiableObjectMacro(MeshIO, MeshIOBase);
 
-  void SetFileTypeAsASCII(){m_FileTypeIsBINARY = false; }
-  void SetFileTypeAsBINARY(){m_FileTypeIsBINARY = true; }
+  void
+  SetFileTypeAsASCII()
+  {
+    m_FileTypeIsBINARY = false;
+  }
+  void
+  SetFileTypeAsBINARY()
+  {
+    m_FileTypeIsBINARY = true;
+  }
 
   /** A special version of the Update() method for writers.  It
-  * invokes start and end events and handles releasing data. It
-  * eventually calls GenerateData() which does the actual writing. */
-  virtual void Write();
+   * invokes start and end events and handles releasing data. It
+   * eventually calls GenerateData() which does the actual writing. */
+  virtual void
+  Write();
 
   /** Aliased to the Write() method to be consistent with the rest of the
-  * pipeline. */
-  void Update() override
+   * pipeline. */
+  void
+  Update() override
   {
     this->Write();
   }
@@ -129,46 +143,55 @@ public:
 protected:
   MeshFileWriter();
   ~MeshFileWriter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  template< typename Output >
-  void CopyPointsToBuffer(Output *data);
+  template <typename Output>
+  void
+  CopyPointsToBuffer(Output * data);
 
-  template< typename Output >
-  void CopyCellsToBuffer(Output *data);
+  template <typename Output>
+  void
+  CopyCellsToBuffer(Output * data);
 
-  template< typename Output >
-  void CopyPointDataToBuffer(Output *data);
+  template <typename Output>
+  void
+  CopyPointDataToBuffer(Output * data);
 
-  template< typename Output >
-  void CopyCellDataToBuffer(Output *data);
+  template <typename Output>
+  void
+  CopyCellDataToBuffer(Output * data);
 
-  void WritePoints();
+  void
+  WritePoints();
 
-  void WriteCells();
+  void
+  WriteCells();
 
-  void WritePointData();
+  void
+  WritePointData();
 
-  void WriteCellData();
+  void
+  WriteCellData();
 
 private:
   std::string         m_FileName;
   MeshIOBase::Pointer m_MeshIO;
-  bool                m_UserSpecifiedMeshIO;    // track whether the MeshIO is
-                                                // user specified
-  bool                m_FactorySpecifiedMeshIO; // track whether the factory
-                                                // mechanism set the MeshIO
-  bool                m_UseCompression;
-  bool                m_FileTypeIsBINARY;
+  bool                m_UserSpecifiedMeshIO; // track whether the MeshIO is
+                                             // user specified
+  bool m_FactorySpecifiedMeshIO;             // track whether the factory
+                                             // mechanism set the MeshIO
+  bool m_UseCompression;
+  bool m_FileTypeIsBINARY;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMeshFileWriter.hxx"
+#  include "itkMeshFileWriter.hxx"
 #endif
 
 #ifdef ITK_IO_FACTORY_REGISTER_MANAGER
-#include "itkMeshIOFactoryRegisterManager.h"
+#  include "itkMeshIOFactoryRegisterManager.h"
 #endif
 
 #endif // itkMeshFileWriter_h

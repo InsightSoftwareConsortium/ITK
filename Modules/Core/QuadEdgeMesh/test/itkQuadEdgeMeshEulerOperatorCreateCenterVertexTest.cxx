@@ -19,15 +19,15 @@
 #include "itkQuadEdgeMeshEulerOperatorCreateCenterVertexFunction.h"
 #include "itkQuadEdgeMeshEulerOperatorsTestHelper.h"
 
-int itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest( int, char * [] )
+int
+itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest(int, char *[])
 {
 
-  using MeshType = itk::QuadEdgeMesh< double, 3 >;
+  using MeshType = itk::QuadEdgeMesh<double, 3>;
   using MeshPointer = MeshType::Pointer;
   using QEType = MeshType::QEType;
 
-  using CreateCenterVertex = itk::QuadEdgeMeshEulerOperatorCreateCenterVertexFunction< MeshType,
-    QEType>;
+  using CreateCenterVertex = itk::QuadEdgeMeshEulerOperatorCreateCenterVertexFunction<MeshType, QEType>;
 
   /////////////////////////////////////////
   //
@@ -60,65 +60,63 @@ int itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest( int, char * [] )
   std::cout << "Checking CreateCenterVertex." << std::endl;
 
   MeshPointer mesh = MeshType::New();
-  CreateSquareTriangularMesh<MeshType>( mesh );
+  CreateSquareTriangularMesh<MeshType>(mesh);
 
-  CreateCenterVertex::Pointer createCenterVertex = CreateCenterVertex::New( );
+  CreateCenterVertex::Pointer createCenterVertex = CreateCenterVertex::New();
 #ifndef NDEBUG
-  std::cout << "     " << "Test No Mesh Input";
-  if( createCenterVertex->Evaluate( (QEType*)1 ) )
-    {
+  std::cout << "     "
+            << "Test No Mesh Input";
+  if (createCenterVertex->Evaluate((QEType *)1))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "OK" << std::endl;
 #endif
 
   (void)createCenterVertex->GetNameOfClass();
 
-  createCenterVertex->SetInput( mesh );
+  createCenterVertex->SetInput(mesh);
 #ifndef NDEBUG
-  std::cout << "     " << "Test QE Input with no left face";
-  QEType* dummy = new QEType;
-  if( createCenterVertex->Evaluate( dummy ) )
-    {
+  std::cout << "     "
+            << "Test QE Input with no left face";
+  QEType * dummy = new QEType;
+  if (createCenterVertex->Evaluate(dummy))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   delete dummy;
   std::cout << "OK" << std::endl;
 
-  std::cout << "     " << "Test No QE Input";
-  if( createCenterVertex->Evaluate( (QEType*)nullptr ) )
-    {
+  std::cout << "     "
+            << "Test No QE Input";
+  if (createCenterVertex->Evaluate((QEType *)nullptr))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << "OK" << std::endl;
 #endif
 
   std::cout << "     ";
   std::cout << "Create a center vertex of a triangle (possible).";
-  if( !createCenterVertex->Evaluate( mesh->FindEdge( 8, 2 ) ) )
-    {
+  if (!createCenterVertex->Evaluate(mesh->FindEdge(8, 2)))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
-  if( ! AssertTopologicalInvariants< MeshType >
-          ( mesh, 26, 59, 34, 1, 0 ) )
-    {
+  }
+  if (!AssertTopologicalInvariants<MeshType>(mesh, 26, 59, 34, 1, 0))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
-  if ( mesh->GetPoint( createCenterVertex->GetNewPointID( ) ).GetValence( ) != 3
-)
-    {
-    std::cout << "FAILED, wrong valence of "
-       << mesh->GetPoint( createCenterVertex->GetNewPointID( ) ).GetValence( )
-       << " for vertex "
-       << createCenterVertex->GetNewPointID( )
-       << "." << std::endl;
+  }
+  if (mesh->GetPoint(createCenterVertex->GetNewPointID()).GetValence() != 3)
+  {
+    std::cout << "FAILED, wrong valence of " << mesh->GetPoint(createCenterVertex->GetNewPointID()).GetValence()
+              << " for vertex " << createCenterVertex->GetNewPointID() << "." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << ".OK" << std::endl;
   // test with a bigger polygon
   //
@@ -144,43 +142,41 @@ int itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest( int, char * [] )
   //    | /          | /          | /          | /          |
   //    0 ---------- 1 ---------- 2  --------- 3 ---------  4
 
-  CreateSquareTriangularMesh<MeshType>( mesh );
+  CreateSquareTriangularMesh<MeshType>(mesh);
 
   std::cout << "     ";
   std::cout << "Create a center vertex of a Polygon (possible).";
 
   // this create the 16-17-18-13-8-7-6-11 polygon.
-  mesh->LightWeightDeleteEdge( mesh->FindEdge( 11, 12 ) );
-  mesh->LightWeightDeleteEdge( mesh->FindEdge(  6, 12 ) );
-  mesh->LightWeightDeleteEdge( mesh->FindEdge(  7, 12 ) );
-  mesh->LightWeightDeleteEdge( mesh->FindEdge(  7, 13 ) );
-  mesh->LightWeightDeleteEdge( mesh->FindEdge( 12, 13 ) );
-  mesh->LightWeightDeleteEdge( mesh->FindEdge( 12, 18 ) );
-  mesh->LightWeightDeleteEdge( mesh->FindEdge( 12, 17 ) );
-  mesh->LightWeightDeleteEdge( mesh->FindEdge( 11, 17 ) );
-  mesh->DeletePoint( 12 );
-  mesh->AddFace( mesh->FindEdge( 6, 7 ) );
-  if( !createCenterVertex->Evaluate( mesh->FindEdge( 6,  7 ) ) )
-    {
+  mesh->LightWeightDeleteEdge(mesh->FindEdge(11, 12));
+  mesh->LightWeightDeleteEdge(mesh->FindEdge(6, 12));
+  mesh->LightWeightDeleteEdge(mesh->FindEdge(7, 12));
+  mesh->LightWeightDeleteEdge(mesh->FindEdge(7, 13));
+  mesh->LightWeightDeleteEdge(mesh->FindEdge(12, 13));
+  mesh->LightWeightDeleteEdge(mesh->FindEdge(12, 18));
+  mesh->LightWeightDeleteEdge(mesh->FindEdge(12, 17));
+  mesh->LightWeightDeleteEdge(mesh->FindEdge(11, 17));
+  mesh->DeletePoint(12);
+  mesh->AddFace(mesh->FindEdge(6, 7));
+  if (!createCenterVertex->Evaluate(mesh->FindEdge(6, 7)))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
-  if( ! AssertTopologicalInvariants< MeshType >
-          ( mesh, 25, 56, 32, 1, 0 ) )
-    {
+  }
+  if (!AssertTopologicalInvariants<MeshType>(mesh, 25, 56, 32, 1, 0))
+  {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
-    }
-  if ( mesh->GetPoint( createCenterVertex->GetNewPointID( ) ).GetValence( ) != 8 )
-    {
-    std::cout << "FAILED, wrong valence of "
-       << mesh->GetPoint( createCenterVertex->GetNewPointID( ) ).GetValence( )
-       << " for vertex "
-       << createCenterVertex->GetNewPointID( )
-       << "." << std::endl;
+  }
+  if (mesh->GetPoint(createCenterVertex->GetNewPointID()).GetValence() != 8)
+  {
+    std::cout << "FAILED, wrong valence of " << mesh->GetPoint(createCenterVertex->GetNewPointID()).GetValence()
+              << " for vertex " << createCenterVertex->GetNewPointID() << "." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   std::cout << ".OK" << std::endl;
-  std::cout << "Checking CreateCenterVertex." << "OK" << std::endl << std::endl;
+  std::cout << "Checking CreateCenterVertex."
+            << "OK" << std::endl
+            << std::endl;
   return EXIT_SUCCESS;
 }

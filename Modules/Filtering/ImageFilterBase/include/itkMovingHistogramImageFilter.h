@@ -84,25 +84,24 @@ namespace itk
  * \ingroup ITKImageFilterBase
  */
 
-template< typename TInputImage, typename TOutputImage, typename TKernel, typename THistogram >
-class ITK_TEMPLATE_EXPORT MovingHistogramImageFilter:
-  public MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel >
+template <typename TInputImage, typename TOutputImage, typename TKernel, typename THistogram>
+class ITK_TEMPLATE_EXPORT MovingHistogramImageFilter
+  : public MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MovingHistogramImageFilter);
 
   /** Standard class type aliases. */
   using Self = MovingHistogramImageFilter;
-  using Superclass = MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard New method. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(MovingHistogramImageFilter,
-               MovingHistogramImageFilter);
+  itkTypeMacro(MovingHistogramImageFilter, MovingHistogramImageFilter);
 
   /** Image related type alias. */
   using InputImageType = TInputImage;
@@ -127,37 +126,41 @@ public:
   /** n-dimensional Kernel radius. */
   using RadiusType = typename KernelType::SizeType;
 
-  using OffsetListType = typename std::list< OffsetType >;
+  using OffsetListType = typename std::list<OffsetType>;
 
-  using OffsetMapType = typename std::map< OffsetType, OffsetListType, Functor::LexicographicCompare >;
+  using OffsetMapType = typename std::map<OffsetType, OffsetListType, Functor::LexicographicCompare>;
 
   /** Configure the histogram.
    *  Subclasses must override this method. */
-  virtual void ConfigureHistogram(THistogram &) {}
+  virtual void
+  ConfigureHistogram(THistogram &)
+  {}
 
 protected:
   MovingHistogramImageFilter();
   ~MovingHistogramImageFilter() override = default;
 
   /** Multi-thread version of GenerateData. */
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 
   // declare the type used to store the histogram
   using HistogramType = THistogram;
 
-  void PushHistogram(HistogramType & histogram,
-                     const OffsetListType *addedList,
-                     const OffsetListType *removedList,
-                     const RegionType & inputRegion,
-                     const RegionType & kernRegion,
-                     const InputImageType *inputImage,
-                     const IndexType currentIdx);
-};                                          // end of class
+  void
+  PushHistogram(HistogramType &        histogram,
+                const OffsetListType * addedList,
+                const OffsetListType * removedList,
+                const RegionType &     inputRegion,
+                const RegionType &     kernRegion,
+                const InputImageType * inputImage,
+                const IndexType        currentIdx);
+}; // end of class
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMovingHistogramImageFilter.hxx"
+#  include "itkMovingHistogramImageFilter.hxx"
 #endif
 
 #endif

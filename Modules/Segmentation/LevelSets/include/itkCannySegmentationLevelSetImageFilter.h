@@ -126,21 +126,18 @@ namespace itk
  *   \sa SparseFieldLevelSetImageFilter
  * \ingroup ITKLevelSets
  */
-template< typename TInputImage,
-          typename TFeatureImage,
-          typename TOutputPixelType = float >
-class ITK_TEMPLATE_EXPORT CannySegmentationLevelSetImageFilter:
-  public SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
+template <typename TInputImage, typename TFeatureImage, typename TOutputPixelType = float>
+class ITK_TEMPLATE_EXPORT CannySegmentationLevelSetImageFilter
+  : public SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(CannySegmentationLevelSetImageFilter);
 
   /** Standard class type aliases */
   using Self = CannySegmentationLevelSetImageFilter;
-  using Superclass =
-      SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Inherited type alias from the superclass. */
   using ValueType = typename Superclass::ValueType;
@@ -150,8 +147,7 @@ public:
   using SpeedImageType = typename Superclass::SpeedImageType;
 
   /** Type of the segmentation function */
-  typedef::itk::CannySegmentationLevelSetFunction< OutputImageType,
-                                                   FeatureImageType > CannyFunctionType;
+  typedef ::itk::CannySegmentationLevelSetFunction<OutputImageType, FeatureImageType> CannyFunctionType;
 
   using ScalarValueType = typename CannyFunctionType::ScalarValueType;
 
@@ -163,27 +159,41 @@ public:
 
   /** Set the Threshold parameter of the CannyEdgeDetectionImageFilter
    * used by the underlying level set function. */
-  void SetThreshold(ScalarValueType v)
-  { this->m_CannyFunction->SetThreshold(v); }
-  ScalarValueType GetThreshold() const
-  { return this->m_CannyFunction->GetThreshold(); }
+  void
+  SetThreshold(ScalarValueType v)
+  {
+    this->m_CannyFunction->SetThreshold(v);
+  }
+  ScalarValueType
+  GetThreshold() const
+  {
+    return this->m_CannyFunction->GetThreshold();
+  }
 
   /** Set the Variance parameter of the CannyEdgeDetectionImageFilter
    * used by the underlying level set function. */
-  void SetVariance(double v)
-  { this->m_CannyFunction->SetVariance(v); }
-  double GetVariance() const
-  { return this->m_CannyFunction->GetVariance(); }
+  void
+  SetVariance(double v)
+  {
+    this->m_CannyFunction->SetVariance(v);
+  }
+  double
+  GetVariance() const
+  {
+    return this->m_CannyFunction->GetVariance();
+  }
 
   /** Get the Canny image that was used to create the speed and
       advection images */
-  OutputImageType * GetCannyImage()
-  { return this->m_CannyFunction->GetCannyImage(); }
+  OutputImageType *
+  GetCannyImage()
+  {
+    return this->m_CannyFunction->GetCannyImage();
+  }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( OutputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< TOutputPixelType > ) );
+  itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<TOutputPixelType>));
   // End concept checking
 #endif
 
@@ -197,7 +207,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCannySegmentationLevelSetImageFilter.hxx"
+#  include "itkCannySegmentationLevelSetImageFilter.hxx"
 #endif
 
 #endif

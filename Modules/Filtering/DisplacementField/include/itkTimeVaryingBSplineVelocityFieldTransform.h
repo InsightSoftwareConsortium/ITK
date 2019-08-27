@@ -64,9 +64,9 @@ namespace itk
  * \ingroup Transforms
  * \ingroup ITKDisplacementField
  */
-template<typename TParametersValueType, unsigned int NDimensions>
-class ITK_TEMPLATE_EXPORT TimeVaryingBSplineVelocityFieldTransform :
-  public VelocityFieldTransform<TParametersValueType, NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
+class ITK_TEMPLATE_EXPORT TimeVaryingBSplineVelocityFieldTransform
+  : public VelocityFieldTransform<TParametersValueType, NDimensions>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(TimeVaryingBSplineVelocityFieldTransform);
@@ -78,10 +78,10 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( TimeVaryingBSplineVelocityFieldTransform, VelocityFieldTransform );
+  itkTypeMacro(TimeVaryingBSplineVelocityFieldTransform, VelocityFieldTransform);
 
   /** New macro for creation of through a Smart Pointer */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** InverseTransform type. */
   using InverseTransformBasePointer = typename Superclass::InverseTransformBasePointer;
@@ -128,16 +128,18 @@ public:
   using DisplacementFieldDirectionType = typename DisplacementFieldType::DirectionType;
 
   /** Get the time-varying velocity field control point lattice. */
-  VelocityFieldType * GetTimeVaryingVelocityFieldControlPointLattice()
-    {
+  VelocityFieldType *
+  GetTimeVaryingVelocityFieldControlPointLattice()
+  {
     return this->GetModifiableVelocityField();
-    }
+  }
 
   /** Set the time-varying velocity field control point lattice.  */
-  virtual void SetTimeVaryingVelocityFieldControlPointLattice( VelocityFieldType * fieldLattice )
-    {
-    this->SetVelocityField( fieldLattice );
-    }
+  virtual void
+  SetTimeVaryingVelocityFieldControlPointLattice(VelocityFieldType * fieldLattice)
+  {
+    this->SetVelocityField(fieldLattice);
+  }
 
   /** Update the transform's parameters by the adding values in \c update
    * to current parameter values.  We assume \c update is of the same length as Parameters.
@@ -146,50 +148,53 @@ public:
    * to perform any required operations on the update parameters, typically
    * a converion to member variables for use in TransformPoint.
    */
-  void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 ) override;
+  void
+  UpdateTransformParameters(const DerivativeType & update, ScalarType factor = 1.0) override;
 
   /** Trigger the computation of the displacement field by integrating the time-varying velocity field. */
-  void IntegrateVelocityField() override;
+  void
+  IntegrateVelocityField() override;
 
   /** Set/Get sampled velocity field origin */
-  itkSetMacro( VelocityFieldOrigin, VelocityFieldPointType );
-  itkGetConstMacro( VelocityFieldOrigin, VelocityFieldPointType );
+  itkSetMacro(VelocityFieldOrigin, VelocityFieldPointType);
+  itkGetConstMacro(VelocityFieldOrigin, VelocityFieldPointType);
 
   /** Set/Get sampled velocity field spacing */
-  itkSetMacro( VelocityFieldSpacing, VelocityFieldSpacingType );
-  itkGetConstMacro( VelocityFieldSpacing, VelocityFieldSpacingType );
+  itkSetMacro(VelocityFieldSpacing, VelocityFieldSpacingType);
+  itkGetConstMacro(VelocityFieldSpacing, VelocityFieldSpacingType);
 
   /** Set/Get sampled velocity field size */
-  itkSetMacro( VelocityFieldSize, VelocityFieldSizeType );
-  itkGetConstMacro( VelocityFieldSize, VelocityFieldSizeType );
+  itkSetMacro(VelocityFieldSize, VelocityFieldSizeType);
+  itkGetConstMacro(VelocityFieldSize, VelocityFieldSizeType);
 
   /** Set/Get sampled velocity field direction */
-  itkSetMacro( VelocityFieldDirection, VelocityFieldDirectionType );
-  itkGetConstMacro( VelocityFieldDirection, VelocityFieldDirectionType );
+  itkSetMacro(VelocityFieldDirection, VelocityFieldDirectionType);
+  itkGetConstMacro(VelocityFieldDirection, VelocityFieldDirectionType);
 
   /** Set/Get the spline order. */
-  itkSetMacro( SplineOrder, unsigned int );
-  itkGetConstMacro( SplineOrder, unsigned int );
+  itkSetMacro(SplineOrder, unsigned int);
+  itkGetConstMacro(SplineOrder, unsigned int);
 
 protected:
   TimeVaryingBSplineVelocityFieldTransform();
   ~TimeVaryingBSplineVelocityFieldTransform() override = default;
-  void PrintSelf( std::ostream& os, Indent indent ) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  unsigned int                                                   m_SplineOrder;
-  bool                                                           m_TemporalPeriodicity;
+  unsigned int m_SplineOrder;
+  bool         m_TemporalPeriodicity;
 
-  VelocityFieldPointType                                         m_VelocityFieldOrigin;
-  VelocityFieldSpacingType                                       m_VelocityFieldSpacing;
-  VelocityFieldDirectionType                                     m_VelocityFieldDirection;
-  VelocityFieldSizeType                                          m_VelocityFieldSize;
+  VelocityFieldPointType     m_VelocityFieldOrigin;
+  VelocityFieldSpacingType   m_VelocityFieldSpacing;
+  VelocityFieldDirectionType m_VelocityFieldDirection;
+  VelocityFieldSizeType      m_VelocityFieldSize;
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-# include "itkTimeVaryingBSplineVelocityFieldTransform.hxx"
+#  include "itkTimeVaryingBSplineVelocityFieldTransform.hxx"
 #endif
 
 #endif // itkTimeVaryingBSplineVelocityFieldTransform_h

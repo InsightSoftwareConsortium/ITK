@@ -22,35 +22,36 @@
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
 
-int itkNeighborhoodConnectedImageFilterTest(int ac, char* av[] )
+int
+itkNeighborhoodConnectedImageFilterTest(int ac, char * av[])
 {
-  if(ac < 5)
-    {
+  if (ac < 5)
+  {
     std::cerr << "Usage: " << av[0] << " InputImage OutputImage seed_x seed_y\n";
     return -1;
-    }
+  }
 
   using PixelType = unsigned char;
   using myImage = itk::Image<PixelType, 2>;
-  itk::ImageFileReader<myImage>::Pointer input
-    = itk::ImageFileReader<myImage>::New();
+  itk::ImageFileReader<myImage>::Pointer input = itk::ImageFileReader<myImage>::New();
   input->SetFileName(av[1]);
 
   // Create a filter
-  using FilterType = itk::NeighborhoodConnectedImageFilter<myImage,myImage>;
+  using FilterType = itk::NeighborhoodConnectedImageFilter<myImage, myImage>;
 
-  FilterType::Pointer filter = FilterType::New();
+  FilterType::Pointer      filter = FilterType::New();
   itk::SimpleFilterWatcher watcher(filter);
 
   filter->SetInput(input->GetOutput());
 
   FilterType::IndexType seed;
 
-  seed[0] = std::stoi(av[3]); seed[1] = std::stoi(av[4]);
+  seed[0] = std::stoi(av[3]);
+  seed[1] = std::stoi(av[4]);
   filter->SetSeed(seed);
 
-  filter->SetLower (0);
-  filter->SetUpper (210);
+  filter->SetLower(0);
+  filter->SetUpper(210);
   using SizeType = FilterType::InputImageSizeType;
   SizeType radius;
   radius.Fill(5);
@@ -60,17 +61,11 @@ int itkNeighborhoodConnectedImageFilterTest(int ac, char* av[] )
 
   // Test GetMacros
   PixelType lower = filter->GetLower();
-  std::cout << "filter->GetLower(): "
-            << itk::NumericTraits<PixelType>::PrintType(lower)
-            << std::endl;
-  PixelType upper  = filter->GetUpper();
-  std::cout << "filter->GetUpper(): "
-            << itk::NumericTraits<PixelType>::PrintType(upper)
-            << std::endl;
+  std::cout << "filter->GetLower(): " << itk::NumericTraits<PixelType>::PrintType(lower) << std::endl;
+  PixelType upper = filter->GetUpper();
+  std::cout << "filter->GetUpper(): " << itk::NumericTraits<PixelType>::PrintType(upper) << std::endl;
   PixelType replaceValue = filter->GetReplaceValue();
-  std::cout << "filter->GetReplaceValue(): "
-            << itk::NumericTraits<PixelType>::PrintType(replaceValue)
-            << std::endl;
+  std::cout << "filter->GetReplaceValue(): " << itk::NumericTraits<PixelType>::PrintType(replaceValue) << std::endl;
 
   // Test GetConstReferenceMacro
   const SizeType & radius2 = filter->GetRadius();
@@ -78,22 +73,22 @@ int itkNeighborhoodConnectedImageFilterTest(int ac, char* av[] )
 
 
   try
-    {
+  {
     input->Update();
     filter->Update();
-    }
-  catch (itk::ExceptionObject& e)
-    {
-    std::cerr << "Exception detected: "  << e.GetDescription();
+  }
+  catch (itk::ExceptionObject & e)
+  {
+    std::cerr << "Exception detected: " << e.GetDescription();
     return -1;
-    }
+  }
 
   // Generate test image
   itk::ImageFileWriter<myImage>::Pointer writer;
-    writer = itk::ImageFileWriter<myImage>::New();
-    writer->SetInput( filter->GetOutput() );
-    writer->SetFileName( av[2] );
-    writer->Update();
+  writer = itk::ImageFileWriter<myImage>::New();
+  writer->SetInput(filter->GetOutput());
+  writer->SetFileName(av[2]);
+  writer->Update();
 
-    return EXIT_SUCCESS;
+  return EXIT_SUCCESS;
 }

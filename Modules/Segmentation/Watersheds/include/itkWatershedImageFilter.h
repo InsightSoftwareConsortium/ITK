@@ -145,10 +145,9 @@ namespace itk
  * \sphinxexample{Segmentation/Watersheds/SegmentWithWatershedImageFilter,Watershed Image Filter}
  * \endsphinx
  */
-template< typename TInputImage >
-class ITK_TEMPLATE_EXPORT WatershedImageFilter:
-  public ImageToImageFilter< TInputImage, Image< IdentifierType,
-                                                 TInputImage::ImageDimension > >
+template <typename TInputImage>
+class ITK_TEMPLATE_EXPORT WatershedImageFilter
+  : public ImageToImageFilter<TInputImage, Image<IdentifierType, TInputImage::ImageDimension>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(WatershedImageFilter);
@@ -163,7 +162,7 @@ public:
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** The type of output image.   */
-  using OutputImageType = Image< IdentifierType, Self::ImageDimension >;
+  using OutputImageType = Image<IdentifierType, Self::ImageDimension>;
 
   /** Other convenient type alias   */
   using RegionType = typename InputImageType::RegionType;
@@ -171,13 +170,13 @@ public:
   using IndexType = typename InputImageType::IndexType;
 
   /** Standard super class type alias support */
-  using Superclass = ImageToImageFilter< InputImageType, OutputImageType >;
+  using Superclass = ImageToImageFilter<InputImageType, OutputImageType>;
 
   /** Typedef support for the input image scalar value type. */
   using ScalarType = typename InputImageType::PixelType;
 
   /** Smart pointer type alias support  */
-  using Pointer = SmartPointer< Self >;
+  using Pointer = SmartPointer<Self>;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(WatershedImageFilter, ImageToImageFilter);
@@ -186,47 +185,56 @@ public:
   itkNewMacro(Self);
 
   /** Standard process object method.  This filter is not multithreaded. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /** Overloaded to link the input to this filter with the input of the
       mini-pipeline */
   using Superclass::SetInput;
-  void SetInput(const InputImageType *input) override
+  void
+  SetInput(const InputImageType * input) override
   {
     // if the input is changed, we'll need to clear the cached tree
     // when we execute
-    if ( input != this->GetInput(0) )
-      {
+    if (input != this->GetInput(0))
+    {
       m_InputChanged = true;
-      }
+    }
 
     // processObject is not const-correct so a const_cast is needed here
-    this->ProcessObject::SetNthInput( 0, const_cast< InputImageType * >( input ) );
-    m_Segmenter->SetInputImage( const_cast< InputImageType * >( input ) );
+    this->ProcessObject::SetNthInput(0, const_cast<InputImageType *>(input));
+    m_Segmenter->SetInputImage(const_cast<InputImageType *>(input));
   }
 
-  void SetInput(unsigned int i, const TInputImage *image) override
+  void
+  SetInput(unsigned int i, const TInputImage * image) override
   {
-    if ( i != 0 )
-                  { itkExceptionMacro(<< "Filter has only one input."); }
+    if (i != 0)
+    {
+      itkExceptionMacro(<< "Filter has only one input.");
+    }
     else
-                  { this->SetInput(image); }
+    {
+      this->SetInput(image);
+    }
   }
 
   /** Set/Get the input thresholding parameter.  Units are a percentage of
    * the maximum depth in the image. */
-  void SetThreshold(double);
+  void
+  SetThreshold(double);
 
   itkGetConstMacro(Threshold, double);
 
   /** Set/Get the flood level for generating the merge tree from the initial
    * segmentation   */
-  void SetLevel(double);
+  void
+  SetLevel(double);
 
   itkGetConstMacro(Level, double);
 
   /** Get the basic segmentation from the Segmenter member filter. */
-  typename watershed::Segmenter< InputImageType >::OutputImageType *
+  typename watershed::Segmenter<InputImageType>::OutputImageType *
   GetBasicSegmentation()
   {
     m_Segmenter->Update();
@@ -234,58 +242,57 @@ public:
   }
 
   /** Get the segmentation tree from from the TreeGenerator member filter. */
-  typename watershed::SegmentTreeGenerator< ScalarType >::SegmentTreeType *
+  typename watershed::SegmentTreeGenerator<ScalarType>::SegmentTreeType *
   GetSegmentTree()
   {
     return m_TreeGenerator->GetOutputSegmentTree();
   }
 
   // Override since the filter produces all of its output
-  void EnlargeOutputRequestedRegion(DataObject *data) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * data) override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputEqualityComparableCheck,
-                   ( Concept::EqualityComparable< ScalarType > ) );
-  itkConceptMacro( InputAdditiveOperatorsCheck,
-                   ( Concept::AdditiveOperators< ScalarType > ) );
-  itkConceptMacro( DoubleInputMultiplyOperatorCheck,
-                   ( Concept::MultiplyOperator< double, ScalarType, ScalarType > ) );
-  itkConceptMacro( InputLessThanComparableCheck,
-                   ( Concept::LessThanComparable< ScalarType > ) );
+  itkConceptMacro(InputEqualityComparableCheck, (Concept::EqualityComparable<ScalarType>));
+  itkConceptMacro(InputAdditiveOperatorsCheck, (Concept::AdditiveOperators<ScalarType>));
+  itkConceptMacro(DoubleInputMultiplyOperatorCheck, (Concept::MultiplyOperator<double, ScalarType, ScalarType>));
+  itkConceptMacro(InputLessThanComparableCheck, (Concept::LessThanComparable<ScalarType>));
   // End concept checking
 #endif
 
 protected:
   WatershedImageFilter();
   ~WatershedImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** An opportunity to Allocate/Deallocate bulk data.
    */
-  void PrepareOutputs() override;
+  void
+  PrepareOutputs() override;
 
 private:
   /** A Percentage of the maximum depth (max - min pixel value) in the input
    *  image.  This percentage will be used to threshold the minimum values in
    *  the image. */
-  double m_Threshold{0.0};
+  double m_Threshold{ 0.0 };
 
   /** The percentage of the maximum saliency value among adjacencies in the
    *  segments of the initial segmentation to which "flooding" of the image
    *  should occur.  A tree of segment merges is calculated up to this
    *  level. */
-  double m_Level{0.0};
+  double m_Level{ 0.0 };
 
   /** The component parts of the segmentation algorithm.  These objects
    * must save state between calls to GenerateData() so that the
    * computationally expensive execution of segment tree generation is
    * not unnecessarily repeated. */
-  typename watershed::Segmenter< InputImageType >::Pointer m_Segmenter;
+  typename watershed::Segmenter<InputImageType>::Pointer m_Segmenter;
 
-  typename watershed::SegmentTreeGenerator< ScalarType >::Pointer m_TreeGenerator;
+  typename watershed::SegmentTreeGenerator<ScalarType>::Pointer m_TreeGenerator;
 
-  typename watershed::Relabeler< ScalarType, Self::ImageDimension >::Pointer m_Relabeler;
+  typename watershed::Relabeler<ScalarType, Self::ImageDimension>::Pointer m_Relabeler;
 
   unsigned long m_ObserverTag;
 
@@ -298,7 +305,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkWatershedImageFilter.hxx"
+#  include "itkWatershedImageFilter.hxx"
 #endif
 
 #endif

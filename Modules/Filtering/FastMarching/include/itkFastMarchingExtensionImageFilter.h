@@ -51,23 +51,20 @@ namespace itk
  * \ingroup LevelSetSegmentation
  * \ingroup ITKFastMarching
  */
-template<
-  typename TLevelSet,
-  typename TAuxValue,
-  unsigned int VAuxDimension = 1,
-  typename TSpeedImage = Image< float,  TLevelSet ::ImageDimension >
-  >
-class ITK_TEMPLATE_EXPORT FastMarchingExtensionImageFilter:
-  public FastMarchingImageFilter< TLevelSet, TSpeedImage >
+template <typename TLevelSet,
+          typename TAuxValue,
+          unsigned int VAuxDimension = 1,
+          typename TSpeedImage = Image<float, TLevelSet ::ImageDimension>>
+class ITK_TEMPLATE_EXPORT FastMarchingExtensionImageFilter : public FastMarchingImageFilter<TLevelSet, TSpeedImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingExtensionImageFilter);
 
   /** Standard class typdedefs. */
   using Self = FastMarchingExtensionImageFilter;
-  using Superclass = FastMarchingImageFilter< TLevelSet, TSpeedImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = FastMarchingImageFilter<TLevelSet, TSpeedImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -87,9 +84,7 @@ public:
   static constexpr unsigned int AuxDimension = VAuxDimension;
 
   /** AuxVarType type alias support */
-  using AuxVarType = AuxVarTypeDefault< TAuxValue,
-                             Self::AuxDimension,
-                             Self::SetDimension >;
+  using AuxVarType = AuxVarTypeDefault<TAuxValue, Self::AuxDimension, Self::SetDimension>;
   using AuxValueType = typename AuxVarType::AuxValueType;
   using AuxValueVectorType = typename AuxVarType::AuxValueVectorType;
   using AuxValueContainer = typename AuxVarType::AuxValueContainer;
@@ -97,67 +92,75 @@ public:
   using AuxImagePointer = typename AuxVarType::AuxImagePointer;
 
   /** Index type alias support */
-  using IndexType = Index< Self::SetDimension >;
+  using IndexType = Index<Self::SetDimension>;
 
   /** Get one of the extended auxiliary variable image. */
-  AuxImageType * GetAuxiliaryImage(unsigned int idx);
+  AuxImageType *
+  GetAuxiliaryImage(unsigned int idx);
 
   /** Set the container auxiliary values at the initial alive points. */
-  void SetAuxiliaryAliveValues(AuxValueContainer *values)
+  void
+  SetAuxiliaryAliveValues(AuxValueContainer * values)
   {
     m_AuxAliveValues = values;
   }
 
   /** Get the container of auxiliary values at the initial alive points. */
-  AuxValueContainer * GetAuxiliaryAliveValues()
+  AuxValueContainer *
+  GetAuxiliaryAliveValues()
   {
     return m_AuxAliveValues.GetPointer();
   }
 
   /** Set the container of auxiliary values at the initial trial points. */
-  void SetAuxiliaryTrialValues(AuxValueContainer *values)
+  void
+  SetAuxiliaryTrialValues(AuxValueContainer * values)
   {
     m_AuxTrialValues = values;
   }
 
   /** Get the container of auxiliary values at the initial trial points. */
-  typename AuxValueContainer::Pointer GetAuxiliaryTrialValues()
+  typename AuxValueContainer::Pointer
+  GetAuxiliaryTrialValues()
   {
     return m_AuxTrialValues;
   }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( AuxValueHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< TAuxValue > ) );
+  itkConceptMacro(AuxValueHasNumericTraitsCheck, (Concept::HasNumericTraits<TAuxValue>));
   // End concept checking
 #endif
 
 protected:
   FastMarchingExtensionImageFilter();
   ~FastMarchingExtensionImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void Initialize(LevelSetImageType *) override;
+  void
+  Initialize(LevelSetImageType *) override;
 
-  double UpdateValue(const IndexType & index,
-                             const SpeedImageType *speed, LevelSetImageType *output) override;
+  double
+  UpdateValue(const IndexType & index, const SpeedImageType * speed, LevelSetImageType * output) override;
 
   /** Generate the output image meta information */
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
-  void EnlargeOutputRequestedRegion(DataObject *output) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * output) override;
 
 private:
   typename AuxValueContainer::Pointer m_AuxAliveValues;
   typename AuxValueContainer::Pointer m_AuxTrialValues;
 
-  AuxImageType *m_AuxImages[AuxDimension];
+  AuxImageType * m_AuxImages[AuxDimension];
 };
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFastMarchingExtensionImageFilter.hxx"
+#  include "itkFastMarchingExtensionImageFilter.hxx"
 #endif
 
 #endif

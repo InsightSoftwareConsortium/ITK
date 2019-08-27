@@ -59,9 +59,8 @@ namespace itk
  * \ingroup ClassificationFilters
  * \ingroup ITKClassifiers
  */
-template< typename TInputImage,
-          typename TMembershipFunction >
-class ITK_TEMPLATE_EXPORT ImageModelEstimatorBase:public LightProcessObject
+template <typename TInputImage, typename TMembershipFunction>
+class ITK_TEMPLATE_EXPORT ImageModelEstimatorBase : public LightProcessObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageModelEstimatorBase);
@@ -69,8 +68,8 @@ public:
   /** Standard class type aliases. */
   using Self = ImageModelEstimatorBase;
   using Superclass = LightProcessObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageModelEstimatorBase, LightProcessObject);
@@ -91,54 +90,60 @@ public:
   using InputImagePointer = typename TInputImage::Pointer;
 
   /** Type definitions for the training image. */
-  //using TrainingImagePointer = typename TTrainingImage::Pointer;
+  // using TrainingImagePointer = typename TTrainingImage::Pointer;
 
   /** Get/Set the input image. */
   itkSetObjectMacro(InputImage, InputImageType);
   itkGetModifiableObjectMacro(InputImage, InputImageType);
 
   /** Set the classified image. */
-  void SetMembershipFunctions(MembershipFunctionPointerVector
-                              membershipFunctions)
+  void
+  SetMembershipFunctions(MembershipFunctionPointerVector membershipFunctions)
   {
     m_MembershipFunctions = membershipFunctions;
   }
 
   /** Method to get mean */
-  const MembershipFunctionPointerVector GetMembershipFunctions() const
+  const MembershipFunctionPointerVector
+  GetMembershipFunctions() const
   {
     return m_MembershipFunctions;
   }
 
   /** Method to number of membership functions */
-  unsigned int GetNumberOfMembershipFunctions()
+  unsigned int
+  GetNumberOfMembershipFunctions()
   {
-    return static_cast< unsigned int >( m_MembershipFunctions.size() );
+    return static_cast<unsigned int>(m_MembershipFunctions.size());
   }
 
   /** Method to reset the membership function mean */
-  void DeleteAllMembershipFunctions()
+  void
+  DeleteAllMembershipFunctions()
   {
     m_MembershipFunctions.resize(0);
   }
 
   /** Stores a MembershipCalculator of a class in its internal vector */
-  unsigned int AddMembershipFunction(MembershipFunctionPointer function);
+  unsigned int
+  AddMembershipFunction(MembershipFunctionPointer function);
 
   /** Define a virtual function to perform model generation from the input data
    */
-  void Update();
+  void
+  Update();
 
 protected:
   ImageModelEstimatorBase();
   ~ImageModelEstimatorBase() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
-
-  unsigned int m_NumberOfModels{0};
+  unsigned int m_NumberOfModels{ 0 };
 
   /** Container to hold the membership functions */
   MembershipFunctionPointerVector m_MembershipFunctions;
@@ -147,12 +152,13 @@ private:
   InputImagePointer m_InputImage;
 
   /** The core virtual function to perform modelling of the input data */
-  virtual void EstimateModels() = 0;
+  virtual void
+  EstimateModels() = 0;
 }; // class ImageModelEstimator
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageModelEstimatorBase.hxx"
+#  include "itkImageModelEstimatorBase.hxx"
 #endif
 
 #endif

@@ -17,11 +17,13 @@
  *=========================================================================*/
 
 /**
- * This is a fully working example of SAX-based reader for the ITK object itk::ParticleSwarmOptimizer.
- * It performs the same function as ParticleSwarmOptimizerDOMReader; however, the traditional SAX
- * (Simple API for XML) is used during the reading process, which is more complicated and error prone.
+ * This is a fully working example of SAX-based reader for the ITK object
+ * itk::ParticleSwarmOptimizer. It performs the same function as
+ * ParticleSwarmOptimizerDOMReader; however, the traditional SAX (Simple API for XML) is
+ * used during the reading process, which is more complicated and error prone.
  *
- * Please see [ITK_HOME]/Testing/Data/InputXML/test.pso.xml for an example of our XML format for the PSO object.
+ * Please see [ITK_HOME]/Testing/Data/InputXML/test.pso.xml for an example of our XML
+ * format for the PSO object.
  */
 
 #ifndef itkParticleSwarmOptimizerSAXReader_h
@@ -44,8 +46,8 @@ public:
   /** Standard class type aliases */
   using Self = ParticleSwarmOptimizerSAXReader;
   using Superclass = XMLReader<ParticleSwarmOptimizer>;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -57,48 +59,57 @@ public:
    * Virtual method defined in itk::XMLReaderBase.
    * Check that whether the file with given name is readable.
    */
-  int CanReadFile( const char* name ) override;
+  int
+  CanReadFile(const char * name) override;
 
   /**
    * Virtual method defined in itk::XMLReaderBase.
    * Called when a new xml tag start is encountered.
    */
-  void StartElement( const char* name, const char** atts ) override;
+  void
+  StartElement(const char * name, const char ** atts) override;
 
   /**
    * Virtual method defined in itk::XMLReaderBase.
    * Called when an xml tag end is encountered.
    */
-  void EndElement( const char* name ) override;
+  void
+  EndElement(const char * name) override;
 
   /**
    * Virtual method defined in itk::XMLReaderBase.
    * Called when handling character data inside an xml tag.
    */
-  void CharacterDataHandler( const char* inData, int inLength ) override;
+  void
+  CharacterDataHandler(const char * inData, int inLength) override;
 
   /**
    * Method for performing XML reading and output generation.
    */
-  virtual int ReadFile();
+  virtual int
+  ReadFile();
 
 protected:
   ParticleSwarmOptimizerSAXReader() = default;
 
   /** Process tag 'optimizer' attributes. */
-  void ProcessOptimizerAttributes( const char** atts, ParticleSwarmOptimizer* opt );
+  void
+  ProcessOptimizerAttributes(const char ** atts, ParticleSwarmOptimizer * opt);
 
   /** Process tag 'bound' attributes. */
-  void ProcessBoundAttributes( const char** atts, std::vector<double>& bound );
+  void
+  ProcessBoundAttributes(const char ** atts, std::vector<double> & bound);
 
   /** Search for and return a particular attribute from the attribute list. */
-  const char* GetAttribute( const char** atts, const char* key );
+  const char *
+  GetAttribute(const char ** atts, const char * key);
 
   /** Check the current tags to see whether it matches a user input. */
-  bool ContextIs( const char* test ) const;
+  bool
+  ContextIs(const char * test) const;
 
   /** During the parsing process, current tags are stored in a LIFO stack. */
-  std::vector< const char* > m_CurrentTags;
+  std::vector<const char *> m_CurrentTags;
 
   // other temporary variables used during XML parsing
   std::vector<double> m_LowerBound;

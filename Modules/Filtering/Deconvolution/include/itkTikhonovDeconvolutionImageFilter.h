@@ -46,20 +46,20 @@ namespace itk
  * \ingroup ITKDeconvolution
  *
  */
-template< typename TInputImage, typename TKernelImage = TInputImage, typename TOutputImage = TInputImage, typename TInternalPrecision=double >
-class ITK_TEMPLATE_EXPORT TikhonovDeconvolutionImageFilter :
-  public InverseDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
+template <typename TInputImage,
+          typename TKernelImage = TInputImage,
+          typename TOutputImage = TInputImage,
+          typename TInternalPrecision = double>
+class ITK_TEMPLATE_EXPORT TikhonovDeconvolutionImageFilter
+  : public InverseDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(TikhonovDeconvolutionImageFilter);
 
   using Self = TikhonovDeconvolutionImageFilter;
-  using Superclass = InverseDeconvolutionImageFilter< TInputImage,
-                                           TKernelImage,
-                                           TOutputImage,
-                                           TInternalPrecision >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = InverseDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -106,9 +106,11 @@ protected:
   ~TikhonovDeconvolutionImageFilter() override = default;
 
   /** This filter uses a minipipeline to compute the output. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   double m_RegularizationConstant;
@@ -116,57 +118,64 @@ private:
 
 namespace Functor
 {
-template< typename TInput1, typename TInput2, typename TOutput >
+template <typename TInput1, typename TInput2, typename TOutput>
 class ITK_TEMPLATE_EXPORT TikhonovDeconvolutionFunctor
 {
 public:
   TikhonovDeconvolutionFunctor() {}
   ~TikhonovDeconvolutionFunctor() = default;
-  TikhonovDeconvolutionFunctor( const TikhonovDeconvolutionFunctor & f)
-    : m_RegularizationConstant( f.m_RegularizationConstant )
-    , m_KernelZeroMagnitudeThreshold( f.m_KernelZeroMagnitudeThreshold )
+  TikhonovDeconvolutionFunctor(const TikhonovDeconvolutionFunctor & f)
+    : m_RegularizationConstant(f.m_RegularizationConstant)
+    , m_KernelZeroMagnitudeThreshold(f.m_KernelZeroMagnitudeThreshold)
   {}
 
 
-  bool operator!=( const TikhonovDeconvolutionFunctor & ) const
+  bool
+  operator!=(const TikhonovDeconvolutionFunctor &) const
   {
     return false;
   }
-  bool operator==( const TikhonovDeconvolutionFunctor & other) const
+  bool
+  operator==(const TikhonovDeconvolutionFunctor & other) const
   {
     return !(*this != other);
   }
-  inline TOutput operator()(const TInput1 & I, const TInput2 & H) const
+  inline TOutput
+  operator()(const TInput1 & I, const TInput2 & H) const
   {
-    typename TOutput::value_type normH = std::norm( H );
+    typename TOutput::value_type normH = std::norm(H);
     typename TOutput::value_type denominator = normH + m_RegularizationConstant;
-    TOutput value = NumericTraits< TOutput >::ZeroValue();
-    if ( denominator >= m_KernelZeroMagnitudeThreshold )
-      {
-      value = static_cast< TOutput >( I * ( std::conj( H ) / denominator ) );
-      }
+    TOutput                      value = NumericTraits<TOutput>::ZeroValue();
+    if (denominator >= m_KernelZeroMagnitudeThreshold)
+    {
+      value = static_cast<TOutput>(I * (std::conj(H) / denominator));
+    }
 
     return value;
   }
 
   /** Set/get the regular constant. This needs to be a non-negative
    * real value. */
-  void SetRegularizationConstant(double constant)
+  void
+  SetRegularizationConstant(double constant)
   {
     m_RegularizationConstant = constant;
   }
-  double GetRegularizationConstant() const
+  double
+  GetRegularizationConstant() const
   {
     return m_RegularizationConstant;
   }
 
   /** Set/get the threshold value below which complex magnitudes are considered
    * to be zero. */
-  void SetKernelZeroMagnitudeThreshold(double mu)
+  void
+  SetKernelZeroMagnitudeThreshold(double mu)
   {
     m_KernelZeroMagnitudeThreshold = mu;
   }
-  double GetKernelZeroMagnitudeThreshold() const
+  double
+  GetKernelZeroMagnitudeThreshold() const
   {
     return m_KernelZeroMagnitudeThreshold;
   }
@@ -175,12 +184,12 @@ private:
   double m_RegularizationConstant = 0.0;
   double m_KernelZeroMagnitudeThreshold = 0.0;
 };
-} //namespace Functor
+} // namespace Functor
 
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTikhonovDeconvolutionImageFilter.hxx"
+#  include "itkTikhonovDeconvolutionImageFilter.hxx"
 #endif
 
 #endif

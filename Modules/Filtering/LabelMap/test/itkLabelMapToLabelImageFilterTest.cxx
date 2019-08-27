@@ -22,22 +22,23 @@
 #include "itkLabelMapToLabelImageFilter.h"
 #include "itkTestingMacros.h"
 
-int itkLabelMapToLabelImageFilterTest(int argc, char * argv[])
+int
+itkLabelMapToLabelImageFilterTest(int argc, char * argv[])
 {
 
-  if( argc != 1 )
-    {
+  if (argc != 1)
+  {
     std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << "" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr int dim = 2;
 
-  using LabelObjectType = itk::LabelObject< unsigned long, dim >;
+  using LabelObjectType = itk::LabelObject<unsigned long, dim>;
   using IndexType = LabelObjectType::IndexType;
-  using LabelMapType = itk::LabelMap< LabelObjectType >;
+  using LabelMapType = itk::LabelMap<LabelObjectType>;
   using SizeType = LabelMapType::SizeType;
-  using ImageType = itk::Image< unsigned char, dim >;
+  using ImageType = itk::Image<unsigned char, dim>;
 
   using LabelMapToLabelImageFilterType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
 
@@ -46,55 +47,55 @@ int itkLabelMapToLabelImageFilterTest(int argc, char * argv[])
   SizeType sizeIn;
   sizeIn[0] = 11;
   sizeIn[1] = 11;
-  map->SetRegions( sizeIn );
+  map->SetRegions(sizeIn);
   map->Allocate();
 
   IndexType idxHorizontal;
   idxHorizontal[0] = 0;
   idxHorizontal[1] = 5;
-  map->SetLine( idxHorizontal, 11, 1);
+  map->SetLine(idxHorizontal, 11, 1);
 
   IndexType idxVertical;
   idxVertical[0] = 5;
-  for (int ctr=0; ctr<5; ctr++)
-    {
+  for (int ctr = 0; ctr < 5; ctr++)
+  {
     idxVertical[1] = ctr;
-    map->SetPixel( idxVertical, 1 );
-    }
-  for (int ctr=6; ctr<11; ctr++)
-    {
+    map->SetPixel(idxVertical, 1);
+  }
+  for (int ctr = 6; ctr < 11; ctr++)
+  {
     idxVertical[1] = ctr;
-    map->SetPixel( idxVertical, 1 );
-    }
+    map->SetPixel(idxVertical, 1);
+  }
 
   LabelMapToLabelImageFilterType::Pointer conversion = LabelMapToLabelImageFilterType::New();
-  conversion->SetInput( map );
-  conversion->Update( );
+  conversion->SetInput(map);
+  conversion->Update();
 
   ImageType::Pointer image;
   image = conversion->GetOutput();
 
-  for (int ctrI=0; ctrI<11; ctrI++)
+  for (int ctrI = 0; ctrI < 11; ctrI++)
+  {
+    for (int ctrJ = 0; ctrJ < 11; ctrJ++)
     {
-    for (int ctrJ=0; ctrJ<11; ctrJ++)
-      {
       IndexType index;
       index[0] = ctrI;
       index[1] = ctrJ;
       unsigned char val;
       val = image->GetPixel(index);
-      if ( (ctrI == 5) || (ctrJ==5) )
-        {
-        itkAssertOrThrowMacro( (val == 1), "Error in Label Image.");
-        }
+      if ((ctrI == 5) || (ctrJ == 5))
+      {
+        itkAssertOrThrowMacro((val == 1), "Error in Label Image.");
+      }
       else
-        {
-        itkAssertOrThrowMacro( (val == 0), "Error in Label Image.");
-        }
+      {
+        itkAssertOrThrowMacro((val == 0), "Error in Label Image.");
       }
     }
+  }
 
-  conversion->Print( std::cout );
+  conversion->Print(std::cout);
 
   return EXIT_SUCCESS;
 }

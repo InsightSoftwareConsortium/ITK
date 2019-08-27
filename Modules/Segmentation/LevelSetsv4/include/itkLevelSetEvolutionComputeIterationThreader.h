@@ -35,30 +35,33 @@ namespace itk
  *
  * \ingroup ITKLevelSetsv4
  */
-template< typename TLevelSet, typename TDomainPartitioner, typename TLevelSetEvolution >
+template <typename TLevelSet, typename TDomainPartitioner, typename TLevelSetEvolution>
 class ITK_TEMPLATE_EXPORT LevelSetEvolutionComputeIterationThreader
 {};
 
 // For dense image level set split by putting part of the level set region in
 // each thread.
-template< typename TImage, typename TLevelSetEvolution >
-class ITK_TEMPLATE_EXPORT LevelSetEvolutionComputeIterationThreader< LevelSetDenseImage< TImage >, ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >
-  : public DomainThreader< ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >
+template <typename TImage, typename TLevelSetEvolution>
+class ITK_TEMPLATE_EXPORT
+  LevelSetEvolutionComputeIterationThreader<LevelSetDenseImage<TImage>,
+                                            ThreadedImageRegionPartitioner<TImage::ImageDimension>,
+                                            TLevelSetEvolution>
+  : public DomainThreader<ThreadedImageRegionPartitioner<TImage::ImageDimension>, TLevelSetEvolution>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolutionComputeIterationThreader);
 
   /** Standard class type aliases. */
   using Self = LevelSetEvolutionComputeIterationThreader;
-  using Superclass = DomainThreader< ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = DomainThreader<ThreadedImageRegionPartitioner<TImage::ImageDimension>, TLevelSetEvolution>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run time type information. */
-  itkTypeMacro( LevelSetEvolutionComputeIterationThreader, DomainThreader );
+  itkTypeMacro(LevelSetEvolutionComputeIterationThreader, DomainThreader);
 
   /** Standard New macro. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Superclass types. */
   using DomainType = typename Superclass::DomainType;
@@ -83,32 +86,39 @@ public:
 protected:
   LevelSetEvolutionComputeIterationThreader() = default;
 
-  void ThreadedExecution( const DomainType & imageSubRegion, const ThreadIdType threadId ) override;
+  void
+  ThreadedExecution(const DomainType & imageSubRegion, const ThreadIdType threadId) override;
 };
 
 // For dense image level set split by putting a level set domain in each thread.
-template< typename TImage, typename TLevelSetEvolution >
-class ITK_TEMPLATE_EXPORT LevelSetEvolutionComputeIterationThreader< LevelSetDenseImage< TImage >,
-      ThreadedIteratorRangePartitioner< typename TLevelSetEvolution::DomainMapImageFilterType::DomainMapType::const_iterator >, TLevelSetEvolution >
-  : public DomainThreader< ThreadedIteratorRangePartitioner< typename TLevelSetEvolution::DomainMapImageFilterType::DomainMapType::const_iterator >, TLevelSetEvolution >
+template <typename TImage, typename TLevelSetEvolution>
+class ITK_TEMPLATE_EXPORT LevelSetEvolutionComputeIterationThreader<
+  LevelSetDenseImage<TImage>,
+  ThreadedIteratorRangePartitioner<
+    typename TLevelSetEvolution::DomainMapImageFilterType::DomainMapType::const_iterator>,
+  TLevelSetEvolution>
+  : public DomainThreader<ThreadedIteratorRangePartitioner<
+                            typename TLevelSetEvolution::DomainMapImageFilterType::DomainMapType::const_iterator>,
+                          TLevelSetEvolution>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolutionComputeIterationThreader);
 
-  using DomainMapConstIteratorType = typename TLevelSetEvolution::DomainMapImageFilterType::DomainMapType::const_iterator;
-  using ThreadedDomainMapPartitionerType = ThreadedIteratorRangePartitioner< DomainMapConstIteratorType >;
+  using DomainMapConstIteratorType =
+    typename TLevelSetEvolution::DomainMapImageFilterType::DomainMapType::const_iterator;
+  using ThreadedDomainMapPartitionerType = ThreadedIteratorRangePartitioner<DomainMapConstIteratorType>;
 
   /** Standard class type aliases. */
   using Self = LevelSetEvolutionComputeIterationThreader;
-  using Superclass = DomainThreader< ThreadedDomainMapPartitionerType, TLevelSetEvolution >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = DomainThreader<ThreadedDomainMapPartitionerType, TLevelSetEvolution>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run time type information. */
-  itkTypeMacro( LevelSetEvolutionComputeIterationThreader, DomainThreader );
+  itkTypeMacro(LevelSetEvolutionComputeIterationThreader, DomainThreader);
 
   /** Standard New macro. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Superclass types. */
   using DomainType = typename Superclass::DomainType;
@@ -133,33 +143,37 @@ public:
 protected:
   LevelSetEvolutionComputeIterationThreader() = default;
 
-  void ThreadedExecution( const DomainType & imageSubRegion, const ThreadIdType threadId ) override;
+  void
+  ThreadedExecution(const DomainType & imageSubRegion, const ThreadIdType threadId) override;
 };
 
 // For Whitaker sparse level set split by putting part of the level set in each
 // thread.
-template< typename TOutput, unsigned int VDimension, typename TLevelSetEvolution >
+template <typename TOutput, unsigned int VDimension, typename TLevelSetEvolution>
 class ITK_TEMPLATE_EXPORT LevelSetEvolutionComputeIterationThreader<
-      WhitakerSparseLevelSetImage< TOutput, VDimension >,
-      ThreadedIteratorRangePartitioner< typename WhitakerSparseLevelSetImage< TOutput, VDimension >::LayerConstIterator >,
-      TLevelSetEvolution
-      >
-  : public DomainThreader< ThreadedIteratorRangePartitioner< typename WhitakerSparseLevelSetImage< TOutput, VDimension >::LayerConstIterator >, TLevelSetEvolution >
+  WhitakerSparseLevelSetImage<TOutput, VDimension>,
+  ThreadedIteratorRangePartitioner<typename WhitakerSparseLevelSetImage<TOutput, VDimension>::LayerConstIterator>,
+  TLevelSetEvolution>
+  : public DomainThreader<
+      ThreadedIteratorRangePartitioner<typename WhitakerSparseLevelSetImage<TOutput, VDimension>::LayerConstIterator>,
+      TLevelSetEvolution>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolutionComputeIterationThreader);
 
   /** Standard class type aliases. */
   using Self = LevelSetEvolutionComputeIterationThreader;
-  using Superclass = DomainThreader< ThreadedIteratorRangePartitioner< typename WhitakerSparseLevelSetImage< TOutput, VDimension >::LayerConstIterator >, TLevelSetEvolution >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = DomainThreader<
+    ThreadedIteratorRangePartitioner<typename WhitakerSparseLevelSetImage<TOutput, VDimension>::LayerConstIterator>,
+    TLevelSetEvolution>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run time type information. */
-  itkTypeMacro( LevelSetEvolutionComputeIterationThreader, DomainThreader );
+  itkTypeMacro(LevelSetEvolutionComputeIterationThreader, DomainThreader);
 
   /** Standard New macro. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Superclass types. */
   using DomainType = typename Superclass::DomainType;
@@ -182,20 +196,23 @@ public:
 protected:
   LevelSetEvolutionComputeIterationThreader() = default;
 
-  void BeforeThreadedExecution() override;
+  void
+  BeforeThreadedExecution() override;
 
-  void ThreadedExecution( const DomainType & iteratorSubRange, const ThreadIdType threadId ) override;
+  void
+  ThreadedExecution(const DomainType & iteratorSubRange, const ThreadIdType threadId) override;
 
-  void AfterThreadedExecution() override;
+  void
+  AfterThreadedExecution() override;
 
-  using NodePairsPerThreadType = std::vector< std::vector< NodePairType > >;
+  using NodePairsPerThreadType = std::vector<std::vector<NodePairType>>;
   NodePairsPerThreadType m_NodePairsPerThread;
 };
 
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetEvolutionComputeIterationThreader.hxx"
+#  include "itkLevelSetEvolutionComputeIterationThreader.hxx"
 #endif
 
 #endif

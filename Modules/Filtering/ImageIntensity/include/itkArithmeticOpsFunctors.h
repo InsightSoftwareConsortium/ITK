@@ -30,25 +30,28 @@ namespace Functor
  * \brief
  * \ingroup ITKImageIntensity
  */
-template< typename TInput1, typename TInput2 = TInput1, typename TOutput = TInput1 >
+template <typename TInput1, typename TInput2 = TInput1, typename TOutput = TInput1>
 class ITK_TEMPLATE_EXPORT Add2
 {
 public:
   Add2() = default;
   ~Add2() = default;
-  bool operator!=(const Add2 &) const
+  bool
+  operator!=(const Add2 &) const
   {
     return false;
   }
 
-  bool operator==(const Add2 & other) const
+  bool
+  operator==(const Add2 & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 
-  inline TOutput operator()(const TInput1 & A, const TInput2 & B) const
+  inline TOutput
+  operator()(const TInput1 & A, const TInput2 & B) const
   {
-    return static_cast< TOutput >( A + B );
+    return static_cast<TOutput>(A + B);
   }
 };
 
@@ -58,26 +61,29 @@ public:
  * \brief
  * \ingroup ITKImageIntensity
  */
-template< typename TInput1, typename TInput2, typename TInput3, typename TOutput >
+template <typename TInput1, typename TInput2, typename TInput3, typename TOutput>
 class ITK_TEMPLATE_EXPORT Add3
 {
 public:
   Add3() = default;
   ~Add3() = default;
-  bool operator!=(const Add3 &) const
+  bool
+  operator!=(const Add3 &) const
   {
     return false;
   }
 
-  bool operator==(const Add3 & other) const
+  bool
+  operator==(const Add3 & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 
-  inline TOutput operator()(const TInput1 & A,
-                            const TInput2 & B,
-                            const TInput3 & C) const
-  { return static_cast<TOutput>( A + B + C ); }
+  inline TOutput
+  operator()(const TInput1 & A, const TInput2 & B, const TInput3 & C) const
+  {
+    return static_cast<TOutput>(A + B + C);
+  }
 };
 
 
@@ -86,24 +92,29 @@ public:
  * \brief
  * \ingroup ITKImageIntensity
  */
-template< typename TInput1, typename TInput2 = TInput1, typename TOutput = TInput1 >
+template <typename TInput1, typename TInput2 = TInput1, typename TOutput = TInput1>
 class ITK_TEMPLATE_EXPORT Sub2
 {
 public:
   Sub2() = default;
   ~Sub2() = default;
-  bool operator!=(const Sub2 &) const
+  bool
+  operator!=(const Sub2 &) const
   {
     return false;
   }
 
-  bool operator==(const Sub2 & other) const
+  bool
+  operator==(const Sub2 & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 
-  inline TOutput operator()(const TInput1 & A, const TInput2 & B) const
-  { return static_cast<TOutput>( A - B ); }
+  inline TOutput
+  operator()(const TInput1 & A, const TInput2 & B) const
+  {
+    return static_cast<TOutput>(A - B);
+  }
 };
 
 
@@ -112,24 +123,29 @@ public:
  * \brief
  * \ingroup ITKImageIntensity
  */
-template< typename TInput1, typename TInput2 = TInput1, typename TOutput = TInput1 >
+template <typename TInput1, typename TInput2 = TInput1, typename TOutput = TInput1>
 class ITK_TEMPLATE_EXPORT Mult
 {
 public:
   Mult() = default;
   ~Mult() = default;
-  bool operator!=(const Mult &) const
+  bool
+  operator!=(const Mult &) const
   {
     return false;
   }
 
-  bool operator==(const Mult & other) const
+  bool
+  operator==(const Mult & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 
-  inline TOutput operator()(const TInput1 & A, const TInput2 & B) const
-  { return static_cast<TOutput>( A * B ); }
+  inline TOutput
+  operator()(const TInput1 & A, const TInput2 & B) const
+  {
+    return static_cast<TOutput>(A * B);
+  }
 };
 
 
@@ -138,32 +154,35 @@ public:
  * \brief
  * \ingroup ITKImageIntensity
  */
-template< typename TInput1, typename TInput2, typename TOutput >
+template <typename TInput1, typename TInput2, typename TOutput>
 class ITK_TEMPLATE_EXPORT Div
 {
 public:
   Div() = default;
   ~Div() = default;
-  bool operator!=(const Div &) const
+  bool
+  operator!=(const Div &) const
   {
     return false;
   }
 
-  bool operator==(const Div & other) const
+  bool
+  operator==(const Div & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 
-  inline TOutput operator()(const TInput1 & A, const TInput2 & B) const
+  inline TOutput
+  operator()(const TInput1 & A, const TInput2 & B) const
   {
-    if ( itk::Math::NotAlmostEquals(B, NumericTraits<TInput2>::ZeroValue()) )
-      {
-      return (TOutput)( A / B );
-      }
+    if (itk::Math::NotAlmostEquals(B, NumericTraits<TInput2>::ZeroValue()))
+    {
+      return (TOutput)(A / B);
+    }
     else
-      {
-      return NumericTraits< TOutput >::max( static_cast<TOutput>(A) );
-      }
+    {
+      return NumericTraits<TOutput>::max(static_cast<TOutput>(A));
+    }
   }
 };
 
@@ -173,37 +192,40 @@ public:
  * \brief
  * \ingroup ITKImageIntensity
  */
-template< typename TNumerator, typename TDenominator=TNumerator, typename TOutput=TNumerator >
+template <typename TNumerator, typename TDenominator = TNumerator, typename TOutput = TNumerator>
 class ITK_TEMPLATE_EXPORT DivideOrZeroOut
 {
 public:
   DivideOrZeroOut()
   {
-    m_Threshold = 1e-5 * NumericTraits< TDenominator >::OneValue();
-    m_Constant = NumericTraits< TOutput >::ZeroValue();
+    m_Threshold = 1e-5 * NumericTraits<TDenominator>::OneValue();
+    m_Constant = NumericTraits<TOutput>::ZeroValue();
   };
 
   ~DivideOrZeroOut() = default;
 
-  bool operator!=( const DivideOrZeroOut & other ) const
+  bool
+  operator!=(const DivideOrZeroOut & other) const
   {
     return !(*this == other);
   }
 
-  bool operator==( const DivideOrZeroOut & itkNotUsed(other) ) const
+  bool
+  operator==(const DivideOrZeroOut & itkNotUsed(other)) const
   {
     // Always return true for now.  Do a comparison to m_Threshold if it is
     // every made set-able.
     return true;
   }
 
-  inline TOutput operator()( const TNumerator & n, const TDenominator & d ) const
+  inline TOutput
+  operator()(const TNumerator & n, const TDenominator & d) const
   {
-    if ( d < m_Threshold )
-      {
+    if (d < m_Threshold)
+    {
       return m_Constant;
-      }
-    return static_cast< TOutput >( n ) / static_cast< TOutput >( d );
+    }
+    return static_cast<TOutput>(n) / static_cast<TOutput>(d);
   }
   TDenominator m_Threshold;
   TOutput      m_Constant;
@@ -214,38 +236,40 @@ public:
  *
  * \ingroup ITKImageIntensity
  */
-template< typename TInput1, typename TInput2, typename TOutput >
+template <typename TInput1, typename TInput2, typename TOutput>
 class ITK_TEMPLATE_EXPORT Modulus
 {
 public:
   Modulus() = default;
   ~Modulus() = default;
 
-  bool operator!=(const Modulus &) const
+  bool
+  operator!=(const Modulus &) const
   {
     return false;
   }
 
-  bool operator==(const Modulus & other) const
+  bool
+  operator==(const Modulus & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 
- inline TOutput operator()(const TInput1 & A, const TInput2 & B) const
- {
-   if ( B != NumericTraits<TInput2>::ZeroValue() )
-     {
-     return static_cast< TOutput >( A % B );
-     }
-   else
-     {
-     return NumericTraits< TOutput >::max( static_cast<TOutput>(A) );
-     }
+  inline TOutput
+  operator()(const TInput1 & A, const TInput2 & B) const
+  {
+    if (B != NumericTraits<TInput2>::ZeroValue())
+    {
+      return static_cast<TOutput>(A % B);
+    }
+    else
+    {
+      return NumericTraits<TOutput>::max(static_cast<TOutput>(A));
+    }
   }
-
 };
 
-#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
 
 /** \class ModulusTransform
  *
@@ -254,34 +278,41 @@ public:
  *
  * \ingroup ITKImageIntensity
  */
-template< typename TInput, typename  TOutput >
+template <typename TInput, typename TOutput>
 class ITK_TEMPLATE_EXPORT ModulusTransform
 {
 public:
   ModulusTransform() { m_Dividend = 5; }
   ~ModulusTransform() = default;
-  void SetDividend(TOutput dividend) { m_Dividend = dividend; }
+  void
+  SetDividend(TOutput dividend)
+  {
+    m_Dividend = dividend;
+  }
 
-  bool operator!=(const ModulusTransform & other) const
+  bool
+  operator!=(const ModulusTransform & other) const
+  {
+    if (m_Dividend != other.m_Dividend)
     {
-      if ( m_Dividend != other.m_Dividend )
-        {
-        return true;
-        }
-      return false;
+      return true;
     }
+    return false;
+  }
 
-  bool operator==(const ModulusTransform & other) const
-    {
-      return !( *this != other );
-    }
+  bool
+  operator==(const ModulusTransform & other) const
+  {
+    return !(*this != other);
+  }
 
-  inline TOutput operator()(const TInput & x) const
-    {
-      auto result = static_cast< TOutput >( x % m_Dividend );
+  inline TOutput
+  operator()(const TInput & x) const
+  {
+    auto result = static_cast<TOutput>(x % m_Dividend);
 
-      return result;
-    }
+    return result;
+  }
 
 private:
   TInput m_Dividend;
@@ -298,37 +329,39 @@ private:
  *
  * \ingroup ITKImageIntensity
  */
-template< class TInput1, class TInput2, class TOutput >
+template <class TInput1, class TInput2, class TOutput>
 class DivFloor
 {
 public:
+  bool
+  operator!=(const DivFloor &) const
+  {
+    return false;
+  }
 
-  bool operator!=(const DivFloor &) const
-    {
-      return false;
-    }
+  bool
+  operator==(const DivFloor & other) const
+  {
+    return !(*this != other);
+  }
 
-  bool operator==(const DivFloor & other) const
+  inline TOutput
+  operator()(const TInput1 & A, const TInput2 & B) const
+  {
+    const double temp = std::floor(double(A) / double(B));
+    if (NumericTraits<TOutput>::IsInteger && Math::isinf(temp))
     {
-      return !( *this != other );
+      if (temp > 0)
+      {
+        return NumericTraits<TOutput>::max(A);
+      }
+      else
+      {
+        return NumericTraits<TOutput>::NonpositiveMin(A);
+      }
     }
-
-  inline TOutput operator()(const TInput1 & A, const TInput2 & B) const
-    {
-      const double temp = std::floor( double(A) / double(B) );
-      if(NumericTraits< TOutput >::IsInteger && Math::isinf(temp))
-        {
-        if ( temp > 0 )
-          {
-          return NumericTraits< TOutput >::max( A );
-          }
-        else
-          {
-          return NumericTraits< TOutput >::NonpositiveMin( A );
-          }
-        }
-      return static_cast< TOutput >(temp);
-    }
+    return static_cast<TOutput>(temp);
+  }
 };
 
 /**
@@ -342,26 +375,28 @@ public:
  *
  * \ingroup ITKImageIntensity
  */
-template< class TInput1, class TInput2, class TOutput >
+template <class TInput1, class TInput2, class TOutput>
 class DivReal
 {
 public:
   // Use default copy, assigned and destructor
-  bool operator!=(const DivReal &) const
+  bool
+  operator!=(const DivReal &) const
   {
     return false;
   }
 
-  bool operator==(const DivReal & other) const
+  bool
+  operator==(const DivReal & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 
-  inline TOutput operator()(const TInput1 & A, const TInput2 & B) const
+  inline TOutput
+  operator()(const TInput1 & A, const TInput2 & B) const
   {
-    return static_cast<TOutput>( static_cast<typename NumericTraits<TInput1>::RealType>(A)
-                                 /
-                                 static_cast<typename NumericTraits<TInput2>::RealType >(B) );
+    return static_cast<TOutput>(static_cast<typename NumericTraits<TInput1>::RealType>(A) /
+                                static_cast<typename NumericTraits<TInput2>::RealType>(B));
   }
 };
 /**
@@ -371,26 +406,31 @@ public:
  * Assumed that the output type is signed.
  * \ingroup ITKImageIntensity
  */
-template< class TInput1, class TOutput = TInput1 >
+template <class TInput1, class TOutput = TInput1>
 class UnaryMinus
 {
 public:
   UnaryMinus() = default;
   ~UnaryMinus() = default;
-  bool operator!=(const UnaryMinus &) const
+  bool
+  operator!=(const UnaryMinus &) const
   {
     return false;
   }
 
-  bool operator==(const UnaryMinus & other) const
+  bool
+  operator==(const UnaryMinus & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 
-  inline TOutput operator()(const TInput1 & A ) const
-  { return (TOutput)( -A ); }
+  inline TOutput
+  operator()(const TInput1 & A) const
+  {
+    return (TOutput)(-A);
+  }
 };
-}
-}
+} // namespace Functor
+} // namespace itk
 
 #endif

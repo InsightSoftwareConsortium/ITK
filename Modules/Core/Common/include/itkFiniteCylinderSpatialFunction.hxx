@@ -24,9 +24,8 @@
 
 namespace itk
 {
-template< unsigned int VDimension, typename TInput >
-FiniteCylinderSpatialFunction< VDimension, TInput >
-::FiniteCylinderSpatialFunction()
+template <unsigned int VDimension, typename TInput>
+FiniteCylinderSpatialFunction<VDimension, TInput>::FiniteCylinderSpatialFunction()
 {
   // a normalized {1,1,...1} vector is
   // { 1.0 / sqrt( VDmim ), ... }
@@ -38,84 +37,85 @@ FiniteCylinderSpatialFunction< VDimension, TInput >
   m_Center.Fill(0.0f); // Origin of cylinder}
 }
 
-template< unsigned int VDimension, typename TInput >
+template <unsigned int VDimension, typename TInput>
 void
-FiniteCylinderSpatialFunction< VDimension, TInput >
-::SetOrientation(const InputType _Orientation)
+FiniteCylinderSpatialFunction<VDimension, TInput>::SetOrientation(const InputType _Orientation)
 {
   itkDebugMacro("setting Orientation to " << _Orientation);
-  if(this->m_Orientation != _Orientation)
-    {
+  if (this->m_Orientation != _Orientation)
+  {
     this->m_Orientation = _Orientation;
     //
     // save normalizedOrientation, so it doesn't need to be recomputed
     // in every call of Evaluate.
     double norm = 0.0;
-    for(unsigned int i = 0; i < VDimension; ++i)
-      {
+    for (unsigned int i = 0; i < VDimension; ++i)
+    {
       norm += this->m_Orientation[i] * this->m_Orientation[i];
-      }
-    norm = std::sqrt(norm);
-    if(norm == 0.0) // avoid divide by zero
-      {
-      itkExceptionMacro(<< "Degenerate orientation vector " << this->m_Orientation);
-      }
-    for(unsigned int i = 0; i < VDimension; ++i)
-      {
-      this->m_NormalizedOrientation[i] = this->m_Orientation[i] / norm;
-      }
-    this->Modified();
     }
+    norm = std::sqrt(norm);
+    if (norm == 0.0) // avoid divide by zero
+    {
+      itkExceptionMacro(<< "Degenerate orientation vector " << this->m_Orientation);
+    }
+    for (unsigned int i = 0; i < VDimension; ++i)
+    {
+      this->m_NormalizedOrientation[i] = this->m_Orientation[i] / norm;
+    }
+    this->Modified();
+  }
 }
 
-template< unsigned int VDimension, typename TInput >
-typename FiniteCylinderSpatialFunction< VDimension, TInput >::OutputType
-FiniteCylinderSpatialFunction< VDimension, TInput >
-::Evaluate(const InputType & position) const
+template <unsigned int VDimension, typename TInput>
+typename FiniteCylinderSpatialFunction<VDimension, TInput>::OutputType
+FiniteCylinderSpatialFunction<VDimension, TInput>::Evaluate(const InputType & position) const
 {
   const double halfAxisLength = 0.5 * m_AxisLength;
 
-  Vector< double, VDimension > pointVector;
-  Vector< double, VDimension > medialAxisVector;
+  Vector<double, VDimension> pointVector;
+  Vector<double, VDimension> medialAxisVector;
 
-  for(unsigned int i = 0; i < VDimension; ++i)
-    {
+  for (unsigned int i = 0; i < VDimension; ++i)
+  {
     pointVector[i] = position[i] - m_Center[i];
-    }
-  for(unsigned int i = 0; i < VDimension; ++i)
-    {
+  }
+  for (unsigned int i = 0; i < VDimension; ++i)
+  {
     medialAxisVector[i] = m_NormalizedOrientation[i];
-    }
+  }
 
-  //if length_test is less than the length of the cylinder (half actually,
+  // if length_test is less than the length of the cylinder (half actually,
   // because its length from the center), than
-  //the point is within the length of the cylinder along the medial axis
+  // the point is within the length of the cylinder along the medial axis
   bool saveFPEState(true);
-  if ( FloatingPointExceptions::HasFloatingPointExceptionsSupport() )
-    {
+  if (FloatingPointExceptions::HasFloatingPointExceptionsSupport())
+  {
     saveFPEState = FloatingPointExceptions::GetEnabled();
     FloatingPointExceptions::Disable();
-    }
+  }
 
-  const double distanceFromCenter = dot_product( medialAxisVector.GetVnlVector(), pointVector.GetVnlVector() );
+  const double distanceFromCenter = dot_product(medialAxisVector.GetVnlVector(), pointVector.GetVnlVector());
 
   // restore state
-  if ( FloatingPointExceptions::HasFloatingPointExceptionsSupport() )
-    {
+  if (FloatingPointExceptions::HasFloatingPointExceptionsSupport())
+  {
     FloatingPointExceptions::SetEnabled(saveFPEState);
-    }
+  }
 
-  if ( std::fabs(distanceFromCenter) <= ( halfAxisLength )
-       && m_Radius >= std::sqrt( std::pow(pointVector.GetVnlVector().magnitude(), 2.0) - std::pow(distanceFromCenter, 2.0) ) )
-    {
+  if (std::fabs(distanceFromCenter) <= (halfAxisLength) &&
+      m_Radius >= std::sqrt(std::pow(pointVector.GetVnlVector().magnitude(), 2.0) - std::pow(distanceFromCenter, 2.0)))
+  {
     return 1;
-    }
-  else { return 0; }
+  }
+  else
+  {
+    return 0;
+  }
 }
 
-template< unsigned int VDimension, typename TInput >
-void FiniteCylinderSpatialFunction< VDimension, TInput >
-::PrintSelf(std::ostream & os, Indent indent) const
+template <unsigned int VDimension, typename TInput>
+void
+FiniteCylinderSpatialFunction<VDimension, TInput>::PrintSelf(std::ostream & os, Indent indent) const
 {
   unsigned int i;
 
@@ -125,16 +125,16 @@ void FiniteCylinderSpatialFunction< VDimension, TInput >
   os << indent << "Radius: " << m_Radius << std::endl;
   os << indent << "Origin of Cylinder: " << m_Center << std::endl;
   os << indent << "Orientation: " << std::endl;
-  for ( i = 0; i < VDimension; i++ )
-    {
-    os << indent << indent <<  m_Orientation[i] << " ";
-    }
+  for (i = 0; i < VDimension; i++)
+  {
+    os << indent << indent << m_Orientation[i] << " ";
+  }
   os << std::endl;
   os << indent << "Normalized Orientation: " << std::endl;
-  for ( i = 0; i < VDimension; i++ )
-    {
-    os << indent << indent <<  m_NormalizedOrientation[i] << " ";
-    }
+  for (i = 0; i < VDimension; i++)
+  {
+    os << indent << indent << m_NormalizedOrientation[i] << " ";
+  }
   os << std::endl;
 }
 } // end namespace itk

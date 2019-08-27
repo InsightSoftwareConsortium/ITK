@@ -64,8 +64,8 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-template< typename TImage >
-class ITK_TEMPLATE_EXPORT ImageIteratorWithIndex:public ImageConstIteratorWithIndex< TImage >
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT ImageIteratorWithIndex : public ImageConstIteratorWithIndex<TImage>
 {
 public:
   /** Standard class type aliases. */
@@ -78,7 +78,7 @@ public:
   static constexpr unsigned int ImageIteratorDimension = TImage::ImageDimension;
 
   /** Define the superclass */
-  using Superclass = ImageConstIteratorWithIndex< TImage >;
+  using Superclass = ImageConstIteratorWithIndex<TImage>;
 
   /** Inherit types from the superclass */
   using IndexType = typename Superclass::IndexType;
@@ -105,33 +105,40 @@ public:
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
-  ImageIteratorWithIndex(TImage *ptr, const RegionType & region);
+  ImageIteratorWithIndex(TImage * ptr, const RegionType & region);
 
   /** operator= is provided to make sure the handle to the image is properly
    * reference counted. */
-  Self & operator=(const Self & it);
+  Self &
+  operator=(const Self & it);
 
   /** Set the pixel value */
-  void Set(const PixelType & value) const
-  { this->m_PixelAccessor.Set(*( const_cast< InternalPixelType * >( this->m_Position ) ), value); }
+  void
+  Set(const PixelType & value) const
+  {
+    this->m_PixelAccessor.Set(*(const_cast<InternalPixelType *>(this->m_Position)), value);
+  }
 
   /** Return a reference to the pixel.
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
-  PixelType & Value()
-  { return *( const_cast< InternalPixelType * >( this->m_Position ) ); }
+  PixelType &
+  Value()
+  {
+    return *(const_cast<InternalPixelType *>(this->m_Position));
+  }
 
 protected:
-
   /** This constructor is declared protected in order to enforce
     const-correctness */
-  ImageIteratorWithIndex(const ImageConstIteratorWithIndex< TImage > & it);
-  Self & operator=(const ImageConstIteratorWithIndex< TImage > & it);
+  ImageIteratorWithIndex(const ImageConstIteratorWithIndex<TImage> & it);
+  Self &
+  operator=(const ImageConstIteratorWithIndex<TImage> & it);
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageIteratorWithIndex.hxx"
+#  include "itkImageIteratorWithIndex.hxx"
 #endif
 
 #endif

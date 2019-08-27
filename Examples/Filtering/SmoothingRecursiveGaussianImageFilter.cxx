@@ -63,14 +63,15 @@
 // Software Guide : EndCodeSnippet
 
 
-int main( int argc, char * argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 4 )
-    {
+  if (argc < 4)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  outputImageFile  sigma " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   //  Software Guide : BeginLatex
@@ -92,12 +93,12 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using InputImageType = itk::Image< InputPixelType,  2 >;
-  using OutputImageType = itk::Image< OutputPixelType, 2 >;
+  using InputImageType = itk::Image<InputPixelType, 2>;
+  using OutputImageType = itk::Image<OutputPixelType, 2>;
   // Software Guide : EndCodeSnippet
 
 
-  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
 
 
   //  Software Guide : BeginLatex
@@ -110,13 +111,12 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FilterType = itk::RecursiveGaussianImageFilter<
-                        InputImageType, OutputImageType >;
+  using FilterType = itk::RecursiveGaussianImageFilter<InputImageType, OutputImageType>;
   // Software Guide : EndCodeSnippet
 
 
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
 
   //  Software Guide : BeginLatex
@@ -149,8 +149,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  filterX->SetDirection( 0 );   // 0 --> X direction
-  filterY->SetDirection( 1 );   // 1 --> Y direction
+  filterX->SetDirection(0); // 0 --> X direction
+  filterY->SetDirection(1); // 1 --> Y direction
   // Software Guide : EndCodeSnippet
 
 
@@ -171,8 +171,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  filterX->SetOrder( itk::EnumGaussianOrderType::ZeroOrder );
-  filterY->SetOrder( itk::EnumGaussianOrderType::ZeroOrder );
+  filterX->SetOrder(itk::EnumGaussianOrderType::ZeroOrder);
+  filterY->SetOrder(itk::EnumGaussianOrderType::ZeroOrder);
   // Software Guide : EndCodeSnippet
 
 
@@ -208,8 +208,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  filterX->SetNormalizeAcrossScale( false );
-  filterY->SetNormalizeAcrossScale( false );
+  filterX->SetNormalizeAcrossScale(false);
+  filterY->SetNormalizeAcrossScale(false);
   // Software Guide : EndCodeSnippet
 
 
@@ -228,8 +228,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  filterX->SetInput( reader->GetOutput() );
-  filterY->SetInput( filterX->GetOutput() );
+  filterX->SetInput(reader->GetOutput());
+  filterY->SetInput(filterX->GetOutput());
   // Software Guide : EndCodeSnippet
 
 
@@ -246,11 +246,11 @@ int main( int argc, char * argv[] )
   //
   //  Software Guide : EndLatex
 
-  const double sigma = std::stod( argv[3] );
+  const double sigma = std::stod(argv[3]);
 
   // Software Guide : BeginCodeSnippet
-  filterX->SetSigma( sigma );
-  filterY->SetSigma( sigma );
+  filterX->SetSigma(sigma);
+  filterY->SetSigma(sigma);
   // Software Guide : EndCodeSnippet
 
 
@@ -269,20 +269,20 @@ int main( int argc, char * argv[] )
 
 
   using WritePixelType = unsigned char;
-  using WriteImageType = itk::Image< WritePixelType, 2 >;
-  using RescaleFilterType = itk::RescaleIntensityImageFilter<
-                   OutputImageType, WriteImageType >;
+  using WriteImageType = itk::Image<WritePixelType, 2>;
+  using RescaleFilterType =
+    itk::RescaleIntensityImageFilter<OutputImageType, WriteImageType>;
 
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
 
-  rescaler->SetOutputMinimum(   0 );
-  rescaler->SetOutputMaximum( 255 );
-  using WriterType = itk::ImageFileWriter< WriteImageType >;
+  rescaler->SetOutputMinimum(0);
+  rescaler->SetOutputMaximum(255);
+  using WriterType = itk::ImageFileWriter<WriteImageType>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName( argv[2] );
+  writer->SetFileName(argv[2]);
 
-  rescaler->SetInput( filterY->GetOutput() );
-  writer->SetInput( rescaler->GetOutput() );
+  rescaler->SetInput(filterY->GetOutput());
+  writer->SetInput(rescaler->GetOutput());
   writer->Update();
 
 
@@ -305,11 +305,11 @@ int main( int argc, char * argv[] )
   //  standard deviation.  This type of scale-tunable filter is suitable for
   //  performing scale-space analysis.
   //
-  //  The RecursiveGaussianFilters can also be applied on multi-component images. For instance,
-  //  the above filter could have applied with RGBPixel as the pixel type. Each component is
-  //  then independently filtered. However the RescaleIntensityImageFilter will not work on
-  //  RGBPixels since it does not mathematically make sense to rescale the output
-  //  of multi-component images.
+  //  The RecursiveGaussianFilters can also be applied on multi-component images. For
+  //  instance, the above filter could have applied with RGBPixel as the pixel type.
+  //  Each component is then independently filtered. However the
+  //  RescaleIntensityImageFilter will not work on RGBPixels since it does not
+  //  mathematically make sense to rescale the output of multi-component images.
   //
   //  Software Guide : EndLatex
 

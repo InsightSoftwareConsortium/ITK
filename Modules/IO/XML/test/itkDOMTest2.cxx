@@ -31,31 +31,32 @@ It also demonstrates
 #include <iostream>
 #include "itkMacro.h"
 
-int itkDOMTest2( int argc, char* argv[] )
+int
+itkDOMTest2(int argc, char * argv[])
 {
-  if ( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "arguments expected: input.xml output.xml" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   try
-    {
+  {
     // read a DOM object from an XML file
     itk::DOMNodeXMLReader::Pointer reader = itk::DOMNodeXMLReader::New();
-    reader->SetFileName( argv[1] );
+    reader->SetFileName(argv[1]);
     reader->Update();
     itk::DOMNode::Pointer dom = reader->GetOutput();
 
     // write a DOM object to an XML file
     itk::DOMNodeXMLWriter::Pointer writer = itk::DOMNodeXMLWriter::New();
-    writer->SetInput( dom );
-    writer->SetFileName( argv[2] );
+    writer->SetInput(dom);
+    writer->SetFileName(argv[2]);
     writer->Update();
 
     // write a DOM object to an XML stream
     itk::DOMNode::Pointer dom1 = dom;
-    std::ostringstream oss;
+    std::ostringstream    oss;
     oss << *dom1;
     std::string s = oss.str();
     std::cout << "Write DOM object to an output string stream: " << std::endl;
@@ -63,21 +64,21 @@ int itkDOMTest2( int argc, char* argv[] )
 
     // read a DOM object from an XML stream
     itk::DOMNode::Pointer dom2 = itk::DOMNode::New();
-    std::istringstream iss( s );
+    std::istringstream    iss(s);
     iss >> *dom2;
     std::cout << "Read DOM object from an input string stream: " << std::endl;
     std::cout << *dom2 << std::endl;
-    }
-  catch ( const itk::ExceptionObject& eo )
-    {
-    eo.Print( std::cerr );
+  }
+  catch (const itk::ExceptionObject & eo)
+  {
+    eo.Print(std::cerr);
     return EXIT_FAILURE;
-    }
-  catch ( ... )
-    {
+  }
+  catch (...)
+  {
     std::cerr << "Unknown exception caught!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

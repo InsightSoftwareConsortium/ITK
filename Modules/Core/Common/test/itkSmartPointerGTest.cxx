@@ -26,8 +26,7 @@
 namespace
 {
 
-class Derived1:
-    public itk::Object
+class Derived1 : public itk::Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(Derived1);
@@ -35,8 +34,8 @@ public:
   /** Standard class type aliases. */
   using Self = Derived1;
   using Superclass = Object;
-  using Pointer = itk::SmartPointer< Self >;
-  using ConstPointer = itk::SmartPointer< const Self >;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
 
 
   /** Run-time type information (and related methods). */
@@ -44,25 +43,28 @@ public:
 
   itkNewMacro(Derived1);
 
-  void Register() const override
-    {
-      ++m_RegisterCount;
-      Superclass::Register();
-    }
-  unsigned int GetRegisterCount() const
-    { return m_RegisterCount;}
+  void
+  Register() const override
+  {
+    ++m_RegisterCount;
+    Superclass::Register();
+  }
+  unsigned int
+  GetRegisterCount() const
+  {
+    return m_RegisterCount;
+  }
 
 protected:
-  Derived1()  {}
+  Derived1() {}
 
   ~Derived1() override = default;
 
-  mutable unsigned int m_RegisterCount{0};
- };
+  mutable unsigned int m_RegisterCount{ 0 };
+};
 
 
-class Derived2:
-    public itk::Object
+class Derived2 : public itk::Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(Derived2);
@@ -70,8 +72,8 @@ public:
   /** Standard class type aliases. */
   using Self = Derived2;
   using Superclass = Object;
-  using Pointer = itk::SmartPointer< Self >;
-  using ConstPointer = itk::SmartPointer< const Self >;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
 
 
   /** Run-time type information (and related methods). */
@@ -82,10 +84,9 @@ public:
 protected:
   Derived2() = default;
   ~Derived2() override = default;
+};
 
- };
-
-}
+} // namespace
 
 TEST(SmartPointer, EmptyAndNull)
 {
@@ -128,24 +129,23 @@ TEST(SmartPointer, EmptyAndNull)
   cptr = nullptr;
   EXPECT_TRUE(cptr.IsNull());
 
-  ptr = NULL;  // Do not change NULL, null, Null in this file. This file intentionally contains usage of legacy NULL
+  ptr = NULL; // Do not change NULL, null, Null in this file. This file intentionally contains usage of legacy NULL
   EXPECT_TRUE(ptr.IsNull());
 
-  cptr = NULL;  // Do not change NULL, null, Null in this file. This file intentionally contains usage of legacy NULL
+  cptr = NULL; // Do not change NULL, null, Null in this file. This file intentionally contains usage of legacy NULL
   EXPECT_TRUE(cptr.IsNull());
 
 
-  EXPECT_TRUE( cptr == nullptr );
-  EXPECT_TRUE( nullptr == cptr );
+  EXPECT_TRUE(cptr == nullptr);
+  EXPECT_TRUE(nullptr == cptr);
 
   // This does not work with VS14 2015
-//  EXPECT_TRUE( ptr == 0 );
-//  EXPECT_TRUE( 0 == ptr );
-
+  //  EXPECT_TRUE( ptr == 0 );
+  //  EXPECT_TRUE( 0 == ptr );
 }
 
 
-TEST(SmartPointer,Converting)
+TEST(SmartPointer, Converting)
 {
 
   using BasePointer = itk::SmartPointer<itk::Object>;
@@ -165,24 +165,24 @@ TEST(SmartPointer,Converting)
   EXPECT_TRUE(cd1ptr.GetPointer() == d1ptr.GetPointer());
   EXPECT_TRUE(cd1ptr == d1ptr);
 
-  BasePointer ptr(d1ptr);
+  BasePointer      ptr(d1ptr);
   ConstBasePointer cptr1(d1ptr);
   ConstBasePointer cptr2(cd1ptr);
 
   ptr = d1ptr;
 
 
-  const itk::Object *rcptr1 = ptr;
-  EXPECT_TRUE( rcptr1 == ptr );
+  const itk::Object * rcptr1 = ptr;
+  EXPECT_TRUE(rcptr1 == ptr);
 
   rcptr1 = cd1ptr;
-  EXPECT_TRUE( rcptr1 == ptr.GetPointer() );
+  EXPECT_TRUE(rcptr1 == ptr.GetPointer());
 
   const Derived1 * rcd1ptr = d1ptr;
-  EXPECT_TRUE( rcd1ptr == d1ptr );
+  EXPECT_TRUE(rcd1ptr == d1ptr);
 
   rcd1ptr = cd1ptr;
-  EXPECT_TRUE( rcd1ptr == cd1ptr );
+  EXPECT_TRUE(rcd1ptr == cd1ptr);
 
   // is_convertible<From,To>
   static_assert(std::is_convertible<Derived1Pointer, BasePointer>::value, "conversion check");
@@ -191,12 +191,11 @@ TEST(SmartPointer,Converting)
   static_assert(!std::is_convertible<ConstDerived1Pointer, Derived1Pointer>::value, "conversion check");
 
   static_assert(!std::is_convertible<Derived1Pointer, Derived2::Pointer>::value, "conversion check");
-  static_assert(!std::is_convertible< Derived1Pointer, Derived2::ConstPointer>::value, "conversion check");
-
+  static_assert(!std::is_convertible<Derived1Pointer, Derived2::ConstPointer>::value, "conversion check");
 }
 
 
-TEST(SmartPointer,ConvertingRegisterCount)
+TEST(SmartPointer, ConvertingRegisterCount)
 {
 
   using Derived1Pointer = itk::SmartPointer<Derived1>;
@@ -206,147 +205,146 @@ TEST(SmartPointer,ConvertingRegisterCount)
 
   // Copy constructor to const
   {
-  Derived1Pointer d1ptr = Derived1::New();
-  EXPECT_EQ(1, d1ptr->GetRegisterCount() );
+    Derived1Pointer d1ptr = Derived1::New();
+    EXPECT_EQ(1, d1ptr->GetRegisterCount());
 
-  ConstDerived1Pointer cd1ptr = d1ptr;
-  EXPECT_EQ(2, d1ptr->GetRegisterCount() );
-  EXPECT_EQ(2, cd1ptr->GetRegisterCount() );
+    ConstDerived1Pointer cd1ptr = d1ptr;
+    EXPECT_EQ(2, d1ptr->GetRegisterCount());
+    EXPECT_EQ(2, cd1ptr->GetRegisterCount());
   }
 
   // Copy constructor to base
   {
-  Derived1Pointer d1ptr = Derived1::New();
-  EXPECT_EQ(1, d1ptr->GetRegisterCount() );
+    Derived1Pointer d1ptr = Derived1::New();
+    EXPECT_EQ(1, d1ptr->GetRegisterCount());
 
-  BasePointer bptr = d1ptr;
-  EXPECT_EQ(2, d1ptr->GetRegisterCount() );
-  EXPECT_EQ(2, static_cast<const Derived1 *>(bptr.GetPointer())->GetRegisterCount() );
+    BasePointer bptr = d1ptr;
+    EXPECT_EQ(2, d1ptr->GetRegisterCount());
+    EXPECT_EQ(2, static_cast<const Derived1 *>(bptr.GetPointer())->GetRegisterCount());
   }
 
   // Assignment operator
   {
-  Derived1Pointer d1ptr = Derived1::New();
-  EXPECT_EQ(1, d1ptr->GetRegisterCount() );
+    Derived1Pointer d1ptr = Derived1::New();
+    EXPECT_EQ(1, d1ptr->GetRegisterCount());
 
-  Derived1Pointer d1ptr2;
+    Derived1Pointer d1ptr2;
 
-  d1ptr2 = d1ptr;
-  EXPECT_EQ(2, d1ptr->GetRegisterCount() );
-  EXPECT_EQ(2, d1ptr2->GetRegisterCount() );
+    d1ptr2 = d1ptr;
+    EXPECT_EQ(2, d1ptr->GetRegisterCount());
+    EXPECT_EQ(2, d1ptr2->GetRegisterCount());
   }
 
   // Assignment to const pointer
   {
-  Derived1Pointer d1ptr = Derived1::New();
-  EXPECT_EQ(1, d1ptr->GetRegisterCount() );
+    Derived1Pointer d1ptr = Derived1::New();
+    EXPECT_EQ(1, d1ptr->GetRegisterCount());
 
-  ConstDerived1Pointer cd1ptr;
+    ConstDerived1Pointer cd1ptr;
 
-  cd1ptr = d1ptr;
-  EXPECT_EQ(2, d1ptr->GetRegisterCount() );
-  EXPECT_EQ(2, cd1ptr->GetRegisterCount() );
+    cd1ptr = d1ptr;
+    EXPECT_EQ(2, d1ptr->GetRegisterCount());
+    EXPECT_EQ(2, cd1ptr->GetRegisterCount());
   }
 
   // Assignment to base pointer
   {
-  Derived1Pointer d1ptr = Derived1::New();
-  EXPECT_EQ(1, d1ptr->GetRegisterCount() );
+    Derived1Pointer d1ptr = Derived1::New();
+    EXPECT_EQ(1, d1ptr->GetRegisterCount());
 
-  BasePointer bptr;
+    BasePointer bptr;
 
-  bptr = d1ptr;
-  EXPECT_EQ(2, d1ptr->GetRegisterCount() );
-  EXPECT_EQ(2, static_cast<const Derived1 *>(bptr.GetPointer())->GetRegisterCount() );
+    bptr = d1ptr;
+    EXPECT_EQ(2, d1ptr->GetRegisterCount());
+    EXPECT_EQ(2, static_cast<const Derived1 *>(bptr.GetPointer())->GetRegisterCount());
   }
 
   // Assignment to raw pointer
   {
-  Derived1Pointer d1ptr = Derived1::New();
-  EXPECT_EQ(1, d1ptr->GetRegisterCount() );
+    Derived1Pointer d1ptr = Derived1::New();
+    EXPECT_EQ(1, d1ptr->GetRegisterCount());
 
-  Derived1 *rptr;
+    Derived1 * rptr;
 
-  rptr = d1ptr;
-  EXPECT_EQ(1, d1ptr->GetRegisterCount() );
-  EXPECT_TRUE( rptr != nullptr );
+    rptr = d1ptr;
+    EXPECT_EQ(1, d1ptr->GetRegisterCount());
+    EXPECT_TRUE(rptr != nullptr);
   }
 
   // Assignment to raw const pointer
   {
-  Derived1Pointer d1ptr = Derived1::New();
-  EXPECT_EQ(1, d1ptr->GetRegisterCount() );
+    Derived1Pointer d1ptr = Derived1::New();
+    EXPECT_EQ(1, d1ptr->GetRegisterCount());
 
-  const Derived1 *rptr;
+    const Derived1 * rptr;
 
-  rptr = d1ptr;
-  EXPECT_EQ(1, d1ptr->GetRegisterCount() );
-  EXPECT_TRUE( rptr != nullptr );
+    rptr = d1ptr;
+    EXPECT_EQ(1, d1ptr->GetRegisterCount());
+    EXPECT_TRUE(rptr != nullptr);
   }
 
   // Move constructor
   {
-  Derived1Pointer d1ptr = Derived1::New();
-  EXPECT_EQ(1, d1ptr->GetRegisterCount() );
+    Derived1Pointer d1ptr = Derived1::New();
+    EXPECT_EQ(1, d1ptr->GetRegisterCount());
 
-  Derived1Pointer d1ptr2( std::move( d1ptr) );
-  EXPECT_EQ(1, d1ptr2->GetRegisterCount() );
-  EXPECT_TRUE(d1ptr.IsNull());
+    Derived1Pointer d1ptr2(std::move(d1ptr));
+    EXPECT_EQ(1, d1ptr2->GetRegisterCount());
+    EXPECT_TRUE(d1ptr.IsNull());
   }
 
   // Move constructor to const
   {
-  Derived1Pointer d1ptr = Derived1::New();
-  EXPECT_EQ(1, d1ptr->GetRegisterCount() );
+    Derived1Pointer d1ptr = Derived1::New();
+    EXPECT_EQ(1, d1ptr->GetRegisterCount());
 
-  ConstDerived1Pointer cd1ptr( std::move( d1ptr) );
-  EXPECT_EQ(1, cd1ptr->GetRegisterCount() );
-  EXPECT_TRUE(d1ptr.IsNull());
+    ConstDerived1Pointer cd1ptr(std::move(d1ptr));
+    EXPECT_EQ(1, cd1ptr->GetRegisterCount());
+    EXPECT_TRUE(d1ptr.IsNull());
   }
 
   // Move constructor to base
   {
-  Derived1Pointer d1ptr = Derived1::New();
-  EXPECT_EQ(1, d1ptr->GetRegisterCount() );
+    Derived1Pointer d1ptr = Derived1::New();
+    EXPECT_EQ(1, d1ptr->GetRegisterCount());
 
-  BasePointer bptr( std::move( d1ptr) );
-  EXPECT_EQ(1, static_cast<const Derived1 *>(bptr.GetPointer())->GetRegisterCount() );
-  EXPECT_TRUE(d1ptr.IsNull());
+    BasePointer bptr(std::move(d1ptr));
+    EXPECT_EQ(1, static_cast<const Derived1 *>(bptr.GetPointer())->GetRegisterCount());
+    EXPECT_TRUE(d1ptr.IsNull());
   }
 
   // Move assignment
   {
-  Derived1Pointer d1ptr = Derived1::New();
-  EXPECT_EQ(1, d1ptr->GetRegisterCount() );
+    Derived1Pointer d1ptr = Derived1::New();
+    EXPECT_EQ(1, d1ptr->GetRegisterCount());
 
-  Derived1Pointer d1ptr2;
-  d1ptr2 = std::move(d1ptr);
-  EXPECT_EQ(1, d1ptr2->GetRegisterCount() );
-  EXPECT_TRUE(d1ptr.IsNull());
+    Derived1Pointer d1ptr2;
+    d1ptr2 = std::move(d1ptr);
+    EXPECT_EQ(1, d1ptr2->GetRegisterCount());
+    EXPECT_TRUE(d1ptr.IsNull());
   }
 
   // Move assignment to const
   {
-  Derived1Pointer d1ptr = Derived1::New();
-  EXPECT_EQ(1, d1ptr->GetRegisterCount() );
+    Derived1Pointer d1ptr = Derived1::New();
+    EXPECT_EQ(1, d1ptr->GetRegisterCount());
 
-  ConstDerived1Pointer cd1ptr;
-  cd1ptr = std::move(d1ptr);
+    ConstDerived1Pointer cd1ptr;
+    cd1ptr = std::move(d1ptr);
 
-  EXPECT_EQ(1, cd1ptr->GetRegisterCount() );
-  EXPECT_TRUE(d1ptr.IsNull());
+    EXPECT_EQ(1, cd1ptr->GetRegisterCount());
+    EXPECT_TRUE(d1ptr.IsNull());
   }
 
   // Move assignment to base
   {
-  Derived1Pointer d1ptr = Derived1::New();
-  EXPECT_EQ(1, d1ptr->GetRegisterCount() );
+    Derived1Pointer d1ptr = Derived1::New();
+    EXPECT_EQ(1, d1ptr->GetRegisterCount());
 
-  BasePointer bptr;
+    BasePointer bptr;
 
-  bptr = std::move( d1ptr );
-  EXPECT_EQ(1, static_cast<const Derived1 *>(bptr.GetPointer())->GetRegisterCount() );
-  EXPECT_TRUE(d1ptr.IsNull());
+    bptr = std::move(d1ptr);
+    EXPECT_EQ(1, static_cast<const Derived1 *>(bptr.GetPointer())->GetRegisterCount());
+    EXPECT_TRUE(d1ptr.IsNull());
   }
-
 }

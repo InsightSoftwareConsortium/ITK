@@ -25,9 +25,8 @@
 namespace itk
 {
 /** Constructor */
-template< unsigned int TDimension >
-LandmarkSpatialObject< TDimension >
-::LandmarkSpatialObject()
+template <unsigned int TDimension>
+LandmarkSpatialObject<TDimension>::LandmarkSpatialObject()
 {
   this->SetTypeName("LandmarkSpatialObject");
 
@@ -38,37 +37,31 @@ LandmarkSpatialObject< TDimension >
 }
 
 /** InternalClone */
-template< unsigned int TDimension >
+template <unsigned int TDimension>
 typename LightObject::Pointer
-LandmarkSpatialObject< TDimension >
-::InternalClone() const
+LandmarkSpatialObject<TDimension>::InternalClone() const
 {
   // Default implementation just copies the parameters from
   // this to new transform.
   typename LightObject::Pointer loPtr = Superclass::InternalClone();
 
-  typename Self::Pointer rval =
-    dynamic_cast<Self *>(loPtr.GetPointer());
-  if(rval.IsNull())
-    {
-    itkExceptionMacro(<< "downcast to type "
-                      << this->GetNameOfClass()
-                      << " failed.");
-    }
+  typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
+  if (rval.IsNull())
+  {
+    itkExceptionMacro(<< "downcast to type " << this->GetNameOfClass() << " failed.");
+  }
 
   return loPtr;
 }
 
 /** Print the blob spatial object */
-template< unsigned int TDimension >
+template <unsigned int TDimension>
 void
-LandmarkSpatialObject< TDimension >
-::PrintSelf(std::ostream & os, Indent indent) const
+LandmarkSpatialObject<TDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   os << indent << "LandmarkSpatialObject(" << this << ")" << std::endl;
   os << indent << "ID: " << this->GetId() << std::endl;
-  os << indent << "nb of points: "
-     << static_cast< SizeValueType >( this->m_Points.size() ) << std::endl;
+  os << indent << "nb of points: " << static_cast<SizeValueType>(this->m_Points.size()) << std::endl;
   Superclass::PrintSelf(os, indent);
 }
 

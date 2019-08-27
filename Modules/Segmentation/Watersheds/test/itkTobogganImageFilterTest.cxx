@@ -25,74 +25,70 @@
 #include "itkTestingMacros.h"
 
 
-int itkTobogganImageFilterTest( int argc, char* argv[] )
+int
+itkTobogganImageFilterTest(int argc, char * argv[])
 {
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Missing parameters" << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage OutputImage" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int Dimension = 2;
 
   using PixelType = unsigned char;
   using FloatPixelType = float;
-  using InputImageType = itk::Image< PixelType, Dimension >;
-  using FloatImageType = itk::Image< FloatPixelType, Dimension >;
-  using OutputImageType = itk::Image< PixelType, Dimension >;
-  using LongImageType = itk::Image< itk::IdentifierType, Dimension >;
+  using InputImageType = itk::Image<PixelType, Dimension>;
+  using FloatImageType = itk::Image<FloatPixelType, Dimension>;
+  using OutputImageType = itk::Image<PixelType, Dimension>;
+  using LongImageType = itk::Image<itk::IdentifierType, Dimension>;
 
 
   // Create a pipeline
-  using InputCastFilterType =
-      itk::CastImageFilter< InputImageType, FloatImageType >;
+  using InputCastFilterType = itk::CastImageFilter<InputImageType, FloatImageType>;
   using FilterType = itk::TobogganImageFilter<FloatImageType>;
-  using OutputCastFilterType =
-      itk::CastImageFilter< LongImageType, OutputImageType >;
-  using GMGaussianType =
-      itk::GradientMagnitudeRecursiveGaussianImageFilter< FloatImageType, FloatImageType >;
+  using OutputCastFilterType = itk::CastImageFilter<LongImageType, OutputImageType>;
+  using GMGaussianType = itk::GradientMagnitudeRecursiveGaussianImageFilter<FloatImageType, FloatImageType>;
 
 
-  itk::ImageFileReader< InputImageType >::Pointer reader =
-    itk::ImageFileReader< InputImageType >::New();
+  itk::ImageFileReader<InputImageType>::Pointer reader = itk::ImageFileReader<InputImageType>::New();
 
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
 
   FilterType::Pointer toboggan = FilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( toboggan, TobogganImageFilter,
-    ImageToImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(toboggan, TobogganImageFilter, ImageToImageFilter);
 
   InputCastFilterType::Pointer inputCaster = InputCastFilterType::New();
-  GMGaussianType::Pointer gmgaussian = GMGaussianType::New();
+  GMGaussianType::Pointer      gmgaussian = GMGaussianType::New();
 
-  inputCaster->SetInput( reader->GetOutput() );
-  gmgaussian->SetInput( inputCaster->GetOutput() );
-  gmgaussian->SetSigma( 15.0 );
+  inputCaster->SetInput(reader->GetOutput());
+  gmgaussian->SetInput(inputCaster->GetOutput());
+  gmgaussian->SetSigma(15.0);
 
-  toboggan->SetInput( gmgaussian->GetOutput() );
+  toboggan->SetInput(gmgaussian->GetOutput());
 
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( toboggan->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(toboggan->Update());
 
 
   // Cast the output of the Toboggan filter
   OutputCastFilterType::Pointer outputCaster = OutputCastFilterType::New();
-  outputCaster->SetInput( toboggan->GetOutput() );
+  outputCaster->SetInput(toboggan->GetOutput());
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( outputCaster->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(outputCaster->Update());
 
   // Write the output
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( outputCaster->GetOutput() );
-  writer->SetFileName( argv[2] );
+  writer->SetInput(outputCaster->GetOutput());
+  writer->SetFileName(argv[2]);
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
   std::cout << "Test finished." << std::endl;

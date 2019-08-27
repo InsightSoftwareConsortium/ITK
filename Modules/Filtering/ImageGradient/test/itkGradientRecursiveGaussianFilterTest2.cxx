@@ -22,7 +22,8 @@
 #include "itkGradientRecursiveGaussianImageFilter.h"
 
 
-int itkGradientRecursiveGaussianFilterTest2(int, char* [] )
+int
+itkGradientRecursiveGaussianFilterTest2(int, char *[])
 {
 
   // Define the dimension of the images
@@ -41,7 +42,7 @@ int itkGradientRecursiveGaussianFilterTest2(int, char* [] )
   using myRegionType = itk::ImageRegion<myDimension>;
 
   // Create the image
-  myImageType::Pointer inputImage  = myImageType::New();
+  myImageType::Pointer inputImage = myImageType::New();
 
 
   // Define their size, and start index
@@ -52,43 +53,43 @@ int itkGradientRecursiveGaussianFilterTest2(int, char* [] )
   start.Fill(0);
 
   myRegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
+  region.SetIndex(start);
+  region.SetSize(size);
 
   // Initialize Image A
-  inputImage->SetLargestPossibleRegion( region );
-  inputImage->SetBufferedRegion( region );
-  inputImage->SetRequestedRegion( region );
+  inputImage->SetLargestPossibleRegion(region);
+  inputImage->SetBufferedRegion(region);
+  inputImage->SetRequestedRegion(region);
   inputImage->Allocate();
 
   // Declare Iterator type for the input image
   using myIteratorType = itk::ImageRegionIteratorWithIndex<myImageType>;
 
   // Create one iterator for the Input Image A (this is a light object)
-  myIteratorType it( inputImage, inputImage->GetRequestedRegion() );
+  myIteratorType it(inputImage, inputImage->GetRequestedRegion());
 
   // Initialize the content of Image A
-  while( !it.IsAtEnd() )
-    {
-    it.Set( 0.0 );
+  while (!it.IsAtEnd())
+  {
+    it.Set(0.0);
     ++it;
-    }
+  }
 
   size[0] = 32;
 
   start[0] = 16;
 
   // Create one iterator for an internal region
-  region.SetSize( size );
-  region.SetIndex( start );
-  myIteratorType itb( inputImage, region );
+  region.SetSize(size);
+  region.SetIndex(start);
+  myIteratorType itb(inputImage, region);
 
   // Initialize the content the internal region
-  while( !itb.IsAtEnd() )
-    {
-    itb.Set( 100.0 );
+  while (!itb.IsAtEnd())
+  {
+    itb.Set(100.0);
     ++itb;
-    }
+  }
 
   // Declare the type for the
   using myFilterType = itk::GradientRecursiveGaussianImageFilter<myImageType>;
@@ -101,10 +102,10 @@ int itkGradientRecursiveGaussianFilterTest2(int, char* [] )
 
 
   // Connect the input images
-  filter->SetInput( inputImage );
+  filter->SetInput(inputImage);
 
   // Select the value of Sigma
-  filter->SetSigma( 2.5 );
+  filter->SetSigma(2.5);
 
 
   // Execute the filter
@@ -120,10 +121,8 @@ int itkGradientRecursiveGaussianFilterTest2(int, char* [] )
   using myOutputIteratorType = itk::ImageRegionIteratorWithIndex<myGradientImageType>;
 
   // Create an iterator for going through the output image
-  myOutputIteratorType itg( outputImage,
-                            outputImage->GetRequestedRegion() );
+  myOutputIteratorType itg(outputImage, outputImage->GetRequestedRegion());
 
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;
-
 }

@@ -45,55 +45,57 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 
-int main( int argc, char * argv [] )
+int
+main(int argc, char * argv[])
 {
 
-  if( argc < 2 )
-    {
+  if (argc < 2)
+  {
     std::cerr << "Missing command line arguments" << std::endl;
     std::cerr << "Usage :  " << argv[0] << "  inputImageFileName " << std::endl;
     return -1;
-    }
+  }
 
   using PixelType = unsigned char;
   constexpr unsigned int Dimension = 2;
 
-  using ImageType = itk::Image<PixelType, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
 
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
   try
-    {
+  {
     reader->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
-    std::cerr << "Problem encoutered while reading image file : " << argv[1] << std::endl;
+  }
+  catch (itk::ExceptionObject & excp)
+  {
+    std::cerr << "Problem encoutered while reading image file : " << argv[1]
+              << std::endl;
     std::cerr << excp << std::endl;
     return -1;
-    }
+  }
 
 
   // Software Guide : BeginCodeSnippet
 
   // Create a List from the scalar image
-  using AdaptorType = itk::Statistics::ImageToListSampleAdaptor< ImageType >;
+  using AdaptorType = itk::Statistics::ImageToListSampleAdaptor<ImageType>;
 
   AdaptorType::Pointer adaptor = AdaptorType::New();
 
-  adaptor->SetImage(  reader->GetOutput() );
+  adaptor->SetImage(reader->GetOutput());
 
   // Create the K-d tree structure
   using TreeGeneratorType =
     itk::Statistics::WeightedCentroidKdTreeGenerator<AdaptorType>;
   TreeGeneratorType::Pointer treeGenerator = TreeGeneratorType::New();
 
-  treeGenerator->SetSample( adaptor );
-  treeGenerator->SetBucketSize( 16 );
+  treeGenerator->SetSample(adaptor);
+  treeGenerator->SetBucketSize(16);
   treeGenerator->Update();
 
 
@@ -104,25 +106,25 @@ int main( int argc, char * argv [] )
 
   constexpr unsigned int numberOfClasses = 3;
 
-  EstimatorType::ParametersType initialMeans( numberOfClasses );
+  EstimatorType::ParametersType initialMeans(numberOfClasses);
   initialMeans[0] = 25.0;
   initialMeans[1] = 125.0;
   initialMeans[2] = 250.0;
 
-  estimator->SetParameters( initialMeans );
+  estimator->SetParameters(initialMeans);
 
-  estimator->SetKdTree( treeGenerator->GetOutput() );
-  estimator->SetMaximumIteration( 200 );
+  estimator->SetKdTree(treeGenerator->GetOutput());
+  estimator->SetMaximumIteration(200);
   estimator->SetCentroidPositionChangesThreshold(0.0);
   estimator->StartOptimization();
 
   EstimatorType::ParametersType estimatedMeans = estimator->GetParameters();
 
-  for ( unsigned int i = 0; i < numberOfClasses; ++i )
-    {
+  for (unsigned int i = 0; i < numberOfClasses; ++i)
+  {
     std::cout << "cluster[" << i << "] " << std::endl;
     std::cout << "    estimated mean : " << estimatedMeans[i] << std::endl;
-    }
+  }
 
   // Software Guide : EndCodeSnippet
 

@@ -32,11 +32,10 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template<typename TParametersValueType,
-          unsigned int NDimensions = 3>
+template <typename TParametersValueType, unsigned int NDimensions = 3>
 // Number of dimensions
-class ITK_TEMPLATE_EXPORT ThinPlateR2LogRSplineKernelTransform:
-  public KernelTransform<TParametersValueType, NDimensions>
+class ITK_TEMPLATE_EXPORT ThinPlateR2LogRSplineKernelTransform
+  : public KernelTransform<TParametersValueType, NDimensions>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ThinPlateR2LogRSplineKernelTransform);
@@ -89,17 +88,18 @@ protected:
    * r(x) = Euclidean norm = sqrt[x1^2 + x2^2 + x3^2]
    * \f[ r(x) = \sqrt{ x_1^2 + x_2^2 + x_3^2 }  \f]
    * I = identity matrix. */
-  void ComputeG(const InputVectorType & landmarkVector, GMatrixType & gmatrix) const override;
+  void
+  ComputeG(const InputVectorType & landmarkVector, GMatrixType & gmatrix) const override;
 
   /** Compute the contribution of the landmarks weighted by the kernel funcion
       to the global deformation of the space  */
-  void ComputeDeformationContribution(const InputPointType & inputPoint,
-                                              OutputPointType & result) const override;
+  void
+  ComputeDeformationContribution(const InputPointType & inputPoint, OutputPointType & result) const override;
 };
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkThinPlateR2LogRSplineKernelTransform.hxx"
+#  include "itkThinPlateR2LogRSplineKernelTransform.hxx"
 #endif
 
 #endif // itkThinPlateR2LogRSplineKernelTransform_h

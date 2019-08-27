@@ -15,10 +15,11 @@
  *  limitations under the License.
  *
  *=========================================================================*/
- #include "SharedTestLibraryB.h"
+#include "SharedTestLibraryB.h"
 
-void foo()
+void
+foo()
 {
-  using ImageType = itk::Image<float,2>;
+  using ImageType = itk::Image<float, 2>;
   ImageType::Pointer image = ImageType::New();
 }

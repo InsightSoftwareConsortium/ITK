@@ -46,17 +46,17 @@ namespace itk
  * \sphinxexample{ImageProcessing/UnaryFunctorImageFilter,Apply Custom Operation To Each Pixel In Image}
  * \endsphinx
  */
-template< typename TInputImage, typename TOutputImage, typename TFunction >
-class ITK_TEMPLATE_EXPORT UnaryFunctorImageFilter:public InPlaceImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage, typename TFunction>
+class ITK_TEMPLATE_EXPORT UnaryFunctorImageFilter : public InPlaceImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(UnaryFunctorImageFilter);
 
   /** Standard class type aliases. */
   using Self = UnaryFunctorImageFilter;
-  using Superclass = InPlaceImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = InPlaceImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -68,21 +68,29 @@ public:
   using FunctorType = TFunction;
 
   using InputImageType = TInputImage;
-  using InputImagePointer = typename    InputImageType::ConstPointer;
-  using InputImageRegionType = typename    InputImageType::RegionType;
-  using InputImagePixelType = typename    InputImageType::PixelType;
+  using InputImagePointer = typename InputImageType::ConstPointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputImagePixelType = typename InputImageType::PixelType;
 
   using OutputImageType = TOutputImage;
-  using OutputImagePointer = typename     OutputImageType::Pointer;
-  using OutputImageRegionType = typename     OutputImageType::RegionType;
-  using OutputImagePixelType = typename     OutputImageType::PixelType;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
 
   /** Get the functor object.  The functor is returned by reference.
    * (Functors do not have to derive from itk::LightObject, so they do
    * not necessarily have a reference count. So we cannot return a
    * SmartPointer.) */
-  FunctorType &       GetFunctor() { return m_Functor; }
-  const FunctorType & GetFunctor() const { return m_Functor; }
+  FunctorType &
+  GetFunctor()
+  {
+    return m_Functor;
+  }
+  const FunctorType &
+  GetFunctor() const
+  {
+    return m_Functor;
+  }
 
   /** Set the functor object.  This replaces the current Functor with a
    * copy of the specified Functor. This allows the user to specify a
@@ -90,13 +98,14 @@ public:
    * This method requires an operator!=() be defined on the functor
    * (or the compiler's default implementation of operator!=() being
    * appropriate). */
-  void SetFunctor(const FunctorType & functor)
+  void
+  SetFunctor(const FunctorType & functor)
   {
-    if ( m_Functor != functor )
-      {
+    if (m_Functor != functor)
+    {
       m_Functor = functor;
       this->Modified();
-      }
+    }
   }
 
 protected:
@@ -111,7 +120,8 @@ protected:
    * below.
    *
    * \sa ProcessObject::GenerateOutputInformaton()  */
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
   /** UnaryFunctorImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a DynamicThreadedGenerateData() routine
@@ -123,7 +133,8 @@ protected:
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 private:
   FunctorType m_Functor;
@@ -131,7 +142,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkUnaryFunctorImageFilter.hxx"
+#  include "itkUnaryFunctorImageFilter.hxx"
 #endif
 
 #endif

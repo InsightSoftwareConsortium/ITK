@@ -23,28 +23,28 @@ namespace itk
 namespace fem
 {
 // Overload the CreateAnother() method.
-::itk::LightObject::Pointer Element2DC0LinearLineStress::CreateAnother() const
+::itk::LightObject::Pointer
+Element2DC0LinearLineStress::CreateAnother() const
 {
   ::itk::LightObject::Pointer smartPtr;
-  Pointer copyPtr = Self::New();
+  Pointer                     copyPtr = Self::New();
 
-  copyPtr->SetNode(0, this->GetNode(0) );
-  copyPtr->SetNode(1, this->GetNode(1) );
-  copyPtr->SetMaterial( this->GetMaterial() );
-  copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
+  copyPtr->SetNode(0, this->GetNode(0));
+  copyPtr->SetNode(1, this->GetNode(1));
+  copyPtr->SetMaterial(this->GetMaterial());
+  copyPtr->SetGlobalNumber(this->GetGlobalNumber());
 
   smartPtr = static_cast<Pointer>(copyPtr);
 
   return smartPtr;
 }
 
-Element2DC0LinearLineStress
-::Element2DC0LinearLineStress() : Superclass()
-{
-}
+Element2DC0LinearLineStress ::Element2DC0LinearLineStress()
+  : Superclass()
+{}
 
-Element2DC0LinearLineStress
-::Element2DC0LinearLineStress(NodeIDType n1_, NodeIDType n2_, Material::ConstPointer m_) : Superclass()
+Element2DC0LinearLineStress ::Element2DC0LinearLineStress(NodeIDType n1_, NodeIDType n2_, Material::ConstPointer m_)
+  : Superclass()
 {
   // Set the geometrical points
   this->SetNode(0, n1_);
@@ -55,22 +55,21 @@ Element2DC0LinearLineStress
    * we were given the pointer to the right class.
    * If the material class was incorrect an exception is thrown.
    */
-  m_mat = dynamic_cast<const MaterialLinearElasticity *>( m_.GetPointer() );
+  m_mat = dynamic_cast<const MaterialLinearElasticity *>(m_.GetPointer());
 
-  if( !m_mat )
-    {
+  if (!m_mat)
+  {
     throw FEMExceptionWrongClass(__FILE__, __LINE__, "Element2DC0LinearLineStress::Element2DC0LinearLineStress()");
-    }
+  }
 }
 
 void
-Element2DC0LinearLineStress
-::GetMassMatrix(MatrixType & Me) const
+Element2DC0LinearLineStress ::GetMassMatrix(MatrixType & Me) const
 {
   Me.set_size(4, 4);
   Me.fill(0.0);
 
-  Float l = ( m_node[1]->GetCoordinates() - m_node[0]->GetCoordinates() ).magnitude();
+  Float l = (m_node[1]->GetCoordinates() - m_node[0]->GetCoordinates()).magnitude();
 
   Me[0][0] = 2.0;
   Me[1][1] = 2.0;
@@ -81,10 +80,11 @@ Element2DC0LinearLineStress
   Me[2][0] = 1.0;
   Me[3][1] = 1.0;
 
-  Me = Me * ( l * m_mat->GetDensityHeatProduct() * m_mat->GetCrossSectionalArea() / 6.0 );
+  Me = Me * (l * m_mat->GetDensityHeatProduct() * m_mat->GetCrossSectionalArea() / 6.0);
 }
 
-void Element2DC0LinearLineStress::PrintSelf(std::ostream& os, Indent indent) const
+void
+Element2DC0LinearLineStress::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

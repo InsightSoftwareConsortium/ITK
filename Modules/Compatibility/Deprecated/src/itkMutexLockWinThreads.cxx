@@ -43,15 +43,17 @@ SimpleMutexLock::~SimpleMutexLock()
 }
 
 // Lock the MutexLock
-void SimpleMutexLock::Lock()
+void
+SimpleMutexLock::Lock()
 {
   WaitForSingleObject(m_MutexLock, INFINITE);
 }
 
 // Lock the MutexLock
-bool SimpleMutexLock::TryLock()
+bool
+SimpleMutexLock::TryLock()
 {
-  const bool lockCaptured = ( WaitForSingleObject(m_MutexLock, 1) == WAIT_OBJECT_0 );
+  const bool lockCaptured = (WaitForSingleObject(m_MutexLock, 1) == WAIT_OBJECT_0);
   /*
    * non-blocking lock of mutex
    * - if mutex is not already locked, you will obtain the lock & own the mutex, and return 0 immediately
@@ -61,9 +63,10 @@ bool SimpleMutexLock::TryLock()
 }
 
 // Unlock the MutexLock
-void SimpleMutexLock::Unlock()
+void
+SimpleMutexLock::Unlock()
 {
   ReleaseMutex(m_MutexLock);
 }
 
-} //end namespace itk
+} // end namespace itk

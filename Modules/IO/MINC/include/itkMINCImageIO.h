@@ -75,8 +75,8 @@ public:
   /** Standard class type aliases. */
   using Self = MINCImageIO;
   using Superclass = ImageIOBase;
-  using Pointer = SmartPointer< Self >;
-  using MatrixType = Matrix< float, 3, 3 >;
+  using Pointer = SmartPointer<Self>;
+  using MatrixType = Matrix<float, 3, 3>;
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
@@ -84,64 +84,74 @@ public:
   itkTypeMacro(MINCImageIO, Superclass);
 
   /** Right now MINC supports up to 3D with multiple components */
-  bool SupportsDimension(unsigned long dim) override
+  bool
+  SupportsDimension(unsigned long dim) override
   {
-    return dim<4;
+    return dim < 4;
   }
 
   /*-------- This part of the interface deals with reading data. ------ */
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  bool CanReadFile(const char *) override;
+  bool
+  CanReadFile(const char *) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  void ReadImageInformation() override;
+  void
+  ReadImageInformation() override;
 
   /** Reads the data from disk into the memory buffer provided. */
-  void Read(void *buffer) override;
+  void
+  Read(void * buffer) override;
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  bool CanWriteFile(const char *) override;
+  bool
+  CanWriteFile(const char *) override;
 
   /** Writes the spacing and dimensions of the image.
    * Assumes SetFileName has been called with a valid file name. */
-  void WriteImageInformation() override;
+  void
+  WriteImageInformation() override;
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegion has been set properly. */
-  void Write(const void *buffer) override;
+  void
+  Write(const void * buffer) override;
 
 protected:
   MINCImageIO();
   ~MINCImageIO() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void WriteSlice(std::string & fileName, const void *buffer);
+  void
+  WriteSlice(std::string & fileName, const void * buffer);
 
   // will assign m_NDims and allocate all internal buffers to hold the
   // information
-  void AllocateDimensions(int nDims);
+  void
+  AllocateDimensions(int nDims);
 
   // cleanup internal buffers
-  void CleanupDimensions();
+  void
+  CleanupDimensions();
 
   // close existing volume, cleanup internal structures
-  void CloseVolume();
+  void
+  CloseVolume();
 
 private:
+  MINCImageIOPImpl * m_MINCPImpl;
 
-  MINCImageIOPImpl *m_MINCPImpl;
-
-  MatrixType     m_DirectionCosines;
+  MatrixType m_DirectionCosines;
 
   // complex type images, composed of complex numbers
-  //int m_Complex;
-
+  // int m_Complex;
 };
 } // end namespace itk
 

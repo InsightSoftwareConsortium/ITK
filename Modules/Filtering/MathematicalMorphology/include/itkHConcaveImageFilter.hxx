@@ -25,43 +25,37 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage >
-HConcaveImageFilter< TInputImage, TOutputImage >
-::HConcaveImageFilter() :
-  m_Height( 2 )
+template <typename TInputImage, typename TOutputImage>
+HConcaveImageFilter<TInputImage, TOutputImage>::HConcaveImageFilter()
+  : m_Height(2)
 
-{
-}
+{}
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-HConcaveImageFilter< TInputImage, TOutputImage >
-::GenerateInputRequestedRegion()
+HConcaveImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   // Call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the input.
-  InputImagePointer input = const_cast< InputImageType * >( this->GetInput() );
-  if ( input )
-    {
-    input->SetRequestedRegion( input->GetLargestPossibleRegion() );
-    }
+  InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
+  if (input)
+  {
+    input->SetRequestedRegion(input->GetLargestPossibleRegion());
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-HConcaveImageFilter< TInputImage, TOutputImage >
-::EnlargeOutputRequestedRegion(DataObject *)
+HConcaveImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject *)
 {
-  this->GetOutput()
-  ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
+  this->GetOutput()->SetRequestedRegion(this->GetOutput()->GetLargestPossibleRegion());
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-HConcaveImageFilter< TInputImage, TOutputImage >
-::GenerateData()
+HConcaveImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   // Allocate the output
   this->AllocateOutputs();
@@ -73,23 +67,23 @@ HConcaveImageFilter< TInputImage, TOutputImage >
   // Delegate to a H-Minima filter.
   //
   //
-  typename HMinimaImageFilter< TInputImage, TInputImage >::Pointer
-  hmin = HMinimaImageFilter< TInputImage, TInputImage >::New();
+  typename HMinimaImageFilter<TInputImage, TInputImage>::Pointer hmin =
+    HMinimaImageFilter<TInputImage, TInputImage>::New();
 
-  hmin->SetInput( this->GetInput() );
+  hmin->SetInput(this->GetInput());
   hmin->SetHeight(m_Height);
   hmin->SetFullyConnected(m_FullyConnected);
 
   // Need to subtract the input from the H-Minima image
-  typename SubtractImageFilter< TInputImage, TInputImage, TOutputImage >::Pointer
-  subtract = SubtractImageFilter< TInputImage, TInputImage, TOutputImage >::New();
+  typename SubtractImageFilter<TInputImage, TInputImage, TOutputImage>::Pointer subtract =
+    SubtractImageFilter<TInputImage, TInputImage, TOutputImage>::New();
 
-  subtract->SetInput1( hmin->GetOutput() );
-  subtract->SetInput2( this->GetInput() );
+  subtract->SetInput1(hmin->GetOutput());
+  subtract->SetInput2(this->GetInput());
 
   // Graft our output to the subtract filter to force the proper regions
   // to be generated
-  subtract->GraftOutput( this->GetOutput() );
+  subtract->GraftOutput(this->GetOutput());
 
   // run the algorithm
   progress->RegisterInternalFilter(hmin, .9f);
@@ -100,22 +94,19 @@ HConcaveImageFilter< TInputImage, TOutputImage >
   // Graft the output of the subtract filter back onto this filter's
   // output. this is needed to get the appropriate regions passed
   // back.
-  this->GraftOutput( subtract->GetOutput() );
+  this->GraftOutput(subtract->GetOutput());
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-HConcaveImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+HConcaveImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Depth of local minima (contrast): "
-     << static_cast< typename NumericTraits< InputImagePixelType >::PrintType >( m_Height )
-     << std::endl;
-  os << indent << "Number of iterations used to produce current output: "
-     << m_NumberOfIterationsUsed << std::endl;
-  os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
+     << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Height) << std::endl;
+  os << indent << "Number of iterations used to produce current output: " << m_NumberOfIterationsUsed << std::endl;
+  os << indent << "FullyConnected: " << m_FullyConnected << std::endl;
 }
 } // end namespace itk
 #endif

@@ -38,23 +38,19 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-template< typename TFunction >
-class ITK_TEMPLATE_EXPORT BinaryThresholdSpatialFunction:
-  public SpatialFunction< bool,
-                          TFunction::ImageDimension,
-                          typename TFunction::InputType >
+template <typename TFunction>
+class ITK_TEMPLATE_EXPORT BinaryThresholdSpatialFunction
+  : public SpatialFunction<bool, TFunction::ImageDimension, typename TFunction::InputType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryThresholdSpatialFunction);
 
   /** Standard class type aliases. */
   using Self = BinaryThresholdSpatialFunction;
-  using Superclass = SpatialFunction< bool,
-                           TFunction::ImageDimension,
-                           typename TFunction::InputType >;
+  using Superclass = SpatialFunction<bool, TFunction::ImageDimension, typename TFunction::InputType>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(BinaryThresholdSpatialFunction, SpatialFunction);
@@ -87,13 +83,14 @@ public:
   itkGetModifiableObjectMacro(Function, FunctionType);
 
   /** Evaluate the function at a given position. */
-  OutputType Evaluate(const InputType & point) const override;
+  OutputType
+  Evaluate(const InputType & point) const override;
 
 protected:
-
   BinaryThresholdSpatialFunction();
   ~BinaryThresholdSpatialFunction() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   FunctionOutputType m_LowerThreshold;
   FunctionOutputType m_UpperThreshold;
@@ -103,7 +100,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryThresholdSpatialFunction.hxx"
+#  include "itkBinaryThresholdSpatialFunction.hxx"
 #endif
 
 #endif

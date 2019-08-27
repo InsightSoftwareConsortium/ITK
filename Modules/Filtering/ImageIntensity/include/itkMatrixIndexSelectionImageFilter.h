@@ -24,41 +24,53 @@ namespace itk
 {
 namespace Functor
 {
-template< typename TInput, typename TOutput >
+template <typename TInput, typename TOutput>
 class MatrixIndexSelection
 {
 public:
   MatrixIndexSelection() { m_I = m_J = 0; }
   ~MatrixIndexSelection() = default;
 
-  void GetIndices(unsigned int & i, unsigned int & j) const { i = m_I; j = m_J; }
-  void SetIndices(unsigned int i, unsigned int j) { m_I = i; m_J = j; }
-
-  bool operator!=(const MatrixIndexSelection & other) const
+  void
+  GetIndices(unsigned int & i, unsigned int & j) const
   {
-    if ( m_I != other.m_I
-         || m_J != other.m_J  )
-      {
+    i = m_I;
+    j = m_J;
+  }
+  void
+  SetIndices(unsigned int i, unsigned int j)
+  {
+    m_I = i;
+    m_J = j;
+  }
+
+  bool
+  operator!=(const MatrixIndexSelection & other) const
+  {
+    if (m_I != other.m_I || m_J != other.m_J)
+    {
       return true;
-      }
+    }
     return false;
   }
 
-  bool operator==(const MatrixIndexSelection & other) const
+  bool
+  operator==(const MatrixIndexSelection & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 
-  inline TOutput operator()(const TInput & A) const
+  inline TOutput
+  operator()(const TInput & A) const
   {
-    return static_cast< TOutput >( A[m_I][m_J] );
+    return static_cast<TOutput>(A[m_I][m_J]);
   }
 
 private:
   unsigned int m_I;
   unsigned int m_J;
 };
-}
+} // namespace Functor
 
 /** \class MatrixIndexSelectionImageFilter
  *
@@ -77,21 +89,22 @@ private:
  * \ingroup ITKImageIntensity
  */
 
-template< typename TInputImage, typename TOutputImage >
-class MatrixIndexSelectionImageFilter:
-  public
-  UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                           Functor::MatrixIndexSelection< typename TInputImage::PixelType,
-                                                          typename TOutputImage::PixelType > >
+template <typename TInputImage, typename TOutputImage>
+class MatrixIndexSelectionImageFilter
+  : public UnaryFunctorImageFilter<
+      TInputImage,
+      TOutputImage,
+      Functor::MatrixIndexSelection<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MatrixIndexSelectionImageFilter);
 
   /** Standard class type aliases. */
-  using Self = MatrixIndexSelectionImageFilter<Image<Matrix<unsigned short, 2, 2>, 2>, Image<unsigned char, 2> >;
-  using Superclass = UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                                   Functor::MatrixIndexSelection< typename TInputImage::PixelType,
-                                                                  typename TOutputImage::PixelType > >;
+  using Self = MatrixIndexSelectionImageFilter<Image<Matrix<unsigned short, 2, 2>, 2>, Image<unsigned char, 2>>;
+  using Superclass = UnaryFunctorImageFilter<
+    TInputImage,
+    TOutputImage,
+    Functor::MatrixIndexSelection<typename TInputImage::PixelType, typename TOutputImage::PixelType>>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -102,19 +115,22 @@ public:
   itkNewMacro(Self);
 
   /** Get/Set methods for the index */
-  void SetIndices(unsigned int i, unsigned int j)
+  void
+  SetIndices(unsigned int i, unsigned int j)
   {
     this->GetFunctor().SetIndices(i, j);
     this->Modified();
   }
 
-  void GetIndices(unsigned int & i, unsigned int & j) const
-  { return this->GetFunctor().GetIndices(i, j); }
+  void
+  GetIndices(unsigned int & i, unsigned int & j) const
+  {
+    return this->GetFunctor().GetIndices(i, j);
+  }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< typename TInputImage::PixelType::ValueType > ) );
+  itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<typename TInputImage::PixelType::ValueType>));
   // End concept checking
 #endif
 

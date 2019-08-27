@@ -39,25 +39,23 @@ namespace itk
  * \ingroup FiniteDifferenceFunctions
  * \ingroup ITKCurvatureFlow
  */
-template< typename TImage >
-class ITK_TEMPLATE_EXPORT CurvatureFlowFunction:
-  public FiniteDifferenceFunction< TImage >
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT CurvatureFlowFunction : public FiniteDifferenceFunction<TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(CurvatureFlowFunction);
 
   /**  Standard class type aliases. */
   using Self = CurvatureFlowFunction;
-  using Superclass = FiniteDifferenceFunction< TImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = FiniteDifferenceFunction<TImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(CurvatureFlowFunction,
-               FiniteDifferenceFunction);
+  itkTypeMacro(CurvatureFlowFunction, FiniteDifferenceFunction);
 
   /** Inherit some parameters from the superclass type. */
   using ImageType = typename Superclass::ImageType;
@@ -83,18 +81,20 @@ public:
    * Currently, this function returns the user specified constant time step.
    * \todo compute timestep based on CFL condition.
    */
-  TimeStepType ComputeGlobalTimeStep(void *GlobalData) const override;
+  TimeStepType
+  ComputeGlobalTimeStep(void * GlobalData) const override;
 
   /** Returns a pointer to a global data structure that is passed to this
    * object from the solver at each calculation.  The idea is that the solver
    * holds the state of any global values needed to calculate the time step,
    * while the equation object performs the actual calculations.  The global
    * data should also be initialized in this method. */
-  void * GetGlobalDataPointer() const override
+  void *
+  GetGlobalDataPointer() const override
   {
     auto * ans = new GlobalDataStruct();
 
-    ans->m_MaxChange   = NumericTraits< ScalarValueType >::ZeroValue();
+    ans->m_MaxChange = NumericTraits<ScalarValueType>::ZeroValue();
     return ans;
   }
 
@@ -102,35 +102,41 @@ public:
    * data pointer, it passes it to this method, which frees the memory.
    * The solver cannot free the memory because it does not know the type
    * to which the pointer points. */
-  void ReleaseGlobalDataPointer(void *GlobalData) const override
-  { delete (GlobalDataStruct *)GlobalData; }
+  void
+  ReleaseGlobalDataPointer(void * GlobalData) const override
+  {
+    delete (GlobalDataStruct *)GlobalData;
+  }
 
   /** Set the time step parameter */
-  void SetTimeStep(const TimeStepType & t)
-  { m_TimeStep = t; }
+  void
+  SetTimeStep(const TimeStepType & t)
+  {
+    m_TimeStep = t;
+  }
 
   /** Get the time step parameter */
-  const TimeStepType & GetTimeStep() const
-  { return m_TimeStep; }
+  const TimeStepType &
+  GetTimeStep() const
+  {
+    return m_TimeStep;
+  }
 
   /** This method computes the solution update for each pixel that does not
    * lie on a the data set boundary. */
-  PixelType ComputeUpdate(const NeighborhoodType & neighborhood,
-                                  void *globalData,
-                                  const FloatOffsetType & offset = FloatOffsetType(0.0)
-                                  ) override;
+  PixelType
+  ComputeUpdate(const NeighborhoodType & neighborhood,
+                void *                   globalData,
+                const FloatOffsetType &  offset = FloatOffsetType(0.0)) override;
 
 protected:
-
   /// \cond HIDE_STRUCTURE
 
   /** A global data type for this class of equations.  Used to store
    * values that are needed in calculating the time step. */
-  struct GlobalDataStruct {
-    GlobalDataStruct()
-    {
-      m_MaxChange = NumericTraits< ScalarValueType >::ZeroValue();
-    }
+  struct GlobalDataStruct
+  {
+    GlobalDataStruct() { m_MaxChange = NumericTraits<ScalarValueType>::ZeroValue(); }
 
     ~GlobalDataStruct() = default;
 
@@ -147,7 +153,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCurvatureFlowFunction.hxx"
+#  include "itkCurvatureFlowFunction.hxx"
 #endif
 
 #endif

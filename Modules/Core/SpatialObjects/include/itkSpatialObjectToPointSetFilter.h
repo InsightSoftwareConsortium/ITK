@@ -31,18 +31,17 @@ namespace itk
  *  The pointset created is in physical space.
  * \ingroup ITKSpatialObjects
  */
-template< typename TPointBasedSpatialObject, typename TOutputPointSet >
-class ITK_TEMPLATE_EXPORT SpatialObjectToPointSetFilter
-: public MeshSource< TOutputPointSet >
+template <typename TPointBasedSpatialObject, typename TOutputPointSet>
+class ITK_TEMPLATE_EXPORT SpatialObjectToPointSetFilter : public MeshSource<TOutputPointSet>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectToPointSetFilter);
 
   /** Standard class type aliases. */
   using Self = SpatialObjectToPointSetFilter;
-  using Superclass = MeshSource< TOutputPointSet >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = MeshSource<TOutputPointSet>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using OutputPointSetType = TOutputPointSet;
   using OutputPointSetPointer = typename OutputPointSetType::Pointer;
@@ -60,33 +59,31 @@ public:
 
   /** Some convenient type alias. */
   using PointBasedSpatialObjectType = TPointBasedSpatialObject;
-  using PointBasedSpatialObjectPointer
-    = typename PointBasedSpatialObjectType::Pointer;
-  using PointBasedSpatialObjectConstPointer
-    = typename PointBasedSpatialObjectType::ConstPointer;
+  using PointBasedSpatialObjectPointer = typename PointBasedSpatialObjectType::Pointer;
+  using PointBasedSpatialObjectConstPointer = typename PointBasedSpatialObjectType::ConstPointer;
   using ChildrenListType = typename TPointBasedSpatialObject::ChildrenListType;
 
   /** Dimension constants */
-  static constexpr unsigned int ObjectDimension
-    = PointBasedSpatialObjectType::ObjectDimension;
+  static constexpr unsigned int ObjectDimension = PointBasedSpatialObjectType::ObjectDimension;
 
-  using SpatialObjectPointType
-    = itk::SpatialObjectPoint< Self::ObjectDimension >;
+  using SpatialObjectPointType = itk::SpatialObjectPoint<Self::ObjectDimension>;
 
-  using SpatialObjectType
-    = itk::SpatialObject< Self::ObjectDimension >;
+  using SpatialObjectType = itk::SpatialObject<Self::ObjectDimension>;
 
   /** Set/Get the PointSet input of this process object.  */
   using Superclass::SetInput;
 
-  void SetInput(const SpatialObjectType *object);
+  void
+  SetInput(const SpatialObjectType * object);
 
-  void SetInput(const DataObjectIdentifierType & key,
-    const SpatialObjectType *object);
+  void
+  SetInput(const DataObjectIdentifierType & key, const SpatialObjectType * object);
 
   /** Get the input Spatial Object. */
-  const SpatialObjectType * GetInput();
-  const SpatialObjectType * GetInput(unsigned int idx);
+  const SpatialObjectType *
+  GetInput();
+  const SpatialObjectType *
+  GetInput(unsigned int idx);
 
   /** The spatial object being transformed can be part of a hierarchy.
    * How deep in the hierarchy should we descend in generating the
@@ -104,10 +101,14 @@ protected:
   SpatialObjectToPointSetFilter();
   ~SpatialObjectToPointSetFilter() override = default;
 
-  void GenerateOutputInformation() override {}  // do nothing
-  void GenerateData() override;
+  void
+  GenerateOutputInformation() override
+  {} // do nothing
+  void
+  GenerateData() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   unsigned int m_ChildrenDepth{ 0 };
@@ -116,7 +117,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSpatialObjectToPointSetFilter.hxx"
+#  include "itkSpatialObjectToPointSetFilter.hxx"
 #endif
 
 #endif

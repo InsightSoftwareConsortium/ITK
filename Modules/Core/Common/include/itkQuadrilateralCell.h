@@ -35,8 +35,10 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-template< typename TCellInterface >
-class ITK_TEMPLATE_EXPORT QuadrilateralCell:public TCellInterface, private QuadrilateralCellTopology
+template <typename TCellInterface>
+class ITK_TEMPLATE_EXPORT QuadrilateralCell
+  : public TCellInterface
+  , private QuadrilateralCellTopology
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuadrilateralCell);
@@ -49,11 +51,11 @@ public:
   itkTypeMacro(QuadrilateralCell, CellInterface);
 
   /** The type of boundary for this triangle's vertices. */
-  using VertexType = VertexCell< TCellInterface >;
+  using VertexType = VertexCell<TCellInterface>;
   using VertexAutoPointer = typename VertexType::SelfAutoPointer;
 
   /** The type of boundary for this triangle's edges. */
-  using EdgeType = LineCell< TCellInterface >;
+  using EdgeType = LineCell<TCellInterface>;
   using EdgeAutoPointer = typename EdgeType::SelfAutoPointer;
 
   /** Quadrilateral-specific topology numbers. */
@@ -64,46 +66,65 @@ public:
   static constexpr unsigned int NumberOfDerivatives = 8;
 
   /** Implement the standard CellInterface. */
-  CellGeometry GetType() const override
-  { return Superclass::QUADRILATERAL_CELL; }
-  void MakeCopy(CellAutoPointer &) const override;
+  CellGeometry
+  GetType() const override
+  {
+    return Superclass::QUADRILATERAL_CELL;
+  }
+  void
+  MakeCopy(CellAutoPointer &) const override;
 
-  unsigned int GetDimension() const override;
+  unsigned int
+  GetDimension() const override;
 
-  unsigned int GetNumberOfPoints() const override;
+  unsigned int
+  GetNumberOfPoints() const override;
 
-  CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const override;
+  CellFeatureCount
+  GetNumberOfBoundaryFeatures(int dimension) const override;
 
-  bool GetBoundaryFeature(int dimension, CellFeatureIdentifier, CellAutoPointer &) override;
-  void SetPointIds(PointIdConstIterator first) override;
+  bool
+  GetBoundaryFeature(int dimension, CellFeatureIdentifier, CellAutoPointer &) override;
+  void
+  SetPointIds(PointIdConstIterator first) override;
 
-  void SetPointIds(PointIdConstIterator first,
-                           PointIdConstIterator last) override;
+  void
+  SetPointIds(PointIdConstIterator first, PointIdConstIterator last) override;
 
-  void SetPointId(int localId, PointIdentifier) override;
-  PointIdIterator      PointIdsBegin() override;
+  void
+  SetPointId(int localId, PointIdentifier) override;
+  PointIdIterator
+  PointIdsBegin() override;
 
-  PointIdConstIterator PointIdsBegin() const override;
+  PointIdConstIterator
+  PointIdsBegin() const override;
 
-  PointIdIterator      PointIdsEnd() override;
+  PointIdIterator
+  PointIdsEnd() override;
 
-  PointIdConstIterator PointIdsEnd() const override;
+  PointIdConstIterator
+  PointIdsEnd() const override;
 
   /** Quadrilateral-specific interface. */
-  virtual CellFeatureCount GetNumberOfVertices() const;
+  virtual CellFeatureCount
+  GetNumberOfVertices() const;
 
-  virtual CellFeatureCount GetNumberOfEdges() const;
+  virtual CellFeatureCount
+  GetNumberOfEdges() const;
 
-  virtual bool GetVertex(CellFeatureIdentifier, VertexAutoPointer &);
-  virtual bool GetEdge(CellFeatureIdentifier, EdgeAutoPointer &);
+  virtual bool
+  GetVertex(CellFeatureIdentifier, VertexAutoPointer &);
+  virtual bool
+  GetEdge(CellFeatureIdentifier, EdgeAutoPointer &);
 
   /** Evaluate the position inside the cell */
-  bool EvaluatePosition(CoordRepType * position,
-                                PointsContainer * points,
-                                CoordRepType * closestPoint,
-                                CoordRepType[CellDimension],
-                                double * dist2,
-                                InterpolationWeightType * weight) override;
+  bool
+  EvaluatePosition(CoordRepType *    position,
+                   PointsContainer * points,
+                   CoordRepType *    closestPoint,
+                   CoordRepType[CellDimension],
+                   double *                  dist2,
+                   InterpolationWeightType * weight) override;
 
   /** Visitor interface */
   itkCellVisitMacro(Superclass::QUADRILATERAL_CELL);
@@ -111,31 +132,38 @@ public:
   /** Constructor and destructor */
   QuadrilateralCell()
   {
-    for ( PointIdentifier i = 0; i < Self::NumberOfPoints; i++ )
-      {
-      m_PointIds[i] = NumericTraits< PointIdentifier >::max();
-      }
+    for (PointIdentifier i = 0; i < Self::NumberOfPoints; i++)
+    {
+      m_PointIds[i] = NumericTraits<PointIdentifier>::max();
+    }
   }
 
 #if defined(__GNUC__) && (__GNUC__ > 5)
   ~QuadrilateralCell() override = default;
 #else
-  ~QuadrilateralCell() override {};
+  ~QuadrilateralCell() override{};
 #endif
 
 protected:
   /** Store the number of points needed for a quadrilateral. */
   PointIdentifier m_PointIds[NumberOfPoints];
 
-  void InterpolationDerivs(const CoordRepType pointCoords[CellDimension], CoordRepType derivs[NumberOfDerivatives]);
-  void InterpolationFunctions(const CoordRepType pointCoords[CellDimension], InterpolationWeightType weights[NumberOfPoints]);
-  void EvaluateLocation(int &itkNotUsed(subId), const PointsContainer * points, const CoordRepType pointCoords[PointDimension],
-                        CoordRepType x[PointDimension], InterpolationWeightType * weights);
+  void
+  InterpolationDerivs(const CoordRepType pointCoords[CellDimension], CoordRepType derivs[NumberOfDerivatives]);
+  void
+  InterpolationFunctions(const CoordRepType      pointCoords[CellDimension],
+                         InterpolationWeightType weights[NumberOfPoints]);
+  void
+  EvaluateLocation(int &                     itkNotUsed(subId),
+                   const PointsContainer *   points,
+                   const CoordRepType        pointCoords[PointDimension],
+                   CoordRepType              x[PointDimension],
+                   InterpolationWeightType * weights);
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkQuadrilateralCell.hxx"
+#  include "itkQuadrilateralCell.hxx"
 #endif
 
 #endif

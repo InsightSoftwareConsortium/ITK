@@ -26,10 +26,10 @@ namespace itk
 namespace fem
 {
 template <typename TBaseClass>
-Element2DMembrane<TBaseClass>
-::Element2DMembrane() : Superclass(), m_mat(nullptr)
-{
-}
+Element2DMembrane<TBaseClass>::Element2DMembrane()
+  : Superclass()
+  , m_mat(nullptr)
+{}
 
 // ////////////////////////////////////////////////////////////////////////
 /**
@@ -38,38 +38,36 @@ Element2DMembrane<TBaseClass>
 
 template <typename TBaseClass>
 void
-Element2DMembrane<TBaseClass>
-::GetStrainDisplacementMatrix(MatrixType & B, const MatrixType & shapeDgl) const
+Element2DMembrane<TBaseClass>::GetStrainDisplacementMatrix(MatrixType & B, const MatrixType & shapeDgl) const
 {
   unsigned int p;
   unsigned int Nn = this->GetNumberOfNodes();
 
   B.set_size(4, 2 * Nn); // note minor difference from linear elasticity
   // Copy the shape function derivatives to the B matrix.
-  for( unsigned int i = 0; i < Nn; i++ )
-    {
+  for (unsigned int i = 0; i < Nn; i++)
+  {
     // Compute B index
     p = i << 1;
 
     // Compute B elements
-    B[0][p]   = shapeDgl[0][i];
+    B[0][p] = shapeDgl[0][i];
     B[0][p + 1] = 0.0;
 
-    B[1][p]   = 0.0;
+    B[1][p] = 0.0;
     B[1][p + 1] = shapeDgl[0][i];
 
-    B[2][p]   = shapeDgl[1][i];
+    B[2][p] = shapeDgl[1][i];
     B[2][p + 1] = 0.0;
 
-    B[3][p]   = 0.0;
+    B[3][p] = 0.0;
     B[3][p + 1] = shapeDgl[1][i];
-    }
+  }
 }
 
 template <typename TBaseClass>
 void
-Element2DMembrane<TBaseClass>
-::GetMassMatrix(MatrixType & Me) const
+Element2DMembrane<TBaseClass>::GetMassMatrix(MatrixType & Me) const
 {
   // Call the parent's get matrix function
   Superclass::GetMassMatrix(Me);
@@ -81,8 +79,7 @@ Element2DMembrane<TBaseClass>
 
 template <typename TBaseClass>
 void
-Element2DMembrane<TBaseClass>
-::GetMaterialMatrix(MatrixType & D) const
+Element2DMembrane<TBaseClass>::GetMaterialMatrix(MatrixType & D) const
 {
   unsigned int d = 4;
 
@@ -93,16 +90,15 @@ Element2DMembrane<TBaseClass>
   // This is the main difference from the linear elasticity problem.
   /* Material properties matrix.  Simpler than linear elasticity. */
   Float disot = m_mat->GetYoungsModulus();
-  for( unsigned int i = 0; i < d; i++ )
-    {
+  for (unsigned int i = 0; i < d; i++)
+  {
     D[i][i] = disot;
-    }
+  }
 }
 
 template <typename TBaseClass>
 void
-Element2DMembrane<TBaseClass>
-::PrintSelf(std::ostream& os, Indent indent) const
+Element2DMembrane<TBaseClass>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Materials: " << this->m_mat << std::endl;

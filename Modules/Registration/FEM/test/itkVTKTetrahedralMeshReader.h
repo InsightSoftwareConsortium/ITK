@@ -94,23 +94,24 @@ public:
 protected:
   VTKTetrahedralMeshReader();
   ~VTKTetrahedralMeshReader() override;
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Reads the file */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   /** Filename to read */
   std::string m_FileName;
   std::string m_Header;
   std::string m_Version;
-
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVTKTetrahedralMeshReader.hxx"
+#  include "itkVTKTetrahedralMeshReader.hxx"
 #endif
 
 #endif //_itkVTKTetrahedralMeshReader_h

@@ -27,12 +27,12 @@
 #include <iostream>
 #include <typeinfo>
 
-#if defined( _WIN32 )
+#if defined(_WIN32)
 // To get LONG defined
-  #include "itkWindows.h"
-#elif defined( __APPLE__ )
+#  include "itkWindows.h"
+#elif defined(__APPLE__)
 // To get MAC_OS_X_VERSION_MIN_REQUIRED defined
-  #include <AvailabilityMacros.h>
+#  include <AvailabilityMacros.h>
 #endif
 
 namespace itk
@@ -63,30 +63,34 @@ public:
 
   /** Standard class type aliases. */
   using Self = LightObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
-  static Pointer New();
+  static Pointer
+  New();
 
   /** Create an object from an instance, potentially deferring to a
    * factory.  This method allows you to create an instance of an
    * object that is exactly the same type as the referring object.
    * This is useful in cases where an object has been cast back to a
    * base class. */
-  virtual Pointer CreateAnother() const;
+  virtual Pointer
+  CreateAnother() const;
 
   itkCloneMacro(Self);
 
   /** Delete an itk object.  This method should always be used to delete an
    * object when the new operator was used to create it. Using the C
    *  delete method will not work with reference counting.  */
-  virtual void Delete();
+  virtual void
+  Delete();
 
   /** Return the name of this class as a string. Used by the object factory
    * (implemented in New()) to instantiate objects of a named type. Also
    * used for debugging and other output information.  */
-  virtual const char * GetNameOfClass() const;
+  virtual const char *
+  GetNameOfClass() const;
 
 #ifdef _WIN32
   /** Used to avoid dll boundary problems.  */
@@ -94,32 +98,42 @@ public:
 
   void * operator new[](size_t);
 
-  void operator delete(void *);
+  void
+  operator delete(void *);
 
-  void operator delete[](void *, size_t);
+  void
+  operator delete[](void *, size_t);
 
 #endif
 
   /** Cause the object to print itself out. */
-  void Print(std::ostream & os, Indent indent = 0) const;
+  void
+  Print(std::ostream & os, Indent indent = 0) const;
 
   /** This method is called when itkExceptionMacro executes. It allows
    * the debugger to break on error.  */
-  static void BreakOnError();
+  static void
+  BreakOnError();
 
   /** Increase the reference count (mark as used by another object).  */
-  virtual void Register() const;
+  virtual void
+  Register() const;
 
   /** Decrease the reference count (release by another object).  */
-  virtual void UnRegister() const noexcept;
+  virtual void
+  UnRegister() const noexcept;
 
   /** Gets the reference count on this object. */
-  virtual int GetReferenceCount() const
-  { return m_ReferenceCount; }
+  virtual int
+  GetReferenceCount() const
+  {
+    return m_ReferenceCount;
+  }
 
   /** Sets the reference count on this object. This is a dangerous
    * method, use it with care. */
-  virtual void SetReferenceCount(int);
+  virtual void
+  SetReferenceCount(int);
 
 protected:
   LightObject();
@@ -129,21 +143,24 @@ protected:
    * including superclasses. Typically not called by the user (use Print()
    * instead) but used in the hierarchical print process to combine the
    * output of several classes.  */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void
+  PrintSelf(std::ostream & os, Indent indent) const;
 
-  virtual void PrintHeader(std::ostream & os, Indent indent) const;
+  virtual void
+  PrintHeader(std::ostream & os, Indent indent) const;
 
-  virtual void PrintTrailer(std::ostream & os, Indent indent) const;
+  virtual void
+  PrintTrailer(std::ostream & os, Indent indent) const;
 
   /**
    * Actual implementation of the clone method. This method should be reimplemeted
    * in subclasses to clone the extra required parameters.
    */
-  virtual LightObject::Pointer InternalClone() const;
+  virtual LightObject::Pointer
+  InternalClone() const;
 
   /** Number of uses of this object by other objects. */
   mutable std::atomic<int> m_ReferenceCount;
-
 };
 
 /**
@@ -153,7 +170,7 @@ protected:
  * interesting to print out.
  */
 ITKCommon_EXPORT std::ostream &
-operator<<(std::ostream & os, const LightObject & o);
+                 operator<<(std::ostream & os, const LightObject & o);
 
 } // end namespace itk
 

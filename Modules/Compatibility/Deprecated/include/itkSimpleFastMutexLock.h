@@ -59,18 +59,21 @@ public:
   ~SimpleFastMutexLock();
 
   /** Lock access. */
-  void Lock() const;
+  void
+  Lock() const;
 
   /** Non-blocking Lock access.
    \return bool - true if lock is captured, false if it was already heald by someone else.
    */
-  bool TryLock() const;
+  bool
+  TryLock() const;
 
   /** Unlock access. */
-  void Unlock() const;
+  void
+  Unlock() const;
 
 protected:
   mutable FastMutexType m_FastMutexLock;
 };
-} //end itk namespace
+} // namespace itk
 #endif

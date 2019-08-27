@@ -44,113 +44,114 @@
 #include "itkSpatialObjectPoint.h"
 // Software Guide : EndCodeSnippet
 
-int main( int, char *[] )
+int
+main(int, char *[])
 {
-// Software Guide : BeginLatex
-//
-// First we declare several standard type definitions.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // First we declare several standard type definitions.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   using BlobType = itk::BlobSpatialObject<3>;
   using BlobPointer = BlobType::Pointer;
-// Software Guide : BeginLatex
-//
-// Every Point-Based SpatialObject also provides type definitions for
-// their SpatialObject point type (e.g., \code{BlobPointType} for
-// \code{BlobSpatialObject}) as well as for a physical space point
-// (e.g., an \code{itk::Point}).
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // Every Point-Based SpatialObject also provides type definitions for
+  // their SpatialObject point type (e.g., \code{BlobPointType} for
+  // \code{BlobSpatialObject}) as well as for a physical space point
+  // (e.g., an \code{itk::Point}).
+  //
+  // Software Guide : EndLatex
   using BlobPointType = BlobType::BlobPointType;
   using PointType = BlobType::PointType;
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// Then, we create a list of points and we set the position of each point in
-// the local coordinate system using the \code{SetPositionInObjectSpace()}
-// method. We also set the color of each point to be red.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // Then, we create a list of points and we set the position of each point in
+  // the local coordinate system using the \code{SetPositionInObjectSpace()}
+  // method. We also set the color of each point to be red.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
- BlobType::BlobPointListType list;
+  // Software Guide : BeginCodeSnippet
+  BlobType::BlobPointListType list;
 
-  for( unsigned int i=0; i<4; i++)
-    {
+  for (unsigned int i = 0; i < 4; i++)
+  {
     BlobPointType p;
-    PointType pnt;
+    PointType     pnt;
     pnt[0] = i;
-    pnt[1] = i+1;
-    pnt[2] = i+2;
+    pnt[1] = i + 1;
+    pnt[2] = i + 2;
     p.SetPositionInObjectSpace(pnt);
     p.SetRed(1);
     p.SetGreen(0);
     p.SetBlue(0);
     p.SetAlpha(1.0);
     list.push_back(p);
-    }
-// Software Guide : EndCodeSnippet
+  }
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// Next, we create the blob and set its name using the \code{SetName()}
-// function. We also set its Identification number with \code{SetId()} and we
-// add the list of points previously created and call \code{Update()} so that
-// the object can update its transforms, bounding boxes, and other cached
-// convenience member variables.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // Next, we create the blob and set its name using the \code{SetName()}
+  // function. We also set its Identification number with \code{SetId()} and we
+  // add the list of points previously created and call \code{Update()} so that
+  // the object can update its transforms, bounding boxes, and other cached
+  // convenience member variables.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   BlobPointer blob = BlobType::New();
   blob->GetProperty().SetName("My Blob");
   blob->SetId(1);
   blob->SetPoints(list);
   blob->Update();
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// The \code{GetPoints()} method returns a reference to the internal list of
-// points of the object.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // The \code{GetPoints()} method returns a reference to the internal list of
+  // points of the object.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
-   BlobType::BlobPointListType pointList = blob->GetPoints();
-   std::cout << "The blob contains " << pointList.size();
-   std::cout << " points" << std::endl;
-// Software Guide : EndCodeSnippet
+  // Software Guide : BeginCodeSnippet
+  BlobType::BlobPointListType pointList = blob->GetPoints();
+  std::cout << "The blob contains " << pointList.size();
+  std::cout << " points" << std::endl;
+  // Software Guide : EndCodeSnippet
 
 
-// Software Guide : BeginLatex
-//
-// Then we can access the points using standard STL iterators and
-// \code{GetPositionInWorldSpace()} and \code{GetColor()} functions return
-// respectively the position and the color of the point.
-//
-// \code{GetPositionInWorldSpace()} applies the \code{ObjectToParentTransform}s
-// of all of the parent objects to this point.   Since this object has no
-// parents
-// and since this object's \code{ObjectToParentTransform} is the identify
-// transform
-// (by default), these world space positions are the same as the object space
-// positions that were set.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // Then we can access the points using standard STL iterators and
+  // \code{GetPositionInWorldSpace()} and \code{GetColor()} functions return
+  // respectively the position and the color of the point.
+  //
+  // \code{GetPositionInWorldSpace()} applies the \code{ObjectToParentTransform}s
+  // of all of the parent objects to this point.   Since this object has no
+  // parents
+  // and since this object's \code{ObjectToParentTransform} is the identify
+  // transform
+  // (by default), these world space positions are the same as the object space
+  // positions that were set.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   BlobType::BlobPointListType::const_iterator it = blob->GetPoints().begin();
-  while(it != blob->GetPoints().end())
-    {
+  while (it != blob->GetPoints().end())
+  {
     std::cout << "Position = " << (*it).GetPositionInWorldSpace() << std::endl;
     std::cout << "Color = " << (*it).GetColor() << std::endl;
     ++it;
-    }
-// Software Guide : EndCodeSnippet
+  }
+  // Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;
 }

@@ -35,25 +35,26 @@
 #include "itkComposeImageFilter.h"
 #include "itkTestingMacros.h"
 
-int itkImageReadRealAndImaginaryWriteComplexTest( int argc, char * argv[] )
+int
+itkImageReadRealAndImaginaryWriteComplexTest(int argc, char * argv[])
 {
-  if( argc != 4 )
-    {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputReal inputImaginary outputComplex" << std::endl;
+  if (argc != 4)
+  {
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputReal inputImaginary outputComplex"
+              << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int Dimension = 2;
 
   using InputPixelType = float;
   using OutputPixelType = float;
-  using InputImageType = itk::Image< InputPixelType,Dimension >;
-  using OutputImageType = itk::Image< std::complex<OutputPixelType>,Dimension >;
-  using ReaderType = itk::ImageFileReader< InputImageType >;
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
+  using OutputImageType = itk::Image<std::complex<OutputPixelType>, Dimension>;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  using RealAndImaginary2ComplexFilterType = itk::ComposeImageFilter <
-    InputImageType, OutputImageType >;
+  using RealAndImaginary2ComplexFilterType = itk::ComposeImageFilter<InputImageType, OutputImageType>;
 
   ReaderType::Pointer readerReal = ReaderType::New();
   ReaderType::Pointer readerImag = ReaderType::New();
@@ -61,11 +62,11 @@ int itkImageReadRealAndImaginaryWriteComplexTest( int argc, char * argv[] )
 
   RealAndImaginary2ComplexFilterType::Pointer RealAndImaginary2Complex = RealAndImaginary2ComplexFilterType::New();
 
-  readerReal->SetFileName( argv[1] );
-  readerImag->SetFileName( argv[2] );
-  writer->SetFileName( argv[3] );
+  readerReal->SetFileName(argv[1]);
+  readerImag->SetFileName(argv[2]);
+  writer->SetFileName(argv[3]);
 
-// Read the image and get its size
+  // Read the image and get its size
   readerReal->Update();
   readerImag->Update();
 
@@ -75,22 +76,22 @@ int itkImageReadRealAndImaginaryWriteComplexTest( int argc, char * argv[] )
   writer->SetInput(RealAndImaginary2Complex->GetOutput());
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Error writing the magnitude image: " << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // check that the default template parameters work
-  using DefaultParametersFilterType = itk::ComposeImageFilter < InputImageType >;
+  using DefaultParametersFilterType = itk::ComposeImageFilter<InputImageType>;
   DefaultParametersFilterType::Pointer temp = DefaultParametersFilterType::New();
-  if( temp.IsNull() )
-    {
+  if (temp.IsNull())
+  {
     return EXIT_FAILURE;
-    }
+  }
   return EXIT_SUCCESS;
 }

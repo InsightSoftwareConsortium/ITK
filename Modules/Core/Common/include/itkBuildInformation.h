@@ -44,7 +44,7 @@ namespace itk
  */
 struct BuildInformationGlobals;
 
-class ITKCommon_EXPORT BuildInformation final: public Object
+class ITKCommon_EXPORT BuildInformation final : public Object
 {
 public:
   // Using the `rule of zero` to this aggregate type
@@ -53,8 +53,8 @@ public:
 
   /** Standard class type aliases. */
   using Self = BuildInformation;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
   using MapKeyType = std::string;
   using MapValueType = std::string;
   using MapValueDescriptionType = MapValueType;
@@ -72,23 +72,29 @@ private:
     const MapValueType            m_Value;
     const MapValueDescriptionType m_Description;
   };
-public:
 
+public:
   using MapStorageType = InformationValueType;
-  using MapType = std::map<MapKeyType, MapStorageType >;
+  using MapType = std::map<MapKeyType, MapStorageType>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(BuildInformation, Object);
 
   /** Returns the global instance */
-  static Pointer New();
+  static Pointer
+  New();
 
   /** Returns the global singleton instance of the BuildInformation */
-  static Pointer GetInstance();
-  static const MapType & GetMap();
-  static const MapValueType GetValue(const MapKeyType &&);
-  static const MapValueDescriptionType  GetDescription(const MapKeyType &&);
-  static const std::vector< MapKeyType > GetAllKeys();
+  static Pointer
+  GetInstance();
+  static const MapType &
+  GetMap();
+  static const MapValueType
+  GetValue(const MapKeyType &&);
+  static const MapValueDescriptionType
+  GetDescription(const MapKeyType &&);
+  static const std::vector<MapKeyType>
+  GetAllKeys();
 
 private:
   BuildInformation();
@@ -96,6 +102,6 @@ private:
   itkGetGlobalDeclarationMacro(BuildInformationGlobals, PimplGlobals);
   static BuildInformationGlobals * m_PimplGlobals;
 
-};  // end of class
+}; // end of class
 } // end namespace itk
 #endif

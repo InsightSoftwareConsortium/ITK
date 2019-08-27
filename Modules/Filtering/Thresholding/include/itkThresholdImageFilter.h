@@ -66,17 +66,17 @@ namespace itk
  * \sphinxexample{Filtering/Thresholding/ThresholdAnImage,Threshold An Image}
  * \endsphinx
  */
-template< typename TImage >
-class ITK_TEMPLATE_EXPORT ThresholdImageFilter:public InPlaceImageFilter< TImage, TImage >
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT ThresholdImageFilter : public InPlaceImageFilter<TImage, TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ThresholdImageFilter);
 
   /** Standard class type aliases. */
   using Self = ThresholdImageFilter;
-  using Superclass = InPlaceImageFilter< TImage, TImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = InPlaceImageFilter<TImage, TImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -90,10 +90,8 @@ public:
   /** The pixel type must support comparison operators. */
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( PixelTypeComparableCheck,
-                   ( Concept::Comparable< PixelType > ) );
-  itkConceptMacro( PixelTypeOStreamWritableCheck,
-                   ( Concept::OStreamWritable< PixelType > ) );
+  itkConceptMacro(PixelTypeComparableCheck, (Concept::Comparable<PixelType>));
+  itkConceptMacro(PixelTypeOStreamWritableCheck, (Concept::OStreamWritable<PixelType>));
   // End concept checking
 #endif
 
@@ -105,13 +103,16 @@ public:
   itkGetConstMacro(OutsideValue, PixelType);
 
   /** The values greater than or equal to the value are set to OutsideValue. */
-  void ThresholdAbove(const PixelType & thresh);
+  void
+  ThresholdAbove(const PixelType & thresh);
 
   /** The values less than or equal to the value are set to OutsideValue. */
-  void ThresholdBelow(const PixelType & thresh);
+  void
+  ThresholdBelow(const PixelType & thresh);
 
   /** The values outside the range are set to OutsideValue. */
-  void ThresholdOutside(const PixelType & lower, const PixelType & upper);
+  void
+  ThresholdOutside(const PixelType & lower, const PixelType & upper);
 
   /** Set/Get methods to set the lower threshold. */
   itkSetMacro(Lower, PixelType);
@@ -136,7 +137,8 @@ public:
 protected:
   ThresholdImageFilter();
   ~ThresholdImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** ThresholdImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a DynamicThreadedGenerateData() routine
@@ -148,7 +150,8 @@ protected:
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 private:
   PixelType m_OutsideValue;
@@ -158,7 +161,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkThresholdImageFilter.hxx"
+#  include "itkThresholdImageFilter.hxx"
 #endif
 
 #endif

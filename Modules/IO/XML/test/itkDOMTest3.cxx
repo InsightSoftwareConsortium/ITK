@@ -30,72 +30,73 @@ so it is important to supply the correct input during the testing process.
 #include <iostream>
 #include "itkMacro.h"
 
-int itkDOMTest3( int argc, char* argv[] )
+int
+itkDOMTest3(int argc, char * argv[])
 {
-  if ( argc < 2 )
-    {
+  if (argc < 2)
+  {
     std::cerr << "arguments expected: test.xml" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   try
-    {
+  {
     // read the DOM object from the input XML file
     itk::DOMNodeXMLReader::Pointer reader = itk::DOMNodeXMLReader::New();
-    reader->SetFileName( argv[1] );
+    reader->SetFileName(argv[1]);
     reader->Update();
     itk::DOMNode::Pointer dom = reader->GetOutput();
 
-    itk::DOMNode* node = dom->GetChild(0);
-    if ( !node )
-      {
+    itk::DOMNode * node = dom->GetChild(0);
+    if (!node)
+    {
       throw "testing failed";
-      }
+    }
     std::cout << "node path: " << node->GetPath() << std::endl;
-    if ( node->GetPath() != "/0" )
-      {
+    if (node->GetPath() != "/0")
+    {
       throw "testing failed";
-      }
+    }
 
     node = dom->GetChild(1);
-    if ( !node )
-      {
+    if (!node)
+    {
       throw "testing failed";
-      }
+    }
     node = node->GetChild(5);
-    if ( !node )
-      {
+    if (!node)
+    {
       throw "testing failed";
-      }
+    }
     std::cout << "node path: " << node->GetPath() << std::endl;
-    if ( node->GetPath() != "/1/5" )
-      {
+    if (node->GetPath() != "/1/5")
+    {
       throw "testing failed";
-      }
+    }
 
     node = dom->GetChild(2);
-    if ( !node )
-      {
+    if (!node)
+    {
       throw "testing failed";
-      }
+    }
     std::cout << "node path: " << node->GetPath() << std::endl;
-    if ( node->GetPath() != "/2" )
-      {
+    if (node->GetPath() != "/2")
+    {
       throw "testing failed";
-      }
+    }
 
     // the testing is successful if you reached here
-    }
-  catch ( const itk::ExceptionObject& eo )
-    {
-    eo.Print( std::cerr );
+  }
+  catch (const itk::ExceptionObject & eo)
+  {
+    eo.Print(std::cerr);
     return EXIT_FAILURE;
-    }
-  catch ( ... )
-    {
+  }
+  catch (...)
+  {
     std::cerr << "Unknown exception caught!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

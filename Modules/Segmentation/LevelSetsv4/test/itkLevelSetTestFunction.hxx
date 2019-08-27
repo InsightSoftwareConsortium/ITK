@@ -24,24 +24,21 @@
 namespace itk
 {
 
-template< typename TPixel >
-typename LevelSetTestFunction< TPixel >::OutputRealType
-LevelSetTestFunction< TPixel >
-::Evaluate( const PointType & point ) const
+template <typename TPixel>
+typename LevelSetTestFunction<TPixel>::OutputRealType
+LevelSetTestFunction<TPixel>::Evaluate(const PointType & point) const
 {
-  return static_cast< OutputRealType >( std::sqrt((point[0] - 7.0)*(point[0] - 7.0) + (point[1] - 4.0)*(point[1] - 4.0)) - 3.0 );
+  return static_cast<OutputRealType>(
+    std::sqrt((point[0] - 7.0) * (point[0] - 7.0) + (point[1] - 4.0) * (point[1] - 4.0)) - 3.0);
 }
 
-template< typename TPixel >
-typename LevelSetTestFunction< TPixel >::GradientType
-LevelSetTestFunction< TPixel >
-::EvaluateGradient( const PointType & point ) const
+template <typename TPixel>
+typename LevelSetTestFunction<TPixel>::GradientType
+LevelSetTestFunction<TPixel>::EvaluateGradient(const PointType & point) const
 {
   GradientType gradient;
-  gradient[0] = (point[0] - 7.0) /
-    std::sqrt( (point[0] - 7.0)*(point[0] - 7.0) + (point[1] - 4.0)*(point[1] - 4.0) );
-  gradient[1] = (point[1] - 4.0) /
-    std::sqrt( (point[0] - 7.0)*(point[0] - 7.0) + (point[1] - 4.0)*(point[1] - 4.0) );
+  gradient[0] = (point[0] - 7.0) / std::sqrt((point[0] - 7.0) * (point[0] - 7.0) + (point[1] - 4.0) * (point[1] - 4.0));
+  gradient[1] = (point[1] - 4.0) / std::sqrt((point[0] - 7.0) * (point[0] - 7.0) + (point[1] - 4.0) * (point[1] - 4.0));
   return gradient;
 }
 

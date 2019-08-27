@@ -44,15 +44,17 @@ namespace itk
 class OnePlusOneCostFunction : public itk::SingleValuedCostFunction
 {
 public:
-
   using Self = OnePlusOneCostFunction;
   using Superclass = itk::SingleValuedCostFunction;
   using Pointer = itk::SmartPointer<Self>;
   using ConstPointer = itk::SmartPointer<const Self>;
-  itkNewMacro( Self );
-  itkTypeMacro( OnePlusOneCostFunction, SingleValuedCostFunction );
+  itkNewMacro(Self);
+  itkTypeMacro(OnePlusOneCostFunction, SingleValuedCostFunction);
 
-  enum { SpaceDimension=2 };
+  enum
+  {
+    SpaceDimension = 2
+  };
 
   using ParametersType = Superclass::ParametersType;
   using MeasureType = Superclass::MeasureType;
@@ -60,7 +62,8 @@ public:
   OnePlusOneCostFunction() = default;
 
 
-  MeasureType  GetValue( const ParametersType & parameters ) const override
+  MeasureType
+  GetValue(const ParametersType & parameters) const override
   {
     double x = parameters[0];
     double y = parameters[1];
@@ -69,23 +72,24 @@ public:
     std::cout << x << " ";
     std::cout << y << ") = ";
 
-    MeasureType measure = 0.5*(3*x*x+4*x*y+6*y*y) - 2*x + 8*y;
+    MeasureType measure = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
 
     std::cout << measure << std::endl;
 
     return measure;
   }
 
-  void GetDerivative(const ParametersType & itkNotUsed( parameters ),
-                           DerivativeType & itkNotUsed( derivative ) ) const override
+  void
+  GetDerivative(const ParametersType & itkNotUsed(parameters), DerivativeType & itkNotUsed(derivative)) const override
   {
     itkGenericExceptionMacro("OnePlusOneEvolutionaryOptimizer is not supposed to call GetDerivative()");
   }
 
-  unsigned int GetNumberOfParameters() const override
-    {
+  unsigned int
+  GetNumberOfParameters() const override
+  {
     return SpaceDimension;
-    }
+  }
 
 private:
 };
@@ -96,7 +100,7 @@ public:
   using Self = OnePlusOneCommandIterationUpdate;
   using Superclass = itk::Command;
   using Pointer = itk::SmartPointer<Self>;
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
 protected:
   OnePlusOneCommandIterationUpdate() { m_LastMetricValue = 0.0; };
@@ -105,37 +109,40 @@ public:
   using OptimizerType = itk::OnePlusOneEvolutionaryOptimizer;
   using OptimizerPointer = const OptimizerType *;
 
-  void Execute(itk::Object *caller, const itk::EventObject & event) override
-    {
-    Execute( (const itk::Object *)caller, event);
-    }
+  void
+  Execute(itk::Object * caller, const itk::EventObject & event) override
+  {
+    Execute((const itk::Object *)caller, event);
+  }
 
-  void Execute(const itk::Object * object, const itk::EventObject & event) override
+  void
+  Execute(const itk::Object * object, const itk::EventObject & event) override
+  {
+    auto optimizer = static_cast<OptimizerPointer>(object);
+    if (!itk::IterationEvent().CheckEvent(&event))
     {
-      auto optimizer = static_cast< OptimizerPointer >( object );
-      if( ! itk::IterationEvent().CheckEvent( &event ) )
-        {
-        return;
-        }
-      double currentValue = optimizer->GetValue();
-      // Only print out when the Metric value changes
-      if( std::fabs( m_LastMetricValue - currentValue ) > 1e-7 )
-        {
-        std::cout << optimizer->GetCurrentIteration() << "   ";
-        std::cout << currentValue << "   ";
-        std::cout << optimizer->GetCurrentPosition() << std::endl;
-        m_LastMetricValue = currentValue;
-        }
+      return;
     }
+    double currentValue = optimizer->GetValue();
+    // Only print out when the Metric value changes
+    if (std::fabs(m_LastMetricValue - currentValue) > 1e-7)
+    {
+      std::cout << optimizer->GetCurrentIteration() << "   ";
+      std::cout << currentValue << "   ";
+      std::cout << optimizer->GetCurrentPosition() << std::endl;
+      m_LastMetricValue = currentValue;
+    }
+  }
 
 private:
   double m_LastMetricValue;
 };
 
-}
+} // namespace itk
 
 
-int itkOnePlusOneEvolutionaryOptimizerTest(int, char* [] )
+int
+itkOnePlusOneEvolutionaryOptimizerTest(int, char *[])
 {
   std::cout << "Gradient Descent Optimizer Test ";
   std::cout << std::endl << std::endl;
@@ -143,16 +150,16 @@ int itkOnePlusOneEvolutionaryOptimizerTest(int, char* [] )
   using OptimizerType = itk::OnePlusOneEvolutionaryOptimizer;
 
   // Declaration of a itkOptimizer
-  OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
+  OptimizerType::Pointer itkOptimizer = OptimizerType::New();
 
   itk::OnePlusOneCommandIterationUpdate::Pointer observer = itk::OnePlusOneCommandIterationUpdate::New();
-  itkOptimizer->AddObserver( itk::IterationEvent(), observer );
+  itkOptimizer->AddObserver(itk::IterationEvent(), observer);
 
   // Declaration of the CostFunction
   itk::OnePlusOneCostFunction::Pointer costFunction = itk::OnePlusOneCostFunction::New();
 
 
-  itkOptimizer->SetCostFunction( costFunction );
+  itkOptimizer->SetCostFunction(costFunction);
 
 
   using ParametersType = itk::OnePlusOneCostFunction::ParametersType;
@@ -160,35 +167,35 @@ int itkOnePlusOneEvolutionaryOptimizerTest(int, char* [] )
   const unsigned int spaceDimension = costFunction->GetNumberOfParameters();
 
   // We start not so far from  | 2 -2 |
-  ParametersType  initialPosition( spaceDimension );
+  ParametersType initialPosition(spaceDimension);
 
-  initialPosition[0] =  100;
+  initialPosition[0] = 100;
   initialPosition[1] = -100;
 
   itkOptimizer->MinimizeOn();
-  itkOptimizer->Initialize( 10 );
-  itkOptimizer->SetEpsilon( 0.1 );
-  itkOptimizer->SetMaximumIteration( 8000 );
+  itkOptimizer->Initialize(10);
+  itkOptimizer->SetEpsilon(0.1);
+  itkOptimizer->SetMaximumIteration(8000);
 
 
   using GeneratorType = itk::Statistics::NormalVariateGenerator;
   GeneratorType::Pointer generator = GeneratorType::New();
-  itkOptimizer->SetNormalVariateGenerator( generator );
+  itkOptimizer->SetNormalVariateGenerator(generator);
 
-  itkOptimizer->SetInitialPosition( initialPosition );
+  itkOptimizer->SetInitialPosition(initialPosition);
 
   try
-    {
+  {
     itkOptimizer->StartOptimization();
-    }
-  catch( itk::ExceptionObject & e )
-    {
+  }
+  catch (itk::ExceptionObject & e)
+  {
     std::cout << "Exception thrown ! " << std::endl;
     std::cout << "An error occurred during Optimization" << std::endl;
-    std::cout << "Location    = " << e.GetLocation()    << std::endl;
+    std::cout << "Location    = " << e.GetLocation() << std::endl;
     std::cout << "Description = " << e.GetDescription() << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   ParametersType finalPosition = itkOptimizer->GetCurrentPosition();
   std::cout << "Solution        = (";
@@ -198,31 +205,30 @@ int itkOnePlusOneEvolutionaryOptimizerTest(int, char* [] )
   //
   // check results to see if it is within range
   //
-  bool pass = true;
+  bool   pass = true;
   double trueParameters[2] = { 2, -2 };
-  for( unsigned int j = 0; j < 2; j++ )
+  for (unsigned int j = 0; j < 2; j++)
+  {
+    if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)
     {
-    if( itk::Math::abs( finalPosition[j] - trueParameters[j] ) > 0.01 )
-      {
       pass = false;
-      }
     }
+  }
 
   // Exercise various member functions.
   std::cout << "Maximize: " << itkOptimizer->GetMaximize() << std::endl;
   std::cout << "Epsilon: " << itkOptimizer->GetEpsilon() << std::endl;
   std::cout << "NumberOfIterations: " << itkOptimizer->GetMaximumIteration() << std::endl;
 
-  itkOptimizer->Print( std::cout );
+  itkOptimizer->Print(std::cout);
   std::cout << "Stop description   = " << itkOptimizer->GetStopConditionDescription() << std::endl;
 
-  if( !pass )
-    {
+  if (!pass)
+  {
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
-
 }

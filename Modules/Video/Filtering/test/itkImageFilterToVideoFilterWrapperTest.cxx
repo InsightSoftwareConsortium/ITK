@@ -31,35 +31,36 @@
 /**
  * Main test
  */
-int itkImageFilterToVideoFilterWrapperTest( int argc, char* argv[] )
+int
+itkImageFilterToVideoFilterWrapperTest(int argc, char * argv[])
 {
   // Check parameters
   if (argc < 3)
-    {
+  {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " input_video output_video" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Get the lists of input and output files
   std::vector<std::string> inputFiles = itk::FileListVideoIO::SplitFileNames(argv[1]);
   std::vector<std::string> outputFiles = itk::FileListVideoIO::SplitFileNames(argv[2]);
   if (inputFiles.size() != outputFiles.size())
-    {
+  {
     std::cerr << "Must specify the same number of input and output frames" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Typedefs
   using PixelType = unsigned char;
   using FrameType = itk::Image<PixelType, 2>;
-  using VideoType = itk::VideoStream< FrameType >;
-  using GaussianImageFilterType = itk::RecursiveGaussianImageFilter< FrameType, FrameType >;
-  using GaussianVideoFilterType = itk::ImageFilterToVideoFilterWrapper< GaussianImageFilterType >;
-  using VideoReaderType = itk::VideoFileReader< VideoType >;
-  using VideoWriterType = itk::VideoFileWriter< VideoType >;
+  using VideoType = itk::VideoStream<FrameType>;
+  using GaussianImageFilterType = itk::RecursiveGaussianImageFilter<FrameType, FrameType>;
+  using GaussianVideoFilterType = itk::ImageFilterToVideoFilterWrapper<GaussianImageFilterType>;
+  using VideoReaderType = itk::VideoFileReader<VideoType>;
+  using VideoWriterType = itk::VideoFileWriter<VideoType>;
 
   // Register FileListIO with the factory -- shouldn't have to do this. Needs fixing
-  itk::ObjectFactoryBase::RegisterFactory( itk::FileListVideoIOFactory::New() );
+  itk::ObjectFactoryBase::RegisterFactory(itk::FileListVideoIOFactory::New());
 
   // Set up reader and writer
   VideoReaderType::Pointer reader = VideoReaderType::New();
@@ -85,10 +86,10 @@ int itkImageFilterToVideoFilterWrapperTest( int argc, char* argv[] )
   //
   // Check output
   //
-  using ImageReaderType = itk::ImageFileReader< FrameType >;
-  using DifferenceFilterType = itk::Testing::ComparisonImageFilter< FrameType, FrameType >;
-  ImageReaderType::Pointer imReader1 = ImageReaderType::New();
-  ImageReaderType::Pointer imReader2 = ImageReaderType::New();
+  using ImageReaderType = itk::ImageFileReader<FrameType>;
+  using DifferenceFilterType = itk::Testing::ComparisonImageFilter<FrameType, FrameType>;
+  ImageReaderType::Pointer      imReader1 = ImageReaderType::New();
+  ImageReaderType::Pointer      imReader2 = ImageReaderType::New();
   DifferenceFilterType::Pointer differ = DifferenceFilterType::New();
 
   imgGauss->SetInput(imReader1->GetOutput());
@@ -96,17 +97,17 @@ int itkImageFilterToVideoFilterWrapperTest( int argc, char* argv[] )
   differ->SetTestInput(imReader2->GetOutput());
 
   for (unsigned int i = 0; i < inputFiles.size(); ++i)
-    {
+  {
     imReader1->SetFileName(inputFiles[i]);
     imReader2->SetFileName(outputFiles[i]);
     differ->Update();
-    if (itk::Math::NotAlmostEquals( differ->GetTotalDifference(), 0) )
-      {
-      std::cerr << "Frame " << i << " didn't produce the correct output. Difference = "
-                << differ->GetTotalDifference() << std::endl;
+    if (itk::Math::NotAlmostEquals(differ->GetTotalDifference(), 0))
+    {
+      std::cerr << "Frame " << i << " didn't produce the correct output. Difference = " << differ->GetTotalDifference()
+                << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
 
   //////
   // Return successfully

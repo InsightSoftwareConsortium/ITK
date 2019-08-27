@@ -58,18 +58,17 @@ namespace itk
  *
  * \ingroup ITKDisplacementField
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT ExponentialDisplacementFieldImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT ExponentialDisplacementFieldImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ExponentialDisplacementFieldImageFilter);
 
   /** Standard class type aliases. */
   using Self = ExponentialDisplacementFieldImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -117,14 +116,10 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( OutputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< typename OutputPixelType::ValueType > ) );
-  itkConceptMacro( SameDimensionCheck1,
-                   ( Concept::SameDimension< ImageDimension, OutputImageDimension > ) );
-  itkConceptMacro( SameDimensionCheck2,
-                   ( Concept::SameDimension< ImageDimension, PixelDimension > ) );
-  itkConceptMacro( SameDimensionCheck3,
-                   ( Concept::SameDimension< ImageDimension, OutputPixelDimension > ) );
+  itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<typename OutputPixelType::ValueType>));
+  itkConceptMacro(SameDimensionCheck1, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
+  itkConceptMacro(SameDimensionCheck2, (Concept::SameDimension<ImageDimension, PixelDimension>));
+  itkConceptMacro(SameDimensionCheck3, (Concept::SameDimension<ImageDimension, OutputPixelDimension>));
   // End concept checking
 #endif
 
@@ -132,32 +127,27 @@ protected:
   ExponentialDisplacementFieldImageFilter();
   ~ExponentialDisplacementFieldImageFilter() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**
    * GenerateData()
    */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   using RegionType = typename InputImageType::RegionType;
 
-  using DivideByConstantType = DivideImageFilter<
-    InputImageType,
-    itk::Image<InputPixelRealValueType, ImageDimension>,
-    OutputImageType >;
+  using DivideByConstantType =
+    DivideImageFilter<InputImageType, itk::Image<InputPixelRealValueType, ImageDimension>, OutputImageType>;
 
-  using CasterType = CastImageFilter<
-    InputImageType, OutputImageType >;
+  using CasterType = CastImageFilter<InputImageType, OutputImageType>;
 
-  using VectorWarperType = WarpVectorImageFilter<
-    OutputImageType,
-    OutputImageType, OutputImageType >;
+  using VectorWarperType = WarpVectorImageFilter<OutputImageType, OutputImageType, OutputImageType>;
 
-  using FieldInterpolatorType = VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<
-    OutputImageType, double >;
+  using FieldInterpolatorType = VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<OutputImageType, double>;
 
-  using AdderType = AddImageFilter<
-    OutputImageType, OutputImageType, OutputImageType >;
+  using AdderType = AddImageFilter<OutputImageType, OutputImageType, OutputImageType>;
 
   using DivideByConstantPointer = typename DivideByConstantType::Pointer;
   using CasterPointer = typename CasterType::Pointer;
@@ -180,7 +170,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkExponentialDisplacementFieldImageFilter.hxx"
+#  include "itkExponentialDisplacementFieldImageFilter.hxx"
 #endif
 
 #endif

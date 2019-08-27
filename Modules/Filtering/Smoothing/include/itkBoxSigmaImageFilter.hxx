@@ -36,34 +36,33 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage >
-BoxSigmaImageFilter< TInputImage, TOutputImage >
-::BoxSigmaImageFilter()
+template <typename TInputImage, typename TOutputImage>
+BoxSigmaImageFilter<TInputImage, TOutputImage>::BoxSigmaImageFilter()
 {
   this->DynamicMultiThreadingOn();
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-BoxSigmaImageFilter< TInputImage, TOutputImage >
-::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
+BoxSigmaImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
 {
   // Accumulate type is too small
-  using AccValueType = typename itk::NumericTraits< PixelType >::RealType;
-  using AccPixType = typename itk::Vector< AccValueType, 2 >;
-  using AccumImageType = typename itk::Image< AccPixType, TInputImage::ImageDimension >;
+  using AccValueType = typename itk::NumericTraits<PixelType>::RealType;
+  using AccPixType = typename itk::Vector<AccValueType, 2>;
+  using AccumImageType = typename itk::Image<AccPixType, TInputImage::ImageDimension>;
 
   typename TInputImage::SizeType internalRadius;
-  for ( unsigned int i = 0; i < TInputImage::ImageDimension; i++ )
-    {
+  for (unsigned int i = 0; i < TInputImage::ImageDimension; i++)
+  {
     internalRadius[i] = this->GetRadius()[i] + 1;
-    }
+  }
 
-  const InputImageType *inputImage = this->GetInput();
-  OutputImageType *     outputImage = this->GetOutput();
-  RegionType            accumRegion = outputRegionForThread;
+  const InputImageType * inputImage = this->GetInput();
+  OutputImageType *      outputImage = this->GetOutput();
+  RegionType             accumRegion = outputRegionForThread;
   accumRegion.PadByRadius(internalRadius);
-  accumRegion.Crop( inputImage->GetRequestedRegion() );
+  accumRegion.Crop(inputImage->GetRequestedRegion());
 
   typename AccumImageType::Pointer accImage = AccumImageType::New();
   accImage->SetRegions(accumRegion);
@@ -71,25 +70,29 @@ BoxSigmaImageFilter< TInputImage, TOutputImage >
 
 #if defined(ITKV4_COMPATIBILITY)
   // Dummy reporter for compatibility
-  ProgressReporter progress( this, 1, 2 * accumRegion.GetNumberOfPixels() );
+  ProgressReporter progress(this, 1, 2 * accumRegion.GetNumberOfPixels());
 #endif
 
-  BoxSquareAccumulateFunction< TInputImage, AccumImageType >(inputImage, accImage,
-                                                             accumRegion,
-                                                             accumRegion
+  BoxSquareAccumulateFunction<TInputImage, AccumImageType>(inputImage,
+                                                           accImage,
+                                                           accumRegion,
+                                                           accumRegion
 #if defined(ITKV4_COMPATIBILITY)
-                                                             , progress);
+                                                           ,
+                                                           progress);
 #else
-                                                             );
+  );
 #endif
-  BoxSigmaCalculatorFunction< AccumImageType, TOutputImage >(accImage, outputImage,
-                                                             accumRegion,
-                                                             outputRegionForThread,
-                                                             this->GetRadius()
+  BoxSigmaCalculatorFunction<AccumImageType, TOutputImage>(accImage,
+                                                           outputImage,
+                                                           accumRegion,
+                                                           outputRegionForThread,
+                                                           this->GetRadius()
 #if defined(ITKV4_COMPATIBILITY)
-                                                            , progress);
+                                                             ,
+                                                           progress);
 #else
-                                                            );
+  );
 #endif
 }
 } // end namespace itk

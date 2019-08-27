@@ -1,27 +1,27 @@
 /*=========================================================================
-*
-*  Copyright Insight Software Consortium
-*
-*  Licensed under the Apache License, Version 2.0 (the "License");
-*  you may not use this file except in compliance with the License.
-*  You may obtain a copy of the License at
-*
-*         http://www.apache.org/licenses/LICENSE-2.0.txt
-*
-*  Unless required by applicable law or agreed to in writing, software
-*  distributed under the License is distributed on an "AS IS" BASIS,
-*  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-*  See the License for the specific language governing permissions and
-*  limitations under the License.
-*
-*=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 
 #ifndef itkIndexRange_h
 #define itkIndexRange_h
 
 #include <cassert>
-#include <cstddef> // For ptrdiff_t.
-#include <iterator> // For bidirectional_iterator_tag and reverse_iterator.
+#include <cstddef>     // For ptrdiff_t.
+#include <iterator>    // For bidirectional_iterator_tag and reverse_iterator.
 #include <type_traits> // For conditional and enable_if.
 
 #include "itkImageRegion.h"
@@ -76,7 +76,7 @@ namespace Experimental
   * \ingroup ImageIterators
   * \ingroup ITKCommon
   */
-template<unsigned VDimension, bool VBeginAtZero>
+template <unsigned VDimension, bool VBeginAtZero>
 class IndexRange final
 {
 public:
@@ -90,8 +90,8 @@ public:
     // Types conforming the iterator requirements of the C++ standard library:
     using difference_type = std::ptrdiff_t;
     using value_type = IndexType;
-    using reference = const IndexType&;
-    using pointer = const IndexType*;
+    using reference = const IndexType &;
+    using pointer = const IndexType *;
     using iterator_category = std::bidirectional_iterator_tag;
 
     /** Default-constructor, as required for any C++11 Forward Iterator.
@@ -103,25 +103,20 @@ public:
 
 
     /**  Returns a reference to the current index. */
-    reference operator*() const ITK_NOEXCEPT
-    {
-      return m_Index;
-    }
+    reference operator*() const ITK_NOEXCEPT { return m_Index; }
 
 
     /**  Returns a pointer to the current index. */
-    pointer operator->() const ITK_NOEXCEPT
-    {
-      return &(**this);
-    }
+    pointer operator->() const ITK_NOEXCEPT { return &(**this); }
 
 
     /** Prefix increment ('++it'). */
-    const_iterator& operator++() ITK_NOEXCEPT
+    const_iterator &
+    operator++() ITK_NOEXCEPT
     {
       for (unsigned i = 0; i < (VDimension - 1); ++i)
       {
-        auto& indexValue = m_Index[i];
+        auto & indexValue = m_Index[i];
 
         ++indexValue;
 
@@ -138,8 +133,9 @@ public:
 
 
     /** Postfix increment ('it++').
-      * \note Usually prefix increment ('++it') is preferable. */
-    const_iterator operator++(int) ITK_NOEXCEPT
+     * \note Usually prefix increment ('++it') is preferable. */
+    const_iterator
+    operator++(int) ITK_NOEXCEPT
     {
       auto result = *this;
       ++(*this);
@@ -148,11 +144,12 @@ public:
 
 
     /** Prefix decrement ('--it'). */
-    const_iterator& operator--() ITK_NOEXCEPT
+    const_iterator &
+    operator--() ITK_NOEXCEPT
     {
       for (unsigned i = 0; i < (VDimension - 1); ++i)
       {
-        auto& indexValue = m_Index[i];
+        auto & indexValue = m_Index[i];
 
         --indexValue;
 
@@ -168,8 +165,9 @@ public:
 
 
     /** Postfix increment ('it--').
-      * \note  Usually prefix increment ('--it') is preferable. */
-    const_iterator operator--(int) ITK_NOEXCEPT
+     * \note  Usually prefix increment ('--it') is preferable. */
+    const_iterator
+    operator--(int) ITK_NOEXCEPT
     {
       auto result = *this;
       --(*this);
@@ -178,9 +176,10 @@ public:
 
 
     /** Returns (it1 == it2) for iterators it1 and it2. Note that these iterators
-      * should be from the same range. This operator does not support comparing iterators
-      * from different ranges. */
-    friend bool operator==(const const_iterator& lhs, const const_iterator& rhs) ITK_NOEXCEPT
+     * should be from the same range. This operator does not support comparing iterators
+     * from different ranges. */
+    friend bool
+    operator==(const const_iterator & lhs, const const_iterator & rhs) ITK_NOEXCEPT
     {
       assert(lhs.m_MaxIndex == rhs.m_MaxIndex);
 
@@ -189,7 +188,8 @@ public:
 
 
     /** Returns (it1 != it2) for iterators it1 and it2. */
-    friend bool operator!=(const const_iterator& lhs, const const_iterator& rhs) ITK_NOEXCEPT
+    friend bool
+    operator!=(const const_iterator & lhs, const const_iterator & rhs) ITK_NOEXCEPT
     {
       // Implemented just like the corresponding std::rel_ops operator.
       return !(lhs == rhs);
@@ -197,7 +197,8 @@ public:
 
 
     /** Returns (it1 < it2) for iterators it1 and it2. */
-    friend bool operator<(const const_iterator& lhs, const const_iterator& rhs) ITK_NOEXCEPT
+    friend bool
+    operator<(const const_iterator & lhs, const const_iterator & rhs) ITK_NOEXCEPT
     {
       for (unsigned i = VDimension; i > 0; --i)
       {
@@ -217,7 +218,8 @@ public:
 
 
     /** Returns (it1 > it2) for iterators it1 and it2. */
-    friend bool operator>(const const_iterator& lhs, const const_iterator& rhs) ITK_NOEXCEPT
+    friend bool
+    operator>(const const_iterator & lhs, const const_iterator & rhs) ITK_NOEXCEPT
     {
       // Implemented just like the corresponding std::rel_ops operator.
       return rhs < lhs;
@@ -225,7 +227,8 @@ public:
 
 
     /** Returns (it1 <= it2) for iterators it1 and it2. */
-    friend bool operator<=(const const_iterator& lhs, const const_iterator& rhs) ITK_NOEXCEPT
+    friend bool
+    operator<=(const const_iterator & lhs, const const_iterator & rhs) ITK_NOEXCEPT
     {
       // Implemented just like the corresponding std::rel_ops operator.
       return !(rhs < lhs);
@@ -233,7 +236,8 @@ public:
 
 
     /** Returns (it1 >= it2) for iterators it1 and it2. */
-    friend bool operator>=(const const_iterator& lhs, const const_iterator& rhs) ITK_NOEXCEPT
+    friend bool
+    operator>=(const const_iterator & lhs, const const_iterator & rhs) ITK_NOEXCEPT
     {
       // Implemented just like the corresponding std::rel_ops operator.
       return !(lhs < rhs);
@@ -248,16 +252,10 @@ public:
     struct ZeroIndex
     {
       // The "index" operator.
-      constexpr IndexValueType operator[](unsigned) const
-      {
-        return 0;
-      }
+      constexpr IndexValueType operator[](unsigned) const { return 0; }
 
       // Implicitly converts to a default-initialized itk::Index<N>.
-      constexpr operator IndexType() const
-      {
-        return IndexType();
-      }
+      constexpr operator IndexType() const { return IndexType(); }
     };
 
 
@@ -265,18 +263,14 @@ public:
     using MinIndexType = typename std::conditional<VBeginAtZero, ZeroIndex, IndexType>::type;
 
     // Private constructor, only used by friend class IndexRange.
-    const_iterator(
-      const IndexType& index,
-      const MinIndexType& minIndex,
-      const IndexType& maxIndex) ITK_NOEXCEPT
+    const_iterator(const IndexType & index, const MinIndexType & minIndex, const IndexType & maxIndex) ITK_NOEXCEPT
       :
       // Note: Use parentheses instead of curly braces to initialize data members,
       // to avoid AppleClang 6.0.0.6000056 compilation error, "no viable conversion..."
-    m_Index(index),
-    m_MinIndex(minIndex),
-    m_MaxIndex(maxIndex)
-    {
-    }
+      m_Index(index)
+      , m_MinIndex(minIndex)
+      , m_MaxIndex(maxIndex)
+    {}
 
 
     // IndexRange::const_iterator data members:
@@ -301,9 +295,8 @@ public:
    * and destructor) are implicitly defaulted, following the C++ "Rule of Zero".
    */
   IndexRange() ITK_NOEXCEPT
-    :
-  m_MinIndex(),
-  m_MaxIndex()
+    : m_MinIndex()
+    , m_MaxIndex()
   {
     // m_MinIndex and m_MaxIndex are "inclusive" boundaries of the index, so
     // in order to construct an empty range, m_MaxIndex must take one step back.
@@ -313,14 +306,12 @@ public:
 
   /** Constructs a range of indices for the specified grid size.
    */
-  explicit IndexRange(const SizeType& gridSize)
-    :
-    // Note: Use parentheses instead of curly braces to initialize data members,
-    // to avoid AppleClang 6.0.0.6000056 compile errors, "no viable conversion..."
-    m_MinIndex(),
-    m_MaxIndex(CalculateMaxIndex(typename iterator::MinIndexType(), gridSize))
-  {
-  }
+  explicit IndexRange(const SizeType & gridSize)
+    : // Note: Use parentheses instead of curly braces to initialize data members,
+      // to avoid AppleClang 6.0.0.6000056 compile errors, "no viable conversion..."
+    m_MinIndex()
+    , m_MaxIndex(CalculateMaxIndex(typename iterator::MinIndexType(), gridSize))
+  {}
 
 
   /** Constructs a range of indices for the specified image region.
@@ -328,32 +319,32 @@ public:
    * case there is a substitution failure, and C++ "SFINAE" kicks in).
    */
   template <bool VIsSubstitutionFailure = VBeginAtZero,
-    typename TVoid = typename std::enable_if<!VIsSubstitutionFailure>::type>
-  explicit IndexRange(const ImageRegion<VDimension>& imageRegion)
-    :
-    // Note: Use parentheses instead of curly braces to initialize data members,
-    // to avoid AppleClang 6.0.0.6000056 compile errors, "no viable conversion..."
-    m_MinIndex(imageRegion.GetIndex()),
-    m_MaxIndex(CalculateMaxIndex(imageRegion.GetIndex(), imageRegion.GetSize()))
+            typename TVoid = typename std::enable_if<!VIsSubstitutionFailure>::type>
+  explicit IndexRange(const ImageRegion<VDimension> & imageRegion)
+    : // Note: Use parentheses instead of curly braces to initialize data members,
+      // to avoid AppleClang 6.0.0.6000056 compile errors, "no viable conversion..."
+    m_MinIndex(imageRegion.GetIndex())
+    , m_MaxIndex(CalculateMaxIndex(imageRegion.GetIndex(), imageRegion.GetSize()))
   {
     // Three compile-time asserts, just to check if SFINAE worked properly:
     static_assert(!VIsSubstitutionFailure,
-      "This template should (of course) be instantiated without substitution failure.");
+                  "This template should (of course) be instantiated without substitution failure.");
     static_assert(std::is_same<TVoid, void>::value,
-      "std::enable_if<!VIsSubstitutionFailure> should yield void, by definition.");
-    static_assert(!VBeginAtZero,
-      "This constructor should only be is available when VBeginAtZero is false.");
+                  "std::enable_if<!VIsSubstitutionFailure> should yield void, by definition.");
+    static_assert(!VBeginAtZero, "This constructor should only be is available when VBeginAtZero is false.");
   }
 
 
   /** Returns an iterator to the first index. */
-  iterator begin() const ITK_NOEXCEPT
+  iterator
+  begin() const ITK_NOEXCEPT
   {
     return iterator(m_MinIndex, m_MinIndex, m_MaxIndex);
   }
 
   /** Returns an 'end iterator' for this range. */
-  iterator end() const ITK_NOEXCEPT
+  iterator
+  end() const ITK_NOEXCEPT
   {
     IndexType index = m_MinIndex;
     index.back() = m_MaxIndex.back() + 1;
@@ -361,45 +352,52 @@ public:
   }
 
   /** Returns a const iterator to the first index.
-    * Provides only read-only access to the index data. */
-  const_iterator cbegin() const ITK_NOEXCEPT
+   * Provides only read-only access to the index data. */
+  const_iterator
+  cbegin() const ITK_NOEXCEPT
   {
     return this->begin();
   }
 
   /** Returns a const 'end iterator' for this range. */
-  const_iterator cend() const ITK_NOEXCEPT
+  const_iterator
+  cend() const ITK_NOEXCEPT
   {
     return this->end();
   }
 
   /** Returns a reverse 'begin iterator' for this range. */
-  reverse_iterator rbegin() const ITK_NOEXCEPT
+  reverse_iterator
+  rbegin() const ITK_NOEXCEPT
   {
     return reverse_iterator(this->end());
   }
 
   /** Returns a reverse 'end iterator' for this range. */
-  reverse_iterator rend() const ITK_NOEXCEPT
+  reverse_iterator
+  rend() const ITK_NOEXCEPT
   {
     return reverse_iterator(this->begin());
   }
 
   /** Returns a const reverse 'begin iterator' for this range. */
-  const_reverse_iterator crbegin() const ITK_NOEXCEPT
+  const_reverse_iterator
+  crbegin() const ITK_NOEXCEPT
   {
     return this->rbegin();
   }
 
   /** Returns a const reverse 'end iterator' for this range. */
-  const_reverse_iterator crend() const ITK_NOEXCEPT
+  const_reverse_iterator
+  crend() const ITK_NOEXCEPT
   {
     return this->rend();
   }
 
 
   /** Returns the size of the range, that is the number of indices. */
-  std::size_t size() const ITK_NOEXCEPT
+  std::size_t
+  size() const ITK_NOEXCEPT
   {
     std::size_t result = 1;
 
@@ -412,7 +410,8 @@ public:
 
 
   /** Tells whether the range is empty. */
-  bool empty() const ITK_NOEXCEPT
+  bool
+  empty() const ITK_NOEXCEPT
   {
     for (unsigned i = 0; i < VDimension; ++i)
     {
@@ -426,10 +425,10 @@ public:
 
 
 private:
-
   using MinIndexType = typename iterator::MinIndexType;
 
-  static IndexType CalculateMaxIndex(const MinIndexType& minIndex, const SizeType& size)
+  static IndexType
+  CalculateMaxIndex(const MinIndexType & minIndex, const SizeType & size)
   {
     IndexType index;
 
@@ -448,13 +447,12 @@ private:
 
   // Maximum (N-dimensional) index.
   IndexType m_MaxIndex;
-
 };
 
-template<unsigned VDimension>
+template <unsigned VDimension>
 using ImageRegionIndexRange = IndexRange<VDimension, false>;
 
-template<unsigned VDimension>
+template <unsigned VDimension>
 using ZeroBasedIndexRange = IndexRange<VDimension, true>;
 
 } // namespace Experimental

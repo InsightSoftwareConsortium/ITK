@@ -49,18 +49,17 @@ namespace itk
  * \sphinxexample{Filtering/ImageGrid/FlipAnImageOverSpecifiedAxes,Flip An Image Over Specified Axes}
  * \endsphinx
  */
-template< typename TImage >
-class ITK_TEMPLATE_EXPORT FlipImageFilter:
-  public ImageToImageFilter< TImage, TImage >
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT FlipImageFilter : public ImageToImageFilter<TImage, TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FlipImageFilter);
 
   /** Standard class type aliases. */
   using Self = FlipImageFilter;
-  using Superclass = ImageToImageFilter< TImage, TImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TImage, TImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -82,7 +81,7 @@ public:
   using IndexValueType = typename IndexType::IndexValueType;
 
   /** FlipAxesArray type */
-  using FlipAxesArrayType = FixedArray< bool, Self::ImageDimension >;
+  using FlipAxesArrayType = FixedArray<bool, Self::ImageDimension>;
 
   /** Set/Get the axis to be flipped. The image is flipped along axes
    * for which array[i] is true. Default is false. */
@@ -104,7 +103,8 @@ public:
    * image meta information. The original documentation of this method is
    * below.
    * \sa ProcessObject::GenerateOutputInformaton() */
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
   /** FlipImageFilter needs different input requested region than the output
    * requested region.  As such, FlipImageFilter needs to provide an
@@ -113,12 +113,14 @@ public:
    * The required input requested region is obtained by permuting the index and
    * size of the output requested region.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
 protected:
   FlipImageFilter();
   ~FlipImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** FlipImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a DynamicThreadedGenerateData() routine
@@ -130,7 +132,8 @@ protected:
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 private:
   FlipAxesArrayType m_FlipAxes;
@@ -139,7 +142,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFlipImageFilter.hxx"
+#  include "itkFlipImageFilter.hxx"
 #endif
 
 #endif

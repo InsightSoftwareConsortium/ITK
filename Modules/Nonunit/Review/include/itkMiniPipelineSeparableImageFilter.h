@@ -46,25 +46,23 @@ namespace itk
  * \ingroup ITKReview
  */
 
-template< typename TInputImage, typename TOutputImage, typename TFilter >
-class ITK_TEMPLATE_EXPORT MiniPipelineSeparableImageFilter:
-  public BoxImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage, typename TFilter>
+class ITK_TEMPLATE_EXPORT MiniPipelineSeparableImageFilter : public BoxImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MiniPipelineSeparableImageFilter);
 
   /** Standard class type aliases. */
   using Self = MiniPipelineSeparableImageFilter;
-  using Superclass = BoxImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = BoxImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard New method. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(MiniPipelineSeparableImageFilter,
-               BoxImageFilter);
+  itkTypeMacro(MiniPipelineSeparableImageFilter, BoxImageFilter);
 
   /** Image related type alias. */
   using InputImageType = TInputImage;
@@ -78,7 +76,7 @@ public:
   using OutputPixelType = typename TOutputImage::PixelType;
 
   using FilterType = TFilter;
-  using CastType = CastImageFilter< InputImageType, OutputImageType >;
+  using CastType = CastImageFilter<InputImageType, OutputImageType>;
 
   /** Image related type alias. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
@@ -86,31 +84,36 @@ public:
   /** n-dimensional Kernel radius. */
   using RadiusType = typename TInputImage::SizeType;
 
-  void SetRadius(const RadiusType &) override;
+  void
+  SetRadius(const RadiusType &) override;
 
-  void SetRadius(const SizeValueType & radius) override
+  void
+  SetRadius(const SizeValueType & radius) override
   {
     // needed because of the overloading of the method
     Superclass::SetRadius(radius);
   }
 
-  void Modified() const override;
+  void
+  Modified() const override;
 
-  void SetNumberOfWorkUnits(ThreadIdType nb) override;
+  void
+  SetNumberOfWorkUnits(ThreadIdType nb) override;
 
 protected:
   MiniPipelineSeparableImageFilter();
   ~MiniPipelineSeparableImageFilter() override {}
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   typename FilterType::Pointer m_Filters[ImageDimension];
-  typename CastType::Pointer m_Cast;
+  typename CastType::Pointer   m_Cast;
 };
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMiniPipelineSeparableImageFilter.hxx"
+#  include "itkMiniPipelineSeparableImageFilter.hxx"
 #endif
 
 #endif

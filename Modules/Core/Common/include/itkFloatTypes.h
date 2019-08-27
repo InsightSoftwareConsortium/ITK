@@ -25,11 +25,11 @@ namespace itk
 
 // Allow using single precision by default
 #if defined(ITK_USE_FLOAT_SPACE_PRECISION)
-  using SpacePrecisionType = float;
+using SpacePrecisionType = float;
 #else
-  using SpacePrecisionType = double;
+using SpacePrecisionType = double;
 #endif
 
-}
+} // namespace itk
 
-#endif  /* itkFloatTypes_h */
+#endif /* itkFloatTypes_h */

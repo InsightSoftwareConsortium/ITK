@@ -24,39 +24,50 @@ namespace itk
 {
 namespace Functor
 {
-template< typename TInput, typename TOutput >
+template <typename TInput, typename TOutput>
 class VectorIndexSelectionCast
 {
 public:
   VectorIndexSelectionCast() { m_Index = 0; }
   ~VectorIndexSelectionCast() = default;
 
-  unsigned int GetIndex() const { return m_Index; }
-  void SetIndex(unsigned int i) { m_Index = i; }
-
-  bool operator!=(const VectorIndexSelectionCast & other) const
+  unsigned int
+  GetIndex() const
   {
-    if ( m_Index != other.m_Index )
-      {
+    return m_Index;
+  }
+  void
+  SetIndex(unsigned int i)
+  {
+    m_Index = i;
+  }
+
+  bool
+  operator!=(const VectorIndexSelectionCast & other) const
+  {
+    if (m_Index != other.m_Index)
+    {
       return true;
-      }
+    }
     return false;
   }
 
-  bool operator==(const VectorIndexSelectionCast & other) const
+  bool
+  operator==(const VectorIndexSelectionCast & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 
-  inline TOutput operator()(const TInput & A) const
+  inline TOutput
+  operator()(const TInput & A) const
   {
-    return static_cast< TOutput >( A[m_Index] );
+    return static_cast<TOutput>(A[m_Index]);
   }
 
 private:
   unsigned int m_Index;
 };
-}
+} // namespace Functor
 
 /** \class VectorIndexSelectionCastImageFilter
  *
@@ -73,20 +84,20 @@ private:
  *
  * \ingroup IntensityImageFilters  MultiThreaded
  * \ingroup ITKImageIntensity
-*
-* \sa ComposeImageFilter
+ *
+ * \sa ComposeImageFilter
  *
  * \sphinx
  * \sphinxexample{Filtering/ImageIntensity/ExtractComponentOfVectorImage,Extract Component Of Vector Image}
  * \endsphinx
  */
 
-template< typename TInputImage, typename TOutputImage >
-class VectorIndexSelectionCastImageFilter:
-  public
-  UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                           Functor::VectorIndexSelectionCast< typename TInputImage::PixelType,
-                                                              typename TOutputImage::PixelType >   >
+template <typename TInputImage, typename TOutputImage>
+class VectorIndexSelectionCastImageFilter
+  : public UnaryFunctorImageFilter<
+      TInputImage,
+      TOutputImage,
+      Functor::VectorIndexSelectionCast<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorIndexSelectionCastImageFilter);
@@ -94,38 +105,38 @@ public:
   /** Standard class type aliases. */
   using Self = VectorIndexSelectionCastImageFilter;
   using Superclass = UnaryFunctorImageFilter<
-    TInputImage, TOutputImage,
-    Functor::VectorIndexSelectionCast< typename TInputImage::PixelType,
-                                       typename TOutputImage::PixelType > >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+    TInputImage,
+    TOutputImage,
+    Functor::VectorIndexSelectionCast<typename TInputImage::PixelType, typename TOutputImage::PixelType>>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(VectorIndexSelectionCastImageFilter,
-               UnaryFunctorImageFilter);
+  itkTypeMacro(VectorIndexSelectionCastImageFilter, UnaryFunctorImageFilter);
 
   /** Get/Set methods for the index */
-  void SetIndex(unsigned int i)
+  void
+  SetIndex(unsigned int i)
   {
-    if ( i != this->GetFunctor().GetIndex() )
-      {
+    if (i != this->GetFunctor().GetIndex())
+    {
       this->GetFunctor().SetIndex(i);
       this->Modified();
-      }
+    }
   }
 
-  unsigned int GetIndex() const
+  unsigned int
+  GetIndex() const
   {
     return this->GetFunctor().GetIndex();
   }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< typename TInputImage::PixelType::ValueType > ) );
+  itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<typename TInputImage::PixelType::ValueType>));
   // End concept checking
 #endif
 
@@ -133,13 +144,13 @@ protected:
   VectorIndexSelectionCastImageFilter() = default;
   ~VectorIndexSelectionCastImageFilter() override = default;
 
-  void BeforeThreadedGenerateData() override
+  void
+  BeforeThreadedGenerateData() override
   {
-    const unsigned int index = this->GetIndex();
-    const TInputImage *image = this->GetInput();
+    const unsigned int  index = this->GetIndex();
+    const TInputImage * image = this->GetInput();
 
-    const unsigned int numberOfRunTimeComponents =
-      image->GetNumberOfComponentsPerPixel();
+    const unsigned int numberOfRunTimeComponents = image->GetNumberOfComponentsPerPixel();
 
     using PixelType = typename TInputImage::PixelType;
 
@@ -147,23 +158,20 @@ protected:
 
     using PixelScalarRealType = typename NumericTraits<PixelType>::ScalarRealType;
 
-    const unsigned int numberOfCompileTimeComponents =
-      sizeof( PixelRealType ) / sizeof( PixelScalarRealType );
+    const unsigned int numberOfCompileTimeComponents = sizeof(PixelRealType) / sizeof(PixelScalarRealType);
 
     unsigned int numberOfComponents = numberOfRunTimeComponents;
 
-    if ( numberOfCompileTimeComponents > numberOfRunTimeComponents )
-      {
+    if (numberOfCompileTimeComponents > numberOfRunTimeComponents)
+    {
       numberOfComponents = numberOfCompileTimeComponents;
-      }
+    }
 
-    if ( index >= numberOfComponents )
-      {
-      itkExceptionMacro(
-        << "Selected index = " << index
-        << " is greater than the number of components = "
-        << numberOfComponents);
-      }
+    if (index >= numberOfComponents)
+    {
+      itkExceptionMacro(<< "Selected index = " << index
+                        << " is greater than the number of components = " << numberOfComponents);
+    }
   }
 };
 } // end namespace itk

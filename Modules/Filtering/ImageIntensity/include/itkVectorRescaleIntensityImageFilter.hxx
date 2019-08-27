@@ -34,74 +34,65 @@
 namespace itk
 {
 
-template< typename TInputImage, typename TOutputImage >
-VectorRescaleIntensityImageFilter< TInputImage, TOutputImage >
-::VectorRescaleIntensityImageFilter() :
-  m_Scale(1.0),
-  m_Shift(1.0),
-  m_InputMaximumMagnitude(NumericTraits< InputRealType >::ZeroValue()),
-  m_OutputMaximumMagnitude(NumericTraits< OutputRealType >::ZeroValue())
-{
-}
+template <typename TInputImage, typename TOutputImage>
+VectorRescaleIntensityImageFilter<TInputImage, TOutputImage>::VectorRescaleIntensityImageFilter()
+  : m_Scale(1.0)
+  , m_Shift(1.0)
+  , m_InputMaximumMagnitude(NumericTraits<InputRealType>::ZeroValue())
+  , m_OutputMaximumMagnitude(NumericTraits<OutputRealType>::ZeroValue())
+{}
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-VectorRescaleIntensityImageFilter< TInputImage, TOutputImage >
-::BeforeThreadedGenerateData()
+VectorRescaleIntensityImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
-  if ( m_OutputMaximumMagnitude < NumericTraits< OutputRealType >::ZeroValue() )
-    {
+  if (m_OutputMaximumMagnitude < NumericTraits<OutputRealType>::ZeroValue())
+  {
     itkExceptionMacro(<< "Maximum output value cannot be negative. You are passing " << m_OutputMaximumMagnitude);
     return;
-    }
+  }
 
   InputImagePointer inputImage = this->GetInput();
 
-  using InputIterator = ImageRegionConstIterator< InputImageType >;
+  using InputIterator = ImageRegionConstIterator<InputImageType>;
 
-  InputIterator it( inputImage, inputImage->GetBufferedRegion() );
+  InputIterator it(inputImage, inputImage->GetBufferedRegion());
 
   it.GoToBegin();
 
-  InputRealType maximumSquaredMagnitude = NumericTraits< InputRealType >::ZeroValue();
+  InputRealType maximumSquaredMagnitude = NumericTraits<InputRealType>::ZeroValue();
 
-  while ( !it.IsAtEnd() )
-    {
+  while (!it.IsAtEnd())
+  {
     InputRealType magnitude = it.Get().GetSquaredNorm();
-    if ( magnitude > maximumSquaredMagnitude )
-      {
+    if (magnitude > maximumSquaredMagnitude)
+    {
       maximumSquaredMagnitude = magnitude;
-      }
-    ++it;
     }
+    ++it;
+  }
 
   m_InputMaximumMagnitude = std::sqrt(maximumSquaredMagnitude);
 
-  m_Scale = static_cast< InputRealType >( m_OutputMaximumMagnitude )
-            / static_cast< InputRealType >( m_InputMaximumMagnitude  );
+  m_Scale = static_cast<InputRealType>(m_OutputMaximumMagnitude) / static_cast<InputRealType>(m_InputMaximumMagnitude);
 
   // Set up the functor values
   this->GetFunctor().SetFactor(m_Scale);
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-VectorRescaleIntensityImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+VectorRescaleIntensityImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Output Maximum Magnitude: "
-     << static_cast< typename NumericTraits< OutputRealType >::PrintType >( m_OutputMaximumMagnitude )
-     << std::endl;
+     << static_cast<typename NumericTraits<OutputRealType>::PrintType>(m_OutputMaximumMagnitude) << std::endl;
   os << indent << "Input Maximum Magnitude: "
-     << static_cast< typename NumericTraits< InputRealType >::PrintType >( m_InputMaximumMagnitude )
+     << static_cast<typename NumericTraits<InputRealType>::PrintType>(m_InputMaximumMagnitude) << std::endl;
+  os << indent << "Internal Scale : " << static_cast<typename NumericTraits<InputRealType>::PrintType>(m_Scale)
      << std::endl;
-  os << indent << "Internal Scale : "
-     << static_cast< typename NumericTraits< InputRealType >::PrintType >( m_Scale )
-     << std::endl;
-  os << indent << "Internal Shift : "
-     << static_cast< typename NumericTraits< InputRealType >::PrintType >( m_Shift )
+  os << indent << "Internal Shift : " << static_cast<typename NumericTraits<InputRealType>::PrintType>(m_Shift)
      << std::endl;
 }
 } // end namespace itk

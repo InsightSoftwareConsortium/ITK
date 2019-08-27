@@ -24,45 +24,50 @@ namespace fem
 {
 
 // Overload the CreateAnother() method
-::itk::LightObject::Pointer LoadElement::CreateAnother() const
+::itk::LightObject::Pointer
+LoadElement::CreateAnother() const
 {
   ::itk::LightObject::Pointer smartPtr;
-  Pointer copyPtr = Self::New();
-  for(auto i : this->m_Element)
-    {
-    copyPtr->AddNextElement( i );
-    }
-  copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
+  Pointer                     copyPtr = Self::New();
+  for (auto i : this->m_Element)
+  {
+    copyPtr->AddNextElement(i);
+  }
+  copyPtr->SetGlobalNumber(this->GetGlobalNumber());
 
   smartPtr = static_cast<Pointer>(copyPtr);
 
   return smartPtr;
 }
 
-void LoadElement::AddNextElementInternal(const Element *e)
+void
+LoadElement::AddNextElementInternal(const Element * e)
 {
   Element::ConstPointer p(e);
   this->m_Element.push_back(p);
 }
 
-unsigned int LoadElement::GetNumberOfElements()
+unsigned int
+LoadElement::GetNumberOfElements()
 {
-  return static_cast<unsigned int>( this->m_Element.size() );
+  return static_cast<unsigned int>(this->m_Element.size());
 }
 
-Element::ConstPointer LoadElement::GetElement(int i)
+Element::ConstPointer
+LoadElement::GetElement(int i)
 {
   return this->m_Element[i];
 }
 
-void LoadElement::PrintSelf(std::ostream& os, Indent indent) const
+void
+LoadElement::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "#Elements: " << this->m_Element.size() << std::endl;
-  for( unsigned int i = 0; i < this->m_Element.size(); i++ )
-    {
+  for (unsigned int i = 0; i < this->m_Element.size(); i++)
+  {
     os << indent << "Element (" << i << "): " << this->m_Element[i] << std::endl;
-    }
+  }
 }
 
 } // end namespace fem

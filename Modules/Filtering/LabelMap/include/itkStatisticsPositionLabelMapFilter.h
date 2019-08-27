@@ -20,7 +20,8 @@
 
 #include "itkShapePositionLabelMapFilter.h"
 
-namespace itk {
+namespace itk
+{
 /** \class StatisticsPositionLabelMapFilter
  * \brief Mark a single pixel in the label object which correspond to a position given by an attribute
  *
@@ -38,9 +39,8 @@ namespace itk {
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template<typename TImage>
-class ITK_TEMPLATE_EXPORT StatisticsPositionLabelMapFilter :
-    public ShapePositionLabelMapFilter<TImage>
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT StatisticsPositionLabelMapFilter : public ShapePositionLabelMapFilter<TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsPositionLabelMapFilter);
@@ -68,17 +68,16 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(StatisticsPositionLabelMapFilter,
-               InPlaceLabelMapFilter);
+  itkTypeMacro(StatisticsPositionLabelMapFilter, InPlaceLabelMapFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-/*  itkConceptMacro(InputEqualityComparableCheck,
-    (Concept::EqualityComparable<InputImagePixelType>));
-  itkConceptMacro(IntConvertibleToInputCheck,
-    (Concept::Convertible<int, InputImagePixelType>));
-  itkConceptMacro(InputOStreamWritableCheck,
-    (Concept::OStreamWritable<InputImagePixelType>));*/
+  /*  itkConceptMacro(InputEqualityComparableCheck,
+      (Concept::EqualityComparable<InputImagePixelType>));
+    itkConceptMacro(IntConvertibleToInputCheck,
+      (Concept::Convertible<int, InputImagePixelType>));
+    itkConceptMacro(InputOStreamWritableCheck,
+      (Concept::OStreamWritable<InputImagePixelType>));*/
   // End concept checking
 #endif
 
@@ -86,13 +85,14 @@ protected:
   StatisticsPositionLabelMapFilter();
   ~StatisticsPositionLabelMapFilter() override = default;
 
-  void ThreadedProcessLabelObject( LabelObjectType * labelObject ) override;
+  void
+  ThreadedProcessLabelObject(LabelObjectType * labelObject) override;
 }; // end of class
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkStatisticsPositionLabelMapFilter.hxx"
+#  include "itkStatisticsPositionLabelMapFilter.hxx"
 #endif
 
 #endif

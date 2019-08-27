@@ -28,7 +28,7 @@ namespace itk
  * \brief Base exception class for IO conflicts.
  * \ingroup ITKIOMeshBase
  */
-class ITKIOMeshBase_EXPORT MeshFileReaderException:public ExceptionObject
+class ITKIOMeshBase_EXPORT MeshFileReaderException : public ExceptionObject
 {
 public:
   /** Has to have empty throw(). */
@@ -38,15 +38,16 @@ public:
   itkTypeMacro(MeshFileReaderException, ExceptionObject);
 
   /** Constructor. */
-  MeshFileReaderException(const char *file, unsigned int line,
-                          const char *message = "Error in IO",
-                          const char *loc = "Unknown");
+  MeshFileReaderException(const char * file,
+                          unsigned int line,
+                          const char * message = "Error in IO",
+                          const char * loc = "Unknown");
 
   /** Constructor. */
-  MeshFileReaderException(const std::string & file, unsigned int line,
-                          const char *message = "Error in IO",
-                          const char *loc = "Unknown");
-
+  MeshFileReaderException(const std::string & file,
+                          unsigned int        line,
+                          const char *        message = "Error in IO",
+                          const char *        loc = "Unknown");
 };
 } // end namespace itk
 

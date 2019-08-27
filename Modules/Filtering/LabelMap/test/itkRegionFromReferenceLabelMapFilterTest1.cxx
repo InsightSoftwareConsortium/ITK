@@ -35,51 +35,52 @@
 
 #include "itkTestingMacros.h"
 
-int itkRegionFromReferenceLabelMapFilterTest1(int argc, char * argv[])
+int
+itkRegionFromReferenceLabelMapFilterTest1(int argc, char * argv[])
 {
 
-  if( argc != 4 )
-    {
+  if (argc != 4)
+  {
     std::cerr << "usage: " << argv[0] << " input reference output" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int dim = 3;
 
-  using ImageType = itk::Image< unsigned char, dim >;
+  using ImageType = itk::Image<unsigned char, dim>;
 
-  using LabelObjectType = itk::LabelObject< unsigned char, dim >;
-  using LabelMapType = itk::LabelMap< LabelObjectType >;
+  using LabelObjectType = itk::LabelObject<unsigned char, dim>;
+  using LabelMapType = itk::LabelMap<LabelObjectType>;
 
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
   ReaderType::Pointer reader2 = ReaderType::New();
-  reader2->SetFileName( argv[2] );
+  reader2->SetFileName(argv[2]);
 
-  using I2LType = itk::LabelImageToLabelMapFilter< ImageType, LabelMapType>;
+  using I2LType = itk::LabelImageToLabelMapFilter<ImageType, LabelMapType>;
   I2LType::Pointer i2l = I2LType::New();
-  i2l->SetInput( reader->GetOutput() );
+  i2l->SetInput(reader->GetOutput());
 
-  using ChangeType = itk::RegionFromReferenceLabelMapFilter< LabelMapType >;
+  using ChangeType = itk::RegionFromReferenceLabelMapFilter<LabelMapType>;
   ChangeType::Pointer change = ChangeType::New();
-  change->SetInput( i2l->GetOutput() );
-  change->SetReferenceImage( reader2->GetOutput() );
+  change->SetInput(i2l->GetOutput());
+  change->SetReferenceImage(reader2->GetOutput());
   itk::SimpleFilterWatcher watcher6(change, "filter");
   change->UpdateLargestPossibleRegion();
 
-  using L2IType = itk::LabelMapToLabelImageFilter< LabelMapType, ImageType>;
+  using L2IType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
   L2IType::Pointer l2i = L2IType::New();
-  l2i->SetInput( change->GetOutput() );
+  l2i->SetInput(change->GetOutput());
 
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( l2i->GetOutput() );
-  writer->SetFileName( argv[3] );
+  writer->SetInput(l2i->GetOutput());
+  writer->SetFileName(argv[3]);
   writer->UseCompressionOn();
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   return EXIT_SUCCESS;
 }

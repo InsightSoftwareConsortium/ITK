@@ -37,30 +37,20 @@
 #include <string>
 #include <list>
 /** Set built-in type.  Creates member Set"name"() (e.g., SetVisibility()); */
-#define IPLSetMacroDeclaration(name, type)              \
-  virtual void Set##name (const type _arg);
+#define IPLSetMacroDeclaration(name, type) virtual void Set##name(const type _arg);
 
-#define IPLSetMacroDefinition(class, name, type)              \
-  void class::Set##name (const type _arg) \
-  {                                        \
-CLANG_PRAGMA_PUSH                          \
-CLANG_SUPPRESS_Wfloat_equal                \
-    if ( this->m_##name != _arg )          \
-CLANG_PRAGMA_POP                           \
-    {                                      \
-      this->m_##name = _arg;               \
-    }                                      \
+#define IPLSetMacroDefinition(class, name, type)                                                                       \
+  void class ::Set##name(const type _arg)                                                                              \
+  {                                                                                                                    \
+    CLANG_PRAGMA_PUSH                                                                                                  \
+    CLANG_SUPPRESS_Wfloat_equal if (this->m_##name != _arg) CLANG_PRAGMA_POP { this->m_##name = _arg; }                \
   }
 
 /** Get built-in type.  Creates member Get"name"() (e.g., GetVisibility()); */
-#define IPLGetMacroDeclaration(name, type) \
-  virtual type Get##name ();
+#define IPLGetMacroDeclaration(name, type) virtual type Get##name();
 
-#define IPLGetMacroDefinition(class, name, type) \
-  type class::Get##name ()   \
-  {                           \
-    return this->m_##name;    \
-  }
+#define IPLGetMacroDefinition(class, name, type)                                                                       \
+  type class ::Get##name() { return this->m_##name; }
 
 namespace itk
 {
@@ -80,9 +70,12 @@ public:
     m_Data = nullptr;
   }
 
-  IPLFileSortInfo(const char *const filename, float sliceLocation,
-                  int sliceOffset, int echoNumber, int imageNumber,
-                  void *data = nullptr)
+  IPLFileSortInfo(const char * const filename,
+                  float              sliceLocation,
+                  int                sliceOffset,
+                  int                echoNumber,
+                  int                imageNumber,
+                  void *             data = nullptr)
   {
     m_ImageFileName = filename;
     m_SliceLocation = sliceLocation;
@@ -108,12 +101,12 @@ public:
   IPLGetMacroDeclaration(Data, const void *);
 
 private:
-  std::string m_ImageFileName;
-  float       m_SliceLocation;
-  int         m_SliceOffset;
-  int         m_EchoNumber;
-  int         m_ImageNumber;
-  const void *m_Data;
+  std::string  m_ImageFileName;
+  float        m_SliceLocation;
+  int          m_SliceOffset;
+  int          m_EchoNumber;
+  int          m_ImageNumber;
+  const void * m_Data;
 };
 
 /** \class IPLFileNameList
@@ -123,16 +116,17 @@ private:
 class ITKIOIPL_EXPORT IPLFileNameList
 {
 public:
-  using ListType = std::vector< IPLFileSortInfo * >;
+  using ListType = std::vector<IPLFileSortInfo *>;
   using IteratorType = ListType::iterator;
   using ListSizeType = size_t;
 
-  enum {
+  enum
+  {
     SortGlobalAscend = 0,
     SortGlobalDescend = 1,
     SortByNameAscend = 2,
     SortByNameDescend = 3
-    };
+  };
 
   IPLFileNameList()
   {
@@ -140,21 +134,23 @@ public:
     m_YDim = 0;
     m_XRes = 0.0;
     m_YRes = 0.0;
-    m_Key1 = 0;  /** Key that must be matched for image to be used,
-                   i.e. seriesNumber, extensionkey */
-    m_Key2 = 0;  /** Key that must be matched for image to be used, i.e.
-                   echoNumber*/
+    m_Key1 = 0; /** Key that must be matched for image to be used,
+                  i.e. seriesNumber, extensionkey */
+    m_Key2 = 0; /** Key that must be matched for image to be used, i.e.
+                  echoNumber*/
     m_SortOrder = SortGlobalAscend;
   }
 
   virtual ~IPLFileNameList();
 
-  IteratorType begin()
+  IteratorType
+  begin()
   {
     return m_List.begin();
   }
 
-  IteratorType end()
+  IteratorType
+  end()
   {
     return m_List.end();
   }
@@ -164,98 +160,105 @@ public:
     auto it = begin();
     auto itend = end();
 
-    for ( unsigned int i = 0; it != itend && i != __n; it++, i++ )
-        {}
-    if ( it == itend )
-      {
+    for (unsigned int i = 0; it != itend && i != __n; it++, i++)
+    {
+    }
+    if (it == itend)
+    {
       return nullptr;
-      }
+    }
     return *it;
   }
 
-  ListSizeType NumFiles() const
+  ListSizeType
+  NumFiles() const
   {
     return m_List.size();
   }
 
-  bool AddElementToList(char const *const filename,
-                        const float sliceLocation,
-                        const int offset,
-                        const int XDim,
-                        const int YDim,
-                        const float XRes,
-                        const float YRes,
-                        const int imageNumber,
-                        const int Key1,
-                        const int Key2)
+  bool
+  AddElementToList(char const * const filename,
+                   const float        sliceLocation,
+                   const int          offset,
+                   const int          XDim,
+                   const int          YDim,
+                   const float        XRes,
+                   const float        YRes,
+                   const int          imageNumber,
+                   const int          Key1,
+                   const int          Key2)
   {
-    if ( m_List.empty() )
-      {
+    if (m_List.empty())
+    {
       m_XDim = XDim;
       m_YDim = YDim;
       m_XRes = XRes;
       m_YRes = YRes;
       m_Key1 = Key1;
       m_Key2 = Key2;
-      }
-    else if ( XDim != m_XDim || YDim != m_YDim )
-      {
+    }
+    else if (XDim != m_XDim || YDim != m_YDim)
+    {
       return false;
-      }
-    else if(Math::NotAlmostEquals( XRes, m_XRes ) ||
-            Math::NotAlmostEquals( YRes, m_YRes) )
-      {
+    }
+    else if (Math::NotAlmostEquals(XRes, m_XRes) || Math::NotAlmostEquals(YRes, m_YRes))
+    {
       return false;
-      }
-    else if ( Key1 != m_Key1 || Key2 != m_Key2 )
-      {
+    }
+    else if (Key1 != m_Key1 || Key2 != m_Key2)
+    {
       return true;
-      }
+    }
     auto it = begin();
     auto itend = end();
-    while ( it != itend )
+    while (it != itend)
+    {
+      if (std::string(filename) == (*it)->GetImageFileName())
       {
-      if ( std::string(filename) == ( *it )->GetImageFileName() )
-        {
         return true;
-        }
-      it++;
       }
-    m_List.push_back( new IPLFileSortInfo(filename,
-                                          sliceLocation,
-                                          offset,
-                                          0, // echo number
-                                          imageNumber) );
+      it++;
+    }
+    m_List.push_back(new IPLFileSortInfo(filename,
+                                         sliceLocation,
+                                         offset,
+                                         0, // echo number
+                                         imageNumber));
     return true;
   }
 
-  void RemoveElementFromList(const int ElementToRemove)
+  void
+  RemoveElementFromList(const int ElementToRemove)
   {
     auto it = m_List.begin();
     auto itend = m_List.end();
-    int          i = 0;
+    int  i = 0;
 
-    for ( i = 0; it != itend; i++, it++ )
+    for (i = 0; it != itend; i++, it++)
+    {
+      if (i != ElementToRemove)
       {
-      if ( i != ElementToRemove )
-        {
         break;
-        }
       }
-    if ( it == itend )
-      {
+    }
+    if (it == itend)
+    {
       return;
-      }
+    }
     m_List.erase(it);
   }
 
-  void sortImageList();
+  void
+  sortImageList();
 
-  void sortImageListAscend();
+  void
+  sortImageListAscend();
 
-  void sortImageListDescend();
+  void
+  sortImageListDescend();
 
-  ListSizeType GetnumImageInfoStructs() const
+  ListSizeType
+  GetnumImageInfoStructs() const
   {
     return m_List.size();
   }
@@ -286,5 +289,5 @@ private:
                      i.e. echoNumber */
   int m_SortOrder;
 };
-}
-#endif                          /* itkIPLFileNameList_h */
+} // namespace itk
+#endif /* itkIPLFileNameList_h */

@@ -45,41 +45,42 @@
 class itkLBFGSOptimizerv4TestMetric : public itk::ObjectToObjectMetricBase
 {
 public:
-
   using Self = itkLBFGSOptimizerv4TestMetric;
   using Superclass = itk::ObjectToObjectMetricBase;
   using Pointer = itk::SmartPointer<Self>;
   using ConstPointer = itk::SmartPointer<const Self>;
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
-  itkTypeMacro( itkLBFGSOptimizerv4TestMetric, ObjectToObjectMetricBase );
+  itkTypeMacro(itkLBFGSOptimizerv4TestMetric, ObjectToObjectMetricBase);
 
-  enum { SpaceDimension=2 };
+  enum
+  {
+    SpaceDimension = 2
+  };
 
   using ParametersType = Superclass::ParametersType;
   using DerivativeType = Superclass::DerivativeType;
   using MeasureType = Superclass::MeasureType;
 
-  itkLBFGSOptimizerv4TestMetric()
-  {
-  m_HasLocalSupport = false;
-  }
+  itkLBFGSOptimizerv4TestMetric() { m_HasLocalSupport = false; }
 
-  MeasureType GetValue() const override
+  MeasureType
+  GetValue() const override
   {
     double x = this->m_Parameters[0];
     double y = this->m_Parameters[1];
 
     std::cout << "GetValue ( " << x << " , " << y << ") = ";
 
-    double val = 0.5*(3*x*x+4*x*y+6*y*y) - 2*x + 8*y;
+    double val = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
 
     std::cout << val << std::endl;
 
     return val;
   }
 
-  void GetDerivative( DerivativeType  & derivative ) const override
+  void
+  GetDerivative(DerivativeType & derivative) const override
   {
     double x = this->m_Parameters[0];
     double y = this->m_Parameters[1];
@@ -87,66 +88,73 @@ public:
     std::cout << "GetDerivative ( " << x << " , " << y << ") = ";
 
     derivative = DerivativeType(SpaceDimension);
-    derivative[0] = -(3*x + 2*y -2);
-    derivative[1] = -(2*x + 6*y +8);
+    derivative[0] = -(3 * x + 2 * y - 2);
+    derivative[1] = -(2 * x + 6 * y + 8);
 
-    std::cout << "(" << derivative[0] <<" , " << derivative[1] << ")" << std::endl;
+    std::cout << "(" << derivative[0] << " , " << derivative[1] << ")" << std::endl;
   }
 
-  void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const override
+  void
+  GetValueAndDerivative(MeasureType & value, DerivativeType & derivative) const override
   {
     value = GetValue();
-    GetDerivative( derivative );
+    GetDerivative(derivative);
   }
 
-  void Initialize() throw ( itk::ExceptionObject ) override
+  void
+  Initialize() throw(itk::ExceptionObject) override
   {
-    m_Parameters.SetSize( SpaceDimension );
+    m_Parameters.SetSize(SpaceDimension);
   }
 
-  Superclass::NumberOfParametersType GetNumberOfLocalParameters() const override
-  {
-    return SpaceDimension;
-  }
-
-  Superclass::NumberOfParametersType GetNumberOfParameters() const override
+  Superclass::NumberOfParametersType
+  GetNumberOfLocalParameters() const override
   {
     return SpaceDimension;
   }
 
-  void SetParameters( ParametersType & params ) override
+  Superclass::NumberOfParametersType
+  GetNumberOfParameters() const override
   {
-    this->m_Parameters =  params;
+    return SpaceDimension;
   }
 
-  const ParametersType & GetParameters() const override
+  void
+  SetParameters(ParametersType & params) override
+  {
+    this->m_Parameters = params;
+  }
+
+  const ParametersType &
+  GetParameters() const override
   {
     return this->m_Parameters;
   }
 
-  bool HasLocalSupport() const override
+  bool
+  HasLocalSupport() const override
   {
     return m_HasLocalSupport;
   }
 
-  void SetHasLocalSupport(bool hls)
+  void
+  SetHasLocalSupport(bool hls)
   {
     m_HasLocalSupport = hls;
   }
 
-  void UpdateTransformParameters( const DerivativeType &, ParametersValueType ) override
-  {
-  }
+  void
+  UpdateTransformParameters(const DerivativeType &, ParametersValueType) override
+  {}
 
 private:
-
-  ParametersType  m_Parameters;
-  bool            m_HasLocalSupport;
-
+  ParametersType m_Parameters;
+  bool           m_HasLocalSupport;
 };
 
 
-int itkLBFGSOptimizerv4Test(int, char* [] )
+int
+itkLBFGSOptimizerv4Test(int, char *[])
 {
   std::cout << "LBFGS Optimizerv4 Test \n \n";
 
@@ -154,69 +162,69 @@ int itkLBFGSOptimizerv4Test(int, char* [] )
   using vnlOptimizerType = vnl_lbfgs;
 
   // Declaration of a itkOptimizer
-  OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
+  OptimizerType::Pointer itkOptimizer = OptimizerType::New();
 
   // Declaration of the metric
   itkLBFGSOptimizerv4TestMetric::Pointer metric = itkLBFGSOptimizerv4TestMetric::New();
 
   // Set some optimizer parameters
-  itkOptimizer->SetTrace( false );
-  itkOptimizer->SetMaximumNumberOfFunctionEvaluations( 1000 );
-  itkOptimizer->SetGradientConvergenceTolerance( 1e-3 );
-  itkOptimizer->SetLineSearchAccuracy( 0.1 );
-  itkOptimizer->SetDefaultStepLength( 5.0 );
+  itkOptimizer->SetTrace(false);
+  itkOptimizer->SetMaximumNumberOfFunctionEvaluations(1000);
+  itkOptimizer->SetGradientConvergenceTolerance(1e-3);
+  itkOptimizer->SetLineSearchAccuracy(0.1);
+  itkOptimizer->SetDefaultStepLength(5.0);
   std::cout << "GetValue() before optimizer starts: " << itkOptimizer->GetValue() << std::endl;
   std::cout << "SetMetric." << std::endl;
-  itkOptimizer->SetMetric( metric );
+  itkOptimizer->SetMetric(metric);
 
-  const double G_Tolerance      = 1e-4;  // Gradient magnitude tolerance
-  constexpr int Max_Iterations = 100;   // Maximum number of iterations
-  const bool   Trace            = false; // Tracing
-  constexpr double LineSearch_Tol = 0.9;   // Line search tolerance
-  constexpr double Step_Length = 1.0;   // Default step length
+  const double     G_Tolerance = 1e-4;   // Gradient magnitude tolerance
+  constexpr int    Max_Iterations = 100; // Maximum number of iterations
+  const bool       Trace = false;        // Tracing
+  constexpr double LineSearch_Tol = 0.9; // Line search tolerance
+  constexpr double Step_Length = 1.0;    // Default step length
 
   std::cout << "Get vnl optimizer." << std::endl;
   vnlOptimizerType * vnlOptimizer = itkOptimizer->GetOptimizer();
 
-  vnlOptimizer->set_check_derivatives( 0 );
+  vnlOptimizer->set_check_derivatives(0);
 
-  constexpr unsigned int SpaceDimension = 2;
+  constexpr unsigned int        SpaceDimension = 2;
   OptimizerType::ParametersType initialValue(SpaceDimension);
 
   // We start not so far from  | 2 -2 |
-  initialValue[0] =  100;
+  initialValue[0] = 100;
   initialValue[1] = -100;
 
   // Set the initial position by setting the metric
   // parameters.
   std::cout << "Set metric parameters." << std::endl;
-  metric->SetParameters( initialValue );
+  metric->SetParameters(initialValue);
 
   // Set some optimizer parameters
-  itkOptimizer->SetTrace( Trace );
-  itkOptimizer->SetMaximumNumberOfFunctionEvaluations( Max_Iterations );
-  itkOptimizer->SetGradientConvergenceTolerance( G_Tolerance );
-  itkOptimizer->SetLineSearchAccuracy( LineSearch_Tol );
-  itkOptimizer->SetDefaultStepLength( Step_Length );
-  itkOptimizer->Print( std::cout );
+  itkOptimizer->SetTrace(Trace);
+  itkOptimizer->SetMaximumNumberOfFunctionEvaluations(Max_Iterations);
+  itkOptimizer->SetGradientConvergenceTolerance(G_Tolerance);
+  itkOptimizer->SetLineSearchAccuracy(LineSearch_Tol);
+  itkOptimizer->SetDefaultStepLength(Step_Length);
+  itkOptimizer->Print(std::cout);
   std::cout << "Stop description   = " << itkOptimizer->GetStopConditionDescription() << std::endl;
 
   std::cout << "Start optimization." << std::endl;
   try
-    {
+  {
     itkOptimizer->StartOptimization();
-    }
-  catch( itk::ExceptionObject & e )
-    {
+  }
+  catch (itk::ExceptionObject & e)
+  {
     std::cerr << "Exception thrown ! " << std::endl;
     std::cerr << "An error occurred during Optimization" << std::endl;
-    std::cerr << "Location    = " << e.GetLocation()    << std::endl;
+    std::cerr << "Location    = " << e.GetLocation() << std::endl;
     std::cerr << "Description = " << e.GetDescription() << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  std::cout << "End condition   = " << vnlOptimizer->get_failure_code()    << std::endl;
-  std::cout << "Number of iters = " << vnlOptimizer->get_num_iterations()  << std::endl;
+  std::cout << "End condition   = " << vnlOptimizer->get_failure_code() << std::endl;
+  std::cout << "Number of iters = " << vnlOptimizer->get_num_iterations() << std::endl;
   std::cout << "Number of evals = " << vnlOptimizer->get_num_evaluations() << std::endl;
   std::cout << std::endl;
 
@@ -230,68 +238,69 @@ int itkLBFGSOptimizerv4Test(int, char* [] )
   std::cout << "LineSearchAccuracy   = " << itkOptimizer->GetLineSearchAccuracy() << std::endl;
   std::cout << "GradientConvergenceTolerance   = " << itkOptimizer->GetGradientConvergenceTolerance() << std::endl;
   std::cout << "DefaultStepLength   = " << itkOptimizer->GetDefaultStepLength() << std::endl;
-  std::cout << "MaximumNumberOfFunctionEvaluations   = " << itkOptimizer->GetMaximumNumberOfFunctionEvaluations() << std::endl;
+  std::cout << "MaximumNumberOfFunctionEvaluations   = " << itkOptimizer->GetMaximumNumberOfFunctionEvaluations()
+            << std::endl;
   std::cout << "NumberOfIterations  = " << itkOptimizer->GetCurrentIteration() << std::endl;
 
   //
   // check results to see if it is within range
   //
-  bool pass = true;
+  bool   pass = true;
   double trueParameters[2] = { 2, -2 };
-  for( unsigned int j = 0; j < 2; ++j )
+  for (unsigned int j = 0; j < 2; ++j)
+  {
+    if (itk::Math::FloatAlmostEqual(finalPosition[j], trueParameters[j]))
     {
-    if( itk::Math::FloatAlmostEqual( finalPosition[j], trueParameters[j] ) )
-      {
       pass = false;
-      }
     }
+  }
 
-  if( !pass )
-    {
+  if (!pass)
+  {
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Get the final value of the optimizer
   std::cout << "Testing GetValue() : ";
   OptimizerType::MeasureType finalValue = itkOptimizer->GetValue();
-  if( std::fabs( finalValue + 10.0 ) > 0.01)
-    {
+  if (std::fabs(finalValue + 10.0) > 0.01)
+  {
     std::cout << "[FAILURE]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   else
-    {
+  {
     std::cout << "[SUCCESS]" << std::endl;
-    }
+  }
 
   //
   // Test stopping when number of iterations reached
   //
-  itkOptimizer->SetNumberOfIterations( 5 );
-  metric->SetParameters( initialValue );
+  itkOptimizer->SetNumberOfIterations(5);
+  metric->SetParameters(initialValue);
 
-   try
-    {
+  try
+  {
     itkOptimizer->StartOptimization();
-    }
-  catch( itk::ExceptionObject & e )
-    {
+  }
+  catch (itk::ExceptionObject & e)
+  {
     std::cerr << "Exception thrown ! " << std::endl;
     std::cerr << "An error occurred during Optimization" << std::endl;
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-   std::cout << "Solution        = (" << finalPosition[0] << "," << finalPosition[1] << ")" << std::endl;
-   std::cout << "NumberOfIterations  = " << itkOptimizer->GetCurrentIteration() << std::endl;
+  std::cout << "Solution        = (" << finalPosition[0] << "," << finalPosition[1] << ")" << std::endl;
+  std::cout << "NumberOfIterations  = " << itkOptimizer->GetCurrentIteration() << std::endl;
 
-  if ( itkOptimizer->GetCurrentIteration() != 5 )
-     {
-     std::cout << "Not expected number of iterations!" << std::endl;
-     std::cout << "[FAILURE]" << std::endl;
-     return EXIT_FAILURE;
-     }
+  if (itkOptimizer->GetCurrentIteration() != 5)
+  {
+    std::cout << "Not expected number of iterations!" << std::endl;
+    std::cout << "[FAILURE]" << std::endl;
+    return EXIT_FAILURE;
+  }
 
 
   // Test with non-indentity scales
@@ -300,23 +309,23 @@ int itkLBFGSOptimizerv4Test(int, char* [] )
   OptimizerType::ScalesType scales(2);
   scales[0] = 1.5;
   scales[1] = 0.75;
-  itkOptimizer->SetScales( scales );
+  itkOptimizer->SetScales(scales);
 
   std::cout << "Set metric parameters." << std::endl;
-  metric->SetParameters( initialValue );
+  metric->SetParameters(initialValue);
 
   try
-    {
+  {
     itkOptimizer->StartOptimization();
-    }
-  catch( itk::ExceptionObject & e )
-    {
+  }
+  catch (itk::ExceptionObject & e)
+  {
     std::cerr << "Exception thrown ! " << std::endl;
     std::cerr << "An error occurred during Optimization" << std::endl;
-    std::cerr << "Location    = " << e.GetLocation()    << std::endl;
+    std::cerr << "Location    = " << e.GetLocation() << std::endl;
     std::cerr << "Description = " << e.GetDescription() << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "Scales after optimization: " << itkOptimizer->GetScales() << std::endl;
   finalPosition = itkOptimizer->GetCurrentPosition();
@@ -324,26 +333,25 @@ int itkLBFGSOptimizerv4Test(int, char* [] )
 
   // check results to see if it is within range
   pass = true;
-  for( unsigned int j = 0; j < 2; ++j )
+  for (unsigned int j = 0; j < 2; ++j)
+  {
+    if (itk::Math::FloatAlmostEqual(finalPosition[j], trueParameters[j]))
     {
-    if( itk::Math::FloatAlmostEqual( finalPosition[j], trueParameters[j] ) )
-      {
       pass = false;
-      }
     }
+  }
 
-  if( !pass )
-    {
+  if (!pass)
+  {
     std::cerr << "Test failed. finalPosition is not correct." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Test with local-support transform. Should FAIL.
   // Such transforms are not yet supported.
-  metric->SetHasLocalSupport( true );
-  ITK_TRY_EXPECT_EXCEPTION( itkOptimizer->StartOptimization() );
+  metric->SetHasLocalSupport(true);
+  ITK_TRY_EXPECT_EXCEPTION(itkOptimizer->StartOptimization());
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
-
 }

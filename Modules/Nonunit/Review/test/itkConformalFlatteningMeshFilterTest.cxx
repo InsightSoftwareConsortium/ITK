@@ -20,17 +20,17 @@
 #include "itkMeshFileWriter.h"
 #include "itkConformalFlatteningMeshFilter.h"
 
-int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
+int
+itkConformalFlatteningMeshFilterTest(int argc, char * argv[])
 {
-  if( argc < 4 )
-    {
-     std::cerr << "Usage: "<< argv[0] \
-               << "vtkInputFilename vtkOutputFilename mapToSphere[0:1] [polarCellId]\n";
+  if (argc < 4)
+  {
+    std::cerr << "Usage: " << argv[0] << "vtkInputFilename vtkOutputFilename mapToSphere[0:1] [polarCellId]\n";
 
     return EXIT_FAILURE;
-    }
+  }
 
-  using MeshType = itk::Mesh< double, 3 >;
+  using MeshType = itk::Mesh<double, 3>;
 
   using FilterType = itk::ConformalFlatteningMeshFilter<MeshType, MeshType>;
 
@@ -46,17 +46,17 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
   std::cout << "Read " << argv[1] << std::endl;
 
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
   try
-    {
+  {
     reader->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   MeshType::Pointer mesh = reader->GetOutput();
 
@@ -67,27 +67,27 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
   FilterType::Pointer filter = FilterType::New();
 
   // Connect the input
-  filter->SetInput( mesh );
+  filter->SetInput(mesh);
 
-  CellIdentifier  polarCellId = 0; // default set to the first cell
+  CellIdentifier polarCellId = 0; // default set to the first cell
 
-  if( argc > 4 )
-    {
-    polarCellId = std::stoi( argv[4] );
-    }
+  if (argc > 4)
+  {
+    polarCellId = std::stoi(argv[4]);
+  }
 
-  filter->SetPolarCellIdentifier( polarCellId );
+  filter->SetPolarCellIdentifier(polarCellId);
 
-  int mapToSphere = std::stoi( argv[3] );
+  int mapToSphere = std::stoi(argv[3]);
 
-  if( mapToSphere == 1 )
-    {
+  if (mapToSphere == 1)
+  {
     filter->MapToSphere();
-    }
+  }
   else
-    {
+  {
     filter->MapToPlane();
-    }
+  }
 
   //  double scale = std::stod( argv[4] );
   //  filter->SetScale( scale );
@@ -97,14 +97,14 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
   std::cout << "Execute the filter" << std::endl;
 
   try
-    {
+  {
     filter->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Get the Smart Pointer to the Filter Output
   MeshType::Pointer newMesh = filter->GetOutput();
@@ -116,18 +116,18 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
   std::cout << "Write " << argv[2] << std::endl;
 
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( newMesh );
-  writer->SetFileName( argv[2] );
+  writer->SetInput(newMesh);
+  writer->SetFileName(argv[2]);
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

@@ -18,9 +18,9 @@
 #include "itkHalfHermitianToRealInverseFFTImageFilter.h"
 
 #ifndef itkFFTWHalfHermitianToRealInverseFFTImageFilter_h
-#define itkFFTWHalfHermitianToRealInverseFFTImageFilter_h
+#  define itkFFTWHalfHermitianToRealInverseFFTImageFilter_h
 
-#include "itkFFTWCommon.h"
+#  include "itkFFTWCommon.h"
 
 namespace itk
 {
@@ -46,9 +46,10 @@ namespace itk
  * \sa FFTWGlobalConfiguration
  * \sa InverseFFTImageFilter
  */
-template< typename TInputImage, typename TOutputImage=Image< typename TInputImage::PixelType::value_type, TInputImage::ImageDimension> >
-class ITK_TEMPLATE_EXPORT FFTWHalfHermitianToRealInverseFFTImageFilter:
-  public HalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage,
+          typename TOutputImage = Image<typename TInputImage::PixelType::value_type, TInputImage::ImageDimension>>
+class ITK_TEMPLATE_EXPORT FFTWHalfHermitianToRealInverseFFTImageFilter
+  : public HalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FFTWHalfHermitianToRealInverseFFTImageFilter);
@@ -63,23 +64,22 @@ public:
   using OutputSizeType = typename OutputImageType::SizeType;
 
   using Self = FFTWHalfHermitianToRealInverseFFTImageFilter;
-  using Superclass = HalfHermitianToRealInverseFFTImageFilter< InputImageType, OutputImageType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = HalfHermitianToRealInverseFFTImageFilter<InputImageType, OutputImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** The proxy type is a wrapper for the FFTW API since the proxy is
    * only defined over double and float, trying to use any other pixel
    * type is unsupported, as is trying to use double if only the float
    * FFTW version is configured in, or float if only double is
    * configured. */
-  using FFTWProxyType = typename fftw::Proxy< OutputPixelType >;
+  using FFTWProxyType = typename fftw::Proxy<OutputPixelType>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FFTWHalfHermitianToRealInverseFFTImageFilter,
-               HalfHermitianToRealInverseFFTImageFilter);
+  itkTypeMacro(FFTWHalfHermitianToRealInverseFFTImageFilter, HalfHermitianToRealInverseFFTImageFilter);
 
   /** Define the image dimension. */
   static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
@@ -93,52 +93,58 @@ public:
    * This has no effect with ITK_USE_CUFFTW enabled.
    * /sa FFTWGlobalConfiguration
    */
-  virtual void SetPlanRigor( const int & value )
+  virtual void
+  SetPlanRigor(const int & value)
   {
-#ifndef ITK_USE_CUFFTW
+#  ifndef ITK_USE_CUFFTW
     // Use that method to check the value.
-    FFTWGlobalConfiguration::GetPlanRigorName( value );
-#endif
-    if( m_PlanRigor != value )
-      {
+    FFTWGlobalConfiguration::GetPlanRigorName(value);
+#  endif
+    if (m_PlanRigor != value)
+    {
       m_PlanRigor = value;
       this->Modified();
-      }
+    }
   }
-  itkGetConstReferenceMacro( PlanRigor, int );
-  void SetPlanRigor( const std::string & name )
+  itkGetConstReferenceMacro(PlanRigor, int);
+  void
+  SetPlanRigor(const std::string & name)
   {
-#ifndef ITK_USE_CUFFTW
-    this->SetPlanRigor( FFTWGlobalConfiguration::GetPlanRigorValue( name ) );
-#endif
+#  ifndef ITK_USE_CUFFTW
+    this->SetPlanRigor(FFTWGlobalConfiguration::GetPlanRigorValue(name));
+#  endif
   }
 
-  SizeValueType GetSizeGreatestPrimeFactor() const override;
+  SizeValueType
+  GetSizeGreatestPrimeFactor() const override;
 
 protected:
   FFTWHalfHermitianToRealInverseFFTImageFilter();
   ~FFTWHalfHermitianToRealInverseFFTImageFilter() override {}
 
-  void UpdateOutputData(DataObject *output) override;
+  void
+  UpdateOutputData(DataObject * output) override;
 
-  void BeforeThreadedGenerateData() override;
+  void
+  BeforeThreadedGenerateData() override;
 
-  void DynamicThreadedGenerateData(const OutputRegionType& outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputRegionType & outputRegionForThread) override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   bool m_CanUseDestructiveAlgorithm;
 
   int m_PlanRigor;
-
 };
 
 
 } // namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFFTWHalfHermitianToRealInverseFFTImageFilter.hxx"
-#endif
+#  ifndef ITK_MANUAL_INSTANTIATION
+#    include "itkFFTWHalfHermitianToRealInverseFFTImageFilter.hxx"
+#  endif
 
-#endif //itkFFTWHalfHermitianToRealInverseFFTImageFilter_h
+#endif // itkFFTWHalfHermitianToRealInverseFFTImageFilter_h

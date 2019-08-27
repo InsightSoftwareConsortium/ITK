@@ -23,15 +23,16 @@
 #include "itkTestingMacros.h"
 #include "itkLogTester.h"
 
-int itkLoggerTest( int argc, char *argv [] )
+int
+itkLoggerTest(int argc, char * argv[])
 {
   try
-    {
+  {
     if (argc < 2)
-      {
+    {
       std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " logFilename" << std::endl;
       return EXIT_FAILURE;
-      }
+    }
 
     // Create an ITK StdStreamLogOutputs
     itk::StdStreamLogOutput::Pointer coutput = itk::StdStreamLogOutput::New();
@@ -79,13 +80,13 @@ int itkLoggerTest( int argc, char *argv [] )
     logger->Flush();
 
     itk::LoggerBase::TimeStampFormatType timeStampFormat = itk::LoggerBase::HUMANREADABLE;
-    logger->SetTimeStampFormat( timeStampFormat );
+    logger->SetTimeStampFormat(timeStampFormat);
 
-    if( logger->GetTimeStampFormat() != timeStampFormat )
-      {
+    if (logger->GetTimeStampFormat() != timeStampFormat)
+    {
       std::cerr << "Error in SetTimeStampFormat()/GetTimeStampFormat()" << std::endl;
       return EXIT_FAILURE;
-      }
+    }
 
 
     std::cout << "  Writing by itk::Logger in Human Readable format" << std::endl;
@@ -99,13 +100,13 @@ int itkLoggerTest( int argc, char *argv [] )
 
 
     std::string humanReadableFormat = "%b %d, %Y, %H:%M:%S";
-    logger->SetHumanReadableFormat( humanReadableFormat );
+    logger->SetHumanReadableFormat(humanReadableFormat);
 
-    if( logger->GetHumanReadableFormat() != humanReadableFormat )
-      {
+    if (logger->GetHumanReadableFormat() != humanReadableFormat)
+    {
       std::cerr << "Error in SetHumanReadableFormat()/GetHumanReadableFormat()" << std::endl;
       return EXIT_FAILURE;
-      }
+    }
 
     std::cout << "  Writing by itk::Logger in Human Readable style with new format" << std::endl;
     logger->Write(itk::LoggerBase::PriorityLevelType::DEBUG, "This is the DEBUG message.\n");
@@ -115,13 +116,12 @@ int itkLoggerTest( int argc, char *argv [] )
     logger->Write(itk::LoggerBase::PriorityLevelType::FATAL, "This is the FATAL message.\n");
     logger->Write(itk::LoggerBase::PriorityLevelType::MUSTFLUSH, "This is the MUSTFLUSH message.\n");
     logger->Flush();
-
-    }
-  catch(...)
-    {
+  }
+  catch (...)
+  {
     std::cerr << "Exception catched !!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "[PASSED]" << std::endl;
   return EXIT_SUCCESS;

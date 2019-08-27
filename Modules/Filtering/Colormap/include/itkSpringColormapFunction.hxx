@@ -24,10 +24,9 @@ namespace itk
 {
 namespace Function
 {
-template< typename TScalar, typename TRGBPixel >
-typename SpringColormapFunction< TScalar, TRGBPixel >::RGBPixelType
-SpringColormapFunction< TScalar, TRGBPixel >
-::operator()(const TScalar & v) const
+template <typename TScalar, typename TRGBPixel>
+typename SpringColormapFunction<TScalar, TRGBPixel>::RGBPixelType
+SpringColormapFunction<TScalar, TRGBPixel>::operator()(const TScalar & v) const
 {
   // Map the input scalar between [0, 1].
   RealType value = this->RescaleInputValue(v);

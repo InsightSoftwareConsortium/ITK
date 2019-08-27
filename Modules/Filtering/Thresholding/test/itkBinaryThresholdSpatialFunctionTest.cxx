@@ -35,12 +35,13 @@
  * results.
  *
  */
-int itkBinaryThresholdSpatialFunctionTest( int, char *[])
+int
+itkBinaryThresholdSpatialFunctionTest(int, char *[])
 {
   using CoordRep = double;
   constexpr unsigned int Dimension = 2;
 
-  using SphereFunctionType = itk::SphereSignedDistanceFunction<CoordRep,Dimension>;
+  using SphereFunctionType = itk::SphereSignedDistanceFunction<CoordRep, Dimension>;
   using FunctionType = itk::BinaryThresholdSpatialFunction<SphereFunctionType>;
   using PointType = SphereFunctionType::PointType;
   using ParametersType = SphereFunctionType::ParametersType;
@@ -50,11 +51,11 @@ int itkBinaryThresholdSpatialFunctionTest( int, char *[])
   // we must initialize the sphere before use
   sphere->Initialize();
 
-  ParametersType parameters( sphere->GetNumberOfParameters() );
-  parameters.Fill( 0.0 );
+  ParametersType parameters(sphere->GetNumberOfParameters());
+  parameters.Fill(0.0);
   parameters[0] = 5.0;
 
-  sphere->SetParameters( parameters );
+  sphere->SetParameters(parameters);
 
   std::cout << "SphereParameters: " << sphere->GetParameters() << std::endl;
 
@@ -62,36 +63,36 @@ int itkBinaryThresholdSpatialFunctionTest( int, char *[])
   FunctionType::Pointer function = FunctionType::New();
 
   // connect the sphere function
-  function->SetFunction( sphere );
+  function->SetFunction(sphere);
 
   // set the thresholds
   double lowerThreshold = -3.0;
-  double upperThreshold =  4.0;
-  function->SetLowerThreshold( lowerThreshold );
-  function->SetUpperThreshold( upperThreshold );
+  double upperThreshold = 4.0;
+  function->SetLowerThreshold(lowerThreshold);
+  function->SetUpperThreshold(upperThreshold);
 
   std::cout << "LowerThreshold: " << function->GetLowerThreshold() << std::endl;
   std::cout << "UpperThreshold: " << function->GetUpperThreshold() << std::endl;
 
   PointType point;
 
-  for ( double p = 0.0; p < 10.0; p += 1.0 )
-    {
-    point.Fill( p );
-    FunctionType::OutputType output = function->Evaluate( point );
+  for (double p = 0.0; p < 10.0; p += 1.0)
+  {
+    point.Fill(p);
+    FunctionType::OutputType output = function->Evaluate(point);
     std::cout << "f( " << point << ") = " << output;
-    std::cout << " [" << function->GetFunction()->Evaluate( point );
+    std::cout << " [" << function->GetFunction()->Evaluate(point);
     std::cout << "] " << std::endl;
 
     // check results
-    CoordRep val = p * std::sqrt( 2.0 ) - parameters[0];
-    bool expected = ( lowerThreshold <= val && upperThreshold >= val );
-    if( output != expected )
-      {
+    CoordRep val = p * std::sqrt(2.0) - parameters[0];
+    bool     expected = (lowerThreshold <= val && upperThreshold >= val);
+    if (output != expected)
+    {
       std::cout << "But expected value is: " << expected << std::endl;
       return EXIT_FAILURE;
-     }
     }
+  }
 
   /**
    * In the following, we demsonstrate how BinaryThresholdSpatialFunction
@@ -100,45 +101,44 @@ int itkBinaryThresholdSpatialFunctionTest( int, char *[])
    * the sphere.
    */
   // set up a dummy image
-  using ImageType = itk::Image<unsigned char,Dimension>;
-  ImageType::Pointer image = ImageType::New();
+  using ImageType = itk::Image<unsigned char, Dimension>;
+  ImageType::Pointer  image = ImageType::New();
   ImageType::SizeType size;
-  size.Fill( 10 );
-  image->SetRegions( size );
+  size.Fill(10);
+  image->SetRegions(size);
   image->Allocate();
-  image->FillBuffer( 255 );
+  image->FillBuffer(255);
 
   // set up the conditional iterator
-  using IteratorType = itk::FloodFilledSpatialFunctionConditionalConstIterator<
-                                          ImageType,
-                                          FunctionType>;
+  using IteratorType = itk::FloodFilledSpatialFunctionConditionalConstIterator<ImageType, FunctionType>;
 
-  IteratorType iterator( image, function );
+  IteratorType iterator(image, function);
   iterator.SetOriginInclusionStrategy();
 
   // add a seed that already inside the region
   ImageType::IndexType index;
-  index[0] = 0; index[1] = 3;
-  iterator.AddSeed( index );
+  index[0] = 0;
+  index[1] = 3;
+  iterator.AddSeed(index);
 
   //
   // get the seeds and display them.
   std::cout << "Iterator seeds";
-  for(auto seed : iterator.GetSeeds() )
-    {
+  for (auto seed : iterator.GetSeeds())
+  {
     std::cout << " " << seed;
-    }
+  }
   std::cout << std::endl;
 
   unsigned int counter = 0;
   iterator.GoToBegin();
 
-  while( !iterator.IsAtEnd() )
-    {
+  while (!iterator.IsAtEnd())
+  {
 
     index = iterator.GetIndex();
-    image->TransformIndexToPhysicalPoint( index, point );
-    double value = sphere->Evaluate( point );
+    image->TransformIndexToPhysicalPoint(index, point);
+    double value = sphere->Evaluate(point);
 
     std::cout << counter++ << ": ";
     std::cout << index << " ";
@@ -146,15 +146,15 @@ int itkBinaryThresholdSpatialFunctionTest( int, char *[])
     std::cout << std::endl;
 
     // check if value is within range
-    if ( value < lowerThreshold || value > upperThreshold )
-      {
+    if (value < lowerThreshold || value > upperThreshold)
+    {
       std::cout << "Point value is not within thresholds [";
       std::cout << lowerThreshold << "," << upperThreshold << "]" << std::endl;
       return EXIT_FAILURE;
-      }
+    }
 
     ++iterator;
-    }
+  }
 
 
   function->Print(std::cout);

@@ -37,7 +37,7 @@ namespace itk
  *
  * \ingroup ITKVideoCore
  */
-template<typename TFrameType>
+template <typename TFrameType>
 class ITK_TEMPLATE_EXPORT VideoStream : public TemporalDataObject
 {
 public:
@@ -46,9 +46,9 @@ public:
   /** Standard class type aliases */
   using Self = VideoStream;
   using Superclass = TemporalDataObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using ConstWeakPointer = WeakPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using ConstWeakPointer = WeakPointer<const Self>;
 
   using FrameType = TFrameType;
   using FramePointer = typename FrameType::Pointer;
@@ -71,7 +71,8 @@ public:
 
   /** Access the spacial dimensionality of the frames */
   static constexpr unsigned int FrameDimension = FrameType::ImageDimension;
-  static unsigned int GetFrameDimension()
+  static unsigned int
+  GetFrameDimension()
   {
     return FrameType::ImageDimension;
   }
@@ -82,7 +83,8 @@ public:
   itkTypeMacro(VideoStream, TemporalDataObject);
 
   /** Safely expand the internal ring buffer. */
-  void SetMinimumBufferSize(SizeValueType minimumNumberOfFrames);
+  void
+  SetMinimumBufferSize(SizeValueType minimumNumberOfFrames);
 
   /** Initialize any empty frames. This method makes sure that the frame buffer
    * is large enough to hold the number of frames needed for the buffered
@@ -90,151 +92,182 @@ public:
    * sure that each one has been initialized. When allocating space for frames,
    * this method should be called first, followed by setting the spatial
    * regions on each frame, before Allocate is called. */
-  void InitializeEmptyFrames();
+  void
+  InitializeEmptyFrames();
 
   /** Provide access to the internal frame buffer object */
-  BufferType* GetFrameBuffer()
+  BufferType *
+  GetFrameBuffer()
   {
-    return reinterpret_cast<BufferType*>(m_DataObjectBuffer.GetPointer() );
+    return reinterpret_cast<BufferType *>(m_DataObjectBuffer.GetPointer());
   }
-  const BufferType* GetFrameBuffer() const
+  const BufferType *
+  GetFrameBuffer() const
   {
-    return reinterpret_cast<BufferType*>(m_DataObjectBuffer.GetPointer() );
+    return reinterpret_cast<BufferType *>(m_DataObjectBuffer.GetPointer());
   }
 
   /** Set the internal pixel buffer */
-  void SetFrameBuffer(BufferType* buffer);
+  void
+  SetFrameBuffer(BufferType * buffer);
 
   /** Provide access to the internal caches for the meta data */
-  const SpatialRegionMapType & GetLargestPossibleSpatialRegionCache() const
+  const SpatialRegionMapType &
+  GetLargestPossibleSpatialRegionCache() const
   {
     return m_LargestPossibleSpatialRegionCache;
   }
-  void SetLargestPossibleSpatialRegionCache(SpatialRegionMapType map)
+  void
+  SetLargestPossibleSpatialRegionCache(SpatialRegionMapType map)
   {
     m_LargestPossibleSpatialRegionCache = map;
   }
 
-  const SpatialRegionMapType & GetRequestedSpatialRegionCache() const
+  const SpatialRegionMapType &
+  GetRequestedSpatialRegionCache() const
   {
     return m_RequestedSpatialRegionCache;
   }
-  void SetRequestedSpatialRegionCache(SpatialRegionMapType map)
+  void
+  SetRequestedSpatialRegionCache(SpatialRegionMapType map)
   {
     m_RequestedSpatialRegionCache = map;
   }
 
-  const SpatialRegionMapType & GetBufferedSpatialRegionCache() const
+  const SpatialRegionMapType &
+  GetBufferedSpatialRegionCache() const
   {
     return m_BufferedSpatialRegionCache;
   }
-  void SetBufferedSpatialRegionCache(SpatialRegionMapType map)
+  void
+  SetBufferedSpatialRegionCache(SpatialRegionMapType map)
   {
     m_BufferedSpatialRegionCache = map;
   }
 
-  const SpacingMapType & GetSpacingCache() const
+  const SpacingMapType &
+  GetSpacingCache() const
   {
     return m_SpacingCache;
   }
-  void SetSpacingCache(SpacingMapType map)
+  void
+  SetSpacingCache(SpacingMapType map)
   {
     m_SpacingCache = map;
   }
 
-  const PointMapType & GetOriginCache() const
+  const PointMapType &
+  GetOriginCache() const
   {
     return m_OriginCache;
   }
-  void SetOriginCache(PointMapType map)
+  void
+  SetOriginCache(PointMapType map)
   {
     m_OriginCache = map;
   }
 
-  const DirectionMapType & GetDirectionCache() const
+  const DirectionMapType &
+  GetDirectionCache() const
   {
     return m_DirectionCache;
   }
-  void SetDirectionCache(DirectionMapType map)
+  void
+  SetDirectionCache(DirectionMapType map)
   {
     m_DirectionCache = map;
   }
 
   /** Set the contents of the frame at a given frame number */
-  void SetFrame(SizeValueType frameNumber, FramePointer frame);
+  void
+  SetFrame(SizeValueType frameNumber, FramePointer frame);
 
   /** Get the frame for the given frame number. Internally, we always leave the
    * Head of the ring buffer in place and just use the frame number as an
    * offset. This allows all references to frames to be processed by an
    * explicit frame number rather than a potentially confusing offset. */
-  FramePointer GetFrame(SizeValueType frameNumber);
-  FrameConstPointer GetFrame(SizeValueType frameNumber) const;
+  FramePointer
+  GetFrame(SizeValueType frameNumber);
+  FrameConstPointer
+  GetFrame(SizeValueType frameNumber) const;
 
   /** Get/Set the LargestPossibleRegion of a frame */
-  void SetFrameLargestPossibleSpatialRegion(SizeValueType frameNumber,
-                                            SpatialRegionType region);
+  void
+  SetFrameLargestPossibleSpatialRegion(SizeValueType frameNumber, SpatialRegionType region);
 
   const SpatialRegionType &
   GetFrameLargestPossibleSpatialRegion(SizeValueType frameNumber) const;
 
   /** Get/Set the RequestedRegion of a frame */
-  void SetFrameRequestedSpatialRegion(SizeValueType frameNumber,
-                                      SpatialRegionType region);
+  void
+  SetFrameRequestedSpatialRegion(SizeValueType frameNumber, SpatialRegionType region);
 
   const SpatialRegionType &
   GetFrameRequestedSpatialRegion(SizeValueType frameNumber) const;
 
   /** Get/Set the BufferedRegion of a frame */
-  void SetFrameBufferedSpatialRegion(SizeValueType frameNumber,
-                                     SpatialRegionType region);
+  void
+  SetFrameBufferedSpatialRegion(SizeValueType frameNumber, SpatialRegionType region);
 
   const SpatialRegionType &
   GetFrameBufferedSpatialRegion(SizeValueType frameNumber) const;
 
   /** Get/Set the Spacing of a frame */
-  void SetFrameSpacing(SizeValueType frameNumber, SpacingType spacing);
+  void
+  SetFrameSpacing(SizeValueType frameNumber, SpacingType spacing);
 
-  const SpacingType & GetFrameSpacing(SizeValueType frameNumber) const;
+  const SpacingType &
+  GetFrameSpacing(SizeValueType frameNumber) const;
 
   /** Get/Set the Origin of a frame */
-  void SetFrameOrigin(SizeValueType frameNumber, PointType origin);
+  void
+  SetFrameOrigin(SizeValueType frameNumber, PointType origin);
 
-  const PointType & GetFrameOrigin(SizeValueType frameNumber) const;
+  const PointType &
+  GetFrameOrigin(SizeValueType frameNumber) const;
 
   /** Get/Set the Direction of a frame */
-  void SetFrameDirection(SizeValueType frameNumber, DirectionType direction);
+  void
+  SetFrameDirection(SizeValueType frameNumber, DirectionType direction);
 
-  const DirectionType & GetFrameDirection(SizeValueType frameNumber) const;
+  const DirectionType &
+  GetFrameDirection(SizeValueType frameNumber) const;
 
   /** Set the LargestPossibleRegion on all frames. This assumes that all frames
    * in the buffered temporal region have been initialized (should be called
    * after InitializeEmptyFrames). */
-  void SetAllLargestPossibleSpatialRegions(SpatialRegionType region);
+  void
+  SetAllLargestPossibleSpatialRegions(SpatialRegionType region);
 
   /** Set the RequestedRegion on all frames. This assumes that all frames in
    * the buffered temporal region have been initialized (should be called
    * after InitializeEmptyFrames). */
-  void SetAllRequestedSpatialRegions(SpatialRegionType region);
+  void
+  SetAllRequestedSpatialRegions(SpatialRegionType region);
 
   /** Set the BufferedRegion on all frames. This assumes that all frames in the
    * buffered temporal region have been initialized (should be called after
    * InitializeEmptyFrames). */
-  void SetAllBufferedSpatialRegions(SpatialRegionType region);
+  void
+  SetAllBufferedSpatialRegions(SpatialRegionType region);
 
   /** Set the Spacing of all frames. This assumes that all frames in the
    * buffered temporal region have been initialized (should be called after
    * InitializeEmptyFrames). */
-  void SetAllFramesSpacing(SpacingType spacing);
+  void
+  SetAllFramesSpacing(SpacingType spacing);
 
   /** Set the Origin of all frames. This assumes that all frames in the
    * buffered temporal region have been initialized (should be called after
    * InitializeEmptyFrames). */
-  void SetAllFramesOrigin(PointType origin);
+  void
+  SetAllFramesOrigin(PointType origin);
 
   /** Set the Direction of all frames. This assumes that all frames in the
    * buffered temporal region have been initialized (should be called after
    * InitializeEmptyFrames). */
-  void SetAllFramesDirection(DirectionType direction);
+  void
+  SetAllFramesDirection(DirectionType direction);
 
   /** Allocate memory for the buffered spatial region of each frame in the
    * buffered temporal region. This assumes that all frames in the buffered
@@ -268,19 +301,22 @@ public:
         video->Allocate();
      \endcode
    */
-  void Allocate();
+  void
+  Allocate();
 
   /** Graft the data and information from one VideoStream to this one. This
    * just copies the meta information using TemporalProcessObject's Graft then
    * sets the internal RingBuffer pointer to point to the same buffer used by
    * the other VideoStream. */
-  void Graft(const DataObject* data) override;
+  void
+  Graft(const DataObject * data) override;
 
 protected:
   VideoStream() = default;
   ~VideoStream() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::Print(os, indent);
   }
@@ -294,15 +330,15 @@ protected:
 
   /** These maps cache a mapping between frame number and the meta data for
    * origin, spacing, and direction */
-  SpacingMapType       m_SpacingCache;
-  DirectionMapType     m_DirectionCache;
-  PointMapType         m_OriginCache;
+  SpacingMapType   m_SpacingCache;
+  DirectionMapType m_DirectionCache;
+  PointMapType     m_OriginCache;
 }; // end class VideoStream
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVideoStream.hxx"
+#  include "itkVideoStream.hxx"
 #endif
 
 #endif

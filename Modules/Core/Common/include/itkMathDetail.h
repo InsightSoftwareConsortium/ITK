@@ -33,9 +33,9 @@
 
 #include <cfenv>
 
-#if defined( ITK_HAVE_EMMINTRIN_H ) && !defined( ITK_WRAPPING_PARSER )
-#include <emmintrin.h> // sse 2 intrinsics
-#endif /* ITK_HAVE_EMMINTRIN_H && ! ITK_WRAPPING_PARSER */
+#if defined(ITK_HAVE_EMMINTRIN_H) && !defined(ITK_WRAPPING_PARSER)
+#  include <emmintrin.h> // sse 2 intrinsics
+#endif                   /* ITK_HAVE_EMMINTRIN_H && ! ITK_WRAPPING_PARSER */
 
 // assume no SSE2:
 #define USE_SSE2_64IMPL 0
@@ -43,20 +43,20 @@
 
 // For apple assume sse2 is on for all intel builds, check for 64 and 32
 // bit versions
-#if defined(__APPLE__) && defined( __SSE2__ ) && !defined( ITK_WRAPPING_PARSER )
+#if defined(__APPLE__) && defined(__SSE2__) && !defined(ITK_WRAPPING_PARSER)
 
-#  if defined( __i386__ )
-#    undef  USE_SSE2_32IMPL
+#  if defined(__i386__)
+#    undef USE_SSE2_32IMPL
 #    define USE_SSE2_32IMPL 1
 #  endif
 
-#  if defined(  __x86_64 )
+#  if defined(__x86_64)
 //   Turn on the 64 bits implementation
-#    undef  USE_SSE2_64IMPL
+#    undef USE_SSE2_64IMPL
 #    define USE_SSE2_64IMPL 1
 //   Turn on also the 32 bits implementation
 //   since it is available in 64 bits versions.
-#    undef  USE_SSE2_32IMPL
+#    undef USE_SSE2_32IMPL
 #    define USE_SSE2_32IMPL 1
 #  endif
 
@@ -66,12 +66,12 @@
 // try-compile set ITK_COMPILER_SUPPORTS_SSE2_32 and
 // ITK_COMPILER_SUPPORTS_SSE2_64 to set values:
 
-#  if defined(ITK_COMPILER_SUPPORTS_SSE2_32) && !defined( ITK_WRAPPING_PARSER )
-#    undef  USE_SSE2_32IMPL
+#  if defined(ITK_COMPILER_SUPPORTS_SSE2_32) && !defined(ITK_WRAPPING_PARSER)
+#    undef USE_SSE2_32IMPL
 #    define USE_SSE2_32IMPL 1
 #  endif
-#  if defined(ITK_COMPILER_SUPPORTS_SSE2_64) && !defined( ITK_WRAPPING_PARSER )
-#    undef  USE_SSE2_64IMPL
+#  if defined(ITK_COMPILER_SUPPORTS_SSE2_64) && !defined(ITK_WRAPPING_PARSER)
+#    undef USE_SSE2_64IMPL
 #    define USE_SSE2_64IMPL 1
 #  endif
 
@@ -81,21 +81,21 @@
 // Turn on 32-bit and 64-bit asm impl when using GCC on x86 platform with the
 // following exception:
 //   GCCXML
-#if defined( __GNUC__ ) && ( !defined( ITK_WRAPPING_PARSER ) ) &&  ( defined( __i386__ ) || defined( __i386 ) \
-  || defined( __x86_64__ ) || defined( __x86_64 ) )
-#define GCC_USE_ASM_32IMPL 1
-#define GCC_USE_ASM_64IMPL 1
+#if defined(__GNUC__) && (!defined(ITK_WRAPPING_PARSER)) &&                                                            \
+  (defined(__i386__) || defined(__i386) || defined(__x86_64__) || defined(__x86_64))
+#  define GCC_USE_ASM_32IMPL 1
+#  define GCC_USE_ASM_64IMPL 1
 #else
-#define GCC_USE_ASM_32IMPL 0
-#define GCC_USE_ASM_64IMPL 0
+#  define GCC_USE_ASM_32IMPL 0
+#  define GCC_USE_ASM_64IMPL 0
 #endif
 // Turn on 32-bit and 64-bit asm impl when using msvc on 32 bits windows
-#if defined( VCL_VC ) && ( !defined( ITK_WRAPPING_PARSER ) ) && !defined( _WIN64 )
-#define VC_USE_ASM_32IMPL 1
-#define VC_USE_ASM_64IMPL 1
+#if defined(VCL_VC) && (!defined(ITK_WRAPPING_PARSER)) && !defined(_WIN64)
+#  define VC_USE_ASM_32IMPL 1
+#  define VC_USE_ASM_64IMPL 1
 #else
-#define VC_USE_ASM_32IMPL 0
-#define VC_USE_ASM_64IMPL 0
+#  define VC_USE_ASM_32IMPL 0
+#  define VC_USE_ASM_64IMPL 0
 #endif
 
 namespace itk
@@ -115,50 +115,50 @@ namespace Detail
 CLANG_PRAGMA_PUSH
 CLANG_SUPPRESS_Wfloat_equal
 
-template< typename TReturn, typename TInput >
-inline TReturn RoundHalfIntegerToEven_base(TInput x)
+  template <typename TReturn, typename TInput>
+  inline TReturn
+  RoundHalfIntegerToEven_base(TInput x)
 {
-  if ( NumericTraits< TInput >::IsNonnegative(x) )
-    {
-    x += static_cast< TInput >( 0.5 );
-    }
+  if (NumericTraits<TInput>::IsNonnegative(x))
+  {
+    x += static_cast<TInput>(0.5);
+  }
   else
-    {
-    x -= static_cast< TInput >( 0.5 );
-    }
+  {
+    x -= static_cast<TInput>(0.5);
+  }
 
-  const auto r = static_cast< TReturn >( x );
-  return ( x != static_cast< TInput >( r ) ) ? r : static_cast< TReturn >( 2 * ( r / 2 ) );
+  const auto r = static_cast<TReturn>(x);
+  return (x != static_cast<TInput>(r)) ? r : static_cast<TReturn>(2 * (r / 2));
 }
 
-template< typename TReturn, typename TInput >
-inline TReturn RoundHalfIntegerUp_base(TInput x)
+template <typename TReturn, typename TInput>
+inline TReturn
+RoundHalfIntegerUp_base(TInput x)
 {
-  x += static_cast< TInput >( 0.5 );
-  const auto r = static_cast< TReturn >( x );
-  return ( NumericTraits< TInput >::IsNonnegative(x) ) ?
-         r :
-         ( x == static_cast< TInput >( r ) ? r : r - static_cast< TReturn >( 1 ) );
+  x += static_cast<TInput>(0.5);
+  const auto r = static_cast<TReturn>(x);
+  return (NumericTraits<TInput>::IsNonnegative(x)) ? r
+                                                   : (x == static_cast<TInput>(r) ? r : r - static_cast<TReturn>(1));
 }
 
-template< typename TReturn, typename TInput >
-inline TReturn Floor_base(TInput x)
+template <typename TReturn, typename TInput>
+inline TReturn
+Floor_base(TInput x)
 {
-  const auto r = static_cast< TReturn >( x );
+  const auto r = static_cast<TReturn>(x);
 
-  return ( NumericTraits< TInput >::IsNonnegative(x) ) ?
-         r :
-         ( x == static_cast< TInput >( r ) ? r : r - static_cast< TReturn >( 1 ) );
+  return (NumericTraits<TInput>::IsNonnegative(x)) ? r
+                                                   : (x == static_cast<TInput>(r) ? r : r - static_cast<TReturn>(1));
 }
 
-template< typename TReturn, typename TInput >
-inline TReturn Ceil_base(TInput x)
+template <typename TReturn, typename TInput>
+inline TReturn
+Ceil_base(TInput x)
 {
-  const auto r = static_cast< TReturn >( x );
+  const auto r = static_cast<TReturn>(x);
 
-  return ( NumericTraits< TInput >::IsNegative(x) ) ?
-         r :
-         ( x == static_cast< TInput >( r ) ? r : r + static_cast< TReturn >( 1 ) );
+  return (NumericTraits<TInput>::IsNegative(x)) ? r : (x == static_cast<TInput>(r) ? r : r + static_cast<TReturn>(1));
 }
 
 CLANG_PRAGMA_POP
@@ -168,102 +168,164 @@ CLANG_PRAGMA_POP
 
 #if USE_SSE2_32IMPL // sse2 implementation
 
-inline int32_t RoundHalfIntegerToEven_32(double x)
+inline int32_t
+RoundHalfIntegerToEven_32(double x)
 {
-  #if defined( ITK_CHECK_FPU_ROUNDING_MODE )
+#  if defined(ITK_CHECK_FPU_ROUNDING_MODE)
   itkAssertInDebugAndIgnoreInReleaseMacro(fegetround() == FE_TONEAREST);
-  #endif
-  return _mm_cvtsd_si32( _mm_set_sd(x) );
+#  endif
+  return _mm_cvtsd_si32(_mm_set_sd(x));
 }
 
-inline int32_t RoundHalfIntegerToEven_32(float x)
+inline int32_t
+RoundHalfIntegerToEven_32(float x)
 {
-  #if defined( ITK_CHECK_FPU_ROUNDING_MODE )
+#  if defined(ITK_CHECK_FPU_ROUNDING_MODE)
   itkAssertInDebugAndIgnoreInReleaseMacro(fegetround() == FE_TONEAREST);
-  #endif
-  return _mm_cvtss_si32( _mm_set_ss(x) );
+#  endif
+  return _mm_cvtss_si32(_mm_set_ss(x));
 }
 
 #elif GCC_USE_ASM_32IMPL // gcc asm implementation
 
-inline int32_t RoundHalfIntegerToEven_32(double x)
+inline int32_t
+RoundHalfIntegerToEven_32(double x)
 {
-  #if defined( ITK_CHECK_FPU_ROUNDING_MODE )
+#  if defined(ITK_CHECK_FPU_ROUNDING_MODE)
   itkAssertInDebugAndIgnoreInReleaseMacro(fegetround() == FE_TONEAREST);
-  #endif
+#  endif
   int32_t r;
-  __asm__ __volatile__ ( "fistpl %0" : "=m" ( r ) : "t" ( x ) : "st" );
+  __asm__ __volatile__("fistpl %0" : "=m"(r) : "t"(x) : "st");
   return r;
 }
 
-inline int32_t RoundHalfIntegerToEven_32(float x)
+inline int32_t
+RoundHalfIntegerToEven_32(float x)
 {
-  #if defined( ITK_CHECK_FPU_ROUNDING_MODE )
+#  if defined(ITK_CHECK_FPU_ROUNDING_MODE)
   itkAssertInDebugAndIgnoreInReleaseMacro(fegetround() == FE_TONEAREST);
-  #endif
+#  endif
   int32_t r;
-  __asm__ __volatile__ ( "fistpl %0" : "=m" ( r ) : "t" ( x ) : "st" );
+  __asm__ __volatile__("fistpl %0" : "=m"(r) : "t"(x) : "st");
   return r;
 }
 
 #elif VC_USE_ASM_32IMPL // msvc asm implementation
 
-inline int32_t RoundHalfIntegerToEven_32(double x)
+inline int32_t
+RoundHalfIntegerToEven_32(double x)
 {
-  #if defined( ITK_CHECK_FPU_ROUNDING_MODE )
+#  if defined(ITK_CHECK_FPU_ROUNDING_MODE)
   itkAssertInDebugAndIgnoreInReleaseMacro(fegetround() == FE_TONEAREST);
-  #endif
+#  endif
   int32_t r;
   __asm
-    {
+  {
     fld x
     fistp r
-    }
+  }
   return r;
 }
 
-inline int32_t RoundHalfIntegerToEven_32(float x)
+inline int32_t
+RoundHalfIntegerToEven_32(float x)
 {
-  #if defined( ITK_CHECK_FPU_ROUNDING_MODE )
+#  if defined(ITK_CHECK_FPU_ROUNDING_MODE)
   itkAssertInDebugAndIgnoreInReleaseMacro(fegetround() == FE_TONEAREST);
-  #endif
+#  endif
   int32_t r;
   __asm
-    {
+  {
     fld x
     fistp r
-    }
+  }
   return r;
 }
 
 #else // Base implementation
 
-inline int32_t RoundHalfIntegerToEven_32(double x) { return RoundHalfIntegerToEven_base< int32_t, double >(x); }
-inline int32_t RoundHalfIntegerToEven_32(float x) { return RoundHalfIntegerToEven_base< int32_t, float >(x); }
+inline int32_t
+RoundHalfIntegerToEven_32(double x)
+{
+  return RoundHalfIntegerToEven_base<int32_t, double>(x);
+}
+inline int32_t
+RoundHalfIntegerToEven_32(float x)
+{
+  return RoundHalfIntegerToEven_base<int32_t, float>(x);
+}
 
 #endif
 
 #if USE_SSE2_32IMPL || GCC_USE_ASM_32IMPL || VC_USE_ASM_32IMPL
 
-inline int32_t RoundHalfIntegerUp_32(double x) { return RoundHalfIntegerToEven_32(2 * x + 0.5) >> 1; }
-inline int32_t RoundHalfIntegerUp_32(float x) { return RoundHalfIntegerToEven_32(2 * x + 0.5f) >> 1; }
+inline int32_t
+RoundHalfIntegerUp_32(double x)
+{
+  return RoundHalfIntegerToEven_32(2 * x + 0.5) >> 1;
+}
+inline int32_t
+RoundHalfIntegerUp_32(float x)
+{
+  return RoundHalfIntegerToEven_32(2 * x + 0.5f) >> 1;
+}
 
-inline int32_t Floor_32(double x) { return RoundHalfIntegerToEven_32(2 * x - 0.5) >> 1; }
-inline int32_t Floor_32(float x) { return RoundHalfIntegerToEven_32(2 * x - 0.5f) >> 1; }
+inline int32_t
+Floor_32(double x)
+{
+  return RoundHalfIntegerToEven_32(2 * x - 0.5) >> 1;
+}
+inline int32_t
+Floor_32(float x)
+{
+  return RoundHalfIntegerToEven_32(2 * x - 0.5f) >> 1;
+}
 
-inline int32_t Ceil_32(double x) { return -( RoundHalfIntegerToEven_32(-0.5 - 2 * x) >> 1 ); }
-inline int32_t Ceil_32(float x) { return -( RoundHalfIntegerToEven_32(-0.5f - 2 * x) >> 1 ); }
+inline int32_t
+Ceil_32(double x)
+{
+  return -(RoundHalfIntegerToEven_32(-0.5 - 2 * x) >> 1);
+}
+inline int32_t
+Ceil_32(float x)
+{
+  return -(RoundHalfIntegerToEven_32(-0.5f - 2 * x) >> 1);
+}
 
 #else // Base implementation
 
-inline int32_t RoundHalfIntegerUp_32(double x) { return RoundHalfIntegerUp_base< int32_t, double >(x); }
-inline int32_t RoundHalfIntegerUp_32(float x) { return RoundHalfIntegerUp_base< int32_t, float >(x); }
+inline int32_t
+RoundHalfIntegerUp_32(double x)
+{
+  return RoundHalfIntegerUp_base<int32_t, double>(x);
+}
+inline int32_t
+RoundHalfIntegerUp_32(float x)
+{
+  return RoundHalfIntegerUp_base<int32_t, float>(x);
+}
 
-inline int32_t Floor_32(double x) { return Floor_base< int32_t, double >(x); }
-inline int32_t Floor_32(float x) { return Floor_base< int32_t, float >(x); }
+inline int32_t
+Floor_32(double x)
+{
+  return Floor_base<int32_t, double>(x);
+}
+inline int32_t
+Floor_32(float x)
+{
+  return Floor_base<int32_t, float>(x);
+}
 
-inline int32_t Ceil_32(double x) { return Ceil_base< int32_t, double >(x); }
-inline int32_t Ceil_32(float x) { return Ceil_base< int32_t, float >(x); }
+inline int32_t
+Ceil_32(double x)
+{
+  return Ceil_base<int32_t, double>(x);
+}
+inline int32_t
+Ceil_32(float x)
+{
+  return Ceil_base<int32_t, float>(x);
+}
 
 #endif // USE_SSE2_32IMPL || GCC_USE_ASM_32IMPL || VC_USE_ASM_32IMPL
 
@@ -272,102 +334,164 @@ inline int32_t Ceil_32(float x) { return Ceil_base< int32_t, float >(x); }
 
 #if USE_SSE2_64IMPL // sse2 implementation
 
-inline int64_t RoundHalfIntegerToEven_64(double x)
+inline int64_t
+RoundHalfIntegerToEven_64(double x)
 {
-  #if defined( ITK_CHECK_FPU_ROUNDING_MODE )
+#  if defined(ITK_CHECK_FPU_ROUNDING_MODE)
   itkAssertInDebugAndIgnoreInReleaseMacro(fegetround() == FE_TONEAREST);
-  #endif
-  return _mm_cvtsd_si64( _mm_set_sd(x) );
+#  endif
+  return _mm_cvtsd_si64(_mm_set_sd(x));
 }
 
-inline int64_t RoundHalfIntegerToEven_64(float x)
+inline int64_t
+RoundHalfIntegerToEven_64(float x)
 {
-  #if defined( ITK_CHECK_FPU_ROUNDING_MODE )
+#  if defined(ITK_CHECK_FPU_ROUNDING_MODE)
   itkAssertInDebugAndIgnoreInReleaseMacro(fegetround() == FE_TONEAREST);
-  #endif
-  return _mm_cvtss_si64( _mm_set_ss(x) );
+#  endif
+  return _mm_cvtss_si64(_mm_set_ss(x));
 }
 
 #elif GCC_USE_ASM_64IMPL // gcc asm implementation
 
-inline int64_t RoundHalfIntegerToEven_64(double x)
+inline int64_t
+RoundHalfIntegerToEven_64(double x)
 {
-  #if defined( ITK_CHECK_FPU_ROUNDING_MODE )
+#  if defined(ITK_CHECK_FPU_ROUNDING_MODE)
   itkAssertInDebugAndIgnoreInReleaseMacro(fegetround() == FE_TONEAREST);
-  #endif
+#  endif
   int64_t r;
-  __asm__ __volatile__ ( "fistpll %0" : "=m" ( r ) : "t" ( x ) : "st" );
+  __asm__ __volatile__("fistpll %0" : "=m"(r) : "t"(x) : "st");
   return r;
 }
 
-inline int64_t RoundHalfIntegerToEven_64(float x)
+inline int64_t
+RoundHalfIntegerToEven_64(float x)
 {
-  #if defined( ITK_CHECK_FPU_ROUNDING_MODE )
+#  if defined(ITK_CHECK_FPU_ROUNDING_MODE)
   itkAssertInDebugAndIgnoreInReleaseMacro(fegetround() == FE_TONEAREST);
-  #endif
+#  endif
   int64_t r;
-  __asm__ __volatile__ ( "fistpll %0" : "=m" ( r ) : "t" ( x ) : "st" );
+  __asm__ __volatile__("fistpll %0" : "=m"(r) : "t"(x) : "st");
   return r;
 }
 
 #elif VC_USE_ASM_64IMPL // msvc asm implementation
 
-inline int64_t RoundHalfIntegerToEven_64(double x)
+inline int64_t
+RoundHalfIntegerToEven_64(double x)
 {
-  #if defined( ITK_CHECK_FPU_ROUNDING_MODE )
+#  if defined(ITK_CHECK_FPU_ROUNDING_MODE)
   itkAssertInDebugAndIgnoreInReleaseMacro(fegetround() == FE_TONEAREST);
-  #endif
+#  endif
   int64_t r;
   __asm
-    {
+  {
     fld x
     fistp r
-    }
+  }
   return r;
 }
 
-inline int64_t RoundHalfIntegerToEven_64(float x)
+inline int64_t
+RoundHalfIntegerToEven_64(float x)
 {
-  #if defined( ITK_CHECK_FPU_ROUNDING_MODE )
+#  if defined(ITK_CHECK_FPU_ROUNDING_MODE)
   itkAssertInDebugAndIgnoreInReleaseMacro(fegetround() == FE_TONEAREST);
-  #endif
+#  endif
   int64_t r;
   __asm
-    {
+  {
     fld x
     fistp r
-    }
+  }
   return r;
 }
 
 #else // Base implementation
 
-inline int64_t RoundHalfIntegerToEven_64(double x) { return RoundHalfIntegerToEven_base< int64_t, double >(x); }
-inline int64_t RoundHalfIntegerToEven_64(float x) { return RoundHalfIntegerToEven_base< int64_t, float >(x); }
+inline int64_t
+RoundHalfIntegerToEven_64(double x)
+{
+  return RoundHalfIntegerToEven_base<int64_t, double>(x);
+}
+inline int64_t
+RoundHalfIntegerToEven_64(float x)
+{
+  return RoundHalfIntegerToEven_base<int64_t, float>(x);
+}
 
 #endif
 
 #if USE_SSE2_64IMPL || GCC_USE_ASM_64IMPL || VC_USE_ASM_64IMPL
 
-inline int64_t RoundHalfIntegerUp_64(double x) { return RoundHalfIntegerToEven_64(2 * x + 0.5) >> 1; }
-inline int64_t RoundHalfIntegerUp_64(float x) { return RoundHalfIntegerToEven_64(2 * x + 0.5f) >> 1; }
+inline int64_t
+RoundHalfIntegerUp_64(double x)
+{
+  return RoundHalfIntegerToEven_64(2 * x + 0.5) >> 1;
+}
+inline int64_t
+RoundHalfIntegerUp_64(float x)
+{
+  return RoundHalfIntegerToEven_64(2 * x + 0.5f) >> 1;
+}
 
-inline int64_t Floor_64(double x) { return RoundHalfIntegerToEven_64(2 * x - 0.5) >> 1; }
-inline int64_t Floor_64(float x) { return RoundHalfIntegerToEven_64(2 * x - 0.5f) >> 1; }
+inline int64_t
+Floor_64(double x)
+{
+  return RoundHalfIntegerToEven_64(2 * x - 0.5) >> 1;
+}
+inline int64_t
+Floor_64(float x)
+{
+  return RoundHalfIntegerToEven_64(2 * x - 0.5f) >> 1;
+}
 
-inline int64_t Ceil_64(double x) { return -( RoundHalfIntegerToEven_64(-0.5 - 2 * x) >> 1 ); }
-inline int64_t Ceil_64(float x) { return -( RoundHalfIntegerToEven_64(-0.5f - 2 * x) >> 1 ); }
+inline int64_t
+Ceil_64(double x)
+{
+  return -(RoundHalfIntegerToEven_64(-0.5 - 2 * x) >> 1);
+}
+inline int64_t
+Ceil_64(float x)
+{
+  return -(RoundHalfIntegerToEven_64(-0.5f - 2 * x) >> 1);
+}
 
 #else // Base implementation
 
-inline int64_t RoundHalfIntegerUp_64(double x) { return RoundHalfIntegerUp_base< int64_t, double >(x); }
-inline int64_t RoundHalfIntegerUp_64(float x) { return RoundHalfIntegerUp_base< int64_t, float >(x); }
+inline int64_t
+RoundHalfIntegerUp_64(double x)
+{
+  return RoundHalfIntegerUp_base<int64_t, double>(x);
+}
+inline int64_t
+RoundHalfIntegerUp_64(float x)
+{
+  return RoundHalfIntegerUp_base<int64_t, float>(x);
+}
 
-inline int64_t Floor_64(double x) { return Floor_base< int64_t, double >(x); }
-inline int64_t Floor_64(float x) { return Floor_base< int64_t, float >(x); }
+inline int64_t
+Floor_64(double x)
+{
+  return Floor_base<int64_t, double>(x);
+}
+inline int64_t
+Floor_64(float x)
+{
+  return Floor_base<int64_t, float>(x);
+}
 
-inline int64_t Ceil_64(double x) { return Ceil_base< int64_t, double >(x); }
-inline int64_t Ceil_64(float x) { return Ceil_base< int64_t, float >(x); }
+inline int64_t
+Ceil_64(double x)
+{
+  return Ceil_base<int64_t, double>(x);
+}
+inline int64_t
+Ceil_64(float x)
+{
+  return Ceil_base<int64_t, float>(x);
+}
 
 #endif // USE_SSE2_64IMPL || GCC_USE_ASM_64IMPL || VC_USE_ASM_64IMPL
 
@@ -396,19 +520,25 @@ union FloatIEEE
   using UIntType = typename FloatIEEETraits<T>::UIntType;
 
   FloatType asFloat;
-  IntType asInt;
-  UIntType asUInt;
+  IntType   asInt;
+  UIntType  asUInt;
 
-  FloatIEEE(FloatType f): asFloat(f) {}
-  FloatIEEE(IntType i): asInt(i) {}
-  bool Sign() const
-    {
-    return (asUInt >> (sizeof(asUInt)*8-1)) != 0;
-    }
-  IntType AsULP() const
-    {
-    return this->Sign()? IntType(~(~UIntType(0) >> 1) - asUInt) : asInt;
-    }
+  FloatIEEE(FloatType f)
+    : asFloat(f)
+  {}
+  FloatIEEE(IntType i)
+    : asInt(i)
+  {}
+  bool
+  Sign() const
+  {
+    return (asUInt >> (sizeof(asUInt) * 8 - 1)) != 0;
+  }
+  IntType
+  AsULP() const
+  {
+    return this->Sign() ? IntType(~(~UIntType(0) >> 1) - asUInt) : asInt;
+  }
 };
 
 } // end namespace Detail
@@ -417,12 +547,14 @@ union FloatIEEE
 // move to itkConceptChecking?
 namespace Concept
 {
-template< typename T >
+template <typename T>
 struct FloatOrDouble;
-template< >
-struct FloatOrDouble< float > {};
-template< >
-struct FloatOrDouble< double > {};
+template <>
+struct FloatOrDouble<float>
+{};
+template <>
+struct FloatOrDouble<double>
+{};
 } // end namespace Concept
 } // end namespace itk
 

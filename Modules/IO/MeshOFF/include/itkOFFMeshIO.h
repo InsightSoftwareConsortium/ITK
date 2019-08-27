@@ -32,7 +32,7 @@ namespace itk
  * \ingroup ITKIOMeshOFF
  */
 
-class ITKIOMeshOFF_EXPORT OFFMeshIO:public MeshIOBase
+class ITKIOMeshOFF_EXPORT OFFMeshIO : public MeshIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(OFFMeshIO);
@@ -40,8 +40,8 @@ public:
   /** Standard class type aliases. */
   using Self = OFFMeshIO;
   using Superclass = MeshIOBase;
-  using ConstPointer = SmartPointer< const Self >;
-  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer<const Self>;
+  using Pointer = SmartPointer<Self>;
 
   using SizeValueType = Superclass::SizeValueType;
   using StreamOffsetType = Superclass::StreamOffsetType;
@@ -55,23 +55,29 @@ public:
   /*-------- This part of the interfaces deals with reading data. ----- */
 
   /** Determine if the file can be read with this MeshIO implementation.
-  * \param FileNameToRead The name of the file to test for reading.
-  * \post Sets classes MeshIOBase::m_FileName variable to be FileNameToWrite
-  * \return Returns true if this MeshIO can read the file specified.
-  */
-  bool CanReadFile(const char *FileNameToRead) override;
+   * \param FileNameToRead The name of the file to test for reading.
+   * \post Sets classes MeshIOBase::m_FileName variable to be FileNameToWrite
+   * \return Returns true if this MeshIO can read the file specified.
+   */
+  bool
+  CanReadFile(const char * FileNameToRead) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  void ReadMeshInformation() override;
+  void
+  ReadMeshInformation() override;
 
   /** Reads the data from disk into the memory buffer provided. */
-  void ReadPoints(void *buffer) override;
+  void
+  ReadPoints(void * buffer) override;
 
-  void ReadCells(void *buffer) override;
+  void
+  ReadCells(void * buffer) override;
 
-  void ReadPointData(void *buffer) override;
+  void
+  ReadPointData(void * buffer) override;
 
-  void ReadCellData(void *buffer) override;
+  void
+  ReadCellData(void * buffer) override;
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
@@ -80,107 +86,121 @@ public:
    * \post Sets classes MeshIOBase::m_FileName variable to be FileNameToWrite
    * \return Returns true if this MeshIO can write the file specified.
    */
-  bool CanWriteFile(const char *FileNameToWrite) override;
+  bool
+  CanWriteFile(const char * FileNameToWrite) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  void WriteMeshInformation() override;
+  void
+  WriteMeshInformation() override;
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. */
-  void WritePoints(void *buffer) override;
+  void
+  WritePoints(void * buffer) override;
 
-  void WriteCells(void *buffer) override;
+  void
+  WriteCells(void * buffer) override;
 
-  void WritePointData(void *buffer) override;
+  void
+  WritePointData(void * buffer) override;
 
-  void WriteCellData(void *buffer) override;
+  void
+  WriteCellData(void * buffer) override;
 
-  void Write() override;
+  void
+  Write() override;
 
 protected:
   /** Read buffer as ascii stream */
-  template< typename T >
-  void ReadCellsBufferAsAscii(T *buffer, std::ifstream & inputFile)
-    {
+  template <typename T>
+  void
+  ReadCellsBufferAsAscii(T * buffer, std::ifstream & inputFile)
+  {
     SizeValueType index = 0;
-    unsigned int numberOfPoints = 0;
-    std::string  line;
+    unsigned int  numberOfPoints = 0;
+    std::string   line;
 
-    for ( SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++ )
-      {
+    for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++)
+    {
       inputFile >> numberOfPoints;
-      buffer[index++] = static_cast< T >( numberOfPoints );
-      for ( unsigned int jj = 0; jj < numberOfPoints; jj++ )
-        {
+      buffer[index++] = static_cast<T>(numberOfPoints);
+      for (unsigned int jj = 0; jj < numberOfPoints; jj++)
+      {
         inputFile >> buffer[index++];
-        }
-      std::getline(inputFile, line, '\n');
       }
+      std::getline(inputFile, line, '\n');
     }
+  }
 
   /** Read cells from a data buffer, used when writting cells. This function
     write all kind of cells as it is stored in cells container. It is used when
     cells container have only one kind of cells */
-  template< typename TInput, typename TOutput >
-  void ReadCellsBuffer(TInput *input, TOutput *output)
+  template <typename TInput, typename TOutput>
+  void
+  ReadCellsBuffer(TInput * input, TOutput * output)
+  {
+    if (input && output)
     {
-    if ( input && output )
-      {
-      SizeValueType indInput  = 0;
+      SizeValueType indInput = 0;
       SizeValueType indOutput = 0;
-      for ( SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++ )
-        {
+      for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++)
+      {
         indInput++; // ignore the cell type
-        auto numberOfPoints = static_cast< unsigned int >( input[indInput++] );
-        output[indOutput++] = static_cast< TOutput >( numberOfPoints );
-        for ( unsigned int jj = 0; jj < numberOfPoints; jj++ )
-          {
-          output[indOutput++] = static_cast< TOutput >( input[indInput++] );
-          }
+        auto numberOfPoints = static_cast<unsigned int>(input[indInput++]);
+        output[indOutput++] = static_cast<TOutput>(numberOfPoints);
+        for (unsigned int jj = 0; jj < numberOfPoints; jj++)
+        {
+          output[indOutput++] = static_cast<TOutput>(input[indInput++]);
         }
       }
     }
+  }
 
-  template< typename T >
-  void WriteCellsAsAscii(T *buffer, std::ofstream & outputFile)
-    {
+  template <typename T>
+  void
+  WriteCellsAsAscii(T * buffer, std::ofstream & outputFile)
+  {
     SizeValueType index = 0;
 
-    for ( SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++ )
-      {
+    for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++)
+    {
       index++;
-      auto numberOfCellPoints = static_cast< unsigned int >( buffer[index++] );
+      auto numberOfCellPoints = static_cast<unsigned int>(buffer[index++]);
       outputFile << numberOfCellPoints << "  ";
 
-      for ( unsigned int jj = 0; jj < numberOfCellPoints; jj++ )
-        {
+      for (unsigned int jj = 0; jj < numberOfCellPoints; jj++)
+      {
         outputFile << buffer[index++] << "  ";
-        }
+      }
 
       outputFile << '\n';
-      }
     }
+  }
 
-  template< typename TOutput, typename TInput >
-  void WriteCellsAsBinary(TInput *buffer, std::ofstream & outputFile)
-    {
+  template <typename TOutput, typename TInput>
+  void
+  WriteCellsAsBinary(TInput * buffer, std::ofstream & outputFile)
+  {
     auto * data = new TOutput[m_CellBufferSize - this->m_NumberOfCells];
 
     ReadCellsBuffer(buffer, data);
-    WriteBufferAsBinary< TOutput >(data, outputFile, m_CellBufferSize - this->m_NumberOfCells);
+    WriteBufferAsBinary<TOutput>(data, outputFile, m_CellBufferSize - this->m_NumberOfCells);
 
     delete[] data;
-    }
+  }
 
 protected:
   OFFMeshIO();
   ~OFFMeshIO() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void OpenFile();
+  void
+  OpenFile();
 
-  void CloseFile();
+  void
+  CloseFile();
 
 private:
   std::ifstream    m_InputFile;

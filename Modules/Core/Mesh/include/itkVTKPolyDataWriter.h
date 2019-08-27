@@ -42,8 +42,8 @@ namespace itk
  * \sphinxexample{Core/Mesh/WorkingWithPointAndCellData,Write Mesh To VTP}
  * \endsphinx
  */
-template< typename TInputMesh >
-class ITK_TEMPLATE_EXPORT VTKPolyDataWriter:public Object
+template <typename TInputMesh>
+class ITK_TEMPLATE_EXPORT VTKPolyDataWriter : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VTKPolyDataWriter);
@@ -51,8 +51,8 @@ public:
   /** Standard "Self" type alias. */
   using Self = VTKPolyDataWriter;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
@@ -62,9 +62,11 @@ public:
 
   /** Write the Input mesh to the Output file.
    * Use either Update() or Write(). */
-  void Update();
+  void
+  Update();
 
-  void Write();
+  void
+  Write();
 
   /** Hold on to the type information specified by the template parameters.
    */
@@ -79,8 +81,8 @@ public:
   using CellTraits = typename InputMeshType::CellTraits;
 
   /** Define the triangular cell types which form the surface  */
-  using CellInterfaceType = CellInterface< PixelType, CellTraits >;
-  using TriangleCellType = TriangleCell< CellInterfaceType >;
+  using CellInterfaceType = CellInterface<PixelType, CellTraits>;
+  using TriangleCellType = TriangleCell<CellInterfaceType>;
 
   using PointsContainer = typename InputMeshType::PointsContainer;
   using CellsContainer = typename InputMeshType::CellsContainer;
@@ -91,7 +93,8 @@ public:
   using PointIdIterator = typename CellType::PointIdIterator;
 
   /** Set the Input */
-  void SetInput(const InputMeshType *input);
+  void
+  SetInput(const InputMeshType * input);
 
   /** Set/Get the name of the file where data are written. */
   itkSetStringMacro(FileName);
@@ -101,18 +104,20 @@ protected:
   VTKPolyDataWriter();
   ~VTKPolyDataWriter() override = default;
 
-  virtual void GenerateData();
+  virtual void
+  GenerateData();
 
   std::string m_FileName;
 
   InputMeshPointer m_Input;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 };
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVTKPolyDataWriter.hxx"
+#  include "itkVTKPolyDataWriter.hxx"
 #endif
 
 #endif

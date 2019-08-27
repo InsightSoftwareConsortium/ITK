@@ -30,28 +30,31 @@ namespace Functor
  * \brief
  * \ingroup ITKImageIntensity
  */
-template< typename TInput, typename TOutput >
+template <typename TInput, typename TOutput>
 class Round
 {
 public:
   Round() = default;
   ~Round() = default;
-  bool operator!=(const Round &) const
+  bool
+  operator!=(const Round &) const
   {
     return false;
   }
 
-  bool operator==(const Round & other) const
+  bool
+  operator==(const Round & other) const
   {
-    return !( *this != other );
+    return !(*this != other);
   }
 
-  inline TOutput operator()(const TInput & A) const
+  inline TOutput
+  operator()(const TInput & A) const
   {
-    return itk::Math::Round<TOutput,TInput>( A );
+    return itk::Math::Round<TOutput, TInput>(A);
   }
 };
-}
+} // namespace Functor
 
 /** \class RoundImageFilter
  * \brief Rounds the value of each pixel.
@@ -62,35 +65,32 @@ public:
  * \ingroup MultiThreaded
  * \ingroup ITKImageIntensity
  */
-template< typename TInputImage, typename TOutputImage >
-class RoundImageFilter:
-    public UnaryGeneratorImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class RoundImageFilter : public UnaryGeneratorImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(RoundImageFilter);
 
   /** Standard class type aliases. */
   using Self = RoundImageFilter;
-  using Superclass = UnaryGeneratorImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using FunctorType =  Functor::Round< typename TInputImage::PixelType,
-                                       typename TOutputImage::PixelType >;
+  using Superclass = UnaryGeneratorImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using FunctorType = Functor::Round<typename TInputImage::PixelType, typename TOutputImage::PixelType>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(RoundImageFilter,
-               UnaryGeneratorImageFilter);
+  itkTypeMacro(RoundImageFilter, UnaryGeneratorImageFilter);
 
 protected:
   RoundImageFilter()
-    {
-#if !defined( ITK_WRAPPING_PARSER )
-      Superclass::SetFunctor(FunctorType());
+  {
+#if !defined(ITK_WRAPPING_PARSER)
+    Superclass::SetFunctor(FunctorType());
 #endif
-    }
+  }
 
   ~RoundImageFilter() override = default;
 };

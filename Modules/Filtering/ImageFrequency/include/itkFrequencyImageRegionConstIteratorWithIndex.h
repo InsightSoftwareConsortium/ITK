@@ -28,9 +28,11 @@ namespace itk
  * location.
  *
  * This class is a specialization of ImageRegionConstIteratorWithIndex,
- * adding method GetFrequencyBins to give the frequency bins corresponding to image indices, and GetFrequency to get the frequency of the bin.
+ * adding method GetFrequencyBins to give the frequency bins corresponding to image indices, and GetFrequency to get the
+ * frequency of the bin.
  *
- * This iterator assumes that the image is already in the frequency domain, so GetFrequencyBin is a wrap around GetIndex(), and GetFrequency is a wrap around Get().
+ * This iterator assumes that the image is already in the frequency domain, so GetFrequencyBin is a wrap around
+ * GetIndex(), and GetFrequency is a wrap around Get().
  *
  * For a different layout, use other frequency iterator.
  *
@@ -71,14 +73,13 @@ namespace itk
  * \ingroup ITKImageFrequency
  *
  */
-template< typename TImage >
-class FrequencyImageRegionConstIteratorWithIndex:
-  public ImageRegionConstIteratorWithIndex< TImage >
+template <typename TImage>
+class FrequencyImageRegionConstIteratorWithIndex : public ImageRegionConstIteratorWithIndex<TImage>
 {
 public:
   /** Standard class type alias. */
   using Self = FrequencyImageRegionConstIteratorWithIndex;
-  using Superclass = ImageRegionConstIteratorWithIndex< TImage >;
+  using Superclass = ImageRegionConstIteratorWithIndex<TImage>;
 
   /** Types inherited from the Superclass */
   using IndexType = typename Superclass::IndexType;
@@ -95,16 +96,16 @@ public:
   using FrequencyType = typename ImageType::SpacingType;
   using FrequencyValueType = typename ImageType::SpacingValueType;
   /** Default constructor. Needed since we provide a cast constructor. */
-  FrequencyImageRegionConstIteratorWithIndex() :
-    ImageRegionConstIteratorWithIndex< TImage >()
+  FrequencyImageRegionConstIteratorWithIndex()
+    : ImageRegionConstIteratorWithIndex<TImage>()
   {
     this->Init();
   }
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
-  FrequencyImageRegionConstIteratorWithIndex(const TImage *ptr, const RegionType & region) :
-    ImageRegionConstIteratorWithIndex< TImage >(ptr, region)
+  FrequencyImageRegionConstIteratorWithIndex(const TImage * ptr, const RegionType & region)
+    : ImageRegionConstIteratorWithIndex<TImage>(ptr, region)
   {
     this->Init();
   }
@@ -115,8 +116,8 @@ public:
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageRegionIteratorWithIndex. */
-  explicit FrequencyImageRegionConstIteratorWithIndex(const Superclass & it) :
-    ImageRegionConstIteratorWithIndex< TImage >(it)
+  explicit FrequencyImageRegionConstIteratorWithIndex(const Superclass & it)
+    : ImageRegionConstIteratorWithIndex<TImage>(it)
   {
     this->Init();
   }
@@ -124,7 +125,8 @@ public:
   /*
    * The image is in the frequency domain already, return the index.
    */
-  IndexType GetFrequencyBin() const
+  IndexType
+  GetFrequencyBin() const
   {
     return this->GetIndex();
   }
@@ -132,28 +134,29 @@ public:
   /* Similar to TransformIndexToPhysicalPoint on GetIndex(),
    * but the result is cast to FrequencyType. And direction is not taken into account.
    */
-  FrequencyType GetFrequency() const
+  FrequencyType
+  GetFrequency() const
   {
     FrequencyType freq;
     IndexType     freqInd = this->GetFrequencyBin();
     // FrequencyType freq;
     for (unsigned int dim = 0; dim < TImage::ImageDimension; dim++)
-      {
-      freq[dim] = this->m_FrequencyOrigin[dim]
-        + this->m_FrequencySpacing[dim] * freqInd[dim];
-      }
+    {
+      freq[dim] = this->m_FrequencyOrigin[dim] + this->m_FrequencySpacing[dim] * freqInd[dim];
+    }
     return freq;
   }
 
-  FrequencyValueType GetFrequencyModuloSquare() const
+  FrequencyValueType
+  GetFrequencyModuloSquare() const
   {
     FrequencyValueType w2(0);
-    FrequencyType      w( this->GetFrequency() );
+    FrequencyType      w(this->GetFrequency());
 
     for (unsigned int dim = 0; dim < TImage::ImageDimension; dim++)
-      {
+    {
       w2 += w[dim] * w[dim];
-      }
+    }
     return w2;
   }
 
@@ -167,7 +170,8 @@ public:
 private:
   /** Set the frequency metadata.
    * Called by constructors.  */
-  void Init()
+  void
+  Init()
   {
     this->m_FrequencyOrigin = this->m_Image->GetOrigin();
     this->m_FrequencySpacing = this->m_Image->GetSpacing();

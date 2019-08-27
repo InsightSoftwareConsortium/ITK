@@ -91,16 +91,15 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 
-template< typename TImageType,
-          typename THistogramFrequencyContainer = DenseFrequencyContainer2 >
-class ITK_TEMPLATE_EXPORT ScalarImageToRunLengthFeaturesFilter:public ProcessObject
+template <typename TImageType, typename THistogramFrequencyContainer = DenseFrequencyContainer2>
+class ITK_TEMPLATE_EXPORT ScalarImageToRunLengthFeaturesFilter : public ProcessObject
 {
 public:
   /** Standard type alias */
   using Self = ScalarImageToRunLengthFeaturesFilter;
   using Superclass = ProcessObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ScalarImageToRunLengthFeaturesFilter, ProcessObject);
@@ -114,23 +113,21 @@ public:
 
   using PixelType = typename ImageType::PixelType;
   using OffsetType = typename ImageType::OffsetType;
-  using OffsetVector = VectorContainer< unsigned char, OffsetType >;
+  using OffsetVector = VectorContainer<unsigned char, OffsetType>;
   using OffsetVectorPointer = typename OffsetVector::Pointer;
   using OffsetVectorConstPointer = typename OffsetVector::ConstPointer;
 
-  using RunLengthMatrixFilterType = ScalarImageToRunLengthMatrixFilter<
-    ImageType, FrequencyContainerType >;
+  using RunLengthMatrixFilterType = ScalarImageToRunLengthMatrixFilter<ImageType, FrequencyContainerType>;
 
   using HistogramType = typename RunLengthMatrixFilterType::HistogramType;
 
   using RunLengthFeaturesFilterType = HistogramToRunLengthFeaturesFilter<HistogramType>;
 
   using RunLengthFeatureName = short;
-  using FeatureNameVector = VectorContainer<unsigned char,
-    RunLengthFeatureName>;
+  using FeatureNameVector = VectorContainer<unsigned char, RunLengthFeatureName>;
   using FeatureNameVectorPointer = typename FeatureNameVector::Pointer;
   using FeatureNameVectorConstPointer = typename FeatureNameVector::ConstPointer;
-  using FeatureValueVector = VectorContainer< unsigned char, double >;
+  using FeatureValueVector = VectorContainer<unsigned char, double>;
   using FeatureValueVectorPointer = typename FeatureValueVector::Pointer;
 
   /** Smart Pointer type to a DataObject. */
@@ -139,17 +136,20 @@ public:
   /** Type of DataObjects used for scalar outputs */
   using FeatureValueVectorDataObjectType = DataObjectDecorator<FeatureValueVector>;
 
-  const FeatureValueVectorDataObjectType * GetFeatureMeansOutput() const;
+  const FeatureValueVectorDataObjectType *
+  GetFeatureMeansOutput() const;
 
-  const FeatureValueVectorDataObjectType * GetFeatureStandardDeviationsOutput()
-    const;
+  const FeatureValueVectorDataObjectType *
+  GetFeatureStandardDeviationsOutput() const;
 
   /** Connects the input image for which the features are going to be computed
-    */
+   */
   using Superclass::SetInput;
-  void SetInput(const ImageType *);
+  void
+  SetInput(const ImageType *);
 
-  const ImageType * GetInput() const;
+  const ImageType *
+  GetInput() const;
 
   /** Return the feature means and deviations.  */
   itkGetConstReferenceObjectMacro(FeatureMeans, FeatureValueVector);
@@ -166,25 +166,31 @@ public:
 
   /** Set number of histogram bins along each axis.
       Optional; for default value see above. */
-  void SetNumberOfBinsPerAxis(unsigned int);
+  void
+  SetNumberOfBinsPerAxis(unsigned int);
 
   /** Set the min and max (inclusive) pixel value that will be used for
       feature calculations. Optional; for default value see above. */
-  void SetPixelValueMinMax(PixelType min, PixelType max);
+  void
+  SetPixelValueMinMax(PixelType min, PixelType max);
 
   /** Set the min and max (inclusive) pixel value that will be used for
       feature calculations. Optional; for default value see above. */
-  void SetDistanceValueMinMax( double min, double max );
+  void
+  SetDistanceValueMinMax(double min, double max);
 
   /** Connects the mask image for which the histogram is going to be computed.
       Optional; for default value see above. */
-  void SetMaskImage(const ImageType *);
+  void
+  SetMaskImage(const ImageType *);
 
-  const ImageType * GetMaskImage() const;
+  const ImageType *
+  GetMaskImage() const;
 
   /** Set the pixel value of the mask that should be considered "inside" the
       object. Optional; for default value see above. */
-  void SetInsidePixelValue(PixelType InsidePixelValue);
+  void
+  SetInsidePixelValue(PixelType InsidePixelValue);
 
   itkGetConstMacro(FastCalculations, bool);
   itkSetMacro(FastCalculations, bool);
@@ -193,14 +199,18 @@ public:
 protected:
   ScalarImageToRunLengthFeaturesFilter();
   ~ScalarImageToRunLengthFeaturesFilter() override = default;
-  void PrintSelf( std::ostream & os, Indent indent ) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void FastCompute();
+  void
+  FastCompute();
 
-  void FullCompute();
+  void
+  FullCompute();
 
   /** This method causes the filter to generate its output. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /** Make a DataObject to be used for output output. */
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
@@ -220,7 +230,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkScalarImageToRunLengthFeaturesFilter.hxx"
+#  include "itkScalarImageToRunLengthFeaturesFilter.hxx"
 #endif
 
 #endif

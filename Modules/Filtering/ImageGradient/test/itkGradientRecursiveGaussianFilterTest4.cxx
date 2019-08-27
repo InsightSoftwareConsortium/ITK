@@ -22,15 +22,16 @@
 #include "itkMath.h"
 
 
-int itkGradientRecursiveGaussianFilterTest4(int argc, char* argv[] )
+int
+itkGradientRecursiveGaussianFilterTest4(int argc, char * argv[])
 {
 
-  if ( argc != 3 )
-    {
+  if (argc != 3)
+  {
     std::cerr << "Missing Parameters!" << std::endl;
     std::cerr << " inputImageFile outputImageFile" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::string inFileName = argv[1];
 
@@ -42,42 +43,41 @@ int itkGradientRecursiveGaussianFilterTest4(int argc, char* argv[] )
   // Declare the types of the images
   using FloatType = float;
   using DoubleType = double;
-  using myImageType = itk::Image< FloatType, myDimension >;
-  using myGradientImageType = itk::VectorImage< FloatType, myDimension >;
+  using myImageType = itk::Image<FloatType, myDimension>;
+  using myGradientImageType = itk::VectorImage<FloatType, myDimension>;
 
   // Create the image
   myImageType::Pointer inputImage = myImageType::New();
 
-  using myReaderType = itk::ImageFileReader< myImageType >;
+  using myReaderType = itk::ImageFileReader<myImageType>;
   myReaderType::Pointer reader = myReaderType::New();
-  reader->SetFileName( inFileName );
+  reader->SetFileName(inFileName);
 
   // Declare the type for the
-  using myFilterType = itk::GradientRecursiveGaussianImageFilter< myImageType, myGradientImageType >;
+  using myFilterType = itk::GradientRecursiveGaussianImageFilter<myImageType, myGradientImageType>;
 
   // Create a  Filter
   myFilterType::Pointer filter = myFilterType::New();
 
   // Connect the input images
-  filter->SetInput( reader->GetOutput() );
+  filter->SetInput(reader->GetOutput());
 
   // Select the value of Sigma
-  filter->SetSigma( 2.5 );
+  filter->SetSigma(2.5);
 
-  using myWriterType = itk::ImageFileWriter< myGradientImageType >;
+  using myWriterType = itk::ImageFileWriter<myGradientImageType>;
   myWriterType::Pointer writer = myWriterType::New();
-  writer->SetInput( filter->GetOutput() );
-  writer->SetFileName( outFileName );
+  writer->SetInput(filter->GetOutput());
+  writer->SetFileName(outFileName);
   writer->Update();
 
   // Test also that setting and getting sigma arrays is working
-  itk::FixedArray< DoubleType, 2 > sigmas;
+  itk::FixedArray<DoubleType, 2> sigmas;
 
   if (filter->GetSigma() != 2.5)
   {
     std::cerr << "Exception detected: wrong sigma after SetSigma" << std::endl;
-    std::cerr <<
-      "Sigma is: " << filter->GetSigma() << ", expected 2.5"<< std::endl;
+    std::cerr << "Sigma is: " << filter->GetSigma() << ", expected 2.5" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -96,7 +96,8 @@ int itkGradientRecursiveGaussianFilterTest4(int argc, char* argv[] )
   filter->SetSigmaArray(sigmas);
 
   sigmas = filter->GetSigmaArray();
-  if (itk::Math::NotExactlyEquals(sigmas[0], 1.8) || itk::Math::NotExactlyEquals(sigmas[1], 1.8) || itk::Math::NotExactlyEquals(filter->GetSigma() , 1.8))
+  if (itk::Math::NotExactlyEquals(sigmas[0], 1.8) || itk::Math::NotExactlyEquals(sigmas[1], 1.8) ||
+      itk::Math::NotExactlyEquals(filter->GetSigma(), 1.8))
   {
     std::cerr << "Exception detected: wrong sigmas after SetSigmaArray" << std::endl;
     std::cerr << "Sigma Array: " << sigmas[0] << ", " << sigmas[1] << std::endl;

@@ -97,21 +97,23 @@ namespace itk
  * \sa FiniteDifferenceImageFilter
  * \ingroup ITKReview
  */
-template< typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction,
-          typename TIdCell = unsigned int >
-class ITK_TEMPLATE_EXPORT MultiphaseDenseFiniteDifferenceImageFilter:
-  public MultiphaseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
-                                                TOutputImage, TFunction, TIdCell >
+template <typename TInputImage,
+          typename TFeatureImage,
+          typename TOutputImage,
+          typename TFunction,
+          typename TIdCell = unsigned int>
+class ITK_TEMPLATE_EXPORT MultiphaseDenseFiniteDifferenceImageFilter
+  : public MultiphaseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MultiphaseDenseFiniteDifferenceImageFilter);
 
   /** Standard class type aliases */
   using Self = MultiphaseDenseFiniteDifferenceImageFilter;
-  using Superclass = MultiphaseFiniteDifferenceImageFilter< TInputImage,
-                                                 TFeatureImage, TOutputImage, TFunction, TIdCell >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass =
+    MultiphaseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(MultiphaseDenseFiniteDifferenceImageFilter, ImageToImageFilter);
@@ -152,10 +154,10 @@ public:
 
   using IdCellType = typename Superclass::IdCellType;
 
-  using ThresholdFilterType = BinaryThresholdImageFilter< InputImageType, InputImageType >;
+  using ThresholdFilterType = BinaryThresholdImageFilter<InputImageType, InputImageType>;
   using ThresholdFilterPointer = typename ThresholdFilterType::Pointer;
 
-  using MaurerType = SignedMaurerDistanceMapImageFilter< InputImageType, InputImageType >;
+  using MaurerType = SignedMaurerDistanceMapImageFilter<InputImageType, InputImageType>;
   using MaurerPointer = typename MaurerType::Pointer;
 
   using FiniteDifferenceFunctionType = typename Superclass::FiniteDifferenceFunctionType;
@@ -165,19 +167,17 @@ public:
   /** The value type of a time step.  Inherited from the superclass. */
   using TimeStepType = typename Superclass::TimeStepType;
 
-  using FaceCalculatorType = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >;
+  using FaceCalculatorType = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>;
   using FaceListType = typename FaceCalculatorType::FaceListType;
 
-  void SetFunctionCount(const IdCellType & n);
+  void
+  SetFunctionCount(const IdCellType & n);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( OutputTimesDoubleCheck,
-                   ( Concept::MultiplyOperator< OutputPixelType, double > ) );
-  itkConceptMacro( OutputAdditiveOperatorsCheck,
-                   ( Concept::AdditiveOperators< OutputPixelType > ) );
-  itkConceptMacro( InputConvertibleToOutputCheck,
-                   ( Concept::Convertible< FeaturePixelType, OutputPixelType > ) );
+  itkConceptMacro(OutputTimesDoubleCheck, (Concept::MultiplyOperator<OutputPixelType, double>));
+  itkConceptMacro(OutputAdditiveOperatorsCheck, (Concept::AdditiveOperators<OutputPixelType>));
+  itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<FeaturePixelType, OutputPixelType>));
   // End concept checking
 #endif
 
@@ -194,40 +194,46 @@ protected:
 
   ~MultiphaseDenseFiniteDifferenceImageFilter() override {}
 
-  void PrintSelf(std::ostream &, Indent indent) const override;
+  void
+  PrintSelf(std::ostream &, Indent indent) const override;
 
   /** A simple method to copy the data from the input to the output.  ( Supports
    * "read-only" image adaptors in the case where the input image type converts
    * to a different output image type. )  */
-  void CopyInputToOutput() override;
+  void
+  CopyInputToOutput() override;
 
-  void PostProcessOutput() override;
+  void
+  PostProcessOutput() override;
 
   /** This method applies changes from the m_UpdateBuffer to the output using
    * the ThreadedApplyUpdate() method and a multithreading mechanism.  "dt" is
    * the time step to use for the update of each pixel. */
-  void ApplyUpdate(TimeStepType dt) override;
+  void
+  ApplyUpdate(TimeStepType dt) override;
 
-  unsigned int m_ReinitializeCounter;  // FIXME: Should this be a boolean ?
+  unsigned int m_ReinitializeCounter; // FIXME: Should this be a boolean ?
   // unsigned int m_UpdateCounter;        // FIXME: Should this be a boolean ?
 
 private:
   /** This method allocates storage in m_UpdateBuffer.  It is called from
    * Superclass::GenerateData(). */
-  void AllocateUpdateBuffer() override;
+  void
+  AllocateUpdateBuffer() override;
 
   /** This method populates an update buffer with changes for each pixel in the
    * output using the ThreadedCalculateChange() method and a multithreading
    * mechanism. Returns value is a time step to be used for the update. */
-  TimeStepType CalculateChange() override;
+  TimeStepType
+  CalculateChange() override;
 
   /** The buffer that holds the updates for an iteration of the algorithm. */
-  std::vector< InputImagePointer > m_UpdateBuffers;
+  std::vector<InputImagePointer> m_UpdateBuffers;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMultiphaseDenseFiniteDifferenceImageFilter.hxx"
+#  include "itkMultiphaseDenseFiniteDifferenceImageFilter.hxx"
 #endif
 
 #endif

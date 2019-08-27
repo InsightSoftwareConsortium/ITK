@@ -36,25 +36,23 @@ namespace itk
  * \ingroup ITKImageFilterBase
  */
 
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT BoxImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT BoxImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BoxImageFilter);
 
   /** Standard class type aliases. */
   using Self = BoxImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard New method. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(BoxImageFilter,
-               ImageToImageFilter);
+  itkTypeMacro(BoxImageFilter, ImageToImageFilter);
 
   /** Image related type alias. */
   using InputImageType = TInputImage;
@@ -74,9 +72,11 @@ public:
   using RadiusType = typename TInputImage::SizeType;
   using RadiusValueType = typename TInputImage::SizeValueType;
 
-  virtual void SetRadius(const RadiusType & radius);
+  virtual void
+  SetRadius(const RadiusType & radius);
 
-  virtual void SetRadius(const RadiusValueType & radius);
+  virtual void
+  SetRadius(const RadiusValueType & radius);
 
   itkGetConstReferenceMacro(Radius, RadiusType);
 
@@ -84,17 +84,19 @@ protected:
   BoxImageFilter();
   ~BoxImageFilter() override = default;
 
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   RadiusType m_Radius;
 };
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBoxImageFilter.hxx"
+#  include "itkBoxImageFilter.hxx"
 #endif
 
 #endif

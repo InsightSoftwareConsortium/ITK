@@ -28,12 +28,12 @@
 #include <string>
 
 #ifndef ITKIOTransformBase_TEMPLATE_EXPORT
-  #if defined(ITK_TEMPLATE_VISIBILITY_DEFAULT) || defined(__linux__) && defined(ITK_BUILD_SHARED_LIBS)
-    // Make everything visible
-    #define ITKIOTransformBase_TEMPLATE_EXPORT __attribute__ ((visibility ("default")))
-  #else
-    #define ITKIOTransformBase_TEMPLATE_EXPORT
-  #endif
+#  if defined(ITK_TEMPLATE_VISIBILITY_DEFAULT) || defined(__linux__) && defined(ITK_BUILD_SHARED_LIBS)
+// Make everything visible
+#    define ITKIOTransformBase_TEMPLATE_EXPORT __attribute__((visibility("default")))
+#  else
+#    define ITKIOTransformBase_TEMPLATE_EXPORT
+#  endif
 #endif
 
 namespace itk
@@ -53,8 +53,8 @@ namespace itk
  *
  * \ingroup ITKIOTransformBase
  */
-template<typename TParametersValueType>
-class ITKIOTransformBase_TEMPLATE_EXPORT TransformIOBaseTemplate:public LightProcessObject
+template <typename TParametersValueType>
+class ITKIOTransformBase_TEMPLATE_EXPORT TransformIOBaseTemplate : public LightProcessObject
 {
 public:
   /** Standard class type aliases */
@@ -66,7 +66,7 @@ public:
   itkTypeMacro(TransformIOBaseTemplate, Superclass);
 
   /** Transform types */
-  using ScalarType = TParametersValueType; //For backwards compatibility
+  using ScalarType = TParametersValueType; // For backwards compatibility
   using ParametersValueType = TParametersValueType;
   using FixedParametersValueType = double;
 
@@ -76,35 +76,52 @@ public:
    * reading, a non-const transform list is created from the file.
    */
   using TransformPointer = typename TransformType::Pointer;
-  using TransformListType = std::list< TransformPointer >;
+  using TransformListType = std::list<TransformPointer>;
   using ConstTransformPointer = typename TransformType::ConstPointer;
-  using ConstTransformListType = std::list< ConstTransformPointer >;
+  using ConstTransformListType = std::list<ConstTransformPointer>;
 
   /** Set/Get the name of the file to be read. */
   itkSetStringMacro(FileName);
   itkGetStringMacro(FileName);
 
   /** Reads the data from disk into the memory buffer provided. */
-  virtual void Read() = 0;
+  virtual void
+  Read() = 0;
 
   /** Writes the transform list to disk. */
-  virtual void Write() = 0;
+  virtual void
+  Write() = 0;
 
   /** Determine the file type. Returns true if this TransformIO can read the
    * file specified. */
-  virtual bool CanReadFile(const char *) = 0;
+  virtual bool
+  CanReadFile(const char *) = 0;
 
   /** Determine the file type. Returns true if this TransformIO can read the
    * file specified. */
-  virtual bool CanWriteFile(const char *)  = 0;
+  virtual bool
+  CanWriteFile(const char *) = 0;
 
   /** Get the list of transforms resulting from a file read */
-  TransformListType & GetTransformList() { return m_ReadTransformList; }
-  TransformListType & GetReadTransformList() { return m_ReadTransformList; }
-  ConstTransformListType & GetWriteTransformList() { return m_WriteTransformList; }
+  TransformListType &
+  GetTransformList()
+  {
+    return m_ReadTransformList;
+  }
+  TransformListType &
+  GetReadTransformList()
+  {
+    return m_ReadTransformList;
+  }
+  ConstTransformListType &
+  GetWriteTransformList()
+  {
+    return m_WriteTransformList;
+  }
 
   /** Set the list of transforms before writing */
-  void SetTransformList(ConstTransformListType & transformList);
+  void
+  SetTransformList(ConstTransformListType & transformList);
 
   /** Set the writer to append to the specified file */
   itkSetMacro(AppendMode, bool);
@@ -124,76 +141,76 @@ public:
    * will be chosen at compile time within template classes in order to
    * patch up the type name.
    *  */
-  static inline void CorrectTransformPrecisionType( std::string & itkNotUsed(inputTransformName) )
-    {
+  static inline void
+  CorrectTransformPrecisionType(std::string & itkNotUsed(inputTransformName))
+  {
     itkGenericExceptionMacro(<< "Unknown ScalarType" << typeid(ScalarType).name());
-    }
+  }
 
 protected:
   TransformIOBaseTemplate();
   ~TransformIOBaseTemplate() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void OpenStream(std::ofstream & outputStream, bool binary);
+  void
+  OpenStream(std::ofstream & outputStream, bool binary);
 
-  void CreateTransform(TransformPointer & ptr, const std::string & ClassName);
+  void
+  CreateTransform(TransformPointer & ptr, const std::string & ClassName);
 
   /* The following struct returns the string name of computation type */
   /* default implementation */
-  static inline const std::string GetTypeNameString()
-    {
+  static inline const std::string
+  GetTypeNameString()
+  {
     itkGenericExceptionMacro(<< "Unknown ScalarType" << typeid(ScalarType).name());
-    }
+  }
 
 private:
   std::string            m_FileName;
   TransformListType      m_ReadTransformList;
   ConstTransformListType m_WriteTransformList;
-  bool                   m_AppendMode{false};
+  bool                   m_AppendMode{ false };
   /** Should we compress the data? */
-  bool                   m_UseCompression{false};
-
+  bool m_UseCompression{ false };
 };
 
 
 template <>
 inline void
-TransformIOBaseTemplate<float>
-::CorrectTransformPrecisionType( std::string & inputTransformName )
+TransformIOBaseTemplate<float>::CorrectTransformPrecisionType(std::string & inputTransformName)
 {
   // output precision type is not found in input transform.
- if(inputTransformName.find("float") == std::string::npos)
-   {
-   const std::string::size_type begin = inputTransformName.find("double");
-   inputTransformName.replace(begin, 6, "float");
-   }
+  if (inputTransformName.find("float") == std::string::npos)
+  {
+    const std::string::size_type begin = inputTransformName.find("double");
+    inputTransformName.replace(begin, 6, "float");
+  }
 }
 
 template <>
 inline void
-TransformIOBaseTemplate<double>
-::CorrectTransformPrecisionType( std::string & inputTransformName )
+TransformIOBaseTemplate<double>::CorrectTransformPrecisionType(std::string & inputTransformName)
 {
   // output precision type is not found in input transform.
- if(inputTransformName.find("double") == std::string::npos)
-   {
-   const std::string::size_type begin = inputTransformName.find("float");
-   inputTransformName.replace(begin, 5, "double");
-   }
+  if (inputTransformName.find("double") == std::string::npos)
+  {
+    const std::string::size_type begin = inputTransformName.find("float");
+    inputTransformName.replace(begin, 5, "double");
+  }
 }
 
 template <>
 inline const std::string
-TransformIOBaseTemplate<float>
-::GetTypeNameString()
+TransformIOBaseTemplate<float>::GetTypeNameString()
 {
   return std::string("float");
 }
 
 template <>
 inline const std::string
-TransformIOBaseTemplate<double>
-::GetTypeNameString()
+TransformIOBaseTemplate<double>::GetTypeNameString()
 {
   return std::string("double");
 }
@@ -215,24 +232,24 @@ using TransformIOBase = itk::TransformIOBaseTemplate<double>;
 //            need to be considered. This code *MUST* be *OUTSIDE* the header
 //            guards.
 //
-#  if defined( ITKIOTransformBase_EXPORTS )
+#if defined(ITKIOTransformBase_EXPORTS)
 //   We are building this library
-#    define ITKIOTransformBase_EXPORT_EXPLICIT ITK_FORWARD_EXPORT
-#  else
+#  define ITKIOTransformBase_EXPORT_EXPLICIT ITK_FORWARD_EXPORT
+#else
 //   We are using this library
-#    define ITKIOTransformBase_EXPORT_EXPLICIT ITKIOTransformBase_EXPORT
-#  endif
+#  define ITKIOTransformBase_EXPORT_EXPLICIT ITKIOTransformBase_EXPORT
+#endif
 namespace itk
 {
 
 ITK_GCC_PRAGMA_DIAG_PUSH()
 ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
 
-extern template class ITKIOTransformBase_EXPORT_EXPLICIT TransformIOBaseTemplate< double >;
-extern template class ITKIOTransformBase_EXPORT_EXPLICIT TransformIOBaseTemplate< float >;
+extern template class ITKIOTransformBase_EXPORT_EXPLICIT TransformIOBaseTemplate<double>;
+extern template class ITKIOTransformBase_EXPORT_EXPLICIT TransformIOBaseTemplate<float>;
 
 ITK_GCC_PRAGMA_DIAG_POP()
 
 } // end namespace itk
-#  undef ITKIOTransformBase_EXPORT_EXPLICIT
+#undef ITKIOTransformBase_EXPORT_EXPLICIT
 #endif

@@ -58,155 +58,156 @@
 #include <list>
 #include <fstream>
 
-int main(int argc, char* argv[])
+int
+main(int argc, char * argv[])
 {
 
-  if( argc < 5 )
-    {
+  if (argc < 5)
+  {
     std::cerr << "Usage: " << argv[0] << " DicomImage OutputDicomImage Entry Value\n";
     return EXIT_FAILURE;
-    }
+  }
 
-// Software Guide : BeginLatex
-//
-// We declare the image type by selecting a particular pixel type and image
-// dimension.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // We declare the image type by selecting a particular pixel type and image
+  // dimension.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   using InputPixelType = signed short;
   constexpr unsigned int Dimension = 2;
-  using InputImageType = itk::Image< InputPixelType, Dimension >;
-// Software Guide : EndCodeSnippet
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// We instantiate the reader type by using the image type as template
-// parameter. An instance of the reader is created and the file name to be read
-// is taken from the command line arguments.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // We instantiate the reader type by using the image type as template
+  // parameter. An instance of the reader is created and the file name to be read
+  // is taken from the command line arguments.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
-  using ReaderType = itk::ImageFileReader< InputImageType >;
+  // Software Guide : BeginCodeSnippet
+  using ReaderType = itk::ImageFileReader<InputImageType>;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
-// Software Guide : EndCodeSnippet
+  reader->SetFileName(argv[1]);
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// The GDCMImageIO object is created in order to provide the services for
-// reading and writing DICOM files. The newly created image IO class is
-// connected to the reader.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // The GDCMImageIO object is created in order to provide the services for
+  // reading and writing DICOM files. The newly created image IO class is
+  // connected to the reader.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   using ImageIOType = itk::GDCMImageIO;
   ImageIOType::Pointer gdcmImageIO = ImageIOType::New();
-  reader->SetImageIO( gdcmImageIO );
-// Software Guide : EndCodeSnippet
+  reader->SetImageIO(gdcmImageIO);
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// The reading of the image is triggered by invoking \code{Update()} in the
-// reader.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // The reading of the image is triggered by invoking \code{Update()} in the
+  // reader.
+  //
+  // Software Guide : EndLatex
 
 
   try
-    {
-// Software Guide : BeginCodeSnippet
+  {
+    // Software Guide : BeginCodeSnippet
     reader->Update();
-// Software Guide : EndCodeSnippet
-    }
+    // Software Guide : EndCodeSnippet
+  }
   catch (itk::ExceptionObject & e)
-    {
+  {
     std::cerr << "exception in file reader " << std::endl;
     std::cerr << e.GetDescription() << std::endl;
     std::cerr << e.GetLocation() << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-// Software Guide : BeginLatex
-//
-// We take the metadata dictionary from the image that the reader had loaded
-// in memory.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // We take the metadata dictionary from the image that the reader had loaded
+  // in memory.
+  //
+  // Software Guide : EndLatex
 
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   InputImageType::Pointer inputImage = reader->GetOutput();
   using DictionaryType = itk::MetaDataDictionary;
   DictionaryType & dictionary = inputImage->GetMetaDataDictionary();
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// Now we access the entries in the metadata dictionary, and for particular
-// key values we assign a new content to the entry. This is done here by taking
-// \{key,value\} pairs from the command line arguments. The relevant method is
-// \code{EncapsulateMetaData} that takes the dictionary and for a given key
-// provided by \code{entryId}, replaces the current value with the content of
-// the \code{value} variable. This is repeated for every potential pair present
-// in the command line arguments.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // Now we access the entries in the metadata dictionary, and for particular
+  // key values we assign a new content to the entry. This is done here by taking
+  // \{key,value\} pairs from the command line arguments. The relevant method is
+  // \code{EncapsulateMetaData} that takes the dictionary and for a given key
+  // provided by \code{entryId}, replaces the current value with the content of
+  // the \code{value} variable. This is repeated for every potential pair present
+  // in the command line arguments.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
-  for (int i = 3; i < argc; i+=2)
-    {
-    std::string entryId( argv[i] );
-    std::string value( argv[i+1] );
-    itk::EncapsulateMetaData<std::string>( dictionary, entryId, value );
-    }
-// Software Guide : EndCodeSnippet
+  // Software Guide : BeginCodeSnippet
+  for (int i = 3; i < argc; i += 2)
+  {
+    std::string entryId(argv[i]);
+    std::string value(argv[i + 1]);
+    itk::EncapsulateMetaData<std::string>(dictionary, entryId, value);
+  }
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// Now that the dictionary has been updated, we proceed to save the image. This
-// output image will have the modified data associated with its DICOM header.
-//
-// Using the image type, we instantiate a writer type and construct a writer.
-// A short pipeline between the reader and the writer is connected. The
-// filename to write is taken from the command line arguments. The image IO
-// object is connected to the writer.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // Now that the dictionary has been updated, we proceed to save the image. This
+  // output image will have the modified data associated with its DICOM header.
+  //
+  // Using the image type, we instantiate a writer type and construct a writer.
+  // A short pipeline between the reader and the writer is connected. The
+  // filename to write is taken from the command line arguments. The image IO
+  // object is connected to the writer.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
-  using Writer1Type = itk::ImageFileWriter< InputImageType >;
+  // Software Guide : BeginCodeSnippet
+  using Writer1Type = itk::ImageFileWriter<InputImageType>;
 
   Writer1Type::Pointer writer1 = Writer1Type::New();
 
-  writer1->SetInput( reader->GetOutput() );
-  writer1->SetFileName( argv[2] );
-  writer1->SetImageIO( gdcmImageIO );
-// Software Guide : EndCodeSnippet
+  writer1->SetInput(reader->GetOutput());
+  writer1->SetFileName(argv[2]);
+  writer1->SetImageIO(gdcmImageIO);
+  // Software Guide : EndCodeSnippet
 
 
-// Software Guide : BeginLatex
-//
-// Execution of the writer is triggered by invoking the \code{Update()} method.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // Execution of the writer is triggered by invoking the \code{Update()} method.
+  //
+  // Software Guide : EndLatex
 
   try
-    {
-// Software Guide : BeginCodeSnippet
+  {
+    // Software Guide : BeginCodeSnippet
     writer1->Update();
-// Software Guide : EndCodeSnippet
-    }
+    // Software Guide : EndCodeSnippet
+  }
   catch (itk::ExceptionObject & e)
-    {
+  {
     std::cerr << "exception in file writer " << std::endl;
     std::cerr << e.GetDescription() << std::endl;
     std::cerr << e.GetLocation() << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Software Guide : BeginLatex
   //
@@ -218,5 +219,4 @@ int main(int argc, char* argv[])
 
 
   return EXIT_SUCCESS;
-
 }

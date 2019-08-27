@@ -48,9 +48,8 @@ namespace itk
  * \sphihnxexample{Filtering/Smoothing/MedianFilteringOfAnRGBImage,Median Filter Of An RGB Image}
  * \endsphinx
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT MedianImageFilter:
-  public BoxImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT MedianImageFilter : public BoxImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MedianImageFilter);
@@ -65,9 +64,9 @@ public:
 
   /** Standard class type aliases. */
   using Self = MedianImageFilter;
-  using Superclass = ImageToImageFilter< InputImageType, OutputImageType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<InputImageType, OutputImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -86,12 +85,9 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( SameDimensionCheck,
-                   ( Concept::SameDimension< InputImageDimension, OutputImageDimension > ) );
-  itkConceptMacro( InputConvertibleToOutputCheck,
-                   ( Concept::Convertible< InputPixelType, OutputPixelType > ) );
-  itkConceptMacro( InputLessThanComparableCheck,
-                   ( Concept::LessThanComparable< InputPixelType > ) );
+  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
+  itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputPixelType, OutputPixelType>));
+  itkConceptMacro(InputLessThanComparableCheck, (Concept::LessThanComparable<InputPixelType>));
   // End concept checking
 #endif
 
@@ -109,13 +105,13 @@ protected:
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
-
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMedianImageFilter.hxx"
+#  include "itkMedianImageFilter.hxx"
 #endif
 
 #endif

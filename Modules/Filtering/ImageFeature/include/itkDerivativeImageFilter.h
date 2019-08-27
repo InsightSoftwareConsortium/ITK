@@ -45,18 +45,17 @@ namespace itk
  * \sphinxexample{Filtering/ImageFeature/RequesterRegion, Apply A Filter Only To A Specified Region Of An Image}
  * \endsphinx
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT DerivativeImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT DerivativeImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(DerivativeImageFilter);
 
   /** Standard class type aliases. */
   using Self = DerivativeImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
@@ -82,8 +81,7 @@ public:
   /** The output pixel type must be signed. */
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( SignedOutputPixelType,
-                   ( Concept::Signed< OutputPixelType > ) );
+  itkConceptMacro(SignedOutputPixelType, (Concept::Signed<OutputPixelType>));
   // End concept checking
 #endif
 
@@ -95,13 +93,19 @@ public:
 
   /** Use the image spacing information in calculations. Use this option if you
    *  want derivatives in physical space. Default is UseImageSpacingOn. */
-  void SetUseImageSpacingOn()
-  { this->SetUseImageSpacing(true); }
+  void
+  SetUseImageSpacingOn()
+  {
+    this->SetUseImageSpacing(true);
+  }
 
   /** Ignore the image spacing. Use this option if you want derivatives in
       isotropic pixel space.  Default is UseImageSpacingOn. */
-  void SetUseImageSpacingOff()
-  { this->SetUseImageSpacing(false); }
+  void
+  SetUseImageSpacingOff()
+  {
+    this->SetUseImageSpacing(false);
+  }
 
   /** Set/Get whether or not the filter will use the spacing of the input
       image in its calculations */
@@ -115,7 +119,8 @@ public:
    * inform the pipeline execution model.
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
 protected:
   DerivativeImageFilter()
@@ -126,14 +131,16 @@ protected:
   }
 
   ~DerivativeImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Standard pipeline method. While this class does not implement a
    * ThreadedGenerateData(), its GenerateData() delegates all
    * calculations to an NeighborhoodOperatorImageFilter.  Since the
    * NeighborhoodOperatorImageFilter is multithreaded, this filter is
    * multithreaded by default. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   /** The order of the derivative. */
@@ -147,7 +154,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDerivativeImageFilter.hxx"
+#  include "itkDerivativeImageFilter.hxx"
 #endif
 
 #endif

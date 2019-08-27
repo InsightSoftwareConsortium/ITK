@@ -52,15 +52,15 @@ public:
   /** Standard class type aliases */
   using Self = DecisionRule;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(DecisionRule, Object);
 
   /** Types for discriminant values and vectors. */
   using MembershipValueType = double;
-  using MembershipVectorType = std::vector< MembershipValueType >;
+  using MembershipVectorType = std::vector<MembershipValueType>;
 
   /** Types for class identifiers. */
   using ClassIdentifierType = MembershipVectorType::size_type;
@@ -70,12 +70,13 @@ public:
    * a class label.  Functions returns the best label given the
    * discriminant scores using its internal logic.
    */
-  virtual ClassIdentifierType Evaluate(const MembershipVectorType & discriminantScores) const = 0;
+  virtual ClassIdentifierType
+  Evaluate(const MembershipVectorType & discriminantScores) const = 0;
 
 protected:
   DecisionRule();
   ~DecisionRule() override;
-};                              // end of class
+}; // end of class
 } // end of namespace Statistics
 } // end of namespace itk
 

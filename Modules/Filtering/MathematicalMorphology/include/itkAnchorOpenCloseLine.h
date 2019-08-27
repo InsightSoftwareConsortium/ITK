@@ -32,7 +32,7 @@ namespace itk
  * appropriate definitions of greater, less and so on
  * \ingroup ITKMathematicalMorphology
  */
-template< typename TInputPix, typename TCompare >
+template <typename TInputPix, typename TCompare>
 class ITK_TEMPLATE_EXPORT AnchorOpenCloseLine
 {
 public:
@@ -41,13 +41,16 @@ public:
   AnchorOpenCloseLine();
   ~AnchorOpenCloseLine() = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Single-threaded version of GenerateData.  This filter delegates
    * to GrayscaleGeodesicErodeImageFilter. */
-  void DoLine(std::vector<InputImagePixelType> & buffer, unsigned bufflength);
+  void
+  DoLine(std::vector<InputImagePixelType> & buffer, unsigned bufflength);
 
-  void SetSize(unsigned int size)
+  void
+  SetSize(unsigned int size)
   {
     m_Size = size;
   }
@@ -55,35 +58,39 @@ public:
 private:
   unsigned int m_Size;
 
-  using HistogramType = Function::MorphologyHistogram< InputImagePixelType, TCompare >;
+  using HistogramType = Function::MorphologyHistogram<InputImagePixelType, TCompare>;
 
-  bool StartLine(std::vector<InputImagePixelType> & buffer,
-                 InputImagePixelType & Extreme,
-                 unsigned & outLeftP,
-                 unsigned & outRightP);
+  bool
+  StartLine(std::vector<InputImagePixelType> & buffer,
+            InputImagePixelType &              Extreme,
+            unsigned &                         outLeftP,
+            unsigned &                         outRightP);
 
-  void FinishLine(std::vector<InputImagePixelType> & buffer,
-                  InputImagePixelType & Extreme,
-                  unsigned & outLeftP,
-                  unsigned & outRightP);
+  void
+  FinishLine(std::vector<InputImagePixelType> & buffer,
+             InputImagePixelType &              Extreme,
+             unsigned &                         outLeftP,
+             unsigned &                         outRightP);
 
-  inline bool Compare1( const InputImagePixelType & a, const InputImagePixelType & b )
-    {
+  inline bool
+  Compare1(const InputImagePixelType & a, const InputImagePixelType & b)
+  {
     TCompare compare;
-    return ! compare( a, b );
-    }
+    return !compare(a, b);
+  }
 
-  inline bool Compare2( const InputImagePixelType & a, const InputImagePixelType & b )
-    {
+  inline bool
+  Compare2(const InputImagePixelType & a, const InputImagePixelType & b)
+  {
     TCompare compare;
-    return compare( a, b ) || a == b;
-    }
+    return compare(a, b) || a == b;
+  }
 
 }; // end of class
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAnchorOpenCloseLine.hxx"
+#  include "itkAnchorOpenCloseLine.hxx"
 #endif
 
 #endif

@@ -45,26 +45,24 @@ namespace itk
  *
  *  \ingroup ITKLevelSetsv4
  */
-template< typename TInput, // Input image or mesh
-          typename TLevelSetContainer >
-class ITK_TEMPLATE_EXPORT LevelSetEquationChanAndVeseExternalTerm :
-    public LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
+template <typename TInput, // Input image or mesh
+          typename TLevelSetContainer>
+class ITK_TEMPLATE_EXPORT LevelSetEquationChanAndVeseExternalTerm
+  : public LevelSetEquationChanAndVeseInternalTerm<TInput, TLevelSetContainer>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationChanAndVeseExternalTerm);
 
   using Self = LevelSetEquationChanAndVeseExternalTerm;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using Superclass = LevelSetEquationChanAndVeseInternalTerm< TInput,
-                                    TLevelSetContainer >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using Superclass = LevelSetEquationChanAndVeseInternalTerm<TInput, TLevelSetContainer>;
 
   /** Method for creation through object factory */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information */
-  itkTypeMacro( LevelSetEquationChanAndVeseExternalTerm,
-                LevelSetEquationChanAndVeseInternalTerm );
+  itkTypeMacro(LevelSetEquationChanAndVeseExternalTerm, LevelSetEquationChanAndVeseInternalTerm);
 
   using InputImageType = typename Superclass::InputImageType;
   using InputImagePointer = typename Superclass::InputImagePointer;
@@ -95,31 +93,32 @@ public:
   using HeavisideConstPointer = typename Superclass::HeavisideConstPointer;
 
   /** Compute the product of Heaviside functions in the multi-levelset cases */
-  void ComputeProduct( const LevelSetInputIndexType& iP,
-                               LevelSetOutputRealType& prod ) override;
+  void
+  ComputeProduct(const LevelSetInputIndexType & iP, LevelSetOutputRealType & prod) override;
 
   /** Compute the product of Heaviside functions in the multi-levelset cases
    *  except the current levelset */
-  void ComputeProductTerm( const LevelSetInputIndexType& iP,
-                                  LevelSetOutputRealType& prod ) override;
+  void
+  ComputeProductTerm(const LevelSetInputIndexType & iP, LevelSetOutputRealType & prod) override;
 
   /** Supply updates at pixels to keep the term parameters always updated */
-  void UpdatePixel( const LevelSetInputIndexType& iP,
-                           const LevelSetOutputRealType & oldValue,
-                           const LevelSetOutputRealType & newValue ) override;
+  void
+  UpdatePixel(const LevelSetInputIndexType & iP,
+              const LevelSetOutputRealType & oldValue,
+              const LevelSetOutputRealType & newValue) override;
 
 protected:
   LevelSetEquationChanAndVeseExternalTerm();
   ~LevelSetEquationChanAndVeseExternalTerm() override = default;
 
 private:
-  DomainMapImageFilterType *m_DomainMapImageFilter;
-  CacheImageType           *m_CacheImage;
+  DomainMapImageFilterType * m_DomainMapImageFilter;
+  CacheImageType *           m_CacheImage;
 };
 
-}
+} // namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetEquationChanAndVeseExternalTerm.hxx"
+#  include "itkLevelSetEquationChanAndVeseExternalTerm.hxx"
 #endif
 
 #endif

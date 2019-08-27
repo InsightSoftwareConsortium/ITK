@@ -38,25 +38,23 @@ namespace itk
  * \ingroup FiniteDifferenceFunctions
  * \ingroup ITKCurvatureFlow
  */
-template< typename TImage >
-class ITK_TEMPLATE_EXPORT MinMaxCurvatureFlowFunction:
-  public CurvatureFlowFunction< TImage >
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT MinMaxCurvatureFlowFunction : public CurvatureFlowFunction<TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MinMaxCurvatureFlowFunction);
 
   /**  Standard class type aliases. */
   using Self = MinMaxCurvatureFlowFunction;
-  using Superclass = CurvatureFlowFunction< TImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = CurvatureFlowFunction<TImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(MinMaxCurvatureFlowFunction,
-               CurvatureFlowFunction);
+  itkTypeMacro(MinMaxCurvatureFlowFunction, CurvatureFlowFunction);
 
   /** Inherit some parameters from the superclass type. */
   using ImageType = typename Superclass::ImageType;
@@ -72,56 +70,66 @@ public:
   using RadiusValueType = typename RadiusType::SizeValueType;
 
   /** Set/Get the stencil radius. */
-  void SetStencilRadius(const RadiusValueType radius);
+  void
+  SetStencilRadius(const RadiusValueType radius);
 
-  const RadiusValueType & GetRadiusValueType() const
-  { return m_StencilRadius; }
+  const RadiusValueType &
+  GetRadiusValueType() const
+  {
+    return m_StencilRadius;
+  }
 
   /** Convenience function for symmetry with SetStencilRadius. */
-  const RadiusValueType & GetStencilRadius() const
-  { return GetRadiusValueType(); }
+  const RadiusValueType &
+  GetStencilRadius() const
+  {
+    return GetRadiusValueType();
+  }
 
   /** This method computes the solution update for each pixel that does not
    * lie on a the data set boundary. */
-  PixelType ComputeUpdate(const NeighborhoodType & neighborhood,
-                                  void *globalData,
-                                  const FloatOffsetType & offset = FloatOffsetType(0.0)
-                                  ) override;
+  PixelType
+  ComputeUpdate(const NeighborhoodType & neighborhood,
+                void *                   globalData,
+                const FloatOffsetType &  offset = FloatOffsetType(0.0)) override;
 
 protected:
   MinMaxCurvatureFlowFunction();
   ~MinMaxCurvatureFlowFunction() override = default;
 
-  using StencilOperatorType = Neighborhood< PixelType, Self::ImageDimension >;
+  using StencilOperatorType = Neighborhood<PixelType, Self::ImageDimension>;
   StencilOperatorType m_StencilOperator;
 
   /** Initialize the stencil opearator to be an N-Dimensional sphere
    * of radius m_StencilRadius. */
-  void InitializeStencilOperator();
+  void
+  InitializeStencilOperator();
 
 private:
   RadiusValueType m_StencilRadius;
 
   // To control overloaded versions of ComputeThreshold
-  struct DispatchBase {};
-  template< signed int VDimension >
-  struct Dispatch: public DispatchBase {};
+  struct DispatchBase
+  {};
+  template <signed int VDimension>
+  struct Dispatch : public DispatchBase
+  {};
 
   /** This method computes the threshold by averaging the intensity
    *  in direction perpendicular to the image gradient. */
-  PixelType ComputeThreshold(const Dispatch< 2 > &,
-                             const NeighborhoodType & neighborhood) const;
+  PixelType
+  ComputeThreshold(const Dispatch<2> &, const NeighborhoodType & neighborhood) const;
 
-  PixelType ComputeThreshold(const Dispatch< 3 > &,
-                             const NeighborhoodType & neighborhood) const;
+  PixelType
+  ComputeThreshold(const Dispatch<3> &, const NeighborhoodType & neighborhood) const;
 
-  PixelType ComputeThreshold(const DispatchBase &,
-                             const NeighborhoodType & neighborhood) const;
+  PixelType
+  ComputeThreshold(const DispatchBase &, const NeighborhoodType & neighborhood) const;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMinMaxCurvatureFlowFunction.hxx"
+#  include "itkMinMaxCurvatureFlowFunction.hxx"
 #endif
 
 #endif

@@ -59,9 +59,8 @@ namespace v3
  *
  * \ingroup ITKTransform
  */
-template<typename TParametersValueType=double>
-class ITK_TEMPLATE_EXPORT Rigid3DTransform:
-    public itk::Rigid3DTransform<TParametersValueType>
+template <typename TParametersValueType = double>
+class ITK_TEMPLATE_EXPORT Rigid3DTransform : public itk::Rigid3DTransform<TParametersValueType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(Rigid3DTransform);
@@ -114,27 +113,29 @@ public:
   using InverseTransformBaseType = typename Superclass::InverseTransformBaseType;
   using InverseTransformBasePointer = typename InverseTransformBaseType::Pointer;
 
-/** Get an inverse of this transform. */
-  bool GetInverse(Self *inverse) const
+  /** Get an inverse of this transform. */
+  bool
+  GetInverse(Self * inverse) const
   {
-  return this->Superclass::GetInverse(inverse);
+    return this->Superclass::GetInverse(inverse);
   }
 
-/** Return an inverse of this transform. */
-  InverseTransformBasePointer GetInverseTransform() const override
+  /** Return an inverse of this transform. */
+  InverseTransformBasePointer
+  GetInverseTransform() const override
   {
-  Pointer inv = New();
-  return this->GetInverse(inv) ? inv.GetPointer() : nullptr;
+    Pointer inv = New();
+    return this->GetInverse(inv) ? inv.GetPointer() : nullptr;
   }
 
 protected:
   Rigid3DTransform() = default;
-};                                //class Rigid3DTransform
-}  // namespace v3
-}  // namespace itk
+}; // class Rigid3DTransform
+} // namespace v3
+} // namespace itk
 
 #if !defined(ITK_LEGACY_REMOVE)
-#define itkv3 itk::v3
+#  define itkv3 itk::v3
 #endif
 
 #endif /* itkv3Rigid3DTransform_h */

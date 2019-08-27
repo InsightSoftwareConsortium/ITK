@@ -52,7 +52,8 @@
 #include "itkTreeIteratorClone.h"
 // Software Guide : EndCodeSnippet
 
-int main(int, char* [])
+int
+main(int, char *[])
 {
 
   // Software Guide : BeginLatex
@@ -91,13 +92,13 @@ int main(int, char* [])
 
 
   // Software Guide : BeginCodeSnippet
-  tree->Add(1,0);
-  tree->Add(2,0);
-  tree->Add(3,0);
-  tree->Add(4,2);
-  tree->Add(5,2);
-  tree->Add(6,5);
-  tree->Add(7,1);
+  tree->Add(1, 0);
+  tree->Add(2, 0);
+  tree->Add(3, 0);
+  tree->Add(4, 2);
+  tree->Add(5, 2);
+  tree->Add(6, 5);
+  tree->Add(7, 1);
   // Software Guide : EndCodeSnippet
 
 
@@ -132,9 +133,9 @@ int main(int, char* [])
 
   // Software Guide : BeginCodeSnippet
   for (childIt.GoToBegin(); !childIt.IsAtEnd(); ++childIt)
-    {
+  {
     std::cout << childIt.Get() << std::endl;
-    }
+  }
   std::cout << std::endl;
   // Software Guide : EndCodeSnippet
 
@@ -152,8 +153,8 @@ int main(int, char* [])
   // corresponding to the type of the particular iterator being used. These types
   // are as follows:
   //
-  // \code{UNDEFIND}, \code{PREORDER}, \code{INORDER}, \code{POSTORDER}, \code{LEVELORDER},
-  // \code{CHILD}, \code{ROOT}, and \code{LEAF}.
+  // \code{UNDEFIND}, \code{PREORDER}, \code{INORDER}, \code{POSTORDER},
+  // \code{LEVELORDER}, \code{CHILD}, \code{ROOT}, and \code{LEAF}.
   //
   // In the following snippet, we test whether the iterator is of type \code{CHILD},
   // and return from the program indicating failure if the test returns \code{false}.
@@ -162,11 +163,11 @@ int main(int, char* [])
 
 
   // Software Guide : BeginCodeSnippet
-  if(childIt.GetType() != itk::TreeIteratorBaseNodeType::CHILD)
-    {
+  if (childIt.GetType() != itk::TreeIteratorBaseNodeType::CHILD)
+  {
     std::cerr << "Error: The iterator was not of type CHILD." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
 
@@ -197,27 +198,25 @@ int main(int, char* [])
   // Software Guide : BeginCodeSnippet
   std::cout << "Is this a leaf node? " << childIt.IsLeaf() << std::endl;
   std::cout << "Is this the root node? " << childIt.IsRoot() << std::endl;
-  std::cout << "Does this node have a parent? " << childIt.HasParent()
+  std::cout << "Does this node have a parent? " << childIt.HasParent() << std::endl;
+  std::cout << "How many children does this node have? " << childIt.CountChildren()
             << std::endl;
-  std::cout << "How many children does this node have? "
-            << childIt.CountChildren() << std::endl;
-  std::cout << "Does this node have a child 1? " << childIt.HasChild(1)
-            << std::endl;
+  std::cout << "Does this node have a child 1? " << childIt.HasChild(1) << std::endl;
   // Software Guide : EndCodeSnippet
 
   std::cout << std::endl;
 
   // Software Guide : BeginLatex
   //
-  // In addition to traversing the tree and querying for information, \code{TreeIterator}s
-  // can alter the structure of the tree itself.  For example, a node can be added
-  // using the \code{Add()} methods, child nodes can be removed using the
-  // \code{RemoveChild()} method, and the current node can be removed using the
+  // In addition to traversing the tree and querying for information,
+  // \code{TreeIterator}s can alter the structure of the tree itself.  For example, a
+  // node can be added using the \code{Add()} methods, child nodes can be removed using
+  // the \code{RemoveChild()} method, and the current node can be removed using the
   // \code{Remove()} method.  Each of these methods returns a bool indicating whether
   // the alteration was successful.
   //
-  // To illustrate this, in the following snippet we clear the tree of all nodes, and then
-  // repopulate it using the iterator.
+  // To illustrate this, in the following snippet we clear the tree of all nodes, and
+  // then repopulate it using the iterator.
   //
   // Software Guide : EndLatex
 
@@ -248,7 +247,7 @@ int main(int, char* [])
 
 
   // Software Guide : BeginCodeSnippet
-  itk::TreeIteratorBase<TreeType>* childItClone = childIt.Clone();
+  itk::TreeIteratorBase<TreeType> * childItClone = childIt.Clone();
   delete childItClone;
   // Software Guide : EndCodeSnippet
 
@@ -280,9 +279,9 @@ int main(int, char* [])
 
   // Software Guide : BeginCodeSnippet
   for (childIt.GoToBegin(); !childIt.IsAtEnd(); ++childIt)
-    {
+  {
     std::cout << childIt.Get();
-    }
+  }
   std::cout << std::endl;
   // Software Guide : EndCodeSnippet
 
@@ -298,9 +297,9 @@ int main(int, char* [])
   // Software Guide : BeginCodeSnippet
   itk::LeafTreeIterator<TreeType> leafIt(tree);
   for (leafIt.GoToBegin(); !leafIt.IsAtEnd(); ++leafIt)
-    {
+  {
     std::cout << leafIt.Get() << std::endl;
-    }
+  }
   std::cout << std::endl;
   // Software Guide : EndCodeSnippet
 
@@ -316,13 +315,11 @@ int main(int, char* [])
   std::cout << "LevelOrderTreeIterator:" << std::endl;
 
   // Software Guide : BeginCodeSnippet
-  itk::LevelOrderTreeIterator<TreeType> levelIt(tree,10,tree->GetNode(0));
+  itk::LevelOrderTreeIterator<TreeType> levelIt(tree, 10, tree->GetNode(0));
   for (levelIt.GoToBegin(); !levelIt.IsAtEnd(); ++levelIt)
-    {
-    std::cout << levelIt.Get()
-              << " ("<< levelIt.GetLevel() << ")"
-              << std::endl;
-    }
+  {
+    std::cout << levelIt.Get() << " (" << levelIt.GetLevel() << ")" << std::endl;
+  }
   std::cout << std::endl;
   // Software Guide : EndCodeSnippet
 
@@ -339,9 +336,9 @@ int main(int, char* [])
   // Software Guide : BeginCodeSnippet
   itk::InOrderTreeIterator<TreeType> inOrderIt(tree);
   for (inOrderIt.GoToBegin(); !inOrderIt.IsAtEnd(); ++inOrderIt)
-    {
+  {
     std::cout << inOrderIt.Get() << std::endl;
-    }
+  }
   std::cout << std::endl;
   // Software Guide : EndCodeSnippet
 
@@ -358,9 +355,9 @@ int main(int, char* [])
   // Software Guide : BeginCodeSnippet
   itk::PreOrderTreeIterator<TreeType> preOrderIt(tree);
   for (preOrderIt.GoToBegin(); !preOrderIt.IsAtEnd(); ++preOrderIt)
-    {
+  {
     std::cout << preOrderIt.Get() << std::endl;
-    }
+  }
   std::cout << std::endl;
   // Software Guide : EndCodeSnippet
 
@@ -377,9 +374,9 @@ int main(int, char* [])
   // Software Guide : BeginCodeSnippet
   itk::PostOrderTreeIterator<TreeType> postOrderIt(tree);
   for (postOrderIt.GoToBegin(); !postOrderIt.IsAtEnd(); ++postOrderIt)
-    {
+  {
     std::cout << postOrderIt.Get() << std::endl;
-    }
+  }
   std::cout << std::endl;
   // Software Guide : EndCodeSnippet
 
@@ -395,14 +392,13 @@ int main(int, char* [])
   std::cout << "RootTreeIterator:" << std::endl;
 
   // Software Guide : BeginCodeSnippet
-  itk::RootTreeIterator<TreeType> rootIt(tree,tree->GetNode(4));
+  itk::RootTreeIterator<TreeType> rootIt(tree, tree->GetNode(4));
   for (rootIt.GoToBegin(); !rootIt.IsAtEnd(); ++rootIt)
-    {
+  {
     std::cout << rootIt.Get() << std::endl;
-    }
+  }
   std::cout << std::endl;
   // Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;
-
 }

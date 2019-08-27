@@ -49,8 +49,8 @@ namespace itk
  * \ingroup RegistrationFilters
  * \ingroup ITKRegistrationCommon
  */
-template< typename TFixedPointSet, typename TMovingSpatialObject >
-class ITK_TEMPLATE_EXPORT PointSetToSpatialObjectDemonsRegistration:public ProcessObject
+template <typename TFixedPointSet, typename TMovingSpatialObject>
+class ITK_TEMPLATE_EXPORT PointSetToSpatialObjectDemonsRegistration : public ProcessObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PointSetToSpatialObjectDemonsRegistration);
@@ -58,8 +58,8 @@ public:
   /** Standard class type aliases. */
   using Self = PointSetToSpatialObjectDemonsRegistration;
   using Superclass = ProcessObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -86,7 +86,8 @@ public:
 protected:
   PointSetToSpatialObjectDemonsRegistration();
   ~PointSetToSpatialObjectDemonsRegistration() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   MovingSpatialObjectConstPointer m_MovingSpatialObject;
@@ -95,7 +96,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPointSetToSpatialObjectDemonsRegistration.hxx"
+#  include "itkPointSetToSpatialObjectDemonsRegistration.hxx"
 #endif
 
 #endif

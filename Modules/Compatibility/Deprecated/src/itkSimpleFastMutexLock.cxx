@@ -28,9 +28,9 @@
 #include "itkSimpleFastMutexLock.h"
 
 #if defined(ITK_USE_PTHREADS)
-#include "itkSimpleFastMutexLockPThreads.cxx"
+#  include "itkSimpleFastMutexLockPThreads.cxx"
 #elif defined(ITK_USE_WIN32_THREADS)
-#include "itkSimpleFastMutexLockWinThreads.cxx"
+#  include "itkSimpleFastMutexLockWinThreads.cxx"
 #else
-#include "itkSimpleFastMutexLockNoThreads.cxx"
+#  include "itkSimpleFastMutexLockNoThreads.cxx"
 #endif

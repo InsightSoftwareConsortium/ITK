@@ -19,23 +19,19 @@
 
 namespace itk
 {
-ConditionVariable::ConditionVariable()
-{
-}
+ConditionVariable::ConditionVariable() {}
 
-ConditionVariable::~ConditionVariable()
-{
-}
+ConditionVariable::~ConditionVariable() {}
 
-void ConditionVariable::Signal()
-{
-}
+void
+ConditionVariable::Signal()
+{}
 
-void ConditionVariable::Broadcast()
-{
-}
+void
+ConditionVariable::Broadcast()
+{}
 
-void ConditionVariable::Wait(SimpleMutexLock *)
-{
-}
-} //end of namespace itk
+void
+ConditionVariable::Wait(SimpleMutexLock *)
+{}
+} // end of namespace itk

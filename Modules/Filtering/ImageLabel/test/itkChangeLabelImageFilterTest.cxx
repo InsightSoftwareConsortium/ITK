@@ -20,7 +20,8 @@
 #include "itkChangeLabelImageFilter.h"
 
 
-int itkChangeLabelImageFilterTest(int, char* [] )
+int
+itkChangeLabelImageFilterTest(int, char *[])
 {
 
   // Define the dimension of the images
@@ -41,17 +42,16 @@ int itkChangeLabelImageFilterTest(int, char* [] )
   using SourceType = itk::RandomImageSource<InputImageType>;
   SourceType::Pointer source = SourceType::New();
 
-  InputImageType::SizeValueType sizeArray[ImageDimension] = { 3,3,3 };
+  InputImageType::SizeValueType sizeArray[ImageDimension] = { 3, 3, 3 };
 
   // limit to a few labels
   InputPixelType upper = 10;
-  source->SetMin( itk::NumericTraits<InputPixelType>::ZeroValue() );
-  source->SetMax( upper );
-  source->SetSize( sizeArray );
+  source->SetMin(itk::NumericTraits<InputPixelType>::ZeroValue());
+  source->SetMax(upper);
+  source->SetSize(sizeArray);
 
   // Declare the type for the binary threshold filter
-  using FilterType = itk::ChangeLabelImageFilter< InputImageType,
-                               OutputImageType  >;
+  using FilterType = itk::ChangeLabelImageFilter<InputImageType, OutputImageType>;
 
 
   // Create a filter
@@ -60,36 +60,37 @@ int itkChangeLabelImageFilterTest(int, char* [] )
   // Eliminate most labels
   InputPixelType background = 0;
   InputPixelType maxRemainingLabel = 2;
-  for (InputPixelType i = maxRemainingLabel; i <= upper; i++) {
-    filter->SetChange( i, background );
+  for (InputPixelType i = maxRemainingLabel; i <= upper; i++)
+  {
+    filter->SetChange(i, background);
   }
 
-  filter->Print( std::cout );
+  filter->Print(std::cout);
 
   // exercise Get methods
 
 
   // Connect the input images
-  filter->SetInput( source->GetOutput() );
+  filter->SetInput(source->GetOutput());
 
   // Get the Smart Pointer to the Filter Output
   OutputImageType::Pointer outputImage = filter->GetOutput();
 
   // Execute the filter
   try
-    {
+  {
     filter->Update();
     filter->SetFunctor(filter->GetFunctor());
-    }
-  catch(...)
-    {
+  }
+  catch (...)
+  {
     std::cerr << "Caught an unexpected exception. " << std::endl;
     std::cerr << "Test failed. " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Create an iterator for going through the image output
-  InputIteratorType  it( source->GetOutput(), source->GetOutput()->GetRequestedRegion() );
+  InputIteratorType  it(source->GetOutput(), source->GetOutput()->GetRequestedRegion());
   OutputIteratorType ot(outputImage, outputImage->GetRequestedRegion());
 
   bool pass = true;
@@ -98,25 +99,25 @@ int itkChangeLabelImageFilterTest(int, char* [] )
   std::cout << "Verification of the output " << std::endl;
   ot.GoToBegin();
   it.GoToBegin();
-  while( !ot.IsAtEnd() )
+  while (!ot.IsAtEnd())
   {
 
-    const InputPixelType  input  = it.Get();
+    const InputPixelType  input = it.Get();
     const OutputPixelType output = ot.Get();
-    std::cout <<  (double) input  << " " << (double) output << std::endl;
+    std::cout << (double)input << " " << (double)output << std::endl;
 
-    if( output > maxRemainingLabel )
-      {
-        pass = false;
-      }
-    if ( !pass )
-      {
+    if (output > maxRemainingLabel)
+    {
+      pass = false;
+    }
+    if (!pass)
+    {
       std::cerr << "Error in itkChangeLaelImageFilterTest " << std::endl;
       std::cerr << " input = " << input;
       std::cerr << " output = " << output;
       std::cerr << std::endl;
       return EXIT_FAILURE;
-      }
+    }
 
     ++ot;
     ++it;
@@ -128,18 +129,18 @@ int itkChangeLabelImageFilterTest(int, char* [] )
 
   // reexecute the filter
   try
-    {
+  {
     filter->Update();
-    }
-  catch(...)
-    {
+  }
+  catch (...)
+  {
     std::cerr << "Caught an unexpected exception. " << std::endl;
     std::cerr << "Test failed. " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Create an iterator for going through the image output
-  InputIteratorType  ita( source->GetOutput(), source->GetOutput()->GetRequestedRegion() );
+  InputIteratorType  ita(source->GetOutput(), source->GetOutput()->GetRequestedRegion());
   OutputIteratorType ota(outputImage, outputImage->GetRequestedRegion());
 
 
@@ -148,38 +149,38 @@ int itkChangeLabelImageFilterTest(int, char* [] )
   std::cout << "Verification of the output " << std::endl;
   ota.GoToBegin();
   ita.GoToBegin();
-  while( !ota.IsAtEnd() )
+  while (!ota.IsAtEnd())
   {
 
-    const InputPixelType  input  = ita.Get();
+    const InputPixelType  input = ita.Get();
     const OutputPixelType output = ota.Get();
-    std::cout <<  (double) input  << " " << (double) output << std::endl;
+    std::cout << (double)input << " " << (double)output << std::endl;
 
-    if( input != output )
-      {
-        pass = false;
-      }
-    if ( !pass )
-      {
+    if (input != output)
+    {
+      pass = false;
+    }
+    if (!pass)
+    {
       std::cerr << "Error in itkChangeLaelImageFilterTest " << std::endl;
       std::cerr << " input = " << input;
       std::cerr << " output = " << output;
       std::cerr << std::endl;
       return EXIT_FAILURE;
-      }
+    }
 
     ++ota;
     ++ita;
   }
 
-  if ( pass )
-    {
+  if (pass)
+  {
     std::cout << "Test passsed. " << std::endl;
     return EXIT_SUCCESS;
-    }
+  }
   else
-    {
+  {
     std::cout << "Test failed. " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 }

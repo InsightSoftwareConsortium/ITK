@@ -22,48 +22,49 @@
 #include "itkFileListVideoIOFactory.h"
 #include "itkTestingMacros.h"
 
-int itkVideoFileReaderWriterTest( int argc, char *argv[] )
+int
+itkVideoFileReaderWriterTest(int argc, char * argv[])
 {
   // Check parameters
   if (argc != 7)
-    {
+  {
     std::cerr << "Usage: [Video Input] [Image Output]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Instantiate a new reader
   using PixelType = itk::RGBPixel<unsigned char>;
   constexpr unsigned int NumberOfDimensions = 2;
-  using FrameType = itk::Image< PixelType, NumberOfDimensions >;
-  using VideoType = itk::VideoStream< FrameType >;
-  using VideoReaderType = itk::VideoFileReader< VideoType >;
-  using VideoWriterType = itk::VideoFileWriter< VideoType >;
+  using FrameType = itk::Image<PixelType, NumberOfDimensions>;
+  using VideoType = itk::VideoStream<FrameType>;
+  using VideoReaderType = itk::VideoFileReader<VideoType>;
+  using VideoWriterType = itk::VideoFileWriter<VideoType>;
 
   std::string inFile = "";
-  for( int i = 1; i <= 5; ++i )
-    {
+  for (int i = 1; i <= 5; ++i)
+  {
     inFile = inFile + std::string(argv[i]);
-    if( i != 5 )
-      {
+    if (i != 5)
+    {
       inFile = inFile + std::string(",");
-      }
     }
+  }
   VideoReaderType::Pointer reader = VideoReaderType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( reader, VideoFileReader, VideoSource );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(reader, VideoFileReader, VideoSource);
 
-  reader->SetFileName(inFile.c_str() );
+  reader->SetFileName(inFile.c_str());
 
   // I'm still not sure how to handle this right, but for now, just manually
   // register an FileListVideoIO
-  itk::ObjectFactoryBase::RegisterFactory( itk::FileListVideoIOFactory::New() );
+  itk::ObjectFactoryBase::RegisterFactory(itk::FileListVideoIOFactory::New());
 
   // Set up the writer
   VideoWriterType::Pointer writer = VideoWriterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( writer, VideoFileWriter, TemporalProcessObject );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(writer, VideoFileWriter, TemporalProcessObject);
 
-  writer->SetInput(reader->GetOutput() );
+  writer->SetInput(reader->GetOutput());
   writer->SetFileName(argv[6]);
 
   // Call Update on the writer to process the entire video

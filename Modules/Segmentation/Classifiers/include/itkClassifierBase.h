@@ -82,8 +82,8 @@ namespace itk
  * \ingroup ClassificationFilters
  * \ingroup ITKClassifiers
  */
-template< typename TDataContainer >
-class ITK_TEMPLATE_EXPORT ClassifierBase:public LightProcessObject
+template <typename TDataContainer>
+class ITK_TEMPLATE_EXPORT ClassifierBase : public LightProcessObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ClassifierBase);
@@ -105,7 +105,7 @@ public:
   using MeasurementVectorType = typename TDataContainer::ValueType;
 
   /** Typedefs for membership funciton */
-  using MembershipFunctionType = Statistics::MembershipFunctionBase< MeasurementVectorType >;
+  using MembershipFunctionType = Statistics::MembershipFunctionBase<MeasurementVectorType>;
   using MembershipFunctionPointer = typename MembershipFunctionType::Pointer;
 
   using MembershipFunctionPointerVector = std::vector<MembershipFunctionPointer>;
@@ -116,13 +116,15 @@ public:
   /** Sets the pointer to the decision rule.
    * Stores the decision rule that makes the real decision using
    * informations from MembershipFunctions and other prior knowledge */
-  void SetDecisionRule(DecisionRuleType *ptrToDecisionRule)
+  void
+  SetDecisionRule(DecisionRuleType * ptrToDecisionRule)
   {
     m_DecisionRule = ptrToDecisionRule;
   }
 
   /** Gets the pointer to the decision rule being used. */
-  DecisionRuleType * GetDecisionRule()
+  DecisionRuleType *
+  GetDecisionRule()
   {
     return m_DecisionRule.GetPointer();
   }
@@ -131,31 +133,37 @@ public:
    * the AddMembershipFunction method. The index is assigned according
    * to the order each membership function has been added using the
    * AddMemberShipFunction method */
-  const MembershipFunctionType * GetMembershipFunction(unsigned int index) const
+  const MembershipFunctionType *
+  GetMembershipFunction(unsigned int index) const
   {
     return m_MembershipFunctions[index].GetPointer();
   }
 
   /** Gets the number of membership functions */
-  unsigned int GetNumberOfMembershipFunctions()
+  unsigned int
+  GetNumberOfMembershipFunctions()
   {
-    return static_cast< unsigned int >( m_MembershipFunctions.size() );
+    return static_cast<unsigned int>(m_MembershipFunctions.size());
   }
 
   /** Stores a membership function of a class in its internal vector */
-  unsigned int AddMembershipFunction(MembershipFunctionType *function);
+  unsigned int
+  AddMembershipFunction(MembershipFunctionType * function);
 
   /** Starts the classification process */
-  void Update();
+  void
+  Update();
 
 protected:
   ClassifierBase();
   ~ClassifierBase() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** The real classification logic implementaion. All the subclasses
    * of this class should implement this method. */
-  void GenerateData() override = 0;
+  void
+  GenerateData() override = 0;
 
 private:
   /** Number of classes */
@@ -170,7 +178,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkClassifierBase.hxx"
+#  include "itkClassifierBase.hxx"
 #endif
 
 #endif

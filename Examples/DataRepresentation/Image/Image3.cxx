@@ -33,24 +33,25 @@
 
 #include "itkImage.h"
 
-int main(int, char *[])
+int
+main(int, char *[])
 {
   // First the image type should be declared
-  using ImageType = itk::Image< unsigned short, 3 >;
+  using ImageType = itk::Image<unsigned short, 3>;
 
   // Then the image object can be created
   ImageType::Pointer image = ImageType::New();
 
   // The image region should be initialized
-  const ImageType::SizeType  size  = {{ 200, 200, 200}}; //Size along {X,Y,Z}
-  const ImageType::IndexType start = {{ 0, 0, 0 }}; // First index on {X,Y,Z}
+  const ImageType::SizeType  size = { { 200, 200, 200 } }; // Size along {X,Y,Z}
+  const ImageType::IndexType start = { { 0, 0, 0 } };      // First index on {X,Y,Z}
 
   ImageType::RegionType region;
-  region.SetSize( size );
-  region.SetIndex( start );
+  region.SetSize(size);
+  region.SetIndex(start);
 
   // Pixel data is allocated
-  image->SetRegions( region );
+  image->SetRegions(region);
   image->Allocate(true); // initialize buffer to zero
 
 
@@ -77,7 +78,7 @@ int main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const ImageType::IndexType pixelIndex = {{27,29,37}}; // Position of {X,Y,Z}
+  const ImageType::IndexType pixelIndex = { { 27, 29, 37 } }; // Position of {X,Y,Z}
   // Software Guide : EndCodeSnippet
 
 
@@ -92,7 +93,7 @@ int main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ImageType::PixelType   pixelValue = image->GetPixel( pixelIndex );
+  ImageType::PixelType pixelValue = image->GetPixel(pixelIndex);
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -104,7 +105,7 @@ int main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  image->SetPixel(   pixelIndex,   pixelValue+1  );
+  image->SetPixel(pixelIndex, pixelValue + 1);
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

@@ -23,28 +23,28 @@
 #include "itkSimpleFilterWatcher.h"
 #include "itkTestingMacros.h"
 
-int itkMaximumEntropyThresholdImageFilterTest(int argc, char* argv[] )
+int
+itkMaximumEntropyThresholdImageFilterTest(int argc, char * argv[])
 {
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " inputImageFile outputImageFile";
     std::cerr << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   using InputPixelType = short;
   using OutputPixelType = unsigned char;
 
-  using InputImageType = itk::Image< InputPixelType,  2 >;
-  using OutputImageType = itk::Image< OutputPixelType, 2 >;
+  using InputImageType = itk::Image<InputPixelType, 2>;
+  using OutputImageType = itk::Image<OutputPixelType, 2>;
 
-  using FilterType = itk::MaximumEntropyThresholdImageFilter<
-               InputImageType, OutputImageType >;
+  using FilterType = itk::MaximumEntropyThresholdImageFilter<InputImageType, OutputImageType>;
 
-  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
 
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   FilterType::Pointer filter = FilterType::New();
@@ -52,22 +52,21 @@ int itkMaximumEntropyThresholdImageFilterTest(int argc, char* argv[] )
 
   itk::SimpleFilterWatcher watcher(filter);
 
-  filter->SetInsideValue( 255 );
-  ITK_TEST_SET_GET_VALUE( 255, filter->GetInsideValue() );
+  filter->SetInsideValue(255);
+  ITK_TEST_SET_GET_VALUE(255, filter->GetInsideValue());
 
-  filter->SetOutsideValue( 0 );
-  ITK_TEST_SET_GET_VALUE( 0, filter->GetOutsideValue() );
+  filter->SetOutsideValue(0);
+  ITK_TEST_SET_GET_VALUE(0, filter->GetOutsideValue());
 
-  reader->SetFileName( argv[1] );
-  filter->SetInput( reader->GetOutput() );
+  reader->SetFileName(argv[1]);
+  filter->SetInput(reader->GetOutput());
   // filter->SetNumberOfHistogramBins (std::stoi(argv[3]));
-  writer->SetInput( filter->GetOutput() );
+  writer->SetInput(filter->GetOutput());
 
   filter->Update();
   std::cout << "Computed Threshold is: "
-            << itk::NumericTraits<FilterType::InputPixelType>::PrintType(filter->GetThreshold())
-            << std::endl;
-  writer->SetFileName( argv[2] );
+            << itk::NumericTraits<FilterType::InputPixelType>::PrintType(filter->GetThreshold()) << std::endl;
+  writer->SetFileName(argv[2]);
   writer->Update();
 
   return EXIT_SUCCESS;

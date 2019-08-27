@@ -78,22 +78,26 @@ public:
   /**
    * Compute the B matrix.
    */
-  void GetStrainDisplacementMatrix(MatrixType & B, const MatrixType & shapeDgl) const override;
+  void
+  GetStrainDisplacementMatrix(MatrixType & B, const MatrixType & shapeDgl) const override;
 
   /**
    * Compute the D matrix.
    */
-  void GetMaterialMatrix(MatrixType & D) const override;
+  void
+  GetMaterialMatrix(MatrixType & D) const override;
 
   /**
    * Compute the mass matrix specific for 2D strain problems.
    */
-  void GetMassMatrix(MatrixType & Me) const override;
+  void
+  GetMassMatrix(MatrixType & Me) const override;
 
   /**
    * 2D strain elements have 2 DOFs per node.
    */
-  unsigned int GetNumberOfDegreesOfFreedomPerNode() const override
+  unsigned int
+  GetNumberOfDegreesOfFreedomPerNode() const override
   {
     return 2;
   }
@@ -101,31 +105,32 @@ public:
   /**
    * Get/Set the material properties for the element
    */
-  Material::ConstPointer GetMaterial() const override
+  Material::ConstPointer
+  GetMaterial() const override
   {
     return dynamic_cast<const Material *>(m_mat);
   }
 
-  void SetMaterial(Material::ConstPointer mat_) override
+  void
+  SetMaterial(Material::ConstPointer mat_) override
   {
-    m_mat =
-      dynamic_cast<const MaterialLinearElasticity *>( mat_.GetPointer() );
+    m_mat = dynamic_cast<const MaterialLinearElasticity *>(mat_.GetPointer());
   }
 
 protected:
-
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**
    * Pointer to material properties of the element
    */
-  const MaterialLinearElasticity  *m_mat;
-};  // class Element2DStrain
+  const MaterialLinearElasticity * m_mat;
+}; // class Element2DStrain
 } // end namespace fem
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFEMElement2DStrain.hxx"
+#  include "itkFEMElement2DStrain.hxx"
 #endif
 
 #endif // itkFEMElement2DStrain_h

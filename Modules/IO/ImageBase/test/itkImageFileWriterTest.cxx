@@ -18,22 +18,23 @@
 
 #include "itkImageFileWriter.h"
 
-int itkImageFileWriterTest(int ac, char* av[])
+int
+itkImageFileWriterTest(int ac, char * av[])
 {
 
   if (ac < 2)
-    {
+  {
     std::cout << "usage: itkIOTests itkImageFileWriterTest outputFileName" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-  using ImageNDType = itk::Image<short,2>;
+  using ImageNDType = itk::Image<short, 2>;
   using WriterType = itk::ImageFileWriter<ImageNDType>;
 
-  ImageNDType::Pointer image = ImageNDType::New();
+  ImageNDType::Pointer    image = ImageNDType::New();
   ImageNDType::RegionType region;
-  ImageNDType::IndexType index;
-  ImageNDType::SizeType size;
+  ImageNDType::IndexType  index;
+  ImageNDType::SizeType   size;
 
 
   size.Fill(5);
@@ -47,106 +48,105 @@ int itkImageFileWriterTest(int ac, char* av[])
   // Try an empty write
   int status = 1;
   try
-    {
+  {
     WriterType::Pointer writer = WriterType::New();
     writer->Update();
-    }
-  catch (itk::ExceptionObject &ex)
-    {
+  }
+  catch (itk::ExceptionObject & ex)
+  {
     std::cout << "------------------ Caught expected exception!" << std::endl;
     std::cout << ex;
     status = 0;
-    }
+  }
   if (status)
-    {
+  {
     std::cout << "Failed to catch expected exception." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Now try an image but no filename
   status = 1;
   try
-    {
+  {
     WriterType::Pointer writer = WriterType::New();
     writer->SetInput(image);
     writer->Update();
-    }
-  catch (itk::ExceptionObject &ex)
-    {
+  }
+  catch (itk::ExceptionObject & ex)
+  {
     std::cout << "------------------ Caught expected exception!" << std::endl;
     std::cout << ex;
     status = 0;
-    }
+  }
   if (status)
-    {
+  {
     std::cout << "Failed to catch expected exception." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Now try a write with an image but a bad output extension
   status = 1;
   try
-    {
+  {
     WriterType::Pointer writer = WriterType::New();
     writer->SetInput(image);
     writer->SetFileName("this_is_a_bad_filename");
     writer->Update();
-    }
-  catch (itk::ExceptionObject &ex)
-    {
+  }
+  catch (itk::ExceptionObject & ex)
+  {
     std::cout << "------------------ Caught expected exception!" << std::endl;
     std::cout << ex;
     status = 0;
-    }
+  }
   if (status)
-    {
+  {
     std::cout << "Failed to catch expected exception." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Let's not be too negative. Try a write to a valid file.
   status = 1;
   try
-    {
+  {
     WriterType::Pointer writer = WriterType::New();
     writer->SetInput(image);
     writer->SetFileName(av[1]);
     writer->Update();
-    }
-  catch (itk::ExceptionObject &ex)
-    {
+  }
+  catch (itk::ExceptionObject & ex)
+  {
     std::cout << "------------------ Caught expected exception!" << std::endl;
     std::cout << ex;
     status = 0;
-    }
+  }
   if (status)
-    {
+  {
     std::cout << "Failed to catch expected exception." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Let's do the same with UpdateLargestPossibleRegion(), to make sure it does something
   status = 1;
   try
-    {
+  {
     WriterType::Pointer writer = WriterType::New();
     writer->SetInput(image);
     writer->SetFileName(av[1]);
     writer->UpdateLargestPossibleRegion();
-    }
-  catch (itk::ExceptionObject &ex)
-    {
+  }
+  catch (itk::ExceptionObject & ex)
+  {
     std::cout << "------------------ Caught expected exception!" << std::endl;
     std::cout << ex;
     status = 0;
-    }
+  }
   if (status)
-    {
+  {
     std::cout << "Failed to catch expected exception." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   return EXIT_SUCCESS;
-
 }

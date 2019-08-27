@@ -34,17 +34,15 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 
-template< unsigned int TPointDimension = 3 >
-class ITK_TEMPLATE_EXPORT SurfaceSpatialObjectPoint:
-  public SpatialObjectPoint< TPointDimension >
+template <unsigned int TPointDimension = 3>
+class ITK_TEMPLATE_EXPORT SurfaceSpatialObjectPoint : public SpatialObjectPoint<TPointDimension>
 {
 public:
-
   using Self = SurfaceSpatialObjectPoint;
-  using Superclass = SpatialObjectPoint< TPointDimension >;
-  using PointType = Point< double, TPointDimension >;
+  using Superclass = SpatialObjectPoint<TPointDimension>;
+  using PointType = Point<double, TPointDimension>;
 
-  using CovariantVectorType = CovariantVector< double, TPointDimension >;
+  using CovariantVectorType = CovariantVector<double, TPointDimension>;
 
   /** Constructor */
   SurfaceSpatialObjectPoint();
@@ -53,25 +51,28 @@ public:
   ~SurfaceSpatialObjectPoint() override = default;
 
   /** Get Normal */
-  const CovariantVectorType & GetNormalInObjectSpace() const;
+  const CovariantVectorType &
+  GetNormalInObjectSpace() const;
 
   /** Set Normal */
-  void SetNormalInObjectSpace(const CovariantVectorType & normal);
+  void
+  SetNormalInObjectSpace(const CovariantVectorType & normal);
 
   /** Copy one SurfaceSpatialObjectPoint to another */
-  Self & operator=(const SurfaceSpatialObjectPoint & rhs);
+  Self &
+  operator=(const SurfaceSpatialObjectPoint & rhs);
 
 protected:
-
   CovariantVectorType m_NormalInObjectSpace;
 
   /** Method to print the object. */
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 };
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSurfaceSpatialObjectPoint.hxx"
+#  include "itkSurfaceSpatialObjectPoint.hxx"
 #endif
 
 #endif // itkSurfaceSpatialObjectPoint_h

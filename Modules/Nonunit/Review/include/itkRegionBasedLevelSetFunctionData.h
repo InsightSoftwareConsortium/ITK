@@ -64,16 +64,16 @@ namespace itk
  *
  * \ingroup ITKReview
  */
-template< typename TInputImage, typename TFeatureImage >
-class ITK_TEMPLATE_EXPORT RegionBasedLevelSetFunctionData:public LightObject
+template <typename TInputImage, typename TFeatureImage>
+class ITK_TEMPLATE_EXPORT RegionBasedLevelSetFunctionData : public LightObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(RegionBasedLevelSetFunctionData);
 
   using Self = RegionBasedLevelSetFunctionData;
   using Superclass = LightObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   static constexpr unsigned int ImageDimension = TFeatureImage::ImageDimension;
 
@@ -107,29 +107,33 @@ public:
 
   // Allocates m_HeavisideFunctionOfLevelSetImage to have same origin,
   // spacing and size as image. Also sets the m_Start and m_End indices.
-  void CreateHeavisideFunctionOfLevelSetImage(const InputImageType *image);
+  void
+  CreateHeavisideFunctionOfLevelSetImage(const InputImageType * image);
 
   // Checks if the given index lies in the domain of the current
   // level-set function. The domain is defined by the start and end indices.
-  template< typename TIndex >
-  bool VerifyInsideRegion(const TIndex & featureIndex)
+  template <typename TIndex>
+  bool
+  VerifyInsideRegion(const TIndex & featureIndex)
   {
-    for ( unsigned int j = 0; j < ImageDimension; j++ )
+    for (unsigned int j = 0; j < ImageDimension; j++)
+    {
+      if ((featureIndex[j] < static_cast<InputIndexValueType>(this->m_Start[j])) ||
+          (featureIndex[j] > static_cast<InputIndexValueType>(this->m_End[j])))
       {
-      if ( ( featureIndex[j] < static_cast< InputIndexValueType >( this->m_Start[j] ) )
-           || ( featureIndex[j] > static_cast< InputIndexValueType >( this->m_End[j] ) ) )
-        {
         return false;
-        }
       }
+    }
     return true;
   }
 
   // Get the index into the domain of the current level-set function
-  InputIndexType GetIndex(const FeatureIndexType & featureIndex);
+  InputIndexType
+  GetIndex(const FeatureIndexType & featureIndex);
 
   // Get the index in the domain of the feature image
-  FeatureIndexType GetFeatureIndex(const InputIndexType & inputIndex);
+  FeatureIndexType
+  GetFeatureIndex(const InputIndexType & inputIndex);
 
   double m_WeightedNumberOfPixelsInsideLevelSet;
   double m_WeightedNumberOfPixelsOutsideLevelSet;
@@ -142,9 +146,9 @@ protected:
   RegionBasedLevelSetFunctionData();
   ~RegionBasedLevelSetFunctionData() override {}
 };
-} //end namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRegionBasedLevelSetFunctionData.hxx"
+#  include "itkRegionBasedLevelSetFunctionData.hxx"
 #endif
 #endif

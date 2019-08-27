@@ -23,38 +23,39 @@
 #include "itkLineSpatialObject.h"
 #include "itkMath.h"
 
-int itkLineSpatialObjectTest(int, char* [])
+int
+itkLineSpatialObjectTest(int, char *[])
 {
   using LineType = itk::LineSpatialObject<3>;
   using LinePointer = LineType::Pointer;
   using LinePointType = LineType::LinePointType;
-  using VectorType = itk::CovariantVector<double,3>;
+  using VectorType = itk::CovariantVector<double, 3>;
 
-  std::cout<<"=================================="<<std::endl;
-  std::cout<<"Testing LineSpatialObject:"<<std::endl<<std::endl;
+  std::cout << "==================================" << std::endl;
+  std::cout << "Testing LineSpatialObject:" << std::endl << std::endl;
 
   LineType::LinePointListType list;
-  unsigned int i;
-  for(i=0; i<10; i++)
+  unsigned int                i;
+  for (i = 0; i < 10; i++)
   {
     LinePointType p;
-    p.SetPositionInObjectSpace(i,i+1,i+2);
+    p.SetPositionInObjectSpace(i, i + 1, i + 2);
     VectorType normal1;
     VectorType normal2;
-    for(unsigned int j=0;j<3;j++)
+    for (unsigned int j = 0; j < 3; j++)
     {
-      normal1[j]=j;
-      normal2[j]=j*2;
+      normal1[j] = j;
+      normal2[j] = j * 2;
     }
 
-    p.SetNormalInObjectSpace(normal1,0);
-    p.SetNormalInObjectSpace(normal2,1);
+    p.SetNormalInObjectSpace(normal1, 0);
+    p.SetNormalInObjectSpace(normal2, 1);
     list.push_back(p);
   }
 
   // For coverage
   LinePointType p;
-  p.SetPositionInObjectSpace(0,1,2);
+  p.SetPositionInObjectSpace(0, 1, 2);
   p.Print(std::cout);
 
   // Create a Line Spatial Object
@@ -64,18 +65,18 @@ int itkLineSpatialObjectTest(int, char* [])
   Line->SetPoints(list);
   Line->Update();
 
- // Number of points
+  // Number of points
   std::cout << "Testing Consistency: " << std::endl;
   std::cout << "Number of Points: ";
 
-  if(Line->GetPoints().size() != 10)
+  if (Line->GetPoints().size() != 10)
   {
-    std::cout<<"[FAILED]"<<std::endl;
+    std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout<<"[PASSED]"<<std::endl;
+    std::cout << "[PASSED]" << std::endl;
   }
 
 
@@ -84,84 +85,86 @@ int itkLineSpatialObjectTest(int, char* [])
 
   LineType::LinePointListType::const_iterator it = Line->GetPoints().begin();
 
-  i=0;
-  while(it != Line->GetPoints().end())
+  i = 0;
+  while (it != Line->GetPoints().end())
+  {
+    for (unsigned int d = 0; d < 3; d++)
     {
-    for(unsigned int d=0;d<3;d++)
+      if (itk::Math::NotExactlyEquals((*it).GetPositionInWorldSpace()[d], i + d))
       {
-      if(itk::Math::NotExactlyEquals((*it).GetPositionInWorldSpace()[d], i+d))
-        {
-        std::cout<<"[FAILED]"<<std::endl;
+        std::cout << "[FAILED]" << std::endl;
         return EXIT_FAILURE;
-        }
-
-      if(itk::Math::NotExactlyEquals(((*it).GetNormalInObjectSpace(0))[d], d))
-        {
-        std::cout<<"[FAILED]"<<std::endl;
-        return EXIT_FAILURE;
-        }
-
-      if(itk::Math::NotExactlyEquals(((*it).GetNormalInObjectSpace(1))[d], 2*d))
-        {
-        std::cout<<"[FAILED]"<<std::endl;
-        return EXIT_FAILURE;
-        }
-
       }
+
+      if (itk::Math::NotExactlyEquals(((*it).GetNormalInObjectSpace(0))[d], d))
+      {
+        std::cout << "[FAILED]" << std::endl;
+        return EXIT_FAILURE;
+      }
+
+      if (itk::Math::NotExactlyEquals(((*it).GetNormalInObjectSpace(1))[d], 2 * d))
+      {
+        std::cout << "[FAILED]" << std::endl;
+        return EXIT_FAILURE;
+      }
+    }
     it++;
     i++;
-    }
+  }
 
-  std::cout<<"[PASSED]"<<std::endl;
+  std::cout << "[PASSED]" << std::endl;
 
   // Point consistency
   std::cout << "Is Inside: ";
-  itk::Point<double,3> in;
-  in[0]=1;in[1]=2;in[2]=3;
-  itk::Point<double,3> out;
-  out[0]=0;out[1]=0;out[2]=0;
+  itk::Point<double, 3> in;
+  in[0] = 1;
+  in[1] = 2;
+  in[2] = 3;
+  itk::Point<double, 3> out;
+  out[0] = 0;
+  out[1] = 0;
+  out[2] = 0;
 
-  if(!Line->IsInsideInWorldSpace(in))
+  if (!Line->IsInsideInWorldSpace(in))
   {
-    std::cout<<"[FAILED]"<<std::endl;
+    std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
   }
 
-  if(Line->IsInsideInWorldSpace(out))
+  if (Line->IsInsideInWorldSpace(out))
   {
-    std::cout<<"[FAILED]"<<std::endl;
+    std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
   }
-  std::cout<<"[PASSED]"<<std::endl;
+  std::cout << "[PASSED]" << std::endl;
 
   // Testing IsEvaluableAt()
   std::cout << "IsEvaluableAt: ";
-  if(!Line->IsEvaluableAtInWorldSpace(in) || Line->IsEvaluableAtInWorldSpace(out))
+  if (!Line->IsEvaluableAtInWorldSpace(in) || Line->IsEvaluableAtInWorldSpace(out))
   {
-     std::cout<<"[FAILED]"<<std::endl;
-     return EXIT_FAILURE;
+    std::cout << "[FAILED]" << std::endl;
+    return EXIT_FAILURE;
   }
-  std::cout<<"[PASSED]"<<std::endl;
+  std::cout << "[PASSED]" << std::endl;
 
 
   // Testing IsEvaluableAt()
   std::cout << "ValueAt: ";
 
   double value;
-  if(!Line->ValueAtInWorldSpace(in,value))
+  if (!Line->ValueAtInWorldSpace(in, value))
   {
-     std::cout<<"[FAILED]"<<std::endl;
-     return EXIT_FAILURE;
+    std::cout << "[FAILED]" << std::endl;
+    return EXIT_FAILURE;
   }
 
-  if(itk::Math::NotExactlyEquals(value, 1))
+  if (itk::Math::NotExactlyEquals(value, 1))
   {
-     std::cout<<"[FAILED]"<<std::endl;
-     return EXIT_FAILURE;
+    std::cout << "[FAILED]" << std::endl;
+    return EXIT_FAILURE;
   }
-  std::cout<<"[PASSED]"<<std::endl;
+  std::cout << "[PASSED]" << std::endl;
 
 
   return EXIT_SUCCESS;
-
 }

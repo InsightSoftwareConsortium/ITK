@@ -20,7 +20,7 @@
 
 // Undefine an eventual DiffusionTensor3D macro
 #ifdef DiffusionTensor3D
-#undef DiffusionTensor3D
+#  undef DiffusionTensor3D
 #endif
 
 #include "itkSymmetricSecondRankTensor.h"
@@ -68,20 +68,20 @@ namespace itk
  * E. R. Melhem, S. Mori, G. Mukundan, M. A. Kraut, M. G. Pomper, and
  * P. C. M. van Zijl, "Diffusion tensor MR imaging of the brain and white
  * matter tractography," Am. J. Roentgenol., vol. 178, pp. 3-16, 2002.
-*
+ *
  * \sa SymmetricSecondRankTensor
  *
  * \ingroup ImageObjects   TensorObjects    Geometry
  * \ingroup ITKCommon
  */
 
-template< typename TComponent >
-class ITK_TEMPLATE_EXPORT DiffusionTensor3D:public SymmetricSecondRankTensor< TComponent, 3 >
+template <typename TComponent>
+class ITK_TEMPLATE_EXPORT DiffusionTensor3D : public SymmetricSecondRankTensor<TComponent, 3>
 {
 public:
   /** Standard class type aliases. */
   using Self = DiffusionTensor3D;
-  using Superclass = SymmetricSecondRankTensor< TComponent, 3 >;
+  using Superclass = SymmetricSecondRankTensor<TComponent, 3>;
 
   /** Propagating some type alias from the superclass */
   using ValueType = typename Superclass::ValueType;
@@ -103,46 +103,55 @@ public:
   DiffusionTensor3D(const ComponentArrayType r);
 
   /** Constructor to enable casting...  */
-  template< typename TCoordRepB >
-  DiffusionTensor3D(const DiffusionTensor3D< TCoordRepB > & pa):
-    SymmetricSecondRankTensor< TComponent, 3 >(pa) {}
+  template <typename TCoordRepB>
+  DiffusionTensor3D(const DiffusionTensor3D<TCoordRepB> & pa)
+    : SymmetricSecondRankTensor<TComponent, 3>(pa)
+  {}
 
   /** Pass-through assignment operator for the Array base class. */
-  Self & operator=(const Superclass & r);
+  Self &
+  operator=(const Superclass & r);
 
-  Self & operator=(const ComponentType & r);
+  Self &
+  operator=(const ComponentType & r);
 
-  Self & operator=(const ComponentArrayType r);
+  Self &
+  operator=(const ComponentArrayType r);
 
   /** Templated Pass-through assignment for the Array base class. */
-  template< typename TCoordRepB >
-  Self & operator=(const DiffusionTensor3D< TCoordRepB > & pa)
+  template <typename TCoordRepB>
+  Self &
+  operator=(const DiffusionTensor3D<TCoordRepB> & pa)
   {
-    //NOTE (this != &pa ) because they are different pointer types
-    //if this templated function is called
+    // NOTE (this != &pa ) because they are different pointer types
+    // if this templated function is called
     // ComponentType 'itk::DiffusionTensor3D<double> *'
     // TCoordRepB   'const DiffusionTensor3D<float> *')
-    SymmetricSecondRankTensor< TComponent, 3 >::operator=(pa);
+    SymmetricSecondRankTensor<TComponent, 3>::operator=(pa);
     return *this;
   }
 
   /** Get Trace value */
-  AccumulateValueType GetTrace() const;
+  AccumulateValueType
+  GetTrace() const;
 
   /** Get the value of Fractional Anisotropy from the Tensor. */
-  RealValueType GetFractionalAnisotropy() const;
+  RealValueType
+  GetFractionalAnisotropy() const;
 
   /** Get the value of Relative Anisotropy from the Tensor. */
-  RealValueType GetRelativeAnisotropy() const;
+  RealValueType
+  GetRelativeAnisotropy() const;
 
   /** Get the Inner Scalar Product from the Tensor. */
-  RealValueType GetInnerScalarProduct() const;
-
+  RealValueType
+  GetInnerScalarProduct() const;
 };
 
 
-template<typename T>
-inline void swap( DiffusionTensor3D<T> &a, DiffusionTensor3D<T> &b )
+template <typename T>
+inline void
+swap(DiffusionTensor3D<T> & a, DiffusionTensor3D<T> & b)
 {
   a.swap(b);
 }
@@ -151,7 +160,7 @@ inline void swap( DiffusionTensor3D<T> &a, DiffusionTensor3D<T> &b )
 #include "itkNumericTraitsDiffusionTensor3DPixel.h"
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDiffusionTensor3D.hxx"
+#  include "itkDiffusionTensor3D.hxx"
 #endif
 
 #endif

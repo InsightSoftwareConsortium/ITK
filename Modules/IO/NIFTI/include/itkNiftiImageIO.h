@@ -39,7 +39,7 @@ namespace itk
  * \ingroup IOFilters
  * \ingroup ITKIONIFTI
  */
-class ITKIONIFTI_EXPORT NiftiImageIO:public ImageIOBase
+class ITKIONIFTI_EXPORT NiftiImageIO : public ImageIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(NiftiImageIO);
@@ -47,7 +47,7 @@ public:
   /** Standard class type aliases. */
   using Self = NiftiImageIO;
   using Superclass = ImageIOBase;
-  using Pointer = SmartPointer< Self >;
+  using Pointer = SmartPointer<Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -59,7 +59,8 @@ public:
 
   /** Possible file formats readable by this ImageIO implementation.
    * Used by DetermineFileType(). */
-  enum FileType {
+  enum FileType
+  {
     /** 2-file Nifti (consisting of .hdr and .img file). */
     TwoFileNifti = 2,
     /** 1-file Nifti (consisting of .nii file). */
@@ -76,7 +77,8 @@ public:
    * \param FileNameToRead The name of the file to test for reading.
    * \return Returns one of the FileType enumerations.
    */
-  FileType DetermineFileType(const char *FileNameToRead);
+  FileType
+  DetermineFileType(const char * FileNameToRead);
 
   /** Reads the file to determine if it can be read with this ImageIO implementation.
    * Analyze 7.5 format files will only result in true if LegacyAnalyze75Mode is true.
@@ -84,13 +86,16 @@ public:
    * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
    * \return Returns true if this ImageIO can read the file specified.
    */
-  bool CanReadFile(const char *FileNameToRead) override;
+  bool
+  CanReadFile(const char * FileNameToRead) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  void ReadImageInformation() override;
+  void
+  ReadImageInformation() override;
 
   /** Reads the data from disk into the memory buffer provided. */
-  void Read(void *buffer) override;
+  void
+  Read(void * buffer) override;
 
   //-------- This part of the interfaces deals with writing data. -----
 
@@ -99,18 +104,21 @@ public:
    * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
    * \return Returns true if this ImageIO can write the file specified.
    */
-  bool CanWriteFile(const char *FileNameToWrite) override;
+  bool
+  CanWriteFile(const char * FileNameToWrite) override;
 
   /** Set the spacing and dimension information for the set filename.
    *
    * For Nifti this does not write a file, it only fills in the
    * appropriate header information.
    */
-  void WriteImageInformation() override;
+  void
+  WriteImageInformation() override;
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. */
-  void Write(const void *buffer) override;
+  void
+  Write(const void * buffer) override;
 
   /** Calculate the region of the image that can be efficiently read
    *  in response to a given requested region. */
@@ -122,54 +130,65 @@ public:
   itkSetMacro(RescaleIntercept, double);
 
   /** A mode to allow the Nifti filter to read and write to the LegacyAnalyze75 format as interpreted by
-    * the nifti library maintainers.  This format does not properly respect the file orientation fields.
-    * By default this is set to true.
-    */
+   * the nifti library maintainers.  This format does not properly respect the file orientation fields.
+   * By default this is set to true.
+   */
   itkSetMacro(LegacyAnalyze75Mode, bool);
   itkGetConstMacro(LegacyAnalyze75Mode, bool);
 
 protected:
   NiftiImageIO();
   ~NiftiImageIO() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  virtual bool GetUseLegacyModeForTwoFileWriting() const { return false; }
+  virtual bool
+  GetUseLegacyModeForTwoFileWriting() const
+  {
+    return false;
+  }
 
 private:
-  //Try to use the Q and S form codes from MetaDataDictionary if they are specified
-  //there, otherwise default to the backwards compatible values from earlier
-  //versions of ITK. The qform guess would probably been better to have
-  //been guessed as NIFTI_XFORM_SCANNER_ANAT
-  unsigned int getSFormCodeFromDictionary() const;
-  unsigned int getQFormCodeFromDictionary() const;
+  // Try to use the Q and S form codes from MetaDataDictionary if they are specified
+  // there, otherwise default to the backwards compatible values from earlier
+  // versions of ITK. The qform guess would probably been better to have
+  // been guessed as NIFTI_XFORM_SCANNER_ANAT
+  unsigned int
+  getSFormCodeFromDictionary() const;
+  unsigned int
+  getQFormCodeFromDictionary() const;
 
-  bool  MustRescale();
+  bool
+  MustRescale();
 
-  void  DefineHeaderObjectDataType();
+  void
+  DefineHeaderObjectDataType();
 
-  void  SetNIfTIOrientationFromImageIO(unsigned short int origdims, unsigned short int dims);
+  void
+  SetNIfTIOrientationFromImageIO(unsigned short int origdims, unsigned short int dims);
 
-  void  SetImageIOOrientationFromNIfTI(unsigned short int dims);
+  void
+  SetImageIOOrientationFromNIfTI(unsigned short int dims);
 
-  void  SetImageIOMetadataFromNIfTI();
+  void
+  SetImageIOMetadataFromNIfTI();
 
-  //This proxy class provides a nifti_image pointer interface to the internal implementation
-  //of itk::NiftiImageIO, while hiding the niftilib interface from the external ITK interface.
+  // This proxy class provides a nifti_image pointer interface to the internal implementation
+  // of itk::NiftiImageIO, while hiding the niftilib interface from the external ITK interface.
   class NiftiImageProxy;
 
-  //Note that it is essential that m_NiftiImageHolder is defined before m_NiftiImage, to ensure that
-  //m_NiftiImage can directly get a proxy from m_NiftiImageHolder during NiftiImageIO construction.
+  // Note that it is essential that m_NiftiImageHolder is defined before m_NiftiImage, to ensure that
+  // m_NiftiImage can directly get a proxy from m_NiftiImageHolder during NiftiImageIO construction.
   const std::unique_ptr<NiftiImageProxy> m_NiftiImageHolder;
 
-  NiftiImageProxy& m_NiftiImage;
+  NiftiImageProxy & m_NiftiImage;
 
-  double m_RescaleSlope{1.0};
-  double m_RescaleIntercept{0.0};
+  double m_RescaleSlope{ 1.0 };
+  double m_RescaleIntercept{ 0.0 };
 
-  IOComponentType m_OnDiskComponentType{UNKNOWNCOMPONENTTYPE};
+  IOComponentType m_OnDiskComponentType{ UNKNOWNCOMPONENTTYPE };
 
-  bool m_LegacyAnalyze75Mode{true};
-
+  bool m_LegacyAnalyze75Mode{ true };
 };
 } // end namespace itk
 

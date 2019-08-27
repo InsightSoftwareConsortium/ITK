@@ -30,24 +30,24 @@ namespace itk
  *
  * \ingroup ITKOptimizersv4
  */
-template < typename TMetric >
-class ITK_TEMPLATE_EXPORT RegistrationParameterScalesFromPhysicalShift :
-  public RegistrationParameterScalesFromShiftBase< TMetric >
+template <typename TMetric>
+class ITK_TEMPLATE_EXPORT RegistrationParameterScalesFromPhysicalShift
+  : public RegistrationParameterScalesFromShiftBase<TMetric>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(RegistrationParameterScalesFromPhysicalShift);
 
   /** Standard class type aliases. */
   using Self = RegistrationParameterScalesFromPhysicalShift;
-  using Superclass = RegistrationParameterScalesFromShiftBase< TMetric >;
+  using Superclass = RegistrationParameterScalesFromShiftBase<TMetric>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( RegistrationParameterScalesFromPhysicalShift, RegistrationParameterScalesFromShiftBase );
+  itkTypeMacro(RegistrationParameterScalesFromPhysicalShift, RegistrationParameterScalesFromShiftBase);
 
   /** Type of scales */
   using ScalesType = typename Superclass::ScalesType;
@@ -67,21 +67,24 @@ protected:
   RegistrationParameterScalesFromPhysicalShift() = default;
   ~RegistrationParameterScalesFromPhysicalShift() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void ComputeSampleShifts(const ParametersType &deltaParameters, ScalesType &localShifts) override;
+  void
+  ComputeSampleShifts(const ParametersType & deltaParameters, ScalesType & localShifts) override;
 
 private:
   template <typename TTransform>
-  void ComputeSampleShiftsInternal(const ParametersType &deltaParameters, ScalesType &localShifts);
+  void
+  ComputeSampleShiftsInternal(const ParametersType & deltaParameters, ScalesType & localShifts);
 
-}; //class RegistrationParameterScalesFromPhysicalShift
+}; // class RegistrationParameterScalesFromPhysicalShift
 
-}  // namespace itk
+} // namespace itk
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRegistrationParameterScalesFromPhysicalShift.hxx"
+#  include "itkRegistrationParameterScalesFromPhysicalShift.hxx"
 #endif
 
 #endif /* itkRegistrationParameterScalesFromPhysicalShift_h */

@@ -48,12 +48,11 @@ namespace Function
  *
  * /sa VectorRankHistogram
  */
-template< typename TInputPixel >
+template <typename TInputPixel>
 class RankHistogram
 {
 public:
-
-  using Compare = std::less< TInputPixel >;
+  using Compare = std::less<TInputPixel>;
 
   RankHistogram()
   {
@@ -61,25 +60,25 @@ public:
     m_Below = m_Entries = 0;
     // can't set m_RankIt until something has been put in the histogram
     m_Initialized = false;
-    if ( m_Compare( NumericTraits< TInputPixel >::max(),
-                    NumericTraits< TInputPixel >::NonpositiveMin() ) )
-      {
-      m_InitVal = NumericTraits< TInputPixel >::max();
-      }
+    if (m_Compare(NumericTraits<TInputPixel>::max(), NumericTraits<TInputPixel>::NonpositiveMin()))
+    {
+      m_InitVal = NumericTraits<TInputPixel>::max();
+    }
     else
-      {
-      m_InitVal = NumericTraits< TInputPixel >::NonpositiveMin();
-      }
+    {
+      m_InitVal = NumericTraits<TInputPixel>::NonpositiveMin();
+    }
     m_RankValue = m_InitVal;
-    m_RankIt = m_Map.begin();  // equivalent to setting to the initial value
+    m_RankIt = m_Map.begin(); // equivalent to setting to the initial value
   }
 
   ~RankHistogram() = default;
 
-  RankHistogram & operator=( const RankHistogram & hist )
+  RankHistogram &
+  operator=(const RankHistogram & hist)
   {
-    if(this != &hist)
-      {
+    if (this != &hist)
+    {
       m_Map = hist.m_Map;
       m_Rank = hist.m_Rank;
       m_Below = hist.m_Below;
@@ -87,157 +86,168 @@ public:
       m_InitVal = hist.m_InitVal;
       m_RankValue = hist.m_RankValue;
       m_Initialized = hist.m_Initialized;
-      if ( m_Initialized )
-        {
+      if (m_Initialized)
+      {
         m_RankIt = m_Map.find(m_RankValue);
-        }
       }
+    }
     return *this;
   }
 
-  void AddPixel(const TInputPixel & p)
+  void
+  AddPixel(const TInputPixel & p)
   {
     m_Map[p]++;
-    if ( !m_Initialized )
-      {
+    if (!m_Initialized)
+    {
       m_Initialized = true;
       m_RankIt = m_Map.begin();
       m_Entries = m_Below = 0;
       m_RankValue = p;
-      }
-    if ( m_Compare(p, m_RankValue) || p == m_RankValue )
-      {
+    }
+    if (m_Compare(p, m_RankValue) || p == m_RankValue)
+    {
       ++m_Below;
-      }
+    }
     ++m_Entries;
   }
 
-  void RemovePixel(const TInputPixel & p)
+  void
+  RemovePixel(const TInputPixel & p)
   {
     m_Map[p]--;
-    if ( m_Compare(p, m_RankValue) || p == m_RankValue )
-      {
+    if (m_Compare(p, m_RankValue) || p == m_RankValue)
+    {
       --m_Below;
-      }
+    }
     --m_Entries;
     // this is the change that makes this version less efficient. The
     // simplest approach I can think of with maps, though
-    if ( m_Entries <= 0 )
-      {
+    if (m_Entries <= 0)
+    {
       m_Initialized = false;
       m_Below = 0;
       m_Map.clear();
-      }
+    }
   }
 
-  bool IsValid()
+  bool
+  IsValid()
   {
     return m_Initialized;
   }
 
-  TInputPixel GetValueBruteForce()
+  TInputPixel
+  GetValueBruteForce()
   {
     SizeValueType count = 0;
-    SizeValueType target = (int)( m_Rank * ( m_Entries - 1 ) ) + 1;
-    for( typename MapType::iterator it=m_Map.begin(); it != m_Map.end(); it++ )
-      {
+    SizeValueType target = (int)(m_Rank * (m_Entries - 1)) + 1;
+    for (typename MapType::iterator it = m_Map.begin(); it != m_Map.end(); it++)
+    {
       count += it->second;
-      if( count >= target )
-        {
+      if (count >= target)
+      {
         return it->first;
-        }
       }
-    return NumericTraits< TInputPixel >::max();
+    }
+    return NumericTraits<TInputPixel>::max();
   }
 
-  TInputPixel GetValue(const TInputPixel &)
+  TInputPixel
+  GetValue(const TInputPixel &)
   {
-    SizeValueType target = (SizeValueType)( m_Rank * ( m_Entries - 1 ) ) + 1;
+    SizeValueType target = (SizeValueType)(m_Rank * (m_Entries - 1)) + 1;
     SizeValueType total = m_Below;
     SizeValueType ThisBin;
     bool          eraseFlag = false;
 
-    if ( total < target )
-      {
-      auto searchIt = m_RankIt;
+    if (total < target)
+    {
+      auto                       searchIt = m_RankIt;
       typename MapType::iterator eraseIt;
 
-      while ( searchIt != m_Map.end() )
-        {
+      while (searchIt != m_Map.end())
+      {
         // cleaning up the map - probably a better way of organising
         // the loop. Currently makes sure that the search iterator is
         // incremented before deleting
         ++searchIt;
         ThisBin = searchIt->second;
         total += ThisBin;
-        if ( eraseFlag )
-          {
+        if (eraseFlag)
+        {
           m_Map.erase(eraseIt);
           eraseFlag = false;
-          }
-        if ( ThisBin <= 0 )
-          {
+        }
+        if (ThisBin <= 0)
+        {
           eraseFlag = true;
           eraseIt = searchIt;
-          }
-        if ( total >= target )
-          {
-          break;
-          }
         }
-      if (searchIt == m_Map.end())
+        if (total >= target)
         {
-        --searchIt;
+          break;
         }
+      }
+      if (searchIt == m_Map.end())
+      {
+        --searchIt;
+      }
       m_RankValue = searchIt->first;
       m_RankIt = searchIt;
-      }
+    }
     else
-      {
-      auto searchIt = m_RankIt;
+    {
+      auto                       searchIt = m_RankIt;
       typename MapType::iterator eraseIt;
 
-      while ( searchIt != m_Map.begin() )
-        {
+      while (searchIt != m_Map.begin())
+      {
         ThisBin = searchIt->second;
         unsigned int tbelow = total - ThisBin;
-        if ( tbelow < target ) // we've overshot
-          {
+        if (tbelow < target) // we've overshot
+        {
           break;
-          }
-        if ( eraseFlag )
-          {
+        }
+        if (eraseFlag)
+        {
           m_Map.erase(eraseIt);
           eraseFlag = false;
-          }
-        if ( ThisBin <= 0 )
-          {
+        }
+        if (ThisBin <= 0)
+        {
           eraseIt = searchIt;
           eraseFlag = true;
-          }
+        }
         total = tbelow;
 
         --searchIt;
-        }
+      }
       m_RankValue = searchIt->first;
       m_RankIt = searchIt;
-      }
+    }
 
     m_Below = total;
-    itkAssertInDebugAndIgnoreInReleaseMacro( m_RankValue == GetValueBruteForce() );
-    return ( m_RankValue );
+    itkAssertInDebugAndIgnoreInReleaseMacro(m_RankValue == GetValueBruteForce());
+    return (m_RankValue);
   }
 
-  void SetRank(float rank)
+  void
+  SetRank(float rank)
   {
     m_Rank = rank;
   }
 
-  void AddBoundary(){}
+  void
+  AddBoundary()
+  {}
 
-  void RemoveBoundary(){}
+  void
+  RemoveBoundary()
+  {}
 
-  static bool UseVectorBasedAlgorithm()
+  static bool
+  UseVectorBasedAlgorithm()
   {
     return false;
   }
@@ -246,7 +256,7 @@ protected:
   float m_Rank;
 
 private:
-  using MapType = typename std::map< TInputPixel, SizeValueType, Compare >;
+  using MapType = typename std::map<TInputPixel, SizeValueType, Compare>;
 
   MapType       m_Map;
   SizeValueType m_Below;
@@ -261,97 +271,108 @@ private:
 };
 
 
-template< typename TInputPixel >
+template <typename TInputPixel>
 class VectorRankHistogram
 {
 public:
-  using Compare = std::less< TInputPixel >;
+  using Compare = std::less<TInputPixel>;
 
   VectorRankHistogram()
   {
-    m_Size = (OffsetValueType)NumericTraits< TInputPixel >::max() - (OffsetValueType)NumericTraits< TInputPixel >::NonpositiveMin() + 1;
+    m_Size = (OffsetValueType)NumericTraits<TInputPixel>::max() -
+             (OffsetValueType)NumericTraits<TInputPixel>::NonpositiveMin() + 1;
     m_Vec.resize(m_Size, 0);
-    if ( m_Compare( NumericTraits< TInputPixel >::max(),
-                    NumericTraits< TInputPixel >::NonpositiveMin() ) )
-      {
-      m_InitVal = NumericTraits< TInputPixel >::NonpositiveMin();
-      }
+    if (m_Compare(NumericTraits<TInputPixel>::max(), NumericTraits<TInputPixel>::NonpositiveMin()))
+    {
+      m_InitVal = NumericTraits<TInputPixel>::NonpositiveMin();
+    }
     else
-      {
-      m_InitVal = NumericTraits< TInputPixel >::max();
-      }
+    {
+      m_InitVal = NumericTraits<TInputPixel>::max();
+    }
     m_Entries = m_Below = 0;
-    m_RankValue = m_InitVal  - NumericTraits< TInputPixel >::NonpositiveMin();
+    m_RankValue = m_InitVal - NumericTraits<TInputPixel>::NonpositiveMin();
     m_Rank = 0.5;
   }
 
   ~VectorRankHistogram() = default;
 
-  bool IsValid()
+  bool
+  IsValid()
   {
     return m_Entries > 0;
   }
 
-  TInputPixel GetValueBruteForce()
+  TInputPixel
+  GetValueBruteForce()
   {
     SizeValueType count = 0;
-    SizeValueType target = (SizeValueType)( m_Rank * ( m_Entries - 1 ) ) + 1;
-    for( SizeValueType i=0; i<m_Size; i++ )
-      {
+    SizeValueType target = (SizeValueType)(m_Rank * (m_Entries - 1)) + 1;
+    for (SizeValueType i = 0; i < m_Size; i++)
+    {
       count += m_Vec[i];
-      if( count >= target )
-        {
-        return i + NumericTraits< TInputPixel >::NonpositiveMin();
-        }
+      if (count >= target)
+      {
+        return i + NumericTraits<TInputPixel>::NonpositiveMin();
       }
-    return NumericTraits< TInputPixel >::max();
+    }
+    return NumericTraits<TInputPixel>::max();
   }
 
-  TInputPixel GetValue(const TInputPixel &)
+  TInputPixel
+  GetValue(const TInputPixel &)
   {
     return GetValueBruteForce();
   }
 
-  void AddPixel(const TInputPixel & p)
+  void
+  AddPixel(const TInputPixel & p)
   {
-    OffsetValueType q = (OffsetValueType)p - NumericTraits< TInputPixel >::NonpositiveMin();
+    OffsetValueType q = (OffsetValueType)p - NumericTraits<TInputPixel>::NonpositiveMin();
 
     m_Vec[q]++;
-    if ( m_Compare(p, m_RankValue) || p == m_RankValue )
-      {
+    if (m_Compare(p, m_RankValue) || p == m_RankValue)
+    {
       ++m_Below;
-      }
+    }
     ++m_Entries;
   }
 
-  void RemovePixel(const TInputPixel & p)
+  void
+  RemovePixel(const TInputPixel & p)
   {
-    const OffsetValueType q = (OffsetValueType)p - NumericTraits< TInputPixel >::NonpositiveMin();
+    const OffsetValueType q = (OffsetValueType)p - NumericTraits<TInputPixel>::NonpositiveMin();
 
-    itkAssertInDebugAndIgnoreInReleaseMacro( q >= 0 );
-    itkAssertInDebugAndIgnoreInReleaseMacro( q < (int)m_Vec.size() );
-    itkAssertInDebugAndIgnoreInReleaseMacro( m_Entries >= 1 );
-    itkAssertInDebugAndIgnoreInReleaseMacro( m_Vec[q] > 0 );
+    itkAssertInDebugAndIgnoreInReleaseMacro(q >= 0);
+    itkAssertInDebugAndIgnoreInReleaseMacro(q < (int)m_Vec.size());
+    itkAssertInDebugAndIgnoreInReleaseMacro(m_Entries >= 1);
+    itkAssertInDebugAndIgnoreInReleaseMacro(m_Vec[q] > 0);
 
     m_Vec[q]--;
     --m_Entries;
 
-    if ( m_Compare(p, m_RankValue) || p == m_RankValue )
-      {
+    if (m_Compare(p, m_RankValue) || p == m_RankValue)
+    {
       --m_Below;
-      }
+    }
   }
 
-  void SetRank(float rank)
+  void
+  SetRank(float rank)
   {
     m_Rank = rank;
   }
 
-  void AddBoundary(){}
+  void
+  AddBoundary()
+  {}
 
-  void RemoveBoundary(){}
+  void
+  RemoveBoundary()
+  {}
 
-  static bool UseVectorBasedAlgorithm()
+  static bool
+  UseVectorBasedAlgorithm()
   {
     return true;
   }
@@ -360,7 +381,7 @@ protected:
   float m_Rank;
 
 private:
-  using VecType = typename std::vector< SizeValueType >;
+  using VecType = typename std::vector<SizeValueType>;
 
   VecType       m_Vec;
   SizeValueType m_Size;
@@ -376,23 +397,17 @@ private:
 
 /// \cond HIDE_SPECIALIZATION_DOCUMENTATION
 
-template<>
-class RankHistogram<unsigned char>:
-  public VectorRankHistogram<unsigned char>
-{
-};
+template <>
+class RankHistogram<unsigned char> : public VectorRankHistogram<unsigned char>
+{};
 
-template<>
-class RankHistogram<signed char>:
-  public VectorRankHistogram<signed char>
-{
-};
+template <>
+class RankHistogram<signed char> : public VectorRankHistogram<signed char>
+{};
 
-template<>
-class RankHistogram<bool>:
-  public VectorRankHistogram<bool>
-{
-};
+template <>
+class RankHistogram<bool> : public VectorRankHistogram<bool>
+{};
 
 /// \endcond
 

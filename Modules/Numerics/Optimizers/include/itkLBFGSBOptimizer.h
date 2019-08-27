@@ -60,8 +60,7 @@ class ITK_FORWARD_EXPORT LBFGSBOptimizerHelper;
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers
  */
-class ITKOptimizers_EXPORT LBFGSBOptimizer:
-  public SingleValuedNonLinearVnlOptimizer
+class ITKOptimizers_EXPORT LBFGSBOptimizer : public SingleValuedNonLinearVnlOptimizer
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LBFGSBOptimizer);
@@ -69,8 +68,8 @@ public:
   /** Standard "Self" type alias. */
   using Self = LBFGSBOptimizer;
   using Superclass = SingleValuedNonLinearVnlOptimizer;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -81,43 +80,48 @@ public:
   /**  BoundValue type.
    *  Use for defining the lower and upper bounds on the variables.
    */
-  using BoundValueType = Array< double >;
+  using BoundValueType = Array<double>;
 
   /** BoundSelection type
    * Use for defining the boundary condition for each variables.
    */
-  using BoundSelectionType = Array< long >;
+  using BoundSelectionType = Array<long>;
 
   /** Internal boundary value storage type */
-  using InternalBoundValueType = vnl_vector< double >;
+  using InternalBoundValueType = vnl_vector<double>;
 
   /** Internal boundary selection storage type */
-  using InternalBoundSelectionType = vnl_vector< long >;
+  using InternalBoundSelectionType = vnl_vector<long>;
 
   /** The vnl optimizer */
   using InternalOptimizerType = LBFGSBOptimizerHelper;
 
   /** Start optimization with an initial value. */
-  void StartOptimization() override;
+  void
+  StartOptimization() override;
 
   /** Plug in a Cost Function into the optimizer  */
-  void SetCostFunction(SingleValuedCostFunction *costFunction) override;
+  void
+  SetCostFunction(SingleValuedCostFunction * costFunction) override;
 
   /** Set/Get the optimizer trace flag. If set to true, the optimizer
    * prints out information every iteration.
    */
-  virtual void SetTrace(bool flag);
+  virtual void
+  SetTrace(bool flag);
 
   itkGetMacro(Trace, bool);
   itkBooleanMacro(Trace);
 
   /** Set the lower bound value for each variable. */
-  virtual void SetLowerBound(const BoundValueType & value);
-  itkGetConstReferenceMacro(LowerBound,BoundValueType);
+  virtual void
+  SetLowerBound(const BoundValueType & value);
+  itkGetConstReferenceMacro(LowerBound, BoundValueType);
 
   /** Set the upper bound value for each variable. */
-  virtual void SetUpperBound(const BoundValueType & value);
-  itkGetConstReferenceMacro(UpperBound,BoundValueType);
+  virtual void
+  SetUpperBound(const BoundValueType & value);
+  itkGetConstReferenceMacro(UpperBound, BoundValueType);
 
   /** Set the boundary condition for each variable, where
    * select[i] = 0 if x[i] is unbounded,
@@ -125,8 +129,9 @@ public:
    *           = 2 if x[i] has both lower and upper bounds, and
    *           = 3 if x[1] has only an upper bound
    */
-  virtual void SetBoundSelection(const BoundSelectionType & select);
-  itkGetConstReferenceMacro(BoundSelection,BoundSelectionType);
+  virtual void
+  SetBoundSelection(const BoundSelectionType & select);
+  itkGetConstReferenceMacro(BoundSelection, BoundSelectionType);
 
   /** Set/Get the CostFunctionConvergenceFactor. Algorithm terminates
    * when the reduction in cost function is less than factor * epsmcj
@@ -134,7 +139,8 @@ public:
    * Typical values for factor: 1e+12 for low accuracy;
    * 1e+7 for moderate accuracy and 1e+1 for extremely high accuracy.
    */
-  virtual void SetCostFunctionConvergenceFactor(double);
+  virtual void
+  SetCostFunctionConvergenceFactor(double);
 
   itkGetMacro(CostFunctionConvergenceFactor, double);
 
@@ -142,27 +148,32 @@ public:
    * when the project gradient is below the tolerance. Default value
    * is 1e-5.
    */
-  virtual void SetProjectedGradientTolerance(double);
+  virtual void
+  SetProjectedGradientTolerance(double);
 
   itkGetMacro(ProjectedGradientTolerance, double);
 
   /** Set/Get the MaximumNumberOfIterations. Default is 500 */
-  virtual void SetMaximumNumberOfIterations(unsigned int);
+  virtual void
+  SetMaximumNumberOfIterations(unsigned int);
 
   itkGetMacro(MaximumNumberOfIterations, unsigned int);
 
   /** Set/Get the MaximumNumberOfEvaluations. Default is 500 */
-  virtual void SetMaximumNumberOfEvaluations(unsigned int);
+  virtual void
+  SetMaximumNumberOfEvaluations(unsigned int);
 
   itkGetMacro(MaximumNumberOfEvaluations, unsigned int);
 
   /** Set/Get the MaximumNumberOfCorrections. Default is 5 */
-  virtual void SetMaximumNumberOfCorrections(unsigned int);
+  virtual void
+  SetMaximumNumberOfCorrections(unsigned int);
 
   itkGetMacro(MaximumNumberOfCorrections, unsigned int);
 
   /** This optimizer does not support scaling of the derivatives. */
-  void SetScales(const ScalesType &)
+  void
+  SetScales(const ScalesType &)
   {
     itkExceptionMacro(<< "This optimizer does not support scales.");
   }
@@ -171,19 +182,22 @@ public:
   itkGetConstReferenceMacro(CurrentIteration, unsigned int);
 
   /** Get the current cost function value. */
-  MeasureType GetValue() const;
+  MeasureType
+  GetValue() const;
 
   /** Get the current infinity norm of the project gradient of the cost
    * function. */
   itkGetConstReferenceMacro(InfinityNormOfProjectedGradient, double);
 
   /** Get the reason for termination */
-  const std::string GetStopConditionDescription() const override;
+  const std::string
+  GetStopConditionDescription() const override;
 
 protected:
   LBFGSBOptimizer();
   ~LBFGSBOptimizer() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   using CostFunctionAdaptorType = Superclass::CostFunctionAdaptorType;
 
@@ -192,17 +206,17 @@ private:
   // counts, etc.
   friend class LBFGSBOptimizerHelper;
 
-  bool         m_Trace{false};
-  bool         m_OptimizerInitialized{false};
-  double       m_CostFunctionConvergenceFactor{1e+7};
-  double       m_ProjectedGradientTolerance{1e-5};
-  unsigned int m_MaximumNumberOfIterations{500};
-  unsigned int m_MaximumNumberOfEvaluations{500};
-  unsigned int m_MaximumNumberOfCorrections{5};
-  unsigned int m_CurrentIteration{0};
-  double       m_InfinityNormOfProjectedGradient{0.0};
+  bool         m_Trace{ false };
+  bool         m_OptimizerInitialized{ false };
+  double       m_CostFunctionConvergenceFactor{ 1e+7 };
+  double       m_ProjectedGradientTolerance{ 1e-5 };
+  unsigned int m_MaximumNumberOfIterations{ 500 };
+  unsigned int m_MaximumNumberOfEvaluations{ 500 };
+  unsigned int m_MaximumNumberOfCorrections{ 5 };
+  unsigned int m_CurrentIteration{ 0 };
+  double       m_InfinityNormOfProjectedGradient{ 0.0 };
 
-  InternalOptimizerType * m_VnlOptimizer{nullptr};
+  InternalOptimizerType * m_VnlOptimizer{ nullptr };
   BoundValueType          m_LowerBound;
   BoundValueType          m_UpperBound;
   BoundSelectionType      m_BoundSelection;

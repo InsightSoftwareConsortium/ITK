@@ -26,14 +26,13 @@
 // position of the image in space with respect to some world coordinate
 // system are extremely important.
 //
-// Image origin, voxel directions (i.e. orientation), and spacing are fundamental to many
-// applications. Registration, for example, is performed in physical
-// coordinates. Improperly defined spacing, direction, and origins will result in
-// inconsistent results in such processes. Medical images with no spatial
-// information should not be used for medical diagnosis, image analysis,
-// feature extraction, assisted radiation therapy or image guided surgery. In
-// other words, medical images lacking spatial information are not only
-// useless but also hazardous.
+// Image origin, voxel directions (i.e. orientation), and spacing are fundamental to
+// many applications. Registration, for example, is performed in physical coordinates.
+// Improperly defined spacing, direction, and origins will result in inconsistent
+// results in such processes. Medical images with no spatial information should not be
+// used for medical diagnosis, image analysis, feature extraction, assisted radiation
+// therapy or image guided surgery. In other words, medical images lacking spatial
+// information are not only useless but also hazardous.
 //
 // \begin{figure} \center
 // \includegraphics[width=\textwidth]{ImageOriginAndSpacing}
@@ -52,8 +51,8 @@
 // first pixel in the image.
 // For this simplified example, the voxel lattice is perfectly aligned with physical
 // space orientation, and the image direction is therefore an identity mapping. If the
-// voxel lattice samples were rotated with respect to physical space, then the image direction
-// would contain a rotation matrix.
+// voxel lattice samples were rotated with respect to physical space, then the image
+// direction would contain a rotation matrix.
 //
 // A \emph{pixel} is considered to be the
 // rectangular region surrounding the pixel center holding the data
@@ -64,29 +63,31 @@
 #include "itkImage.h"
 
 // Function to simulate getting mouse click from an image
-static itk::Image< unsigned short, 3 >::IndexType GetIndexFromMouseClick()
+static itk::Image<unsigned short, 3>::IndexType
+GetIndexFromMouseClick()
 {
-  itk::Image< unsigned short, 3 >::IndexType LeftEyeIndex;
-  LeftEyeIndex[0]=60;
-  LeftEyeIndex[1]=127;
-  LeftEyeIndex[2]=93;
+  itk::Image<unsigned short, 3>::IndexType LeftEyeIndex;
+  LeftEyeIndex[0] = 60;
+  LeftEyeIndex[1] = 127;
+  LeftEyeIndex[2] = 93;
   return LeftEyeIndex;
 }
 
-int main(int, char *[])
+int
+main(int, char *[])
 {
   constexpr unsigned int Dimension = 3;
-  using ImageType = itk::Image< unsigned short, Dimension >;
+  using ImageType = itk::Image<unsigned short, Dimension>;
   ImageType::Pointer image = ImageType::New();
 
-  const ImageType::SizeType  size  = {{ 200, 200, 200}}; //Size along {X,Y,Z}
-  const ImageType::IndexType start = {{ 0, 0, 0 }}; // First index on {X,Y,Z}
+  const ImageType::SizeType  size = { { 200, 200, 200 } }; // Size along {X,Y,Z}
+  const ImageType::IndexType start = { { 0, 0, 0 } };      // First index on {X,Y,Z}
 
   ImageType::RegionType region;
-  region.SetSize( size );
-  region.SetIndex( start );
+  region.SetSize(size);
+  region.SetIndex(start);
 
-  image->SetRegions( region );
+  image->SetRegions(region);
   image->Allocate(true); // initialize buffer to zero
 
   // Software Guide : BeginLatex
@@ -122,7 +123,7 @@ int main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  image->SetSpacing( spacing );
+  image->SetSpacing(spacing);
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -136,7 +137,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const ImageType::SpacingType& sp = image->GetSpacing();
+  const ImageType::SpacingType & sp = image->GetSpacing();
 
   std::cout << "Spacing = ";
   std::cout << sp[0] << ", " << sp[1] << ", " << sp[2] << std::endl;
@@ -166,7 +167,7 @@ int main(int, char *[])
   // coordinates of the center of the first pixel in N-D
   ImageType::PointType newOrigin;
   newOrigin.Fill(0.0);
-  image->SetOrigin( newOrigin );
+  image->SetOrigin(newOrigin);
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -183,26 +184,25 @@ int main(int, char *[])
   const ImageType::PointType & origin = image->GetOrigin();
 
   std::cout << "Origin = ";
-  std::cout << origin[0] << ", "
-            << origin[1] << ", "
-            << origin[2] << std::endl;
+  std::cout << origin[0] << ", " << origin[1] << ", " << origin[2] << std::endl;
 
   // Software Guide : EndCodeSnippet
 
-  //TODO: This example should really be written for a more complicated direction cosine. i.e.
-  //As the first index element increases, the 1st physical space decreases.
+  // TODO: This example should really be written for a more complicated direction
+  // cosine. i.e. As the first index element increases, the 1st physical space
+  // decreases.
 
   //  Software Guide : BeginLatex
   //
   // The image direction matrix represents the orientation relationships between
   // the image samples and physical space coordinate systems. The image direction
-  // matrix is an orthonormal matrix that describes the possible permutation of image index
-  // values and the rotational aspects that are needed to properly reconcile image index
-  // organization with physical space axis.
-  // The image directions is a $N x N$ matrix where $N$ is the dimension of the image. An
-  // identity image direction indicates that increasing values of the 1st, 2nd, 3rd index
-  // element corresponds to increasing values of the 1st, 2nd and 3rd physical space axis
-  // respectively, and that the voxel samples are perfectly aligned with the physical space axis.
+  // matrix is an orthonormal matrix that describes the possible permutation of image
+  // index values and the rotational aspects that are needed to properly reconcile image
+  // index organization with physical space axis. The image directions is a $N x N$
+  // matrix where $N$ is the dimension of the image. An identity image direction
+  // indicates that increasing values of the 1st, 2nd, 3rd index element corresponds to
+  // increasing values of the 1st, 2nd and 3rd physical space axis respectively, and
+  // that the voxel samples are perfectly aligned with the physical space axis.
   //
   // The following code illustrates the creation and assignment of a variable
   // suitable for initializing the image direction with an identity.
@@ -216,7 +216,7 @@ int main(int, char *[])
   // coordinates of the center of the first pixel in N-D
   ImageType::DirectionType direction;
   direction.SetIdentity();
-  image->SetDirection( direction );
+  image->SetDirection(direction);
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -230,7 +230,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const ImageType::DirectionType& direct = image->GetDirection();
+  const ImageType::DirectionType & direct = image->GetDirection();
 
   std::cout << "Direction = " << std::endl;
   std::cout << direct << std::endl;
@@ -238,11 +238,10 @@ int main(int, char *[])
 
   // Software Guide : BeginLatex
   //
-  // Once the spacing, origin, and direction of the image samples have been initialized, the image
-  // will correctly map pixel indices to and from physical space
-  // coordinates. The following code illustrates how a point in physical
-  // space can be mapped into an image index for the purpose of reading the
-  // content of the closest pixel.
+  // Once the spacing, origin, and direction of the image samples have been initialized,
+  // the image will correctly map pixel indices to and from physical space coordinates.
+  // The following code illustrates how a point in physical space can be mapped into an
+  // image index for the purpose of reading the content of the closest pixel.
   //
   // First, a \doxygen{Point} type must be declared. The point type is
   // templated over the type used to represent coordinates and over the
@@ -252,7 +251,7 @@ int main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using PointType = itk::Point< double, ImageType::ImageDimension >;
+  using PointType = itk::Point<double, ImageType::ImageDimension>;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -271,9 +270,9 @@ int main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   PointType point;
-  point[0] = 1.45;    // x coordinate
-  point[1] = 7.21;    // y coordinate
-  point[2] = 9.28;    // z coordinate
+  point[0] = 1.45; // x coordinate
+  point[1] = 7.21; // y coordinate
+  point[2] = 9.28; // z coordinate
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -308,14 +307,13 @@ int main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const bool isInside =
-    image->TransformPhysicalPointToIndex( point, pixelIndex );
-  if ( isInside )
-    {
-    ImageType::PixelType pixelValue = image->GetPixel( pixelIndex );
+  const bool isInside = image->TransformPhysicalPointToIndex(point, pixelIndex);
+  if (isInside)
+  {
+    ImageType::PixelType pixelValue = image->GetPixel(pixelIndex);
     pixelValue += 5;
-    image->SetPixel( pixelIndex, pixelValue );
-    }
+    image->SetPixel(pixelIndex, pixelValue);
+  }
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -347,8 +345,8 @@ int main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   const ImageType::IndexType LeftEyeIndex = GetIndexFromMouseClick();
-  ImageType::PointType LeftEyePoint;
-  image->TransformIndexToPhysicalPoint(LeftEyeIndex,LeftEyePoint);
+  ImageType::PointType       LeftEyePoint;
+  image->TransformIndexToPhysicalPoint(LeftEyeIndex, LeftEyePoint);
   // Software Guide : EndCodeSnippet
 
   std::cout << "===========================================" << std::endl;
@@ -397,14 +395,14 @@ int main(int, char *[])
   // $\vec{I}$: image space index.\newline
   // $\vec{P}$: resulting physical space position of the image index $\vec{I}$.\newline
   // $\vec{O}$: physical space origin of the first image index.\newline
-  // $\mathcal{D}$: direction cosines matrix (orthonormal). It represents the orientation
-  // relationship between the image and the physical space coordinate system.\newline
+  // $\mathcal{D}$: direction cosines matrix (orthonormal). It represents the
+  // orientation relationship between the image and the physical space coordinate
+  // system.\newline
   // $\vec{S}$: physical spacing between pixels of the same axis.
   // \newline
   //
-  // \noindent The operation can be thought as a particular case of the linear transform:
-  // \begin{equation}
-  // \vec{P} = \vec{O} + \mathcal{A} \cdot \vec{I}
+  // \noindent The operation can be thought as a particular case of the linear
+  // transform: \begin{equation} \vec{P} = \vec{O} + \mathcal{A} \cdot \vec{I}
   // \end{equation}
   // \noindent where $\mathcal{A}$:
   // \begin{equation}
@@ -434,25 +432,24 @@ int main(int, char *[])
   // Software Guide : BeginCodeSnippet
   using MatrixType = itk::Matrix<double, Dimension, Dimension>;
   MatrixType SpacingMatrix;
-  SpacingMatrix.Fill( 0.0F );
+  SpacingMatrix.Fill(0.0F);
 
   const ImageType::SpacingType & ImageSpacing = image->GetSpacing();
-  SpacingMatrix( 0,0 ) = ImageSpacing[0];
-  SpacingMatrix( 1,1 ) = ImageSpacing[1];
-  SpacingMatrix( 2,2 ) = ImageSpacing[2];
+  SpacingMatrix(0, 0) = ImageSpacing[0];
+  SpacingMatrix(1, 1) = ImageSpacing[1];
+  SpacingMatrix(2, 2) = ImageSpacing[2];
 
-  const ImageType::DirectionType & ImageDirectionCosines =
-    image->GetDirection();
-  const ImageType::PointType &ImageOrigin = image->GetOrigin();
+  const ImageType::DirectionType & ImageDirectionCosines = image->GetDirection();
+  const ImageType::PointType &     ImageOrigin = image->GetOrigin();
 
-  using VectorType = itk::Vector< double, Dimension >;
+  using VectorType = itk::Vector<double, Dimension>;
   VectorType LeftEyeIndexVector;
-  LeftEyeIndexVector[0]= LeftEyeIndex[0];
-  LeftEyeIndexVector[1]= LeftEyeIndex[1];
-  LeftEyeIndexVector[2]= LeftEyeIndex[2];
+  LeftEyeIndexVector[0] = LeftEyeIndex[0];
+  LeftEyeIndexVector[1] = LeftEyeIndex[1];
+  LeftEyeIndexVector[2] = LeftEyeIndex[2];
 
   ImageType::PointType LeftEyePointByHand =
-     ImageOrigin + ImageDirectionCosines * SpacingMatrix * LeftEyeIndexVector;
+    ImageOrigin + ImageDirectionCosines * SpacingMatrix * LeftEyeIndexVector;
   // Software Guide : EndCodeSnippet
 
   std::cout << "===========================================" << std::endl;
@@ -467,11 +464,12 @@ int main(int, char *[])
   //
   // Check if two results are identical
   //
-  if ( (LeftEyePointByHand - LeftEyePoint).GetNorm() < 0.01F )
+  if ((LeftEyePointByHand - LeftEyePoint).GetNorm() < 0.01F)
   {
     std::cout << "===========================================" << std::endl;
     std::cout << "Two results are identical as expected!" << std::endl;
-    std::cout << "The Left Eye from TransformIndexToPhysicalPoint is " << LeftEyePoint << std::endl;
+    std::cout << "The Left Eye from TransformIndexToPhysicalPoint is " << LeftEyePoint
+              << std::endl;
     std::cout << "The Left Eye from Math is " << LeftEyePointByHand << std::endl;
   }
 

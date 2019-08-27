@@ -28,9 +28,8 @@
 namespace itk
 {
 
-template< typename TImage >
-VnlComplexToComplexFFTImageFilter< TImage >
-::VnlComplexToComplexFFTImageFilter()
+template <typename TImage>
+VnlComplexToComplexFFTImageFilter<TImage>::VnlComplexToComplexFFTImageFilter()
 {
   this->DynamicMultiThreadingOn();
 }
@@ -38,64 +37,63 @@ VnlComplexToComplexFFTImageFilter< TImage >
 
 template <typename TImage>
 void
-VnlComplexToComplexFFTImageFilter< TImage >
-::BeforeThreadedGenerateData()
+VnlComplexToComplexFFTImageFilter<TImage>::BeforeThreadedGenerateData()
 {
   const ImageType * input = this->GetInput();
-  ImageType * output = this->GetOutput();
+  ImageType *       output = this->GetOutput();
 
   const typename ImageType::RegionType bufferedRegion = input->GetBufferedRegion();
   const typename ImageType::SizeType & imageSize = bufferedRegion.GetSize();
 
-  for( unsigned int ii = 0; ii < ImageDimension; ++ii )
+  for (unsigned int ii = 0; ii < ImageDimension; ++ii)
+  {
+    if (!VnlFFTCommon::IsDimensionSizeLegal(imageSize[ii]))
     {
-    if ( !VnlFFTCommon::IsDimensionSizeLegal( imageSize[ii] ) )
-      {
-      itkExceptionMacro(<< "Cannot compute FFT of image with size "
-                        << imageSize << ". VnlComplexToComplexFFTImageFilter operates "
+      itkExceptionMacro(<< "Cannot compute FFT of image with size " << imageSize
+                        << ". VnlComplexToComplexFFTImageFilter operates "
                         << "only on images whose size in each dimension has"
-                        << "only a combination of 2,3, and 5 as prime factors." );
-      }
+                        << "only a combination of 2,3, and 5 as prime factors.");
     }
+  }
 
   // Copy the input to the output, and we will work in place on the output.
-  ImageAlgorithm::Copy< ImageType, ImageType >( input, output, bufferedRegion, bufferedRegion );
+  ImageAlgorithm::Copy<ImageType, ImageType>(input, output, bufferedRegion, bufferedRegion);
 
-  using VclPixelType = std::complex< typename PixelType::value_type >;
-  auto * outputBuffer = static_cast< VclPixelType * >( output->GetBufferPointer() );
+  using VclPixelType = std::complex<typename PixelType::value_type>;
+  auto * outputBuffer = static_cast<VclPixelType *>(output->GetBufferPointer());
 
   // call the proper transform, based on compile type template parameter
-  VnlFFTCommon::VnlFFTTransform< Image< typename PixelType::value_type , ImageDimension > > vnlfft( imageSize );
-  if ( this->GetTransformDirection() == Superclass::INVERSE )
-    {
-    vnlfft.transform( outputBuffer, 1 );
-    }
+  VnlFFTCommon::VnlFFTTransform<Image<typename PixelType::value_type, ImageDimension>> vnlfft(imageSize);
+  if (this->GetTransformDirection() == Superclass::INVERSE)
+  {
+    vnlfft.transform(outputBuffer, 1);
+  }
   else
-    {
-    vnlfft.transform( outputBuffer, -1 );
-    }
+  {
+    vnlfft.transform(outputBuffer, -1);
+  }
 }
 
 
 template <typename TImage>
 void
-VnlComplexToComplexFFTImageFilter< TImage >
-::DynamicThreadedGenerateData(const OutputImageRegionType& outputRegionForThread)
+VnlComplexToComplexFFTImageFilter<TImage>::DynamicThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
 {
   // Normalize the output if backward transform
-  if ( this->GetTransformDirection() == Superclass::INVERSE )
-    {
-    using IteratorType = ImageRegionIterator< OutputImageType >;
+  if (this->GetTransformDirection() == Superclass::INVERSE)
+  {
+    using IteratorType = ImageRegionIterator<OutputImageType>;
     SizeValueType totalOutputSize = this->GetOutput()->GetRequestedRegion().GetNumberOfPixels();
-    IteratorType it(this->GetOutput(), outputRegionForThread);
-    while( !it.IsAtEnd() )
-      {
+    IteratorType  it(this->GetOutput(), outputRegionForThread);
+    while (!it.IsAtEnd())
+    {
       PixelType val = it.Value();
       val /= totalOutputSize;
       it.Set(val);
       ++it;
-      }
     }
+  }
 }
 
 } // end namespace itk

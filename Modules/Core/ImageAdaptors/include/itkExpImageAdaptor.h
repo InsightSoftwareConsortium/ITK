@@ -36,23 +36,29 @@ namespace Accessor
  * \ingroup ImageAdaptors
  * \ingroup ITKImageAdaptors
  */
-template< typename TInternalType, typename TExternalType >
+template <typename TInternalType, typename TExternalType>
 class ExpPixelAccessor
 {
 public:
   /** External type alias. It defines the external aspect
-    * that this class will exhibit. */
+   * that this class will exhibit. */
   using ExternalType = TExternalType;
 
   /** Internal type alias. It defines the internal real
    * representation of data. */
   using InternalType = TInternalType;
 
-  static inline void Set(TInternalType & output, const TExternalType & input)
-  { output = (TInternalType)std::exp( (double)input ); }
+  static inline void
+  Set(TInternalType & output, const TExternalType & input)
+  {
+    output = (TInternalType)std::exp((double)input);
+  }
 
-  static inline TExternalType Get(const TInternalType & input)
-  { return (TExternalType)std::exp( (double)input ); }
+  static inline TExternalType
+  Get(const TInternalType & input)
+  {
+    return (TExternalType)std::exp((double)input);
+  }
 };
 } // end namespace Accessor
 
@@ -65,23 +71,19 @@ public:
  * \ingroup ImageAdaptors
  * \ingroup ITKImageAdaptors
  */
-template< typename TImage, typename TOutputPixelType >
-class ExpImageAdaptor:public
-  ImageAdaptor< TImage, Accessor::ExpPixelAccessor<
-                  typename TImage::PixelType,
-                  TOutputPixelType >   >
+template <typename TImage, typename TOutputPixelType>
+class ExpImageAdaptor
+  : public ImageAdaptor<TImage, Accessor::ExpPixelAccessor<typename TImage::PixelType, TOutputPixelType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ExpImageAdaptor);
 
   /** Standard class type aliases. */
   using Self = ExpImageAdaptor;
-  using Superclass = ImageAdaptor<
-    TImage, Accessor::ExpPixelAccessor<
-      typename TImage::PixelType, TOutputPixelType > >;
+  using Superclass = ImageAdaptor<TImage, Accessor::ExpPixelAccessor<typename TImage::PixelType, TOutputPixelType>>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

@@ -22,40 +22,37 @@
 
 namespace itk
 {
-template< typename TMesh >
-QuadEdgeMeshTopologyChecker< TMesh >
-::QuadEdgeMeshTopologyChecker()
+template <typename TMesh>
+QuadEdgeMeshTopologyChecker<TMesh>::QuadEdgeMeshTopologyChecker()
 {
-  m_ExpectedNumberOfPoints = NumericTraits< PointIdentifier >::ZeroValue();
-  m_ExpectedNumberOfEdges = NumericTraits< CellIdentifier >::ZeroValue();
-  m_ExpectedNumberOfFaces = NumericTraits< CellIdentifier >::ZeroValue();
-  m_ExpectedNumberOfBoundaries = NumericTraits< CellIdentifier >::ZeroValue();
-  m_ExpectedGenus = NumericTraits< OffsetValueType >::ZeroValue();
+  m_ExpectedNumberOfPoints = NumericTraits<PointIdentifier>::ZeroValue();
+  m_ExpectedNumberOfEdges = NumericTraits<CellIdentifier>::ZeroValue();
+  m_ExpectedNumberOfFaces = NumericTraits<CellIdentifier>::ZeroValue();
+  m_ExpectedNumberOfBoundaries = NumericTraits<CellIdentifier>::ZeroValue();
+  m_ExpectedGenus = NumericTraits<OffsetValueType>::ZeroValue();
   m_Mesh = nullptr;
 }
 
-template< typename TMesh >
+template <typename TMesh>
 bool
-QuadEdgeMeshTopologyChecker< TMesh >
-::ValidateEulerCharacteristic() const
+QuadEdgeMeshTopologyChecker<TMesh>::ValidateEulerCharacteristic() const
 {
-  if ( !this->m_Mesh )
-    {
-    return ( false );
-    }
+  if (!this->m_Mesh)
+  {
+    return (false);
+  }
 
   typename BoundaryEdges::Pointer boundaryEdges = BoundaryEdges::New();
 
   // Number of USED points
   PointIdentifier numPoints = m_Mesh->ComputeNumberOfPoints();
   // Number of USED edges
-  CellIdentifier numEdges  = m_Mesh->ComputeNumberOfEdges();
+  CellIdentifier numEdges = m_Mesh->ComputeNumberOfEdges();
   // Number of USED faces
-  CellIdentifier numFaces  = m_Mesh->ComputeNumberOfFaces();
+  CellIdentifier numFaces = m_Mesh->ComputeNumberOfFaces();
   // Number of Boundaries
-  typename BoundaryEdges::OutputType
-  listOfBoundaries = boundaryEdges->Evaluate( ( *m_Mesh ) );
-  auto numBounds = static_cast<CellIdentifier>( listOfBoundaries->size() );
+  typename BoundaryEdges::OutputType listOfBoundaries = boundaryEdges->Evaluate((*m_Mesh));
+  auto                               numBounds = static_cast<CellIdentifier>(listOfBoundaries->size());
   delete listOfBoundaries;
 
   /**
@@ -71,77 +68,69 @@ QuadEdgeMeshTopologyChecker< TMesh >
    * of points in the container. Number of unused points can be found
    * by making the difference between the two values.
    */
-  if ( m_Mesh->GetNumberOfPoints() != numPoints )
-    {
+  if (m_Mesh->GetNumberOfPoints() != numPoints)
+  {
     // They are isolated vertices:
-    return ( false );
-    }
+    return (false);
+  }
 
   // The euler formula states:
   // numFaces - numEdges + numPoints == 2 - 2 * genus - numBounds
   // hence ( 2 - numBounds - numFaces + numEdges - numPoints ) must
   // be an odd number. Let's check it out:
   // Note that genus can take a negative value...
-  OffsetValueType twiceGenus =
-    OffsetValueType(2) - OffsetValueType(numBounds)
-  - OffsetValueType(numFaces) + OffsetValueType(numEdges)
-  - OffsetValueType(numPoints);
+  OffsetValueType twiceGenus = OffsetValueType(2) - OffsetValueType(numBounds) - OffsetValueType(numFaces) +
+                               OffsetValueType(numEdges) - OffsetValueType(numPoints);
 
-  if ( twiceGenus % 2 )
-    {
-    return ( false );
-    }
+  if (twiceGenus % 2)
+  {
+    return (false);
+  }
 
   // Look is they are isolated edges
   CellsContainerConstIterator cellIterator = m_Mesh->GetCells()->Begin();
-  CellsContainerConstIterator cellEnd      = m_Mesh->GetCells()->End();
-  while ( cellIterator != cellEnd )
-    {
+  CellsContainerConstIterator cellEnd = m_Mesh->GetCells()->End();
+  while (cellIterator != cellEnd)
+  {
     // Is the cell an Edge ?
-    if ( auto * cell = dynamic_cast< EdgeCellType * >( cellIterator.Value() ) )
+    if (auto * cell = dynamic_cast<EdgeCellType *>(cellIterator.Value()))
+    {
+      if (QEPrimal * edge = cell->GetQEGeom())
       {
-      if ( QEPrimal * edge = cell->GetQEGeom() )
-        {
         // Is the edge without associated faces ?.
-        if ( edge->IsWire() )
-          {
+        if (edge->IsWire())
+        {
           // Is it an isolated edge ?
-          if ( edge->IsIsolated() && edge->GetSym()->IsIsolated() )
-            {
-            return ( false );
-            }
+          if (edge->IsIsolated() && edge->GetSym()->IsIsolated())
+          {
+            return (false);
           }
         }
-      else // cell->GetQEGEom( ) == nullptr
-        {
-        // supposely impossible, throw exception
-        }
       }
+      else // cell->GetQEGEom( ) == nullptr
+      {
+        // supposely impossible, throw exception
+      }
+    }
 
     ++cellIterator;
-    } // endof while
+  } // endof while
 
-  return ( true );
+  return (true);
 }
 
-template< typename TMesh >
+template <typename TMesh>
 void
-QuadEdgeMeshTopologyChecker< TMesh >
-::PrintSelf(std::ostream & os, Indent indent) const
+QuadEdgeMeshTopologyChecker<TMesh>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ExpectedNumberOfPoints: "
-     << m_ExpectedNumberOfPoints  << std::endl;
-  os << indent << "ExpectedNumberOfEdges: "
-     << m_ExpectedNumberOfEdges << std::endl;
-  os << indent << "ExpectedNumberOfFaces: "
-     << m_ExpectedNumberOfFaces << std::endl;
-  os << indent << "ExpectedNumberOfBoundaries: "
-     << m_ExpectedNumberOfBoundaries << std::endl;
-  os << indent << "ExpectedGenus: "
-     << m_ExpectedGenus << std::endl;
+  os << indent << "ExpectedNumberOfPoints: " << m_ExpectedNumberOfPoints << std::endl;
+  os << indent << "ExpectedNumberOfEdges: " << m_ExpectedNumberOfEdges << std::endl;
+  os << indent << "ExpectedNumberOfFaces: " << m_ExpectedNumberOfFaces << std::endl;
+  os << indent << "ExpectedNumberOfBoundaries: " << m_ExpectedNumberOfBoundaries << std::endl;
+  os << indent << "ExpectedGenus: " << m_ExpectedGenus << std::endl;
   os << indent << "Mesh: " << m_Mesh << std::endl;
 }
-}
+} // namespace itk
 #endif

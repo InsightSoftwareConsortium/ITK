@@ -44,9 +44,8 @@ namespace itk
  * \sphinxexample{Filtering/Smoothing/ApplyMeanFilter,Mean filter an image}
  * \endsphinx
  */
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT MeanImageFilter:
-  public BoxImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT MeanImageFilter : public BoxImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MeanImageFilter);
@@ -61,9 +60,9 @@ public:
 
   /** Standard class type aliases. */
   using Self = MeanImageFilter;
-  using Superclass = BoxImageFilter< InputImageType, OutputImageType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = BoxImageFilter<InputImageType, OutputImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -74,7 +73,7 @@ public:
   /** Image type alias support */
   using InputPixelType = typename InputImageType::PixelType;
   using OutputPixelType = typename OutputImageType::PixelType;
-  using InputRealType = typename NumericTraits< InputPixelType >::RealType;
+  using InputRealType = typename NumericTraits<InputPixelType>::RealType;
 
   using InputImageRegionType = typename InputImageType::RegionType;
   using OutputImageRegionType = typename OutputImageType::RegionType;
@@ -83,8 +82,7 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< InputPixelType > ) );
+  itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputPixelType>));
   // End concept checking
 #endif
 
@@ -102,13 +100,13 @@ protected:
    *
    * \sa BoxImageFilter::ThreadedGenerateData(),
    *     BoxImageFilter::GenerateData() */
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
-
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMeanImageFilter.hxx"
+#  include "itkMeanImageFilter.hxx"
 #endif
 
 #endif

@@ -28,7 +28,7 @@ namespace itk
  * \ingroup ITKSystemObjects
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT CreateObjectFunctionBase:public Object
+class ITKCommon_EXPORT CreateObjectFunctionBase : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(CreateObjectFunctionBase);
@@ -36,12 +36,13 @@ public:
   /** Standard type alias. */
   using Self = CreateObjectFunctionBase;
   using Superclass = Object;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Create an object and return a pointer to it as an
    * itk::LightObject. */
-  virtual SmartPointer< LightObject > CreateObject() = 0;
+  virtual SmartPointer<LightObject>
+  CreateObject() = 0;
 
 protected:
   CreateObjectFunctionBase();
@@ -55,19 +56,23 @@ protected:
  * \ingroup ITKSystemObjects
  * \ingroup ITKCommon
  */
-template< typename T >
-class CreateObjectFunction:public CreateObjectFunctionBase
+template <typename T>
+class CreateObjectFunction : public CreateObjectFunctionBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(CreateObjectFunction);
 
   /** Standard class type aliases. */
   using Self = CreateObjectFunction;
-  using Pointer = SmartPointer< Self >;
+  using Pointer = SmartPointer<Self>;
 
   /** Methods from itk:LightObject. */
   itkFactorylessNewMacro(Self);
-  LightObject::Pointer CreateObject() override { return T::New().GetPointer(); }
+  LightObject::Pointer
+  CreateObject() override
+  {
+    return T::New().GetPointer();
+  }
 
 protected:
   CreateObjectFunction() = default;

@@ -32,20 +32,20 @@ namespace itk
  *
  * \ingroup ITKMetricsv4
  */
-template < typename TDomainPartitioner, typename TJointHistogramMetric >
+template <typename TDomainPartitioner, typename TJointHistogramMetric>
 class ITK_TEMPLATE_EXPORT JointHistogramMutualInformationComputeJointPDFThreaderBase
-  : public DomainThreader< TDomainPartitioner, TJointHistogramMetric >
+  : public DomainThreader<TDomainPartitioner, TJointHistogramMetric>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(JointHistogramMutualInformationComputeJointPDFThreaderBase);
 
   /** Standard class type aliases. */
   using Self = JointHistogramMutualInformationComputeJointPDFThreaderBase;
-  using Superclass = DomainThreader< TDomainPartitioner, TJointHistogramMetric >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = DomainThreader<TDomainPartitioner, TJointHistogramMetric>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  itkTypeMacro( JointHistogramMutualInformationComputeJointPDFThreaderBase, DomainThreader );
+  itkTypeMacro(JointHistogramMutualInformationComputeJointPDFThreaderBase, DomainThreader);
 
   /** Superclass types.  */
   using DomainType = typename Superclass::DomainType;
@@ -68,27 +68,30 @@ protected:
   ~JointHistogramMutualInformationComputeJointPDFThreaderBase() override;
 
   /** Create the \c m_JointPDFPerThread's. */
-  void BeforeThreadedExecution() override;
+  void
+  BeforeThreadedExecution() override;
 
   /** Called by the \c ThreadedExecution of derived classes. */
-  virtual void ProcessPoint( const VirtualIndexType & virtualIndex,
-                             const VirtualPointType & virtualPoint,
-                             const ThreadIdType threadId );
+  virtual void
+  ProcessPoint(const VirtualIndexType & virtualIndex,
+               const VirtualPointType & virtualPoint,
+               const ThreadIdType       threadId);
 
   /** Collect the results per and normalize. */
-  void AfterThreadedExecution() override;
+  void
+  AfterThreadedExecution() override;
 
-  using JointHistogramType = Image< SizeValueType, 2 >;
-  //TODO: This needs updating
+  using JointHistogramType = Image<SizeValueType, 2>;
+  // TODO: This needs updating
   struct JointHistogramMIPerThreadStruct
-    {
+  {
     typename JointHistogramType::Pointer JointHistogram;
     SizeValueType                        JointHistogramCount;
-    };
-  itkPadStruct( ITK_CACHE_LINE_ALIGNMENT, JointHistogramMIPerThreadStruct,
-                                            PaddedJointHistogramMIPerThreadStruct);
-  itkAlignedTypedef( ITK_CACHE_LINE_ALIGNMENT, PaddedJointHistogramMIPerThreadStruct,
-                                               AlignedJointHistogramMIPerThreadStruct );
+  };
+  itkPadStruct(ITK_CACHE_LINE_ALIGNMENT, JointHistogramMIPerThreadStruct, PaddedJointHistogramMIPerThreadStruct);
+  itkAlignedTypedef(ITK_CACHE_LINE_ALIGNMENT,
+                    PaddedJointHistogramMIPerThreadStruct,
+                    AlignedJointHistogramMIPerThreadStruct);
   AlignedJointHistogramMIPerThreadStruct * m_JointHistogramMIPerThreadVariables;
 };
 

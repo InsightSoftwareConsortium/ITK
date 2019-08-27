@@ -23,34 +23,38 @@ namespace itk
 namespace fem
 {
 // Overload the CreateAnother() method.
-::itk::LightObject::Pointer Element2DC0QuadraticTriangularStrain::CreateAnother() const
+::itk::LightObject::Pointer
+Element2DC0QuadraticTriangularStrain::CreateAnother() const
 {
   ::itk::LightObject::Pointer smartPtr;
-  Pointer copyPtr = Self::New();
+  Pointer                     copyPtr = Self::New();
 
-  copyPtr->SetNode(0, this->GetNode(0) );
-  copyPtr->SetNode(1, this->GetNode(1) );
-  copyPtr->SetNode(2, this->GetNode(2) );
-  copyPtr->SetNode(3, this->GetNode(3) );
-  copyPtr->SetNode(4, this->GetNode(4) );
-  copyPtr->SetNode(5, this->GetNode(5) );
-  copyPtr->SetMaterial( this->GetMaterial() );
-  copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
+  copyPtr->SetNode(0, this->GetNode(0));
+  copyPtr->SetNode(1, this->GetNode(1));
+  copyPtr->SetNode(2, this->GetNode(2));
+  copyPtr->SetNode(3, this->GetNode(3));
+  copyPtr->SetNode(4, this->GetNode(4));
+  copyPtr->SetNode(5, this->GetNode(5));
+  copyPtr->SetMaterial(this->GetMaterial());
+  copyPtr->SetGlobalNumber(this->GetGlobalNumber());
 
   smartPtr = static_cast<Pointer>(copyPtr);
 
   return smartPtr;
 }
 
-Element2DC0QuadraticTriangularStrain
-::Element2DC0QuadraticTriangularStrain() : Superclass()
-{
-}
+Element2DC0QuadraticTriangularStrain ::Element2DC0QuadraticTriangularStrain()
+  : Superclass()
+{}
 
-Element2DC0QuadraticTriangularStrain
-::Element2DC0QuadraticTriangularStrain(NodeIDType n1_, NodeIDType n2_, NodeIDType n3_, NodeIDType n4_, NodeIDType n5_,
-                                       NodeIDType n6_,
-                                       Material::ConstPointer m_) : Superclass()
+Element2DC0QuadraticTriangularStrain ::Element2DC0QuadraticTriangularStrain(NodeIDType             n1_,
+                                                                            NodeIDType             n2_,
+                                                                            NodeIDType             n3_,
+                                                                            NodeIDType             n4_,
+                                                                            NodeIDType             n5_,
+                                                                            NodeIDType             n6_,
+                                                                            Material::ConstPointer m_)
+  : Superclass()
 {
   // Set the geometrical points
   this->SetNode(0, n1_);
@@ -65,17 +69,17 @@ Element2DC0QuadraticTriangularStrain
    * we were given the pointer to the right class.
    * If the material class was incorrect an exception is thrown.
    */
-  m_mat = dynamic_cast<const MaterialLinearElasticity *>( m_.GetPointer() );
+  m_mat = dynamic_cast<const MaterialLinearElasticity *>(m_.GetPointer());
 
-  if( !m_mat )
-    {
-    throw FEMExceptionWrongClass(__FILE__,
-                                 __LINE__,
-                                 "Element2DC0QuadraticTriangularStrain::Element2DC0QuadraticTriangularStrain()");
-    }
+  if (!m_mat)
+  {
+    throw FEMExceptionWrongClass(
+      __FILE__, __LINE__, "Element2DC0QuadraticTriangularStrain::Element2DC0QuadraticTriangularStrain()");
+  }
 }
 
-void Element2DC0QuadraticTriangularStrain::PrintSelf(std::ostream& os, Indent indent) const
+void
+Element2DC0QuadraticTriangularStrain::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

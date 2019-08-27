@@ -37,7 +37,7 @@ namespace Accessor
  * \ingroup ITKImageAdaptors
  */
 
-template< typename TInternalType, typename TExternalType >
+template <typename TInternalType, typename TExternalType>
 class Log10PixelAccessor
 {
 public:
@@ -49,11 +49,17 @@ public:
    * representation of data. */
   using InternalType = TInternalType;
 
-  static inline void Set(TInternalType & output, const TExternalType & input)
-  { output = (TInternalType)std::log10( (double)input ); }
+  static inline void
+  Set(TInternalType & output, const TExternalType & input)
+  {
+    output = (TInternalType)std::log10((double)input);
+  }
 
-  static inline TExternalType Get(const TInternalType & input)
-  { return (TExternalType)std::log10( (double)input ); }
+  static inline TExternalType
+  Get(const TInternalType & input)
+  {
+    return (TExternalType)std::log10((double)input);
+  }
 };
 } // end namespace Accessor
 
@@ -66,23 +72,19 @@ public:
  * \ingroup ImageAdaptors
  * \ingroup ITKImageAdaptors
  */
-template< typename TImage, typename TOutputPixelType >
-class Log10ImageAdaptor:public
-  ImageAdaptor< TImage, Accessor::Log10PixelAccessor<
-                  typename TImage::PixelType,
-                  TOutputPixelType >   >
+template <typename TImage, typename TOutputPixelType>
+class Log10ImageAdaptor
+  : public ImageAdaptor<TImage, Accessor::Log10PixelAccessor<typename TImage::PixelType, TOutputPixelType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(Log10ImageAdaptor);
 
   /** Standard class type aliases. */
   using Self = Log10ImageAdaptor;
-  using Superclass = ImageAdaptor< TImage, Accessor::Log10PixelAccessor<
-                          typename TImage::PixelType,
-                          TOutputPixelType > >;
+  using Superclass = ImageAdaptor<TImage, Accessor::Log10PixelAccessor<typename TImage::PixelType, TOutputPixelType>>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

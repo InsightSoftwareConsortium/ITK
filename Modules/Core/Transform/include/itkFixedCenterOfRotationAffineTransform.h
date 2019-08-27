@@ -30,12 +30,10 @@ namespace itk
  * \ingroup ITKTransform
  */
 
-template<
-  typename TParametersValueType=double,
-  unsigned int NDimensions=3>
+template <typename TParametersValueType = double, unsigned int NDimensions = 3>
 // Number of dimensions in the input space
-class ITK_TEMPLATE_EXPORT FixedCenterOfRotationAffineTransform:
-  public ScalableAffineTransform<TParametersValueType, NDimensions>
+class ITK_TEMPLATE_EXPORT FixedCenterOfRotationAffineTransform
+  : public ScalableAffineTransform<TParametersValueType, NDimensions>
 {
 public:
   /** Standard type alias   */
@@ -54,7 +52,7 @@ public:
   static constexpr unsigned int InputSpaceDimension = NDimensions;
   static constexpr unsigned int OutputSpaceDimension = NDimensions;
   static constexpr unsigned int SpaceDimension = NDimensions;
-  static constexpr unsigned int ParametersDimension = NDimensions * ( NDimensions + 2 );
+  static constexpr unsigned int ParametersDimension = NDimensions * (NDimensions + 2);
 
   /** Types taken from the Superclass */
   using ParametersType = typename Superclass::ParametersType;
@@ -78,33 +76,49 @@ public:
   using OffsetType = typename Superclass::OffsetType;
 
   /** Set and Get the center of rotation */
-  void SetCenterOfRotationComponent(const InputPointType & cor)
-  { this->SetCenter(cor); }
-  InputPointType GetCenterOfRotationComponent() const
-  { return this->GetCenter(); }
+  void
+  SetCenterOfRotationComponent(const InputPointType & cor)
+  {
+    this->SetCenter(cor);
+  }
+  InputPointType
+  GetCenterOfRotationComponent() const
+  {
+    return this->GetCenter();
+  }
 
   /** Set the matrix of the transform. The matrix should not include
    *  scale */
-  void SetMatrixComponent(const MatrixType & matrix)
-  { this->SetMatrix(matrix); }
+  void
+  SetMatrixComponent(const MatrixType & matrix)
+  {
+    this->SetMatrix(matrix);
+  }
   /** Get matrix of the transform  */
-  const MatrixType & GetMatrixComponent() const
-  { return this->GetMatrix(); }
+  const MatrixType &
+  GetMatrixComponent() const
+  {
+    return this->GetMatrix();
+  }
 
   /** Set offset (origin) of the Transform. */
-  void SetOffsetComponent(const OffsetType & offset)
-  { this->SetTranslation(offset); }
+  void
+  SetOffsetComponent(const OffsetType & offset)
+  {
+    this->SetTranslation(offset);
+  }
 
   /** Get offset of the transform. */
-  const OffsetType & GetOffsetComponent() const
-  { return this->GetTranslation(); }
+  const OffsetType &
+  GetOffsetComponent() const
+  {
+    return this->GetTranslation();
+  }
 
 protected:
   /** Construct an FixedCenterOfRotationAffineTransform object */
-  FixedCenterOfRotationAffineTransform(const MatrixType & matrix,
-                                       const OutputVectorType & offset);
-  FixedCenterOfRotationAffineTransform(unsigned int outputSpaceDimension,
-                                       unsigned int parametersDimension);
+  FixedCenterOfRotationAffineTransform(const MatrixType & matrix, const OutputVectorType & offset);
+  FixedCenterOfRotationAffineTransform(unsigned int outputSpaceDimension, unsigned int parametersDimension);
   FixedCenterOfRotationAffineTransform();
 
   /** Destroy an FixedCenterOfRotationAffineTransform object   */
@@ -112,12 +126,13 @@ protected:
 
 private:
   FixedCenterOfRotationAffineTransform(const Self & other) = delete;
-  const Self & operator=(const Self &) = delete;
-}; //class FixedCenterOfRotationAffineTransform
-}  // namespace itk
+  const Self &
+  operator=(const Self &) = delete;
+}; // class FixedCenterOfRotationAffineTransform
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFixedCenterOfRotationAffineTransform.hxx"
+#  include "itkFixedCenterOfRotationAffineTransform.hxx"
 #endif
 
 #endif /* itkFixedCenterOfRotationAffineTransform_h */

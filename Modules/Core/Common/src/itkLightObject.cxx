@@ -20,38 +20,39 @@
 #include <mutex>
 
 // Better name demanging for gcc
-#if defined( __GNUC__ ) && !defined( __EMSCRIPTEN__ )
-#define GCC_USEDEMANGLE
+#if defined(__GNUC__) && !defined(__EMSCRIPTEN__)
+#  define GCC_USEDEMANGLE
 #endif
 
 #ifdef GCC_USEDEMANGLE
-#include <cstdlib>
-#include <cxxabi.h>
+#  include <cstdlib>
+#  include <cxxabi.h>
 #endif
 
 
 namespace itk
 {
 
-LightObject::LightObject():m_ReferenceCount(1)
-{
-}
+LightObject::LightObject()
+  : m_ReferenceCount(1)
+{}
 
-const char * LightObject::GetNameOfClass() const
+const char *
+LightObject::GetNameOfClass() const
 {
- return "LightObject";
+  return "LightObject";
 }
 
 LightObject::Pointer
 LightObject::New()
 {
-  Pointer      smartPtr;
-  LightObject *rawPtr = ::itk::ObjectFactory< LightObject >::Create();
+  Pointer       smartPtr;
+  LightObject * rawPtr = ::itk::ObjectFactory<LightObject>::Create();
 
-  if ( rawPtr == nullptr )
-    {
+  if (rawPtr == nullptr)
+  {
     rawPtr = new LightObject;
-    }
+  }
   smartPtr = rawPtr;
   rawPtr->UnRegister();
   return smartPtr;
@@ -77,8 +78,7 @@ LightObject::InternalClone() const
  * will not work with reference counting.
  */
 void
-LightObject
-::Delete()
+LightObject ::Delete()
 {
   this->UnRegister();
 }
@@ -88,31 +88,27 @@ LightObject
  */
 #ifdef _WIN32
 void *
-LightObject
-::operator new(size_t n)
+LightObject ::operator new(size_t n)
 {
   return new char[n];
 }
 
 void *
-LightObject
-::operator new[](size_t n)
+LightObject ::operator new[](size_t n)
 {
   return new char[n];
 }
 
 void
-LightObject
-::operator delete(void *m)
+LightObject ::operator delete(void * m)
 {
-  delete[] (char *)m;
+  delete[](char *) m;
 }
 
 void
-LightObject
-::operator delete[](void *m, size_t)
+LightObject ::operator delete[](void * m, size_t)
 {
-  delete[] (char *)m;
+  delete[](char *) m;
 }
 
 #endif
@@ -123,11 +119,10 @@ LightObject
  * subclasses (any itk object).
  */
 void
-LightObject
-::Print(std::ostream & os, Indent indent) const
+LightObject ::Print(std::ostream & os, Indent indent) const
 {
   this->PrintHeader(os, indent);
-  this->PrintSelf( os, indent.GetNextIndent() );
+  this->PrintSelf(os, indent.GetNextIndent());
   this->PrintTrailer(os, indent);
 }
 
@@ -136,16 +131,14 @@ LightObject
  * the debugger to break on error.
  */
 void
-LightObject
-::BreakOnError()
+LightObject ::BreakOnError()
 {}
 
 /**
  * Increase the reference count (mark as used by another object).
  */
 void
-LightObject
-::Register() const
+LightObject ::Register() const
 {
   ++m_ReferenceCount;
 }
@@ -154,35 +147,32 @@ LightObject
  * Decrease the reference count (release by another object).
  */
 void
-LightObject
-::UnRegister() const noexcept
+LightObject ::UnRegister() const noexcept
 {
   // As ReferenceCount gets unlocked, we may have a race condition
   // to delete the object.
 
-  if (  --m_ReferenceCount <= 0 )
-    {
+  if (--m_ReferenceCount <= 0)
+  {
     delete this;
-    }
+  }
 }
 
 /**
  * Sets the reference count (use with care)
  */
 void
-LightObject
-::SetReferenceCount(int ref)
+LightObject ::SetReferenceCount(int ref)
 {
   m_ReferenceCount = ref;
 
-  if ( ref <= 0 )
-    {
+  if (ref <= 0)
+  {
     delete this;
-    }
+  }
 }
 
-LightObject
-::~LightObject()
+LightObject ::~LightObject()
 {
   /**
    * warn user if reference counting is on and the object is being referenced
@@ -194,8 +184,8 @@ LightObject
    * to this method (~LightObject): since the ref count is still 1, an
    * exception would be thrown again, causing the system to abort()!
    */
-  if ( m_ReferenceCount > 0 && !std::uncaught_exception() )
-    {
+  if (m_ReferenceCount > 0 && !std::uncaught_exception())
+  {
     // A general exception safety rule is that destructors should
     // never throw.  Something is wrong with a program that reaches
     // this point anyway.  Also this is the least-derived class so the
@@ -204,7 +194,7 @@ LightObject
     // itkExceptionMacro(<< "Trying to delete object with non-zero reference
     // count.");
     itkWarningMacro("Trying to delete object with non-zero reference count.");
-    }
+  }
 }
 
 /**
@@ -212,29 +202,28 @@ LightObject
  * its superclasses.
  */
 void
-LightObject
-::PrintSelf(std::ostream & os, Indent indent) const
+LightObject ::PrintSelf(std::ostream & os, Indent indent) const
 {
 #ifdef GCC_USEDEMANGLE
-  char const *mangledName = typeid( *this ).name();
-  int         status;
-  char *      unmangled = abi::__cxa_demangle(mangledName, nullptr, nullptr, &status);
+  char const * mangledName = typeid(*this).name();
+  int          status;
+  char *       unmangled = abi::__cxa_demangle(mangledName, nullptr, nullptr, &status);
 
   os << indent << "RTTI typeinfo:   ";
 
-  if ( status == 0 )
-    {
+  if (status == 0)
+  {
     os << unmangled;
     free(unmangled);
-    }
+  }
   else
-    {
+  {
     os << mangledName;
-    }
+  }
 
   os << std::endl;
 #else
-  os << indent << "RTTI typeinfo:   " << typeid( *this ).name() << std::endl;
+  os << indent << "RTTI typeinfo:   " << typeid(*this).name() << std::endl;
 #endif
   os << indent << "Reference Count: " << m_ReferenceCount << std::endl;
 }
@@ -243,8 +232,7 @@ LightObject
  * Define a default print header for all objects.
  */
 void
-LightObject
-::PrintHeader(std::ostream & os, Indent indent) const
+LightObject ::PrintHeader(std::ostream & os, Indent indent) const
 {
   os << indent << this->GetNameOfClass() << " (" << this << ")\n";
 }
@@ -253,8 +241,7 @@ LightObject
  * Define a default print trailer for all objects.
  */
 void
-LightObject
-::PrintTrailer( std::ostream & itkNotUsed(os), Indent itkNotUsed(indent) ) const
+LightObject ::PrintTrailer(std::ostream & itkNotUsed(os), Indent itkNotUsed(indent)) const
 {}
 
 std::ostream &

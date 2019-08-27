@@ -24,62 +24,57 @@
 namespace itk
 {
 
-template< typename TInputImage, typename TCoordRep >
-MeanImageFunction< TInputImage, TCoordRep >
-::MeanImageFunction()
+template <typename TInputImage, typename TCoordRep>
+MeanImageFunction<TInputImage, TCoordRep>::MeanImageFunction()
 
-{
-}
+{}
 
-template< typename TInputImage, typename TCoordRep >
-typename MeanImageFunction< TInputImage, TCoordRep >
-::RealType
-MeanImageFunction< TInputImage, TCoordRep >
-::EvaluateAtIndex(const IndexType & index) const
+template <typename TInputImage, typename TCoordRep>
+typename MeanImageFunction<TInputImage, TCoordRep>::RealType
+MeanImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & index) const
 {
   RealType sum;
 
-  sum = NumericTraits< RealType >::ZeroValue();
+  sum = NumericTraits<RealType>::ZeroValue();
 
-  if ( !this->GetInputImage() )
-    {
-    return ( NumericTraits< RealType >::max() );
-    }
+  if (!this->GetInputImage())
+  {
+    return (NumericTraits<RealType>::max());
+  }
 
-  if ( !this->IsInsideBuffer(index) )
-    {
-    return ( NumericTraits< RealType >::max() );
-    }
+  if (!this->IsInsideBuffer(index))
+  {
+    return (NumericTraits<RealType>::max());
+  }
 
   // Create an N-d neighborhood kernel, using a zeroflux boundary condition
   typename InputImageType::SizeType kernelSize;
   kernelSize.Fill(m_NeighborhoodRadius);
 
-  ConstNeighborhoodIterator< InputImageType >
-  it( kernelSize, this->GetInputImage(), this->GetInputImage()->GetBufferedRegion() );
+  ConstNeighborhoodIterator<InputImageType> it(
+    kernelSize, this->GetInputImage(), this->GetInputImage()->GetBufferedRegion());
 
   // Set the iterator at the desired location
   it.SetLocation(index);
 
   // Walk the neighborhood
   const unsigned int size = it.Size();
-  for ( unsigned int i = 0; i < size; ++i )
-    {
-    sum += static_cast< RealType >( it.GetPixel(i) );
-    }
-  sum /= double( it.Size() );
+  for (unsigned int i = 0; i < size; ++i)
+  {
+    sum += static_cast<RealType>(it.GetPixel(i));
+  }
+  sum /= double(it.Size());
 
   return sum;
 }
 
-template< typename TInputImage, typename TCoordRep >
+template <typename TInputImage, typename TCoordRep>
 void
-MeanImageFunction< TInputImage, TCoordRep >
-::PrintSelf(std::ostream & os, Indent indent) const
+MeanImageFunction<TInputImage, TCoordRep>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "NeighborhoodRadius: "  << m_NeighborhoodRadius << std::endl;
+  os << indent << "NeighborhoodRadius: " << m_NeighborhoodRadius << std::endl;
 }
 } // end namespace itk
 

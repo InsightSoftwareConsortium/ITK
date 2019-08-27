@@ -29,18 +29,17 @@ namespace itk
  * \ingroup QEMeshModifierFunctions
  * \ingroup ITKQuadEdgeMesh
  */
-template< typename TMesh, typename TQEType >
-class ITK_TEMPLATE_EXPORT QuadEdgeMeshEulerOperatorJoinFacetFunction:
-  public QuadEdgeMeshFunctionBase< TMesh, TQEType * >
+template <typename TMesh, typename TQEType>
+class ITK_TEMPLATE_EXPORT QuadEdgeMeshEulerOperatorJoinFacetFunction : public QuadEdgeMeshFunctionBase<TMesh, TQEType *>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshEulerOperatorJoinFacetFunction);
 
   /** Standard class type aliases. */
   using Self = QuadEdgeMeshEulerOperatorJoinFacetFunction;
-  using Superclass = QuadEdgeMeshFunctionBase< TMesh, TQEType * >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = QuadEdgeMeshFunctionBase<TMesh, TQEType *>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   itkNewMacro(Self);
   /** Run-time type information (and related methods). */
@@ -53,10 +52,11 @@ public:
   using OutputType = typename Superclass::OutputType;
 
   /** Evaluate at the specified input position */
-  virtual OutputType Evaluate(QEType *e);
+  virtual OutputType
+  Evaluate(QEType * e);
 
 protected:
-  QuadEdgeMeshEulerOperatorJoinFacetFunction()= default;
+  QuadEdgeMeshEulerOperatorJoinFacetFunction() = default;
   ~QuadEdgeMeshEulerOperatorJoinFacetFunction() override = default;
 };
 } // end namespace itk

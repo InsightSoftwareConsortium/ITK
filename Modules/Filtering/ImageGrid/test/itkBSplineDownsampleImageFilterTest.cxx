@@ -34,53 +34,54 @@
 #include "itkSimpleFilterWatcher.h"
 #include "itkTestingMacros.h"
 
-int itkBSplineDownsampleImageFilterTest( int argc, char * argv [] )
+int
+itkBSplineDownsampleImageFilterTest(int argc, char * argv[])
 {
 
-  if( argc < 4 )
-    {
+  if (argc < 4)
+  {
     std::cerr << "Error: Missing arguments" << std::endl;
     std::cerr << "Usage: " << std::endl;
     std::cerr << itkNameOfTestExecutableMacro(argv) << "inputImage outputImage splineOrder" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   using PixelType = unsigned char;
   constexpr unsigned int Dimension = 3;
 
-  using ImageType = itk::Image< PixelType, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
-  using DownsamplerFilterType = itk::BSplineDownsampleImageFilter< ImageType, ImageType >;
+  using DownsamplerFilterType = itk::BSplineDownsampleImageFilter<ImageType, ImageType>;
 
   DownsamplerFilterType::Pointer filter = DownsamplerFilterType::New();
 
   itk::SimpleFilterWatcher watcher(filter, "BSplineDownsampleImageFilter");
 
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
 
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
 
-  reader->SetFileName( argv[1] );
-  writer->SetFileName( argv[2] );
+  reader->SetFileName(argv[1]);
+  writer->SetFileName(argv[2]);
 
-  const unsigned int splineOrder = std::stoi( argv[3] );
+  const unsigned int splineOrder = std::stoi(argv[3]);
 
-  filter->SetSplineOrder( splineOrder );
+  filter->SetSplineOrder(splineOrder);
 
-  filter->SetInput( reader->GetOutput() );
-  writer->SetInput( filter->GetOutput() );
+  filter->SetInput(reader->GetOutput());
+  writer->SetInput(filter->GetOutput());
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

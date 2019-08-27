@@ -19,7 +19,8 @@
 #include "itkMaximumDecisionRule.h"
 #include "itkObjectFactory.h"
 
-int itkMaximumDecisionRuleTest(int, char* [] )
+int
+itkMaximumDecisionRuleTest(int, char *[])
 {
   using MaximumDecisionRuleType = itk::Statistics::MaximumDecisionRule;
 
@@ -36,23 +37,23 @@ int itkMaximumDecisionRuleTest(int, char* [] )
 
   double membershipScore1;
   membershipScore1 = 0.1;
-  membershipScoreVector.push_back( membershipScore1 );
+  membershipScoreVector.push_back(membershipScore1);
 
   double membershipScore2;
   membershipScore2 = 0.5;
-  membershipScoreVector.push_back( membershipScore2 );
+  membershipScoreVector.push_back(membershipScore2);
 
   double membershipScore3;
   membershipScore3 = 1.9;
-  membershipScoreVector.push_back( membershipScore3 );
+  membershipScoreVector.push_back(membershipScore3);
 
   // the maximum score is the third component. The decision rule should
   // return index ( 2)
-  if( decisionRule->Evaluate( membershipScoreVector ) != 2 )
-    {
+  if (decisionRule->Evaluate(membershipScoreVector) != 2)
+  {
     std::cerr << "Decision rule computation is incorrect!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

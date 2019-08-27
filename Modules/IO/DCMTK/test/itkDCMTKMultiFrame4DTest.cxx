@@ -23,16 +23,15 @@
 #include "itkStatisticsImageFilter.h"
 
 int
-itkDCMTKMultiFrame4DTest(int argc, char *argv[])
+itkDCMTKMultiFrame4DTest(int argc, char * argv[])
 {
-  if(argc != 3)
-    {
+  if (argc != 3)
+  {
     std::cerr << "Missing filenames" << std::endl
               << "itkDCMTKMultiFram4DTest"
-              << " <inputDicomFile> <outputFile>"
-              << std::endl;
+              << " <inputDicomFile> <outputFile>" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   using ImageType = itk::Image<unsigned short, 4>;
   using ReaderType = itk::ImageFileReader<ImageType>;
   using WriterType = itk::ImageFileWriter<ImageType>;
@@ -45,69 +44,64 @@ itkDCMTKMultiFrame4DTest(int argc, char *argv[])
 
 
   try
-    {
+  {
     reader->Update();
-    }
+  }
   catch (itk::ExceptionObject & e)
-    {
+  {
     std::cerr << "exception in file reader" << std::endl;
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   ImageType::Pointer im = reader->GetOutput();
   std::cout << im;
   writer->SetInput(im);
 
   try
-    {
+  {
     writer->Update();
-    }
+  }
   catch (itk::ExceptionObject & e)
-    {
+  {
     std::cerr << "exception in file writer" << std::endl;
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
-    }
-  catch(...)
-    {
+  }
+  catch (...)
+  {
     return EXIT_FAILURE;
-    }
+  }
 
   // don't want to set imageIO so re-instantiate reader
   reader = ReaderType::New();
   reader->SetFileName(argv[2]);
 
-  using SubtractFilterType =
-      itk::SubtractImageFilter<ImageType,ImageType,ImageType>;
+  using SubtractFilterType = itk::SubtractImageFilter<ImageType, ImageType, ImageType>;
 
-  SubtractFilterType::Pointer subtractFilter =
-    SubtractFilterType::New();
+  SubtractFilterType::Pointer subtractFilter = SubtractFilterType::New();
   subtractFilter->SetInput1(im);
   subtractFilter->SetInput2(reader->GetOutput());
 
   using StatisticsFilterType = itk::StatisticsImageFilter<ImageType>;
-  StatisticsFilterType::Pointer statisticsFilter =
-    StatisticsFilterType::New();
+  StatisticsFilterType::Pointer statisticsFilter = StatisticsFilterType::New();
 
   statisticsFilter->SetInput(subtractFilter->GetOutput());
   try
-    {
+  {
     statisticsFilter->Update();
-    }
+  }
   catch (itk::ExceptionObject & e)
-    {
+  {
     std::cerr << "exception checking files " << std::endl;
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
-    }
-  if(statisticsFilter->GetMinimum() != 0.0 || statisticsFilter->GetMaximum() != 0.0)
-    {
+  }
+  if (statisticsFilter->GetMinimum() != 0.0 || statisticsFilter->GetMaximum() != 0.0)
+  {
     std::cerr << "file written doesn't match file read." << std::endl
-              << "min(" << statisticsFilter->GetMinimum()
-              << ") max(" << statisticsFilter->GetMaximum()
-              << std::endl;
+              << "min(" << statisticsFilter->GetMinimum() << ") max(" << statisticsFilter->GetMaximum() << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   return EXIT_SUCCESS;
 }

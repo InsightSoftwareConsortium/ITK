@@ -77,13 +77,14 @@
 #include "itkImageFileWriter.h"
 
 
-int main( int argc, char *argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc != 2 )
-    {
+  if (argc != 2)
+  {
     std::cerr << "Usage: " << argv[0] << " outputimagefile " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   //  Software Guide : BeginLatex
@@ -97,7 +98,7 @@ int main( int argc, char *argv[] )
   using PixelType = signed short;
   constexpr unsigned int Dimension = 3;
 
-  using ImageType = itk::Image< PixelType, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
   // Software Guide : EndCodeSnippet
 
 
@@ -110,8 +111,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using MetaBallType = itk::GaussianSpatialObject< Dimension >;
-  using GroupType = itk::GroupSpatialObject< Dimension >;
+  using MetaBallType = itk::GaussianSpatialObject<Dimension>;
+  using GroupType = itk::GroupSpatialObject<Dimension>;
   // Software Guide : EndCodeSnippet
 
 
@@ -123,8 +124,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using SpatialObjectToImageFilterType = itk::SpatialObjectToImageFilter<
-    GroupType, ImageType >;
+  using SpatialObjectToImageFilterType =
+    itk::SpatialObjectToImageFilter<GroupType, ImageType>;
 
   SpatialObjectToImageFilterType::Pointer imageFilter =
     SpatialObjectToImageFilterType::New();
@@ -141,20 +142,20 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   ImageType::SizeType size;
-  size[ 0 ] =  50;
-  size[ 1 ] =  50;
-  size[ 2 ] = 200;
+  size[0] = 50;
+  size[1] = 50;
+  size[2] = 200;
 
-  imageFilter->SetSize( size );
+  imageFilter->SetSize(size);
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginCodeSnippet
   ImageType::SpacingType spacing;
-  spacing[0] =  100.0 / size[0];
-  spacing[1] =  100.0 / size[1];
-  spacing[2] =  400.0 / size[2];
+  spacing[0] = 100.0 / size[0];
+  spacing[1] = 100.0 / size[1];
+  spacing[2] = 400.0 / size[2];
 
-  imageFilter->SetSpacing( spacing );
+  imageFilter->SetSpacing(spacing);
   // Software Guide : EndCodeSnippet
 
 
@@ -181,14 +182,14 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  metaBall1->SetRadiusInObjectSpace(  size[0] * spacing[0] * 0.2 );
-  metaBall2->SetRadiusInObjectSpace(  size[0] * spacing[0] * 0.2 );
-  metaBall3->SetRadiusInObjectSpace(  size[0] * spacing[0] * 0.2 );
+  metaBall1->SetRadiusInObjectSpace(size[0] * spacing[0] * 0.2);
+  metaBall2->SetRadiusInObjectSpace(size[0] * spacing[0] * 0.2);
+  metaBall3->SetRadiusInObjectSpace(size[0] * spacing[0] * 0.2);
   // Software Guide : EndCodeSnippet
 
-  metaBall1->SetMaximum( 1000.0 );
-  metaBall2->SetMaximum( 1000.0 );
-  metaBall3->SetMaximum( 1000.0 );
+  metaBall1->SetMaximum(1000.0);
+  metaBall2->SetMaximum(1000.0);
+  metaBall3->SetMaximum(1000.0);
 
   //  Software Guide : BeginLatex
   //
@@ -219,25 +220,25 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  TransformType::OutputVectorType  translation;
+  TransformType::OutputVectorType translation;
 
-  translation[ 0 ] =  size[0] * spacing[0] / 2.0;
-  translation[ 1 ] =  size[1] * spacing[1] / 4.0;
-  translation[ 2 ] =  size[2] * spacing[2] / 2.0;
-  transform1->Translate( translation, false );
+  translation[0] = size[0] * spacing[0] / 2.0;
+  translation[1] = size[1] * spacing[1] / 4.0;
+  translation[2] = size[2] * spacing[2] / 2.0;
+  transform1->Translate(translation, false);
 
-  translation[ 1 ] =  size[1] * spacing[1] / 2.0;
-  translation[ 2 ] =  size[2] * spacing[2] * 0.22;
-  transform2->Rotate( 1, 2, itk::Math::pi / 2.0 );
-  transform2->Translate( translation, false );
+  translation[1] = size[1] * spacing[1] / 2.0;
+  translation[2] = size[2] * spacing[2] * 0.22;
+  transform2->Rotate(1, 2, itk::Math::pi / 2.0);
+  transform2->Translate(translation, false);
 
-  translation[ 2 ] = size[2] * spacing[2] * 0.78;
-  transform3->Rotate( 1, 2, itk::Math::pi / 2.0 );
-  transform3->Translate( translation, false );
+  translation[2] = size[2] * spacing[2] * 0.78;
+  transform3->Rotate(1, 2, itk::Math::pi / 2.0);
+  transform3->Translate(translation, false);
 
-  metaBall1->SetObjectToParentTransform( transform1 );
-  metaBall2->SetObjectToParentTransform( transform2 );
-  metaBall3->SetObjectToParentTransform( transform3 );
+  metaBall1->SetObjectToParentTransform(transform1);
+  metaBall2->SetObjectToParentTransform(transform2);
+  metaBall3->SetObjectToParentTransform(transform3);
   // Software Guide : EndCodeSnippet
 
 
@@ -250,15 +251,15 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   GroupType::Pointer group = GroupType::New();
-  group->AddChild( metaBall1 );
-  group->AddChild( metaBall2 );
-  group->AddChild( metaBall3 );
+  group->AddChild(metaBall1);
+  group->AddChild(metaBall2);
+  group->AddChild(metaBall3);
 
   metaBall1->Update();
   metaBall2->Update();
   metaBall3->Update();
 
-  imageFilter->SetInput(  group  );
+  imageFilter->SetInput(group);
   // Software Guide : EndCodeSnippet
 
 
@@ -274,10 +275,10 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const PixelType airHounsfieldUnits  = -1000;
+  const PixelType airHounsfieldUnits = -1000;
 
-  imageFilter->SetUseObjectValue( true );
-  imageFilter->SetOutsideValue( airHounsfieldUnits );
+  imageFilter->SetUseObjectValue(true);
+  imageFilter->SetOutsideValue(airHounsfieldUnits);
   // Software Guide : EndCodeSnippet
 
 
@@ -290,22 +291,22 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
 
-  writer->SetFileName( argv[1] );
-  writer->SetInput( imageFilter->GetOutput() );
+  writer->SetFileName(argv[1]);
+  writer->SetInput(imageFilter->GetOutput());
 
   try
-    {
+  {
     imageFilter->Update();
     writer->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   // Software Guide : EndCodeSnippet
 
 

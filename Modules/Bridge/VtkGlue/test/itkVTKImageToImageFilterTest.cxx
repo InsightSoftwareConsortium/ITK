@@ -22,7 +22,8 @@
 #include "vtkMatrix3x3.h"
 #include "vtkSmartPointer.h"
 
-int itkVTKImageToImageFilterTest(int, char*[])
+int
+itkVTKImageToImageFilterTest(int, char *[])
 {
   const int dim = 2;
   using ImageType = itk::Image<double, dim>;
@@ -30,7 +31,7 @@ int itkVTKImageToImageFilterTest(int, char*[])
   using ConnectorType = itk::VTKImageToImageFilter<ImageType>;
 
   VTKNoiseType noise_source = VTKNoiseType::New();
-  noise_source->SetWholeExtent(0,20,0,20,0,0);
+  noise_source->SetWholeExtent(0, 20, 0, 20, 0, 0);
   noise_source->SetMinimum(0.0);
   noise_source->SetMaximum(1.0);
   noise_source->Update();
@@ -71,7 +72,7 @@ int itkVTKImageToImageFilterTest(int, char*[])
 #if VTK_MAJOR_VERSION >= 9 || (VTK_MAJOR_VERSION == 8 && VTK_MINOR_VERSION >= 90)
     for (int j = 0; j < dim; ++j)
     {
-      if (output->GetDirection()[i][j] != input->GetDirectionMatrix()->GetData()[i*3+j])
+      if (output->GetDirection()[i][j] != input->GetDirectionMatrix()->GetData()[i * 3 + j])
       {
         std::cerr << "Error: directions do not match for component (" << i << "," << j << ")." << std::endl;
         return EXIT_FAILURE;
@@ -85,21 +86,21 @@ int itkVTKImageToImageFilterTest(int, char*[])
   // and ensure it throws an exception
   input->SetDirectionMatrix(0, 1, 0, 0, 0, 1, 1, 0, 0);
   try
-    {
+  {
     connector->Update();
-    }
+  }
   catch (itk::ExceptionObject & e)
-    {
+  {
     std::string expectedErrorSubString = "is not equal to 0.0";
     std::string fullErrorString = e.GetDescription();
     if (fullErrorString.find(expectedErrorSubString) != std::string::npos)
-      {
+    {
       std::cout << "\nTest passed: the expected exception was thrown: " << e << std::endl;
       return EXIT_SUCCESS;
-      }
+    }
     std::cerr << "\nTest failed: an unexpected exception was thrown: " << e << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_FAILURE;
 #else

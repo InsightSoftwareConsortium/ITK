@@ -22,70 +22,70 @@
 
 namespace itk
 {
-template< typename TImage, typename TFunction >
-FloodFilledSpatialFunctionConditionalConstIterator< TImage, TFunction >
-::FloodFilledSpatialFunctionConditionalConstIterator(const ImageType *imagePtr,
-                                                     FunctionType *fnPtr,
-                                                     IndexType startIndex):Superclass(imagePtr, fnPtr, startIndex)
+template <typename TImage, typename TFunction>
+FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>::
+  FloodFilledSpatialFunctionConditionalConstIterator(const ImageType * imagePtr,
+                                                     FunctionType *    fnPtr,
+                                                     IndexType         startIndex)
+  : Superclass(imagePtr, fnPtr, startIndex)
 {
   // The default inclusion strategy is "center"
   this->SetCenterInclusionStrategy();
 }
 
-template< typename TImage, typename TFunction >
-FloodFilledSpatialFunctionConditionalConstIterator< TImage, TFunction >
-::FloodFilledSpatialFunctionConditionalConstIterator(const ImageType *imagePtr,
-                                                     FunctionType *fnPtr):Superclass(imagePtr, fnPtr)
+template <typename TImage, typename TFunction>
+FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>::
+  FloodFilledSpatialFunctionConditionalConstIterator(const ImageType * imagePtr, FunctionType * fnPtr)
+  : Superclass(imagePtr, fnPtr)
 {
   // The default inclusion strategy is "center"
   this->SetCenterInclusionStrategy();
 }
 
-template< typename TImage, typename TFunction >
+template <typename TImage, typename TFunction>
 bool
-FloodFilledSpatialFunctionConditionalConstIterator< TImage, TFunction >
-::IsPixelIncluded(const IndexType & index) const
+FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>::IsPixelIncluded(const IndexType & index) const
 {
   // This temp var is used in all cases
   FunctionInputType position;
 
-  switch ( m_InclusionStrategy )
-    {
+  switch (m_InclusionStrategy)
+  {
     // Origin
     case 0:
-      {
+    {
       // Get the physical location of this index
       this->m_Image->TransformIndexToPhysicalPoint(index, position);
 
       // Evaluate the function at this point
       return this->GetFunction()->Evaluate(position);
-      }
-      break;
+    }
+    break;
 
     // Center
     case 1:
-      {
+    {
       // The center of the pixel is the index provided in the function
       // call converted to a continuous index with an offset of 0.5
       // along each dimension
-      ContinuousIndex< double, TImage::ImageDimension > contIndex;
+      ContinuousIndex<double, TImage::ImageDimension> contIndex;
 
-      for ( unsigned int i = 0; i < TImage::ImageDimension; i++ )
-        {
+      for (unsigned int i = 0; i < TImage::ImageDimension; i++)
+      {
         contIndex[i] = (double)index[i] + 0.5;
-        }
+      }
 
       // Get the physical location of this index
       this->m_Image->TransformContinuousIndexToPhysicalPoint(contIndex, position);
 
       // Evaluate the function at this point
       return this->GetFunction()->Evaluate(position);
-      }
-      break;
+    }
+    break;
 
     // Complete
     case 2:
-      {
+    {
       // This is unfortunately a little complicated...
       // We want to examine whether or not all of the corners of this pixel
       // are within the spatial function. For a pixel at (0,0) with a spacing
@@ -113,22 +113,20 @@ FloodFilledSpatialFunctionConditionalConstIterator< TImage, TFunction >
       unsigned int counter;
       unsigned int counterCopy;
       unsigned int dim = TImage::ImageDimension;
-      auto numReps = static_cast< unsigned int >( std::pow(
-                                                            static_cast< double >( 2.0 ),
-                                                            static_cast< double >( dim ) ) );
+      auto         numReps = static_cast<unsigned int>(std::pow(static_cast<double>(2.0), static_cast<double>(dim)));
 
       IndexType tempIndex;
 
       // First we loop over the binary counter
-      for ( counter = 0; counter < numReps; counter++ )
-        {
+      for (counter = 0; counter < numReps; counter++)
+      {
         // Next we use the binary values in the counter to form
         // an index to look at
-        for ( unsigned int i = 0; i < dim; i++ )
-          {
+        for (unsigned int i = 0; i < dim; i++)
+        {
           counterCopy = counter;
-          tempIndex[i] = index[i] + static_cast< int >( ( counterCopy >> i ) & 0x0001 );
-          }
+          tempIndex[i] = index[i] + static_cast<int>((counterCopy >> i) & 0x0001);
+        }
 
         // Now that we've built an index, we can test it
         // Get the physical location of this index
@@ -137,21 +135,21 @@ FloodFilledSpatialFunctionConditionalConstIterator< TImage, TFunction >
         // Evaluate the function at this index, if it's false
         // then the AND of all function dimensions is false,
         // and hence it's not included
-        if ( !( this->GetFunction()->Evaluate(position) ) )
-          {
+        if (!(this->GetFunction()->Evaluate(position)))
+        {
           return false;
-          }
         }
+      }
 
       // If we reach this point, we've tested all dimensions and none
       // were outside the function, therefore the pixel is inside
       return true;
-      }
-      break;
+    }
+    break;
 
     // Intersect
     case 3:
-      {
+    {
       // The notes for the previous case apply here as well
       // The only difference is that we return true if any of the
       // generated indices are true
@@ -160,21 +158,19 @@ FloodFilledSpatialFunctionConditionalConstIterator< TImage, TFunction >
       unsigned int counter;
       unsigned int counterCopy;
       unsigned int dim = TImage::ImageDimension;
-      auto numReps = static_cast< unsigned int >( std::pow(
-                                                            static_cast< double >( 2.0 ),
-                                                            static_cast< double >( dim ) ) );
-      IndexType tempIndex;
+      auto         numReps = static_cast<unsigned int>(std::pow(static_cast<double>(2.0), static_cast<double>(dim)));
+      IndexType    tempIndex;
 
       // First we loop over the binary counter
-      for ( counter = 0; counter < numReps; counter++ )
-        {
+      for (counter = 0; counter < numReps; counter++)
+      {
         // Next we use the binary values in the counter to form
         // an index to look at
-        for ( unsigned int i = 0; i < dim; i++ )
-          {
+        for (unsigned int i = 0; i < dim; i++)
+        {
           counterCopy = counter;
-          tempIndex[i] = index[i] + static_cast< int >( ( counterCopy >> i ) & 0x0001 );
-          }
+          tempIndex[i] = index[i] + static_cast<int>((counterCopy >> i) & 0x0001);
+        }
 
         // Now that we've built an index, we can test it
         // Get the physical location of this index
@@ -183,17 +179,17 @@ FloodFilledSpatialFunctionConditionalConstIterator< TImage, TFunction >
         // Evaluate the function at this index, if it's true
         // then the OR of all function dimensions is true,
         // and hence it's included
-        if ( this->m_Function->Evaluate(position) )
-          {
+        if (this->m_Function->Evaluate(position))
+        {
           return true;
-          }
         }
+      }
 
       // If we reach this point, we've tested all dimensions and none
       // were inside the function, therefore the pixel is outside
       return false;
-      }
-    } // end switch inclusion strategy
+    }
+  } // end switch inclusion strategy
 
   // Somehow me managed to exit the switch statement without returning
   // To be safe, we'll say that the pixel is not inside

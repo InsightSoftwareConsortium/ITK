@@ -33,112 +33,115 @@
 #include "itkTubeSpatialObject.h"
 // Software Guide : EndCodeSnippet
 
-int main( int , char *[] )
+int
+main(int, char *[])
 {
 
-// Software Guide : BeginLatex
-//
-// VesselTubeSpatialObject is templated over the dimension of the space.  A
-// VesselTubeSpatialObject contains a list of VesselTubeSpatialObjectPoints.
-//
-// First we define some type definitions and we create the tube.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // VesselTubeSpatialObject is templated over the dimension of the space.  A
+  // VesselTubeSpatialObject contains a list of VesselTubeSpatialObjectPoints.
+  //
+  // First we define some type definitions and we create the tube.
+  //
+  // Software Guide : EndLatex
 
   unsigned int i;
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   using VesselTubeType = itk::TubeSpatialObject<3>;
   using VesselTubePointType = VesselTubeType::TubePointType;
 
   using PointType = VesselTubeType::PointType;
 
   VesselTubeType::Pointer vesselTube = VesselTubeType::New();
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// We create a point list and we set:
-// \begin{enumerate}
-// \item The position of each point in the local coordinate system using the
-// \code{SetPositionInObjectSpace()} method.
-// \item The radius of the tube at this position using \code{SetRadiusInObjectSpace()}.
-// \item The medialness value describing how the point lies in the middle of the vessel using \code{SetMedialness()}.
-// \item The ridgeness value describing how the point lies on the ridge using \code{SetRidgeness()}.
-// \item The branchness value describing if the point is a branch point using \code{SetBranchness()}.
-// \item The three alpha values corresponding to the eigenvalues of the Hessian
-//  using \code{SetAlpha1()},\code{SetAlpha2()} and \code{SetAlpha3()}.
-// \item The mark value using \code{SetMark()}.
-// \item The color of the point is set to red in this example with an opacity of 1.
-// \end{enumerate}
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // We create a point list and we set:
+  // \begin{enumerate}
+  // \item The position of each point in the local coordinate system using the
+  // \code{SetPositionInObjectSpace()} method.
+  // \item The radius of the tube at this position using
+  // \code{SetRadiusInObjectSpace()}. \item The medialness value describing how the
+  // point lies in the middle of the vessel using \code{SetMedialness()}. \item The
+  // ridgeness value describing how the point lies on the ridge using
+  // \code{SetRidgeness()}. \item The branchness value describing if the point is a
+  // branch point using \code{SetBranchness()}. \item The three alpha values
+  // corresponding to the eigenvalues of the Hessian
+  //  using \code{SetAlpha1()},\code{SetAlpha2()} and \code{SetAlpha3()}.
+  // \item The mark value using \code{SetMark()}.
+  // \item The color of the point is set to red in this example with an opacity of 1.
+  // \end{enumerate}
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   VesselTubeType::TubePointListType list;
-  for (i=0; i<5; ++i)
-    {
+  for (i = 0; i < 5; ++i)
+  {
     VesselTubePointType p;
-    PointType pnt;
+    PointType           pnt;
     pnt[0] = i;
-    pnt[1] = i+1;
-    pnt[2] = i+2;
+    pnt[1] = i + 1;
+    pnt[2] = i + 2;
     p.SetPositionInObjectSpace(pnt);
     p.SetRadiusInObjectSpace(1);
     p.SetAlpha1(i);
-    p.SetAlpha2(i+1);
-    p.SetAlpha3(i+2);
+    p.SetAlpha2(i + 1);
+    p.SetAlpha3(i + 2);
     p.SetMedialness(i);
     p.SetRidgeness(i);
     p.SetBranchness(i);
-    p.SetColor(1,0,0,1);
+    p.SetColor(1, 0, 0, 1);
     list.push_back(p);
-    }
-// Software Guide : EndCodeSnippet
+  }
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// Next, we create the tube and set its name using \code{SetName()}. We also
-// set its identification number with \code{SetId()} and, at the end, we add
-// the list of points previously created.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // Next, we create the tube and set its name using \code{SetName()}. We also
+  // set its identification number with \code{SetId()} and, at the end, we add
+  // the list of points previously created.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   vesselTube->GetProperty().SetName("VesselTube");
   vesselTube->SetId(1);
   vesselTube->SetPoints(list);
   vesselTube->Update();
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// The \code{GetPoints()} method return a reference to the internal list of
-// points of the object.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // The \code{GetPoints()} method return a reference to the internal list of
+  // points of the object.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   VesselTubeType::TubePointListType pointList = vesselTube->GetPoints();
   std::cout << "Number of points representing the blood vessel: ";
   std::cout << pointList.size() << std::endl;
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// Then we can access the points using STL iterators.
-// \code{GetPositionInObjectSpace()}
-// and \code{GetColor()} functions return respectively the position and the
-// color of the point.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // Then we can access the points using STL iterators.
+  // \code{GetPositionInObjectSpace()}
+  // and \code{GetColor()} functions return respectively the position and the
+  // color of the point.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
-  VesselTubeType::TubePointListType::const_iterator
-            it = vesselTube->GetPoints().begin();
-  i=0;
-  while(it != vesselTube->GetPoints().end())
-    {
+  // Software Guide : BeginCodeSnippet
+  VesselTubeType::TubePointListType::const_iterator it =
+    vesselTube->GetPoints().begin();
+  i = 0;
+  while (it != vesselTube->GetPoints().end())
+  {
     std::cout << std::endl;
     std::cout << "Point #" << i << std::endl;
     std::cout << "Position: " << (*it).GetPositionInObjectSpace() << std::endl;
@@ -152,8 +155,8 @@ int main( int , char *[] )
     std::cout << "Color = " << (*it).GetColor() << std::endl;
     ++it;
     ++i;
-    }
-// Software Guide : EndCodeSnippet
+  }
+  // Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;
 }

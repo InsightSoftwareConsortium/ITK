@@ -28,119 +28,100 @@
 namespace itk
 {
 
-template< typename TInputImage, typename TOutputImage, typename TFunction1,
-          typename TFunction2 >
-ValuedRegionalExtremaImageFilter< TInputImage, TOutputImage, TFunction1,
-                                  TFunction2 >
-::ValuedRegionalExtremaImageFilter():
-  m_MarkerValue( 0 )
+template <typename TInputImage, typename TOutputImage, typename TFunction1, typename TFunction2>
+ValuedRegionalExtremaImageFilter<TInputImage, TOutputImage, TFunction1, TFunction2>::ValuedRegionalExtremaImageFilter()
+  : m_MarkerValue(0)
 
-{
-}
+{}
 
 
-template< typename TInputImage, typename TOutputImage, typename TFunction1,
-          typename TFunction2 >
+template <typename TInputImage, typename TOutputImage, typename TFunction1, typename TFunction2>
 void
-ValuedRegionalExtremaImageFilter< TInputImage, TOutputImage, TFunction1,
-                                  TFunction2 >
-::GenerateInputRequestedRegion()
+ValuedRegionalExtremaImageFilter<TInputImage, TOutputImage, TFunction1, TFunction2>::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the input.
-  auto * input = const_cast< InputImageType * >( this->GetInput() );
-  if ( !input )
-    {
+  auto * input = const_cast<InputImageType *>(this->GetInput());
+  if (!input)
+  {
     return;
-    }
-  input->SetRequestedRegion( input->GetLargestPossibleRegion() );
+  }
+  input->SetRequestedRegion(input->GetLargestPossibleRegion());
 }
 
 
-template< typename TInputImage, typename TOutputImage, typename TFunction1,
-          typename TFunction2 >
+template <typename TInputImage, typename TOutputImage, typename TFunction1, typename TFunction2>
 void
-ValuedRegionalExtremaImageFilter< TInputImage, TOutputImage, TFunction1,
-                                  TFunction2 >
-::EnlargeOutputRequestedRegion(DataObject *)
+ValuedRegionalExtremaImageFilter<TInputImage, TOutputImage, TFunction1, TFunction2>::EnlargeOutputRequestedRegion(
+  DataObject *)
 {
   OutputImageType * output = this->GetOutput();
-  output->SetRequestedRegion( output->GetLargestPossibleRegion() );
+  output->SetRequestedRegion(output->GetLargestPossibleRegion());
 }
 
 
-template< typename TInputImage, typename TOutputImage, typename TFunction1,
-          typename TFunction2 >
+template <typename TInputImage, typename TOutputImage, typename TFunction1, typename TFunction2>
 void
-ValuedRegionalExtremaImageFilter< TInputImage, TOutputImage, TFunction1,
-                                  TFunction2 >
-::GenerateData()
+ValuedRegionalExtremaImageFilter<TInputImage, TOutputImage, TFunction1, TFunction2>::GenerateData()
 {
   // Allocate the output
   this->AllocateOutputs();
 
   const InputImageType * input = this->GetInput();
-  OutputImageType * output = this->GetOutput();
+  OutputImageType *      output = this->GetOutput();
 
   // 2 phases
-  ProgressReporter progress(this, 0,
-                            this->GetOutput()->GetRequestedRegion().GetNumberOfPixels() * 2);
+  ProgressReporter progress(this, 0, this->GetOutput()->GetRequestedRegion().GetNumberOfPixels() * 2);
 
   // copy input to output - isn't there a better way?
-  using InputIterator = ImageRegionConstIterator< TInputImage >;
-  using OutputIterator = ImageRegionIterator< TOutputImage >;
+  using InputIterator = ImageRegionConstIterator<TInputImage>;
+  using OutputIterator = ImageRegionIterator<TOutputImage>;
 
-  InputIterator inIt( input,
-                      output->GetRequestedRegion() );
-  OutputIterator outIt( output,
-                        output->GetRequestedRegion() );
+  InputIterator  inIt(input, output->GetRequestedRegion());
+  OutputIterator outIt(output, output->GetRequestedRegion());
   inIt.GoToBegin();
   outIt.GoToBegin();
 
   InputImagePixelType firstValue = inIt.Get();
   this->m_Flat = true;
 
-  while( !outIt.IsAtEnd() )
-    {
+  while (!outIt.IsAtEnd())
+  {
     InputImagePixelType currentValue = inIt.Get();
-    outIt.Set( static_cast< OutputImagePixelType >( currentValue ) );
-    if ( currentValue != firstValue )
-      {
+    outIt.Set(static_cast<OutputImagePixelType>(currentValue));
+    if (currentValue != firstValue)
+    {
       this->m_Flat = false;
-      }
+    }
     ++inIt;
     ++outIt;
     progress.CompletedPixel();
-    }
+  }
 
   // if the image is flat, there is no need to do the work:
   // the image will be unchanged
-  if( !this->m_Flat )
-    {
+  if (!this->m_Flat)
+  {
     // Now for the real work!
     // More iterators - use shaped ones so that we can set connectivity
     // Note : all comments refer to finding regional minima, because
     // it is briefer and clearer than trying to describe both regional
     // maxima and minima processes at the same time
     ISizeType kernelRadius;
-    kernelRadius.Fill( 1 );
-    NOutputIterator outNIt( kernelRadius,
-                            output,
-                            output->GetRequestedRegion() );
+    kernelRadius.Fill(1);
+    NOutputIterator outNIt(kernelRadius, output, output->GetRequestedRegion());
     setConnectivity(&outNIt, m_FullyConnected);
 
-    ConstInputIterator inNIt( kernelRadius,
-                              input,
-                              output->GetRequestedRegion() );
+    ConstInputIterator inNIt(kernelRadius, input, output->GetRequestedRegion());
     setConnectivity(&inNIt, m_FullyConnected);
 
-    ConstantBoundaryCondition< OutputImageType > iBC;
+    ConstantBoundaryCondition<OutputImageType> iBC;
     iBC.SetConstant(m_MarkerValue);
     inNIt.OverrideBoundaryCondition(&iBC);
 
-    ConstantBoundaryCondition< OutputImageType > oBC;
+    ConstantBoundaryCondition<OutputImageType> oBC;
     oBC.SetConstant(m_MarkerValue);
     outNIt.OverrideBoundaryCondition(&oBC);
 
@@ -149,29 +130,29 @@ ValuedRegionalExtremaImageFilter< TInputImage, TOutputImage, TFunction1,
 
     outIt.GoToBegin();
     // set up the stack and neighbor list
-    IndexStack IS;
+    IndexStack                              IS;
     typename NOutputIterator::IndexListType IndexList;
     IndexList = outNIt.GetActiveIndexList();
 
-    while( !outIt.IsAtEnd() )
-      {
+    while (!outIt.IsAtEnd())
+    {
       OutputImagePixelType V = outIt.Get();
       // if the output pixel value = the marker value then we have
       // already visited this pixel and don't need to do so again
-      if ( compareOut(V, m_MarkerValue) )
-        {
+      if (compareOut(V, m_MarkerValue))
+      {
         // reposition the input iterator
         inNIt += outIt.GetIndex() - inNIt.GetIndex();
 
-        auto Cent = static_cast< InputImagePixelType >( V );
+        auto Cent = static_cast<InputImagePixelType>(V);
 
         // check each neighbor of the input pixel
         typename ConstInputIterator::ConstIterator sIt;
-        for ( sIt = inNIt.Begin(); !sIt.IsAtEnd(); ++sIt )
-          {
+        for (sIt = inNIt.Begin(); !sIt.IsAtEnd(); ++sIt)
+        {
           InputImagePixelType Adjacent = sIt.Get();
-          if ( compareIn(Adjacent, Cent) )
-            {
+          if (compareIn(Adjacent, Cent))
+          {
             // The centre pixel cannot be part of a regional minima
             // because one of its neighbors is smaller.
             // Set all pixels in the output image that are connected to
@@ -191,56 +172,54 @@ ValuedRegionalExtremaImageFilter< TInputImage, TOutputImage, TFunction1,
             OutputImagePixelType NVal;
             OutIndexType         idx;
             // Initialize the stack
-            IS.push( outNIt.GetIndex() );
+            IS.push(outNIt.GetIndex());
             outNIt.SetCenterPixel(m_MarkerValue);
 
             typename NOutputIterator::IndexListType::const_iterator LIt;
 
-            while( !IS.empty() )
-              {
+            while (!IS.empty())
+            {
               // Pop the stack
               idx = IS.top();
               IS.pop();
               // position the iterator
               outNIt += idx - outNIt.GetIndex();
               // check neighbors
-              for ( LIt = IndexList.begin(); LIt != IndexList.end(); ++LIt )
-                {
+              for (LIt = IndexList.begin(); LIt != IndexList.end(); ++LIt)
+              {
                 NVal = outNIt.GetPixel(*LIt);
-                if ( NVal == V )
-                  {
+                if (NVal == V)
+                {
                   // still in a flat zone
-                  IS.push( outNIt.GetIndex(*LIt) );
+                  IS.push(outNIt.GetIndex(*LIt));
 
                   // set the output as the marker value
                   outNIt.SetPixel(*LIt, m_MarkerValue);
-                  }
                 }
               }
+            }
             // end flooding
             break;
-            }
           }
         }
+      }
       ++outIt;
       progress.CompletedPixel();
-      }
     }
+  }
 }
 
 
-template< typename TInputImage, typename TOutputImage, typename TFunction1,
-          typename TFunction2 >
+template <typename TInputImage, typename TOutputImage, typename TFunction1, typename TFunction2>
 void
-ValuedRegionalExtremaImageFilter< TInputImage, TOutputImage, TFunction1,
-                                  TFunction2 >
-::PrintSelf(std::ostream & os, Indent indent) const
+ValuedRegionalExtremaImageFilter<TInputImage, TOutputImage, TFunction1, TFunction2>::PrintSelf(std::ostream & os,
+                                                                                               Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
-  os << indent << "Flat: "            << m_Flat << std::endl;
-  os << indent << "MarkerValue: "     << m_MarkerValue << std::endl;
+  os << indent << "FullyConnected: " << m_FullyConnected << std::endl;
+  os << indent << "Flat: " << m_Flat << std::endl;
+  os << indent << "MarkerValue: " << m_MarkerValue << std::endl;
 }
 
 } // end namespace itk

@@ -62,8 +62,8 @@ namespace itk
  * \ingroup Functions
  * \ingroup ITKFiniteDifference
  */
-template< typename TImageType >
-class ITK_TEMPLATE_EXPORT FiniteDifferenceFunction:public LightObject
+template <typename TImageType>
+class ITK_TEMPLATE_EXPORT FiniteDifferenceFunction : public LightObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FiniteDifferenceFunction);
@@ -71,8 +71,8 @@ public:
   /** Standard class type aliases. */
   using Self = FiniteDifferenceFunction;
   using Superclass = LightObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(FiniteDifferenceFunction, LightObject);
@@ -93,19 +93,19 @@ public:
   using DefaultBoundaryConditionType = ZeroFluxNeumannBoundaryCondition<ImageType>;
 
   /** Neighborhood radius type */
-  using RadiusType = typename ConstNeighborhoodIterator< TImageType >::RadiusType;
+  using RadiusType = typename ConstNeighborhoodIterator<TImageType>::RadiusType;
 
   /** The type of data structure that is passed to this function object
    * to evaluate at a pixel that does not lie on a data set boundary. */
-  using NeighborhoodType = ConstNeighborhoodIterator< TImageType, DefaultBoundaryConditionType >;
+  using NeighborhoodType = ConstNeighborhoodIterator<TImageType, DefaultBoundaryConditionType>;
 
   /** The type of data structure that holds the scales with which the
    * neighborhood is weighted to properly account for spacing and neighborhood radius. */
-  using NeighborhoodScalesType = Vector< PixelRealType, Self::ImageDimension >;
+  using NeighborhoodScalesType = Vector<PixelRealType, Self::ImageDimension>;
 
   /** A floating point offset from an image grid location. Used for
    * interpolation among grid values in a neighborhood. */
-  using FloatOffsetType = Vector< float, Self::ImageDimension >;
+  using FloatOffsetType = Vector<float, Self::ImageDimension>;
 
   /** This method allows the function to set its state before each iteration
    *  of the finite difference solver (image filter) that uses it.  This is
@@ -116,7 +116,9 @@ public:
    * gradient magnitude across the entire image region. This value is set in
    * the function object and used by the ComputeUpdate() methods that are called
    * at each pixel as a constant. */
-  virtual void InitializeIteration() {}
+  virtual void
+  InitializeIteration()
+  {}
 
   /** This method is called by a finite difference solver image filter at
    * each pixel that does not lie on a data set boundary.  The width of the
@@ -131,31 +133,37 @@ public:
    * of the solver.
    * \sa InitializeIteration
    * \sa ComputeGlobalTimeStep */
-  virtual PixelType  ComputeUpdate( const NeighborhoodType & neighborhood,
-                                    void *globalData,
-                                    const FloatOffsetType & offset = FloatOffsetType(0.0) ) = 0;
+  virtual PixelType
+  ComputeUpdate(const NeighborhoodType & neighborhood,
+                void *                   globalData,
+                const FloatOffsetType &  offset = FloatOffsetType(0.0)) = 0;
 
 
   /** Sets the radius of the neighborhood this FiniteDifferenceFunction
    * needs to perform its calculations. */
-  void SetRadius(const RadiusType & r);
+  void
+  SetRadius(const RadiusType & r);
 
   /** Returns the radius of the neighborhood this FiniteDifferenceFunction
    * needs to perform its calculations. */
-  const RadiusType & GetRadius() const;
+  const RadiusType &
+  GetRadius() const;
 
   /** Set the ScaleCoefficients for the difference
    * operators. The defaults a 1.0. These can be set to take the image
    * spacing into account. */
-  void SetScaleCoefficients(PixelRealType vals[ImageDimension]);
+  void
+  SetScaleCoefficients(PixelRealType vals[ImageDimension]);
 
   /** Returns the current scale coefficients. */
-  void GetScaleCoefficients(PixelRealType vals[ImageDimension]) const;
+  void
+  GetScaleCoefficients(PixelRealType vals[ImageDimension]) const;
 
   /** Compute the scales that weight the neighborhood during difference operations
    * to properly account for spacing and neighborhood radius
    */
-  const NeighborhoodScalesType ComputeNeighborhoodScales() const;
+  const NeighborhoodScalesType
+  ComputeNeighborhoodScales() const;
 
   /** Computes the time step for an update given a global data structure.
    * The data used in the computation may take different forms depending on
@@ -163,7 +171,8 @@ public:
    * instance of the equation object itself since the equation object must
    * remain stateless for thread safety.  The global data is therefore managed
    * for each thread by the finite difference solver filters. */
-  virtual TimeStepType ComputeGlobalTimeStep(void *GlobalData) const = 0;
+  virtual TimeStepType
+  ComputeGlobalTimeStep(void * GlobalData) const = 0;
 
   /** Returns a pointer to a global data structure that is passed to this
    * object from the solver at each calculation.  The idea is that the
@@ -172,28 +181,31 @@ public:
    *
    * The global data should also be initialized in this method.
    * */
-  virtual void * GetGlobalDataPointer() const = 0;
+  virtual void *
+  GetGlobalDataPointer() const = 0;
 
   /** When the finite difference solver filter has finished using a global
    * data pointer, it passes it to this method, which frees the memory.
    *
    * The solver cannot free the memory because it does not know the type
    * to which the pointer points. */
-  virtual void ReleaseGlobalDataPointer(void *GlobalData) const = 0;
+  virtual void
+  ReleaseGlobalDataPointer(void * GlobalData) const = 0;
 
 protected:
   FiniteDifferenceFunction();
   ~FiniteDifferenceFunction() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  RadiusType m_Radius;
+  RadiusType    m_Radius;
   PixelRealType m_ScaleCoefficients[ImageDimension];
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFiniteDifferenceFunction.hxx"
+#  include "itkFiniteDifferenceFunction.hxx"
 #endif
 
 #endif

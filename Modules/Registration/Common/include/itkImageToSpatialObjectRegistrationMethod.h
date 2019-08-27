@@ -81,7 +81,7 @@ namespace itk
  * \ingroup RegistrationFilters
  * \ingroup ITKRegistrationCommon
  */
-template< typename TFixedImage, typename TMovingSpatialObject >
+template <typename TFixedImage, typename TMovingSpatialObject>
 class ITK_TEMPLATE_EXPORT ImageToSpatialObjectRegistrationMethod : public ProcessObject
 {
 public:
@@ -90,8 +90,8 @@ public:
   /** Standard class type aliases. */
   using Self = ImageToSpatialObjectRegistrationMethod;
   using Superclass = ProcessObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -108,8 +108,7 @@ public:
   using MovingSpatialObjectConstPointer = typename MovingSpatialObjectType::ConstPointer;
 
   /**  Type of the metric. */
-  using MetricType = ImageToSpatialObjectMetric< FixedImageType,
-                                      MovingSpatialObjectType >;
+  using MetricType = ImageToSpatialObjectMetric<FixedImageType, MovingSpatialObjectType>;
   using MetricPointer = typename MetricType::Pointer;
 
   /**  Type of the Transform . */
@@ -118,7 +117,7 @@ public:
 
   /** Type for the output: Using Decorator pattern for enabling
    *  the Transform to be passed in the data pipeline */
-  using TransformOutputType = DataObjectDecorator< TransformType >;
+  using TransformOutputType = DataObjectDecorator<TransformType>;
   using TransformOutputPointer = typename TransformOutputType::Pointer;
   using TransformOutputConstPointer = typename TransformOutputType::ConstPointer;
 
@@ -145,7 +144,7 @@ public:
   itkGetConstObjectMacro(MovingSpatialObject, MovingSpatialObjectType);
 
   /** Set/Get the Optimizer. */
-  itkSetObjectMacro(Optimizer,  OptimizerType);
+  itkSetObjectMacro(Optimizer, OptimizerType);
   itkGetModifiableObjectMacro(Optimizer, OptimizerType);
 
   /** Set/Get the Metric. */
@@ -169,29 +168,35 @@ public:
   itkGetConstReferenceMacro(LastTransformParameters, ParametersType);
 
   /** Returns the transform resulting from the registration process  */
-  const TransformOutputType * GetOutput() const;
+  const TransformOutputType *
+  GetOutput() const;
 
   /** Make a DataObject of the correct type to be used as the specified
    * output. */
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
+  DataObjectPointer
+  MakeOutput(DataObjectPointerArraySizeType idx) override;
 
   /** Method to return the latest modified time of this object or
    * any of its cached ivars */
-  ModifiedTimeType GetMTime() const override;
+  ModifiedTimeType
+  GetMTime() const override;
 
 protected:
   ImageToSpatialObjectRegistrationMethod();
   ~ImageToSpatialObjectRegistrationMethod() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Method invoked by the pipeline in order to trigger the computation of
    * the registration. */
-  void  GenerateData() override;
+  void
+  GenerateData() override;
 
   /** Initialize by setting the interconnects between the components. */
-  void Initialize();
+  void
+  Initialize();
 
   ParametersType m_InitialTransformParameters;
   ParametersType m_LastTransformParameters;
@@ -209,7 +214,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageToSpatialObjectRegistrationMethod.hxx"
+#  include "itkImageToSpatialObjectRegistrationMethod.hxx"
 #endif
 
 #endif

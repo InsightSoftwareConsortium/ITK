@@ -25,18 +25,19 @@
 
 #include "itkPipelineMonitorImageFilter.h"
 
-int itkReleaseDataFilterTest(int, char* [] )
+int
+itkReleaseDataFilterTest(int, char *[])
 {
   // Comment the following if you want to use the itk text output window
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
 
-  using ImageType = itk::Image<float,2>;
+  using ImageType = itk::Image<float, 2>;
   using MonitorFilter = itk::PipelineMonitorImageFilter<ImageType>;
 
 
   // use all the static GlobalReleaseData methods
-  ImageType::SetGlobalReleaseDataFlag( ImageType::GetGlobalReleaseDataFlag() );
+  ImageType::SetGlobalReleaseDataFlag(ImageType::GetGlobalReleaseDataFlag());
   ImageType::GlobalReleaseDataFlagOff();
   ImageType::GlobalReleaseDataFlagOn();
 
@@ -52,14 +53,14 @@ int itkReleaseDataFilterTest(int, char* [] )
 
   random->SetSize(randomSize);
 
-  ImageType::SpacingValueType spacing[2] = {0.7, 2.1};
-  random->SetSpacing( spacing );
+  ImageType::SpacingValueType spacing[2] = { 0.7, 2.1 };
+  random->SetSpacing(spacing);
 
-  ImageType::PointValueType origin[2] = {15, 400};
-  random->SetOrigin( origin );
+  ImageType::PointValueType origin[2] = { 15, 400 };
+  random->SetOrigin(origin);
 
   MonitorFilter::Pointer monitor1 = MonitorFilter::New();
-  monitor1->SetInput( random->GetOutput() );
+  monitor1->SetInput(random->GetOutput());
 
 
   // pipeline a
@@ -67,36 +68,36 @@ int itkReleaseDataFilterTest(int, char* [] )
   // Create a mean image
   using MeanImageFilterType = itk::MeanImageFilter<ImageType, ImageType>;
   MeanImageFilterType::Pointer mean1 = MeanImageFilterType::New();
-  mean1->SetInput( monitor1->GetOutput() );
+  mean1->SetInput(monitor1->GetOutput());
 
   // define the neighborhood size used for the mean filter
   ImageType::SizeType neighRadius;
   neighRadius.Fill(2);
-  mean1->SetRadius( neighRadius );
+  mean1->SetRadius(neighRadius);
 
   MonitorFilter::Pointer monitor2a = MonitorFilter::New();
-  monitor2a->SetInput( mean1->GetOutput() );
+  monitor2a->SetInput(mean1->GetOutput());
 
 
   // pipeline b
   using ShiftScaleImageFilterType = itk::ShiftScaleImageFilter<ImageType, ImageType>;
   ShiftScaleImageFilterType::Pointer shiftscale = ShiftScaleImageFilterType::New();
-  shiftscale->SetInput( monitor1->GetOutput() );
-  shiftscale->SetScale( 2.0 );
-  shiftscale->SetShift( -100.0 );
+  shiftscale->SetInput(monitor1->GetOutput());
+  shiftscale->SetScale(2.0);
+  shiftscale->SetShift(-100.0);
 
   using ShrinkImageFilterType = itk::ShrinkImageFilter<ImageType, ImageType>;
   ShrinkImageFilterType::Pointer shrinker = ShrinkImageFilterType::New();
-  shrinker->SetInput( shiftscale->GetOutput() );
-  shrinker->SetShrinkFactors( 2 );
+  shrinker->SetInput(shiftscale->GetOutput());
+  shrinker->SetShrinkFactors(2);
 
   MonitorFilter::Pointer monitor2b = MonitorFilter::New();
-  monitor2b->SetInput( shrinker->GetOutput() );
+  monitor2b->SetInput(shrinker->GetOutput());
 
   using StreamingImageFilterType = itk::StreamingImageFilter<ImageType, ImageType>;
   StreamingImageFilterType::Pointer streamer = StreamingImageFilterType::New();
-  streamer->SetInput( monitor2b->GetOutput() );
-  streamer->SetNumberOfStreamDivisions( 4 );
+  streamer->SetInput(monitor2b->GetOutput());
+  streamer->SetNumberOfStreamDivisions(4);
 
 
   ImageType::SizeType zeroSize;
@@ -105,64 +106,60 @@ int itkReleaseDataFilterTest(int, char* [] )
 
   std::cout << "---- Updating \"a\" Pipeline ---" << std::endl;
   monitor2a->Update();
-  if ( !monitor1->VerifyAllInputCanStream(1) ||
-       !monitor2a->VerifyAllInputCanStream(1) ||
-       !monitor2b->VerifyAllNoUpdate() )
-    {
+  if (!monitor1->VerifyAllInputCanStream(1) || !monitor2a->VerifyAllInputCanStream(1) ||
+      !monitor2b->VerifyAllNoUpdate())
+  {
     std::cout << "Monitor1:\n" << monitor1 << std::endl;
     std::cout << "Monitor2a:\n" << monitor2a << std::endl;
     std::cout << "Monitor2b:\n" << monitor2b << std::endl;
     std::cout << "Monitor's VerifyAllInputCanStream failed!" << std::endl;
     return EXIT_FAILURE;
-    }
-  if ( random->GetOutput()->GetBufferedRegion().GetSize() != zeroSize ||
-       monitor1->GetOutput()->GetBufferedRegion().GetSize() != zeroSize)
-    {
+  }
+  if (random->GetOutput()->GetBufferedRegion().GetSize() != zeroSize ||
+      monitor1->GetOutput()->GetBufferedRegion().GetSize() != zeroSize)
+  {
     std::cout << "Random's output was not release!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   // no updates should happen
   std::cout << "---- Reupdating \"a\" Pipeline ---" << std::endl;
   monitor2a->Update();
-  if ( !monitor1->VerifyAllNoUpdate() ||
-       !monitor2a->VerifyAllNoUpdate() ||
-       !monitor2b->VerifyAllNoUpdate() )
-    {
+  if (!monitor1->VerifyAllNoUpdate() || !monitor2a->VerifyAllNoUpdate() || !monitor2b->VerifyAllNoUpdate())
+  {
     std::cout << "monitor1:\n" << monitor1 << std::endl;
     std::cout << "monitor2a:\n" << monitor2a << std::endl;
     std::cout << "Monitor2b:\n" << monitor2b << std::endl;
     std::cout << "Monitor's VerifyAllNoUpdate failed!" << std::endl;
     return EXIT_FAILURE;
-    }
-  if ( random->GetOutput()->GetBufferedRegion().GetSize() != zeroSize )
-    {
+  }
+  if (random->GetOutput()->GetBufferedRegion().GetSize() != zeroSize)
+  {
     std::cout << "Random's output was not release!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
   monitor2a->ClearPipelineSavedInformation();
 
 
   std::cout << "---- Streaming \"b\" Pipeline ---" << std::endl;
   streamer->Update();
-  if ( !monitor1->VerifyAllInputCanStream(4) ||
-       !monitor2a->VerifyAllNoUpdate() ||
-       !monitor2b->VerifyAllInputCanStream(4) )
-    {
+  if (!monitor1->VerifyAllInputCanStream(4) || !monitor2a->VerifyAllNoUpdate() ||
+      !monitor2b->VerifyAllInputCanStream(4))
+  {
     std::cout << "monitor1:\n" << monitor1 << std::endl;
     std::cout << "monitor2a:\n" << monitor2a << std::endl;
     std::cout << "Monitor2b:\n" << monitor2b << std::endl;
     std::cout << "Monitor's VerifyAllNoUpdate failed!" << std::endl;
     return EXIT_FAILURE;
-    }
-  if ( random->GetOutput()->GetBufferedRegion().GetSize() != zeroSize ||
-       shiftscale->GetOutput()->GetBufferedRegion().GetSize() != zeroSize ||
-       shrinker->GetOutput()->GetBufferedRegion().GetSize() != zeroSize )
-    {
+  }
+  if (random->GetOutput()->GetBufferedRegion().GetSize() != zeroSize ||
+      shiftscale->GetOutput()->GetBufferedRegion().GetSize() != zeroSize ||
+      shrinker->GetOutput()->GetBufferedRegion().GetSize() != zeroSize)
+  {
     std::cout << "random or shiftscale or shrink's output was not release!" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
 
   return EXIT_SUCCESS;

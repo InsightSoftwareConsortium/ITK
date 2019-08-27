@@ -22,14 +22,15 @@
 // This test is designed to test reading and writing of miss matched
 // dimensions
 
-int itkImageFileReaderDimensionsTest(int argc, char* argv[])
+int
+itkImageFileReaderDimensionsTest(int argc, char * argv[])
 {
 
   if (argc < 4)
-    {
+  {
     std::cout << "usage: itkIOTests itkImageFileReaderTest inputFileName outputDirectory outputExtension" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   using Image2DType = itk::Image<short, 2>;
   using Image3DType = itk::Image<short, 3>;
@@ -45,17 +46,22 @@ int itkImageFileReaderDimensionsTest(int argc, char* argv[])
   using Writer4DType = itk::ImageFileWriter<Image4DType>;
 
 
-  std::string tempFile1 = std::string( argv[2] ) + std::string( "/itkImageFileReaderDimensionsTest_1." ) + std::string( argv[3] );
-  std::string tempFile2 = std::string( argv[2] ) + std::string( "/itkImageFileReaderDimensionsTest_2." ) + std::string( argv[3] );
-  std::string tempFile3 = std::string( argv[2] ) + std::string( "/itkImageFileReaderDimensionsTest_3." ) + std::string( argv[3] );
-  std::string tempFile4 = std::string( argv[2] ) + std::string( "/itkImageFileReaderDimensionsTest_4." ) + std::string( argv[3] );
-  std::string tempFile5 = std::string( argv[2] ) + std::string( "/itkImageFileReaderDimensionsTest_5." ) + std::string( argv[3] );
+  std::string tempFile1 =
+    std::string(argv[2]) + std::string("/itkImageFileReaderDimensionsTest_1.") + std::string(argv[3]);
+  std::string tempFile2 =
+    std::string(argv[2]) + std::string("/itkImageFileReaderDimensionsTest_2.") + std::string(argv[3]);
+  std::string tempFile3 =
+    std::string(argv[2]) + std::string("/itkImageFileReaderDimensionsTest_3.") + std::string(argv[3]);
+  std::string tempFile4 =
+    std::string(argv[2]) + std::string("/itkImageFileReaderDimensionsTest_4.") + std::string(argv[3]);
+  std::string tempFile5 =
+    std::string(argv[2]) + std::string("/itkImageFileReaderDimensionsTest_5.") + std::string(argv[3]);
 
   // we expect the filename to be 2 or 3 dimensions
   // and reading it into a 4D
   std::cout << "testing reading to 4D image" << std::endl;
   try
-    {
+  {
     Reader4DType::Pointer reader = Reader4DType::New();
     reader->SetFileName(argv[1]);
 
@@ -63,17 +69,17 @@ int itkImageFileReaderDimensionsTest(int argc, char* argv[])
     writer->SetInput(reader->GetOutput());
     writer->SetFileName(tempFile1);
     writer->Update();
-    }
-  catch (itk::ExceptionObject &ex)
-    {
+  }
+  catch (itk::ExceptionObject & ex)
+  {
     std::cout << ex;
     return EXIT_FAILURE;
-    }
+  }
 
   // read the new 4D file into a 3D file
   std::cout << "testing reading from 4D image into 3D" << std::endl;
   try
-    {
+  {
     Reader3DType::Pointer reader = Reader3DType::New();
     // we expect the filename to be 4 dimensions
     reader->SetFileName(tempFile1);
@@ -83,18 +89,18 @@ int itkImageFileReaderDimensionsTest(int argc, char* argv[])
     writer->SetInput(reader->GetOutput());
     writer->SetFileName(tempFile2);
     writer->Update();
-    }
-  catch (itk::ExceptionObject &ex)
-    {
+  }
+  catch (itk::ExceptionObject & ex)
+  {
     std::cout << ex;
     return EXIT_FAILURE;
-    }
+  }
 
 
   // stream read new 3D file into 4D
   std::cout << "testing requested stream reading from 3D image into 4D" << std::endl;
   try
-    {
+  {
     Reader4DType::Pointer reader = Reader4DType::New();
     reader->SetFileName(tempFile2);
 
@@ -103,18 +109,18 @@ int itkImageFileReaderDimensionsTest(int argc, char* argv[])
     writer->SetFileName(tempFile3);
     writer->SetNumberOfStreamDivisions(4);
     writer->Update();
-    }
-  catch (itk::ExceptionObject &ex)
-    {
+  }
+  catch (itk::ExceptionObject & ex)
+  {
     std::cout << ex;
     return EXIT_FAILURE;
-    }
+  }
 
 
   // stream read new 4D file into 3D
   std::cout << "testing requested stream reading from 4D image into 3D" << std::endl;
   try
-    {
+  {
     Reader3DType::Pointer reader = Reader3DType::New();
     reader->SetFileName(tempFile3);
     reader->Update();
@@ -124,35 +130,35 @@ int itkImageFileReaderDimensionsTest(int argc, char* argv[])
     writer->SetFileName(tempFile4);
     writer->SetNumberOfStreamDivisions(4);
     writer->Update();
-    }
-  catch (itk::ExceptionObject &ex)
-    {
+  }
+  catch (itk::ExceptionObject & ex)
+  {
     std::cout << ex;
     return EXIT_FAILURE;
-    }
+  }
 
   // read the new 4D file into a 2D file
   // we expect the first 2D slice to be read
   std::cout << "testing reading from 4D image into 2D" << std::endl;
   try
-    {
+  {
     Reader2DType::Pointer reader = Reader2DType::New();
     // we expect the filename to be 4 dimensions
     reader->SetFileName(tempFile1);
     reader->UpdateLargestPossibleRegion();
-    }
-  catch (itk::ExceptionObject &ex)
-    {
+  }
+  catch (itk::ExceptionObject & ex)
+  {
     std::cout << ex;
     return EXIT_FAILURE;
-    }
+  }
 
   int status = 1;
   // read the 4D file into a 4D image, then try to stream it as a 3D
   // IORegion
   std::cout << "testing requested invalid paste IORegion" << std::endl;
   try
-    {
+  {
     Reader4DType::Pointer reader = Reader4DType::New();
     reader->SetFileName(tempFile4);
 
@@ -162,10 +168,10 @@ int itkImageFileReaderDimensionsTest(int argc, char* argv[])
     // less then the image file dimension
     itk::ImageIORegion ioregion(3);
     for (unsigned int i = 0; i < 3; ++i)
-      {
+    {
       ioregion.SetIndex(i, 0);
       ioregion.SetSize(i, region.GetSize(i));
-      }
+    }
 
 
     Writer4DType::Pointer writer = Writer4DType::New();
@@ -174,36 +180,35 @@ int itkImageFileReaderDimensionsTest(int argc, char* argv[])
                                     // matter since it should never be written
     writer->SetIORegion(ioregion);
     writer->Update();
-    }
-  catch (itk::ExceptionObject &ex)
-    {
+  }
+  catch (itk::ExceptionObject & ex)
+  {
     // this exception is expected since the ioregion should be invalid
     std::cout << "------------------ Caught expected exception!" << std::endl;
     std::cout << ex;
     status = 0;
-    }
+  }
   if (status)
-    {
+  {
     std::cout << "Failed to catch expected exception." << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // regression test of bug #10529
   // we expect the filename to be 2 or 3 dimensions
   // and reading it into a 4D
   std::cout << "testing reading to char 2D image" << std::endl;
   try
-    {
+  {
     CharReader2DType::Pointer reader = CharReader2DType::New();
     reader->SetFileName(argv[1]);
     reader->Update();
-    }
-  catch (itk::ExceptionObject &ex)
-    {
+  }
+  catch (itk::ExceptionObject & ex)
+  {
     std::cout << ex;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
-
 }

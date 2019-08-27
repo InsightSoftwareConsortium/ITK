@@ -51,25 +51,25 @@ namespace itk
  * \sphinxexample{Filtering/MathematicalMorphology/ValuedRegionalMinimalImage,Valued Regional Minimal Image}
  * \endsphinx
  */
-template< typename TInputImage, typename TOutputImage >
-class ValuedRegionalMinimaImageFilter:
-  public
-  ValuedRegionalExtremaImageFilter< TInputImage, TOutputImage,
-                                    std::less< typename TInputImage::PixelType >,
-                                    std::less< typename TOutputImage::PixelType >
-                                    >
+template <typename TInputImage, typename TOutputImage>
+class ValuedRegionalMinimaImageFilter
+  : public ValuedRegionalExtremaImageFilter<TInputImage,
+                                            TOutputImage,
+                                            std::less<typename TInputImage::PixelType>,
+                                            std::less<typename TOutputImage::PixelType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ValuedRegionalMinimaImageFilter);
 
   using Self = ValuedRegionalMinimaImageFilter;
 
-  using Superclass = ValuedRegionalExtremaImageFilter< TInputImage, TOutputImage,
-                                            std::less< typename TInputImage::PixelType >,
-                                            std::less< typename TOutputImage::PixelType >  >;
+  using Superclass = ValuedRegionalExtremaImageFilter<TInputImage,
+                                                      TOutputImage,
+                                                      std::less<typename TInputImage::PixelType>,
+                                                      std::less<typename TOutputImage::PixelType>>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using InputImageType = TInputImage;
   using InputImagePixelType = typename InputImageType::PixelType;
@@ -78,28 +78,21 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ValuedRegionalMinimaImageFilter,
-               ValuedRegionalExtremaImageFilter);
+  itkTypeMacro(ValuedRegionalMinimaImageFilter, ValuedRegionalExtremaImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputPixelTypeComparable,
-                   ( Concept::LessThanComparable< InputImagePixelType > ) );
-  itkConceptMacro( InputHasPixelTraitsCheck,
-                   ( Concept::HasPixelTraits< InputImagePixelType > ) );
-  itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< InputImagePixelType > ) );
+  itkConceptMacro(InputPixelTypeComparable, (Concept::LessThanComparable<InputImagePixelType>));
+  itkConceptMacro(InputHasPixelTraitsCheck, (Concept::HasPixelTraits<InputImagePixelType>));
+  itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputImagePixelType>));
   // End concept checking
 #endif
 
 protected:
-  ValuedRegionalMinimaImageFilter()
-  {
-    this->SetMarkerValue( NumericTraits< typename TOutputImage::PixelType >::max() );
-  }
+  ValuedRegionalMinimaImageFilter() { this->SetMarkerValue(NumericTraits<typename TOutputImage::PixelType>::max()); }
 
   ~ValuedRegionalMinimaImageFilter() override = default;
-};                                               // end
-                                                 // ValuedRegionalMinimaImageFilter
-} //end namespace itk
+}; // end
+   // ValuedRegionalMinimaImageFilter
+} // end namespace itk
 #endif

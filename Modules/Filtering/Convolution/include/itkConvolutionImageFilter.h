@@ -61,17 +61,17 @@ namespace itk
  * \sphinxexample{Filtering/Convolution/ConvolveImageWithKernel,Convolve Image With Kernel}
  * \endsphinx
  */
-template< typename TInputImage, typename TKernelImage = TInputImage, typename TOutputImage = TInputImage >
-class ITK_TEMPLATE_EXPORT ConvolutionImageFilter :
-  public ConvolutionImageFilterBase< TInputImage, TKernelImage, TOutputImage >
+template <typename TInputImage, typename TKernelImage = TInputImage, typename TOutputImage = TInputImage>
+class ITK_TEMPLATE_EXPORT ConvolutionImageFilter
+  : public ConvolutionImageFilterBase<TInputImage, TKernelImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ConvolutionImageFilter);
 
   using Self = ConvolutionImageFilter;
-  using Superclass = ConvolutionImageFilterBase< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ConvolutionImageFilterBase<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -109,31 +109,36 @@ protected:
    * pipeline execution model.
    *
    * \sa ProcessObject::GenerateInputRequestedRegion()  */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** This filter uses a minipipeline to compute the output. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /** The kernel needs padding if any of the sizes of its dimensions is
    * even. This method checks for this condition. */
-  bool GetKernelNeedsPadding() const;
+  bool
+  GetKernelNeedsPadding() const;
 
   /** Calculates the padding width needed to make each dimension odd. */
-  KernelSizeType GetKernelPadSize() const;
+  KernelSizeType
+  GetKernelPadSize() const;
 
   /** Calculates the radius of the kernel. */
-  template< typename TImage >
-  KernelSizeType GetKernelRadius(const TImage *kernelImage) const;
+  template <typename TImage>
+  KernelSizeType
+  GetKernelRadius(const TImage * kernelImage) const;
 
 private:
-  template< typename TImage >
-  void ComputeConvolution( const TImage *kernelImage,
-                           ProgressAccumulator *progress );
+  template <typename TImage>
+  void
+  ComputeConvolution(const TImage * kernelImage, ProgressAccumulator * progress);
 };
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkConvolutionImageFilter.hxx"
+#  include "itkConvolutionImageFilter.hxx"
 #endif
 
 #endif

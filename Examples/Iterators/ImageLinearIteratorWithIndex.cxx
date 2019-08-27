@@ -105,130 +105,129 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
-int main( int argc, char *argv[] )
+int
+main(int argc, char * argv[])
 {
   // Verify the number of parameters on the command line.
-  if ( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Missing parameters. " << std::endl;
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0]
-              << " inputImageFile outputImageFile"
-              << std::endl;
+    std::cerr << argv[0] << " inputImageFile outputImageFile" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-// Software Guide : BeginLatex
-//
-// The RGB image and pixel types are defined as in the previous example.  The
-// ImageLinearIteratorWithIndex class and its const version each have
-// single template parameters, the image type.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // The RGB image and pixel types are defined as in the previous example.  The
+  // ImageLinearIteratorWithIndex class and its const version each have
+  // single template parameters, the image type.
+  //
+  // Software Guide : EndLatex
 
   constexpr unsigned int Dimension = 2;
 
-  using RGBPixelType = itk::RGBPixel< unsigned char >;
-  using ImageType = itk::Image< RGBPixelType, Dimension >;
+  using RGBPixelType = itk::RGBPixel<unsigned char>;
+  using ImageType = itk::Image<RGBPixelType, Dimension>;
 
-// Software Guide : BeginCodeSnippet
-  using IteratorType = itk::ImageLinearIteratorWithIndex< ImageType >;
+  // Software Guide : BeginCodeSnippet
+  using IteratorType = itk::ImageLinearIteratorWithIndex<ImageType>;
   using ConstIteratorType = itk::ImageLinearConstIteratorWithIndex<ImageType>;
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-  using ReaderType = itk::ImageFileReader< ImageType >;
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  using WriterType = itk::ImageFileWriter<ImageType>;
 
   ImageType::ConstPointer inputImage;
-  ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  ReaderType::Pointer     reader = ReaderType::New();
+  reader->SetFileName(argv[1]);
   try
-    {
+  {
     reader->Update();
     inputImage = reader->GetOutput();
-    }
-  catch ( itk::ExceptionObject &err)
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cerr << "ExceptionObject caught a !" << std::endl;
     std::cerr << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-// Software Guide : BeginLatex
-//
-// After reading the input image, we allocate an output image that of the same
-// size, spacing, and origin.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // After reading the input image, we allocate an output image that of the same
+  // size, spacing, and origin.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   ImageType::Pointer outputImage = ImageType::New();
-  outputImage->SetRegions( inputImage->GetRequestedRegion() );
-  outputImage->CopyInformation( inputImage );
+  outputImage->SetRegions(inputImage->GetRequestedRegion());
+  outputImage->CopyInformation(inputImage);
   outputImage->Allocate();
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// Next we create the two iterators.  The const iterator walks the input image,
-// and the non-const iterator walks the output image.  The iterators are
-// initialized over the same region.  The direction of iteration is set to 0,
-// the $x$ dimension.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // Next we create the two iterators.  The const iterator walks the input image,
+  // and the non-const iterator walks the output image.  The iterators are
+  // initialized over the same region.  The direction of iteration is set to 0,
+  // the $x$ dimension.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
-  ConstIteratorType inputIt( inputImage, inputImage->GetRequestedRegion() );
-  IteratorType outputIt( outputImage, inputImage->GetRequestedRegion() );
+  // Software Guide : BeginCodeSnippet
+  ConstIteratorType inputIt(inputImage, inputImage->GetRequestedRegion());
+  IteratorType      outputIt(outputImage, inputImage->GetRequestedRegion());
 
   inputIt.SetDirection(0);
   outputIt.SetDirection(0);
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-// Software Guide: BeginLatex
-//
-// Each line in the input is copied to the output.  The input iterator moves
-// forward across columns while the output iterator moves backwards.
-//
-// Software Guide : EndLatex
+  // Software Guide: BeginLatex
+  //
+  // Each line in the input is copied to the output.  The input iterator moves
+  // forward across columns while the output iterator moves backwards.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
-  for ( inputIt.GoToBegin(),  outputIt.GoToBegin(); ! inputIt.IsAtEnd();
-        outputIt.NextLine(),  inputIt.NextLine())
-    {
+  // Software Guide : BeginCodeSnippet
+  for (inputIt.GoToBegin(), outputIt.GoToBegin(); !inputIt.IsAtEnd();
+       outputIt.NextLine(), inputIt.NextLine())
+  {
     inputIt.GoToBeginOfLine();
     outputIt.GoToEndOfLine();
-    while ( ! inputIt.IsAtEndOfLine() )
-      {
+    while (!inputIt.IsAtEndOfLine())
+    {
       --outputIt;
-      outputIt.Set( inputIt.Get() );
+      outputIt.Set(inputIt.Get());
       ++inputIt;
-      }
     }
-// Software Guide : EndCodeSnippet
+  }
+  // Software Guide : EndCodeSnippet
 
   WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName( argv[2] );
+  writer->SetFileName(argv[2]);
   writer->SetInput(outputImage);
   try
-    {
+  {
     writer->Update();
-    }
-  catch ( itk::ExceptionObject &err)
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
-// Software Guide : BeginLatex
-//
-// Running this example on \code{VisibleWomanEyeSlice.png} produces
-// the same output image shown in
-// Figure~\ref{fig:ImageRegionIteratorWithIndexExample}.
-//
-// \index{itk::ImageLinearIteratorWithIndex!example of using|)}
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // Running this example on \code{VisibleWomanEyeSlice.png} produces
+  // the same output image shown in
+  // Figure~\ref{fig:ImageRegionIteratorWithIndexExample}.
+  //
+  // \index{itk::ImageLinearIteratorWithIndex!example of using|)}
+  // Software Guide : EndLatex
 
   return EXIT_SUCCESS;
 }

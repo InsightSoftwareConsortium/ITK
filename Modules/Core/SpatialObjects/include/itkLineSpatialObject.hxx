@@ -24,9 +24,8 @@
 namespace itk
 {
 /** Constructor */
-template< unsigned int TDimension >
-LineSpatialObject< TDimension >
-::LineSpatialObject()
+template <unsigned int TDimension>
+LineSpatialObject<TDimension>::LineSpatialObject()
 {
   this->SetTypeName("LineSpatialObject");
   this->GetProperty().SetRed(1);
@@ -36,66 +35,59 @@ LineSpatialObject< TDimension >
 }
 
 /** InternalClone */
-template< unsigned int TDimension >
+template <unsigned int TDimension>
 typename LightObject::Pointer
-LineSpatialObject< TDimension >
-::InternalClone() const
+LineSpatialObject<TDimension>::InternalClone() const
 {
   // Default implementation just copies the parameters from
   // this to new transform.
   typename LightObject::Pointer loPtr = Superclass::InternalClone();
 
-  typename Self::Pointer rval =
-    dynamic_cast<Self *>(loPtr.GetPointer());
-  if(rval.IsNull())
-    {
-    itkExceptionMacro(<< "downcast to type "
-                      << this->GetNameOfClass()
-                      << " failed.");
-    }
+  typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
+  if (rval.IsNull())
+  {
+    itkExceptionMacro(<< "downcast to type " << this->GetNameOfClass() << " failed.");
+  }
 
   return loPtr;
 }
 
 /** Print the object. */
-template< unsigned int TDimension >
+template <unsigned int TDimension>
 void
-LineSpatialObject< TDimension >
-::PrintSelf(std::ostream & os, Indent indent) const
+LineSpatialObject<TDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   os << indent << "LineSpatialObject(" << this << ")" << std::endl;
   Superclass::PrintSelf(os, indent);
 }
 
-template< unsigned int TDimension >
+template <unsigned int TDimension>
 bool
-LineSpatialObject< TDimension >
-::IsInsideInObjectSpace(const PointType & point) const
+LineSpatialObject<TDimension>::IsInsideInObjectSpace(const PointType & point) const
 {
   auto it = this->m_Points.begin();
   auto itEnd = this->m_Points.end();
 
-  if ( this->GetMyBoundingBoxInObjectSpace()->IsInside(point) )
+  if (this->GetMyBoundingBoxInObjectSpace()->IsInside(point))
+  {
+    while (it != itEnd)
     {
-    while ( it != itEnd )
-      {
       bool match = true;
-      for( unsigned int i=0; i<TDimension; ++i )
+      for (unsigned int i = 0; i < TDimension; ++i)
+      {
+        if (!Math::AlmostEquals((*it).GetPositionInObjectSpace()[i], point[i]))
         {
-        if ( ! Math::AlmostEquals( ( *it ).GetPositionInObjectSpace()[i],
-                 point[i] ) )
-          {
           match = false;
           break;
-          }
         }
-      if( match )
-        {
-        return true;
-        }
-      it++;
       }
+      if (match)
+      {
+        return true;
+      }
+      it++;
     }
+  }
 
   return false;
 }

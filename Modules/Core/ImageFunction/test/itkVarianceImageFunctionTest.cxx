@@ -21,52 +21,53 @@
 #include "itkVarianceImageFunction.h"
 #include "itkImage.h"
 
-int itkVarianceImageFunctionTest(int, char* [] )
+int
+itkVarianceImageFunctionTest(int, char *[])
 {
 
   constexpr unsigned int Dimension = 3;
   using PixelType = unsigned char;
 
-  using ImageType = itk::Image< PixelType, Dimension >;
-  using FunctionType = itk::VarianceImageFunction< ImageType >;
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using FunctionType = itk::VarianceImageFunction<ImageType>;
 
   // Create and allocate the image
-  ImageType::Pointer      image = ImageType::New();
-  ImageType::SizeType     size;
-  ImageType::IndexType    start;
-  ImageType::RegionType   region;
+  ImageType::Pointer    image = ImageType::New();
+  ImageType::SizeType   size;
+  ImageType::IndexType  start;
+  ImageType::RegionType region;
 
   size[0] = 50;
   size[1] = 50;
   size[2] = 50;
 
-  start.Fill( 0 );
+  start.Fill(0);
 
-  region.SetIndex( start );
-  region.SetSize( size );
+  region.SetIndex(start);
+  region.SetSize(size);
 
-  image->SetRegions( region );
+  image->SetRegions(region);
   image->Allocate();
 
-  image->FillBuffer( 27 );
+  image->FillBuffer(27);
 
   FunctionType::Pointer function = FunctionType::New();
 
-  function->SetInputImage( image );
+  function->SetInputImage(image);
 
-  function->SetNeighborhoodRadius( 5 );
+  function->SetNeighborhoodRadius(5);
 
-  ImageType::IndexType    index;
+  ImageType::IndexType index;
 
   index[0] = 25;
   index[1] = 25;
   index[2] = 25;
 
-  FunctionType::OutputType  variance;
+  FunctionType::OutputType variance;
 
-  variance = function->EvaluateAtIndex( index );
+  variance = function->EvaluateAtIndex(index);
 
- // Test Evaluate
+  // Test Evaluate
   FunctionType::PointType point;
   point[0] = 25;
   point[1] = 25;
@@ -74,8 +75,7 @@ int itkVarianceImageFunctionTest(int, char* [] )
   FunctionType::OutputType variance2;
   variance2 = function->Evaluate(point);
   std::cout << "function->Evaluate(point): "
-            << static_cast<itk::NumericTraits<FunctionType::OutputType>::PrintType>(variance2)
-            << std::endl;
+            << static_cast<itk::NumericTraits<FunctionType::OutputType>::PrintType>(variance2) << std::endl;
 
   // Test EvaluateAtContinuousIndex
   FunctionType::ContinuousIndexType cindex;
@@ -85,8 +85,7 @@ int itkVarianceImageFunctionTest(int, char* [] )
   FunctionType::OutputType variance3;
   variance3 = function->EvaluateAtContinuousIndex(cindex);
   std::cout << "function->EvaluateAtContinuousIndex(cindex): "
-            << static_cast<itk::NumericTraits<FunctionType::OutputType>::PrintType>(variance3)
-            << std::endl;
+            << static_cast<itk::NumericTraits<FunctionType::OutputType>::PrintType>(variance3) << std::endl;
 
   // Test GetConstReferenceMacro
   const unsigned int & neighborhoodRadius = function->GetNeighborhoodRadius();
@@ -95,13 +94,12 @@ int itkVarianceImageFunctionTest(int, char* [] )
 
   // since the input image is constant
   // the variance should be zero
-  if( itk::Math::abs( variance ) > 10e-7 )
-    {
+  if (itk::Math::abs(variance) > 10e-7)
+  {
     std::cerr << "Error in variance computation" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "Test PASSED ! " << std::endl;
   return EXIT_SUCCESS;
-
 }

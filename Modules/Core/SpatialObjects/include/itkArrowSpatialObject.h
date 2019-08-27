@@ -33,20 +33,19 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 
-template< unsigned int TDimension = 3 >
-class ITK_TEMPLATE_EXPORT ArrowSpatialObject:
-  public SpatialObject< TDimension >
+template <unsigned int TDimension = 3>
+class ITK_TEMPLATE_EXPORT ArrowSpatialObject : public SpatialObject<TDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ArrowSpatialObject);
 
   using Self = ArrowSpatialObject;
-  using Superclass = SpatialObject< TDimension >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = SpatialObject<TDimension>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
   using ScalarType = double;
-  using VectorType = Vector< double, TDimension >;
-  using PointType = Point< double, TDimension >;
+  using VectorType = Vector<double, TDimension>;
+  using PointType = Point<double, TDimension>;
   using TransformType = typename Superclass::TransformType;
   using MatrixType = typename TransformType::MatrixType;
 
@@ -58,48 +57,55 @@ public:
 
   /** Reset the spatial object to its initial condition, yet preserves
    *   Id, Parent, and Child information */
-  void Clear( void ) override;
+  void
+  Clear(void) override;
 
   /** Set the position of the arrow : this is the point of the arrow */
-  itkSetMacro( PositionInObjectSpace, PointType );
+  itkSetMacro(PositionInObjectSpace, PointType);
 
   /** Get the position of the arrow : this is the point of the arrow */
   itkGetConstMacro(PositionInObjectSpace, PointType);
 
   /** Set the direction of the arrow : this is the direction from the point */
-  itkSetMacro( DirectionInObjectSpace, VectorType );
+  itkSetMacro(DirectionInObjectSpace, VectorType);
 
   /** Get the direction of the arrow : this is the direction from the point */
   itkGetConstMacro(DirectionInObjectSpace, VectorType);
 
   /** Set the length of the arrow */
-  itkSetMacro( LengthInObjectSpace, double);
+  itkSetMacro(LengthInObjectSpace, double);
 
   /** Get the length of the arrow */
   itkGetConstReferenceMacro(LengthInObjectSpace, double);
 
   /** Returns true if the point is inside the line, false otherwise. */
-  bool IsInsideInObjectSpace(const PointType & point) const override;
+  bool
+  IsInsideInObjectSpace(const PointType & point) const override;
 
   /* Avoid hiding the overload that supports depth and name arguments */
   using Superclass::IsInsideInObjectSpace;
 
-  PointType GetPositionInWorldSpace() const;
-  VectorType GetDirectionInWorldSpace() const;
-  double GetLengthInWorldSpace() const;
+  PointType
+  GetPositionInWorldSpace() const;
+  VectorType
+  GetDirectionInWorldSpace() const;
+  double
+  GetLengthInWorldSpace() const;
 
 protected:
-
   /** Compute the Object bounding box */
-  void ComputeMyBoundingBox() override;
+  void
+  ComputeMyBoundingBox() override;
 
   ArrowSpatialObject();
   ~ArrowSpatialObject() override = default;
 
   /** Method to print the object.*/
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  typename LightObject::Pointer InternalClone() const override;
+  typename LightObject::Pointer
+  InternalClone() const override;
 
 private:
   VectorType m_DirectionInObjectSpace;
@@ -110,7 +116,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkArrowSpatialObject.hxx"
+#  include "itkArrowSpatialObject.hxx"
 #endif
 
 #endif // itkArrowSpatialObject_h

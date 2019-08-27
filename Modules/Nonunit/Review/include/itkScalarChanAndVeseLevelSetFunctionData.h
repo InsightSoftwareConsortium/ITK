@@ -57,17 +57,16 @@ namespace itk
  *
  * \ingroup ITKReview
  */
-template< typename TInputImage, typename TFeatureImage >
-class ScalarChanAndVeseLevelSetFunctionData:
-  public RegionBasedLevelSetFunctionData< TInputImage, TFeatureImage >
+template <typename TInputImage, typename TFeatureImage>
+class ScalarChanAndVeseLevelSetFunctionData : public RegionBasedLevelSetFunctionData<TInputImage, TFeatureImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ScalarChanAndVeseLevelSetFunctionData);
 
   using Self = ScalarChanAndVeseLevelSetFunctionData;
-  using Superclass = RegionBasedLevelSetFunctionData< TInputImage, TFeatureImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = RegionBasedLevelSetFunctionData<TInputImage, TFeatureImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   static constexpr unsigned int ImageDimension = TFeatureImage::ImageDimension;
 
@@ -105,7 +104,8 @@ public:
   double m_WeightedSumOfPixelValuesOutsideLevelSet;
 
 protected:
-  ScalarChanAndVeseLevelSetFunctionData():Superclass()
+  ScalarChanAndVeseLevelSetFunctionData()
+    : Superclass()
   {
     m_BackgroundConstantValues = 0.;
     m_ForegroundConstantValues = 0.;
@@ -115,6 +115,6 @@ protected:
 
   ~ScalarChanAndVeseLevelSetFunctionData() override {}
 };
-} //end namespace itk
+} // end namespace itk
 
 #endif

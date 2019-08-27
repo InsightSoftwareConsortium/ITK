@@ -23,26 +23,23 @@
 namespace itk
 {
 // Constructor with default arguments
-template<typename TParametersValueType>
-CenteredEuler3DTransform<TParametersValueType>::CenteredEuler3DTransform() :
-  Superclass(ParametersDimension)
-{
-}
+template <typename TParametersValueType>
+CenteredEuler3DTransform<TParametersValueType>::CenteredEuler3DTransform()
+  : Superclass(ParametersDimension)
+{}
 
 // Constructor with default arguments
-template<typename TParametersValueType>
-CenteredEuler3DTransform<TParametersValueType>::CenteredEuler3DTransform(unsigned int parametersDimension) :
-  Superclass(parametersDimension)
-{
-}
+template <typename TParametersValueType>
+CenteredEuler3DTransform<TParametersValueType>::CenteredEuler3DTransform(unsigned int parametersDimension)
+  : Superclass(parametersDimension)
+{}
 
 // Constructor with default arguments
-template<typename TParametersValueType>
-CenteredEuler3DTransform<TParametersValueType>::CenteredEuler3DTransform(const MatrixType & matrix,
-                                                                const OutputPointType & offset) :
-  Superclass(matrix, offset)
-{
-}
+template <typename TParametersValueType>
+CenteredEuler3DTransform<TParametersValueType>::CenteredEuler3DTransform(const MatrixType &      matrix,
+                                                                         const OutputPointType & offset)
+  : Superclass(matrix, offset)
+{}
 //
 // Set Parameters
 //
@@ -53,18 +50,17 @@ CenteredEuler3DTransform<TParametersValueType>::CenteredEuler3DTransform(const M
 // p[6:8] = translation
 //
 //
-template<typename TParametersValueType>
+template <typename TParametersValueType>
 void
-CenteredEuler3DTransform<TParametersValueType>
-::SetParameters(const ParametersType & parameters)
+CenteredEuler3DTransform<TParametersValueType>::SetParameters(const ParametersType & parameters)
 {
   itkDebugMacro(<< "Setting parameters " << parameters);
 
   // Save parameters
-  if( &parameters != &(this->m_Parameters) )
-    {
+  if (&parameters != &(this->m_Parameters))
+  {
     this->m_Parameters = parameters;
-    }
+  }
 
   const ScalarType angleX = parameters[0];
   const ScalarType angleY = parameters[1];
@@ -102,11 +98,10 @@ CenteredEuler3DTransform<TParametersValueType>
 // p[6:8] = translation
 //
 
-template<typename TParametersValueType>
-const typename CenteredEuler3DTransform<TParametersValueType>::ParametersType
-& CenteredEuler3DTransform<TParametersValueType>
-::GetParameters() const
-  {
+template <typename TParametersValueType>
+const typename CenteredEuler3DTransform<TParametersValueType>::ParametersType &
+CenteredEuler3DTransform<TParametersValueType>::GetParameters() const
+{
   ParametersType parameters;
 
   this->m_Parameters[0] = this->GetAngleX();
@@ -122,89 +117,83 @@ const typename CenteredEuler3DTransform<TParametersValueType>::ParametersType
   this->m_Parameters[8] = this->GetTranslation()[2];
 
   return this->m_Parameters;
-  }
+}
 
-template<typename TParametersValueType>
+template <typename TParametersValueType>
 void
-CenteredEuler3DTransform<TParametersValueType>
-::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
+CenteredEuler3DTransform<TParametersValueType>::ComputeJacobianWithRespectToParameters(const InputPointType & p,
+                                                                                       JacobianType & jacobian) const
 {
   // need to check if angles are in the right order
-  const double cx = std::cos( this->GetAngleX() );
-  const double sx = std::sin( this->GetAngleX() );
-  const double cy = std::cos( this->GetAngleY() );
-  const double sy = std::sin( this->GetAngleY() );
-  const double cz = std::cos( this->GetAngleZ() );
-  const double sz = std::sin( this->GetAngleZ() );
+  const double cx = std::cos(this->GetAngleX());
+  const double sx = std::sin(this->GetAngleX());
+  const double cy = std::cos(this->GetAngleY());
+  const double sy = std::sin(this->GetAngleY());
+  const double cz = std::cos(this->GetAngleZ());
+  const double sz = std::sin(this->GetAngleZ());
 
-  jacobian.SetSize( 3, this->GetNumberOfLocalParameters() );
+  jacobian.SetSize(3, this->GetNumberOfLocalParameters());
   jacobian.Fill(0.0);
 
   const double px = p[0] - this->GetCenter()[0];
   const double py = p[1] - this->GetCenter()[1];
   const double pz = p[2] - this->GetCenter()[2];
 
-  if( this->GetComputeZYX() )
-    {
-    jacobian[0][0] = ( cz * sy * cx + sz * sx ) * py + ( -cz * sy * sx + sz * cx ) * pz;
-    jacobian[1][0] = ( sz * sy * cx - cz * sx ) * py + ( -sz * sy * sx - cz * cx ) * pz;
-    jacobian[2][0] = ( cy * cx ) * py + ( -cy * sx ) * pz;
+  if (this->GetComputeZYX())
+  {
+    jacobian[0][0] = (cz * sy * cx + sz * sx) * py + (-cz * sy * sx + sz * cx) * pz;
+    jacobian[1][0] = (sz * sy * cx - cz * sx) * py + (-sz * sy * sx - cz * cx) * pz;
+    jacobian[2][0] = (cy * cx) * py + (-cy * sx) * pz;
 
-    jacobian[0][1] = ( -cz * sy ) * px + ( cz * cy * sx ) * py + ( cz * cy * cx ) * pz;
-    jacobian[1][1] = ( -sz * sy ) * px + ( sz * cy * sx ) * py + ( sz * cy * cx ) * pz;
-    jacobian[2][1] = ( -cy ) * px + ( -sy * sx ) * py + ( -sy * cx ) * pz;
+    jacobian[0][1] = (-cz * sy) * px + (cz * cy * sx) * py + (cz * cy * cx) * pz;
+    jacobian[1][1] = (-sz * sy) * px + (sz * cy * sx) * py + (sz * cy * cx) * pz;
+    jacobian[2][1] = (-cy) * px + (-sy * sx) * py + (-sy * cx) * pz;
 
-    jacobian[0][2] = ( -sz * cy ) * px + ( -sz * sy * sx - cz * cx ) * py
-      + ( -sz * sy * cx + cz * sx ) * pz;
-    jacobian[1][2] = ( cz * cy ) * px + ( cz * sy * sx - sz * cx ) * py
-      + ( cz * sy * cx + sz * sx ) * pz;
+    jacobian[0][2] = (-sz * cy) * px + (-sz * sy * sx - cz * cx) * py + (-sz * sy * cx + cz * sx) * pz;
+    jacobian[1][2] = (cz * cy) * px + (cz * sy * sx - sz * cx) * py + (cz * sy * cx + sz * sx) * pz;
     jacobian[2][2] = 0;
-    }
+  }
   else
-    {
-    jacobian[0][0] = ( -sz * cx * sy ) * px + ( sz * sx ) * py + ( sz * cx * cy ) * pz;
-    jacobian[1][0] = ( cz * cx * sy ) * px + ( -cz * sx ) * py + ( -cz * cx * cy ) * pz;
-    jacobian[2][0] = ( sx * sy ) * px + ( cx ) * py + ( -sx * cy ) * pz;
+  {
+    jacobian[0][0] = (-sz * cx * sy) * px + (sz * sx) * py + (sz * cx * cy) * pz;
+    jacobian[1][0] = (cz * cx * sy) * px + (-cz * sx) * py + (-cz * cx * cy) * pz;
+    jacobian[2][0] = (sx * sy) * px + (cx)*py + (-sx * cy) * pz;
 
-    jacobian[0][1] = ( -cz * sy - sz * sx * cy ) * px + ( cz * cy - sz * sx * sy ) * pz;
-    jacobian[1][1] = ( -sz * sy + cz * sx * cy ) * px + ( sz * cy + cz * sx * sy ) * pz;
-    jacobian[2][1] = ( -cx * cy ) * px + ( -cx * sy ) * pz;
+    jacobian[0][1] = (-cz * sy - sz * sx * cy) * px + (cz * cy - sz * sx * sy) * pz;
+    jacobian[1][1] = (-sz * sy + cz * sx * cy) * px + (sz * cy + cz * sx * sy) * pz;
+    jacobian[2][1] = (-cx * cy) * px + (-cx * sy) * pz;
 
-    jacobian[0][2] = ( -sz * cy - cz * sx * sy ) * px + ( -cz * cx ) * py
-      + ( -sz * sy + cz * sx * cy ) * pz;
-    jacobian[1][2] = ( cz * cy - sz * sx * sy ) * px + ( -sz * cx ) * py
-      + ( cz * sy + sz * sx * cy ) * pz;
+    jacobian[0][2] = (-sz * cy - cz * sx * sy) * px + (-cz * cx) * py + (-sz * sy + cz * sx * cy) * pz;
+    jacobian[1][2] = (cz * cy - sz * sx * sy) * px + (-sz * cx) * py + (cz * sy + sz * sx * cy) * pz;
     jacobian[2][2] = 0;
-    }
+  }
 
   // compute derivatives for the center of rotation part
   unsigned int blockOffset = 3;
-  for( unsigned int dim = 0; dim < SpaceDimension; dim++ )
-    {
+  for (unsigned int dim = 0; dim < SpaceDimension; dim++)
+  {
     jacobian[dim][blockOffset + dim] = 1.0;
-    }
+  }
   blockOffset += SpaceDimension;
   // compute derivatives for the translation part
-  for( unsigned int dim = 0; dim < SpaceDimension; dim++ )
-    {
+  for (unsigned int dim = 0; dim < SpaceDimension; dim++)
+  {
     jacobian[dim][blockOffset + dim] = 1.0;
-    }
+  }
 }
 
 // Get an inverse of this transform
-template<typename TParametersValueType>
+template <typename TParametersValueType>
 bool
-CenteredEuler3DTransform<TParametersValueType>
-::GetInverse(Self *inverse) const
+CenteredEuler3DTransform<TParametersValueType>::GetInverse(Self * inverse) const
 {
   return this->Superclass::GetInverse(inverse);
 }
 
 // Return an inverse of this transform
-template<typename TParametersValueType>
+template <typename TParametersValueType>
 typename CenteredEuler3DTransform<TParametersValueType>::InverseTransformBasePointer
-CenteredEuler3DTransform<TParametersValueType>
-::GetInverseTransform() const
+CenteredEuler3DTransform<TParametersValueType>::GetInverseTransform() const
 {
   Pointer inv = New();
 
@@ -212,13 +201,13 @@ CenteredEuler3DTransform<TParametersValueType>
 }
 
 // Print self
-template<typename TParametersValueType>
+template <typename TParametersValueType>
 void
 CenteredEuler3DTransform<TParametersValueType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
 
-} // namespace
+} // namespace itk
 
 #endif

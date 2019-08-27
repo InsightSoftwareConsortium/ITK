@@ -51,9 +51,8 @@ namespace Statistics
  * \sa ImageToListSampleAdaptor
  * \ingroup ITKStatistics
  */
-template< typename TImage, typename TMaskImage = TImage >
-class ITK_TEMPLATE_EXPORT ImageToListSampleFilter:
-  public ProcessObject
+template <typename TImage, typename TMaskImage = TImage>
+class ITK_TEMPLATE_EXPORT ImageToListSampleFilter : public ProcessObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageToListSampleFilter);
@@ -61,8 +60,8 @@ public:
   /** Standard class type aliases */
   using Self = ImageToListSampleFilter;
   using Superclass = ProcessObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageToListSampleFilter, ProcessObject);
@@ -84,26 +83,32 @@ public:
   using MaskPixelType = typename MaskImageType::PixelType;
 
   /** Type of the output list sample */
-  using ListSampleType = ListSample< MeasurementVectorType >;
+  using ListSampleType = ListSample<MeasurementVectorType>;
 
   /** return the number of components of the input image */
-  unsigned int GetMeasurementVectorSize() const;
+  unsigned int
+  GetMeasurementVectorSize() const;
 
   /** Method to set/get the image */
   using Superclass::SetInput;
-  void SetInput(const ImageType *image);
+  void
+  SetInput(const ImageType * image);
 
-  const ImageType * GetInput() const;
+  const ImageType *
+  GetInput() const;
 
   /** Method to set/get the mask */
-  void SetMaskImage(const MaskImageType *image);
+  void
+  SetMaskImage(const MaskImageType * image);
 
-  const MaskImageType * GetMaskImage() const;
+  const MaskImageType *
+  GetMaskImage() const;
 
   /** Method to get the list sample, the generated output. Note that this does
    * not invoke Update(). You should have called update on this class to get
    * any meaningful output. */
-  const ListSampleType * GetOutput() const;
+  const ListSampleType *
+  GetOutput() const;
 
   /** Set the pixel value treated as on in the mask. If a mask has been
    * specified, only pixels with this value will be added to the list sample, if
@@ -115,31 +120,36 @@ public:
 protected:
   ImageToListSampleFilter();
   ~ImageToListSampleFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Standard itk::ProcessObject subclass method. */
   using DataObjectPointer = DataObject::Pointer;
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
+  DataObjectPointer
+  MakeOutput(DataObjectPointerArraySizeType idx) override;
 
   /** This method causes the filter to generate its output. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /** This method ensures that a mask image if specified has requested regions
    * that at least contain the input image's buffered region. */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
 private:
   MaskPixelType m_MaskValue;
-};  // end of class ImageToListSampleFilter
+}; // end of class ImageToListSampleFilter
 } // end of namespace Statistics
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageToListSampleFilter.hxx"
+#  include "itkImageToListSampleFilter.hxx"
 #endif
 
 #endif

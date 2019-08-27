@@ -34,7 +34,7 @@ namespace itk
  * \ingroup ITKIOMeshBYU
  */
 
-class ITKIOMeshBYU_EXPORT BYUMeshIO:public MeshIOBase
+class ITKIOMeshBYU_EXPORT BYUMeshIO : public MeshIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BYUMeshIO);
@@ -42,8 +42,8 @@ public:
   /** Standard class type aliases. */
   using Self = BYUMeshIO;
   using Superclass = MeshIOBase;
-  using ConstPointer = SmartPointer< const Self >;
-  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer<const Self>;
+  using Pointer = SmartPointer<Self>;
 
   using StreamOffsetType = Superclass::StreamOffsetType;
   using SizeValueType = Superclass::SizeValueType;
@@ -61,19 +61,25 @@ public:
    * \post Sets classes MeshIOBase::m_FileName variable to be FileNameToWrite
    * \return Returns true if this MeshIO can read the file specified.
    */
-  bool CanReadFile(const char *FileNameToRead) override;
+  bool
+  CanReadFile(const char * FileNameToRead) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  void ReadMeshInformation() override;
+  void
+  ReadMeshInformation() override;
 
   /** Reads the data from disk into the memory buffer provided. */
-  void ReadPoints(void *buffer) override;
+  void
+  ReadPoints(void * buffer) override;
 
-  void ReadCells(void *buffer) override;
+  void
+  ReadCells(void * buffer) override;
 
-  void ReadPointData(void *buffer) override;
+  void
+  ReadPointData(void * buffer) override;
 
-  void ReadCellData(void *buffer) override;
+  void
+  ReadCellData(void * buffer) override;
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
@@ -82,69 +88,79 @@ public:
    * \post Sets classes MeshIOBase::m_FileName variable to be FileNameToWrite
    * \return Returns true if this MeshIO can write the file specified.
    */
-  bool CanWriteFile(const char *FileNameToWrite) override;
+  bool
+  CanWriteFile(const char * FileNameToWrite) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  void WriteMeshInformation() override;
+  void
+  WriteMeshInformation() override;
 
   /** Writes the data to disk from the memory buffer provided. */
-  void WritePoints(void *buffer) override;
+  void
+  WritePoints(void * buffer) override;
 
-  void WriteCells(void *buffer) override;
+  void
+  WriteCells(void * buffer) override;
 
-  void WritePointData(void *buffer) override;
+  void
+  WritePointData(void * buffer) override;
 
-  void WriteCellData(void *buffer) override;
+  void
+  WriteCellData(void * buffer) override;
 
-  void Write() override;
+  void
+  Write() override;
 
 protected:
   /** Write points to output stream */
-  template< typename T >
-  void WritePoints(T *buffer, std::ofstream & outputFile)
-    {
+  template <typename T>
+  void
+  WritePoints(T * buffer, std::ofstream & outputFile)
+  {
     NumberToString<T> convert;
-    Indent indent(1);
-    SizeValueType index = itk::NumericTraits< SizeValueType >::ZeroValue();
+    Indent            indent(1);
+    SizeValueType     index = itk::NumericTraits<SizeValueType>::ZeroValue();
 
-    for( SizeValueType ii = 0; ii < this->m_NumberOfPoints; ii++ )
-      {
-      outputFile << indent;
-      for( unsigned int jj = 0; jj < this->m_PointDimension; jj++ )
-        {
-        outputFile << convert(buffer[index++]) << " ";
-        }
-      outputFile << '\n';
-      }
-    }
-
-  template< typename T >
-  void WriteCells(T *buffer, std::ofstream & outputFile)
+    for (SizeValueType ii = 0; ii < this->m_NumberOfPoints; ii++)
     {
-    Indent        indent(7);
-    SizeValueType index = itk::NumericTraits< SizeValueType >::ZeroValue();
-
-    for( SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++ )
+      outputFile << indent;
+      for (unsigned int jj = 0; jj < this->m_PointDimension; jj++)
       {
-      auto numberOfCellPoints = static_cast< unsigned int >( buffer[++index] );
-      index++;
-      for ( unsigned int jj = 0; jj < numberOfCellPoints - 1; jj++ )
-        {
-        outputFile << indent << buffer[index++] + 1;
-        }
-
-      outputFile << indent << -static_cast<long long>( buffer[index++] + 1 ) << '\n';
+        outputFile << convert(buffer[index++]) << " ";
       }
+      outputFile << '\n';
     }
+  }
+
+  template <typename T>
+  void
+  WriteCells(T * buffer, std::ofstream & outputFile)
+  {
+    Indent        indent(7);
+    SizeValueType index = itk::NumericTraits<SizeValueType>::ZeroValue();
+
+    for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++)
+    {
+      auto numberOfCellPoints = static_cast<unsigned int>(buffer[++index]);
+      index++;
+      for (unsigned int jj = 0; jj < numberOfCellPoints - 1; jj++)
+      {
+        outputFile << indent << buffer[index++] + 1;
+      }
+
+      outputFile << indent << -static_cast<long long>(buffer[index++] + 1) << '\n';
+    }
+  }
 
 protected:
   BYUMeshIO();
   ~BYUMeshIO() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  StreamOffsetType m_FilePosition{0};
+  StreamOffsetType m_FilePosition{ 0 };
   SizeValueType    m_PartId;
   SizeValueType    m_FirstCellId;
   SizeValueType    m_LastCellId;

@@ -84,22 +84,17 @@ namespace itk
  * \ingroup GeometricTransform MultiThreaded
  * \ingroup ITKImageGrid
  */
-template<
-  typename TInputImage,
-  typename TOutputImage,
-  typename TDisplacementField
-  >
-class ITK_TEMPLATE_EXPORT WarpVectorImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage, typename TDisplacementField>
+class ITK_TEMPLATE_EXPORT WarpVectorImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(WarpVectorImageFilter);
 
   /** Standard class type aliases. */
   using Self = WarpVectorImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -136,25 +131,27 @@ public:
 
   /** Interpolator type alias support */
   using CoordRepType = double;
-  using InterpolatorType = VectorInterpolateImageFunction< InputImageType, CoordRepType >;
+  using InterpolatorType = VectorInterpolateImageFunction<InputImageType, CoordRepType>;
   using InterpolatorPointer = typename InterpolatorType::Pointer;
-  using DefaultInterpolatorType =
-      VectorLinearInterpolateImageFunction< InputImageType, CoordRepType >;
+  using DefaultInterpolatorType = VectorLinearInterpolateImageFunction<InputImageType, CoordRepType>;
 
   /** Point type */
-  using PointType = Point< CoordRepType, Self::ImageDimension >;
+  using PointType = Point<CoordRepType, Self::ImageDimension>;
 
   /** Type for representing the direction of the output image */
   using DirectionType = typename TOutputImage::DirectionType;
 
   /** Set the displacement field. */
-  void SetDisplacementField(const DisplacementFieldType *field);
+  void
+  SetDisplacementField(const DisplacementFieldType * field);
 
   /** Set the displacement field (non const for backward compatibility). */
-  void SetDisplacementField(DisplacementFieldType *field);
+  void
+  SetDisplacementField(DisplacementFieldType * field);
 
   /** Get a pointer the displacement field. */
-  DisplacementFieldType * GetDisplacementField();
+  DisplacementFieldType *
+  GetDisplacementField();
 
   /** Get/Set the interpolator function. */
   itkSetObjectMacro(Interpolator, InterpolatorType);
@@ -162,14 +159,16 @@ public:
 
   /** Set the output image spacing. */
   itkSetMacro(OutputSpacing, SpacingType);
-  virtual void SetOutputSpacing(const double *values);
+  virtual void
+  SetOutputSpacing(const double * values);
 
   /** Get the output image spacing. */
   itkGetConstReferenceMacro(OutputSpacing, SpacingType);
 
   /** Set the output image origin. */
   itkSetMacro(OutputOrigin, PointType);
-  virtual void SetOutputOrigin(const double *values);
+  virtual void
+  SetOutputOrigin(const double * values);
 
   /** Get the output image origin. */
   itkGetConstReferenceMacro(OutputOrigin, PointType);
@@ -189,7 +188,8 @@ public:
    * implementation for GenerateOutputInformation() which set
    * the output information according the OutputSpacing, OutputOrigin
    * and the displacement field's LargestPossibleRegion. */
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
   /** It is difficult to compute in advance the input image region
    * required to compute the requested output region. Thus the safest
@@ -197,32 +197,34 @@ public:
    *
    * For the displacement field, the input requested region
    * set to be the same as that of the output requested region. */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** This method is used to set the state of the filter before
    * multi-threading. */
-  void BeforeThreadedGenerateData() override;
+  void
+  BeforeThreadedGenerateData() override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< typename TInputImage::PixelType::ValueType > ) );
-  itkConceptMacro( OutputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< ValueType > ) );
-  itkConceptMacro( DisplacementFieldHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< typename TDisplacementField::PixelType::ValueType > ) );
+  itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<typename TInputImage::PixelType::ValueType>));
+  itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<ValueType>));
+  itkConceptMacro(DisplacementFieldHasNumericTraitsCheck,
+                  (Concept::HasNumericTraits<typename TDisplacementField::PixelType::ValueType>));
   // End concept checking
 #endif
 
 protected:
   WarpVectorImageFilter();
   ~WarpVectorImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** WarpVectorImageFilter is implemented as a multi-threaded filter.
    * As such, it needs to provide and implementation for
    * DynamicThreadedGenerateData(). */
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 
 private:
@@ -236,7 +238,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkWarpVectorImageFilter.hxx"
+#  include "itkWarpVectorImageFilter.hxx"
 #endif
 
 #endif

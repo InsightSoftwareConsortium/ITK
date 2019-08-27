@@ -44,71 +44,66 @@
 namespace itk
 {
 
-template< typename ValueType, typename MeanType >
-ResourceProbe< ValueType, MeanType >
-::ResourceProbe(std::string  type, std::string  unit):
-  m_TypeString(std::move(type)), m_UnitString(std::move(unit))
+template <typename ValueType, typename MeanType>
+ResourceProbe<ValueType, MeanType>::ResourceProbe(std::string type, std::string unit)
+  : m_TypeString(std::move(type))
+  , m_UnitString(std::move(unit))
 {
   this->Reset();
 }
 
-template< typename ValueType, typename MeanType >
+template <typename ValueType, typename MeanType>
 void
-ResourceProbe< ValueType, MeanType >
-::Reset()
+ResourceProbe<ValueType, MeanType>::Reset()
 {
-  this->m_TotalValue        = NumericTraits< ValueType >::ZeroValue();
-  this->m_StartValue        = NumericTraits< ValueType >::ZeroValue();
-  this->m_MinimumValue      = NumericTraits< ValueType >::max();
-  this->m_MaximumValue      = NumericTraits< ValueType >::NonpositiveMin();
-  this->m_StandardDeviation = NumericTraits< ValueType >::ZeroValue();
+  this->m_TotalValue = NumericTraits<ValueType>::ZeroValue();
+  this->m_StartValue = NumericTraits<ValueType>::ZeroValue();
+  this->m_MinimumValue = NumericTraits<ValueType>::max();
+  this->m_MaximumValue = NumericTraits<ValueType>::NonpositiveMin();
+  this->m_StandardDeviation = NumericTraits<ValueType>::ZeroValue();
 
-  this->m_NumberOfStarts    = NumericTraits< CountType >::ZeroValue();
-  this->m_NumberOfStops     = NumericTraits< CountType >::ZeroValue();
-  this->m_NumberOfIteration = NumericTraits< CountType >::ZeroValue();
+  this->m_NumberOfStarts = NumericTraits<CountType>::ZeroValue();
+  this->m_NumberOfStops = NumericTraits<CountType>::ZeroValue();
+  this->m_NumberOfIteration = NumericTraits<CountType>::ZeroValue();
 
   this->m_ProbeValueList.clear();
 }
 
 
-template< typename ValueType, typename MeanType >
+template <typename ValueType, typename MeanType>
 std::string
-ResourceProbe< ValueType, MeanType >
-::GetType() const
+ResourceProbe<ValueType, MeanType>::GetType() const
 {
   return this->m_TypeString;
 }
 
 
-template< typename ValueType, typename MeanType >
+template <typename ValueType, typename MeanType>
 std::string
-ResourceProbe< ValueType, MeanType >
-::GetUnit() const
+ResourceProbe<ValueType, MeanType>::GetUnit() const
 {
   return this->m_UnitString;
 }
 
 
-template< typename ValueType, typename MeanType >
+template <typename ValueType, typename MeanType>
 void
-ResourceProbe< ValueType, MeanType >
-::Start()
+ResourceProbe<ValueType, MeanType>::Start()
 {
   this->m_NumberOfStarts++;
   this->m_StartValue = this->GetInstantValue();
 }
 
 
-template< typename ValueType, typename MeanType >
+template <typename ValueType, typename MeanType>
 void
-ResourceProbe< ValueType, MeanType >
-::Stop()
+ResourceProbe<ValueType, MeanType>::Stop()
 {
   ValueType probevalue = this->GetInstantValue() - this->m_StartValue;
-  if ( this->m_NumberOfStops == this->m_NumberOfStarts )
-    {
+  if (this->m_NumberOfStops == this->m_NumberOfStarts)
+  {
     return;
-    }
+  }
 
   this->UpdateMinimumMaximumMeasuredValue(probevalue);
   this->m_TotalValue += probevalue;
@@ -118,140 +113,126 @@ ResourceProbe< ValueType, MeanType >
 }
 
 
-template< typename ValueType, typename MeanType >
-typename ResourceProbe< ValueType, MeanType >::CountType
-ResourceProbe< ValueType, MeanType >
-::GetNumberOfStarts() const
+template <typename ValueType, typename MeanType>
+typename ResourceProbe<ValueType, MeanType>::CountType
+ResourceProbe<ValueType, MeanType>::GetNumberOfStarts() const
 {
   return this->m_NumberOfStarts;
 }
 
 
-template< typename ValueType, typename MeanType >
-typename ResourceProbe< ValueType, MeanType >::CountType
-ResourceProbe< ValueType, MeanType >
-::GetNumberOfStops() const
+template <typename ValueType, typename MeanType>
+typename ResourceProbe<ValueType, MeanType>::CountType
+ResourceProbe<ValueType, MeanType>::GetNumberOfStops() const
 {
   return this->m_NumberOfStops;
 }
 
 
-template< typename ValueType, typename MeanType >
-typename ResourceProbe< ValueType, MeanType >::CountType
-ResourceProbe< ValueType, MeanType >
-::GetNumberOfIteration() const
+template <typename ValueType, typename MeanType>
+typename ResourceProbe<ValueType, MeanType>::CountType
+ResourceProbe<ValueType, MeanType>::GetNumberOfIteration() const
 {
   return this->m_NumberOfIteration;
 }
 
 
-template< typename ValueType, typename MeanType >
+template <typename ValueType, typename MeanType>
 ValueType
-ResourceProbe< ValueType, MeanType >
-::GetTotal() const
+ResourceProbe<ValueType, MeanType>::GetTotal() const
 {
   return this->m_TotalValue;
 }
 
 
-template< typename ValueType, typename MeanType >
+template <typename ValueType, typename MeanType>
 MeanType
-ResourceProbe< ValueType, MeanType >
-::GetMean() const
+ResourceProbe<ValueType, MeanType>::GetMean() const
 {
-  MeanType meanValue = NumericTraits< MeanType >::ZeroValue();
+  MeanType meanValue = NumericTraits<MeanType>::ZeroValue();
 
-  if ( this->m_NumberOfStops )
-    {
-    meanValue = static_cast< MeanType >( this->m_TotalValue ) / static_cast< MeanType >( this->m_NumberOfStops );
-    }
+  if (this->m_NumberOfStops)
+  {
+    meanValue = static_cast<MeanType>(this->m_TotalValue) / static_cast<MeanType>(this->m_NumberOfStops);
+  }
 
   return meanValue;
 }
 
 
-template< typename ValueType, typename MeanType >
+template <typename ValueType, typename MeanType>
 ValueType
-ResourceProbe< ValueType, MeanType >
-::GetMinimum() const
+ResourceProbe<ValueType, MeanType>::GetMinimum() const
 {
   return this->m_MinimumValue;
 }
 
 
-template< typename ValueType, typename MeanType >
+template <typename ValueType, typename MeanType>
 ValueType
-ResourceProbe< ValueType, MeanType >
-::GetMaximum() const
+ResourceProbe<ValueType, MeanType>::GetMaximum() const
 {
   return this->m_MaximumValue;
 }
 
 
-template< typename ValueType, typename MeanType >
+template <typename ValueType, typename MeanType>
 ValueType
-ResourceProbe< ValueType, MeanType >
-::GetStandardDeviation()
+ResourceProbe<ValueType, MeanType>::GetStandardDeviation()
 {
-  using InternalComputeType = typename NumericTraits< ValueType >::RealType;
-  const InternalComputeType realMean = static_cast< InternalComputeType > ( this->GetMean() );
+  using InternalComputeType = typename NumericTraits<ValueType>::RealType;
+  const InternalComputeType        realMean = static_cast<InternalComputeType>(this->GetMean());
   std::vector<InternalComputeType> diff(this->m_ProbeValueList.size());
   std::transform(this->m_ProbeValueList.begin(),
                  this->m_ProbeValueList.end(),
                  diff.begin(),
-                 //Subtract mean from every value;
-                 [realMean] (const ValueType v ) { return ( static_cast< InternalComputeType > ( v ) - realMean ); }
-                 );
+                 // Subtract mean from every value;
+                 [realMean](const ValueType v) { return (static_cast<InternalComputeType>(v) - realMean); });
   const InternalComputeType sqsum =
-    std::inner_product(diff.begin(),diff.end(),
-                       diff.begin(),
-                       NumericTraits< InternalComputeType >::ZeroValue());
+    std::inner_product(diff.begin(), diff.end(), diff.begin(), NumericTraits<InternalComputeType>::ZeroValue());
 
-  const InternalComputeType sz = static_cast<InternalComputeType>(this->m_ProbeValueList.size())-1.0;
-  if (sz <=0.0)
-    {
-    this->m_StandardDeviation = NumericTraits< ValueType >::ZeroValue();
-    }
+  const InternalComputeType sz = static_cast<InternalComputeType>(this->m_ProbeValueList.size()) - 1.0;
+  if (sz <= 0.0)
+  {
+    this->m_StandardDeviation = NumericTraits<ValueType>::ZeroValue();
+  }
   else
-    {
-    this->m_StandardDeviation = static_cast<ValueType>(std::sqrt(sqsum /sz));
-    }
+  {
+    this->m_StandardDeviation = static_cast<ValueType>(std::sqrt(sqsum / sz));
+  }
   return this->m_StandardDeviation;
 }
 
 
-template< typename ValueType, typename MeanType >
+template <typename ValueType, typename MeanType>
 ValueType
-ResourceProbe< ValueType, MeanType >
-::GetStandardError()
+ResourceProbe<ValueType, MeanType>::GetStandardError()
 {
   const ValueType standardDeviation = this->GetStandardDeviation();
-  this->m_StandardError = static_cast< ValueType >( standardDeviation / std::sqrt( static_cast< double >( this->m_ProbeValueList.size() ) ) );
+  this->m_StandardError =
+    static_cast<ValueType>(standardDeviation / std::sqrt(static_cast<double>(this->m_ProbeValueList.size())));
   return this->m_StandardError;
 }
 
 
-template< typename ValueType, typename MeanType >
+template <typename ValueType, typename MeanType>
 void
-ResourceProbe< ValueType, MeanType >
-::SetNameOfProbe(const char* nameOfProbe)
+ResourceProbe<ValueType, MeanType>::SetNameOfProbe(const char * nameOfProbe)
 {
   this->m_NameOfProbe = nameOfProbe;
 }
 
 
-template< typename ValueType, typename MeanType >
+template <typename ValueType, typename MeanType>
 std::string
-ResourceProbe< ValueType, MeanType >
-::GetNameOfProbe() const
+ResourceProbe<ValueType, MeanType>::GetNameOfProbe() const
 {
   return this->m_NameOfProbe;
 }
 
-template< typename ValueType, typename MeanType >
+template <typename ValueType, typename MeanType>
 void
-ResourceProbe< ValueType, MeanType >
-::PrintSystemInformation(std::ostream & os)
+ResourceProbe<ValueType, MeanType>::PrintSystemInformation(std::ostream & os)
 {
   itksys::SystemInformation systeminfo;
   systeminfo.RunCPUCheck();
@@ -265,193 +246,174 @@ ResourceProbe< ValueType, MeanType >
   os << "    Physical CPUs:   " << systeminfo.GetNumberOfPhysicalCPU() << std::endl;
   os << "    Logical CPUs:    " << systeminfo.GetNumberOfLogicalCPU() << std::endl;
   // Retrieve memory information in mebibytes.
-  os << "    Virtual Memory:  Total: "
-     << std::left << std::setw( tabwidth ) << systeminfo.GetTotalVirtualMemory()
-     <<" Available: "<< systeminfo.GetAvailableVirtualMemory() << std::endl;
-  os << "    Physical Memory: Total: "
-     << std::left << std::setw( tabwidth ) << systeminfo.GetTotalPhysicalMemory()
-     <<" Available: "<< systeminfo.GetAvailablePhysicalMemory() << std::endl;
+  os << "    Virtual Memory:  Total: " << std::left << std::setw(tabwidth) << systeminfo.GetTotalVirtualMemory()
+     << " Available: " << systeminfo.GetAvailableVirtualMemory() << std::endl;
+  os << "    Physical Memory: Total: " << std::left << std::setw(tabwidth) << systeminfo.GetTotalPhysicalMemory()
+     << " Available: " << systeminfo.GetAvailablePhysicalMemory() << std::endl;
 
-  os << "OSName:              "<< systeminfo.GetOSName() << std::endl;
-  os << "    Release:         "<< systeminfo.GetOSRelease() << std::endl;
-  os << "    Version:         "<< systeminfo.GetOSVersion() << std::endl;
-  os << "    Platform:        "<< systeminfo.GetOSPlatform() << std::endl;
+  os << "OSName:              " << systeminfo.GetOSName() << std::endl;
+  os << "    Release:         " << systeminfo.GetOSRelease() << std::endl;
+  os << "    Version:         " << systeminfo.GetOSVersion() << std::endl;
+  os << "    Platform:        " << systeminfo.GetOSPlatform() << std::endl;
 
-  os << "    Operating System is "
-     << (systeminfo.Is64Bits()?"64 bit":"32 bit") << std::endl;
+  os << "    Operating System is " << (systeminfo.Is64Bits() ? "64 bit" : "32 bit") << std::endl;
 
-  os << "ITK Version: "
-     << ITK_VERSION_STRING << "." << ITK_VERSION_PATCH << std::endl;
+  os << "ITK Version: " << ITK_VERSION_STRING << "." << ITK_VERSION_PATCH << std::endl;
 }
 
 
-template< typename ValueType, typename MeanType >
+template <typename ValueType, typename MeanType>
 void
-ResourceProbe< ValueType, MeanType >
-::Report(std::ostream & os, bool printSystemInfo, bool printReportHead, bool useTabs)
+ResourceProbe<ValueType, MeanType>::Report(std::ostream & os, bool printSystemInfo, bool printReportHead, bool useTabs)
 {
-  if(printSystemInfo)
-    {
+  if (printSystemInfo)
+  {
     this->PrintSystemInformation(os);
-    }
+  }
 
-  if(printReportHead)
-    {
+  if (printReportHead)
+  {
     this->PrintReportHead(os, useTabs);
-    }
+  }
 
   std::stringstream ss;
-  if( useTabs )
-    {
-    ss << std::left << '\t' << this->m_NameOfProbe
-       << std::left << '\t' << this->m_NumberOfIteration
-       << std::left << '\t' << this->GetTotal()
-       << std::left << '\t' << this->GetMinimum()
-       << std::left << '\t' << this->GetMean()
-       << std::left << '\t' << this->GetMaximum()
-       << std::left << '\t' << this->GetStandardDeviation();
-    }
+  if (useTabs)
+  {
+    ss << std::left << '\t' << this->m_NameOfProbe << std::left << '\t' << this->m_NumberOfIteration << std::left
+       << '\t' << this->GetTotal() << std::left << '\t' << this->GetMinimum() << std::left << '\t' << this->GetMean()
+       << std::left << '\t' << this->GetMaximum() << std::left << '\t' << this->GetStandardDeviation();
+  }
   else
-    {
-    ss << std::left << std::setw( tabwidth *2 ) << this->m_NameOfProbe
-       << std::left << std::setw( tabwidth    ) << this->m_NumberOfIteration
-       << std::left << std::setw( tabwidth    ) << this->GetTotal()
-       << std::left << std::setw( tabwidth    ) << this->GetMinimum()
-       << std::left << std::setw( tabwidth    ) << this->GetMean()
-       << std::left << std::setw( tabwidth    ) << this->GetMaximum()
-       << std::left << std::setw( tabwidth    ) << this->GetStandardDeviation();
-    }
+  {
+    ss << std::left << std::setw(tabwidth * 2) << this->m_NameOfProbe << std::left << std::setw(tabwidth)
+       << this->m_NumberOfIteration << std::left << std::setw(tabwidth) << this->GetTotal() << std::left
+       << std::setw(tabwidth) << this->GetMinimum() << std::left << std::setw(tabwidth) << this->GetMean() << std::left
+       << std::setw(tabwidth) << this->GetMaximum() << std::left << std::setw(tabwidth) << this->GetStandardDeviation();
+  }
   os << ss.str() << std::endl;
 }
 
 
-template< typename ValueType, typename MeanType >
+template <typename ValueType, typename MeanType>
 void
-ResourceProbe< ValueType, MeanType >
-::ExpandedReport(std::ostream & os, bool printSystemInfo, bool printReportHead, bool useTabs)
+ResourceProbe<ValueType, MeanType>::ExpandedReport(std::ostream & os,
+                                                   bool           printSystemInfo,
+                                                   bool           printReportHead,
+                                                   bool           useTabs)
 {
-  if(printSystemInfo)
-    {
+  if (printSystemInfo)
+  {
     this->PrintSystemInformation(os);
-    }
+  }
 
-  if(printReportHead)
-    {
+  if (printReportHead)
+  {
     this->PrintExpandedReportHead(os, useTabs);
-    }
+  }
 
   std::stringstream ss;
 
   ValueType ratioOfMeanToMinimum;
-  if(Math::ExactlyEquals( this->GetMinimum() , 0.0) )
-    {
+  if (Math::ExactlyEquals(this->GetMinimum(), 0.0))
+  {
     ratioOfMeanToMinimum = NumericTraits<ValueType>::ZeroValue();
-    }
+  }
   else
-    {
-    ratioOfMeanToMinimum = static_cast<ValueType>(this->GetMean())/this->GetMinimum();
-    }
+  {
+    ratioOfMeanToMinimum = static_cast<ValueType>(this->GetMean()) / this->GetMinimum();
+  }
 
   ValueType ratioOfMaximumToMean;
-  if(Math::ExactlyEquals( this->GetMean() , 0.0) )
-    {
+  if (Math::ExactlyEquals(this->GetMean(), 0.0))
+  {
     ratioOfMaximumToMean = NumericTraits<ValueType>::ZeroValue();
-    }
+  }
   else
-    {
-    ratioOfMaximumToMean = this->GetMaximum()/static_cast<ValueType>(this->GetMean());
-    }
+  {
+    ratioOfMaximumToMean = this->GetMaximum() / static_cast<ValueType>(this->GetMean());
+  }
 
- if( useTabs )
-    {
-    ss << std::left << '\t' << this->m_NameOfProbe
-       << std::left << '\t' << this->m_NumberOfIteration
-       << std::left << '\t' << this->GetTotal()
-       << std::left << '\t' << this->GetMinimum()
-       << std::left << '\t' << this->GetMean() - this->GetMinimum()
-       << std::left << '\t' << ratioOfMeanToMinimum*100
-       << std::left << '\t' << this->GetMean()
-       << std::left << '\t' << this->GetMaximum() - this->GetMean()
-       << std::left << '\t' << ratioOfMaximumToMean*100
-       << std::left << '\t' << this->GetMaximum()
-       << std::left << '\t' << this->GetMaximum() - this->GetMinimum()
-       << std::left << '\t' << this->GetStandardDeviation()
-       << std::left << '\t' << this->GetStandardError();
-    }
- else
-    {
-    ss << std::left << std::setw( tabwidth *2 ) << this->m_NameOfProbe
-       << std::left << std::setw( tabwidth    ) << this->m_NumberOfIteration
-       << std::left << std::setw( tabwidth    ) << this->GetTotal()
-       << std::left << std::setw( tabwidth    ) << this->GetMinimum()
-       << std::left << std::setw( tabwidth    ) << this->GetMean() - this->GetMinimum()
-       << std::left << std::setw( tabwidth    ) << ratioOfMeanToMinimum*100
-       << std::left << std::setw( tabwidth    ) << this->GetMean()
-       << std::left << std::setw( tabwidth    ) << this->GetMaximum() - this->GetMean()
-       << std::left << std::setw( tabwidth    ) << ratioOfMaximumToMean*100
-       << std::left << std::setw( tabwidth    ) << this->GetMaximum()
-       << std::left << std::setw( tabwidth    ) << this->GetMaximum() - this->GetMinimum()
-       << std::left << std::setw( tabwidth    ) << this->GetStandardDeviation()
-       << std::left << std::setw( tabwidth    ) << this->GetStandardError();
-    }
+  if (useTabs)
+  {
+    ss << std::left << '\t' << this->m_NameOfProbe << std::left << '\t' << this->m_NumberOfIteration << std::left
+       << '\t' << this->GetTotal() << std::left << '\t' << this->GetMinimum() << std::left << '\t'
+       << this->GetMean() - this->GetMinimum() << std::left << '\t' << ratioOfMeanToMinimum * 100 << std::left << '\t'
+       << this->GetMean() << std::left << '\t' << this->GetMaximum() - this->GetMean() << std::left << '\t'
+       << ratioOfMaximumToMean * 100 << std::left << '\t' << this->GetMaximum() << std::left << '\t'
+       << this->GetMaximum() - this->GetMinimum() << std::left << '\t' << this->GetStandardDeviation() << std::left
+       << '\t' << this->GetStandardError();
+  }
+  else
+  {
+    ss << std::left << std::setw(tabwidth * 2) << this->m_NameOfProbe << std::left << std::setw(tabwidth)
+       << this->m_NumberOfIteration << std::left << std::setw(tabwidth) << this->GetTotal() << std::left
+       << std::setw(tabwidth) << this->GetMinimum() << std::left << std::setw(tabwidth)
+       << this->GetMean() - this->GetMinimum() << std::left << std::setw(tabwidth) << ratioOfMeanToMinimum * 100
+       << std::left << std::setw(tabwidth) << this->GetMean() << std::left << std::setw(tabwidth)
+       << this->GetMaximum() - this->GetMean() << std::left << std::setw(tabwidth) << ratioOfMaximumToMean * 100
+       << std::left << std::setw(tabwidth) << this->GetMaximum() << std::left << std::setw(tabwidth)
+       << this->GetMaximum() - this->GetMinimum() << std::left << std::setw(tabwidth) << this->GetStandardDeviation()
+       << std::left << std::setw(tabwidth) << this->GetStandardError();
+  }
   os << ss.str() << std::endl;
 }
 
 
-template< typename ValueType, typename MeanType >
-template<typename T>
+template <typename ValueType, typename MeanType>
+template <typename T>
 void
-ResourceProbe< ValueType, MeanType >
-::PrintJSONvar(std::ostream & os, const char* varName, T varValue,
-    unsigned indent, bool comma)
+ResourceProbe<ValueType, MeanType>::PrintJSONvar(std::ostream & os,
+                                                 const char *   varName,
+                                                 T              varValue,
+                                                 unsigned       indent,
+                                                 bool           comma)
 {
   bool varIsNumber = mpl::IsNumber<T>::Value;
   while (indent > 0)
-    {
-      os << ' ';
-      --indent;
-    }
-  if (varIsNumber) //no quotes around the value
-    {
+  {
+    os << ' ';
+    --indent;
+  }
+  if (varIsNumber) // no quotes around the value
+  {
     os << '"' << varName << "\": " << varValue;
-    }
-  else //put quotes around the value
-    {
+  }
+  else // put quotes around the value
+  {
     os << '"' << varName << "\": \"" << varValue << '"';
-    }
+  }
   if (comma)
-    {
+  {
     os << ',';
-    }
-  os << '\n'; //std::endl has a side-effect of flushing the stream
+  }
+  os << '\n'; // std::endl has a side-effect of flushing the stream
 }
 
-template< typename ValueType, typename MeanType >
+template <typename ValueType, typename MeanType>
 void
-ResourceProbe< ValueType, MeanType >
-::JSONReport(std::ostream & os)
+ResourceProbe<ValueType, MeanType>::JSONReport(std::ostream & os)
 {
   std::stringstream ss;
 
   ValueType ratioOfMeanToMinimum;
-  if(Math::ExactlyEquals( this->GetMinimum() , 0.0) )
-    {
+  if (Math::ExactlyEquals(this->GetMinimum(), 0.0))
+  {
     ratioOfMeanToMinimum = NumericTraits<ValueType>::ZeroValue();
-    }
+  }
   else
-    {
-    ratioOfMeanToMinimum = static_cast<ValueType>(this->GetMean())/this->GetMinimum();
-    }
+  {
+    ratioOfMeanToMinimum = static_cast<ValueType>(this->GetMean()) / this->GetMinimum();
+  }
 
   ValueType ratioOfMaximumToMean;
-  if(Math::ExactlyEquals( this->GetMean() , 0.0) )
-    {
+  if (Math::ExactlyEquals(this->GetMean(), 0.0))
+  {
     ratioOfMaximumToMean = NumericTraits<ValueType>::ZeroValue();
-    }
+  }
   else
-    {
-    ratioOfMaximumToMean = this->GetMaximum()/static_cast<ValueType>(this->GetMean());
-    }
+  {
+    ratioOfMaximumToMean = this->GetMaximum() / static_cast<ValueType>(this->GetMean());
+  }
 
   os << "  {\n";
   PrintJSONvar(os, "Name", m_NameOfProbe);
@@ -475,101 +437,91 @@ ResourceProbe< ValueType, MeanType >
 }
 
 
-template< typename ValueType, typename MeanType >
+template <typename ValueType, typename MeanType>
 void
-ResourceProbe< ValueType, MeanType >
-::UpdateMinimumMaximumMeasuredValue(ValueType value)
+ResourceProbe<ValueType, MeanType>::UpdateMinimumMaximumMeasuredValue(ValueType value)
 {
-  if(this->m_MinimumValue > value)
-    {
+  if (this->m_MinimumValue > value)
+  {
     this->m_MinimumValue = value;
-    }
+  }
 
-  if(this->m_MaximumValue < value)
-    {
+  if (this->m_MaximumValue < value)
+  {
     this->m_MaximumValue = value;
-    }
+  }
 }
 
 
-template< typename ValueType, typename MeanType >
+template <typename ValueType, typename MeanType>
 void
-ResourceProbe< ValueType, MeanType >
-::PrintReportHead(std::ostream & os, bool useTabs)
+ResourceProbe<ValueType, MeanType>::PrintReportHead(std::ostream & os, bool useTabs)
 {
   std::stringstream ss;
-  if( useTabs )
-    {
-    ss << std::left << '\t' << std::string("Name Of Probe (")+this->m_TypeString + std::string(")")
-       << std::left << '\t' << "Iterations"
-       << std::left << '\t' << std::string("Total (") + this->m_UnitString + std::string(")")
-       << std::left << '\t' << std::string("Min (") + this->m_UnitString + std::string(")")
-       << std::left << '\t' << std::string("Mean (") + this->m_UnitString + std::string(")")
-       << std::left << '\t' << std::string("Max (") + this->m_UnitString + std::string(")")
-       << std::left << '\t' << std::string("StdDev (") + this->m_UnitString + std::string(")");
-    }
+  if (useTabs)
+  {
+    ss << std::left << '\t' << std::string("Name Of Probe (") + this->m_TypeString + std::string(")") << std::left
+       << '\t' << "Iterations" << std::left << '\t' << std::string("Total (") + this->m_UnitString + std::string(")")
+       << std::left << '\t' << std::string("Min (") + this->m_UnitString + std::string(")") << std::left << '\t'
+       << std::string("Mean (") + this->m_UnitString + std::string(")") << std::left << '\t'
+       << std::string("Max (") + this->m_UnitString + std::string(")") << std::left << '\t'
+       << std::string("StdDev (") + this->m_UnitString + std::string(")");
+  }
   else
-    {
-    ss << std::left << std::setw( tabwidth *2 ) << std::string("Name Of Probe (")+this->m_TypeString + std::string(")")
-       << std::left << std::setw( tabwidth    ) << "Iterations"
-       << std::left << std::setw( tabwidth    ) << std::string("Total (") + this->m_UnitString + std::string(")")
-       << std::left << std::setw( tabwidth    ) << std::string("Min (") + this->m_UnitString + std::string(")")
-       << std::left << std::setw( tabwidth    ) << std::string("Mean (") + this->m_UnitString + std::string(")")
-       << std::left << std::setw( tabwidth    ) << std::string("Max (") + this->m_UnitString + std::string(")")
-       << std::left << std::setw( tabwidth    ) << std::string("StdDev (") + this->m_UnitString + std::string(")");
-    }
+  {
+    ss << std::left << std::setw(tabwidth * 2) << std::string("Name Of Probe (") + this->m_TypeString + std::string(")")
+       << std::left << std::setw(tabwidth) << "Iterations" << std::left << std::setw(tabwidth)
+       << std::string("Total (") + this->m_UnitString + std::string(")") << std::left << std::setw(tabwidth)
+       << std::string("Min (") + this->m_UnitString + std::string(")") << std::left << std::setw(tabwidth)
+       << std::string("Mean (") + this->m_UnitString + std::string(")") << std::left << std::setw(tabwidth)
+       << std::string("Max (") + this->m_UnitString + std::string(")") << std::left << std::setw(tabwidth)
+       << std::string("StdDev (") + this->m_UnitString + std::string(")");
+  }
 
   os << ss.str() << std::endl;
 }
 
 
-template< typename ValueType, typename MeanType >
+template <typename ValueType, typename MeanType>
 void
-ResourceProbe< ValueType, MeanType >
-::PrintExpandedReportHead(std::ostream & os, bool useTabs)
+ResourceProbe<ValueType, MeanType>::PrintExpandedReportHead(std::ostream & os, bool useTabs)
 {
   std::stringstream ss;
-  if( useTabs )
-    {
-    ss << std::left << '\t' << std::string("Name Of Probe (") + this->m_TypeString + std::string(")")
-       << std::left << '\t' << "Iterations"
-       << std::left << '\t' << std::string("Total (") + this->m_UnitString + std::string(")")
-       << std::left << '\t' << std::string("Min (") + this->m_UnitString + std::string(")")
-       << std::left << '\t' << "Mean-Min (diff)"
-       << std::left << '\t' << "Mean/Min (%)"
-       << std::left << '\t' << std::string("Mean (") + this->m_UnitString + std::string(")")
-       << std::left << '\t' << "Max-Mean (diff)"
-       << std::left << '\t' << "Max/Mean (%)"
-       << std::left << '\t' << std::string("Max (") + this->m_UnitString + std::string(")")
-       << std::left << '\t' << std::string("Total Diff (") + this->m_UnitString + std::string(")")
-       << std::left << '\t' << std::string("StdDev (") + this->m_UnitString + std::string(")")
-       << std::left << '\t' << std::string("StdErr (") + this->m_UnitString + std::string(")");
-    }
+  if (useTabs)
+  {
+    ss << std::left << '\t' << std::string("Name Of Probe (") + this->m_TypeString + std::string(")") << std::left
+       << '\t' << "Iterations" << std::left << '\t' << std::string("Total (") + this->m_UnitString + std::string(")")
+       << std::left << '\t' << std::string("Min (") + this->m_UnitString + std::string(")") << std::left << '\t'
+       << "Mean-Min (diff)" << std::left << '\t' << "Mean/Min (%)" << std::left << '\t'
+       << std::string("Mean (") + this->m_UnitString + std::string(")") << std::left << '\t' << "Max-Mean (diff)"
+       << std::left << '\t' << "Max/Mean (%)" << std::left << '\t'
+       << std::string("Max (") + this->m_UnitString + std::string(")") << std::left << '\t'
+       << std::string("Total Diff (") + this->m_UnitString + std::string(")") << std::left << '\t'
+       << std::string("StdDev (") + this->m_UnitString + std::string(")") << std::left << '\t'
+       << std::string("StdErr (") + this->m_UnitString + std::string(")");
+  }
   else
-    {
-    ss << std::left << std::setw( tabwidth *2 ) << std::string("Name Of Probe (") + this->m_TypeString + std::string(")")
-       << std::left << std::setw( tabwidth    ) << "Iterations"
-       << std::left << std::setw( tabwidth    ) << std::string("Total (") + this->m_UnitString + std::string(")")
-       << std::left << std::setw( tabwidth    ) << std::string("Min (") + this->m_UnitString + std::string(")")
-       << std::left << std::setw( tabwidth    ) << "Mean-Min (diff)"
-       << std::left << std::setw( tabwidth    ) << "Mean/Min (%)"
-       << std::left << std::setw( tabwidth    ) << std::string("Mean (") + this->m_UnitString + std::string(")")
-       << std::left << std::setw( tabwidth    ) << "Max-Mean (diff)"
-       << std::left << std::setw( tabwidth    ) << "Max/Mean (%)"
-       << std::left << std::setw( tabwidth    ) << std::string("Max (") + this->m_UnitString + std::string(")")
-       << std::left << std::setw( tabwidth    ) << std::string("Total Diff (") + this->m_UnitString + std::string(")")
-       << std::left << std::setw( tabwidth    ) << std::string("StdDev (") + this->m_UnitString + std::string(")")
-       << std::left << std::setw( tabwidth    ) << std::string("StdErr (") + this->m_UnitString + std::string(")");
-    }
+  {
+    ss << std::left << std::setw(tabwidth * 2) << std::string("Name Of Probe (") + this->m_TypeString + std::string(")")
+       << std::left << std::setw(tabwidth) << "Iterations" << std::left << std::setw(tabwidth)
+       << std::string("Total (") + this->m_UnitString + std::string(")") << std::left << std::setw(tabwidth)
+       << std::string("Min (") + this->m_UnitString + std::string(")") << std::left << std::setw(tabwidth)
+       << "Mean-Min (diff)" << std::left << std::setw(tabwidth) << "Mean/Min (%)" << std::left << std::setw(tabwidth)
+       << std::string("Mean (") + this->m_UnitString + std::string(")") << std::left << std::setw(tabwidth)
+       << "Max-Mean (diff)" << std::left << std::setw(tabwidth) << "Max/Mean (%)" << std::left << std::setw(tabwidth)
+       << std::string("Max (") + this->m_UnitString + std::string(")") << std::left << std::setw(tabwidth)
+       << std::string("Total Diff (") + this->m_UnitString + std::string(")") << std::left << std::setw(tabwidth)
+       << std::string("StdDev (") + this->m_UnitString + std::string(")") << std::left << std::setw(tabwidth)
+       << std::string("StdErr (") + this->m_UnitString + std::string(")");
+  }
 
   os << ss.str() << std::endl;
 }
 
 
-template< typename ValueType, typename MeanType >
+template <typename ValueType, typename MeanType>
 void
-ResourceProbe< ValueType, MeanType >
-::PrintJSONSystemInformation(std::ostream & os)
+ResourceProbe<ValueType, MeanType>::PrintJSONSystemInformation(std::ostream & os)
 {
   itksys::SystemInformation systeminfo;
   systeminfo.RunCPUCheck();
@@ -610,12 +562,10 @@ ResourceProbe< ValueType, MeanType >
 // This protected member function that was introduced with ITK 4.8 has been deprecated
 // as of ITK 5.0. Please do not call or override this member function.
 #if !defined(ITK_LEGACY_REMOVE)
-template< typename ValueType, typename MeanType >
+template <typename ValueType, typename MeanType>
 void
-ResourceProbe< ValueType, MeanType >
-::GetSystemInformation()
-{
-}
+ResourceProbe<ValueType, MeanType>::GetSystemInformation()
+{}
 #endif
 
 } // end namespace itk

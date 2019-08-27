@@ -22,30 +22,28 @@
 
 namespace itk
 {
-template< typename TImage >
-LevelSetDomainPartitionImageWithKdTree< TImage >
-::LevelSetDomainPartitionImageWithKdTree() :
-  m_KdTree(nullptr)
-{
-}
+template <typename TImage>
+LevelSetDomainPartitionImageWithKdTree<TImage>::LevelSetDomainPartitionImageWithKdTree()
+  : m_KdTree(nullptr)
+{}
 
-template< typename TImage >
-void LevelSetDomainPartitionImageWithKdTree< TImage >
-::PopulateListDomain()
+template <typename TImage>
+void
+LevelSetDomainPartitionImageWithKdTree<TImage>::PopulateListDomain()
 {
-  if( this->m_KdTree.IsNotNull() )
-    {
+  if (this->m_KdTree.IsNotNull())
+  {
     this->PopulateDomainWithKdTree();
-    }
+  }
   else
-    {
+  {
     Superclass::PopulateListDomain();
-    }
+  }
 }
 
-template< typename TImage >
-void LevelSetDomainPartitionImageWithKdTree< TImage >
-::PopulateDomainWithKdTree()
+template <typename TImage>
+void
+LevelSetDomainPartitionImageWithKdTree<TImage>::PopulateDomainWithKdTree()
 {
   Superclass::AllocateListDomain();
 
@@ -53,12 +51,12 @@ void LevelSetDomainPartitionImageWithKdTree< TImage >
 
   ListIteratorType lIt(this->m_ListDomain, region);
 
-  for ( lIt.GoToBegin(); !lIt.IsAtEnd(); ++lIt )
-    {
+  for (lIt.GoToBegin(); !lIt.IsAtEnd(); ++lIt)
+  {
     const ListIndexType & index = lIt.GetIndex();
-    ListPointType pt;
+    ListPointType         pt;
 
-    this->m_ListDomain->TransformIndexToPhysicalPoint( index, pt );
+    this->m_ListDomain->TransformIndexToPhysicalPoint(index, pt);
 
     CentroidVectorType queryPoint = pt.GetVectorFromOrigin();
 
@@ -66,17 +64,17 @@ void LevelSetDomainPartitionImageWithKdTree< TImage >
     this->m_KdTree->Search(queryPoint, this->m_NumberOfNeighbors, neighbors);
 
     IdentifierListType identifierList;
-    for ( NeighborsIdType i = 0; i < this->m_NumberOfNeighbors; ++i )
-      {
+    for (NeighborsIdType i = 0; i < this->m_NumberOfNeighbors; ++i)
+    {
       IdentifierType levelSetID = neighbors[i];
-      if ( this->m_LevelSetDomainRegionVector[levelSetID].IsInside( index ) )
-        {
+      if (this->m_LevelSetDomainRegionVector[levelSetID].IsInside(index))
+      {
         identifierList.push_back(neighbors[i]);
-        }
       }
-    lIt.Set(identifierList);
     }
+    lIt.Set(identifierList);
+  }
 }
 
-} //end namespace itk
+} // end namespace itk
 #endif

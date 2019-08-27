@@ -50,9 +50,10 @@ namespace itk
  * \sa ForwardFFTImageFilter
  * \ingroup ITKFFT
  */
-template< typename TInputImage, typename TOutputImage=Image< std::complex<typename TInputImage::PixelType>, TInputImage::ImageDimension> >
-class ITK_TEMPLATE_EXPORT RealToHalfHermitianForwardFFTImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage,
+          typename TOutputImage = Image<std::complex<typename TInputImage::PixelType>, TInputImage::ImageDimension>>
+class ITK_TEMPLATE_EXPORT RealToHalfHermitianForwardFFTImageFilter
+  : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(RealToHalfHermitianForwardFFTImageFilter);
@@ -68,21 +69,23 @@ public:
   using OutputSizeType = typename OutputIndexType::SizeType;
 
   using Self = RealToHalfHermitianForwardFFTImageFilter;
-  using Superclass = ImageToImageFilter< InputImageType, OutputImageType >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<InputImageType, OutputImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Customized object creation methods that support configuration-based
-    * selection of FFT implementation.
-    *
-    * Default implementation is VnlFFT. */
-  static Pointer New();
+   * selection of FFT implementation.
+   *
+   * Default implementation is VnlFFT. */
+  static Pointer
+  New();
 
   /* Return the prefered greatest prime factor supported for the input image
    * size. Defaults to 2 as many implementations work only for sizes that are
    * power of 2.
    */
-  virtual SizeValueType GetSizeGreatestPrimeFactor() const;
+  virtual SizeValueType
+  GetSizeGreatestPrimeFactor() const;
 
   /** Get whether the actual X dimension of the image is odd or not in the full
    * representation */
@@ -94,20 +97,23 @@ protected:
 
   /** The output is a different size from the input because of
    * Hermitian symmetry. */
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
   /** This class requires the entire input. */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** This class produces the entire output. */
-  void EnlargeOutputRequestedRegion(DataObject *output) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * output) override;
 
   itkSetDecoratedOutputMacro(ActualXDimensionIsOdd, bool);
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRealToHalfHermitianForwardFFTImageFilter.hxx"
+#  include "itkRealToHalfHermitianForwardFFTImageFilter.hxx"
 #endif
 
 #endif

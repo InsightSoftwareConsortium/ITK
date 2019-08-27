@@ -23,62 +23,59 @@
 
 namespace itk
 {
-template< typename TFixedImage, typename TMovingImage >
-typename NormalizedMutualInformationHistogramImageToImageMetric< TFixedImage, \
-                                                                 TMovingImage >::MeasureType
-NormalizedMutualInformationHistogramImageToImageMetric< TFixedImage, \
-                                                        TMovingImage >
-::EvaluateMeasure(HistogramType & histogram) const
+template <typename TFixedImage, typename TMovingImage>
+typename NormalizedMutualInformationHistogramImageToImageMetric<TFixedImage, TMovingImage>::MeasureType
+NormalizedMutualInformationHistogramImageToImageMetric<TFixedImage, TMovingImage>::EvaluateMeasure(
+  HistogramType & histogram) const
 {
-  MeasureType entropyX = NumericTraits< MeasureType >::ZeroValue();
-  MeasureType entropyY = NumericTraits< MeasureType >::ZeroValue();
-  MeasureType jointEntropy = NumericTraits< MeasureType >::ZeroValue();
+  MeasureType entropyX = NumericTraits<MeasureType>::ZeroValue();
+  MeasureType entropyY = NumericTraits<MeasureType>::ZeroValue();
+  MeasureType jointEntropy = NumericTraits<MeasureType>::ZeroValue();
 
-  using HistogramFrequencyRealType = typename NumericTraits< HistogramFrequencyType >::RealType;
+  using HistogramFrequencyRealType = typename NumericTraits<HistogramFrequencyType>::RealType;
 
-  auto totalFreq = static_cast< HistogramFrequencyRealType >( histogram.GetTotalFrequency() );
+  auto totalFreq = static_cast<HistogramFrequencyRealType>(histogram.GetTotalFrequency());
 
-  for ( unsigned int i = 0; i < this->GetHistogramSize()[0]; i++ )
+  for (unsigned int i = 0; i < this->GetHistogramSize()[0]; i++)
+  {
+    auto freq = static_cast<HistogramFrequencyRealType>(histogram.GetFrequency(i, 0));
+
+    if (freq > 0)
     {
-    auto freq = static_cast< HistogramFrequencyRealType >( histogram.GetFrequency(i, 0) );
-
-    if ( freq > 0 )
-      {
       entropyX += freq * std::log(freq);
-      }
     }
+  }
 
-  entropyX = -entropyX / static_cast< MeasureType >( totalFreq ) + std::log(totalFreq);
+  entropyX = -entropyX / static_cast<MeasureType>(totalFreq) + std::log(totalFreq);
 
-  for ( unsigned int i = 0; i < this->GetHistogramSize()[1]; i++ )
+  for (unsigned int i = 0; i < this->GetHistogramSize()[1]; i++)
+  {
+    auto freq = static_cast<HistogramFrequencyRealType>(histogram.GetFrequency(i, 1));
+
+    if (freq > 0)
     {
-    auto freq = static_cast< HistogramFrequencyRealType >( histogram.GetFrequency(i, 1) );
-
-    if ( freq > 0 )
-      {
       entropyY += freq * std::log(freq);
-      }
     }
+  }
 
-  entropyY = -entropyY / static_cast< MeasureType >( totalFreq ) + std::log(totalFreq);
+  entropyY = -entropyY / static_cast<MeasureType>(totalFreq) + std::log(totalFreq);
 
   HistogramIteratorType it = histogram.Begin();
   HistogramIteratorType end = histogram.End();
-  while ( it != end )
+  while (it != end)
+  {
+    auto freq = static_cast<HistogramFrequencyRealType>(it.GetFrequency());
+
+    if (freq > 0)
     {
-    auto freq = static_cast< HistogramFrequencyRealType >( it.GetFrequency() );
-
-    if ( freq > 0 )
-      {
       jointEntropy += freq * std::log(freq);
-      }
-    ++it;
     }
+    ++it;
+  }
 
-  jointEntropy = -jointEntropy / static_cast< MeasureType >( totalFreq )
-                 + std::log(totalFreq);
+  jointEntropy = -jointEntropy / static_cast<MeasureType>(totalFreq) + std::log(totalFreq);
 
-  return ( entropyX + entropyY ) / jointEntropy;
+  return (entropyX + entropyY) / jointEntropy;
 }
 } // End namespace itk
 

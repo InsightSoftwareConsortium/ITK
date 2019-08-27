@@ -32,32 +32,29 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage >
-BinaryMedianImageFilter< TInputImage, TOutputImage >
-::BinaryMedianImageFilter()
+template <typename TInputImage, typename TOutputImage>
+BinaryMedianImageFilter<TInputImage, TOutputImage>::BinaryMedianImageFilter()
 {
   m_Radius.Fill(1);
-  m_ForegroundValue = NumericTraits< InputPixelType >::max();
-  m_BackgroundValue = NumericTraits< InputPixelType >::ZeroValue();
+  m_ForegroundValue = NumericTraits<InputPixelType>::max();
+  m_BackgroundValue = NumericTraits<InputPixelType>::ZeroValue();
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-BinaryMedianImageFilter< TInputImage, TOutputImage >
-::GenerateInputRequestedRegion()
+BinaryMedianImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  typename Superclass::InputImagePointer inputPtr =
-    const_cast< TInputImage * >( this->GetInput() );
+  typename Superclass::InputImagePointer  inputPtr = const_cast<TInputImage *>(this->GetInput());
   typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
 
-  if ( !inputPtr || !outputPtr )
-    {
+  if (!inputPtr || !outputPtr)
+  {
     return;
-    }
+  }
 
   // get a copy of the input requested region (should equal the output
   // requested region)
@@ -68,13 +65,13 @@ BinaryMedianImageFilter< TInputImage, TOutputImage >
   inputRequestedRegion.PadByRadius(m_Radius);
 
   // crop the input requested region at the input's largest possible region
-  if ( inputRequestedRegion.Crop( inputPtr->GetLargestPossibleRegion() ) )
-    {
+  if (inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion()))
+  {
     inputPtr->SetRequestedRegion(inputRequestedRegion);
     return;
-    }
+  }
   else
-    {
+  {
     // Couldn't crop the region (requested region is outside the largest
     // possible region).  Throw an exception.
 
@@ -87,36 +84,36 @@ BinaryMedianImageFilter< TInputImage, TOutputImage >
     e.SetDescription("Requested region is (at least partially) outside the largest possible region.");
     e.SetDataObject(inputPtr);
     throw e;
-    }
+  }
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-BinaryMedianImageFilter< TInputImage, TOutputImage >
-::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
+BinaryMedianImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
 {
-  ZeroFluxNeumannBoundaryCondition< InputImageType > nbc;
+  ZeroFluxNeumannBoundaryCondition<InputImageType> nbc;
 
-  ConstNeighborhoodIterator< InputImageType > bit;
-  ImageRegionIterator< OutputImageType >      it;
+  ConstNeighborhoodIterator<InputImageType> bit;
+  ImageRegionIterator<OutputImageType>      it;
 
   // Allocate output
-  typename OutputImageType::Pointer output = this->GetOutput();
-  typename InputImageType::ConstPointer input  = this->GetInput();
+  typename OutputImageType::Pointer     output = this->GetOutput();
+  typename InputImageType::ConstPointer input = this->GetInput();
 
   // Find the data-set boundary "faces"
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >::FaceListType faceList;
-  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType > bC;
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList;
+  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>                        bC;
   faceList = bC(input, outputRegionForThread, m_Radius);
 
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >::FaceListType::iterator fit;
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator fit;
 
   // Process each of the boundary faces.  These are N-d regions which border
   // the edge of the buffer.
-  for ( fit = faceList.begin(); fit != faceList.end(); ++fit )
-    {
-    bit = ConstNeighborhoodIterator< InputImageType >(m_Radius, input, *fit);
-    it  = ImageRegionIterator< OutputImageType >(output, *fit);
+  for (fit = faceList.begin(); fit != faceList.end(); ++fit)
+  {
+    bit = ConstNeighborhoodIterator<InputImageType>(m_Radius, input, *fit);
+    it = ImageRegionIterator<OutputImageType>(output, *fit);
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
 
@@ -127,41 +124,38 @@ BinaryMedianImageFilter< TInputImage, TOutputImage >
     // in the neighborhood we have to average the middle two values).
     unsigned int medianPosition = neighborhoodSize / 2;
 
-    while ( !bit.IsAtEnd() )
-      {
+    while (!bit.IsAtEnd())
+    {
       // count the pixels in the neighborhood
       unsigned int count = 0;
-      for ( unsigned int i = 0; i < neighborhoodSize; ++i )
-        {
+      for (unsigned int i = 0; i < neighborhoodSize; ++i)
+      {
         InputPixelType value = bit.GetPixel(i);
-        if ( Math::ExactlyEquals(value, m_ForegroundValue) )
-          {
+        if (Math::ExactlyEquals(value, m_ForegroundValue))
+        {
           count++;
-          }
         }
+      }
 
-      if ( count > medianPosition )
-        {
-        it.Set( static_cast< OutputPixelType >( m_ForegroundValue ) );
-        }
+      if (count > medianPosition)
+      {
+        it.Set(static_cast<OutputPixelType>(m_ForegroundValue));
+      }
       else
-        {
-        it.Set( static_cast< OutputPixelType >( m_BackgroundValue ) );
-        }
+      {
+        it.Set(static_cast<OutputPixelType>(m_BackgroundValue));
+      }
 
       ++bit;
       ++it;
-      }
     }
+  }
 }
 
 
-template< typename TInputImage, typename TOutput >
+template <typename TInputImage, typename TOutput>
 void
-BinaryMedianImageFilter< TInputImage, TOutput >
-::PrintSelf(
-  std::ostream & os,
-  Indent indent) const
+BinaryMedianImageFilter<TInputImage, TOutput>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Radius: " << m_Radius << std::endl;

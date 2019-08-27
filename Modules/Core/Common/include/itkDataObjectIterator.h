@@ -30,7 +30,6 @@ namespace itk
 class DataObjectIterator
 {
 public:
-
   using DataObjectIdentifierType = DataObject::DataObjectIdentifierType;
 
   DataObjectIterator() = default;
@@ -42,59 +41,68 @@ public:
     m_End = iter.m_End;
   }
 
-  DataObjectIterator & operator=(const DataObjectIterator & iter)
+  DataObjectIterator &
+  operator=(const DataObjectIterator & iter)
   {
-    if(this != &iter)
-      {
+    if (this != &iter)
+    {
       m_Iterator = iter.m_Iterator;
       m_Begin = iter.m_Begin;
       m_End = iter.m_End;
-      }
+    }
     return *this;
   }
 
-  DataObject * GetDataObject()
+  DataObject *
+  GetDataObject()
   {
     return m_Iterator->second;
   }
 
-  const DataObjectIdentifierType & GetName() const
+  const DataObjectIdentifierType &
+  GetName() const
   {
     return m_Iterator->first;
   }
 
-  DataObjectIterator operator++(int)
+  DataObjectIterator
+  operator++(int)
   {
     DataObjectIterator tmp = *this;
     ++(*this);
     return tmp;
   }
 
-  DataObjectIterator & operator++()
+  DataObjectIterator &
+  operator++()
   {
     ++m_Iterator;
     return *this;
   }
 
-  bool operator==(const DataObjectIterator & iter) const
-    {
+  bool
+  operator==(const DataObjectIterator & iter) const
+  {
     return m_Iterator == iter.m_Iterator && m_Begin == iter.m_Begin && m_End == iter.m_End;
-    }
+  }
 
-  bool operator!=(const DataObjectIterator & iter) const
-    {
-    return !( *this == iter );
-    }
+  bool
+  operator!=(const DataObjectIterator & iter) const
+  {
+    return !(*this == iter);
+  }
 
-  void GoToBegin()
-    {
-      m_Iterator = m_Begin;
-    }
+  void
+  GoToBegin()
+  {
+    m_Iterator = m_Begin;
+  }
 
-    bool IsAtEnd() const
-    {
-      return m_Iterator == m_End;
-    }
+  bool
+  IsAtEnd() const
+  {
+    return m_Iterator == m_End;
+  }
 
 protected:
   using InternalIteratorType = ProcessObject::DataObjectPointerMap::iterator;
@@ -102,5 +110,5 @@ protected:
   InternalIteratorType m_Begin;
   InternalIteratorType m_End;
 };
-}
+} // namespace itk
 #endif

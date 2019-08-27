@@ -24,10 +24,9 @@ namespace itk
 {
 
 /** Constructor */
-template< typename TTreeType >
-ChildTreeIterator< TTreeType >::ChildTreeIterator(TTreeType *tree,
-                                                  const TreeNodeType *start):
-  TreeIteratorBase< TTreeType >(tree, start)
+template <typename TTreeType>
+ChildTreeIterator<TTreeType>::ChildTreeIterator(TTreeType * tree, const TreeNodeType * start)
+  : TreeIteratorBase<TTreeType>(tree, start)
 {
   m_ListPosition = 0;
   m_ParentNode = this->m_Position;
@@ -35,10 +34,9 @@ ChildTreeIterator< TTreeType >::ChildTreeIterator(TTreeType *tree,
   this->m_Begin = this->m_Position;
 }
 
-template< typename TTreeType >
-ChildTreeIterator< TTreeType >::ChildTreeIterator(
-  const TreeIteratorBase< TTreeType > & iterator):
-  TreeIteratorBase< TTreeType >( iterator.GetTree(), iterator.GetNode() )
+template <typename TTreeType>
+ChildTreeIterator<TTreeType>::ChildTreeIterator(const TreeIteratorBase<TTreeType> & iterator)
+  : TreeIteratorBase<TTreeType>(iterator.GetTree(), iterator.GetNode())
 {
   m_ListPosition = 0;
   m_ParentNode = this->m_Position;
@@ -46,14 +44,14 @@ ChildTreeIterator< TTreeType >::ChildTreeIterator(
 }
 
 /** Go to a specific child */
-template< typename TTreeType >
+template <typename TTreeType>
 bool
-ChildTreeIterator< TTreeType >::GoToChild(ChildIdentifier number)
+ChildTreeIterator<TTreeType>::GoToChild(ChildIdentifier number)
 {
-  if ( m_ParentNode->GetChild(number) == nullptr )
-    {
+  if (m_ParentNode->GetChild(number) == nullptr)
+  {
     return false;
-    }
+  }
 
   m_ListPosition = 0;
   m_ParentNode = m_ParentNode->GetChild(number);
@@ -63,16 +61,16 @@ ChildTreeIterator< TTreeType >::GoToChild(ChildIdentifier number)
 }
 
 /** Go to the parent node */
-template< typename TTreeType >
+template <typename TTreeType>
 bool
-ChildTreeIterator< TTreeType >::GoToParent()
+ChildTreeIterator<TTreeType>::GoToParent()
 {
-  TreeNodeType *parent =  m_ParentNode->GetParent();
+  TreeNodeType * parent = m_ParentNode->GetParent();
 
-  if ( parent == nullptr )
-    {
+  if (parent == nullptr)
+  {
     return false;
-    }
+  }
 
   m_ListPosition = 0;
   m_ParentNode = parent;
@@ -82,32 +80,32 @@ ChildTreeIterator< TTreeType >::GoToParent()
 }
 
 /** Return the type of the iterator */
-template< typename TTreeType >
-typename ChildTreeIterator< TTreeType >::NodeType
-ChildTreeIterator< TTreeType >::GetType() const
+template <typename TTreeType>
+typename ChildTreeIterator<TTreeType>::NodeType
+ChildTreeIterator<TTreeType>::GetType() const
 {
   return TreeIteratorBaseNodeType::CHILD;
 }
 
 /** Return true if the next node exists */
-template< typename TTreeType >
+template <typename TTreeType>
 bool
-ChildTreeIterator< TTreeType >::HasNext() const
+ChildTreeIterator<TTreeType>::HasNext() const
 {
-  if ( m_ListPosition < m_ParentNode->CountChildren() - 1 )
-    {
+  if (m_ListPosition < m_ParentNode->CountChildren() - 1)
+  {
     return true;
-    }
+  }
   else
-    {
+  {
     return false;
-    }
+  }
 }
 
 /** Return the next node */
-template< typename TTreeType >
-const typename ChildTreeIterator< TTreeType >::ValueType &
-ChildTreeIterator< TTreeType >::Next()
+template <typename TTreeType>
+const typename ChildTreeIterator<TTreeType>::ValueType &
+ChildTreeIterator<TTreeType>::Next()
 {
   m_ListPosition++;
   this->m_Position = m_ParentNode->GetChild(m_ListPosition);
@@ -115,14 +113,14 @@ ChildTreeIterator< TTreeType >::Next()
 }
 
 /** Clone function */
-template< typename TTreeType >
-TreeIteratorBase< TTreeType > *ChildTreeIterator< TTreeType >::Clone()
+template <typename TTreeType>
+TreeIteratorBase<TTreeType> *
+ChildTreeIterator<TTreeType>::Clone()
 {
-  auto * clone = new ChildTreeIterator< TTreeType >(
-    const_cast< TTreeType * >( this->m_Tree ), this->m_Position);
+  auto * clone = new ChildTreeIterator<TTreeType>(const_cast<TTreeType *>(this->m_Tree), this->m_Position);
   *clone = *this;
   return clone;
 }
-} // namespace
+} // namespace itk
 
 #endif

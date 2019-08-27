@@ -24,25 +24,23 @@
 namespace itk
 {
 
-template< typename TInput, typename TOutput >
-typename AtanRegularizedHeavisideStepFunction< TInput, TOutput >::OutputType
-AtanRegularizedHeavisideStepFunction< TInput, TOutput >
-::Evaluate(const InputType & input) const
+template <typename TInput, typename TOutput>
+typename AtanRegularizedHeavisideStepFunction<TInput, TOutput>::OutputType
+AtanRegularizedHeavisideStepFunction<TInput, TOutput>::Evaluate(const InputType & input) const
 {
-  const RealType t = static_cast< RealType >( input ) * this->GetOneOverEpsilon();
-  return 0.5 + static_cast< OutputType >( itk::Math::one_over_pi * std::atan( t ) );
+  const RealType t = static_cast<RealType>(input) * this->GetOneOverEpsilon();
+  return 0.5 + static_cast<OutputType>(itk::Math::one_over_pi * std::atan(t));
 }
 
 /** Evaluate the derivative at the specified input position */
-template< typename TInput, typename TOutput >
-typename AtanRegularizedHeavisideStepFunction< TInput, TOutput >::OutputType
-AtanRegularizedHeavisideStepFunction< TInput, TOutput >
-::EvaluateDerivative(const InputType & input) const
+template <typename TInput, typename TOutput>
+typename AtanRegularizedHeavisideStepFunction<TInput, TOutput>::OutputType
+AtanRegularizedHeavisideStepFunction<TInput, TOutput>::EvaluateDerivative(const InputType & input) const
 {
   const RealType oneOverEpsilon = this->GetOneOverEpsilon();
-  const RealType t = static_cast< RealType >( input ) * oneOverEpsilon;
+  const RealType t = static_cast<RealType>(input) * oneOverEpsilon;
 
-  return static_cast< OutputType >( Math::one_over_pi * oneOverEpsilon / ( 1.0 + t * t ) );
+  return static_cast<OutputType>(Math::one_over_pi * oneOverEpsilon / (1.0 + t * t));
 }
 
 } // namespace itk

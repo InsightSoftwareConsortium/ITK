@@ -41,20 +41,22 @@
 //-------------------------------------
 //     Typedefs for convenience
 //-------------------------------------
-using myVectorImageType = itk::Image< itk::Vector<float, 3>,   2 >;
-using myVectorIteratorType = itk::ImageRegionIteratorWithIndex< myVectorImageType >;
+using myVectorImageType = itk::Image<itk::Vector<float, 3>, 2>;
+using myVectorIteratorType = itk::ImageRegionIteratorWithIndex<myVectorImageType>;
 
-using myAccessorType = itk::NthElementPixelAccessor<float, itk::Vector<float, 3> >;
+using myAccessorType = itk::NthElementPixelAccessor<float, itk::Vector<float, 3>>;
 
-using myImageType = itk::Image< float,   2 >;
-using myIteratorType = itk::ImageRegionIteratorWithIndex< myImageType >;
+using myImageType = itk::Image<float, 2>;
+using myIteratorType = itk::ImageRegionIteratorWithIndex<myImageType>;
 
 //-------------------------
 //
 //   Main code
 //
 //-------------------------
-int itkAdaptImageFilterTest2(int, char* [] ) {
+int
+itkAdaptImageFilterTest2(int, char *[])
+{
 
 
   myVectorImageType::SizeType size;
@@ -66,44 +68,44 @@ int itkAdaptImageFilterTest2(int, char* [] ) {
   index[1] = 0;
 
   myVectorImageType::RegionType region;
-  region.SetIndex( index );
-  region.SetSize(  size  );
+  region.SetIndex(index);
+  region.SetSize(size);
 
   myVectorImageType::Pointer myImage = myVectorImageType::New();
 
 
-  myImage->SetLargestPossibleRegion( region );
-  myImage->SetBufferedRegion( region );
-  myImage->SetRequestedRegion( region );
+  myImage->SetLargestPossibleRegion(region);
+  myImage->SetBufferedRegion(region);
+  myImage->SetRequestedRegion(region);
   myImage->Allocate();
 
-  myVectorIteratorType  it1( myImage, myImage->GetRequestedRegion() );
+  myVectorIteratorType it1(myImage, myImage->GetRequestedRegion());
 
   // Value to initialize the pixels
   myVectorImageType::PixelType color;
 
   // Initializing all the pixel in the image
   it1.GoToBegin();
-  while( !it1.IsAtEnd() )
-    {
-    color[0] = (float) vnl_sample_uniform(0.0, 1.0);
-    color[1] = (float) vnl_sample_uniform(0.0, 1.0);
-    color[2] = (float) vnl_sample_uniform(0.0, 1.0);
+  while (!it1.IsAtEnd())
+  {
+    color[0] = (float)vnl_sample_uniform(0.0, 1.0);
+    color[1] = (float)vnl_sample_uniform(0.0, 1.0);
+    color[2] = (float)vnl_sample_uniform(0.0, 1.0);
     it1.Set(color);
     ++it1;
-    }
+  }
 
   // Reading the values to verify the image content
   std::cout << "--- Initial image --- " << std::endl;
   it1.GoToBegin();
-  while( !it1.IsAtEnd() )
-    {
-    const myVectorImageType::PixelType c( it1.Get() );
-    std::cout << c[0]   << "  ";
+  while (!it1.IsAtEnd())
+  {
+    const myVectorImageType::PixelType c(it1.Get());
+    std::cout << c[0] << "  ";
     std::cout << c[1] << "  ";
-    std::cout << c[2]  << std::endl;
+    std::cout << c[2] << std::endl;
     ++it1;
-    }
+  }
 
 
   bool passed = true;
@@ -116,72 +118,72 @@ int itkAdaptImageFilterTest2(int, char* [] ) {
   myAccessorType accessor;
   accessor.SetElementNumber(0);
 
-  adaptImage->SetAccessor( accessor );
+  adaptImage->SetAccessor(accessor);
   adaptImage->SetInput(myImage);
   adaptImage->UpdateLargestPossibleRegion();
 
-  myIteratorType  it( adaptImage->GetOutput(), adaptImage->GetOutput()->GetRequestedRegion() );
+  myIteratorType it(adaptImage->GetOutput(), adaptImage->GetOutput()->GetRequestedRegion());
 
   std::cout << "--- First component values --- " << std::endl;
 
   it.GoToBegin();
   it1.GoToBegin();
-  while( !it.IsAtEnd() )
+  while (!it.IsAtEnd())
   {
-  std::cout << it.Get()   << std::endl;
-  if (itk::Math::NotExactlyEquals(it.Get(), it1.Get()[0]))
+    std::cout << it.Get() << std::endl;
+    if (itk::Math::NotExactlyEquals(it.Get(), it1.Get()[0]))
     {
-    passed = false;
+      passed = false;
     }
 
-  ++it;
-  ++it1;
+    ++it;
+    ++it1;
   }
 
   // Get the second element
   accessor.SetElementNumber(1);
-  adaptImage->SetAccessor( accessor );
+  adaptImage->SetAccessor(accessor);
   adaptImage->UpdateLargestPossibleRegion();
 
-  it = myIteratorType( adaptImage->GetOutput(), adaptImage->GetOutput()->GetRequestedRegion() );
+  it = myIteratorType(adaptImage->GetOutput(), adaptImage->GetOutput()->GetRequestedRegion());
 
   std::cout << "--- Second component values --- " << std::endl;
 
   it.GoToBegin();
   it1.GoToBegin();
-  while( !it.IsAtEnd() )
+  while (!it.IsAtEnd())
   {
-  std::cout << it.Get()   << std::endl;
-  if (itk::Math::NotExactlyEquals(it.Get(), it1.Get()[1]))
+    std::cout << it.Get() << std::endl;
+    if (itk::Math::NotExactlyEquals(it.Get(), it1.Get()[1]))
     {
-    passed = false;
+      passed = false;
     }
 
-  ++it;
-  ++it1;
+    ++it;
+    ++it1;
   }
 
   // Convert to the third component
   accessor.SetElementNumber(2);
-  adaptImage->SetAccessor( accessor );
+  adaptImage->SetAccessor(accessor);
   adaptImage->UpdateLargestPossibleRegion();
 
-  it = myIteratorType( adaptImage->GetOutput(), adaptImage->GetOutput()->GetRequestedRegion() );
+  it = myIteratorType(adaptImage->GetOutput(), adaptImage->GetOutput()->GetRequestedRegion());
 
   std::cout << "--- Third component values --- " << std::endl;
 
   it.GoToBegin();
   it1.GoToBegin();
-  while( !it.IsAtEnd() )
+  while (!it.IsAtEnd())
   {
-  std::cout << it.Get()   << std::endl;
-  if (itk::Math::NotExactlyEquals(it.Get(), it1.Get()[2]))
+    std::cout << it.Get() << std::endl;
+    if (itk::Math::NotExactlyEquals(it.Get(), it1.Get()[2]))
     {
-    passed = false;
+      passed = false;
     }
 
-  ++it;
-  ++it1;
+    ++it;
+    ++it1;
   }
 
   // Test access to Accessor
@@ -189,13 +191,13 @@ int itkAdaptImageFilterTest2(int, char* [] ) {
 
   std::cout << std::endl;
   if (passed)
-    {
+  {
     std::cout << "AdaptImageFilterTest2 passed" << std::endl;
     return EXIT_SUCCESS;
-    }
+  }
   else
-    {
+  {
     std::cout << "AdaptImageFilterTest2 passed" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 }

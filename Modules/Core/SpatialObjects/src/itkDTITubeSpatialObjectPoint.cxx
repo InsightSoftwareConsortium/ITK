@@ -21,10 +21,10 @@ namespace itk
 {
 /** Define how to print enumerations */
 std::ostream &
-operator<<( std::ostream & out, const DTITubeSpatialObjectPointFieldEnumType value )
+operator<<(std::ostream & out, const DTITubeSpatialObjectPointFieldEnumType value)
 {
   const char * s = nullptr;
-  switch ( value )
+  switch (value)
   {
     case DTITubeSpatialObjectPointFieldEnumType::FA:
       s = "DTITubeSpatialObjectPointFieldEnumType::FA";

@@ -39,21 +39,19 @@ namespace itk
  *
  * \ingroup ITKImageFunction
  */
-template< typename TInputImage, typename TCoordRep = float >
-class ExtrapolateImageFunction:
-  public ImageFunction< TInputImage,
-                        typename NumericTraits< typename TInputImage::PixelType >::RealType, TCoordRep >
+template <typename TInputImage, typename TCoordRep = float>
+class ExtrapolateImageFunction
+  : public ImageFunction<TInputImage, typename NumericTraits<typename TInputImage::PixelType>::RealType, TCoordRep>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ExtrapolateImageFunction);
 
   /** Standard class type aliases. */
   using Self = ExtrapolateImageFunction;
-  using Superclass = ImageFunction< TInputImage,
-                         typename NumericTraits< typename TInputImage::PixelType >::RealType,
-                         TCoordRep >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass =
+    ImageFunction<TInputImage, typename NumericTraits<typename TInputImage::PixelType>::RealType, TCoordRep>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ExtrapolateImageFunction, ImageFunction);
@@ -77,19 +75,20 @@ public:
   using ContinuousIndexType = typename Superclass::ContinuousIndexType;
 
   /** RealType type alias support */
-  using RealType = typename NumericTraits< typename TInputImage::PixelType >::RealType;
+  using RealType = typename NumericTraits<typename TInputImage::PixelType>::RealType;
 
   /** Extrapolate the image at a point position
    *
    * Returns the extrapolated image intensity at a
    * specified point position.
    */
-  OutputType Evaluate(const PointType & point) const override
+  OutputType
+  Evaluate(const PointType & point) const override
   {
     ContinuousIndexType index;
 
     this->GetInputImage()->TransformPhysicalPointToContinuousIndex(point, index);
-    return ( this->EvaluateAtContinuousIndex(index) );
+    return (this->EvaluateAtContinuousIndex(index));
   }
 
   /** Extrapolate the image at a continuous index position
@@ -97,22 +96,25 @@ public:
    * Returns the extrapolated image intensity at a
    * specified point position.
    */
-  OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & index) const override = 0;
+  OutputType
+  EvaluateAtContinuousIndex(const ContinuousIndexType & index) const override = 0;
 
   /** Extrapolate the image at an index position.
    *
    * Returns the extrapolated image intensity at a
    * specified point position.
    */
-  OutputType EvaluateAtIndex(
-    const IndexType & index) const override = 0;
+  OutputType
+  EvaluateAtIndex(const IndexType & index) const override = 0;
 
 protected:
-  ExtrapolateImageFunction()= default;
+  ExtrapolateImageFunction() = default;
   ~ExtrapolateImageFunction() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override
-  { Superclass::PrintSelf(os, indent); }
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override
+  {
+    Superclass::PrintSelf(os, indent);
+  }
 };
 } // end namespace itk
 

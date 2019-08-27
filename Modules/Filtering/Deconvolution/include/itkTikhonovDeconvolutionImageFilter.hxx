@@ -25,67 +25,65 @@
 namespace itk
 {
 
-template< typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision >
-TikhonovDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
-::TikhonovDeconvolutionImageFilter()
+template <typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision>
+TikhonovDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>::
+  TikhonovDeconvolutionImageFilter()
 {
   m_RegularizationConstant = 0.0;
 }
 
-template< typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision >
+template <typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision>
 void
-TikhonovDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
-::GenerateData()
+TikhonovDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>::GenerateData()
 {
   // Create a process accumulator for tracking the progress of this
   // minipipeline
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
-  progress->SetMiniPipelineFilter( this );
+  progress->SetMiniPipelineFilter(this);
 
   typename InputImageType::Pointer localInput = InputImageType::New();
-  localInput->Graft( this->GetInput() );
+  localInput->Graft(this->GetInput());
 
-  const KernelImageType* kernelImage = this->GetKernelImage();
+  const KernelImageType * kernelImage = this->GetKernelImage();
 
   InternalComplexImagePointerType input = nullptr;
   InternalComplexImagePointerType kernel = nullptr;
 
-  this->PrepareInputs( localInput, kernelImage, input, kernel, progress, 0.7 );
+  this->PrepareInputs(localInput, kernelImage, input, kernel, progress, 0.7);
 
-  using FunctorType = Functor::TikhonovDeconvolutionFunctor< InternalComplexType,
-                         InternalComplexType,
-                         InternalComplexType>;
+  using FunctorType =
+    Functor::TikhonovDeconvolutionFunctor<InternalComplexType, InternalComplexType, InternalComplexType>;
   FunctorType tikhonovFunctor;
-  tikhonovFunctor.SetRegularizationConstant( this->GetRegularizationConstant() );
-  tikhonovFunctor.SetKernelZeroMagnitudeThreshold( this->GetKernelZeroMagnitudeThreshold() );
+  tikhonovFunctor.SetRegularizationConstant(this->GetRegularizationConstant());
+  tikhonovFunctor.SetKernelZeroMagnitudeThreshold(this->GetKernelZeroMagnitudeThreshold());
 
-  using TikhonovFilterType = BinaryGeneratorImageFilter< InternalComplexImageType,
-                               InternalComplexImageType,
-                               InternalComplexImageType >;
+  using TikhonovFilterType =
+    BinaryGeneratorImageFilter<InternalComplexImageType, InternalComplexImageType, InternalComplexImageType>;
   typename TikhonovFilterType::Pointer tikhonovFilter = TikhonovFilterType::New();
-  tikhonovFilter->SetInput1( input );
-  tikhonovFilter->SetInput2( kernel );
+  tikhonovFilter->SetInput1(input);
+  tikhonovFilter->SetInput2(kernel);
   tikhonovFilter->SetFunctor(tikhonovFunctor);
   tikhonovFilter->ReleaseDataFlagOn();
 
-  progress->RegisterInternalFilter( tikhonovFilter, 0.1 );
+  progress->RegisterInternalFilter(tikhonovFilter, 0.1);
 
   // Free up the memory for the prepared inputs
   input = nullptr;
   kernel = nullptr;
 
-  this->ProduceOutput( tikhonovFilter->GetOutput(), progress, 0.2 );
+  this->ProduceOutput(tikhonovFilter->GetOutput(), progress, 0.2);
 }
 
-template< typename TInputImage, typename TOutputImage, typename TKernelImage, typename TInternalPrecision >
+template <typename TInputImage, typename TOutputImage, typename TKernelImage, typename TInternalPrecision>
 void
-TikhonovDeconvolutionImageFilter< TInputImage, TOutputImage, TKernelImage, TInternalPrecision >
-::PrintSelf(std::ostream &os, Indent indent) const
+TikhonovDeconvolutionImageFilter<TInputImage, TOutputImage, TKernelImage, TInternalPrecision>::PrintSelf(
+  std::ostream & os,
+  Indent         indent) const
 {
-  this->Superclass::PrintSelf( os, indent );
+  this->Superclass::PrintSelf(os, indent);
 
   os << indent << "RegularizationConstant: " << m_RegularizationConstant << std::endl;
 }
 
-}  // end namespace itk
+} // end namespace itk
 #endif

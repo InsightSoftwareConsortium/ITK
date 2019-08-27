@@ -36,8 +36,8 @@
 //  pixel-wise.
 //
 //  \begin{equation}
-//  I' = (Max-Min)\cdot \frac{1}{\left(1+e^{-\left(\frac{ I - \beta }{\alpha } \right)} \right)} + Min
-//  \end{equation}
+//  I' = (Max-Min)\cdot \frac{1}{\left(1+e^{-\left(\frac{ I - \beta }{\alpha } \right)}
+//  \right)} + Min \end{equation}
 //
 //  In the equation above, $I$ is the intensity of the input pixel, $I'$ the
 //  intensity of the output pixel, $Min,Max$ are the minimum and maximum values
@@ -81,15 +81,16 @@
 // Software Guide : EndCodeSnippet
 
 
-int main( int argc, char * argv[] )
+int
+main(int argc, char * argv[])
 {
-  if( argc < 7 )
-    {
+  if (argc < 7)
+  {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile   outputImageFile";
     std::cerr << " OutputMin OutputMax SigmoidAlpha SigmoidBeta" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   //  Software Guide : BeginLatex
   //
@@ -102,18 +103,18 @@ int main( int argc, char * argv[] )
   using InputPixelType = unsigned char;
   using OutputPixelType = unsigned char;
 
-  using InputImageType = itk::Image< InputPixelType,  2 >;
-  using OutputImageType = itk::Image< OutputPixelType, 2 >;
+  using InputImageType = itk::Image<InputPixelType, 2>;
+  using OutputImageType = itk::Image<OutputPixelType, 2>;
   // Software Guide : EndCodeSnippet
 
-  using ReaderType = itk::ImageFileReader< InputImageType  >;
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
 
-  reader->SetFileName( argv[1] );
-  writer->SetFileName( argv[2] );
+  reader->SetFileName(argv[1]);
+  writer->SetFileName(argv[2]);
 
 
   //  Software Guide : BeginLatex
@@ -128,8 +129,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using SigmoidFilterType = itk::SigmoidImageFilter<
-               InputImageType, OutputImageType >;
+  using SigmoidFilterType = itk::SigmoidImageFilter<InputImageType, OutputImageType>;
   SigmoidFilterType::Pointer sigmoidFilter = SigmoidFilterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -144,12 +144,12 @@ int main( int argc, char * argv[] )
   //
   //  Software Guide : EndLatex
 
-  const OutputPixelType outputMinimum = std::stoi( argv[3] );
-  const OutputPixelType outputMaximum = std::stoi( argv[4] );
+  const OutputPixelType outputMinimum = std::stoi(argv[3]);
+  const OutputPixelType outputMaximum = std::stoi(argv[4]);
 
   // Software Guide : BeginCodeSnippet
-  sigmoidFilter->SetOutputMinimum(   outputMinimum  );
-  sigmoidFilter->SetOutputMaximum(   outputMaximum  );
+  sigmoidFilter->SetOutputMinimum(outputMinimum);
+  sigmoidFilter->SetOutputMaximum(outputMaximum);
   // Software Guide : EndCodeSnippet
 
 
@@ -171,12 +171,12 @@ int main( int argc, char * argv[] )
   //
   //  Software Guide : EndLatex
 
-  const double  alpha = std::stod( argv[5] );
-  const double  beta  = std::stod( argv[6] );
+  const double alpha = std::stod(argv[5]);
+  const double beta = std::stod(argv[6]);
 
   // Software Guide : BeginCodeSnippet
-  sigmoidFilter->SetAlpha(  alpha  );
-  sigmoidFilter->SetBeta(   beta   );
+  sigmoidFilter->SetAlpha(alpha);
+  sigmoidFilter->SetBeta(beta);
   // Software Guide : EndCodeSnippet
 
 
@@ -194,8 +194,8 @@ int main( int argc, char * argv[] )
 
 
   // Software Guide : BeginCodeSnippet
-  sigmoidFilter->SetInput( reader->GetOutput() );
-  writer->SetInput( sigmoidFilter->GetOutput() );
+  sigmoidFilter->SetInput(reader->GetOutput());
+  writer->SetInput(sigmoidFilter->GetOutput());
   writer->Update();
   // Software Guide : EndCodeSnippet
 

@@ -55,18 +55,17 @@ namespace itk
  * \ingroup ITKImageFeature
  */
 
-template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT DiscreteGaussianDerivativeImageFilter :
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT DiscreteGaussianDerivativeImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(DiscreteGaussianDerivativeImageFilter);
 
   /** Standard class type aliases. */
   using Self = DiscreteGaussianDerivativeImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -90,10 +89,10 @@ public:
   static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   /** Typedef of double containers */
-  using ArrayType = FixedArray< double, Self::ImageDimension >;
+  using ArrayType = FixedArray<double, Self::ImageDimension>;
 
   /** Array for storing desired order of derivatives */
-  using OrderArrayType = FixedArray< unsigned int, Self::ImageDimension >;
+  using OrderArrayType = FixedArray<unsigned int, Self::ImageDimension>;
 
   /** Order of derivatives in each dimension. Sets the derivative order
    * independently for each dimension, but see also
@@ -137,7 +136,8 @@ public:
    *  to the same values.
    */
   /*@{*/
-  void SetOrder(const typename OrderArrayType::ValueType v)
+  void
+  SetOrder(const typename OrderArrayType::ValueType v)
   {
     OrderArrayType a;
 
@@ -145,7 +145,8 @@ public:
     this->SetOrder(a);
   }
 
-  void SetVariance(const typename ArrayType::ValueType v)
+  void
+  SetVariance(const typename ArrayType::ValueType v)
   {
     ArrayType a;
 
@@ -153,7 +154,8 @@ public:
     this->SetVariance(a);
   }
 
-  void SetMaximumError(const typename ArrayType::ValueType v)
+  void
+  SetMaximumError(const typename ArrayType::ValueType v)
   {
     ArrayType a;
 
@@ -170,21 +172,19 @@ public:
   itkBooleanMacro(UseImageSpacing);
 
   /** Set/Get the flag for calculating scale-space normalized derivatives.
-    * Normalized derivatives are obtained multiplying by the scale
-    * parameter t. */
+   * Normalized derivatives are obtained multiplying by the scale
+   * parameter t. */
   itkSetMacro(NormalizeAcrossScale, bool);
   itkGetConstMacro(NormalizeAcrossScale, bool);
   itkBooleanMacro(NormalizeAcrossScale);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( OutputHasNumericTraitsCheck,
-    ( Concept::HasNumericTraits< OutputPixelType > ) );
+  itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<OutputPixelType>));
   // End concept checking
 #endif
 
 protected:
-
   DiscreteGaussianDerivativeImageFilter()
   {
     m_Order.Fill(1);
@@ -218,7 +218,6 @@ protected:
   GenerateData() override;
 
 private:
-
   /** The order of the derivatives in each dimensional direction. */
   OrderArrayType m_Order;
 
@@ -248,7 +247,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDiscreteGaussianDerivativeImageFilter.hxx"
+#  include "itkDiscreteGaussianDerivativeImageFilter.hxx"
 #endif
 
 #endif

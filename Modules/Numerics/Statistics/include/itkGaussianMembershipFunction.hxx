@@ -24,12 +24,11 @@ namespace itk
 {
 namespace Statistics
 {
-template< typename TMeasurementVector >
-GaussianMembershipFunction< TMeasurementVector >
-::GaussianMembershipFunction()
+template <typename TMeasurementVector>
+GaussianMembershipFunction<TMeasurementVector>::GaussianMembershipFunction()
 {
   NumericTraits<MeanVectorType>::SetLength(m_Mean, this->GetMeasurementVectorSize());
-  m_Mean.Fill( 0.0 );
+  m_Mean.Fill(0.0);
 
   m_PreFactor = 1.0 / std::sqrt(2.0 * itk::Math::pi); // default univariate
 
@@ -41,10 +40,9 @@ GaussianMembershipFunction< TMeasurementVector >
   m_CovarianceNonsingular = true;
 }
 
-template< typename TMeasurementVector >
+template <typename TMeasurementVector>
 void
-GaussianMembershipFunction< TMeasurementVector >
-::PrintSelf(std::ostream & os, Indent indent) const
+GaussianMembershipFunction<TMeasurementVector>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -54,112 +52,106 @@ GaussianMembershipFunction< TMeasurementVector >
   os << indent << "InverseCovariance: " << std::endl;
   os << indent << m_InverseCovariance.GetVnlMatrix();
   os << indent << "Prefactor: " << m_PreFactor << std::endl;
-  os << indent << "Covariance nonsingular: " <<
-    (m_CovarianceNonsingular ? "true" : "false") << std::endl;
+  os << indent << "Covariance nonsingular: " << (m_CovarianceNonsingular ? "true" : "false") << std::endl;
 }
 
-template< typename TMeasurementVector >
+template <typename TMeasurementVector>
 void
-GaussianMembershipFunction< TMeasurementVector >
-::SetMean(const MeanVectorType & mean)
+GaussianMembershipFunction<TMeasurementVector>::SetMean(const MeanVectorType & mean)
 {
-  if ( this->GetMeasurementVectorSize() )
-    {
+  if (this->GetMeasurementVectorSize())
+  {
     MeasurementVectorTraits::Assert(mean,
                                     this->GetMeasurementVectorSize(),
-                                    "GaussianMembershipFunction::SetMean(): Size of mean vector specified does not match the size of a measurement vector.");
-    }
+                                    "GaussianMembershipFunction::SetMean(): Size of mean vector specified does not "
+                                    "match the size of a measurement vector.");
+  }
   else
-    {
+  {
     // not already set, cache the size
-    this->SetMeasurementVectorSize( mean.Size() );
-    }
+    this->SetMeasurementVectorSize(mean.Size());
+  }
 
-  if ( m_Mean != mean )
-    {
+  if (m_Mean != mean)
+  {
     m_Mean = mean;
     this->Modified();
-    }
+  }
 }
 
-template< typename TMeasurementVector >
+template <typename TMeasurementVector>
 void
-GaussianMembershipFunction< TMeasurementVector >
-::SetCovariance(const CovarianceMatrixType & cov)
+GaussianMembershipFunction<TMeasurementVector>::SetCovariance(const CovarianceMatrixType & cov)
 {
   // Sanity check
-  if ( cov.GetVnlMatrix().rows() != cov.GetVnlMatrix().cols() )
-    {
+  if (cov.GetVnlMatrix().rows() != cov.GetVnlMatrix().cols())
+  {
     itkExceptionMacro(<< "Covariance matrix must be square");
-    }
-  if ( this->GetMeasurementVectorSize() )
+  }
+  if (this->GetMeasurementVectorSize())
+  {
+    if (cov.GetVnlMatrix().rows() != this->GetMeasurementVectorSize())
     {
-    if ( cov.GetVnlMatrix().rows() != this->GetMeasurementVectorSize() )
-      {
       itkExceptionMacro(<< "Length of measurement vectors must be"
                         << " the same as the size of the covariance.");
-      }
     }
+  }
   else
-    {
+  {
     // not already set, cache the size
-    this->SetMeasurementVectorSize( cov.GetVnlMatrix().rows() );
-    }
+    this->SetMeasurementVectorSize(cov.GetVnlMatrix().rows());
+  }
 
   if (m_Covariance == cov)
-    {
+  {
     // no need to copy the matrix, compute the inverse, or the normalization
     return;
-    }
+  }
 
   m_Covariance = cov;
 
   // the inverse of the covariance matrix is first computed by SVD
-  vnl_matrix_inverse< double > inv_cov( m_Covariance.GetVnlMatrix() );
+  vnl_matrix_inverse<double> inv_cov(m_Covariance.GetVnlMatrix());
 
   // the determinant is then costless this way
   double det = inv_cov.determinant_magnitude();
 
-  if( det < 0.)
-    {
-    itkExceptionMacro( << "det( m_Covariance ) < 0" );
-    }
+  if (det < 0.)
+  {
+    itkExceptionMacro(<< "det( m_Covariance ) < 0");
+  }
 
   // 1e-6 is an arbitrary value!!!
   const double singularThreshold = 1.0e-6;
-  m_CovarianceNonsingular = ( det > singularThreshold );
+  m_CovarianceNonsingular = (det > singularThreshold);
 
-  if( m_CovarianceNonsingular )
-    {
+  if (m_CovarianceNonsingular)
+  {
     // allocate the memory for m_InverseCovariance matrix
     m_InverseCovariance.GetVnlMatrix() = inv_cov.inverse();
 
     // calculate coefficient C of multivariate gaussian
-    m_PreFactor =
-      1.0 / ( std::sqrt(det) *
-        std::pow( std::sqrt(2.0 * itk::Math::pi),
-               static_cast< double >( this->GetMeasurementVectorSize() ) ) );
-    }
+    m_PreFactor = 1.0 / (std::sqrt(det) * std::pow(std::sqrt(2.0 * itk::Math::pi),
+                                                   static_cast<double>(this->GetMeasurementVectorSize())));
+  }
   else
-    {
-    const double aLargeDouble = std::pow(NumericTraits<double>::max(), 1.0/3.0)
-      / (double) this->GetMeasurementVectorSize();
+  {
+    const double aLargeDouble =
+      std::pow(NumericTraits<double>::max(), 1.0 / 3.0) / (double)this->GetMeasurementVectorSize();
     m_InverseCovariance.SetIdentity();
     m_InverseCovariance *= aLargeDouble;
 
     m_PreFactor = 1.0;
-    }
+  }
 
   this->Modified();
 }
 
-template< typename TMeasurementVector >
+template <typename TMeasurementVector>
 inline double
-GaussianMembershipFunction< TMeasurementVector >
-::Evaluate(const MeasurementVectorType & measurement) const
+GaussianMembershipFunction<TMeasurementVector>::Evaluate(const MeasurementVectorType & measurement) const
 {
-  const MeasurementVectorSizeType measurementVectorSize =
-    this->GetMeasurementVectorSize();
+  const MeasurementVectorSizeType measurementVectorSize = this->GetMeasurementVectorSize();
 
   // temp = ( y - mean )^t * InverseCovariance * ( y - mean )
   //
@@ -167,39 +159,35 @@ GaussianMembershipFunction< TMeasurementVector >
   // double temp = dot_product( tempVector,  m_InverseCovariance.GetVnlMatrix() * tempVector );
   //
   double temp = 0.0;
-  for(MeasurementVectorSizeType r = 0; r < measurementVectorSize; ++r)
-    {
+  for (MeasurementVectorSizeType r = 0; r < measurementVectorSize; ++r)
+  {
     double rowdot = 0.0;
     for (MeasurementVectorSizeType c = 0; c < measurementVectorSize; ++c)
-      {
-      rowdot += m_InverseCovariance(r, c) * ( measurement[c] - m_Mean[c] );
-      }
-    temp += rowdot * ( measurement[r] - m_Mean[r] );
+    {
+      rowdot += m_InverseCovariance(r, c) * (measurement[c] - m_Mean[c]);
     }
+    temp += rowdot * (measurement[r] - m_Mean[r]);
+  }
 
   temp = std::exp(-0.5 * temp);
 
   return m_PreFactor * temp;
 }
 
-template< typename TVector >
+template <typename TVector>
 typename LightObject::Pointer
-GaussianMembershipFunction< TVector >
-::InternalClone() const
+GaussianMembershipFunction<TVector>::InternalClone() const
 {
-  LightObject::Pointer loPtr = Superclass::InternalClone();
-  typename Self::Pointer membershipFunction =
-    dynamic_cast<Self *>(loPtr.GetPointer());
-  if(membershipFunction.IsNull())
-    {
-    itkExceptionMacro(<< "downcast to type "
-                      << this->GetNameOfClass()
-                      << " failed.");
-    }
+  LightObject::Pointer   loPtr = Superclass::InternalClone();
+  typename Self::Pointer membershipFunction = dynamic_cast<Self *>(loPtr.GetPointer());
+  if (membershipFunction.IsNull())
+  {
+    itkExceptionMacro(<< "downcast to type " << this->GetNameOfClass() << " failed.");
+  }
 
-  membershipFunction->SetMeasurementVectorSize( this->GetMeasurementVectorSize() );
-  membershipFunction->SetMean( this->GetMean() );
-  membershipFunction->SetCovariance( this->GetCovariance() );
+  membershipFunction->SetMeasurementVectorSize(this->GetMeasurementVectorSize());
+  membershipFunction->SetMean(this->GetMean());
+  membershipFunction->SetCovariance(this->GetCovariance());
 
   return loPtr;
 }

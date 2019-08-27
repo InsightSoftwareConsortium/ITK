@@ -20,33 +20,34 @@
 
 #include <iostream>
 
-int itkTimeAndMemoryProbeTest(int argc,char* argv[])
+int
+itkTimeAndMemoryProbeTest(int argc, char * argv[])
 {
   (void)argc;
   (void)argv;
 
-  itk::TimeProbe timeProbe;
+  itk::TimeProbe                 timeProbe;
   itk::MemoryProbesCollectorBase memoryProbes;
 
   timeProbe.Start();
 
   memoryProbes.Start("1KB Test");
-  auto * foo = new char[1*1024];
+  auto * foo = new char[1 * 1024];
   memoryProbes.Stop("1KB Test");
 
   memoryProbes.Start("70KB Test");
-  auto * foo2 = new char[70*1024];
+  auto * foo2 = new char[70 * 1024];
   memoryProbes.Stop("70KB Test");
 
   memoryProbes.Start("170KB Test");
-  auto * foo3 = new char[170*1024];
+  auto * foo3 = new char[170 * 1024];
   memoryProbes.Stop("170KB Test");
 
   memoryProbes.Start("1024KB Test");
-  auto * foo4 = new char[1024*1024];
+  auto * foo4 = new char[1024 * 1024];
   memoryProbes.Stop("1024KB Test");
 
-  memoryProbes.Report( std::cout );
+  memoryProbes.Report(std::cout);
   memoryProbes.Clear();
 
   memoryProbes.Start("Release Test");
@@ -56,10 +57,10 @@ int itkTimeAndMemoryProbeTest(int argc,char* argv[])
   delete[] foo4;
   memoryProbes.Stop("Release Test");
 
-  memoryProbes.Report( std::cout );
+  memoryProbes.Report(std::cout);
 
   timeProbe.Stop();
-  std::cout<<" The test has last "<<timeProbe.GetMean()<<timeProbe.GetUnit()<<std::endl;
+  std::cout << " The test has last " << timeProbe.GetMean() << timeProbe.GetUnit() << std::endl;
 
   return EXIT_SUCCESS;
 }

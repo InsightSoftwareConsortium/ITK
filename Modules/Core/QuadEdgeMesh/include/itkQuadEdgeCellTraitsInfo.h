@@ -35,16 +35,16 @@ namespace itk
  *
  * \ingroup ITKQuadEdgeMesh
  */
-template< int VPointDimension,
+template <int VPointDimension,
           typename TCoordRep = float,
           typename TInterpolationWeight = float,
           typename TPointIdentifier = IdentifierType,
           typename TCellIdentifier = IdentifierType,
           typename TCellFeatureIdentifier = unsigned char,
-          typename TPoint = QuadEdgeMeshPoint< TCoordRep, VPointDimension >,
-          typename TPointsContainer = MapContainer< TPointIdentifier, TPoint >,
-          typename TUsingCellsContainer = std::set< TPointIdentifier >,
-          typename TQE = GeometricalQuadEdge< unsigned long, unsigned long, bool, bool, true > >
+          typename TPoint = QuadEdgeMeshPoint<TCoordRep, VPointDimension>,
+          typename TPointsContainer = MapContainer<TPointIdentifier, TPoint>,
+          typename TUsingCellsContainer = std::set<TPointIdentifier>,
+          typename TQE = GeometricalQuadEdge<unsigned long, unsigned long, bool, bool, true>>
 class QuadEdgeMeshCellTraitsInfo
 {
 public:
@@ -65,5 +65,5 @@ public:
   using PointIdInternalIterator = typename TQE::IteratorGeom;
   using PointIdInternalConstIterator = typename TQE::ConstIteratorGeom;
 };
-}
+} // namespace itk
 #endif

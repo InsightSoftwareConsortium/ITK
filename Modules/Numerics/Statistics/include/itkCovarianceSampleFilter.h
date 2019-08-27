@@ -48,9 +48,8 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 
-template< typename TSample >
-class ITK_TEMPLATE_EXPORT CovarianceSampleFilter:
-  public ProcessObject
+template <typename TSample>
+class ITK_TEMPLATE_EXPORT CovarianceSampleFilter : public ProcessObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(CovarianceSampleFilter);
@@ -58,8 +57,8 @@ public:
   /** Standard class type aliases. */
   using Self = CovarianceSampleFilter;
   using Superclass = ProcessObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
   using SampleType = TSample;
 
   /** Standard Macros */
@@ -76,63 +75,73 @@ public:
   using MeasurementType = typename SampleType::MeasurementType;
 
   /** Type of a measurement vector, holding floating point values */
-  using MeasurementVectorRealType = typename NumericTraits< MeasurementVectorType >::RealType;
+  using MeasurementVectorRealType = typename NumericTraits<MeasurementVectorType>::RealType;
 
   /** Type of a floating point measurement component value */
-  using MeasurementRealType = typename NumericTraits< MeasurementType >::RealType;
+  using MeasurementRealType = typename NumericTraits<MeasurementType>::RealType;
 
 
   /** Method to set the sample */
   using Superclass::SetInput;
-  void SetInput(const SampleType *sample);
+  void
+  SetInput(const SampleType * sample);
 
   /** Method to get the sample */
-  const SampleType *  GetInput() const;
+  const SampleType *
+  GetInput() const;
 
 
   /** Type of covariance matrix output */
-  using MatrixType = VariableSizeMatrix< MeasurementRealType >;
+  using MatrixType = VariableSizeMatrix<MeasurementRealType>;
 
   /** Return the covariance matrix */
-  const MatrixType GetCovarianceMatrix() const;
+  const MatrixType
+  GetCovarianceMatrix() const;
 
   /** VariableSizeMatrix is not a DataObject, we need to decorate it to push it down
    * a ProcessObject's pipeline */
-  using MatrixDecoratedType = SimpleDataObjectDecorator< MatrixType >;
-  const MatrixDecoratedType * GetCovarianceMatrixOutput() const;
+  using MatrixDecoratedType = SimpleDataObjectDecorator<MatrixType>;
+  const MatrixDecoratedType *
+  GetCovarianceMatrixOutput() const;
 
 
   /** Return the mean vector */
-  const MeasurementVectorRealType GetMean() const;
+  const MeasurementVectorRealType
+  GetMean() const;
 
   /** MeasurementVector is not a DataObject, we need to decorate it to push it down
    * a ProcessObject's pipeline */
-  using MeasurementVectorDecoratedType = SimpleDataObjectDecorator< MeasurementVectorRealType >;
-  const MeasurementVectorDecoratedType * GetMeanOutput() const;
+  using MeasurementVectorDecoratedType = SimpleDataObjectDecorator<MeasurementVectorRealType>;
+  const MeasurementVectorDecoratedType *
+  GetMeanOutput() const;
   using OutputType = MeasurementVectorDecoratedType;
 
 
-  MeasurementVectorSizeType GetMeasurementVectorSize() const;
+  MeasurementVectorSizeType
+  GetMeasurementVectorSize() const;
 
 protected:
   CovarianceSampleFilter();
   ~CovarianceSampleFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** DataObject pointer */
   using DataObjectPointer = DataObject::Pointer;
 
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
+  DataObjectPointer
+  MakeOutput(DataObjectPointerArraySizeType idx) override;
 
-  void GenerateData() override;
-};  // end of class
+  void
+  GenerateData() override;
+}; // end of class
 } // end of namespace Statistics
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCovarianceSampleFilter.hxx"
+#  include "itkCovarianceSampleFilter.hxx"
 #endif
 
 #endif

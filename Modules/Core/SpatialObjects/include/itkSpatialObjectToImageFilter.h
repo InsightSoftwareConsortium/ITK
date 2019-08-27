@@ -36,17 +36,17 @@ namespace itk
  * \sphinxexample{Core/SpatialObjects/ConvertSpacialObjectToImage,Convert Spacial Object To Image}
  * \endsphinx
  */
-template< typename TInputSpatialObject, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT SpatialObjectToImageFilter:public ImageSource< TOutputImage >
+template <typename TInputSpatialObject, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT SpatialObjectToImageFilter : public ImageSource<TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectToImageFilter);
 
   /** Standard class type aliases. */
   using Self = SpatialObjectToImageFilter;
-  using Superclass = ImageSource< TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageSource<TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using OutputImageType = TOutputImage;
   using SizeType = typename OutputImageType::SizeType;
@@ -78,47 +78,57 @@ public:
 
   /** Set/Get the image input of this process object.  */
   using Superclass::SetInput;
-  virtual void SetInput(const InputSpatialObjectType *object);
+  virtual void
+  SetInput(const InputSpatialObjectType * object);
 
-  virtual void SetInput(unsigned int, const InputSpatialObjectType *object);
+  virtual void
+  SetInput(unsigned int, const InputSpatialObjectType * object);
 
-  const InputSpatialObjectType * GetInput();
+  const InputSpatialObjectType *
+  GetInput();
 
-  const InputSpatialObjectType * GetInput(unsigned int idx);
+  const InputSpatialObjectType *
+  GetInput(unsigned int idx);
 
   /** Spacing (size of a pixel) of the output image. The
    * spacing is the geometric distance between image samples.
    * It is stored internally as double, but may be set from
    * float. \sa GetSpacing() */
-  virtual void SetSpacing(const SpacingType & spacing);
+  virtual void
+  SetSpacing(const SpacingType & spacing);
 
-  virtual void SetSpacing(const double *spacing);
+  virtual void
+  SetSpacing(const double * spacing);
 
-  virtual void SetSpacing(const float *spacing);
+  virtual void
+  SetSpacing(const float * spacing);
 
-  virtual const double * GetSpacing() const;
+  virtual const double *
+  GetSpacing() const;
 
   /** Directions of the output image. The
    * direction is for oriented images. */
-  virtual void SetDirection(const DirectionType & direction);
+  virtual void
+  SetDirection(const DirectionType & direction);
 
-  virtual const DirectionType & GetDirection() const;
+  virtual const DirectionType &
+  GetDirection() const;
 
   /** Set/Get the value for pixels inside the spatial object.
-  * By default, this filter will return an image
-  * that contains values from the spatial object specified as input.
-  * If this "inside" value is changed to a non-null value,
-  * the output produced by this filter will be a mask with inside/outside values
-  * specified by the user. */
+   * By default, this filter will return an image
+   * that contains values from the spatial object specified as input.
+   * If this "inside" value is changed to a non-null value,
+   * the output produced by this filter will be a mask with inside/outside values
+   * specified by the user. */
   itkSetMacro(InsideValue, ValueType);
   itkGetConstMacro(InsideValue, ValueType);
 
   /** Set/Get the value for pixels outside the spatial object.
-  * By default, this filter will return an image
-  * that contains values from the spatial object specified as input.
-  * If this "outside" value is changed to a non-null value,
-  * the output produced by this filter will be a mask with inside/outside values
-  * specified by the user. */
+   * By default, this filter will return an image
+   * that contains values from the spatial object specified as input.
+   * If this "outside" value is changed to a non-null value,
+   * the output produced by this filter will be a mask with inside/outside values
+   * specified by the user. */
   itkSetMacro(OutsideValue, ValueType);
   itkGetConstMacro(OutsideValue, ValueType);
 
@@ -126,13 +136,17 @@ public:
    * coordinates of the index (0,0,...,0).  It is stored internally
    * as double but may be set from float.
    * \sa GetOrigin() */
-  virtual void SetOrigin(const PointType & origin);
+  virtual void
+  SetOrigin(const PointType & origin);
 
-  virtual void SetOrigin(const double *origin);
+  virtual void
+  SetOrigin(const double * origin);
 
-  virtual void SetOrigin(const float *origin);
+  virtual void
+  SetOrigin(const float * origin);
 
-  virtual const double * GetOrigin() const;
+  virtual const double *
+  GetOrigin() const;
 
   /** The spatial object being transformed can be part of a hierarchy.
    * How deep in the hierarchy should we descend in generating the
@@ -154,12 +168,15 @@ protected:
   SpatialObjectToImageFilter();
   ~SpatialObjectToImageFilter() override = default;
 
-  void GenerateOutputInformation() override {}  // do nothing
-  void GenerateData() override;
+  void
+  GenerateOutputInformation() override
+  {} // do nothing
+  void
+  GenerateData() override;
 
-  SizeType m_Size;
-  double m_Spacing[OutputImageDimension];
-  double m_Origin[OutputImageDimension];
+  SizeType      m_Size;
+  double        m_Spacing[OutputImageDimension];
+  double        m_Origin[OutputImageDimension];
   DirectionType m_Direction;
 
   unsigned int m_ChildrenDepth;
@@ -169,15 +186,15 @@ protected:
 
   bool m_UseObjectValue;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSpatialObjectToImageFilter.hxx"
+#  include "itkSpatialObjectToImageFilter.hxx"
 #endif
 
 #endif

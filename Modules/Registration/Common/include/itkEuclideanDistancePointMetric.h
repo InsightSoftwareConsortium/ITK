@@ -41,21 +41,21 @@ namespace itk
  * \ingroup RegistrationMetrics
  * \ingroup ITKRegistrationCommon
  */
-template< typename TFixedPointSet, typename TMovingPointSet,
-          typename TDistanceMap =
-            ::itk::Image< unsigned short, TMovingPointSet::PointDimension > >
-class ITK_TEMPLATE_EXPORT EuclideanDistancePointMetric:
-  public PointSetToPointSetMetric< TFixedPointSet, TMovingPointSet >
+template <typename TFixedPointSet,
+          typename TMovingPointSet,
+          typename TDistanceMap = ::itk::Image<unsigned short, TMovingPointSet::PointDimension>>
+class ITK_TEMPLATE_EXPORT EuclideanDistancePointMetric
+  : public PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(EuclideanDistancePointMetric);
 
   /** Standard class type aliases. */
   using Self = EuclideanDistancePointMetric;
-  using Superclass = PointSetToPointSetMetric< TFixedPointSet, TMovingPointSet >;
+  using Superclass = PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -86,18 +86,22 @@ public:
   using DistanceMapPointer = typename DistanceMapType::ConstPointer;
 
   /** Get the number of values, i.e. the number of points in the moving set. */
-  unsigned int GetNumberOfValues() const override;
+  unsigned int
+  GetNumberOfValues() const override;
 
   /** Get the derivatives of the match measure. */
-  void GetDerivative(const TransformParametersType & parameters,
-                     DerivativeType & Derivative) const override;
+  void
+  GetDerivative(const TransformParametersType & parameters, DerivativeType & Derivative) const override;
 
   /**  Get the match measure, i.e. the value for single valued optimizers. */
-  MeasureType GetValue(const TransformParametersType & parameters) const override;
+  MeasureType
+  GetValue(const TransformParametersType & parameters) const override;
 
   /**  Get value and derivatives for multiple valued optimizers. */
-  void GetValueAndDerivative(const TransformParametersType & parameters,
-                             MeasureType & Value, DerivativeType & Derivative) const;
+  void
+  GetValueAndDerivative(const TransformParametersType & parameters,
+                        MeasureType &                   Value,
+                        DerivativeType &                Derivative) const;
 
   /** Set/Get the distance map. */
   itkSetConstObjectMacro(DistanceMap, DistanceMapType);
@@ -115,7 +119,8 @@ protected:
   EuclideanDistancePointMetric();
   ~EuclideanDistancePointMetric() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   DistanceMapPointer m_DistanceMap;
@@ -124,7 +129,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkEuclideanDistancePointMetric.hxx"
+#  include "itkEuclideanDistancePointMetric.hxx"
 #endif
 
 #endif

@@ -48,22 +48,23 @@ namespace itk
  * \sa RichardsonLucyDeconvolutionImageFilter
  * \sa LandweberDeconvolutionImageFilter
  */
-template< typename TInputImage, typename TKernelImage=TInputImage, typename TOutputImage=TInputImage, typename TInternalPrecision=double >
-class ITK_TEMPLATE_EXPORT ProjectedLandweberDeconvolutionImageFilter :
-    public ProjectedIterativeDeconvolutionImageFilter< LandweberDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision > >
+template <typename TInputImage,
+          typename TKernelImage = TInputImage,
+          typename TOutputImage = TInputImage,
+          typename TInternalPrecision = double>
+class ITK_TEMPLATE_EXPORT ProjectedLandweberDeconvolutionImageFilter
+  : public ProjectedIterativeDeconvolutionImageFilter<
+      LandweberDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ProjectedLandweberDeconvolutionImageFilter);
 
-    /** Standard type alias. */
+  /** Standard type alias. */
   using Self = ProjectedLandweberDeconvolutionImageFilter;
   using Superclass = ProjectedIterativeDeconvolutionImageFilter<
-            LandweberDeconvolutionImageFilter< TInputImage,
-                                               TKernelImage,
-                                               TOutputImage,
-                                               TInternalPrecision > >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+    LandweberDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Other useful type alias. */
   using InputImageType = TInputImage;
@@ -74,8 +75,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ProjectedLandweberDeconvolutionImageFilter,
-               ProjectedIterativeDeconvolutionImageFilter);
+  itkTypeMacro(ProjectedLandweberDeconvolutionImageFilter, ProjectedIterativeDeconvolutionImageFilter);
 
 protected:
   ProjectedLandweberDeconvolutionImageFilter();
@@ -84,7 +84,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkProjectedLandweberDeconvolutionImageFilter.hxx"
+#  include "itkProjectedLandweberDeconvolutionImageFilter.hxx"
 #endif
 
 

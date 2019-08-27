@@ -42,8 +42,8 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 
-template< typename TSample >
-class ITK_TEMPLATE_EXPORT SampleToSubsampleFilter:public ProcessObject
+template <typename TSample>
+class ITK_TEMPLATE_EXPORT SampleToSubsampleFilter : public ProcessObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SampleToSubsampleFilter);
@@ -51,8 +51,8 @@ public:
   /** Standard class type aliases. */
   using Self = SampleToSubsampleFilter;
   using Superclass = ProcessObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard macros */
   itkTypeMacro(SampleToSubsampleFilter, ProcessObject);
@@ -65,22 +65,26 @@ public:
   using InstanceIdentifier = typename SampleType::InstanceIdentifier;
 
   /** Declare the output type */
-  using SubsampleType = Subsample< SampleType >;
+  using SubsampleType = Subsample<SampleType>;
   using OutputType = SubsampleType;
 
   /** Set/Get the input sample */
   using Superclass::SetInput;
-  virtual void SetInput(const SampleType *sample);
+  virtual void
+  SetInput(const SampleType * sample);
 
-  virtual const SampleType * GetInput() const;
+  virtual const SampleType *
+  GetInput() const;
 
   /** Get the output subsample */
-  const OutputType  * GetOutput() const;
+  const OutputType *
+  GetOutput() const;
 
 protected:
   SampleToSubsampleFilter();
   ~SampleToSubsampleFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Make a DataObject of the correct type to used as the specified
    * output. This method
@@ -90,13 +94,14 @@ protected:
    */
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
-};                                       // end of class
+  DataObjectPointer
+  MakeOutput(DataObjectPointerArraySizeType idx) override;
+}; // end of class
 } // end of namespace Statistics
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSampleToSubsampleFilter.hxx"
+#  include "itkSampleToSubsampleFilter.hxx"
 #endif
 
 #endif

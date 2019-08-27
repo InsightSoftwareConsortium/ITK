@@ -22,49 +22,49 @@
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
 
-int itkBilateralImageFilterTest2(int ac, char* av[] )
+int
+itkBilateralImageFilterTest2(int ac, char * av[])
 {
-  if(ac < 3)
-    {
+  if (ac < 3)
+  {
     std::cerr << "Usage: " << av[0] << " InputImage OutputImage\n";
     return -1;
-    }
+  }
 
   using PixelType = unsigned char;
   constexpr unsigned int dimension = 2;
   using myImage = itk::Image<PixelType, dimension>;
-  itk::ImageFileReader<myImage>::Pointer input
-    = itk::ImageFileReader<myImage>::New();
+  itk::ImageFileReader<myImage>::Pointer input = itk::ImageFileReader<myImage>::New();
   input->SetFileName(av[1]);
 
   // Create a filter
-  using FilterType = itk::BilateralImageFilter<myImage,myImage>;
+  using FilterType = itk::BilateralImageFilter<myImage, myImage>;
 
-  FilterType::Pointer filter = FilterType::New();
+  FilterType::Pointer      filter = FilterType::New();
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
   filter->SetInput(input->GetOutput());
 
   // these settings reduce the amount of noise by a factor of 10
   // when the original signal to noise level is 5
-  filter->SetDomainSigma( 4.0 );
-  filter->SetRangeSigma( 50.0 );
+  filter->SetDomainSigma(4.0);
+  filter->SetRangeSigma(50.0);
   filter->SetDomainMu(2.5);
 
   // Test itkSetVectorMacro
   double domainSigma[dimension];
   for (double & i : domainSigma)
-    {
-      i = 4.0;
-    }
+  {
+    i = 4.0;
+  }
   filter->SetDomainSigma(domainSigma);
 
   // Test itkGetVectorMacro
   std::cout << "filter->GetDomainSigma(): " << filter->GetDomainSigma() << std::endl;
 
   // Test itkSetMacro
-  unsigned int filterDimensionality = dimension;
-  unsigned long  numberOfRangeGaussianSamples = 100;
+  unsigned int  filterDimensionality = dimension;
+  unsigned long numberOfRangeGaussianSamples = 100;
   filter->SetFilterDimensionality(filterDimensionality);
   filter->SetNumberOfRangeGaussianSamples(numberOfRangeGaussianSamples);
 
@@ -79,27 +79,27 @@ int itkBilateralImageFilterTest2(int ac, char* av[] )
   std::cout << "filter->GetDomainMu(): " << domainMu << std::endl;
 
   try
-    {
+  {
     input->Update();
     filter->Update();
-    }
-  catch (itk::ExceptionObject& e)
-    {
-    std::cerr << "Exception detected: "  << e.GetDescription();
+  }
+  catch (itk::ExceptionObject & e)
+  {
+    std::cerr << "Exception detected: " << e.GetDescription();
     return -1;
-    }
+  }
   catch (...)
-    {
+  {
     std::cerr << "Some other exception occurred" << std::endl;
     return -2;
-    }
+  }
 
   // Generate test image
   itk::ImageFileWriter<myImage>::Pointer writer;
-    writer = itk::ImageFileWriter<myImage>::New();
-    writer->SetInput( filter->GetOutput() );
-    writer->SetFileName( av[2] );
-    writer->Update();
+  writer = itk::ImageFileWriter<myImage>::New();
+  writer->SetInput(filter->GetOutput());
+  writer->SetFileName(av[2]);
+  writer->Update();
 
   return EXIT_SUCCESS;
 }

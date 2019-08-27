@@ -23,7 +23,8 @@
 #include <set>
 
 
-namespace itk {
+namespace itk
+{
 /** \class AttributeSelectionLabelMapFilter
  * \brief remove the objects according to the value of their attribute
  *
@@ -46,10 +47,10 @@ namespace itk {
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template<typename TImage, typename TAttributeAccessor=
-    typename Functor::AttributeLabelObjectAccessor< typename TImage::LabelObjectType > >
-class ITK_TEMPLATE_EXPORT AttributeSelectionLabelMapFilter :
-    public InPlaceLabelMapFilter<TImage>
+template <typename TImage,
+          typename TAttributeAccessor =
+            typename Functor::AttributeLabelObjectAccessor<typename TImage::LabelObjectType>>
+class ITK_TEMPLATE_EXPORT AttributeSelectionLabelMapFilter : public InPlaceLabelMapFilter<TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(AttributeSelectionLabelMapFilter);
@@ -80,74 +81,80 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(AttributeSelectionLabelMapFilter,
-               InPlaceLabelMapFilter);
+  itkTypeMacro(AttributeSelectionLabelMapFilter, InPlaceLabelMapFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-/*  itkConceptMacro(InputEqualityComparableCheck,
-    (Concept::EqualityComparable<InputImagePixelType>));
-  itkConceptMacro(IntConvertibleToInputCheck,
-    (Concept::Convertible<int, InputImagePixelType>));
-  itkConceptMacro(InputOStreamWritableCheck,
-    (Concept::OStreamWritable<InputImagePixelType>));*/
+  /*  itkConceptMacro(InputEqualityComparableCheck,
+      (Concept::EqualityComparable<InputImagePixelType>));
+    itkConceptMacro(IntConvertibleToInputCheck,
+      (Concept::Convertible<int, InputImagePixelType>));
+    itkConceptMacro(InputOStreamWritableCheck,
+      (Concept::OStreamWritable<InputImagePixelType>));*/
   // End concept checking
 #endif
 
   /**
    * Set/Get the threshold used to keep or remove the objects.
    */
-  const AttributeSetType & GetAttributeSet() const
-    {
+  const AttributeSetType &
+  GetAttributeSet() const
+  {
     return m_AttributeSet;
-    }
-  void SetAttributeSet( const AttributeSetType & set )
-    {
+  }
+  void
+  SetAttributeSet(const AttributeSetType & set)
+  {
     m_AttributeSet = set;
     this->Modified();
-    }
+  }
 
   /**
    * Set/Get whether the objects with the specified attribute values should be kept
    * or excluded.
    */
-  itkGetConstMacro( Exclude, bool );
-  itkSetMacro( Exclude, bool );
-  itkBooleanMacro( Exclude );
+  itkGetConstMacro(Exclude, bool);
+  itkSetMacro(Exclude, bool);
+  itkBooleanMacro(Exclude);
 
   /** Clear the attribute set, and add the attribute passed in parameter */
-  void SetAttribute( const AttributeValueType & attr )
-    {
+  void
+  SetAttribute(const AttributeValueType & attr)
+  {
     this->ClearAttributeSet();
-    this->AddAttribute( attr );
-    }
+    this->AddAttribute(attr);
+  }
 
-  void ClearAttributeSet()
+  void
+  ClearAttributeSet()
+  {
+    if (!m_AttributeSet.empty())
     {
-    if( ! m_AttributeSet.empty() )
-      {
       m_AttributeSet.clear();
       this->Modified();
-      }
     }
+  }
 
-  void AddAttribute(  const AttributeValueType & attr )
-    {
+  void
+  AddAttribute(const AttributeValueType & attr)
+  {
     const typename AttributeSetType::size_type size = m_AttributeSet.size();
-    m_AttributeSet.insert( attr );
-    if( size != m_AttributeSet.size() )
-      {
+    m_AttributeSet.insert(attr);
+    if (size != m_AttributeSet.size())
+    {
       this->Modified();
-      }
     }
+  }
 
 protected:
   AttributeSelectionLabelMapFilter();
   ~AttributeSelectionLabelMapFilter() override = default;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   AttributeSetType m_AttributeSet;
@@ -158,7 +165,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAttributeSelectionLabelMapFilter.hxx"
+#  include "itkAttributeSelectionLabelMapFilter.hxx"
 #endif
 
 #endif

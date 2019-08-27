@@ -60,29 +60,24 @@ namespace itk
  * \sphinxexample{Registration/Common/MultiresolutionPyramidFromImage,Multiresolution Pyramid From Image}
  * \endsphinx
  */
-template<
-  typename TInputImage,
-  typename TOutputImage
-  >
-class ITK_TEMPLATE_EXPORT RecursiveMultiResolutionPyramidImageFilter:
-  public MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT RecursiveMultiResolutionPyramidImageFilter
+  : public MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(RecursiveMultiResolutionPyramidImageFilter);
 
   /** Standard class type aliases. */
   using Self = RecursiveMultiResolutionPyramidImageFilter;
-  using Superclass =
-      MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(RecursiveMultiResolutionPyramidImageFilter,
-               MultiResolutionPyramidImageFilter);
+  itkTypeMacro(RecursiveMultiResolutionPyramidImageFilter, MultiResolutionPyramidImageFilter);
 
   /** ImageDimension enumeration. */
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
@@ -99,7 +94,8 @@ public:
    * output images.
    * The original documentation of this method is below.
    * \sa ProcessObject::GenerateOutputRequestedRegion(); */
-  void GenerateOutputRequestedRegion(DataObject *output) override;
+  void
+  GenerateOutputRequestedRegion(DataObject * output) override;
 
   /** RecursiveMultiResolutionPyramidImageFilter requires a larger input
    * requested region than the output requested regions to accommodate the
@@ -107,20 +103,23 @@ public:
    * MultiResolutionPyramidImageFilter needs to provide an implementation for
    * GenerateInputRequestedRegion().  The original documentation of this
    * method is below.  \sa ProcessObject::GenerateInputRequestedRegion() */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
 protected:
   RecursiveMultiResolutionPyramidImageFilter();
   ~RecursiveMultiResolutionPyramidImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate the output data. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 };
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRecursiveMultiResolutionPyramidImageFilter.hxx"
+#  include "itkRecursiveMultiResolutionPyramidImageFilter.hxx"
 #endif
 
 #endif

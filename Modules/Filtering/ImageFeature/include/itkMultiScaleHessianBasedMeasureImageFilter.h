@@ -61,27 +61,25 @@ namespace itk
  *
  * \ingroup ITKImageFeature
  */
-template< typename TInputImage,
-          typename THessianImage,
-          typename TOutputImage = TInputImage >
-class ITK_TEMPLATE_EXPORT MultiScaleHessianBasedMeasureImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename THessianImage, typename TOutputImage = TInputImage>
+class ITK_TEMPLATE_EXPORT MultiScaleHessianBasedMeasureImageFilter
+  : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MultiScaleHessianBasedMeasureImageFilter);
 
   /** Standard class type aliases. */
   using Self = MultiScaleHessianBasedMeasureImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using InputImageType = TInputImage;
   using OutputImageType = TOutputImage;
   using HessianImageType = THessianImage;
 
-  using HessianToMeasureFilterType = ImageToImageFilter< HessianImageType, OutputImageType  >;
+  using HessianToMeasureFilterType = ImageToImageFilter<HessianImageType, OutputImageType>;
 
   using InputPixelType = typename TInputImage::PixelType;
   using OutputPixelType = typename TOutputImage::PixelType;
@@ -92,15 +90,15 @@ public:
 
   /** Types for Scales image */
   using ScalesPixelType = float;
-  using ScalesImageType = Image< ScalesPixelType, Self::ImageDimension >;
+  using ScalesImageType = Image<ScalesPixelType, Self::ImageDimension>;
 
   /** Hessian computation filter. */
-  using HessianFilterType = HessianRecursiveGaussianImageFilter< InputImageType, HessianImageType >;
+  using HessianFilterType = HessianRecursiveGaussianImageFilter<InputImageType, HessianImageType>;
 
   /** Update image buffer that holds the best objectness response. This is not redundant from
    the output image because the latter may not be of float type, which is required for the comparisons
    between responses at different scales. */
-  using UpdateBufferType = Image< double, Self::ImageDimension >;
+  using UpdateBufferType = Image<double, Self::ImageDimension>;
   using BufferValueType = typename UpdateBufferType::ValueType;
 
   using DataObjectPointer = typename Superclass::DataObjectPointer;
@@ -109,8 +107,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(MultiScaleHessianBasedMeasureImageFilter,
-               ImageToImageFilter);
+  itkTypeMacro(MultiScaleHessianBasedMeasureImageFilter, ImageToImageFilter);
 
   /** Set/Get macros for SigmaMin */
   itkSetMacro(SigmaMinimum, double);
@@ -140,8 +137,11 @@ public:
   itkGetConstMacro(NonNegativeHessianBasedMeasure, bool);
   itkBooleanMacro(NonNegativeHessianBasedMeasure);
 
-  enum SigmaStepMethodType : uint8_t { EquispacedSigmaSteps = 0,
-        LogarithmicSigmaSteps = 1 };
+  enum SigmaStepMethodType : uint8_t
+  {
+    EquispacedSigmaSteps = 0,
+    LogarithmicSigmaSteps = 1
+  };
 
   /** Set/Get the method used to generate scale sequence (Equispaced
    * or Logarithmic) */
@@ -149,18 +149,22 @@ public:
   itkGetConstMacro(SigmaStepMethod, SigmaStepMethodType);
 
   /**Set equispaced sigma step method */
-  void SetSigmaStepMethodToEquispaced();
+  void
+  SetSigmaStepMethodToEquispaced();
 
   /**Set logartihmic sigma step method */
-  void SetSigmaStepMethodToLogarithmic();
+  void
+  SetSigmaStepMethodToLogarithmic();
 
   /** Get the image containing the Hessian computed at the best
    * response scale */
-  const HessianImageType * GetHessianOutput() const;
+  const HessianImageType *
+  GetHessianOutput() const;
 
   /** Get the image containing the scales at which each pixel gave the
    * best response */
-  const ScalesImageType * GetScalesOutput() const;
+  const ScalesImageType *
+  GetScalesOutput() const;
 
   /** Methods to turn on/off flag to generate an image with scale values at
    *  each pixel for the best vesselness response */
@@ -180,22 +184,29 @@ public:
 protected:
   MultiScaleHessianBasedMeasureImageFilter();
   ~MultiScaleHessianBasedMeasureImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate Data */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  void EnlargeOutputRequestedRegion(DataObject *) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject *) override;
 
   using Superclass::MakeOutput;
-  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
+  DataObjectPointer
+  MakeOutput(DataObjectPointerArraySizeType idx) override;
 
 private:
-  void UpdateMaximumResponse(double sigma);
+  void
+  UpdateMaximumResponse(double sigma);
 
-  double ComputeSigmaValue(int scaleLevel);
+  double
+  ComputeSigmaValue(int scaleLevel);
 
-  void AllocateUpdateBuffer();
+  void
+  AllocateUpdateBuffer();
 
   bool m_NonNegativeHessianBasedMeasure;
 
@@ -217,7 +228,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMultiScaleHessianBasedMeasureImageFilter.hxx"
+#  include "itkMultiScaleHessianBasedMeasureImageFilter.hxx"
 #endif
 
 #endif

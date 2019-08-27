@@ -29,46 +29,50 @@ namespace itk
  * Source of the gradient(s) used by the metric
  * (e.g. image gradients, in the case of
  * image to image metrics). Defaults to Moving. */
- enum class SourceTypeOfGradient : uint8_t { GRADIENT_SOURCE_FIXED=0,
-        GRADIENT_SOURCE_MOVING,
-        GRADIENT_SOURCE_BOTH };
+enum class SourceTypeOfGradient : uint8_t
+{
+  GRADIENT_SOURCE_FIXED = 0,
+  GRADIENT_SOURCE_MOVING,
+  GRADIENT_SOURCE_BOTH
+};
 
 /** \class CategoryTypeForMetric
  * \ingroup ITKOptimizersv4
  */
- enum class CategoryTypeForMetric : uint8_t {
-        UNKNOWN_METRIC = 0,
-        OBJECT_METRIC = 1,
-        IMAGE_METRIC = 2,
-        POINT_SET_METRIC = 3,
-        MULTI_METRIC = 4
- };
+enum class CategoryTypeForMetric : uint8_t
+{
+  UNKNOWN_METRIC = 0,
+  OBJECT_METRIC = 1,
+  IMAGE_METRIC = 2,
+  POINT_SET_METRIC = 3,
+  MULTI_METRIC = 4
+};
 
-  /** \class ObjectToObjectMetricBaseTemplate
-   * \brief Base class for all object-to-object similarlity metrics added in ITKv4.
-   *
-   * This is the abstract base class for a hierarchy of similarity metrics
-   * that may, in derived classes, operate on meshes, images, etc.
-   * This class computes a value that measures the similarity between the two
-   * objects.
-   *
-   * Derived classes must provide implementations for:
-   *  GetValue
-   *  GetDerivative
-   *  GetValueAndDerivative
-   *  Initialize
-   *  GetNumberOfParameters
-   *  GetNumberOfLocalParameters
-   *  GetParameters
-   *  SetParameters
-   *  HasLocalSupport
-   *  UpdateTransformParameters
-   *
-   * \ingroup ITKOptimizersv4
-   */
-template<typename TInternalComputationValueType=double>
-class ITK_TEMPLATE_EXPORT ObjectToObjectMetricBaseTemplate:
-  public SingleValuedCostFunctionv4Template<TInternalComputationValueType>
+/** \class ObjectToObjectMetricBaseTemplate
+ * \brief Base class for all object-to-object similarlity metrics added in ITKv4.
+ *
+ * This is the abstract base class for a hierarchy of similarity metrics
+ * that may, in derived classes, operate on meshes, images, etc.
+ * This class computes a value that measures the similarity between the two
+ * objects.
+ *
+ * Derived classes must provide implementations for:
+ *  GetValue
+ *  GetDerivative
+ *  GetValueAndDerivative
+ *  Initialize
+ *  GetNumberOfParameters
+ *  GetNumberOfLocalParameters
+ *  GetParameters
+ *  SetParameters
+ *  HasLocalSupport
+ *  UpdateTransformParameters
+ *
+ * \ingroup ITKOptimizersv4
+ */
+template <typename TInternalComputationValueType = double>
+class ITK_TEMPLATE_EXPORT ObjectToObjectMetricBaseTemplate
+  : public SingleValuedCostFunctionv4Template<TInternalComputationValueType>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ObjectToObjectMetricBaseTemplate);
@@ -76,8 +80,8 @@ public:
   /** Standard class type aliases. */
   using Self = ObjectToObjectMetricBaseTemplate;
   using Superclass = SingleValuedCostFunctionv4Template<TInternalComputationValueType>;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ObjectToObjectMetricBaseTemplate, SingleValuedCostFunctionv4Template);
@@ -101,21 +105,21 @@ public:
   using ObjectConstPointer = typename ObjectType::ConstPointer;
 
   /** Get/Set the Fixed Object.  */
-  itkSetConstObjectMacro( FixedObject, ObjectType );
-  itkGetConstObjectMacro( FixedObject, ObjectType );
+  itkSetConstObjectMacro(FixedObject, ObjectType);
+  itkGetConstObjectMacro(FixedObject, ObjectType);
 
   /** Get/Set the Moving Object.  */
-  itkSetConstObjectMacro( MovingObject, ObjectType );
-  itkGetConstObjectMacro( MovingObject, ObjectType );
+  itkSetConstObjectMacro(MovingObject, ObjectType);
+  itkGetConstObjectMacro(MovingObject, ObjectType);
 
-    /** Enables backwards compatibility for enum values */
-    using GradientSourceType = SourceTypeOfGradient;
+  /** Enables backwards compatibility for enum values */
+  using GradientSourceType = SourceTypeOfGradient;
 #if !defined(ITK_LEGACY_REMOVE)
-      //We need to expose the enum values at the class level
-      // for backwards compatibility
-      static constexpr GradientSourceType GRADIENT_SOURCE_FIXED = GradientSourceType::GRADIENT_SOURCE_FIXED;
-      static constexpr GradientSourceType GRADIENT_SOURCE_MOVING = GradientSourceType::GRADIENT_SOURCE_MOVING;
-      static constexpr GradientSourceType GRADIENT_SOURCE_BOTH = GradientSourceType::GRADIENT_SOURCE_BOTH;
+  // We need to expose the enum values at the class level
+  // for backwards compatibility
+  static constexpr GradientSourceType GRADIENT_SOURCE_FIXED = GradientSourceType::GRADIENT_SOURCE_FIXED;
+  static constexpr GradientSourceType GRADIENT_SOURCE_MOVING = GradientSourceType::GRADIENT_SOURCE_MOVING;
+  static constexpr GradientSourceType GRADIENT_SOURCE_BOTH = GradientSourceType::GRADIENT_SOURCE_BOTH;
 #endif
 
   /**
@@ -124,27 +128,30 @@ public:
    * object or moving object.
    * \sa GradientSourceType
    */
-  itkSetMacro( GradientSource, GradientSourceType );
+  itkSetMacro(GradientSource, GradientSourceType);
 
   /**
    * Get gradient source.
    * See \c GetGradientSourceIncludesFixed and \c GetGradientSourceIncludesMoving
    * for convenience methods. */
-  itkGetConstMacro( GradientSource, GradientSourceType );
+  itkGetConstMacro(GradientSource, GradientSourceType);
 
   /** Return true of \c m_GradientSource is either \c GRADIENT_SOURCE_FIXED or
    * \c GRADIENT_SOURCE_BOTH. Convenience method. */
-  bool GetGradientSourceIncludesFixed() const;
+  bool
+  GetGradientSourceIncludesFixed() const;
 
   /** Return true of \c m_GradientSource is either \c GRADIENT_SOURCE_MOVING or
    * \c GRADIENT_SOURCE_BOTH. Convenience method. */
-  bool GetGradientSourceIncludesMoving() const;
+  bool
+  GetGradientSourceIncludesMoving() const;
 
   /** Initialize the Metric by making sure that all the components
    *  are present and plugged together correctly, and initializing
    *  internal variables as required. This is for one-time initialization,
    *  e.g. before starting an optimization process. */
-  virtual void Initialize() = 0;
+  virtual void
+  Initialize() = 0;
 
   /** Type to represent the number of parameters that are being optimized at
    * any given iteration of the optimizer. */
@@ -153,32 +160,40 @@ public:
   /** Calculate and return the value for the metric based on the current
    * transformation(s). The result is both returned, and stored in the
    * m_Value member variable. */
-  MeasureType GetValue() const override = 0;
+  MeasureType
+  GetValue() const override = 0;
 
   /**
    * This method returns the derivative based on the current
    * transformation(s). */
-  virtual void GetDerivative( DerivativeType & ) const = 0;
+  virtual void
+  GetDerivative(DerivativeType &) const = 0;
 
   /** This method returns the derivative and value based on the current
    * transformation(s). */
-  void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const override = 0;
+  void
+  GetValueAndDerivative(MeasureType & value, DerivativeType & derivative) const override = 0;
 
   /** Methods for working with the metric's 'active' transform, e.g. the
    * transform being optimized in the case of registration. Some of these are
    * used in non-metric classes, e.g. optimizers. */
-  NumberOfParametersType GetNumberOfParameters() const override = 0;
-  virtual NumberOfParametersType GetNumberOfLocalParameters() const = 0;
+  NumberOfParametersType
+  GetNumberOfParameters() const override = 0;
+  virtual NumberOfParametersType
+  GetNumberOfLocalParameters() const = 0;
 
   /** Set the active transform's parameters by value*/
-  virtual void SetParameters( ParametersType & params ) = 0;
+  virtual void
+  SetParameters(ParametersType & params) = 0;
 
   /** Get a const reference to the active transform's parameters */
-  virtual const ParametersType & GetParameters() const = 0;
+  virtual const ParametersType &
+  GetParameters() const = 0;
 
   /** Return whether the metric's active transform has local support,
    * e.g. whether it is dense/high-dimensional. */
-  virtual bool HasLocalSupport() const = 0;
+  virtual bool
+  HasLocalSupport() const = 0;
 
   /** Update the parameters of the metric's active transform.
    * Typically this call is passed through directly to the transform.
@@ -186,57 +201,64 @@ public:
    * defaults to 1.0 .
    * \c derivative must be the proper size, as retrieved
    * from GetNumberOfParameters. */
-  virtual void UpdateTransformParameters( const DerivativeType & derivative,
-                                         ParametersValueType factor = NumericTraits<ParametersValueType>::OneValue()) = 0;
+  virtual void
+  UpdateTransformParameters(const DerivativeType & derivative,
+                            ParametersValueType    factor = NumericTraits<ParametersValueType>::OneValue()) = 0;
 
   /** Get the current metric value stored in m_Value. This is only
    * meaningful after a call to GetValue() or GetValueAndDerivative().
    * Note that this would normally be called GetValue, but that name is
    * used for historical reasons by GetValue() to compute the current
    * metric value and store it in m_Value. */
-  MeasureType GetCurrentValue() const;
+  MeasureType
+  GetCurrentValue() const;
 
-  typedef enum {
+  typedef enum
+  {
     UNKNOWN_METRIC = 0,
     OBJECT_METRIC = 1,
     IMAGE_METRIC = 2,
     POINT_SET_METRIC = 3,
     MULTI_METRIC = 4
-    } MetricCategoryType;
+  } MetricCategoryType;
 
   /** Get metric category */
-  virtual MetricCategoryType GetMetricCategory() const
-    {
+  virtual MetricCategoryType
+  GetMetricCategory() const
+  {
     return UNKNOWN_METRIC;
-    }
+  }
 
 protected:
   ObjectToObjectMetricBaseTemplate();
   ~ObjectToObjectMetricBaseTemplate() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Fixed and Moving Objects */
-  ObjectConstPointer      m_FixedObject;
-  ObjectConstPointer      m_MovingObject;
+  ObjectConstPointer m_FixedObject;
+  ObjectConstPointer m_MovingObject;
 
-  GradientSourceType              m_GradientSource;
+  GradientSourceType m_GradientSource;
 
   /** Metric value, stored after evaluating */
-  mutable MeasureType             m_Value;
+  mutable MeasureType m_Value;
 };
 
 /** This helps to meet backward compatibility */
 using ObjectToObjectMetricBase = ObjectToObjectMetricBaseTemplate<double>;
 
 /** Define how to print enumerations */
-extern ITKOptimizersv4_EXPORT std::ostream& operator<<(std::ostream& out, const SourceTypeOfGradient value);
-extern ITKOptimizersv4_EXPORT std::ostream& operator<<(std::ostream& out, const CategoryTypeForMetric value);
+extern ITKOptimizersv4_EXPORT std::ostream &
+                              operator<<(std::ostream & out, const SourceTypeOfGradient value);
+extern ITKOptimizersv4_EXPORT std::ostream &
+                              operator<<(std::ostream & out, const CategoryTypeForMetric value);
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkObjectToObjectMetricBase.hxx"
+#  include "itkObjectToObjectMetricBase.hxx"
 #endif
 
 #endif

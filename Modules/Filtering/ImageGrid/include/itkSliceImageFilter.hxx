@@ -38,9 +38,8 @@
 namespace itk
 {
 
-template< class TInputImage, class TOutputImage >
-SliceImageFilter< TInputImage, TOutputImage >
-::SliceImageFilter()
+template <class TInputImage, class TOutputImage>
+SliceImageFilter<TInputImage, TOutputImage>::SliceImageFilter()
 {
   m_Start.Fill(NumericTraits<IndexValueType>::min());
   m_Stop.Fill(NumericTraits<IndexValueType>::max());
@@ -48,170 +47,163 @@ SliceImageFilter< TInputImage, TOutputImage >
   this->DynamicMultiThreadingOn();
 }
 
-template< class TInputImage, class TOutputImage >
+template <class TInputImage, class TOutputImage>
 void
-SliceImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+SliceImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Start: " << m_Start << std::endl;
   os << indent << "Stop: " << m_Stop << std::endl;
   os << indent << "Step: " << m_Step << std::endl;
-
 }
 
 
-template< class TInputImage, class TOutputImage >
+template <class TInputImage, class TOutputImage>
 void
-SliceImageFilter< TInputImage, TOutputImage >
-::SetStart( typename TInputImage::IndexType::IndexValueType start)
+SliceImageFilter<TInputImage, TOutputImage>::SetStart(typename TInputImage::IndexType::IndexValueType start)
 {
   unsigned int j;
 
-  for ( j = 0; j < ImageDimension; ++j )
+  for (j = 0; j < ImageDimension; ++j)
+  {
+    if (start != m_Start[j])
     {
-    if ( start != m_Start[j] )
-      {
       this->Modified();
-      m_Start.Fill( start );
+      m_Start.Fill(start);
       return;
-      }
     }
+  }
 }
 
 
-template< class TInputImage, class TOutputImage >
+template <class TInputImage, class TOutputImage>
 void
-SliceImageFilter< TInputImage, TOutputImage >
-::SetStop(typename TInputImage::IndexType::IndexValueType  stop)
+SliceImageFilter<TInputImage, TOutputImage>::SetStop(typename TInputImage::IndexType::IndexValueType stop)
 {
   unsigned int j;
 
-  for ( j = 0; j < ImageDimension; ++j )
+  for (j = 0; j < ImageDimension; ++j)
+  {
+    if (stop != m_Stop[j])
     {
-    if ( stop != m_Stop[j] )
-      {
       this->Modified();
-      m_Stop.Fill( stop );
+      m_Stop.Fill(stop);
       return;
-      }
     }
+  }
 }
 
 
-template< class TInputImage, class TOutputImage >
+template <class TInputImage, class TOutputImage>
 void
-SliceImageFilter< TInputImage, TOutputImage >
-::SetStep(int step)
+SliceImageFilter<TInputImage, TOutputImage>::SetStep(int step)
 {
   unsigned int j;
 
-  for ( j = 0; j < ImageDimension; ++j )
+  for (j = 0; j < ImageDimension; ++j)
+  {
+    if (step != m_Step[j])
     {
-    if ( step != m_Step[j] )
-      {
       this->Modified();
-      m_Step.Fill( step );
+      m_Step.Fill(step);
       return;
-      }
     }
-
+  }
 }
 
 
-template< class TInputImage, class TOutputImage >
+template <class TInputImage, class TOutputImage>
 void
-SliceImageFilter< TInputImage, TOutputImage >
-::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
+SliceImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
 {
   InputImageConstPointer inputPtr = this->GetInput();
   OutputImagePointer     outputPtr = this->GetOutput();
 
-  const typename TInputImage::SizeType &inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
-  const typename TInputImage::IndexType &inputIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
+  const typename TInputImage::SizeType &  inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
+  const typename TInputImage::IndexType & inputIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
 
   // clamp start
   InputIndexType start;
-  for ( unsigned int i = 0; i < TOutputImage::ImageDimension; ++i )
-    {
-    start[i] = std::max( m_Start[i], inputIndex[i] );
-    start[i] = std::min( start[i], static_cast<IndexValueType>(inputIndex[i] + inputSize[i]-1) );
-    }
+  for (unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
+  {
+    start[i] = std::max(m_Start[i], inputIndex[i]);
+    start[i] = std::min(start[i], static_cast<IndexValueType>(inputIndex[i] + inputSize[i] - 1));
+  }
 
   // Define/declare an iterator that will walk the output region for this thread
-  using OutputIterator = ImageRegionIteratorWithIndex< TOutputImage >;
+  using OutputIterator = ImageRegionIteratorWithIndex<TOutputImage>;
   OutputIterator outIt(outputPtr, outputRegionForThread);
 
   OutputIndexType destIndex;
-  InputIndexType srcIndex;
+  InputIndexType  srcIndex;
 
-  while ( !outIt.IsAtEnd() )
-    {
+  while (!outIt.IsAtEnd())
+  {
     // Determine the index and physical location of the output pixel
     destIndex = outIt.GetIndex();
 
-    for( unsigned int i = 0; i < TOutputImage::ImageDimension; ++i )
-      {
-      srcIndex[i] = destIndex[i]*m_Step[i] + start[i];
-      }
+    for (unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
+    {
+      srcIndex[i] = destIndex[i] * m_Step[i] + start[i];
+    }
 
     // Copy the input pixel to the output
-    outIt.Set( inputPtr->GetPixel(srcIndex) );
+    outIt.Set(inputPtr->GetPixel(srcIndex));
     ++outIt;
-    }
+  }
 }
 
 
-template< class TInputImage, class TOutputImage >
+template <class TInputImage, class TOutputImage>
 void
-SliceImageFilter< TInputImage, TOutputImage >
-::GenerateInputRequestedRegion()
+SliceImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
 
 
   // Get pointers to the input and output
-  InputImagePointer  inputPtr = const_cast< TInputImage * >( this->GetInput() );
+  InputImagePointer  inputPtr = const_cast<TInputImage *>(this->GetInput());
   OutputImagePointer outputPtr = this->GetOutput();
 
-  const typename TOutputImage::SizeType & outputRequestedRegionSize = outputPtr->GetRequestedRegion().GetSize();
+  const typename TOutputImage::SizeType &  outputRequestedRegionSize = outputPtr->GetRequestedRegion().GetSize();
   const typename TOutputImage::IndexType & outputRequestedRegionStartIndex = outputPtr->GetRequestedRegion().GetIndex();
 
-  const typename TInputImage::SizeType  &inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
-  const typename TInputImage::IndexType &inputIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
+  const typename TInputImage::SizeType &  inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
+  const typename TInputImage::IndexType & inputIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
 
   // clamp start
   InputIndexType start;
-  for ( unsigned int i = 0; i < TOutputImage::ImageDimension; ++i )
-    {
+  for (unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
+  {
     // clamp to valid index range and don't include one past end, so
     // that a zero size RR would be valid
-    start[i] = std::max( m_Start[i], inputIndex[i] );
-    start[i] = std::min( start[i], static_cast<IndexValueType>(inputIndex[i] + inputSize[i] -1) );
-    }
+    start[i] = std::max(m_Start[i], inputIndex[i]);
+    start[i] = std::min(start[i], static_cast<IndexValueType>(inputIndex[i] + inputSize[i] - 1));
+  }
 
 
   typename TInputImage::SizeType inputRequestedRegionSize;
   inputRequestedRegionSize.Fill(0);
-  for ( unsigned int i=0; i < TInputImage::ImageDimension; ++i )
+  for (unsigned int i = 0; i < TInputImage::ImageDimension; ++i)
+  {
+    if (outputRequestedRegionSize[i] > 0)
     {
-    if ( outputRequestedRegionSize[i] > 0 )
-      {
-      inputRequestedRegionSize[i] = (outputRequestedRegionSize[i] - 1 ) * itk::Math::abs(m_Step[i]) + 1;
-      }
+      inputRequestedRegionSize[i] = (outputRequestedRegionSize[i] - 1) * itk::Math::abs(m_Step[i]) + 1;
     }
+  }
 
-  InputIndexType  inputRequestedRegionIndex;
-  for ( unsigned int i=0; i < TOutputImage::ImageDimension; ++i )
-    {
+  InputIndexType inputRequestedRegionIndex;
+  for (unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
+  {
     inputRequestedRegionIndex[i] = outputRequestedRegionStartIndex[i] * m_Step[i] + start[i];
 
     // if reversing, go to the lower ending index - 1
     if (m_Step[i] < 0)
-      {
+    {
       inputRequestedRegionIndex[i] -= inputRequestedRegionSize[i] - 1;
-      }
     }
+  }
 
 
   typename TInputImage::RegionType inputRequestedRegion;
@@ -219,85 +211,81 @@ SliceImageFilter< TInputImage, TOutputImage >
   inputRequestedRegion.SetSize(inputRequestedRegionSize);
 
   // test if input RR is completely inside input largest region
-  if ( inputRequestedRegion.GetNumberOfPixels() > 0 &&
-       !inputPtr->GetLargestPossibleRegion().IsInside( inputRequestedRegion ) )
-    {
-    itkExceptionMacro( "Logic Error: incorrect computation of RequestedRegion" );
-    }
+  if (inputRequestedRegion.GetNumberOfPixels() > 0 &&
+      !inputPtr->GetLargestPossibleRegion().IsInside(inputRequestedRegion))
+  {
+    itkExceptionMacro("Logic Error: incorrect computation of RequestedRegion");
+  }
 
   inputPtr->SetRequestedRegion(inputRequestedRegion);
   return;
-
 }
 
 
-template< class TInputImage, class TOutputImage >
+template <class TInputImage, class TOutputImage>
 void
-SliceImageFilter< TInputImage, TOutputImage >
-::GenerateOutputInformation()
+SliceImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 {
   // Call the superclass' implementation of this method
   Superclass::GenerateOutputInformation();
 
   // Get pointers to the input and output
-  InputImageConstPointer inputPtr  = this->GetInput();
+  InputImageConstPointer inputPtr = this->GetInput();
   OutputImagePointer     outputPtr = this->GetOutput();
 
   // Compute the output spacing, the output image size, and the
   // output image start index
-  const typename TInputImage::SpacingType &inputSpacing = inputPtr->GetSpacing();
-  const typename TInputImage::SizeType &inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
-  const typename TInputImage::IndexType &inputIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
-  typename TInputImage::IndexType inputStartIndex;
+  const typename TInputImage::SpacingType & inputSpacing = inputPtr->GetSpacing();
+  const typename TInputImage::SizeType &    inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
+  const typename TInputImage::IndexType &   inputIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
+  typename TInputImage::IndexType           inputStartIndex;
 
   typename TOutputImage::SpacingType outputSpacing;
-  typename TOutputImage::SizeType outputSize;
+  typename TOutputImage::SizeType    outputSize;
 
   typename TOutputImage::IndexType outputStartIndex;
   outputStartIndex.Fill(0);
 
-  for ( unsigned int i = 0; i < TOutputImage::ImageDimension; ++i )
-    {
+  for (unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
+  {
     outputSpacing[i] = inputSpacing[i] * itk::Math::abs(m_Step[i]);
 
     // clamp start, inclusive start interval
-    IndexValueType start = std::max( m_Start[i], inputIndex[i] - int(m_Step[i]<0));
-    start = std::min( start,  static_cast<IndexValueType>(inputIndex[i] + inputSize[i]) - int(m_Step[i]<0) );
+    IndexValueType start = std::max(m_Start[i], inputIndex[i] - int(m_Step[i] < 0));
+    start = std::min(start, static_cast<IndexValueType>(inputIndex[i] + inputSize[i]) - int(m_Step[i] < 0));
 
     // clamp stop as open interval
     // Based on the sign of the step include 1 after the end.
-    IndexValueType stop = std::max( m_Stop[i], inputIndex[i] - int(m_Step[i]<0) );
-    stop = std::min( stop,  static_cast<IndexValueType>(inputIndex[i] + inputSize[i]) - int(m_Step[i]<0));
+    IndexValueType stop = std::max(m_Stop[i], inputIndex[i] - int(m_Step[i] < 0));
+    stop = std::min(stop, static_cast<IndexValueType>(inputIndex[i] + inputSize[i]) - int(m_Step[i] < 0));
 
     // If both the numerator and the denominator have the same sign,
     // then the range is a valid and non-zero sized. Truncation is the
     // correct rounding for these positive values.
-    if ( (m_Step[i] > 0 && stop > start) ||
-         ( m_Step[i] < 0 && stop < start ) )
-      {
-      outputSize[i] = (stop-start-Math::sgn(m_Step[i]))/m_Step[i];
+    if ((m_Step[i] > 0 && stop > start) || (m_Step[i] < 0 && stop < start))
+    {
+      outputSize[i] = (stop - start - Math::sgn(m_Step[i])) / m_Step[i];
       outputSize[i] += 1u;
-      }
+    }
     else
-      {
+    {
       outputSize[i] = 0u;
-      }
+    }
 
     // If the step is negative, then the start is still the index of
     // the output origin
     inputStartIndex[i] = start;
-
-    }
+  }
 
   const typename TInputImage::DirectionType & inputDirection = inputPtr->GetDirection();
-  typename TInputImage::DirectionType flipMatrix;
+  typename TInputImage::DirectionType         flipMatrix;
 
   // Need a matrix to model the reversing of directions, this should
   // maintain the physical location of the pixels
-  for ( unsigned int j = 0; j < ImageDimension; ++j )
-    {
+  for (unsigned int j = 0; j < ImageDimension; ++j)
+  {
     flipMatrix[j][j] = itk::Math::sgn0(m_Step[j]);
-    }
+  }
 
   outputPtr->SetDirection(inputDirection * flipMatrix);
   outputPtr->SetSpacing(outputSpacing);
@@ -315,22 +303,20 @@ SliceImageFilter< TInputImage, TOutputImage >
 }
 
 
-template< class TInputImage, class TOutputImage >
+template <class TInputImage, class TOutputImage>
 void
-SliceImageFilter< TInputImage, TOutputImage >
-::VerifyInputInformation() ITKv5_CONST
+SliceImageFilter<TInputImage, TOutputImage>::VerifyInputInformation() ITKv5_CONST
 {
 
   Superclass::VerifyInputInformation();
 
-  for ( unsigned int i = 0; i < ImageDimension; ++i )
+  for (unsigned int i = 0; i < ImageDimension; ++i)
+  {
+    if (m_Step[i] == 0)
     {
-    if ( m_Step[i] == 0 )
-      {
-      itkExceptionMacro( "Step size is zero " << m_Step << "!" );
-      }
+      itkExceptionMacro("Step size is zero " << m_Step << "!");
     }
-
+  }
 }
 
 } // end namespace itk

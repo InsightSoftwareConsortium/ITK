@@ -28,91 +28,83 @@ namespace itk
 {
 namespace Statistics
 {
-template< typename TSample >
-MeanSampleFilter< TSample >
-::MeanSampleFilter()
+template <typename TSample>
+MeanSampleFilter<TSample>::MeanSampleFilter()
 {
   this->ProcessObject::SetNumberOfRequiredInputs(1);
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
 
-  this->ProcessObject::SetNthOutput( 0, this->MakeOutput(0) );
+  this->ProcessObject::SetNthOutput(0, this->MakeOutput(0));
 }
 
-template< typename TSample >
+template <typename TSample>
 void
-MeanSampleFilter< TSample >
-::PrintSelf(std::ostream & os, Indent indent) const
+MeanSampleFilter<TSample>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
 
-template< typename TSample >
+template <typename TSample>
 void
-MeanSampleFilter< TSample >
-::SetInput(const SampleType *sample)
+MeanSampleFilter<TSample>::SetInput(const SampleType * sample)
 {
-  this->ProcessObject::SetNthInput( 0, const_cast< SampleType * >( sample ) );
+  this->ProcessObject::SetNthInput(0, const_cast<SampleType *>(sample));
 }
 
-template< typename TSample >
+template <typename TSample>
 const TSample *
-MeanSampleFilter< TSample >
-::GetInput() const
+MeanSampleFilter<TSample>::GetInput() const
 {
-  return itkDynamicCastInDebugMode< const SampleType * >( this->GetPrimaryInput() );
+  return itkDynamicCastInDebugMode<const SampleType *>(this->GetPrimaryInput());
 }
 
-template< typename TSample >
-typename MeanSampleFilter< TSample >::DataObjectPointer
-MeanSampleFilter< TSample >
-::MakeOutput( DataObjectPointerArraySizeType itkNotUsed(idx) )
+template <typename TSample>
+typename MeanSampleFilter<TSample>::DataObjectPointer
+MeanSampleFilter<TSample>::MakeOutput(DataObjectPointerArraySizeType itkNotUsed(idx))
 {
   MeasurementVectorRealType mean;
   (void)mean; // for complainty pants : valgrind
-  NumericTraits<MeasurementVectorRealType>::SetLength( mean, this->GetMeasurementVectorSize() );
+  NumericTraits<MeasurementVectorRealType>::SetLength(mean, this->GetMeasurementVectorSize());
   // NumericTraits::SetLength also initializes array to zero
   typename MeasurementVectorDecoratedType::Pointer decoratedMean = MeasurementVectorDecoratedType::New();
-  decoratedMean->Set( mean );
+  decoratedMean->Set(mean);
   return decoratedMean.GetPointer();
 }
 
-template< typename TSample >
-const typename MeanSampleFilter< TSample >::MeasurementVectorDecoratedType *
-MeanSampleFilter< TSample >
-::GetOutput() const
+template <typename TSample>
+const typename MeanSampleFilter<TSample>::MeasurementVectorDecoratedType *
+MeanSampleFilter<TSample>::GetOutput() const
 {
-  return itkDynamicCastInDebugMode< const MeasurementVectorDecoratedType * >(this->ProcessObject::GetOutput(0) );
+  return itkDynamicCastInDebugMode<const MeasurementVectorDecoratedType *>(this->ProcessObject::GetOutput(0));
 }
 
-template< typename TSample >
-const typename MeanSampleFilter< TSample >::MeasurementVectorRealType
-MeanSampleFilter< TSample >
-::GetMean() const
+template <typename TSample>
+const typename MeanSampleFilter<TSample>::MeasurementVectorRealType
+MeanSampleFilter<TSample>::GetMean() const
 {
   const MeasurementVectorDecoratedType * decorator = this->GetOutput();
   return decorator->Get();
 }
 
-template< typename TSample >
-typename MeanSampleFilter< TSample >::MeasurementVectorSizeType
-MeanSampleFilter< TSample >
-::GetMeasurementVectorSize() const
+template <typename TSample>
+typename MeanSampleFilter<TSample>::MeasurementVectorSizeType
+MeanSampleFilter<TSample>::GetMeasurementVectorSize() const
 {
-  const SampleType *input = this->GetInput();
+  const SampleType * input = this->GetInput();
 
-  if ( input )
-    {
+  if (input)
+  {
     return input->GetMeasurementVectorSize();
-    }
+  }
 
   // Test if the Vector type knows its length
   MeasurementVectorType     vector;
   MeasurementVectorSizeType measurementVectorSize = NumericTraits<MeasurementVectorType>::GetLength(vector);
 
-  if ( measurementVectorSize )
-    {
+  if (measurementVectorSize)
+  {
     return measurementVectorSize;
-    }
+  }
 
   measurementVectorSize = 1; // Otherwise set it to an innocuous value
 
@@ -120,63 +112,61 @@ MeanSampleFilter< TSample >
 }
 
 
-template< typename TSample >
+template <typename TSample>
 void
-MeanSampleFilter< TSample >
-::GenerateData()
+MeanSampleFilter<TSample>::GenerateData()
 {
   // set up input / output
-  const SampleType *input = this->GetInput();
+  const SampleType * input = this->GetInput();
 
-  const MeasurementVectorSizeType measurementVectorSize =
-    input->GetMeasurementVectorSize();
+  const MeasurementVectorSizeType measurementVectorSize = input->GetMeasurementVectorSize();
 
-  auto * decoratedOutput = itkDynamicCastInDebugMode< MeasurementVectorDecoratedType * >(
-                                                 this->ProcessObject::GetOutput(0) );
+  auto * decoratedOutput =
+    itkDynamicCastInDebugMode<MeasurementVectorDecoratedType *>(this->ProcessObject::GetOutput(0));
 
   MeasurementVectorRealType output = decoratedOutput->Get();
 
-  NumericTraits<MeasurementVectorRealType>::SetLength( output, this->GetMeasurementVectorSize() );
+  NumericTraits<MeasurementVectorRealType>::SetLength(output, this->GetMeasurementVectorSize());
 
   // algorithm start
-  using MeasurementRealAccumulateType = CompensatedSummation< MeasurementRealType >;
-  std::vector< MeasurementRealAccumulateType > sum( measurementVectorSize );
+  using MeasurementRealAccumulateType = CompensatedSummation<MeasurementRealType>;
+  std::vector<MeasurementRealAccumulateType> sum(measurementVectorSize);
 
   using TotalFrequencyType = typename SampleType::TotalAbsoluteFrequencyType;
-  TotalFrequencyType totalFrequency = NumericTraits< TotalFrequencyType >::ZeroValue();
+  TotalFrequencyType totalFrequency = NumericTraits<TotalFrequencyType>::ZeroValue();
 
-  typename SampleType::ConstIterator iter =      input->Begin();
+  typename SampleType::ConstIterator       iter = input->Begin();
   const typename SampleType::ConstIterator end = input->End();
 
-  for (; iter != end; ++iter )
-    {
+  for (; iter != end; ++iter)
+  {
     const MeasurementVectorType & measurement = iter.GetMeasurementVector();
 
     const typename SampleType::AbsoluteFrequencyType frequency = iter.GetFrequency();
     totalFrequency += frequency;
 
-    for ( unsigned int dim = 0; dim < measurementVectorSize; dim++ )
-      {
-      const auto component = static_cast< MeasurementRealType >( measurement[dim] );
+    for (unsigned int dim = 0; dim < measurementVectorSize; dim++)
+    {
+      const auto component = static_cast<MeasurementRealType>(measurement[dim]);
 
-      sum[dim] += ( component * static_cast< MeasurementRealType >( frequency ) );
-      }
+      sum[dim] += (component * static_cast<MeasurementRealType>(frequency));
     }
+  }
 
   // compute the mean if the total frequency is different from zero
-  if ( totalFrequency > itk::Math::eps )
+  if (totalFrequency > itk::Math::eps)
+  {
+    for (unsigned int dim = 0; dim < measurementVectorSize; dim++)
     {
-    for ( unsigned int dim = 0; dim < measurementVectorSize; dim++ )
-      {
-      output[dim] = ( sum[dim].GetSum() / static_cast< MeasurementRealType >( totalFrequency ) );
-      }
+      output[dim] = (sum[dim].GetSum() / static_cast<MeasurementRealType>(totalFrequency));
     }
+  }
   else
-    {
-    itkExceptionMacro("Total frequency was too close to zero: " << totalFrequency );
-    }
+  {
+    itkExceptionMacro("Total frequency was too close to zero: " << totalFrequency);
+  }
 
-  decoratedOutput->Set( output );
+  decoratedOutput->Set(output);
 }
 } // end of namespace Statistics
 } // end of namespace itk

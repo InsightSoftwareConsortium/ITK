@@ -35,181 +35,168 @@
 
 namespace itk
 {
-template< typename TOutputImage >
-RandomImageSource< TOutputImage >
-::RandomImageSource()
+template <typename TOutputImage>
+RandomImageSource<TOutputImage>::RandomImageSource()
 {
-  //Default image is 64 wide in each direction.
-  for ( unsigned int i = 0; i < TOutputImage::GetImageDimension(); i++ )
-    {
+  // Default image is 64 wide in each direction.
+  for (unsigned int i = 0; i < TOutputImage::GetImageDimension(); i++)
+  {
     m_Size[i] = 64;
     m_Spacing[i] = 1.0;
     m_Origin[i] = 0.0;
-    }
+  }
   m_Direction.SetIdentity();
   this->DynamicMultiThreadingOn();
 
-  m_Min = NumericTraits< OutputImagePixelType >::NonpositiveMin();
-  m_Max = NumericTraits< OutputImagePixelType >::max();
+  m_Min = NumericTraits<OutputImagePixelType>::NonpositiveMin();
+  m_Max = NumericTraits<OutputImagePixelType>::max();
 }
 
-template< typename TOutputImage >
+template <typename TOutputImage>
 void
-RandomImageSource< TOutputImage >
-::SetSize(SizeValueArrayType sizeArray)
+RandomImageSource<TOutputImage>::SetSize(SizeValueArrayType sizeArray)
 {
   const unsigned int count = TOutputImage::ImageDimension;
   unsigned int       i;
 
-  for ( i = 0; i < count; i++ )
+  for (i = 0; i < count; i++)
+  {
+    if (sizeArray[i] != this->m_Size[i])
     {
-    if ( sizeArray[i] != this->m_Size[i] )
-      {
       break;
-      }
     }
-  if ( i < count )
-    {
+  }
+  if (i < count)
+  {
     this->Modified();
-    for ( i = 0; i < count; i++ )
-      {
+    for (i = 0; i < count; i++)
+    {
       this->m_Size[i] = sizeArray[i];
-      }
     }
+  }
 }
 
-template< typename TOutputImage >
-const typename RandomImageSource< TOutputImage >::SizeValueType *
-RandomImageSource< TOutputImage >
-::GetSize() const
+template <typename TOutputImage>
+const typename RandomImageSource<TOutputImage>::SizeValueType *
+RandomImageSource<TOutputImage>::GetSize() const
 {
   return this->m_Size.GetSize();
 }
 
-template< typename TOutputImage >
+template <typename TOutputImage>
 void
-RandomImageSource< TOutputImage >
-::SetSpacing(SpacingValueArrayType spacingArray)
+RandomImageSource<TOutputImage>::SetSpacing(SpacingValueArrayType spacingArray)
 {
   const unsigned int count = TOutputImage::ImageDimension;
   unsigned int       i;
 
-  for ( i = 0; i < count; i++ )
+  for (i = 0; i < count; i++)
+  {
+    if (Math::NotExactlyEquals(spacingArray[i], this->m_Spacing[i]))
     {
-    if ( Math::NotExactlyEquals(spacingArray[i], this->m_Spacing[i]) )
-      {
       break;
-      }
     }
-  if ( i < count )
-    {
+  }
+  if (i < count)
+  {
     this->Modified();
-    for ( i = 0; i < count; i++ )
-      {
+    for (i = 0; i < count; i++)
+    {
       this->m_Spacing[i] = spacingArray[i];
-      }
     }
+  }
 }
 
-template< typename TOutputImage >
+template <typename TOutputImage>
 void
-RandomImageSource< TOutputImage >
-::SetOrigin(PointValueArrayType originArray)
+RandomImageSource<TOutputImage>::SetOrigin(PointValueArrayType originArray)
 {
   const unsigned int count = TOutputImage::ImageDimension;
   unsigned int       i;
 
-  for ( i = 0; i < count; i++ )
+  for (i = 0; i < count; i++)
+  {
+    if (Math::NotExactlyEquals(originArray[i], this->m_Origin[i]))
     {
-    if ( Math::NotExactlyEquals(originArray[i], this->m_Origin[i]) )
-      {
       break;
-      }
     }
-  if ( i < count )
-    {
+  }
+  if (i < count)
+  {
     this->Modified();
-    for ( i = 0; i < count; i++ )
-      {
+    for (i = 0; i < count; i++)
+    {
       this->m_Origin[i] = originArray[i];
-      }
     }
+  }
 }
 
-template< typename TOutputImage >
-const typename RandomImageSource< TOutputImage >::PointValueType *
-RandomImageSource< TOutputImage >
-::GetOrigin() const
+template <typename TOutputImage>
+const typename RandomImageSource<TOutputImage>::PointValueType *
+RandomImageSource<TOutputImage>::GetOrigin() const
 {
-  for ( unsigned int i = 0; i < TOutputImage::ImageDimension; i++ )
-    {
+  for (unsigned int i = 0; i < TOutputImage::ImageDimension; i++)
+  {
     this->m_OriginArray[i] = this->m_Origin[i];
-    }
+  }
   return this->m_OriginArray;
 }
 
-template< typename TOutputImage >
-const typename RandomImageSource< TOutputImage >::SpacingValueType *
-RandomImageSource< TOutputImage >
-::GetSpacing() const
+template <typename TOutputImage>
+const typename RandomImageSource<TOutputImage>::SpacingValueType *
+RandomImageSource<TOutputImage>::GetSpacing() const
 {
-  for ( unsigned int i = 0; i < TOutputImage::ImageDimension; i++ )
-    {
+  for (unsigned int i = 0; i < TOutputImage::ImageDimension; i++)
+  {
     this->m_SpacingArray[i] = this->m_Spacing[i];
-    }
+  }
   return this->m_SpacingArray;
 }
 
 
-template< typename TOutputImage >
+template <typename TOutputImage>
 void
-RandomImageSource< TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+RandomImageSource<TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Max: "
-     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_Max )
-     << std::endl;
-  os << indent << "Min: "
-     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_Min )
-     << std::endl;
+  os << indent << "Max: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_Max) << std::endl;
+  os << indent << "Min: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_Min) << std::endl;
 
   os << indent << "Origin: [";
   unsigned int ii = 0;
-  while( ii < TOutputImage::ImageDimension - 1 )
-    {
+  while (ii < TOutputImage::ImageDimension - 1)
+  {
     os << m_Origin[ii] << ", ";
     ++ii;
-    }
+  }
   os << m_Origin[ii] << "]" << std::endl;
 
   os << indent << "Spacing: [";
   ii = 0;
-  while( ii < TOutputImage::ImageDimension - 1 )
-    {
+  while (ii < TOutputImage::ImageDimension - 1)
+  {
     os << m_Spacing[ii] << ", ";
     ++ii;
-    }
+  }
   os << m_Spacing[ii] << "]" << std::endl;
 
   os << indent << "Size: [";
   ii = 0;
-  while( ii < TOutputImage::ImageDimension - 1 )
-    {
+  while (ii < TOutputImage::ImageDimension - 1)
+  {
     os << m_Size[ii] << ", ";
     ++ii;
-    }
+  }
   os << m_Size[ii] << "]" << std::endl;
 }
 
 //----------------------------------------------------------------------------
-template< typename TOutputImage >
+template <typename TOutputImage>
 void
-RandomImageSource< TOutputImage >
-::GenerateOutputInformation()
+RandomImageSource<TOutputImage>::GenerateOutputInformation()
 {
-  TOutputImage *output;
-  IndexType     index;
+  TOutputImage * output;
+  IndexType      index;
 
   index.Fill(0);
 
@@ -226,40 +213,39 @@ RandomImageSource< TOutputImage >
 }
 
 //----------------------------------------------------------------------------
-template< typename TOutputImage >
+template <typename TOutputImage>
 void
-RandomImageSource< TOutputImage >
-::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
+RandomImageSource<TOutputImage>::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   itkDebugMacro(<< "Generating a random image of scalars");
 
   using scalarType = typename TOutputImage::PixelType;
   typename TOutputImage::Pointer image = this->GetOutput(0);
 
-  ImageRegionIterator< TOutputImage > it(image, outputRegionForThread);
+  ImageRegionIterator<TOutputImage> it(image, outputRegionForThread);
 
-  IndexValueType indSeed=outputRegionForThread.GetIndex(0);
-  for (unsigned d=1; d<OutputImageDimension; d++)
-    {
+  IndexValueType indSeed = outputRegionForThread.GetIndex(0);
+  for (unsigned d = 1; d < OutputImageDimension; d++)
+  {
     indSeed += outputRegionForThread.GetIndex(d);
-    }
+  }
 
   // Random number seed
   unsigned int sample_seed = 12345 + indSeed;
   double       u;
   double       rnd;
 
-  auto dMin = static_cast< double >( m_Min );
-  auto dMax = static_cast< double >( m_Max );
+  auto dMin = static_cast<double>(m_Min);
+  auto dMax = static_cast<double>(m_Max);
 
-  for (; !it.IsAtEnd(); ++it )
-    {
-    sample_seed = ( sample_seed * 16807 ) % 2147483647L;
-    u = static_cast< double >( sample_seed ) / 2147483711UL;
-    rnd = ( 1.0 - u ) * dMin + u * dMax;
+  for (; !it.IsAtEnd(); ++it)
+  {
+    sample_seed = (sample_seed * 16807) % 2147483647L;
+    u = static_cast<double>(sample_seed) / 2147483711UL;
+    rnd = (1.0 - u) * dMin + u * dMax;
 
-    it.Set( (scalarType)rnd );
-    }
+    it.Set((scalarType)rnd);
+  }
 }
 } // end namespace itk
 

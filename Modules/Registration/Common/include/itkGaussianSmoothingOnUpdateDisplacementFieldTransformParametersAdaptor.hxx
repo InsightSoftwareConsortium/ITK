@@ -24,87 +24,84 @@
 namespace itk
 {
 
-template<typename TTransform>
-GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
-::GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor() :
-  m_GaussianSmoothingVarianceForTheUpdateField( 1.75 ),
-  m_GaussianSmoothingVarianceForTheTotalField( 0.5 )
+template <typename TTransform>
+GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<
+  TTransform>::GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor()
+  : m_GaussianSmoothingVarianceForTheUpdateField(1.75)
+  , m_GaussianSmoothingVarianceForTheTotalField(0.5)
 
-{
-}
-template<typename TTransform>
+{}
+template <typename TTransform>
 void
-GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
-::SetGaussianSmoothingVarianceForTheUpdateField( ScalarType variance )
+GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<
+  TTransform>::SetGaussianSmoothingVarianceForTheUpdateField(ScalarType variance)
 {
   this->m_GaussianSmoothingVarianceForTheUpdateFieldSetTime = this->GetMTime();
-  if( Math::NotExactlyEquals(this->m_GaussianSmoothingVarianceForTheUpdateField, variance) )
-    {
-    itkDebugMacro( "Setting GaussianSmoothingVarianceForTheUpdateField to " << variance );
+  if (Math::NotExactlyEquals(this->m_GaussianSmoothingVarianceForTheUpdateField, variance))
+  {
+    itkDebugMacro("Setting GaussianSmoothingVarianceForTheUpdateField to " << variance);
     this->m_GaussianSmoothingVarianceForTheUpdateField = variance;
     this->Modified();
-    }
-}
-
-template<typename TTransform>
-void
-GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
-::SetGaussianSmoothingVarianceForTheTotalField( const ScalarType variance )
-{
-  this->m_GaussianSmoothingVarianceForTheTotalFieldSetTime = this->GetMTime();
-  if( Math::NotExactlyEquals(this->m_GaussianSmoothingVarianceForTheTotalField, variance) )
-    {
-    itkDebugMacro( "Setting GaussianSmoothingVarianceForTheTotalField to " << variance );
-    this->m_GaussianSmoothingVarianceForTheTotalField = variance;
-    this->Modified();
-    }
-}
-
-template<typename TTransform>
-void
-GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
-::AdaptTransformParameters()
-{
-  Superclass::AdaptTransformParameters();
-
-  if( this->m_GaussianSmoothingVarianceForTheUpdateFieldSetTime > 0 )
-    {
-    this->m_Transform->SetGaussianSmoothingVarianceForTheUpdateField(
-      this->m_GaussianSmoothingVarianceForTheUpdateField );
-    }
-  if( this->m_GaussianSmoothingVarianceForTheTotalFieldSetTime > 0 )
-    {
-    this->m_Transform->SetGaussianSmoothingVarianceForTheTotalField(
-      this->m_GaussianSmoothingVarianceForTheTotalField );
-    }
+  }
 }
 
 template <typename TTransform>
 void
-GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
-::PrintSelf( std::ostream& os, Indent indent ) const
+GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<
+  TTransform>::SetGaussianSmoothingVarianceForTheTotalField(const ScalarType variance)
 {
-  Superclass::PrintSelf( os,indent );
-
-  if( this->m_GaussianSmoothingVarianceForTheUpdateFieldSetTime > 0 ||
-      this->m_GaussianSmoothingVarianceForTheTotalFieldSetTime > 0 )
-    {
-    os << indent << "Gaussian smoothing parameters: " << std::endl;
-    if( this->m_GaussianSmoothingVarianceForTheUpdateFieldSetTime > 0 )
-      {
-      os << indent << "m_GaussianSmoothingVarianceForTheUpdateField: "
-         << this->m_GaussianSmoothingVarianceForTheUpdateField
-         << std::endl;
-      }
-    if( this->m_GaussianSmoothingVarianceForTheTotalFieldSetTime > 0 )
-      {
-      os << indent << "m_GaussianSmoothingVarianceForTheTotalField: "
-         << this->m_GaussianSmoothingVarianceForTheTotalField
-         << std::endl;
-      }
-    }
+  this->m_GaussianSmoothingVarianceForTheTotalFieldSetTime = this->GetMTime();
+  if (Math::NotExactlyEquals(this->m_GaussianSmoothingVarianceForTheTotalField, variance))
+  {
+    itkDebugMacro("Setting GaussianSmoothingVarianceForTheTotalField to " << variance);
+    this->m_GaussianSmoothingVarianceForTheTotalField = variance;
+    this->Modified();
+  }
 }
 
-}  // namespace itk
+template <typename TTransform>
+void
+GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>::AdaptTransformParameters()
+{
+  Superclass::AdaptTransformParameters();
+
+  if (this->m_GaussianSmoothingVarianceForTheUpdateFieldSetTime > 0)
+  {
+    this->m_Transform->SetGaussianSmoothingVarianceForTheUpdateField(
+      this->m_GaussianSmoothingVarianceForTheUpdateField);
+  }
+  if (this->m_GaussianSmoothingVarianceForTheTotalFieldSetTime > 0)
+  {
+    this->m_Transform->SetGaussianSmoothingVarianceForTheTotalField(this->m_GaussianSmoothingVarianceForTheTotalField);
+  }
+}
+
+template <typename TTransform>
+void
+GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>::PrintSelf(std::ostream & os,
+                                                                                            Indent         indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  if (this->m_GaussianSmoothingVarianceForTheUpdateFieldSetTime > 0 ||
+      this->m_GaussianSmoothingVarianceForTheTotalFieldSetTime > 0)
+  {
+    os << indent << "Gaussian smoothing parameters: " << std::endl;
+    if (this->m_GaussianSmoothingVarianceForTheUpdateFieldSetTime > 0)
+    {
+      os << indent
+         << "m_GaussianSmoothingVarianceForTheUpdateField: " << this->m_GaussianSmoothingVarianceForTheUpdateField
+         << std::endl;
+    }
+    if (this->m_GaussianSmoothingVarianceForTheTotalFieldSetTime > 0)
+    {
+      os << indent
+         << "m_GaussianSmoothingVarianceForTheTotalField: " << this->m_GaussianSmoothingVarianceForTheTotalField
+         << std::endl;
+    }
+  }
+}
+
+} // namespace itk
 
 #endif

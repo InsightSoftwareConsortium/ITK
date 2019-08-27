@@ -24,24 +24,25 @@
 
 namespace itk
 {
-SpatialObjectFactoryBase *SpatialObjectFactoryBase:: m_Factory = nullptr;
+SpatialObjectFactoryBase * SpatialObjectFactoryBase::m_Factory = nullptr;
 
 SpatialObjectFactoryBase::SpatialObjectFactoryBase() = default;
 
 SpatialObjectFactoryBase::~SpatialObjectFactoryBase() = default;
 
-void SpatialObjectFactoryBase::RegisterDefaultSpatialObjects()
+void
+SpatialObjectFactoryBase::RegisterDefaultSpatialObjects()
 {
-  if ( !m_Factory )
-    {
+  if (!m_Factory)
+  {
     // 3D Objects
-    using EllipseType3D = EllipseSpatialObject< 3 >;
-    using GroupType3D = GroupSpatialObject< 3 >;
-    using DTITubeType3D = DTITubeSpatialObject< 3 >;
-    SpatialObjectFactory< EllipseType3D >::RegisterSpatialObject();
-    SpatialObjectFactory< GroupType3D >::RegisterSpatialObject();
-    SpatialObjectFactory< DTITubeType3D >::RegisterSpatialObject();
-    }
+    using EllipseType3D = EllipseSpatialObject<3>;
+    using GroupType3D = GroupSpatialObject<3>;
+    using DTITubeType3D = DTITubeSpatialObject<3>;
+    SpatialObjectFactory<EllipseType3D>::RegisterSpatialObject();
+    SpatialObjectFactory<GroupType3D>::RegisterSpatialObject();
+    SpatialObjectFactory<DTITubeType3D>::RegisterSpatialObject();
+  }
 }
 
 const char *

@@ -82,18 +82,18 @@ namespace itk
  * \sphinxexample{Core/Common/DisplayImage,Display Image}
  * \endsphinx
  */
-template< typename TPixel, unsigned int VImageDimension = 2 >
-class ITK_TEMPLATE_EXPORT Image:public ImageBase< VImageDimension >
+template <typename TPixel, unsigned int VImageDimension = 2>
+class ITK_TEMPLATE_EXPORT Image : public ImageBase<VImageDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(Image);
 
   /** Standard class type aliases */
   using Self = Image;
-  using Superclass = ImageBase< VImageDimension >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using ConstWeakPointer = WeakPointer< const Self >;
+  using Superclass = ImageBase<VImageDimension>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using ConstWeakPointer = WeakPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -118,12 +118,12 @@ public:
 
   /** Accessor type that convert data between internal and external
    *  representations.  */
-  using AccessorType = DefaultPixelAccessor< PixelType >;
-  using AccessorFunctorType = DefaultPixelAccessorFunctor< Self >;
+  using AccessorType = DefaultPixelAccessor<PixelType>;
+  using AccessorFunctorType = DefaultPixelAccessorFunctor<Self>;
 
   /** Typedef for the functor used to access a neighborhood of pixel
    * pointers. */
-  using NeighborhoodAccessorFunctorType = NeighborhoodAccessorFunctor< Self >;
+  using NeighborhoodAccessorFunctorType = NeighborhoodAccessorFunctor<Self>;
 
   /** Type of image dimension */
   using ImageDimensionType = typename Superclass::ImageDimensionType;
@@ -140,13 +140,13 @@ public:
   using SizeValueType = typename Superclass::SizeValueType;
 
   /** Container used to store pixels in the image. */
-  using PixelContainer = ImportImageContainer< SizeValueType, PixelType >;
+  using PixelContainer = ImportImageContainer<SizeValueType, PixelType>;
 
   /** Direction type alias support. A matrix of direction cosines. */
   using DirectionType = typename Superclass::DirectionType;
 
   /** Region type alias support. A region is used to specify a subset of an image.
-    */
+   */
   using RegionType = typename Superclass::RegionType;
 
   /** Spacing type alias support.  Spacing holds the size of a pixel.  The
@@ -173,89 +173,106 @@ public:
    */
   template <typename UPixelType, unsigned int NUImageDimension = VImageDimension>
   struct Rebind
-    {
-      using Type = itk::Image<UPixelType, NUImageDimension>;
-    };
+  {
+    using Type = itk::Image<UPixelType, NUImageDimension>;
+  };
 
 
   template <typename UPixelType, unsigned int NUImageDimension = VImageDimension>
-    using RebindImageType = itk::Image<UPixelType, NUImageDimension>;
+  using RebindImageType = itk::Image<UPixelType, NUImageDimension>;
 
 
   /** Allocate the image memory. The size of the image must
    * already be set, e.g. by calling SetRegions(). */
-  void Allocate(bool initializePixels = false) override;
+  void
+  Allocate(bool initializePixels = false) override;
 
   /** Restore the data object to its initial state. This means releasing
    * memory. */
-  void Initialize() override;
+  void
+  Initialize() override;
 
   /** Fill the image buffer with a value.  Be sure to call Allocate()
    * first. */
-  void FillBuffer(const TPixel & value);
+  void
+  FillBuffer(const TPixel & value);
 
   /** \brief Set a pixel value.
    *
    * Allocate() needs to have been called first -- for efficiency,
    * this function does not check that the image has actually been
    * allocated yet. */
-  void SetPixel(const IndexType & index, const TPixel & value)
+  void
+  SetPixel(const IndexType & index, const TPixel & value)
   {
     OffsetValueType offset = this->FastComputeOffset(index);
-    ( *m_Buffer )[offset] = value;
+    (*m_Buffer)[offset] = value;
   }
 
   /** \brief Get a pixel (read only version).
    *
    * For efficiency, this function does not check that the
    * image has actually been allocated yet. */
-  const TPixel & GetPixel(const IndexType & index) const
+  const TPixel &
+  GetPixel(const IndexType & index) const
   {
     OffsetValueType offset = this->FastComputeOffset(index);
-    return ( ( *m_Buffer )[offset] );
+    return ((*m_Buffer)[offset]);
   }
 
   /** \brief Get a reference to a pixel (e.g. for editing).
    *
    * For efficiency, this function does not check that the
    * image has actually been allocated yet. */
-  TPixel & GetPixel(const IndexType & index)
+  TPixel &
+  GetPixel(const IndexType & index)
   {
     OffsetValueType offset = this->FastComputeOffset(index);
-    return ( ( *m_Buffer )[offset] );
+    return ((*m_Buffer)[offset]);
   }
 
   /** \brief Access a pixel. This version can be an lvalue.
    *
    * For efficiency, this function does not check that the
    * image has actually been allocated yet. */
-  TPixel & operator[](const IndexType & index)
-  { return this->GetPixel(index); }
+  TPixel & operator[](const IndexType & index) { return this->GetPixel(index); }
 
   /** \brief Access a pixel. This version can only be an rvalue.
    *
    * For efficiency, this function does not check that the
    * image has actually been allocated yet. */
-  const TPixel & operator[](const IndexType & index) const
-  { return this->GetPixel(index); }
+  const TPixel & operator[](const IndexType & index) const { return this->GetPixel(index); }
 
   /** Return a pointer to the beginning of the buffer.  This is used by
    * the image iterator class. */
-  virtual TPixel * GetBufferPointer()
-  { return m_Buffer ? m_Buffer->GetBufferPointer() : nullptr; }
-  virtual const TPixel * GetBufferPointer() const
-  { return m_Buffer ? m_Buffer->GetBufferPointer() : nullptr; }
+  virtual TPixel *
+  GetBufferPointer()
+  {
+    return m_Buffer ? m_Buffer->GetBufferPointer() : nullptr;
+  }
+  virtual const TPixel *
+  GetBufferPointer() const
+  {
+    return m_Buffer ? m_Buffer->GetBufferPointer() : nullptr;
+  }
 
   /** Return a pointer to the container. */
-  PixelContainer * GetPixelContainer()
-  { return m_Buffer.GetPointer(); }
+  PixelContainer *
+  GetPixelContainer()
+  {
+    return m_Buffer.GetPointer();
+  }
 
-  const PixelContainer * GetPixelContainer() const
-  { return m_Buffer.GetPointer(); }
+  const PixelContainer *
+  GetPixelContainer() const
+  {
+    return m_Buffer.GetPointer();
+  }
 
   /** Set the container to use. Note that this does not cause the
    * DataObject to be modified. */
-  void SetPixelContainer(PixelContainer *container);
+  void
+  SetPixelContainer(PixelContainer * container);
 
   /** Graft the data and information from one image to another. This
    * is a convenience method to setup a second image with all the meta
@@ -267,30 +284,46 @@ public:
    * simply calls CopyInformation() and copies the region ivars.
    * The implementation here refers to the superclass' implementation
    * and then copies over the pixel container. */
-  virtual void Graft(const Self *data);
+  virtual void
+  Graft(const Self * data);
 
   /** Return the Pixel Accessor object */
-  AccessorType GetPixelAccessor()
-  { return AccessorType(); }
+  AccessorType
+  GetPixelAccessor()
+  {
+    return AccessorType();
+  }
 
   /** Return the Pixel Accesor object */
-  const AccessorType GetPixelAccessor() const
-  { return AccessorType(); }
+  const AccessorType
+  GetPixelAccessor() const
+  {
+    return AccessorType();
+  }
 
   /** Return the NeighborhoodAccessor functor */
-  NeighborhoodAccessorFunctorType GetNeighborhoodAccessor()
-  { return NeighborhoodAccessorFunctorType(); }
+  NeighborhoodAccessorFunctorType
+  GetNeighborhoodAccessor()
+  {
+    return NeighborhoodAccessorFunctorType();
+  }
 
   /** Return the NeighborhoodAccessor functor */
-  const NeighborhoodAccessorFunctorType GetNeighborhoodAccessor() const
-  { return NeighborhoodAccessorFunctorType(); }
+  const NeighborhoodAccessorFunctorType
+  GetNeighborhoodAccessor() const
+  {
+    return NeighborhoodAccessorFunctorType();
+  }
 
-  unsigned int GetNumberOfComponentsPerPixel() const override;
+  unsigned int
+  GetNumberOfComponentsPerPixel() const override;
 
 protected:
   Image();
-  void PrintSelf(std::ostream & os, Indent indent) const override;
-  void Graft(const DataObject *data) override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  Graft(const DataObject * data) override;
 
   ~Image() override = default;
 
@@ -299,8 +332,10 @@ protected:
    * overloaded in derived classes in order to provide backward compatibility
    * behavior in classes that did not used to take image orientation into
    * account.  */
-  void ComputeIndexToPhysicalPointMatrices() override;
+  void
+  ComputeIndexToPhysicalPointMatrices() override;
   using Superclass::Graft;
+
 private:
   /** Memory for the current buffer. */
   PixelContainerPointer m_Buffer;
@@ -308,7 +343,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImage.hxx"
+#  include "itkImage.hxx"
 #endif
 
 #endif

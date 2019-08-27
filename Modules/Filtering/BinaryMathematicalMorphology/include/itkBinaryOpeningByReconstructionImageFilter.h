@@ -20,7 +20,8 @@
 
 #include "itkKernelImageFilter.h"
 
-namespace itk {
+namespace itk
+{
 
 /**
  * \class BinaryOpeningByReconstructionImageFilter
@@ -45,17 +46,16 @@ namespace itk {
  * \ingroup ITKBinaryMathematicalMorphology
  */
 
-template<typename TInputImage, typename TKernel>
-class ITK_TEMPLATE_EXPORT BinaryOpeningByReconstructionImageFilter :
-    public KernelImageFilter<TInputImage, TInputImage, TKernel>
+template <typename TInputImage, typename TKernel>
+class ITK_TEMPLATE_EXPORT BinaryOpeningByReconstructionImageFilter
+  : public KernelImageFilter<TInputImage, TInputImage, TKernel>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryOpeningByReconstructionImageFilter);
 
   /** Standard class type aliases. */
   using Self = BinaryOpeningByReconstructionImageFilter;
-  using Superclass =
-      KernelImageFilter<TInputImage, TInputImage, TKernel>;
+  using Superclass = KernelImageFilter<TInputImage, TInputImage, TKernel>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -63,8 +63,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(BinaryOpeningByReconstructionImageFilter,
-               KernelImageFilter);
+  itkTypeMacro(BinaryOpeningByReconstructionImageFilter, KernelImageFilter);
 
   using InputImageType = TInputImage;
   using OutputImageType = TInputImage;
@@ -104,32 +103,35 @@ public:
 protected:
   BinaryOpeningByReconstructionImageFilter();
   ~BinaryOpeningByReconstructionImageFilter() override = default;
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** BinaryOpeningByReconstructionImageFilter need to make sure they request enough of an
    * input image to account for the structuring element size.  The input
    * requested region is expanded by the radius of the structuring element.
    * If the request extends past the LargestPossibleRegion for the input,
    * the request is cropped by the LargestPossibleRegion. */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** Single-threaded version of GenerateData.  This filter delegates
    * to GrayscaleDilateImageFilter GrayscaleErodeImageFilter. */
-  void  GenerateData () override;
+  void
+  GenerateData() override;
 
 private:
-  PixelType  m_ForegroundValue;
+  PixelType m_ForegroundValue;
 
-  PixelType  m_BackgroundValue;
+  PixelType m_BackgroundValue;
 
-  bool       m_FullyConnected;
+  bool m_FullyConnected;
 
 }; // end of class
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryOpeningByReconstructionImageFilter.hxx"
+#  include "itkBinaryOpeningByReconstructionImageFilter.hxx"
 #endif
 
 #endif

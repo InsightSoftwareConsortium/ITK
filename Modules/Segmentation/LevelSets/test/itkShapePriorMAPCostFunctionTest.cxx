@@ -36,28 +36,29 @@
  * of the original parameters.
  *
  */
-int itkShapePriorMAPCostFunctionTest( int, char *[])
+int
+itkShapePriorMAPCostFunctionTest(int, char *[])
 {
 
   using PixelType = float;
   constexpr unsigned int Dimension = 2;
-  using ImageType = itk::Image<PixelType,Dimension>;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
   /**
    * Set up the shape signed distance function
    */
-  using ShapeFunctionType = itk::SphereSignedDistanceFunction<double,Dimension>;
+  using ShapeFunctionType = itk::SphereSignedDistanceFunction<double, Dimension>;
   ShapeFunctionType::Pointer shape = ShapeFunctionType::New();
   shape->Initialize();
 
- /**
+  /**
    * Set up a statistical model of the shape parameters.
    */
-  using CostFunctionType = itk::ShapePriorMAPCostFunction<ImageType,PixelType>;
+  using CostFunctionType = itk::ShapePriorMAPCostFunction<ImageType, PixelType>;
   using NodeType = CostFunctionType::NodeType;
   using NodeContainerType = CostFunctionType::NodeContainerType;
-  CostFunctionType::ParametersType mean( shape->GetNumberOfParameters() );
-  CostFunctionType::ParametersType stddev( shape->GetNumberOfParameters() );
+  CostFunctionType::ParametersType mean(shape->GetNumberOfParameters());
+  CostFunctionType::ParametersType stddev(shape->GetNumberOfParameters());
 
   mean[0] = 10.0;
   mean[1] = 50.0;
@@ -71,55 +72,55 @@ int itkShapePriorMAPCostFunctionTest( int, char *[])
   /**
    * Set the shape parameters to be perturbation of the mean
    */
-  ShapeFunctionType::ParametersType parameters( shape->GetNumberOfParameters() );
+  ShapeFunctionType::ParametersType parameters(shape->GetNumberOfParameters());
   parameters[0] = mean[0] - 0.1;
   parameters[1] = mean[1] - 4.0;
   parameters[2] = mean[2] - 6.0;
-  shape->SetParameters( parameters );
+  shape->SetParameters(parameters);
 
 
   /**
    * Create an input level set and active region container
    */
   ImageType::SizeType size;
-  size.Fill( 128 );
+  size.Fill(128);
   ImageType::RegionType region;
-  region.SetSize( size );
+  region.SetSize(size);
 
   ImageType::Pointer input = ImageType::New();
-  input->SetRegions( region );
+  input->SetRegions(region);
   input->Allocate();
 
-  NodeContainerType::Pointer activeRegion  = NodeContainerType::New();
+  NodeContainerType::Pointer activeRegion = NodeContainerType::New();
 
 
   using Iterator = itk::ImageRegionIteratorWithIndex<ImageType>;
-  Iterator iter( input, region );
+  Iterator iter(input, region);
   iter.GoToBegin();
 
   unsigned int counter = 0;
-  PixelType activeRegionThreshold = 3.0;
+  PixelType    activeRegionThreshold = 3.0;
 
-  while ( !iter.IsAtEnd() )
-    {
-    ImageType::IndexType index;
+  while (!iter.IsAtEnd())
+  {
+    ImageType::IndexType         index;
     ShapeFunctionType::PointType point;
     index = iter.GetIndex();
-    input->TransformIndexToPhysicalPoint( index, point );
+    input->TransformIndexToPhysicalPoint(index, point);
 
-    float value  = shape->Evaluate( point );
-    iter.Set( value );
+    float value = shape->Evaluate(point);
+    iter.Set(value);
 
-    if ( itk::Math::abs( value ) < activeRegionThreshold )
-      {
+    if (itk::Math::abs(value) < activeRegionThreshold)
+    {
       NodeType node;
-      node.SetIndex( index );
-      node.SetValue( value );
-      activeRegion->InsertElement( counter++, node );
-      }
+      node.SetIndex(index);
+      node.SetValue(value);
+      activeRegion->InsertElement(counter++, node);
+    }
 
     ++iter;
-    }
+  }
 
   std::cout << "No. nodes: " << activeRegion->Size() << std::endl;
 
@@ -127,9 +128,9 @@ int itkShapePriorMAPCostFunctionTest( int, char *[])
    * Create a dummy edge potential image.
    */
   ImageType::Pointer edgeMap = ImageType::New();
-  edgeMap->SetRegions( region );
+  edgeMap->SetRegions(region);
   edgeMap->Allocate();
-  edgeMap->FillBuffer( 1.0 );
+  edgeMap->FillBuffer(1.0);
 
 
   /**
@@ -137,37 +138,37 @@ int itkShapePriorMAPCostFunctionTest( int, char *[])
    */
   CostFunctionType::Pointer costFunction = CostFunctionType::New();
 
-  costFunction->SetShapeFunction( shape );
-  costFunction->SetActiveRegion( activeRegion );
-  costFunction->SetFeatureImage( edgeMap );
+  costFunction->SetShapeFunction(shape);
+  costFunction->SetActiveRegion(activeRegion);
+  costFunction->SetFeatureImage(edgeMap);
 
-  CostFunctionType::ParametersType shapeMean( shape->GetNumberOfShapeParameters() );
-  CostFunctionType::ParametersType shapeStdDev( shape->GetNumberOfShapeParameters() );
+  CostFunctionType::ParametersType shapeMean(shape->GetNumberOfShapeParameters());
+  CostFunctionType::ParametersType shapeStdDev(shape->GetNumberOfShapeParameters());
   shapeMean[0] = mean[0];
   shapeStdDev[0] = stddev[0];
 
-  costFunction->SetShapeParameterMeans( shapeMean );
-  costFunction->SetShapeParameterStandardDeviations( shapeStdDev );
+  costFunction->SetShapeParameterMeans(shapeMean);
+  costFunction->SetShapeParameterStandardDeviations(shapeStdDev);
 
   CostFunctionType::WeightsType weights;
-  weights.Fill( 1.5 );
+  weights.Fill(1.5);
 
-  costFunction->SetWeights( weights );
+  costFunction->SetWeights(weights);
 
 
   // Initialize cost function before use
   try
-    {
+  {
     costFunction->Initialize();
-    }
-  catch( itk::ExceptionObject & err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cout << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // exercise Print method
-  costFunction->Print( std::cout );
+  costFunction->Print(std::cout);
 
   // exercise Get methods
   std::cout << "ShapeParameterMeans: ";
@@ -192,70 +193,69 @@ int itkShapePriorMAPCostFunctionTest( int, char *[])
   using OptimizerType = itk::AmoebaOptimizer;
   OptimizerType::Pointer optimizer = OptimizerType::New();
 
-  optimizer->SetCostFunction( costFunction );
-  optimizer->SetInitialPosition( mean );
+  optimizer->SetCostFunction(costFunction);
+  optimizer->SetInitialPosition(mean);
 
-  optimizer->SetFunctionConvergenceTolerance( 0.01 );
-  optimizer->SetParametersConvergenceTolerance( 0.05 );
+  optimizer->SetFunctionConvergenceTolerance(0.01);
+  optimizer->SetParametersConvergenceTolerance(0.05);
 
   try
-    {
+  {
     optimizer->StartOptimization();
-    }
-  catch( itk::ExceptionObject & err )
-    {
+  }
+  catch (itk::ExceptionObject & err)
+  {
     std::cout << err << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "Target parameters: " << parameters << std::endl;
   std::cout << "Final parameters: " << optimizer->GetCurrentPosition() << std::endl;
 
-  for ( unsigned int j = 0; j < costFunction->GetNumberOfParameters(); j++ )
+  for (unsigned int j = 0; j < costFunction->GetNumberOfParameters(); j++)
+  {
+    if (itk::Math::abs(parameters[j] - optimizer->GetCurrentPosition()[j]) > 0.5)
     {
-    if ( itk::Math::abs( parameters[j] - optimizer->GetCurrentPosition()[j] ) > 0.5 )
-      {
       std::cout << "Final parameters not within tolerance. " << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
 
   // exercise error testing
 
   bool pass;
 
-#define TEST_INITIALIZATION_ERROR( ComponentName, badComponent, goodComponent ) \
-  costFunction->Set##ComponentName( badComponent ); \
-  try \
-    { \
-    pass = false; \
-    costFunction->Initialize(); \
-    } \
-  catch( itk::ExceptionObject& err ) \
-    { \
-    std::cout << "Caught expected ExceptionObject" << std::endl; \
-    std::cout << err << std::endl; \
-    pass = true; \
-    } \
-  costFunction->Set##ComponentName( goodComponent ); \
-  \
-  if( !pass ) \
-    { \
-    std::cout << "Test failed." << std::endl; \
-    return EXIT_FAILURE; \
-    }
+#define TEST_INITIALIZATION_ERROR(ComponentName, badComponent, goodComponent)                                          \
+  costFunction->Set##ComponentName(badComponent);                                                                      \
+  try                                                                                                                  \
+  {                                                                                                                    \
+    pass = false;                                                                                                      \
+    costFunction->Initialize();                                                                                        \
+  }                                                                                                                    \
+  catch (itk::ExceptionObject & err)                                                                                   \
+  {                                                                                                                    \
+    std::cout << "Caught expected ExceptionObject" << std::endl;                                                       \
+    std::cout << err << std::endl;                                                                                     \
+    pass = true;                                                                                                       \
+  }                                                                                                                    \
+  costFunction->Set##ComponentName(goodComponent);                                                                     \
+                                                                                                                       \
+  if (!pass)                                                                                                           \
+  {                                                                                                                    \
+    std::cout << "Test failed." << std::endl;                                                                          \
+    return EXIT_FAILURE;                                                                                               \
+  }
 
-  TEST_INITIALIZATION_ERROR( ShapeFunction, nullptr, shape );
-  TEST_INITIALIZATION_ERROR( ActiveRegion, nullptr, activeRegion );
-  TEST_INITIALIZATION_ERROR( FeatureImage, nullptr, edgeMap );
+  TEST_INITIALIZATION_ERROR(ShapeFunction, nullptr, shape);
+  TEST_INITIALIZATION_ERROR(ActiveRegion, nullptr, activeRegion);
+  TEST_INITIALIZATION_ERROR(FeatureImage, nullptr, edgeMap);
 
-  CostFunctionType::ParametersType badParameters( shape->GetNumberOfShapeParameters() - 1 );
-  badParameters.Fill( 2.0 );
+  CostFunctionType::ParametersType badParameters(shape->GetNumberOfShapeParameters() - 1);
+  badParameters.Fill(2.0);
 
-  TEST_INITIALIZATION_ERROR( ShapeParameterMeans, badParameters, shapeMean );
-  TEST_INITIALIZATION_ERROR( ShapeParameterStandardDeviations, badParameters, shapeStdDev );
+  TEST_INITIALIZATION_ERROR(ShapeParameterMeans, badParameters, shapeMean);
+  TEST_INITIALIZATION_ERROR(ShapeParameterStandardDeviations, badParameters, shapeStdDev);
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
-
 }

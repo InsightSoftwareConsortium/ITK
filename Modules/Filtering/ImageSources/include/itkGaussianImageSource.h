@@ -40,18 +40,17 @@ namespace itk
  * \ingroup DataSources
  * \ingroup ITKImageSources
  */
-template< typename TOutputImage >
-class ITK_TEMPLATE_EXPORT GaussianImageSource :
-  public ParametricImageSource< TOutputImage >
+template <typename TOutputImage>
+class ITK_TEMPLATE_EXPORT GaussianImageSource : public ParametricImageSource<TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GaussianImageSource);
 
   /** Standard class type aliases. */
   using Self = GaussianImageSource;
-  using Superclass = ParametricImageSource< TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ParametricImageSource<TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Typedef for the output image type. */
   using OutputImageType = TOutputImage;
@@ -78,7 +77,7 @@ public:
   static constexpr unsigned int NDimensions = TOutputImage::ImageDimension;
 
   /** Type used to store Gaussian parameters. */
-  using ArrayType = FixedArray< double, Self::NDimensions >;
+  using ArrayType = FixedArray<double, Self::NDimensions>;
 
   /** Size type matches that used for images */
   using SizeType = typename TOutputImage::SizeType;
@@ -118,20 +117,25 @@ public:
    * values in the parameter array are the Sigma parameters in each
    * dimension, the next N values are the Mean parameters in each
    * dimension, and the last value is the Scale. */
-  void SetParameters(const ParametersType & parameters) override;
-  ParametersType GetParameters() const override;
+  void
+  SetParameters(const ParametersType & parameters) override;
+  ParametersType
+  GetParameters() const override;
 
   /** Get the number of parameters for this image source. When this
    * source is templated over an N-dimensional output image type, the
    * number of parameters is 2*N+1. */
-  unsigned int GetNumberOfParameters() const override;
+  unsigned int
+  GetNumberOfParameters() const override;
 
 protected:
   GaussianImageSource();
   ~GaussianImageSource() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   ArrayType m_Sigma;
@@ -145,7 +149,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGaussianImageSource.hxx"
+#  include "itkGaussianImageSource.hxx"
 #endif
 
 #endif

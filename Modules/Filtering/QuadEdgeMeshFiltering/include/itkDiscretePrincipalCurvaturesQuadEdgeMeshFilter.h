@@ -30,16 +30,15 @@ namespace itk
  *
  * \ingroup ITKQuadEdgeMeshFiltering
  */
-template< typename TInputMesh, typename TOutputMesh=TInputMesh >
-class DiscretePrincipalCurvaturesQuadEdgeMeshFilter:
-  public DiscreteCurvatureQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
+template <typename TInputMesh, typename TOutputMesh = TInputMesh>
+class DiscretePrincipalCurvaturesQuadEdgeMeshFilter
+  : public DiscreteCurvatureQuadEdgeMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
   using Self = DiscretePrincipalCurvaturesQuadEdgeMeshFilter;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using Superclass = DiscreteCurvatureQuadEdgeMeshFilter<
-    TInputMesh, TOutputMesh >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using Superclass = DiscreteCurvatureQuadEdgeMeshFilter<TInputMesh, TOutputMesh>;
 
   using InputMeshType = typename Superclass::InputMeshType;
   using InputMeshPointer = typename Superclass::InputMeshPointer;
@@ -61,45 +60,47 @@ public:
   /** Run-time type information (and related methods).   */
   itkTypeMacro(DiscretePrincipalCurvaturesQuadEdgeMeshFilter, DiscreteCurvatureQuadEdgeMeshFilter);
 
-  using CoefficientType = ConformalMatrixCoefficients< OutputMeshType >;
+  using CoefficientType = ConformalMatrixCoefficients<OutputMeshType>;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( OutputIsFloatingPointCheck,
-                   ( Concept::IsFloatingPoint< OutputCurvatureType > ) );
+  itkConceptMacro(OutputIsFloatingPointCheck, (Concept::IsFloatingPoint<OutputCurvatureType>));
   // End concept checking
 #endif
 
 protected:
-  DiscretePrincipalCurvaturesQuadEdgeMeshFilter():
-    m_Gaussian(0.0), m_Mean(0.0){}
+  DiscretePrincipalCurvaturesQuadEdgeMeshFilter()
+    : m_Gaussian(0.0)
+    , m_Mean(0.0)
+  {}
   ~DiscretePrincipalCurvaturesQuadEdgeMeshFilter() override = default;
 
   OutputCurvatureType m_Gaussian;
   OutputCurvatureType m_Mean;
 
-  void ComputeMeanAndGaussianCurvatures(const OutputPointType & iP)
+  void
+  ComputeMeanAndGaussianCurvatures(const OutputPointType & iP)
   {
     OutputMeshPointer output = this->GetOutput();
 
-    OutputQEType *qe = iP.GetEdge();
+    OutputQEType * qe = iP.GetEdge();
 
     m_Mean = 0.;
     m_Gaussian = 0.;
 
-    if ( qe != nullptr )
-      {
+    if (qe != nullptr)
+    {
       OutputVectorType Laplace;
       Laplace.Fill(0.);
 
-      OutputQEType *qe_it = qe;
+      OutputQEType * qe_it = qe;
 
       OutputCurvatureType area(0.), sum_theta(0.);
 
-      if ( qe_it != qe_it->GetOnext() )
-        {
+      if (qe_it != qe_it->GetOnext())
+      {
         qe_it = qe;
-        OutputQEType *qe_it2;
+        OutputQEType * qe_it2;
 
         OutputPointType  q0, q1;
         OutputVectorType face_normal;
@@ -113,17 +114,16 @@ protected:
         CoefficientType coefficent;
 
         do
-          {
+        {
           qe_it2 = qe_it->GetOnext();
-          q0 = output->GetPoint( qe_it->GetDestination() );
-          q1 = output->GetPoint( qe_it2->GetDestination() );
+          q0 = output->GetPoint(qe_it->GetDestination());
+          q1 = output->GetPoint(qe_it2->GetDestination());
 
           temp_coeff = coefficent(output, qe_it);
-          Laplace += temp_coeff * ( iP - q0 );
+          Laplace += temp_coeff * (iP - q0);
 
           // Compute Angle;
-          sum_theta += static_cast< OutputCurvatureType >(
-            TriangleType::ComputeAngle(q0, iP, q1) );
+          sum_theta += static_cast<OutputCurvatureType>(TriangleType::ComputeAngle(q0, iP, q1));
 
           temp_area = this->ComputeMixedArea(qe_it, qe_it2);
           area += temp_area;
@@ -132,30 +132,30 @@ protected:
           normal += face_normal;
 
           qe_it = qe_it2;
-          }
-        while ( qe_it != qe );
+        } while (qe_it != qe);
 
-        if ( area > 1e-10 )
-          {
+        if (area > 1e-10)
+        {
           area = 1. / area;
           Laplace *= 0.25 * area;
           m_Mean = Laplace * normal;
-          m_Gaussian = ( 2. * itk::Math::pi - sum_theta ) * area;
-          }
+          m_Gaussian = (2. * itk::Math::pi - sum_theta) * area;
         }
       }
+    }
   }
 
-  virtual OutputCurvatureType ComputeDelta()
+  virtual OutputCurvatureType
+  ComputeDelta()
   {
-    return std::max( static_cast<OutputCurvatureType>( 0. ),
-                         m_Mean * m_Mean - m_Gaussian );
+    return std::max(static_cast<OutputCurvatureType>(0.), m_Mean * m_Mean - m_Gaussian);
   }
 
 private:
   DiscretePrincipalCurvaturesQuadEdgeMeshFilter(const Self &) = delete;
-  void operator=(const Self &) = delete;
+  void
+  operator=(const Self &) = delete;
 };
-}
+} // namespace itk
 
 #endif

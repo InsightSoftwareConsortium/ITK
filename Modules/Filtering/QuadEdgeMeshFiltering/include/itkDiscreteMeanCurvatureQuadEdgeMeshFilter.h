@@ -32,17 +32,16 @@ namespace itk
  * location: Berlin (Germany)
  * \ingroup ITKQuadEdgeMeshFiltering
  */
-template< typename TInputMesh, typename TOutputMesh=TInputMesh >
-class DiscreteMeanCurvatureQuadEdgeMeshFilter:
-  public DiscreteCurvatureQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
+template <typename TInputMesh, typename TOutputMesh = TInputMesh>
+class DiscreteMeanCurvatureQuadEdgeMeshFilter : public DiscreteCurvatureQuadEdgeMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(DiscreteMeanCurvatureQuadEdgeMeshFilter);
 
   using Self = DiscreteMeanCurvatureQuadEdgeMeshFilter;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-  using Superclass = DiscreteCurvatureQuadEdgeMeshFilter< TInputMesh, TOutputMesh >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using Superclass = DiscreteCurvatureQuadEdgeMeshFilter<TInputMesh, TOutputMesh>;
 
   using InputMeshType = typename Superclass::InputMeshType;
   using InputMeshPointer = typename Superclass::InputMeshPointer;
@@ -68,12 +67,11 @@ public:
   /** New macro for creation of through a Smart Pointer   */
   itkNewMacro(Self);
 
-  using CoefficientType = ConformalMatrixCoefficients< OutputMeshType >;
+  using CoefficientType = ConformalMatrixCoefficients<OutputMeshType>;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( OutputIsFloatingPointCheck,
-                   ( Concept::IsFloatingPoint< OutputCurvatureType > ) );
+  itkConceptMacro(OutputIsFloatingPointCheck, (Concept::IsFloatingPoint<OutputCurvatureType>));
   // End concept checking
 #endif
 
@@ -81,11 +79,12 @@ protected:
   DiscreteMeanCurvatureQuadEdgeMeshFilter() = default;
   ~DiscreteMeanCurvatureQuadEdgeMeshFilter() override = default;
 
-  OutputCurvatureType EstimateCurvature(const OutputPointType & iP) override
+  OutputCurvatureType
+  EstimateCurvature(const OutputPointType & iP) override
   {
     OutputMeshPointer output = this->GetOutput();
 
-    OutputQEType *qe = iP.GetEdge();
+    OutputQEType * qe = iP.GetEdge();
 
     OutputCurvatureType oH(0.);
 
@@ -97,14 +96,14 @@ protected:
     OutputVectorType    normal;
     normal.Fill(0.);
 
-    if ( qe != nullptr )
+    if (qe != nullptr)
+    {
+      if (qe != qe->GetOnext())
       {
-      if ( qe != qe->GetOnext() )
-        {
         CoefficientType coefficent;
 
-        OutputQEType *qe_it = qe;
-        OutputQEType *qe_it2;
+        OutputQEType * qe_it = qe;
+        OutputQEType * qe_it2;
 
         OutputCurvatureType temp_area;
         OutputCoordType     temp_coeff;
@@ -113,13 +112,13 @@ protected:
         OutputVectorType face_normal;
 
         do
-          {
+        {
           qe_it2 = qe_it->GetOnext();
-          q0 = output->GetPoint( qe_it->GetDestination() );
-          q1 = output->GetPoint( qe_it2->GetDestination() );
+          q0 = output->GetPoint(qe_it->GetDestination());
+          q1 = output->GetPoint(qe_it2->GetDestination());
 
           temp_coeff = coefficent(output, qe_it);
-          Laplace += temp_coeff * ( iP - q0 );
+          Laplace += temp_coeff * (iP - q0);
 
           temp_area = this->ComputeMixedArea(qe_it, qe_it2);
           area += temp_area;
@@ -128,30 +127,29 @@ protected:
           normal += face_normal;
 
           qe_it = qe_it2;
-          }
-        while ( qe_it != qe );
+        } while (qe_it != qe);
 
-        if ( area < 1e-6 )
-          {
+        if (area < 1e-6)
+        {
           oH = 0.;
-          }
+        }
         else
+        {
+          if (normal.GetSquaredNorm() > 0.)
           {
-          if ( normal.GetSquaredNorm() > 0. )
-            {
             normal.Normalize();
             Laplace *= 0.25 / area;
             oH = Laplace * normal;
-            }
+          }
           else
-            {
+          {
             oH = 0.;
-            }
           }
         }
       }
+    }
     return oH;
   }
 };
-}
+} // namespace itk
 #endif

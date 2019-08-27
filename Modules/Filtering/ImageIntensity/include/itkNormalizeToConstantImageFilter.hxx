@@ -25,78 +25,72 @@
 #include "itkProgressAccumulator.h"
 #include "itkStatisticsImageFilter.h"
 
-namespace itk {
-
-template < typename TInputImage, typename TOutputImage >
-NormalizeToConstantImageFilter< TInputImage, TOutputImage >
-::NormalizeToConstantImageFilter() :
-  m_Constant( NumericTraits<RealType>::OneValue() )
+namespace itk
 {
-}
 
-template < typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+NormalizeToConstantImageFilter<TInputImage, TOutputImage>::NormalizeToConstantImageFilter()
+  : m_Constant(NumericTraits<RealType>::OneValue())
+{}
+
+template <typename TInputImage, typename TOutputImage>
 void
-NormalizeToConstantImageFilter< TInputImage, TOutputImage >
-::GenerateInputRequestedRegion()
+NormalizeToConstantImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   // Call the superclass' implementation of this method.
   Superclass::GenerateInputRequestedRegion();
 
-  auto * input0 = const_cast<InputImageType *>( this->GetInput(0) );
-  if ( !input0 )
-    {
+  auto * input0 = const_cast<InputImageType *>(this->GetInput(0));
+  if (!input0)
+  {
     return;
-    }
+  }
 
-  input0->SetRequestedRegion( input0->GetLargestPossibleRegion() );
+  input0->SetRequestedRegion(input0->GetLargestPossibleRegion());
 }
 
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-NormalizeToConstantImageFilter< TInputImage, TOutputImage >
-::GenerateData()
+NormalizeToConstantImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   this->AllocateOutputs();
   const InputImageType * input0 = this->GetInput(0);
-  OutputImageType * output0     = this->GetOutput(0);
+  OutputImageType *      output0 = this->GetOutput(0);
 
   // Create a process accumulator for tracking the progress of this minipipeline
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
-  using StatType = typename itk::StatisticsImageFilter< InputImageType >;
+  using StatType = typename itk::StatisticsImageFilter<InputImageType>;
   typename StatType::Pointer stat = StatType::New();
-  stat->SetInput( input0 );
-  progress->RegisterInternalFilter( stat, 0.5f );
-  stat->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
+  stat->SetInput(input0);
+  progress->RegisterInternalFilter(stat, 0.5f);
+  stat->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   stat->Update();
 
-  using DivType = typename itk::DivideImageFilter< InputImageType,
-                                           OutputImageType,
-                                           OutputImageType >;
+  using DivType = typename itk::DivideImageFilter<InputImageType, OutputImageType, OutputImageType>;
   typename DivType::Pointer div = DivType::New();
-  div->SetInput( input0 );
-  div->SetConstant2( static_cast< RealType >( stat->GetSum() ) / m_Constant );
-  div->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
+  div->SetInput(input0);
+  div->SetConstant2(static_cast<RealType>(stat->GetSum()) / m_Constant);
+  div->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
 
-  progress->RegisterInternalFilter( div, 0.5f );
+  progress->RegisterInternalFilter(div, 0.5f);
 
-  div->GraftOutput( output0 );
+  div->GraftOutput(output0);
   div->Update();
-  this->GraftOutput( div->GetOutput() );
+  this->GraftOutput(div->GetOutput());
 }
 
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-NormalizeToConstantImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream &os, Indent indent) const
+NormalizeToConstantImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Constant: "  << m_Constant << std::endl;
+  os << indent << "Constant: " << m_Constant << std::endl;
 }
 
-}// end namespace itk
+} // end namespace itk
 #endif

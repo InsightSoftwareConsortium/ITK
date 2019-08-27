@@ -32,45 +32,52 @@
 // info: is_pod (c++20 deprecated) is equivalent to is_trivial && is_standard_layout
 // info: type_traits cannot differentiate if a explicit move constructible/assignmet exist.
 
-TEST(CommonTypeTraits, FixedArrayIsPOD) {
+TEST(CommonTypeTraits, FixedArrayIsPOD)
+{
   using T = itk::FixedArray<float, 3>;
   EXPECT_TRUE(std::is_trivial<T>::value);
   EXPECT_TRUE(std::is_standard_layout<T>::value);
 }
 /************ First Generation FixedArray *************/
-TEST(CommonTypeTraits, VectorIsPOD) {
+TEST(CommonTypeTraits, VectorIsPOD)
+{
   using T = itk::Vector<float, 3>;
   EXPECT_TRUE(std::is_trivial<T>::value);
   EXPECT_TRUE(std::is_standard_layout<T>::value);
 }
 
-TEST(CommonTypeTraits, CovariantVectorIsPOD) {
+TEST(CommonTypeTraits, CovariantVectorIsPOD)
+{
   using T = itk::CovariantVector<float, 3>;
   EXPECT_TRUE(std::is_trivial<T>::value);
   EXPECT_TRUE(std::is_standard_layout<T>::value);
 }
 
-TEST(CommonTypeTraits, PointIsPOD) {
+TEST(CommonTypeTraits, PointIsPOD)
+{
   using T = itk::Point<float>;
   EXPECT_TRUE(std::is_trivial<T>::value);
   EXPECT_TRUE(std::is_standard_layout<T>::value);
 }
 
-TEST(CommonTypeTraits, RGBAPixelIsNotPOD) {
+TEST(CommonTypeTraits, RGBAPixelIsNotPOD)
+{
   using T = itk::RGBAPixel<unsigned int>;
   // Because initialized to zero
   EXPECT_FALSE(std::is_trivial<T>::value);
   EXPECT_TRUE(std::is_standard_layout<T>::value);
 }
 
-TEST(CommonTypeTraits, RGBPixelIsNotPOD) {
+TEST(CommonTypeTraits, RGBPixelIsNotPOD)
+{
   using T = itk::RGBPixel<unsigned int>;
   // Because initialized to zero
   EXPECT_FALSE(std::is_trivial<T>::value);
   EXPECT_TRUE(std::is_standard_layout<T>::value);
 }
 
-TEST(CommonTypeTraits, SymmetricSecondRankTensorIsNotPOD) {
+TEST(CommonTypeTraits, SymmetricSecondRankTensorIsNotPOD)
+{
   using T = itk::SymmetricSecondRankTensor<float, 3>;
   // Because initialized to zero
   EXPECT_FALSE(std::is_trivial<T>::value);
@@ -79,7 +86,8 @@ TEST(CommonTypeTraits, SymmetricSecondRankTensorIsNotPOD) {
 
 /************ Second Generation FixedArray *************/
 /* Derived from Point */
-TEST(CommonTypeTraits, ContinuousIndexIsPOD) {
+TEST(CommonTypeTraits, ContinuousIndexIsPOD)
+{
   using T = itk::ContinuousIndex<float, 2>;
   EXPECT_TRUE(std::is_trivial<T>::value);
   EXPECT_TRUE(std::is_standard_layout<T>::value);
@@ -90,9 +98,9 @@ TEST(CommonTypeTraits, ContinuousIndexIsPOD) {
 /* Dummy class without noexcept move contructors. */
 struct NotNoexceptMove
 {
-    NotNoexceptMove() {}
-    NotNoexceptMove(NotNoexceptMove&&) {}
-    NotNoexceptMove(const NotNoexceptMove&) {}
+  NotNoexceptMove() {}
+  NotNoexceptMove(NotNoexceptMove &&) {}
+  NotNoexceptMove(const NotNoexceptMove &) {}
 };
 
 /* Check that move-constructing a FixedArray works as move-constructing an aggregate.
@@ -103,7 +111,8 @@ struct NotNoexceptMove
  * add noexcept (ITK_NOEXCEPT) to the container. This would disallow using it
  * with might-throw-objects.
  */
-TEST(CommonTypeTraits, FixedArrayIsNoExceptMovable) {
+TEST(CommonTypeTraits, FixedArrayIsNoExceptMovable)
+{
   using IntArrayType = itk::FixedArray<int, 3>;
   EXPECT_TRUE(std::is_nothrow_move_constructible<IntArrayType>::value);
   EXPECT_TRUE(std::is_copy_constructible<IntArrayType>::value);

@@ -56,18 +56,17 @@ namespace itk
  * \ingroup MultiThreaded
  * \ingroup ITKImageCompare
  */
-template< typename TInputImage1, typename TInputImage2 >
-class ITK_TEMPLATE_EXPORT SimilarityIndexImageFilter:
-  public ImageToImageFilter< TInputImage1, TInputImage1 >
+template <typename TInputImage1, typename TInputImage2>
+class ITK_TEMPLATE_EXPORT SimilarityIndexImageFilter : public ImageToImageFilter<TInputImage1, TInputImage1>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SimilarityIndexImageFilter);
 
   /** Standard Self type alias */
   using Self = SimilarityIndexImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage1, TInputImage1 >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage1, TInputImage1>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -94,77 +93,89 @@ public:
   static constexpr unsigned int ImageDimension = TInputImage1::ImageDimension;
 
   /** Type to use form computations. */
-  using RealType = typename NumericTraits< InputImage1PixelType >::RealType;
+  using RealType = typename NumericTraits<InputImage1PixelType>::RealType;
 
   /** Set the first input. */
-  void SetInput1(const InputImage1Type *image)
-  { this->SetInput(image); }
+  void
+  SetInput1(const InputImage1Type * image)
+  {
+    this->SetInput(image);
+  }
 
   /** Set the second input. */
-  void SetInput2(const InputImage2Type *image);
+  void
+  SetInput2(const InputImage2Type * image);
 
   /** Get the first input. */
-  const InputImage1Type * GetInput1()
-  { return this->GetInput(); }
+  const InputImage1Type *
+  GetInput1()
+  {
+    return this->GetInput();
+  }
 
   /** Get the secong input. */
-  const InputImage2Type * GetInput2();
+  const InputImage2Type *
+  GetInput2();
 
   /** Return the computed similarity index. */
   itkGetConstMacro(SimilarityIndex, RealType);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( Input1HasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< InputImage1PixelType > ) );
-  itkConceptMacro( Input2HasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< InputImage2PixelType > ) );
+  itkConceptMacro(Input1HasNumericTraitsCheck, (Concept::HasNumericTraits<InputImage1PixelType>));
+  itkConceptMacro(Input2HasNumericTraitsCheck, (Concept::HasNumericTraits<InputImage2PixelType>));
   // End concept checking
 #endif
 
 protected:
   SimilarityIndexImageFilter();
   ~SimilarityIndexImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Pass the input through unmodified. Do this by Grafting in the
    * AllocateOutputs method. */
-  void AllocateOutputs() override;
+  void
+  AllocateOutputs() override;
 
   /** Initialize some accumulators before the threads run. */
-  void BeforeThreadedGenerateData() override;
+  void
+  BeforeThreadedGenerateData() override;
 
   /** Do final mean and variance computation from data accumulated in threads.
-    */
-  void AfterThreadedGenerateData() override;
+   */
+  void
+  AfterThreadedGenerateData() override;
 
   /** Multi-thread version GenerateData. */
-  void  ThreadedGenerateData(const RegionType &
-                             outputRegionForThread,
-                             ThreadIdType threadId) override;
+  void
+  ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType threadId) override;
 
-  void DynamicThreadedGenerateData( const RegionType & ) override
+  void
+  DynamicThreadedGenerateData(const RegionType &) override
   {
     itkExceptionMacro("This class requires threadId so it must use classic multi-threading model");
   }
 
   // Override since the filter needs all the data for the algorithm
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   // Override since the filter produces all of its output
-  void EnlargeOutputRequestedRegion(DataObject *data) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * data) override;
 
 private:
   RealType m_SimilarityIndex;
 
-  Array< SizeValueType > m_CountOfImage1;
-  Array< SizeValueType > m_CountOfImage2;
-  Array< SizeValueType > m_CountOfIntersection;
+  Array<SizeValueType> m_CountOfImage1;
+  Array<SizeValueType> m_CountOfImage2;
+  Array<SizeValueType> m_CountOfIntersection;
 }; // end of class
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSimilarityIndexImageFilter.hxx"
+#  include "itkSimilarityIndexImageFilter.hxx"
 #endif
 
 #endif

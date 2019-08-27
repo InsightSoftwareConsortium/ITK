@@ -123,9 +123,13 @@ namespace fem
  * \ingroup ITKFEM
  */
 
-template<typename TInputPointSet, typename TInputMesh, typename TOutputImage, typename TInputConfidencePointSet, typename TInputTensorPointSet>
-class ITK_TEMPLATE_EXPORT FEMScatteredDataPointSetToImageFilter:
-  public PointSetToImageFilter< TInputPointSet, TOutputImage >
+template <typename TInputPointSet,
+          typename TInputMesh,
+          typename TOutputImage,
+          typename TInputConfidencePointSet,
+          typename TInputTensorPointSet>
+class ITK_TEMPLATE_EXPORT FEMScatteredDataPointSetToImageFilter
+  : public PointSetToImageFilter<TInputPointSet, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FEMScatteredDataPointSetToImageFilter);
@@ -136,7 +140,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Extract dimension from the output image. */
   static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
@@ -235,50 +239,60 @@ public:
   itkSetMacro(PixelsPerElement, ContinuousIndexType);
 
   /** Set/Get the spacing of the rectilinear element */
-  void SetElementSpacing(const SpacingType & elementSpacing);
+  void
+  SetElementSpacing(const SpacingType & elementSpacing);
   itkGetConstReferenceMacro(SpacingPerElement, SpacingType);
 
   /** Get the number of element in each dimension of the generated mesh */
   itkGetConstReferenceMacro(NumberOfElements, SizeType);
 
 protected:
-
   FEMScatteredDataPointSetToImageFilter();
   ~FEMScatteredDataPointSetToImageFilter() override;
 
   /** Generate 2D/3D rectilinear mesh */
-  void GenerateRectilinearMesh();
+  void
+  GenerateRectilinearMesh();
 
   /** Generate a 2D quadrilateral mesh */
-  void Generate2DQuadrilateralMesh();
+  void
+  Generate2DQuadrilateralMesh();
 
   /** generate 3D hexahedral mesh */
-  void Generate3DHexahedralMesh();
+  void
+  Generate3DHexahedralMesh();
 
   /** Initialize FEMObject from a mesh and feature points */
-  void InitializeFEMObject(FEMObjectType * femObject);
+  void
+  InitializeFEMObject(FEMObjectType * femObject);
 
   /** Initialize Materials */
-  void InitializeMaterials(FEMObjectType * femObject);
+  void
+  InitializeMaterials(FEMObjectType * femObject);
 
   /** Initialize Nodes */
-  void InitializeNodes(FEMObjectType * femObject);
+  void
+  InitializeNodes(FEMObjectType * femObject);
 
   /** Initialize Elements */
-  void InitializeElements(FEMObjectType * femObject);
+  void
+  InitializeElements(FEMObjectType * femObject);
 
   /** Initialize Loads */
-  void InitializeLoads(FEMObjectType * femObject);
+  void
+  InitializeLoads(FEMObjectType * femObject);
 
   /** Run the solver and call ProduceDeformationField to produce deformation field */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  void ProduceDeformationField();
+  void
+  ProduceDeformationField();
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-
   typename FEMObjectType::Pointer      m_FEMObject;
   typename FEMSolverType::Pointer      m_FEMSolver;
   typename FEMSolverType::ConstPointer m_FEMDeformedObject;
@@ -288,19 +302,19 @@ private:
   typename TensorPointSetType::ConstPointer     m_TensorPointSet;
 
   /** Rectilinear mesh */
-  SizeType                 m_NumberOfElements;
-  ContinuousIndexType      m_PixelsPerElement;
-  SpacingType              m_SpacingPerElement;
+  SizeType            m_NumberOfElements;
+  ContinuousIndexType m_PixelsPerElement;
+  SpacingType         m_SpacingPerElement;
 
   /** Material */
   MaterialPointerType m_Material;
 };
 
-}// end namespace fem
-}// end namespace itk
+} // end namespace fem
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFEMScatteredDataPointSetToImageFilter.hxx"
+#  include "itkFEMScatteredDataPointSetToImageFilter.hxx"
 #endif
 
 #endif // itkFEMScatteredDataPointSetToImageFilter_h

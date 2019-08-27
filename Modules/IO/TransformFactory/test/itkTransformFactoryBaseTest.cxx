@@ -22,9 +22,11 @@
 #include "itkVersion.h"
 #include "itkTransformFactoryBase.h"
 
-#define itkPushIfTransformDim(str,D) (D<= (ITK_TRANSFORM_FACTORY_MAX_DIM) )?defaultTransforms.push_back(str):((void)0)
+#define itkPushIfTransformDim(str, D)                                                                                  \
+  (D <= (ITK_TRANSFORM_FACTORY_MAX_DIM)) ? defaultTransforms.push_back(str) : ((void)0)
 
-int itkTransformFactoryBaseTest (int, char*[])
+int
+itkTransformFactoryBaseTest(int, char *[])
 {
   // Call register default transforms
   itk::TransformFactoryBase::RegisterDefaultTransforms();
@@ -47,7 +49,7 @@ int itkTransformFactoryBaseTest (int, char*[])
 
   itkPushIfTransformDim("BSplineTransform_double_2_2", 2);
   itkPushIfTransformDim("BSplineTransform_double_3_3", 3);
-#if !defined ( ITK_LEGACY_REMOVE )
+#if !defined(ITK_LEGACY_REMOVE)
   itkPushIfTransformDim("BSplineDeformableTransform_double_2_2", 2);
   itkPushIfTransformDim("BSplineDeformableTransform_double_3_3", 3);
 #endif
@@ -128,7 +130,7 @@ int itkTransformFactoryBaseTest (int, char*[])
 
   itkPushIfTransformDim("BSplineTransform_float_2_2", 2);
   itkPushIfTransformDim("BSplineTransform_float_3_3", 3);
-#if !defined ( ITK_LEGACY_REMOVE )
+#if !defined(ITK_LEGACY_REMOVE)
   itkPushIfTransformDim("BSplineDeformableTransform_float_2_2", 2);
   itkPushIfTransformDim("BSplineDeformableTransform_float_3_3", 3);
 #endif
@@ -238,56 +240,54 @@ int itkTransformFactoryBaseTest (int, char*[])
   // Print out the names of all the registered transforms
   std::list<std::string> names = itk::TransformFactoryBase::GetFactory()->GetClassOverrideWithNames();
   names.sort();
-    {
+  {
     std::list<std::string>::iterator defaultsIt;
-    for (defaultsIt = defaultTransforms.begin();
-         defaultsIt != defaultTransforms.end();
-      ++defaultsIt)
-      {
+    for (defaultsIt = defaultTransforms.begin(); defaultsIt != defaultTransforms.end(); ++defaultsIt)
+    {
       if (std::find(names.begin(), names.end(), *defaultsIt) == names.end())
-        {
+      {
         std::cout << "[FAILED] " << *defaultsIt << " not registered properly with defaults" << std::endl;
         testReturnStatus = EXIT_FAILURE;
-        }
+      }
       else
-        {
+      {
         std::cout << "[SUCCESS] " << *defaultsIt << " registered properly" << std::endl;
-        }
       }
     }
+  }
 
   // test other methods
   itk::TransformFactoryBase::Pointer base = itk::TransformFactoryBase::New();
-  const char* itkVersion = base->GetITKSourceVersion();
-  const char* description = base->GetDescription();
-  const char* type = base->GetNameOfClass();
+  const char *                       itkVersion = base->GetITKSourceVersion();
+  const char *                       description = base->GetDescription();
+  const char *                       type = base->GetNameOfClass();
   if (strcmp(itkVersion, ITK_SOURCE_VERSION) != 0)
-    {
+  {
     std::cout << "[FAILED] Did not report version correctly" << std::endl;
     testReturnStatus = EXIT_FAILURE;
-    }
+  }
   else
-    {
+  {
     std::cout << "[SUCCESS] Reported version correctly as " << itkVersion << std::endl;
-    }
+  }
   if (strcmp(description, "Transform FactoryBase") != 0)
-    {
+  {
     std::cout << "[FAILED] Did not report description correctly" << std::endl;
     testReturnStatus = EXIT_FAILURE;
-    }
+  }
   else
-    {
+  {
     std::cout << "[SUCCESS] Reported description correctly as " << description << std::endl;
-    }
+  }
   if (strcmp(type, "TransformFactoryBase") != 0)
-    {
+  {
     std::cout << "[FAILED] Did not report type correctly" << std::endl;
     testReturnStatus = EXIT_FAILURE;
-    }
+  }
   else
-    {
+  {
     std::cout << "[SUCCESS] Reported type correctly as " << type << std::endl;
-    }
+  }
 
   // return successfully
   return testReturnStatus;

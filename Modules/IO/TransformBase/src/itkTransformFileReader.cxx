@@ -26,7 +26,7 @@
 
 
 #ifndef ITK_TRANSFORM_FACTORY_MAX_DIM
-#define ITK_TRANSFORM_FACTORY_MAX_DIM 9
+#  define ITK_TRANSFORM_FACTORY_MAX_DIM 9
 #endif
 
 
@@ -36,98 +36,98 @@ namespace itk
 namespace
 {
 // Class to initialize kernel transform for dimension D and lower
-template< typename TParameterType, unsigned int Dimension>
+template <typename TParameterType, unsigned int Dimension>
 struct KernelTransformHelper
 {
-  static int InitializeWMatrix(const typename TransformBaseTemplate<TParameterType>::Pointer &transform)
+  static int
+  InitializeWMatrix(const typename TransformBaseTemplate<TParameterType>::Pointer & transform)
+  {
+    if (transform->GetInputSpaceDimension() == Dimension)
     {
-    if( transform->GetInputSpaceDimension() == Dimension)
-      {
-      using KernelTransformType = typename itk::KernelTransform< TParameterType, Dimension >;
-      auto * kernelTransform = static_cast<KernelTransformType*>(transform.GetPointer());
+      using KernelTransformType = typename itk::KernelTransform<TParameterType, Dimension>;
+      auto * kernelTransform = static_cast<KernelTransformType *>(transform.GetPointer());
       kernelTransform->ComputeWMatrix();
       return 0;
-      }
-    else
-      {
-      // try one less dimension
-      return KernelTransformHelper<TParameterType, Dimension-1>::InitializeWMatrix(transform);
-      }
     }
+    else
+    {
+      // try one less dimension
+      return KernelTransformHelper<TParameterType, Dimension - 1>::InitializeWMatrix(transform);
+    }
+  }
 };
 
 // Template specialized class to stop initializing Kernel Transfoms.
-template<typename TParameterType>
+template <typename TParameterType>
 struct KernelTransformHelper<TParameterType, 0>
 {
-  static int InitializeWMatrix(const typename TransformBaseTemplate<TParameterType>::Pointer &itkNotUsed(transform))
-    {
+  static int
+  InitializeWMatrix(const typename TransformBaseTemplate<TParameterType>::Pointer & itkNotUsed(transform))
+  {
     return 1;
-    }
+  }
 };
-}
+} // namespace
 
 
-template<typename TParametersValueType>
-TransformFileReaderTemplate<TParametersValueType>
-::TransformFileReaderTemplate() :
-  m_FileName("") /* to be removed soon. See .h */
+template <typename TParametersValueType>
+TransformFileReaderTemplate<TParametersValueType>::TransformFileReaderTemplate()
+  : m_FileName("") /* to be removed soon. See .h */
+{}
+
+
+template <typename TParametersValueType>
+TransformFileReaderTemplate<TParametersValueType>::~TransformFileReaderTemplate() = default;
+
+
+template <typename TParametersValueType>
+void
+TransformFileReaderTemplate<TParametersValueType>::Update()
 {
-}
+  if (m_FileName.empty())
+  {
+    itkExceptionMacro("No file name given");
+  }
 
-
-template<typename TParametersValueType>
-TransformFileReaderTemplate<TParametersValueType>
-::~TransformFileReaderTemplate() = default;
-
-
-template<typename TParametersValueType>
-void TransformFileReaderTemplate<TParametersValueType>
-::Update()
-{
-  if ( m_FileName.empty() )
+  if (m_TransformIO.IsNull())
+  {
+    using TransformFactoryIOType = TransformIOFactoryTemplate<TParametersValueType>;
+    m_TransformIO = TransformFactoryIOType::CreateTransformIO(
+      m_FileName.c_str(),
+      /*TransformIOFactoryTemplate<TParametersValueType>::*/ TransformIOFactoryFileModeType::ReadMode);
+    if (m_TransformIO.IsNull())
     {
-    itkExceptionMacro ("No file name given");
-    }
-
-  if( m_TransformIO.IsNull() )
-    {
-    using TransformFactoryIOType = TransformIOFactoryTemplate< TParametersValueType >;
-    m_TransformIO = TransformFactoryIOType::CreateTransformIO( m_FileName.c_str(), /*TransformIOFactoryTemplate<TParametersValueType>::*/ TransformIOFactoryFileModeType::ReadMode );
-    if ( m_TransformIO.IsNull() )
-      {
       std::ostringstream msg;
-      msg << "Could not create Transform IO object for reading file "  << this->GetFileName() << std::endl;
+      msg << "Could not create Transform IO object for reading file " << this->GetFileName() << std::endl;
 
-      if ( !itksys::SystemTools::FileExists( m_FileName.c_str() ) )
-        {
+      if (!itksys::SystemTools::FileExists(m_FileName.c_str()))
+      {
         msg << " File does not exists!";
-        }
-
-      std::list< LightObject::Pointer > allobjects =  ObjectFactoryBase::CreateAllInstance("itkTransformIOBaseTemplate");
-
-      if (!allobjects.empty())
-        {
-        msg << "  Tried to create one of the following:" << std::endl;
-        for (auto & allobject : allobjects)
-          {
-          const Object *obj = dynamic_cast<Object*>(allobject.GetPointer());
-          msg << "    " << obj->GetNameOfClass() << std::endl;
-          }
-        msg << "  You probably failed to set a file suffix, or" << std::endl;
-        msg << "    set the suffix to an unsupported type." << std::endl;
-        }
-      else
-        {
-        msg << "  There are no registered Transform IO factories." << std::endl;
-        msg << "  Please visit https://www.itk.org/Wiki/ITK/FAQ#NoFactoryException to diagnose the problem." << std::endl;
-        }
-
-      itkExceptionMacro( << msg.str().c_str() );
       }
 
+      std::list<LightObject::Pointer> allobjects = ObjectFactoryBase::CreateAllInstance("itkTransformIOBaseTemplate");
 
+      if (!allobjects.empty())
+      {
+        msg << "  Tried to create one of the following:" << std::endl;
+        for (auto & allobject : allobjects)
+        {
+          const Object * obj = dynamic_cast<Object *>(allobject.GetPointer());
+          msg << "    " << obj->GetNameOfClass() << std::endl;
+        }
+        msg << "  You probably failed to set a file suffix, or" << std::endl;
+        msg << "    set the suffix to an unsupported type." << std::endl;
+      }
+      else
+      {
+        msg << "  There are no registered Transform IO factories." << std::endl;
+        msg << "  Please visit https://www.itk.org/Wiki/ITK/FAQ#NoFactoryException to diagnose the problem."
+            << std::endl;
+      }
+
+      itkExceptionMacro(<< msg.str().c_str());
     }
+  }
 
   typename TransformIOType::TransformListType & ioTransformList = m_TransformIO->GetTransformList();
   // Clear old results.
@@ -137,12 +137,12 @@ void TransformFileReaderTemplate<TParametersValueType>
   m_TransformIO->Read();
 
   if (ioTransformList.empty())
-    {
+  {
     std::ostringstream msg;
-    msg <<  "Transform IO: " << m_TransformIO->GetNameOfClass() << std::endl
-        <<  "   failed to read file: " << this->GetFileName() << std::endl;
-    itkExceptionMacro( << msg.str() );
-    }
+    msg << "Transform IO: " << m_TransformIO->GetNameOfClass() << std::endl
+        << "   failed to read file: " << this->GetFileName() << std::endl;
+    itkExceptionMacro(<< msg.str());
+  }
 
   // Clear old results.
   this->m_TransformList.clear();
@@ -150,53 +150,50 @@ void TransformFileReaderTemplate<TParametersValueType>
   // need to be initialized using the transform parameters.
   // kernelTransform->ComputeWMatrix() has to be called after the transform is read but
   // before the transform is used.
-  std::string transformTypeName = ioTransformList.front()->GetNameOfClass();
-  const size_t len = strlen("KernelTransform");// Computed at compile time in most cases
-  if (transformTypeName.size() >= len
-      && !transformTypeName.compare(transformTypeName.size()-len , len, "KernelTransform"))
+  std::string  transformTypeName = ioTransformList.front()->GetNameOfClass();
+  const size_t len = strlen("KernelTransform"); // Computed at compile time in most cases
+  if (transformTypeName.size() >= len &&
+      !transformTypeName.compare(transformTypeName.size() - len, len, "KernelTransform"))
+  {
+    if (KernelTransformHelper<TParametersValueType, ITK_TRANSFORM_FACTORY_MAX_DIM>::InitializeWMatrix(
+          ioTransformList.front().GetPointer()))
     {
-    if( KernelTransformHelper<TParametersValueType,
-        ITK_TRANSFORM_FACTORY_MAX_DIM>::InitializeWMatrix(ioTransformList.front().GetPointer()))
-      {
-      itkDebugMacro(<< "KernelTransform with dimension "
-                    << ioTransformList.front()->GetInputSpaceDimension()
+      itkDebugMacro(<< "KernelTransform with dimension " << ioTransformList.front()->GetInputSpaceDimension()
                     << " is not automatically initialized. \"ComputeWMatrix()\""
-                       " method has to be called."
-                   );
-      }
+                       " method has to be called.");
     }
+  }
 
   // In the case where the first transform in the list is a
   // CompositeTransform, add all the transforms to that first
   // transform. and return a single composite item on the
   // m_TransformList
   const std::string firstTransformName = ioTransformList.front()->GetNameOfClass();
-  if(firstTransformName.find("CompositeTransform") != std::string::npos)
-    {
+  if (firstTransformName.find("CompositeTransform") != std::string::npos)
+  {
     typename TransformListType::const_iterator tit = ioTransformList.begin();
-    typename TransformType::Pointer composite = (*tit).GetPointer();
+    typename TransformType::Pointer            composite = (*tit).GetPointer();
 
     // CompositeTransformIOHelperTemplate knows how to assign to the composite
     // transform's internal list
     CompositeTransformIOHelperTemplate<TParametersValueType> helper;
-    helper.SetTransformList(composite,ioTransformList);
+    helper.SetTransformList(composite, ioTransformList);
 
-    this->m_TransformList.push_back( composite );
-    }
-  else  //Just return the entire list of elements
+    this->m_TransformList.push_back(composite);
+  }
+  else // Just return the entire list of elements
+  {
+    for (auto it = ioTransformList.begin(); it != ioTransformList.end(); ++it)
     {
-    for ( auto it = ioTransformList.begin();
-         it != ioTransformList.end(); ++it )
-      {
-      this->m_TransformList.push_back( (*it).GetPointer() );
-      }
+      this->m_TransformList.push_back((*it).GetPointer());
     }
+  }
 }
 
 
-template<typename TParametersValueType>
-void TransformFileReaderTemplate<TParametersValueType>
-::PrintSelf(std::ostream & os, Indent indent) const
+template <typename TParametersValueType>
+void
+TransformFileReaderTemplate<TParametersValueType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -206,9 +203,9 @@ void TransformFileReaderTemplate<TParametersValueType>
 ITK_GCC_PRAGMA_DIAG_PUSH()
 ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
 
-template class ITKIOTransformBase_EXPORT TransformFileReaderTemplate< double >;
-template class ITKIOTransformBase_EXPORT TransformFileReaderTemplate< float >;
+template class ITKIOTransformBase_EXPORT TransformFileReaderTemplate<double>;
+template class ITKIOTransformBase_EXPORT TransformFileReaderTemplate<float>;
 
 ITK_GCC_PRAGMA_DIAG_POP()
 
-}  // end namespace itk
+} // end namespace itk

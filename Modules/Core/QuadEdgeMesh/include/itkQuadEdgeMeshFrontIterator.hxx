@@ -23,33 +23,32 @@
 namespace itk
 {
 // ---------------------------------------------------------------------
-template< typename TMesh, typename TQE >
-QuadEdgeMeshFrontBaseIterator< TMesh, TQE >::
-QuadEdgeMeshFrontBaseIterator(MeshType *mesh, bool start, QEType *seed) :
-  m_Mesh(mesh),
-  m_Seed(seed),
-  m_Start(start),
-  m_Front(nullptr),
-  m_CurrentEdge(nullptr)
+template <typename TMesh, typename TQE>
+QuadEdgeMeshFrontBaseIterator<TMesh, TQE>::QuadEdgeMeshFrontBaseIterator(MeshType * mesh, bool start, QEType * seed)
+  : m_Mesh(mesh)
+  , m_Seed(seed)
+  , m_Start(start)
+  , m_Front(nullptr)
+  , m_CurrentEdge(nullptr)
 {
-  if ( !mesh )
-    {
+  if (!mesh)
+  {
     // Invalidate the iterator and call it quits
     m_Start = false;
     return;
-    }
-  if ( !seed )
-    {
+  }
+  if (!seed)
+  {
     seed = FindDefaultSeed();
-    if ( !seed )
-      {
+    if (!seed)
+    {
       // Invalidate the iterator and call it quits
       m_Start = false;
       return;
-      }
     }
+  }
   m_Front = new FrontType;
-  m_Front->push_back( FrontAtom(seed, 0) );
+  m_Front->push_back(FrontAtom(seed, 0));
   m_IsPointVisited = IsVisitedContainerType::New();
   m_IsPointVisited->SetElement(seed->GetOrigin(), true);
   m_IsPointVisited->SetElement(seed->GetDestination(), true);
@@ -57,56 +56,52 @@ QuadEdgeMeshFrontBaseIterator(MeshType *mesh, bool start, QEType *seed) :
 }
 
 // ---------------------------------------------------------------------
-template< typename TMesh, typename TQE >
-QuadEdgeMeshFrontBaseIterator< TMesh, TQE >::
-~QuadEdgeMeshFrontBaseIterator()
+template <typename TMesh, typename TQE>
+QuadEdgeMeshFrontBaseIterator<TMesh, TQE>::~QuadEdgeMeshFrontBaseIterator()
 {
   delete m_Front;
 }
 
 // ---------------------------------------------------------------------
-template< typename TMesh, typename TQE >
-QuadEdgeMeshFrontBaseIterator< TMesh, TQE > &
-QuadEdgeMeshFrontBaseIterator< TMesh, TQE >::operator++()
+template <typename TMesh, typename TQE>
+QuadEdgeMeshFrontBaseIterator<TMesh, TQE> &
+QuadEdgeMeshFrontBaseIterator<TMesh, TQE>::operator++()
 {
   // We continue only if not previously marked as finish...
-  if ( !m_Start )
-    {
-    return ( *this );
-    }
+  if (!m_Start)
+  {
+    return (*this);
+  }
 
   // ... or until the front is empty:
-  if ( m_Front->empty() )
-    {
+  if (m_Front->empty())
+  {
     m_Start = false;
-    return ( *this );
-    }
+    return (*this);
+  }
 
   // Sort on the Cost:
   m_Front->sort();
   // Consider the edge with lowest Cost:
-  auto fit = m_Front->begin();
-  QEType *          edge = fit->m_Edge;
+  auto     fit = m_Front->begin();
+  QEType * edge = fit->m_Edge;
 
   // Traverse the Onext ring in search of an unvisited Origin:
   using QEIterator = typename QEType::IteratorGeom;
-  for ( QEIterator qit  = edge->BeginGeomOnext();
-        qit != edge->EndGeomOnext();
-        qit++ )
-    {
-    QEType *oEdge = qit.Value();
+  for (QEIterator qit = edge->BeginGeomOnext(); qit != edge->EndGeomOnext(); qit++)
+  {
+    QEType * oEdge = qit.Value();
     // Things are quite straightforward except when QEType
     // is in fact a QEDual (in disguise) AND oEdge->GetDestination( )
     // is m_NoFace [in which case oEdge->GetDestination() has a value
     // but oEdge->IsDestination() is false]. When this is the case
     // we consider oEdge->GetDestination() as already visited.
-    if ( ( m_IsPointVisited->IndexExists( oEdge->GetDestination() ) )
-         || ( !oEdge->IsDestinationSet() ) )
-      {
+    if ((m_IsPointVisited->IndexExists(oEdge->GetDestination())) || (!oEdge->IsDestinationSet()))
+    {
       continue;
-      }
+    }
     else
-      {
+    {
       // Mark the destination as visited:
       m_IsPointVisited->SetElement(oEdge->GetDestination(), true);
 
@@ -114,39 +109,39 @@ QuadEdgeMeshFrontBaseIterator< TMesh, TQE >::operator++()
       CoordRepType oCost = this->GetCost(oEdge) + fit->m_Cost;
 
       // Push the Sym() on the front:
-      m_Front->push_back( FrontAtom(oEdge->GetSym(), oCost) );
+      m_Front->push_back(FrontAtom(oEdge->GetSym(), oCost));
 
       // We still want to handle oEdge
       m_CurrentEdge = oEdge;
-      return ( *this );
-      }
+      return (*this);
     }
+  }
 
   // All the edge->Origin() neighbours were already visited. Remove
   // the edge from the front, and move to next edge...
   m_Front->pop_front();
   m_CurrentEdge = (QEType *)nullptr;
-  return ( this->operator++() );
+  return (this->operator++());
 }
 
 /**
  * Find in the cell container an arbitrary underlying edge with type
  * QEType.
  */
-template< typename TMesh, typename TQE >
-typename QuadEdgeMeshFrontBaseIterator< TMesh, TQE >::QEType *
-QuadEdgeMeshFrontBaseIterator< TMesh, TQE >::FindDefaultSeed()
+template <typename TMesh, typename TQE>
+typename QuadEdgeMeshFrontBaseIterator<TMesh, TQE>::QEType *
+QuadEdgeMeshFrontBaseIterator<TMesh, TQE>::FindDefaultSeed()
 {
-  if ( auto * edge = dynamic_cast< QEType * >( m_Mesh->GetEdge() ) )
-    {
+  if (auto * edge = dynamic_cast<QEType *>(m_Mesh->GetEdge()))
+  {
     return edge;
-    }
+  }
   using QEDual = typename QEType::DualType;
-  if ( auto * edge = dynamic_cast< QEDual * >( m_Mesh->GetEdge() ) )
-    {
+  if (auto * edge = dynamic_cast<QEDual *>(m_Mesh->GetEdge()))
+  {
     return edge->GetRot();
-    }
+  }
   return (QEType *)nullptr;
 }
-}
+} // namespace itk
 #endif

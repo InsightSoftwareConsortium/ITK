@@ -68,18 +68,17 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKMathematicalMorphology
  */
-template< typename TInputImage, typename TOutputImage, typename TKernel >
-class ITK_TEMPLATE_EXPORT MorphologyImageFilter:
-  public KernelImageFilter< TInputImage, TOutputImage, TKernel >
+template <typename TInputImage, typename TOutputImage, typename TKernel>
+class ITK_TEMPLATE_EXPORT MorphologyImageFilter : public KernelImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MorphologyImageFilter);
 
   /** Standard Self type alias */
   using Self = MorphologyImageFilter;
-  using Superclass = KernelImageFilter< TInputImage, TOutputImage, TKernel >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = KernelImageFilter<TInputImage, TOutputImage, TKernel>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Runtime information support. */
   itkTypeMacro(MorphologyImageFilter, KernelImageFilter);
@@ -97,12 +96,12 @@ public:
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Typedef for boundary conditions. */
-  using ImageBoundaryConditionPointerType = ImageBoundaryCondition< InputImageType > *;
+  using ImageBoundaryConditionPointerType = ImageBoundaryCondition<InputImageType> *;
   using ImageBoundaryConditionConstPointerType = const ImageBoundaryCondition<InputImageType> *;
-  using DefaultBoundaryConditionType = ConstantBoundaryCondition< InputImageType >;
+  using DefaultBoundaryConditionType = ConstantBoundaryCondition<InputImageType>;
 
-/** Neighborhood iterator type. */
-  using NeighborhoodIteratorType = ConstNeighborhoodIterator< TInputImage >;
+  /** Neighborhood iterator type. */
+  using NeighborhoodIteratorType = ConstNeighborhoodIterator<TInputImage>;
 
   /** Kernel type alias. */
   using KernelType = TKernel;
@@ -118,13 +117,15 @@ public:
    * object during the time it is referenced.  The overriding condition
    * can be of a different type than the default type as long as it is
    * a subclass of ImageBoundaryCondition. */
-  void OverrideBoundaryCondition(const ImageBoundaryConditionPointerType i)
+  void
+  OverrideBoundaryCondition(const ImageBoundaryConditionPointerType i)
   {
     m_BoundaryCondition = i;
   }
 
   /** Rest the boundary condition to the default */
-  void ResetBoundaryCondition()
+  void
+  ResetBoundaryCondition()
   {
     m_BoundaryCondition = &m_DefaultBoundaryCondition;
   }
@@ -135,17 +136,20 @@ public:
 protected:
   MorphologyImageFilter();
   ~MorphologyImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Multi-thread version of GenerateData. */
-  void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 
   /** Evaluate image neighborhood with kernel to find the new value
    * for the center pixel value. */
-  virtual PixelType Evaluate(const NeighborhoodIteratorType & nit,
-                             const KernelIteratorType kernelBegin,
-                             const KernelIteratorType kernelEnd) = 0;
+  virtual PixelType
+  Evaluate(const NeighborhoodIteratorType & nit,
+           const KernelIteratorType         kernelBegin,
+           const KernelIteratorType         kernelEnd) = 0;
 
 private:
   /** Pointer to a persistent boundary condition object used
@@ -158,7 +162,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMorphologyImageFilter.hxx"
+#  include "itkMorphologyImageFilter.hxx"
 #endif
 
 #endif

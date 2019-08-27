@@ -39,18 +39,17 @@ namespace itk
  * \ingroup ImageFilters
  * \ingroup ITKSpatialFunction
  */
-template< typename TSpatialFunction, typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT SpatialFunctionImageEvaluatorFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TSpatialFunction, typename TInputImage, typename TOutputImage>
+class ITK_TEMPLATE_EXPORT SpatialFunctionImageEvaluatorFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SpatialFunctionImageEvaluatorFilter);
 
   /** Standard class type aliases. */
   using Self = SpatialFunctionImageEvaluatorFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -83,24 +82,28 @@ public:
   using PositionType = typename FunctionType::InputType;
 
   /** Set the internal spatial function. */
-  void SetFunction(FunctionType *PixelFunction)
-  { m_PixelFunction = PixelFunction; }
+  void
+  SetFunction(FunctionType * PixelFunction)
+  {
+    m_PixelFunction = PixelFunction;
+  }
 
 protected:
   SpatialFunctionImageEvaluatorFilter();
   ~SpatialFunctionImageEvaluatorFilter() override = default;
 
   /** Method for evaluating the implicit function over the image. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
   /** The function that will be evaluated over the image */
-  FunctionType *m_PixelFunction;
+  FunctionType * m_PixelFunction;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSpatialFunctionImageEvaluatorFilter.hxx"
+#  include "itkSpatialFunctionImageEvaluatorFilter.hxx"
 #endif
 
 #endif

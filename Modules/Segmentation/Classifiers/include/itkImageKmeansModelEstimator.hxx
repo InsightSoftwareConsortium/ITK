@@ -22,20 +22,18 @@
 
 namespace itk
 {
-template< typename TInputImage,
-          typename TMembershipFunction >
-ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
-::ImageKmeansModelEstimator()
+template <typename TInputImage, typename TMembershipFunction>
+ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::ImageKmeansModelEstimator()
 {
-  m_ValidInCodebook  = false;
-  m_DoubleMaximum    = NumericTraits< double >::max();
-  m_Threshold        = 0.01;
-  m_OffsetAdd        = 0.01;
-  m_OffsetMultiply   = 0.01;
+  m_ValidInCodebook = false;
+  m_DoubleMaximum = NumericTraits<double>::max();
+  m_Threshold = 0.01;
+  m_OffsetAdd = 0.01;
+  m_OffsetMultiply = 0.01;
   m_MaxSplitAttempts = 10;
   m_OutputDistortion = 0.0;
   m_OutputNumberOfEmptyCells = 0;
-  m_VectorDimension   = 1;
+  m_VectorDimension = 1;
   m_NumberOfCodewords = 1;
   m_CurrentNumberOfCodewords = 1;
 }
@@ -43,11 +41,9 @@ ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
 /**
  * PrintSelf
  */
-template< typename TInputImage,
-          typename TMembershipFunction >
+template <typename TInputImage, typename TMembershipFunction>
 void
-ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
-::PrintSelf(std::ostream & os, Indent indent) const
+ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::PrintSelf(std::ostream & os, Indent indent) const
 {
   os << indent << "                   " << std::endl;
   os << indent << "Kmeans Models " << std::endl;
@@ -64,11 +60,9 @@ ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
   os << indent << "Threshold value :" << m_Threshold << std::endl;
 } // end PrintSelf
 
-template< typename TInputImage,
-          typename TMembershipFunction >
+template <typename TInputImage, typename TMembershipFunction>
 void
-ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
-::PrintKmeansAlgorithmResults()
+ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::PrintKmeansAlgorithmResults()
 {
   itkDebugMacro(<< "                                    ");
   itkDebugMacro(<< "Results of the clustering algorithms");
@@ -96,64 +90,58 @@ ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
 /**
  * Generate data (start the model building process)
  */
-template< typename TInputImage,
-          typename TMembershipFunction >
+template <typename TInputImage, typename TMembershipFunction>
 void
-ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
-::GenerateData()
+ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::GenerateData()
 {
   this->EstimateModels();
 } // end Generate data
 
 // Set the input codebook and allocate memory
 // for the output codebook and other scratch memory
-template< typename TInputImage,
-          typename TMembershipFunction >
+template <typename TInputImage, typename TMembershipFunction>
 void
-ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
-::SetCodebook(CodebookMatrixOfDoubleType inCodebook)
+ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::SetCodebook(CodebookMatrixOfDoubleType inCodebook)
 {
-  m_Codebook        = inCodebook;
+  m_Codebook = inCodebook;
 
-  //Check if the input codebook is a valid
-  if ( InputImagePixelType::GetVectorDimension() == m_Codebook.cols() )
-    {
+  // Check if the input codebook is a valid
+  if (InputImagePixelType::GetVectorDimension() == m_Codebook.cols())
+  {
     m_ValidInCodebook = true;
     this->Allocate();
-    }
-} //End SetInCodebook
+  }
+} // End SetInCodebook
 
 // Allocate scratch memory
 
-template< typename TInputImage,
-          typename TMembershipFunction >
+template <typename TInputImage, typename TMembershipFunction>
 void
-ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
-::Allocate()
+ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::Allocate()
 {
   SizeValueType initCodebookSize, finalCodebookSize;
 
   m_VectorDimension = InputImagePixelType::GetVectorDimension();
 
-  if ( m_ValidInCodebook )
-    {
+  if (m_ValidInCodebook)
+  {
     m_NumberOfCodewords = m_Codebook.rows();
-    m_VectorDimension     = m_Codebook.cols();
+    m_VectorDimension = m_Codebook.cols();
     // Set the initial and final codebook size
     finalCodebookSize = m_NumberOfCodewords;
-    } // end(if valid codebook clause)
+  } // end(if valid codebook clause)
   else
-    {
+  {
     m_ValidInCodebook = true;
 
-    //Check the validity of the n
-    if ( this->GetNumberOfModels() <= 0 )
-      {
+    // Check the validity of the n
+    if (this->GetNumberOfModels() <= 0)
+    {
       itkExceptionMacro(<< "Number of models is less than 0.");
-      }
+    }
 
-    m_NumberOfCodewords      = this->GetNumberOfModels();
-    m_VectorDimension        = InputImagePixelType::GetVectorDimension();
+    m_NumberOfCodewords = this->GetNumberOfModels();
+    m_VectorDimension = InputImagePixelType::GetVectorDimension();
 
     // Set the initial and final codebook size
 
@@ -164,11 +152,11 @@ ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
 
     // initialize m_Codebook to 0 (it now has only one row)
     m_Codebook.fill(0);
-    } // end (else not valid codebook clause)
+  } // end (else not valid codebook clause)
 
   //----------------------------------------------------------
-  //Allocate scratch memory for the centroid, codebook histogram
-  //and the codebook distortion
+  // Allocate scratch memory for the centroid, codebook histogram
+  // and the codebook distortion
 
   m_Centroid.set_size(finalCodebookSize, m_VectorDimension);
   m_Centroid.fill(0);
@@ -181,64 +169,60 @@ ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
 } // end Allocate function
 
 //-----------------------------------------------------------------
-//Reallocate various memories and then make a copy of the old data
+// Reallocate various memories and then make a copy of the old data
 //-----------------------------------------------------------------
 
-template< typename TInputImage,
-          typename TMembershipFunction >
+template <typename TInputImage, typename TMembershipFunction>
 void
-ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
-::Reallocate(int oldSize, int newSize)
+ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::Reallocate(int oldSize, int newSize)
 {
-  //Set up a temporary codebook
+  // Set up a temporary codebook
   CodebookMatrixOfDoubleType tmpCodebook(oldSize, m_VectorDimension);
 
-  //Save the contents of m_Codebook in the tmpCodebook
+  // Save the contents of m_Codebook in the tmpCodebook
   tmpCodebook = m_Codebook;
   m_Codebook.set_size(newSize, m_VectorDimension);
 
   // Copy back the saved data into the codebook
 
-  if ( oldSize < newSize )
+  if (oldSize < newSize)
+  {
+    for (int r = 0; r < oldSize; r++)
     {
-    for ( int r = 0; r < oldSize; r++ )
+      for (unsigned int c = 0; c < m_VectorDimension; c++)
       {
-      for ( unsigned int c = 0; c < m_VectorDimension; c++ )
-        {
         m_Codebook[r][c] = tmpCodebook[r][c];
-        }
       }
+    }
 
-    for ( int r = oldSize; r < newSize; r++ )
-      {
-      for ( unsigned int c = 0; c < m_VectorDimension; c++ )
-        {
-        m_Codebook[r][c] = 0;
-        }
-      }
-    } // if oldsize is smaller than the new size
-  else
+    for (int r = oldSize; r < newSize; r++)
     {
-    for ( int r = 0; r < newSize; r++ )
+      for (unsigned int c = 0; c < m_VectorDimension; c++)
       {
-      for ( unsigned int c = 0; c < m_VectorDimension; c++ )
-        {
-        m_Codebook[r][c] = tmpCodebook[r][c];
-        }
+        m_Codebook[r][c] = 0;
       }
-    } // else oldsize is greater than the new size
-}     // end Reallocate
+    }
+  } // if oldsize is smaller than the new size
+  else
+  {
+    for (int r = 0; r < newSize; r++)
+    {
+      for (unsigned int c = 0; c < m_VectorDimension; c++)
+      {
+        m_Codebook[r][c] = tmpCodebook[r][c];
+      }
+    }
+  } // else oldsize is greater than the new size
+} // end Reallocate
 
 //-----------------------------------------------------------------
 // Takes a set of training images and returns the means
 // and variance of the various classes defined in the
 // training set.
 //-----------------------------------------------------------------
-template< typename TInputImage,
-          typename TMembershipFunction >
+template <typename TInputImage, typename TMembershipFunction>
 void
-ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
-::EstimateModels()
+ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::EstimateModels()
 {
   this->EstimateKmeansModelParameters();
 
@@ -260,58 +244,54 @@ ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
   //-------------------------------------------------------------------
   MembershipFunctionPointer membershipFunction;
 
-  if ( this->GetNumberOfMembershipFunctions() > 0 )
-    {
+  if (this->GetNumberOfMembershipFunctions() > 0)
+  {
     this->DeleteAllMembershipFunctions();
-    }
+  }
 
-  for ( unsigned int classIndex = 0; classIndex < numberOfModels; classIndex++ )
-    {
+  for (unsigned int classIndex = 0; classIndex < numberOfModels; classIndex++)
+  {
     membershipFunction = TMembershipFunction::New();
     typename TMembershipFunction::CentroidType centroid;
     centroid = m_Centroid.get_row(classIndex);
     membershipFunction->SetCentroid(centroid);
     this->AddMembershipFunction(membershipFunction);
-    }
+  }
 } // end EstimateModels
 
 //-----------------------------------------------------------------
-//Estimate K-means models (private function) for the core function
+// Estimate K-means models (private function) for the core function
 //-----------------------------------------------------------------
-template< typename TInputImage,
-          typename TMembershipFunction >
+template <typename TInputImage, typename TMembershipFunction>
 void
-ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
-::EstimateKmeansModelParameters()
+ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::EstimateKmeansModelParameters()
 {
-  //If a codebook is provided by the user then call the
-  //Kmenas algorithm directly that is based on the
-  //Generalized Lloyd algorithm (GLA) if a valid codebook
-  //is provided or m_NumberOfModels is set to 0, else
-  //Linde-Buzo-Gray algorithm is used for clustering
-  if ( m_ValidInCodebook )
-    {
+  // If a codebook is provided by the user then call the
+  // Kmenas algorithm directly that is based on the
+  // Generalized Lloyd algorithm (GLA) if a valid codebook
+  // is provided or m_NumberOfModels is set to 0, else
+  // Linde-Buzo-Gray algorithm is used for clustering
+  if (m_ValidInCodebook)
+  {
     WithCodebookUseGLA();
-    }
+  }
   else
-    {
-    //Assign memory for the initial codebook
-    //since no input codebook is provided for this
-    //function
+  {
+    // Assign memory for the initial codebook
+    // since no input codebook is provided for this
+    // function
     Allocate();
     m_CurrentNumberOfCodewords = m_Codebook.rows();
     WithoutCodebookUseLBG();
-    }
+  }
 
   m_ValidInCodebook = false;
 } // end EstimateKmeansModelParameters
 
 //-----------------------------------------------------------------
-template< typename TInputImage,
-          typename TMembershipFunction >
+template <typename TInputImage, typename TMembershipFunction>
 int
-ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
-::WithCodebookUseGLA()
+ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::WithCodebookUseGLA()
 {
   // Do the Lloyd iteration.  Use the nearest neighbor condition to
   // find the cells.  Then find the centroid of each cell.
@@ -327,65 +307,64 @@ ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
   m_CurrentNumberOfCodewords = m_Codebook.rows();
 
   do
-    {
+  {
     // encode all of the input vectors using the given codebook
     NearestNeighborSearchBasic(&distortion);
 
     // check for lack of convergence
-    if ( olddistortion < distortion )
-      {
+    if (olddistortion < distortion)
+    {
       itkExceptionMacro(<< "Distortion is increasing, not decreasing");
-      }
+    }
 
     // find number of empty cells
     emptycells = 0;
-    for ( unsigned int i = 0; i < m_CurrentNumberOfCodewords; i++ )
+    for (unsigned int i = 0; i < m_CurrentNumberOfCodewords; i++)
+    {
+      if (m_CodewordHistogram[i][0] == 0)
       {
-      if ( m_CodewordHistogram[i][0] == 0 )
-        {
         emptycells += 1;
         m_CodewordDistortion[i][0] = 0.0;
-        }
       }
+    }
 
     // if distortion = 0.0, or
     // if change in distortion < threshold AND there aren't any empty cells,
     // and exit
-    if ( ( distortion == 0.0 ) || ( ( emptycells == 0 )
-                                    && ( olddistortion - distortion ) / distortion < m_Threshold ) )
-      {
-      m_OutputNumberOfEmptyCells   = emptycells;
+    if ((distortion == 0.0) || ((emptycells == 0) && (olddistortion - distortion) / distortion < m_Threshold))
+    {
+      m_OutputNumberOfEmptyCells = emptycells;
       m_OutputDistortion = distortion;
       return GLA_CONVERGED;
-      }
+    }
 
     // no empty cells, find new centroids and reinitialize for next pass
-    if ( emptycells == 0 )
+    if (emptycells == 0)
+    {
+      for (unsigned int i = 0; i < m_CurrentNumberOfCodewords; i++)
       {
-      for ( unsigned int i = 0; i < m_CurrentNumberOfCodewords; i++ )
+        for (unsigned int j = 0; j < m_VectorDimension; j++)
         {
-        for ( unsigned int j = 0; j < m_VectorDimension; j++ )
-          {
           m_Codebook[i][j] = m_Centroid[i][j];
-          }
         }
+      }
 
       olddistortion = distortion;
       pass = 0;
-      } // end if
+    } // end if
 
     // there are empty cells, split the highest distortion codewords.
     // try again
     else
-      {
+    {
       // If there have been too many attempts to fill cells, stop iterations
-      if ( pass == m_MaxSplitAttempts )
-        {
+      if (pass == m_MaxSplitAttempts)
+      {
         itkWarningMacro(<< "Unable to fill all empty cells");
         m_OutputNumberOfEmptyCells = emptycells;
         m_OutputDistortion = distortion;
         return GLA_CONVERGED;
-        }
+      }
 
       // try getting new codewords, send a warning to user
       itkDebugMacro(<< "Attempting to fill empty cells in the codebook");
@@ -394,19 +373,18 @@ ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
       // of the array.  Take care to protect zero distortion codewords
       // which have a positive m_CodewordHistogram.  note: there must be a
       // faster sort algorithm, but this event should be very unlikely
-      for ( unsigned int n = 0; n < m_CurrentNumberOfCodewords - emptycells; n++ )
-        {
+      for (unsigned int n = 0; n < m_CurrentNumberOfCodewords - emptycells; n++)
+      {
         tempdistortion = 0.0;
         bestcodeword = 0;
-        for ( unsigned int i = 0; i < m_NumberOfCodewords; i++ )
+        for (unsigned int i = 0; i < m_NumberOfCodewords; i++)
+        {
+          if ((m_CodewordDistortion[i][0] >= tempdistortion) && (m_CodewordHistogram[i][0] > 0))
           {
-          if ( ( m_CodewordDistortion[i][0] >= tempdistortion )
-               && ( m_CodewordHistogram[i][0] > 0 ) )
-            {
             tempdistortion = m_CodewordDistortion[i][0];
             bestcodeword = i;
-            }
           }
+        }
 
         // put highest distortion centroid into nth codebook row,
         // and erase the set of hightest centroid stats to 0 so
@@ -414,48 +392,44 @@ ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
 
         // find centroid, reinitialize
 
-        for ( unsigned int j = 0; j < m_VectorDimension; j++ )
-          {
+        for (unsigned int j = 0; j < m_VectorDimension; j++)
+        {
           m_Codebook[n][j] = m_Centroid[bestcodeword][j];
-          }
+        }
 
         m_CodewordHistogram[bestcodeword][0] = 0;
         m_CodewordDistortion[bestcodeword][0] = 0.0;
-        }
+      }
 
       // split the required number of codewords
-      SplitCodewords(m_CurrentNumberOfCodewords - emptycells,
-                     emptycells, pass);
+      SplitCodewords(m_CurrentNumberOfCodewords - emptycells, emptycells, pass);
 
       olddistortion = distortion;
       pass++;
-      } // end else
-    }
-  while ( pass <= m_MaxSplitAttempts );
+    } // end else
+  } while (pass <= m_MaxSplitAttempts);
   itkExceptionMacro(<< "Lack of convergence");
 } // end WithCodebookUseGLA
 
 //-----------------------------------------------------------------
-template< typename TInputImage,
-          typename TMembershipFunction >
+template <typename TInputImage, typename TMembershipFunction>
 void
-ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
-::NearestNeighborSearchBasic(double *distortion)
+ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::NearestNeighborSearchBasic(double * distortion)
 {
-  //itkDebugMacro(<<"Start nearest_neighbor_search_basic()");
+  // itkDebugMacro(<<"Start nearest_neighbor_search_basic()");
 
-  double  bestdistortion, tempdistortion, diff;
-  int     bestcodeword;
+  double bestdistortion, tempdistortion, diff;
+  int    bestcodeword;
   auto * tempVec = (double *)new double[m_VectorDimension];
 
-// unused: double *centroidVecTemp = ( double * ) new double[m_VectorDimension];
+  // unused: double *centroidVecTemp = ( double * ) new double[m_VectorDimension];
 
-// initialize codeword histogram and distortion
-  for ( unsigned int i = 0; i < m_CurrentNumberOfCodewords; i++ )
-    {
+  // initialize codeword histogram and distortion
+  for (unsigned int i = 0; i < m_CurrentNumberOfCodewords; i++)
+  {
     m_CodewordHistogram[i][0] = 0;
     m_CodewordDistortion[i][0] = 0.0;
-    }
+  }
 
   // initialize centroid if it exists
   m_Centroid.fill(0);
@@ -467,7 +441,7 @@ ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
   // Declare the iterators for the image and the codebook
   //-----------------------------------------------------------------
   InputImageConstPointer  inputImage = this->GetInputImage();
-  InputImageConstIterator inputImageIt( inputImage, inputImage->GetBufferedRegion() );
+  InputImageConstIterator inputImageIt(inputImage, inputImage->GetBufferedRegion());
   inputImageIt.GoToBegin();
 
   //-----------------------------------------------------------------
@@ -477,82 +451,88 @@ ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
   ImageSizeType size = inputImage->GetBufferedRegion().GetSize();
 
   unsigned int totalNumVecsInInput = 1;
-  for ( unsigned int i = 0; i < TInputImage::ImageDimension; i++ )
-    {
+  for (unsigned int i = 0; i < TInputImage::ImageDimension; i++)
+  {
     totalNumVecsInInput *= (SizeValueType)size[i];
-    }
+  }
 
   //-----------------------------------------------------------------
-  //Loop through the input image vectors
+  // Loop through the input image vectors
   //-----------------------------------------------------------------
 
   InputPixelVectorType inputImagePixelVector;
 
-  for ( unsigned int n = 0; n < totalNumVecsInInput; n++ )
-    {
+  for (unsigned int n = 0; n < totalNumVecsInInput; n++)
+  {
     // keep convention that ties go to lower index
     bestdistortion = m_DoubleMaximum;
     bestcodeword = 0;
 
-    for ( unsigned int i = 0; i < m_CurrentNumberOfCodewords; i++ )
-      {
+    for (unsigned int i = 0; i < m_CurrentNumberOfCodewords; i++)
+    {
       // find the best codeword
       tempdistortion = 0.0;
       inputImagePixelVector = inputImageIt.Get();
 
-      for ( unsigned int j = 0; j < m_VectorDimension; j++ )
-        {
-        diff = (double)( inputImagePixelVector[j] - m_Codebook[i][j] );
+      for (unsigned int j = 0; j < m_VectorDimension; j++)
+      {
+        diff = (double)(inputImagePixelVector[j] - m_Codebook[i][j]);
         tempdistortion += diff * diff;
 
-        if ( tempdistortion > bestdistortion ) { break; }
-        }
-
-      if ( tempdistortion < bestdistortion )
+        if (tempdistortion > bestdistortion)
         {
+          break;
+        }
+      }
+
+      if (tempdistortion < bestdistortion)
+      {
         bestdistortion = tempdistortion;
         bestcodeword = i;
-        }
+      }
 
       // if the bestdistortion is 0.0, the best codeword is found
-      if ( bestdistortion == 0.0 ) { break; }
+      if (bestdistortion == 0.0)
+      {
+        break;
       }
+    }
 
     m_CodewordHistogram[bestcodeword][0] += 1;
     m_CodewordDistortion[bestcodeword][0] += bestdistortion;
     *distortion += bestdistortion;
 
-    //inputImagePixelVector = *tempImgIt;
+    // inputImagePixelVector = *tempImgIt;
     inputImagePixelVector = inputImageIt.Get();
 
-    for ( unsigned int j = 0; j < m_VectorDimension; j++ )
-      {
+    for (unsigned int j = 0; j < m_VectorDimension; j++)
+    {
       m_Centroid[bestcodeword][j] += inputImagePixelVector[j];
-      }
+    }
 
     ++inputImageIt;
-    } // all training vectors have been encoded
+  } // all training vectors have been encoded
 
   // compute table frequency and distortion
-  for ( unsigned int i = 0; i < m_CurrentNumberOfCodewords; i++ )
+  for (unsigned int i = 0; i < m_CurrentNumberOfCodewords; i++)
+  {
+    if (m_CodewordHistogram[i][0] > 0)
     {
-    if ( m_CodewordHistogram[i][0] > 0 )
-      {
       m_CodewordDistortion[i][0] /= (double)m_CodewordHistogram[i][0];
-      }
     }
+  }
 
   // compute centroid
-  for ( unsigned int i = 0; i < m_CurrentNumberOfCodewords; i++ )
+  for (unsigned int i = 0; i < m_CurrentNumberOfCodewords; i++)
+  {
+    if (m_CodewordHistogram[i][0] > 0)
     {
-    if ( m_CodewordHistogram[i][0] > 0 )
+      for (unsigned int j = 0; j < m_VectorDimension; j++)
       {
-      for ( unsigned int j = 0; j < m_VectorDimension; j++ )
-        {
         m_Centroid[i][j] /= (double)m_CodewordHistogram[i][0];
-        }
       }
     }
+  }
 
   // normalize the distortions
   *distortion /= (double)totalNumVecsInInput;
@@ -560,49 +540,45 @@ ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
   delete[] tempVec;
 
   // check for bizarre errors
-  if ( *distortion < 0.0 )
-    {
+  if (*distortion < 0.0)
+  {
     itkExceptionMacro(<< "Computational overflow");
-    }
+  }
 } // End nearest_neighbor_search_basic
 
 //-----------------------------------------------------------------
-template< typename TInputImage,
-          typename TMembershipFunction >
+template <typename TInputImage, typename TMembershipFunction>
 void
-ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
-::SplitCodewords(int currentSize, int numDesired, int scale)
+ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::SplitCodewords(int currentSize, int numDesired, int scale)
 {
   auto * newCodebookData = (double *)new double[m_VectorDimension];
   auto * inCodebookData = (double *)new double[m_VectorDimension];
 
-  for ( int i = 0; i < numDesired; i++ )
+  for (int i = 0; i < numDesired; i++)
+  {
+    for (unsigned int j = 0; j < m_VectorDimension; j++)
     {
-    for ( unsigned int j = 0; j < m_VectorDimension; j++ )
-      {
       inCodebookData[j] = m_Codebook[i][j];
-      }
+    }
 
     Perturb(inCodebookData, scale, newCodebookData);
 
-    for ( unsigned int j = 0; j < m_VectorDimension; j++ )
-      {
+    for (unsigned int j = 0; j < m_VectorDimension; j++)
+    {
       m_Codebook[i + currentSize][j] = newCodebookData[j];
-      }
     }
+  }
 
   delete[] inCodebookData;
   delete[] newCodebookData;
 } // End splitcodewords
 
 //-----------------------------------------------------------------
-template< typename TInputImage,
-          typename TMembershipFunction >
+template <typename TInputImage, typename TMembershipFunction>
 void
-ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
-::Perturb(double *oldCodeword,
-          int scale,
-          double *newCodeword)
+ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::Perturb(double * oldCodeword,
+                                                                     int      scale,
+                                                                     double * newCodeword)
 {
   unsigned int i;
   double       addoffset;
@@ -612,69 +588,73 @@ ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
   addoffset = m_OffsetAdd / std::pow(2.0, (double)scale);
   muloffset = m_OffsetMultiply / std::pow(2.0, (double)scale);
 
-  for ( i = 0; i < m_VectorDimension; i++ )
+  for (i = 0; i < m_VectorDimension; i++)
+  {
+    srand((unsigned)time(nullptr));
+    rand_num = (rand()) / ((double)RAND_MAX);
+
+    if (oldCodeword[i] == 0.0)
     {
-    srand( (unsigned)time(nullptr) );
-    rand_num = ( rand() ) / ( (double)RAND_MAX );
-
-    if ( oldCodeword[i] == 0.0 )
-      {
       newCodeword[i] = addoffset * rand_num;
-      }
+    }
 
-    else if ( std::fabs(oldCodeword[i]) < 0.9 * addoffset )
-      {
+    else if (std::fabs(oldCodeword[i]) < 0.9 * addoffset)
+    {
       newCodeword[i] = oldCodeword[i];
 
-      if ( oldCodeword[i] < 0 )
-        {
+      if (oldCodeword[i] < 0)
+      {
         newCodeword[i] -= addoffset * rand_num;
-        }
-      else
-        {
-        newCodeword[i] += addoffset * rand_num;
-        }
       }
+      else
+      {
+        newCodeword[i] += addoffset * rand_num;
+      }
+    }
 
     else
-      {
+    {
       newCodeword[i] = oldCodeword[i] + muloffset * oldCodeword[i] * rand_num;
-      }
-    } // End looping through the vector
-}     // End perturb
+    }
+  } // End looping through the vector
+} // End perturb
 
 //-----------------------------------------------------------------
-template< typename TInputImage,
-          typename TMembershipFunction >
+template <typename TInputImage, typename TMembershipFunction>
 int
-ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
-::WithoutCodebookUseLBG()
+ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::WithoutCodebookUseLBG()
 {
-  //itkDebugMacro(<<"Start local function lbg design()");
+  // itkDebugMacro(<<"Start local function lbg design()");
 
   unsigned int tmp_ncodewords, j;
 
-// do the LBG algorithm
-// iterations begins here
-// start with one word codebook
+  // do the LBG algorithm
+  // iterations begins here
+  // start with one word codebook
 
-// set initial distortion
+  // set initial distortion
   m_OutputDistortion = m_DoubleMaximum;
 
   // Apply the generalized Lloyd algorithm on all codebook sizes
-  for ( tmp_ncodewords = 1; tmp_ncodewords < m_NumberOfCodewords; )
-    {
+  for (tmp_ncodewords = 1; tmp_ncodewords < m_NumberOfCodewords;)
+  {
     // run the GLA for codebook of size i
     // run gla
     WithCodebookUseGLA();
 
     // if empty cells, do not continue
     // if distortion is zero, no need to continue.
-    if ( m_OutputNumberOfEmptyCells > 0 || m_OutputDistortion == 0.0 ) { break; }
+    if (m_OutputNumberOfEmptyCells > 0 || m_OutputDistortion == 0.0)
+    {
+      break;
+    }
 
     // find the number of new codewords to be made (j-tmp_ncodewords)
     j = 2 * tmp_ncodewords;
-    if ( j > m_NumberOfCodewords ) { j = m_NumberOfCodewords; }
+    if (j > m_NumberOfCodewords)
+    {
+      j = m_NumberOfCodewords;
+    }
 
     // split the codewords
 
@@ -683,31 +663,31 @@ ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
     Reallocate(oldSize, j);
 
     // initialize the new codewords
-    SplitCodewords(tmp_ncodewords, ( j - tmp_ncodewords ), (int)0);
+    SplitCodewords(tmp_ncodewords, (j - tmp_ncodewords), (int)0);
 
     // if error, do not continue
 
     // increment the codebook size
     tmp_ncodewords = j;
-    }
+  }
 
   // if there are no errors, no empty cells and the distortion is positive,
   // create the final codebook
-  if ( m_OutputNumberOfEmptyCells == 0 && m_OutputDistortion > 0.0 )
-    {
+  if (m_OutputNumberOfEmptyCells == 0 && m_OutputDistortion > 0.0)
+  {
     // run gla
     WithCodebookUseGLA();
-    }
+  }
 
   // done with all iterations
 
   const SizeValueType codebookSize = m_Codebook.rows();
-  if ( m_NumberOfCodewords != codebookSize )
-    {
+  if (m_NumberOfCodewords != codebookSize)
+  {
     itkDebugMacro(<< "Returning fewer codewords than requested");
-    } // end if
+  } // end if
 
-  //itkDebugMacro(<<"Done with local function LBG ()");
+  // itkDebugMacro(<<"Done with local function LBG ()");
 
   return LBG_COMPLETED;
 } // End WithoutCodebookUseLBG()

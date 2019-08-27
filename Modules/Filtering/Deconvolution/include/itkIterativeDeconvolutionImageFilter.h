@@ -47,21 +47,21 @@ namespace itk
  *
  * \ingroup ITKDeconvolution
  */
-template< typename TInputImage, typename TKernelImage=TInputImage, typename TOutputImage=TInputImage, typename TInternalPrecision=double >
-class ITK_TEMPLATE_EXPORT IterativeDeconvolutionImageFilter :
-    public FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
+template <typename TInputImage,
+          typename TKernelImage = TInputImage,
+          typename TOutputImage = TInputImage,
+          typename TInternalPrecision = double>
+class ITK_TEMPLATE_EXPORT IterativeDeconvolutionImageFilter
+  : public FFTConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(IterativeDeconvolutionImageFilter);
 
   /** Standard type alias. */
   using Self = IterativeDeconvolutionImageFilter;
-  using Superclass = FFTConvolutionImageFilter< TInputImage,
-                                     TKernelImage,
-                                     TOutputImage,
-                                     TInternalPrecision >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = FFTConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Other useful type alias. */
   using InputImageType = TInputImage;
@@ -87,7 +87,8 @@ public:
 
   /** Stop iteration. When this method is called, the iteration will
    * halt after the current iteration has completed. */
-  void SetStopIteration(bool stop)
+  void
+  SetStopIteration(bool stop)
   {
     // Don't call Modified() to avoid triggering a new update.
     m_StopIteration = stop;
@@ -102,17 +103,16 @@ protected:
   ~IterativeDeconvolutionImageFilter() override;
 
   /** Runs before iterating . */
-  virtual void Initialize(ProgressAccumulator * progress,
-                          float progressWeight,
-                          float iterationProgressWeight);
+  virtual void
+  Initialize(ProgressAccumulator * progress, float progressWeight, float iterationProgressWeight);
 
   /** Performs an iteration. */
-  virtual void Iteration(ProgressAccumulator * itkNotUsed(progress),
-                         float itkNotUsed(iterationProgressWeight)) = 0;
+  virtual void
+  Iteration(ProgressAccumulator * itkNotUsed(progress), float itkNotUsed(iterationProgressWeight)) = 0;
 
   /** Runs after iterating. */
-  virtual void Finish(ProgressAccumulator * progress,
-                      float progressWeight);
+  virtual void
+  Finish(ProgressAccumulator * progress, float progressWeight);
 
   /** This filter needs the entire image kernel, which in general is
    * going to be a different size then the output requested region. As
@@ -121,11 +121,13 @@ protected:
    * execution model.
    *
    * \sa ProcessObject::GenerateInputRequestedRegion()  */
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
   /** Generate the output image data. Uses a minipipeline, so
    * ThreadedGenerateData is not overridden. */
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
   /** Discrete Fourier transform of the padded kernel. */
   InternalComplexImagePointerType m_TransferFunction;
@@ -136,7 +138,8 @@ protected:
   using FFTFilterType = typename Superclass::FFTFilterType;
   using IFFTFilterType = typename Superclass::IFFTFilterType;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /** Number of iterations to run. */
@@ -151,12 +154,11 @@ private:
   /** Modified times for the input and kernel. */
   ModifiedTimeType m_InputMTime;
   ModifiedTimeType m_KernelMTime;
-
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkIterativeDeconvolutionImageFilter.hxx"
+#  include "itkIterativeDeconvolutionImageFilter.hxx"
 #endif
 
 #endif

@@ -23,15 +23,16 @@
 #include "itkBoxImageFilter.h"
 #include "itkTestingMacros.h"
 
-int itkSimpleContourExtractorImageFilterTest( int argc, char* argv [] )
+int
+itkSimpleContourExtractorImageFilterTest(int argc, char * argv[])
 {
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Missing arguments." << std::endl;
     std::cerr << "Usage: " << std::endl;
     std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImage outputImage " << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // Define the dimension of the images
   constexpr unsigned int Dimension = 2;
@@ -43,79 +44,74 @@ int itkSimpleContourExtractorImageFilterTest( int argc, char* argv [] )
   using ImageType = itk::Image<PixelType, Dimension>;
 
   // Declare the reader and writer
-  using ReaderType = itk::ImageFileReader< ImageType >;
-  using WriterType = itk::ImageFileWriter< ImageType >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  using WriterType = itk::ImageFileWriter<ImageType>;
 
 
   // Declare the type for the morphology Filter
-  using FilterType =
-      itk::SimpleContourExtractorImageFilter< ImageType, ImageType >;
+  using FilterType = itk::SimpleContourExtractorImageFilter<ImageType, ImageType>;
 
   // Create the reader and writer
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
 
-  reader->SetFileName( argv[1] );
-  writer->SetFileName( argv[2] );
+  reader->SetFileName(argv[1]);
+  writer->SetFileName(argv[2]);
 
   // Create the filter
   FilterType::Pointer filter = FilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, SimpleContourExtractorImageFilter,
-    BoxImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, SimpleContourExtractorImageFilter, BoxImageFilter);
 
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
   // Connect the pipeline
-  filter->SetInput( reader->GetOutput() );
-  writer->SetInput( filter->GetOutput() );
+  filter->SetInput(reader->GetOutput());
+  writer->SetInput(filter->GetOutput());
 
-  FilterType::InputPixelType inputForegroundValue = 255;
-  FilterType::InputPixelType inputBackgroundValue = 0;
-  FilterType::OutputPixelType outputForegroundValue =
-    itk::NumericTraits< FilterType::OutputPixelType >::max();
-  FilterType::OutputPixelType outputBackgroundValue =
-    itk::NumericTraits< FilterType::OutputPixelType >::ZeroValue();
+  FilterType::InputPixelType  inputForegroundValue = 255;
+  FilterType::InputPixelType  inputBackgroundValue = 0;
+  FilterType::OutputPixelType outputForegroundValue = itk::NumericTraits<FilterType::OutputPixelType>::max();
+  FilterType::OutputPixelType outputBackgroundValue = itk::NumericTraits<FilterType::OutputPixelType>::ZeroValue();
 
-  filter->SetInputForegroundValue( inputForegroundValue );
+  filter->SetInputForegroundValue(inputForegroundValue);
 
-  ITK_TEST_SET_GET_VALUE( inputForegroundValue, filter->GetInputForegroundValue() );
+  ITK_TEST_SET_GET_VALUE(inputForegroundValue, filter->GetInputForegroundValue());
 
-  filter->SetInputBackgroundValue( inputBackgroundValue );
+  filter->SetInputBackgroundValue(inputBackgroundValue);
 
-  ITK_TEST_SET_GET_VALUE( inputBackgroundValue, filter->GetInputBackgroundValue() );
+  ITK_TEST_SET_GET_VALUE(inputBackgroundValue, filter->GetInputBackgroundValue());
 
-  filter->SetOutputForegroundValue( outputForegroundValue );
+  filter->SetOutputForegroundValue(outputForegroundValue);
 
-  ITK_TEST_SET_GET_VALUE( outputForegroundValue, filter->GetOutputForegroundValue() );
+  ITK_TEST_SET_GET_VALUE(outputForegroundValue, filter->GetOutputForegroundValue());
 
-  filter->SetOutputBackgroundValue( outputBackgroundValue );
+  filter->SetOutputBackgroundValue(outputBackgroundValue);
 
-  ITK_TEST_SET_GET_VALUE( outputBackgroundValue, filter->GetOutputBackgroundValue() );
+  ITK_TEST_SET_GET_VALUE(outputBackgroundValue, filter->GetOutputBackgroundValue());
 
 
   FilterType::InputSizeType radius;
 
-  radius.Fill( 1 );
+  radius.Fill(1);
 
-  filter->SetRadius( radius );
+  filter->SetRadius(radius);
 
   // Exercise Print()
-  filter->Print( std::cout );
+  filter->Print(std::cout);
 
   // Execute the filter
   try
-    {
+  {
     writer->Update();
-    }
-  catch (itk::ExceptionObject& e)
-    {
-    std::cerr << "Exception caught during pipeline Update\n"  << e;
+  }
+  catch (itk::ExceptionObject & e)
+  {
+    std::cerr << "Exception caught during pipeline Update\n" << e;
     return EXIT_FAILURE;
-    }
+  }
 
   // All objects should be automatically destroyed at this point
 
   return EXIT_SUCCESS;
-
 }

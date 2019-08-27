@@ -23,12 +23,22 @@ using itkCommand = itk::Command;
 namespace itk
 {
 /** \class itkJavaCommand */
-class itkJavaCommand : public  itk::Command
+class itkJavaCommand : public itk::Command
 {
 public:
-  virtual void Execute(itk::Object *, const itk::EventObject&){ this->Execute();}
-  virtual void Execute(const itk::Object *, const itk::EventObject&){ this->Execute();}
-  virtual void Execute(){}
+  virtual void
+  Execute(itk::Object *, const itk::EventObject &)
+  {
+    this->Execute();
+  }
+  virtual void
+  Execute(const itk::Object *, const itk::EventObject &)
+  {
+    this->Execute();
+  }
+  virtual void
+  Execute()
+  {}
 };
 
 } // namespace itk
