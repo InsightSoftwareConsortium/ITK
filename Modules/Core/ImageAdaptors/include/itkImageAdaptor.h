@@ -388,12 +388,30 @@ public:
     m_Image->TransformLocalVectorToPhysicalVector(inputGradient, outputGradient);
   }
 
+  template< typename TVector >
+  TVector TransformLocalVectorToPhysicalVector(
+    const TVector & inputGradient) const
+  {
+    TVector outputGradient;
+    TransformLocalVectorToPhysicalVector(inputGradient, outputGradient);
+    return outputGradient;
+  }
+
   template< typename TCoordRep >
   void TransformPhysicalVectorToLocalVector(
     const FixedArray< TCoordRep, Self::ImageDimension > & inputGradient,
     FixedArray< TCoordRep, Self::ImageDimension > & outputGradient) const
   {
     m_Image->TransformPhysicalVectorToLocalVector(inputGradient, outputGradient);
+  }
+
+  template< typename TVector >
+  TVector TransformPhysicalVectorToLocalVector(
+    const TVector & inputGradient) const
+  {
+    TVector outputGradient;
+    TransformPhysicalVectorToLocalVector(inputGradient, outputGradient);
+    return outputGradient;
   }
 
 protected:

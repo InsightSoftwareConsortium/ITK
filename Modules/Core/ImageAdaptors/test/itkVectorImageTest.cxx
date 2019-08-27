@@ -27,6 +27,7 @@
 #include "itkImageFileReader.h"
 #include "itkTestingMacros.h"
 #include "itkMath.h"
+#include "itkCovariantVector.h"
 
 
 // This test tests:
@@ -86,6 +87,37 @@ bool testVectorImageAdaptor( typename TAdaptor::Pointer & vectorImageAdaptor,
     {
     std::cout << "[PASSED]" << std::endl;
     }
+
+   {
+     using CovariantVectorType = itk::CovariantVector<double, VDimension>;
+     CovariantVectorType input;
+     CovariantVectorType output1;
+     vectorImageAdaptor->TransformLocalVectorToPhysicalVector(input,output1);
+     CovariantVectorType output2 = vectorImageAdaptor->TransformLocalVectorToPhysicalVector(input);
+     constexpr double diff_tolerance = 1e-13;
+     if( (input - output1).GetSquaredNorm() > diff_tolerance || (input - output2).GetSquaredNorm() > diff_tolerance )
+     {
+        std::cerr << "[FAILED]  ";
+        std::cerr << "TransformLocalVectorToPhysicalVector failed" << std::endl;
+        std::cerr << input << " != " << output1 << " || " << input << " != " << output2 << std::endl;
+        failed = true;
+     }
+   }
+   {
+     using CovariantVectorType = itk::CovariantVector<double, VDimension>;
+     CovariantVectorType input;
+     CovariantVectorType output1;
+     vectorImageAdaptor->TransformPhysicalVectorToLocalVector(input,output1);
+     CovariantVectorType output2 = vectorImageAdaptor->TransformPhysicalVectorToLocalVector(input);
+     constexpr double diff_tolerance = 1e-13;
+     if( (input - output1).GetSquaredNorm() > diff_tolerance || (input - output2).GetSquaredNorm() > diff_tolerance )
+     {
+        std::cerr << "[FAILED]  ";
+        std::cerr << "TransformPhysicalVectorToLocalVector failed" << std::endl;
+        std::cerr << input << " != " << output1 << " || " << input << " != " << output2 << std::endl;
+        failed = true;
+     }
+   }
 
     // Test adaptor with iterators:
   itk::ImageRegionConstIteratorWithIndex< AdaptorType > adaptIt(vectorImageAdaptor, region);
