@@ -4,7 +4,7 @@ configure_file("${CMAKE_CURRENT_SOURCE_DIR}/PyBuffer.i.init"
 itk_wrap_class("itk::PyBuffer")
   UNIQUE(types "${WRAP_ITK_SCALAR};UC;D;US;UI;UL;SC;SS;SI;SL;F")
   foreach(t ${types})
-    string(REGEX MATCHALL "(V${t}|CV${t})" VectorTypes ${WRAP_ITK_VECTOR})
+    string(REGEX MATCHALL "(V${t}|CV${t})" VectorTypes "${WRAP_ITK_VECTOR};VD;CVD")
     set(PixelType ${t})
     foreach(d ${ITK_WRAP_DIMS})
       if( DEFINED ITKT_I${t}${d} )
