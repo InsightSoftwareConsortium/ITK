@@ -153,6 +153,12 @@ class itkTemplate(object):
                 cls.__named_templates__[name] = new_instance
         return cls.__named_templates__[name]
 
+    def __getnewargs_ex__(self):
+        """Return arguments for __new__.
+        Required by the Pickle protocol.
+        """
+        return (self.__name__,), {}
+
     def __add__(self, paramSetString, cl):
         """Add a new argument set and the resulting class to the template.
 
